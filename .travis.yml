@@ -16,6 +16,5 @@ before_script:
 
 script:
   - cd plugins/storkmdm
-  - php scripts/cli_install.php --tests
-  - phpunit --debug --testsuite Install
+  - phpunit --verbose
 
