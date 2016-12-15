@@ -1,0 +1,16 @@
+{
+    "require": {
+        "sskaje/mqtt": "dev-master",
+        "spomky-labs/otphp": "^8.2",
+        "tufanbarisyildirim/php-apk-parser": "dev-master"
+    },
+    "require-dev": {
+       "guzzlehttp/guzzle": "~5"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/btry/mqtt.git"
+        }
+    ]
+}
