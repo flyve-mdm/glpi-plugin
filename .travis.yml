@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - '5.6'
+  - '7.0'
+
+before_script:
+  - git clone https://github.com/glpi-project/glpi -b master ../glpi && cd ../glpi
+  - mv ../storkmdm plugins/storkmdm
+  - composer install --no-dev
+  - php tools/cliinstall.php --db=glpi-test --user=travis --tests
+
+script:
+  - cd plugins/storkmdm
+  - php tools/cliinstall.php --tests
+  - phpunit --verbose
+
