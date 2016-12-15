@@ -7,11 +7,11 @@ php:
 
 before_script:
   - git clone https://github.com/glpi-project/glpi -b 9.1.1 ../glpi && cd ../glpi
+  - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.0 plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/storkmdm
   - composer install --no-dev
   - cd plugins/storkmdm && composer install
-  - php tools/cliinstall.php --db=glpi-test --user=travis --tests
 
 script:
   - cd plugins/storkmdm
