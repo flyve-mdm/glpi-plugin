@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -31,6 +31,8 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
 {
+
+   protected $guestEmail;
 
    public function testInitCreateInvitation() {
       $invitation = new PluginStorkmdmInvitation();
@@ -56,12 +58,13 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       $agent = new PluginStorkmdmAgent();
       $agent->add([
             '_serial'            => 'AZERTY',
-            '_email'             => $email,
+            '_email'             => 'guest@localhost.local',
             '_invitation_token'  => $invitation->getField('invitation_token'),
             'csr'                => '',
             'firstname'          => '',
             'lastname'           => '',
-            'entities_id'        => $entityId
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            'version'            => '1.0.0'
       ]);
       $this->assertFalse($agent->isNewItem());
 
@@ -73,7 +76,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
        $fleet = new PluginStorkmdmFleet();
        $fleet->add([
              'name'               => 'test fleet',
-             'entities_id'        => $entityId
+             'entities_id'        => $_SESSION['glpiactive_entity']
        ]);
        $this->assertFalse($fleet->isNewItem());
 
@@ -110,37 +113,14 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
     * @depends testInitGetDefaultFleet
     */
    public function testPolicyNotification($agent, $defaultFleet) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
-      $updateSuccess = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent, &$defaultFleet, &$updateSuccess) {
-         // Apply the policy to a fleet
-         $updateSuccess = $agent->update([
-               'id'                          => $agent->getID(),
-               'plugin_storkmdm_fleets_id'   => $defaultFleet->getID()
-         ]);
-      };
+      $mockAgent->expects($this->never())
+      ->method('notify');
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command");
-
-      $this->assertTrue($updateSuccess, "Failed to move the agent");
-      $this->assertNotInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-
-      $data = array();
-      $data['publishedMessage'] = $publishedMessage;
-
-      return $data;
+      $updateSuccess = $mockAgent->update([
+            'id'                          => $agent->getID(),
+            'plugin_storkmdm_fleets_id'   => $defaultFleet->getID()
+      ]);
    }
-
 }

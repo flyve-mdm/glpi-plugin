@@ -27,7 +27,7 @@
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
 class RegisteredUserEditEntityConfig extends RegisteredUserTestCase
 {

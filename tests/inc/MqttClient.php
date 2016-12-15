@@ -27,43 +27,17 @@
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
-// fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
-global $CFG_GLPI;
-
-class UnitTestAutoload
+class PluginStorkmdmMqttClient
 {
 
-   public static function register() {
-      spl_autoload_register(array('UnitTestAutoload', 'autoload'));
+   public function publish($topic, $message, $qos = 0, $retain = 0) {
+      return true;
    }
 
-   public static function autoload($className) {
-      $file = __DIR__ . "/inc/$className.php";
-      if (is_readable($file) && is_file($file)) {
-         include_once(__DIR__ . "/inc/$className.php");
-         return true;
-      }
-      return false;
+   public static function  getInstance() {
+      return new self();
    }
 
 }
-
-UnitTestAutoload::register();
-
-define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
-include (GLPI_ROOT . "/inc/includes.php");
-
-// need to set theses in DB, because tests for API use http call and this bootstrap file is not called
-Config::setConfigurationValues('core', [
-      'url_base'     => GLPI_URI,
-      'url_base_api' => GLPI_URI . '/apirest.php'
-]);
-$CFG_GLPI['url_base']      = GLPI_URI;
-$CFG_GLPI['url_base_api']  = GLPI_URI . '/apirest.php';
-
-// Mock PluginStorkmdmMqttClient
-include __DIR__ . "/inc/MqttClient.php";
-
