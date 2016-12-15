@@ -12,6 +12,7 @@ before_script:
   - mv ../flyve-mdm-glpi plugins/storkmdm
   - composer install --no-dev
   - cd plugins/storkmdm && composer install
+  - cd ../..
 
 script:
   - cd plugins/storkmdm
