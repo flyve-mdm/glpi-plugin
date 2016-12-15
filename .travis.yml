@@ -16,6 +16,6 @@ before_script:
 
 script:
   - cd plugins/storkmdm
-  - php -S localhost:8088 -t ../.. ../../tests/router.php
+  - php -S localhost:8088 -t ../.. ../../tests/router.php &>/dev/null &
   - phpunit --verbose
 
