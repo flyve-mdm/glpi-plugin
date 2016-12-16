@@ -94,7 +94,6 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
       $wellKnownPath = new PluginStorkmdmWellknownpath();
       $rows = $wellKnownPath->find('1');
       $basePathIsValid = false;
-
       foreach ($rows as $row) {
          if (strpos($value['destination'], $row['name']) === 0 ) {
             // Path begins with a well known path
@@ -166,6 +165,31 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
    }
 
    /**
+    * {@inheritDoc}
+    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    */
+   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+      $policyData = new PluginStorkmdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeFile')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
+         // Give up this check
+      } else {
+         $fleetId = $fleet->getID();
+         $policyId = $policyData->getID();
+         $fleet_policy = new PluginStorkmdmFleet_Policy();
+         $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'
+               AND `plugin_storkmdm_policies_id` = '$policyId'");
+         foreach ($rows as $row) {
+            if ($row['value'] == $value['destination']) {
+               Session::addMessageAfterRedirect(__('A removal policy is applied for this file destination. Please, remove it first.', 'storkmdm'), false, ERROR);
+               return false;
+            }
+         }
+      }
+      return true;
+   }
+
+    /**
     * {@inheritDoc}
     * @see PluginStorkmdmPolicyBase::unapply()
     */

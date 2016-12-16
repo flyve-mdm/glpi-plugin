@@ -50,12 +50,30 @@ interface PluginStorkmdmPolicyInterface {
    public function canApply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
-    * check the value used to apply a policy is valid, and check the the item to link
+    * Check the unicity of the policy
+    * @param unknown $value
+    * @param unknown $itemtype
+    * @param unknown $itemId
+    * @param PluginStorkmdmFleet $fleet
+    */
+   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet);
+
+   /**
+    * Check the value used to apply a policy is valid, and check the the item to link
     * @param string $value
     * @param string $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     */
    public function integrityCheck($value, $itemtype, $itemId);
+
+   /**
+    * Check there is not a conflict with an already applied policy
+    * @param unknown $value
+    * @param unknown $itemtype
+    * @param unknown $itemId
+    * @param PluginStorkmdmFleet $fleet
+    */
+   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet);
 
    /**
     * Returns an array describing the policy applied vith the given value and item

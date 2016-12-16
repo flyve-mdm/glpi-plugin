@@ -120,6 +120,38 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
 
    /**
     * {@inheritDoc}
+    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    */
+   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+      // Check there is not already a removal policy (to avoind opposite policy)
+      $package = new PluginStorkmdmPackage();
+      if (!$package->getFromDB($itemId)) {
+         // Cannot apply a non existing applciation
+         Session::addMessageAfterRedirect(__('The application does not exists', 'storkmdm'), false, ERROR);
+         return false;
+      }
+      $packageName = $package->getField('name');
+
+      $policyData = new PluginStorkmdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeApp')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
+         // Give up this check
+      } else {
+         $policyId = $policyData->getID();
+         $fleetId = $fleet->getID();
+         $count = countElementsInTable(PluginStorkmdmFleet_Policy::getTable(), "`plugin_storkmdm_fleets_id` = '$fleetId'
+               AND `plugin_storkmdm_policies_id` = '$policyId' AND `value` = '$packageName'");
+         if ($count > 0) {
+            Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'storkmdm'), false, ERROR);
+            return false;
+         }
+      }
+
+      return true;
+   }
+
+    /**
+    * {@inheritDoc}
     * @see PluginStorkmdmPolicyBase::unapply()
     */
    public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {

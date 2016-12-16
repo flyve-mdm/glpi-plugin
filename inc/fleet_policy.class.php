@@ -159,6 +159,11 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          return false;
       }
 
+      if (!$this->policy->conflictCheck($value, $input['itemtype'], $input['items_id'], $this->fleet)) {
+         // Error Message created by the policy
+         return false;
+      }
+
       // Check the policy may be applied to the fleet and the value matches requirements
       if (!$this->policy->canApply($this->fleet, $input['value'], $input['itemtype'], $input['items_id'])) {
          Session::addMessageAfterRedirect(__('The requirements for this policy are not met', 'storkmdm'), false, ERROR);

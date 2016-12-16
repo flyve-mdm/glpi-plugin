@@ -79,8 +79,6 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithoutVersion() {
-      // test disabled for now
-      $this->assertTrue(true);
       $invitationLog = new PluginStorkmdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
@@ -103,9 +101,6 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithBadVersion() {
-      // test disabled for now
-      $this->assertTrue(true);
-
       $invitationLog = new PluginStorkmdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);

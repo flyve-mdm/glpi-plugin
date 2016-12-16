@@ -92,7 +92,8 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
    }
 
    /**
-    *
+    * {@inheritDoc}
+    * @see PluginStorkmdmPolicyInterface::unicityCheck()
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
       if ($this->unicityRequired) {
@@ -105,6 +106,14 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
             return false;
          }
       }
+      return true;
+   }
+
+   /**
+    * {@inheritDoc}
+    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    */
+   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
       return true;
    }
 
