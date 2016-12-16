@@ -221,8 +221,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileConfigRight($rights) {
-      //disabled for now
-      //$this->assertEquals(READ, $rights[Config::$rightname]);
+      $this->assertEquals(READ, $rights[Config::$rightname]);
    }
 
 }

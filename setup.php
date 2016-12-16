@@ -61,7 +61,8 @@ if (!defined("STORKMDM_FILE_PATH")) {
 function plugin_init_storkmdm() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
-   $PLUGIN_HOOKS['csrf_compliant']["storkmdm"] = true;
+   $PLUGIN_HOOKS['csrf_compliant']['storkmdm'] = true;
+   $PLUGIN_HOOKS['undiscloseConfigValue']['storkmdm'] = array('PluginStorkmdmConfig', 'undiscloseConfigValue');
 
    $plugin = new Plugin();
 

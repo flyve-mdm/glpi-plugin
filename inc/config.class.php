@@ -219,4 +219,11 @@ class PluginStorkmdmConfig extends CommonDBTM {
       return $input;
    }
 
+   public static function undiscloseConfigValue($fields) {
+      if ($fields['context'] == 'storkmdm'
+            && in_array($fields['name'], array('mqtt_passwd'))) {
+         unset($fields['value']);
+      }
+      return $fields;
+   }
 }

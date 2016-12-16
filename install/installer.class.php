@@ -298,6 +298,7 @@ class PluginStorkmdmInstaller {
                                                          | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
                                                          | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
             PluginStorkmdmInvitationlog::$rightname   => READ,
+            Config::$rightname                        => READ,
             User::$rightname                          => ALLSTANDARDRIGHT,
             Profile::$rightname                       => CREATE,
             Entity::$rightname                        => CREATE,
@@ -561,7 +562,6 @@ class PluginStorkmdmInstaller {
     * @param string $dir
     */
    protected function rrmdir($dir) {
-
       if (file_exists($dir) && is_dir($dir)) {
          $objects = scandir($dir);
          foreach ( $objects as $object ) {
@@ -575,7 +575,6 @@ class PluginStorkmdmInstaller {
          reset($objects);
          rmdir($dir);
       }
-
    }
 
    /**
