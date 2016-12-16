@@ -81,51 +81,51 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    public function testEnrollAgentWithoutVersion() {
       // test disabled for now
       $this->assertTrue(true);
-//       $invitationLog = new PluginStorkmdmInvitationlog();
-//       $rows = $invitationLog->find("1");
-//       $logCount = count($rows);
+      $invitationLog = new PluginStorkmdmInvitationlog();
+      $rows = $invitationLog->find("1");
+      $logCount = count($rows);
 
-//       $invitation = self::$fixture['invitation'];
-//       $agent = new PluginStorkmdmAgent();
-//       $agentId = $agent ->add([
-//             'entities_id'        => $_SESSION['glpiactive_entity'],
-//             '_email'             => self::$fixture['guestEmail'],
-//             '_invitation_token'  => $invitation->getField('invitation_token'),
-//             '_serial'            => 'AZERTY',
-//             'csr'                => '',
-//             'firstname'          => 'John',
-//             'lastname'           => 'Doe',
-//       ]);
-//       $this->assertFalse($agentId);
+      $invitation = self::$fixture['invitation'];
+      $agent = new PluginStorkmdmAgent();
+      $agentId = $agent ->add([
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => self::$fixture['guestEmail'],
+            '_invitation_token'  => $invitation->getField('invitation_token'),
+            '_serial'            => 'AZERTY',
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+      ]);
+      $this->assertFalse($agentId);
 
-//       $rows = $invitationLog->find("1");
-//       $this->assertEquals($logCount + 1, count($rows));
+      $rows = $invitationLog->find("1");
+      $this->assertEquals($logCount + 1, count($rows));
    }
 
    public function testEnrollAgentWithBadVersion() {
       // test disabled for now
       $this->assertTrue(true);
 
-//       $invitationLog = new PluginStorkmdmInvitationlog();
-//       $rows = $invitationLog->find("1");
-//       $logCount = count($rows);
+      $invitationLog = new PluginStorkmdmInvitationlog();
+      $rows = $invitationLog->find("1");
+      $logCount = count($rows);
 
-//       $invitation = self::$fixture['invitation'];
-//       $agent = new PluginStorkmdmAgent();
-//       $agentId = $agent ->add([
-//             'entities_id'        => $_SESSION['glpiactive_entity'],
-//             '_email'             => self::$fixture['guestEmail'],
-//             '_invitation_token'  => $invitation->getField('invitation_token'),
-//             '_serial'            => 'AZERTY',
-//             'csr'                => '',
-//             'firstname'          => 'John',
-//             'lastname'           => 'Doe',
-//             'version'            => 'bad version',
-//       ]);
-//       $this->assertFalse($agentId);
+      $invitation = self::$fixture['invitation'];
+      $agent = new PluginStorkmdmAgent();
+      $agentId = $agent ->add([
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => self::$fixture['guestEmail'],
+            '_invitation_token'  => $invitation->getField('invitation_token'),
+            '_serial'            => 'AZERTY',
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => 'bad version',
+      ]);
+      $this->assertFalse($agentId);
 
-//       $rows = $invitationLog->find("1");
-//       $this->assertEquals($logCount + 1, count($rows));
+      $rows = $invitationLog->find("1");
+      $this->assertEquals($logCount + 1, count($rows));
    }
 
    public function testEnrollAgentWithEmptySerial() {
