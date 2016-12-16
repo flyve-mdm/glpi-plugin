@@ -82,7 +82,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
      */
    public function getRights($interface = 'central') {
       $rights = parent::getRights();
-      /// For additional righrs if needed
+      /// For additional rights if needed
       //$rights[self::RIGHTS] = self::getTypeName();
 
       return $rights;
@@ -339,7 +339,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function post_getFromDB() {
       // set Topic after getting an item
-      // Useful for post_dpurgeItem
+      // Useful for post_purgeItem
       $this->getTopic();
       $this->setupMqttAccess();
    }
@@ -726,8 +726,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $method = self::ENROLL_AGENT_TOKEN;
          }
 
-      // or require challenge on a entity token only
       } else if (array_key_exists('entityToken', $authFactors)) {
+         // or require challenge on a entity token only
          if (count($authFactors) == 1) {
             $method = self::ENROLL_ENTITY_TOKEN;
          }
@@ -741,12 +741,13 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param array $input Enrollment data
     */
    protected function enrollByInvitationToken($input) {
-      $invitationToken  = $input['_invitation_token'];
-      $email            = $input['_email'];
-      $serial           = $input['_serial'];
-      $csr              = $input['csr'];
-      $firstname        = $input['firstname'];
-      $lastname         = $input['lastname'];
+      $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
+      $email            = isset($input['_email']) ? $input['_email'] : null;
+      $serial           = isset($input['_serial']) ? $input['_serial'] : null;
+      $csr              = isset($input['csr']) ? $input['csr'] : null;
+      $firstname        = isset($input['firstname']) ? $input['firstname'] : null;
+      $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
+      $version          = isset($input['version']) ? $input['version'] : null;
 
       $input = array();
 
@@ -761,6 +762,20 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       if (empty($serial)) {
          $event = __('Serial missing', 'storkmdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (empty($version)) {
+         $event = __('Agent version missing', 'storkmdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (preg_match('#^[\d\.]+$#', $version) !== 1 ) {
+         $event = __('Bad agent version', 'storkmdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -904,6 +919,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $input['plugin_storkmdm_fleets_id'] = $defaultFleet->getID();
       $input['_invitations_id']           = $invitation->getID();
       $input['enroll_status']             = 'enrolled';
+      $input['version']                   = $version;
       return $input;
 
    }
