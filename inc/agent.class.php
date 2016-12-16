@@ -353,86 +353,81 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public function pre_deleteItem() {
       $success = false;
 
-      $computer = new Computer();
-      if (!$computer->getFromDB($this->fields['computers_id'])) {
-         // The associated computer  is already deleted
-         $success = true;
+      // get serial of the computer
+      $computer = $this->getComputer();
+      if ($computer === null) {
+         // The associated computer is already deleted
+         return true;
+      }
 
-      } else {
-         $serial = $computer->getField('serial');
-         $success = true;
+      // get the guest profile ID
+      $config = Config::getConfigurationValues("storkmdm", array('guest_profiles_id'));
+      $guestProfileId = $config['guest_profiles_id'];
+      if ($guestProfileId === null) {
+         Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'storkmdm'));
+         return false;
+      }
 
-         if ($success) {
-            $config = Config::getConfigurationValues("storkmdm", array('guest_profiles_id'));
-            $guestProfileId = $config['guest_profiles_id'];
-            $success = ($guestProfileId !== null);
-            if (!$success) {
-               Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'storkmdm'));
-            }
+      $computerId = $computer->getID();
+      $serial = $computer->getField('serial');
+      $entityId = $this->getField('entities_id');
+      $userId = $computer->getField('users_id');
+
+      // Find other computers belong to the user in the current entity
+      // TODO : maybe use getEntityRestrict for multientity support
+      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$userId' AND `id` <> '$computerId'", '', '1');
+      if (count($rows) == 0) {
+         // Remove guest habilitation for the entity
+         $profile_User = new Profile_User();
+         $success = $profile_User->deleteByCriteria([
+               'users_id'        => $userId,
+               'entities_id'     => $entityId,
+               'profiles_id'     => $guestProfileId,
+               'is_dynamic'      => 0
+         ]);
+         if (!$success) {
+            Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'storkmdm'));
+            return false;
          }
 
-         if ($success) {
-            $entityId = $this->getField('entities_id');
-            $userId = $computer->getField('users_id');
-            $computerId = $computer->getID();
-            $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$userId' AND `id` <> '$computerId'", '', '1');
-            if (count($rows) == 0) {
-               // Remove guest habilitation for the entity
-               $profile_User = new Profile_User();
-               $success = $profile_User->deleteByCriteria([
-                     'users_id'        => $userId,
-                     'entities_id'     => $entityId,
-                     'profiles_id'     => $guestProfileId,
-                     'is_dynamic'      => 0
-               ]);
-               if (!$success) {
-                  Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'storkmdm'));
-
-               } else {
-                  $rows = $profile_User->find("`users_id`='$userId'", '', '1');
-                  if (count($rows) == 0) {
-                     // The user has no longer any profile
-                     $user = new User();
-                     $user->delete(['id' => $userId], true);
-                  }
-               }
-            }
+         // Check the user still has one or several profiles
+         $rows = $profile_User->find("`users_id`='$userId'", '', '1');
+         if (count($rows) == 0) {
+            // Delete the user
+            $user = new User();
+            $user->delete(['id' => $userId], true);
          }
+      }
 
-         if ($success) {
-            if (!empty($serial)) {
-               $mqttUser = new PluginStorkmdmMqttuser();
-               if ($mqttUser->getFromDBByQuery("WHERE `user` = '" . $computer->getField('serial') . "'")) {
-                  $success = $mqttUser->delete([
-                        'id'        => $mqttUser->getID()
-                  ], true);
-               }
-            }
-         }
-
-         if ($success) {
-            $success = $computer->delete(['id' => $computerId], true);
-            if (!$success) {
-               Session::addMessageAfterRedirect(__('Failed to delete the device', 'storkmdm'));
-            }
-         }
-
-         $document_Item = new Document_Item();
-         $documentCollection = $document_Item->find("`itemtype`='PluginStorkmdmAgent' AND `items_id`= '" . $this->fields['id'] . "'");
-         if ($success) {
-            foreach ($documentCollection as $row) {
-               $document = new Document();
-               if ($document_Item->delete(array('id' => $row['id'])) && $success) {
-                  $success = $success && $document->delete(array('id' => $row['documents_id']));
-                  if (!$success) {
-                     Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'storkmdm'));
-                  }
-               }
+      // Delete the MQTT user for the agent
+      if (!empty($serial)) {
+         $mqttUser = new PluginStorkmdmMqttuser();
+         if ($mqttUser->getFromDBByQuery("WHERE `user` = '$serial'")) {
+            if (!$mqttUser->delete(['id' => $mqttUser->getID()], true)) {
+               Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'storkmdm'));
+               return false;
             }
          }
       }
 
-      return $success;
+      // Delete the computer associated to the agent
+      if (!$computer->delete(['id' => $computerId], true)) {
+         Session::addMessageAfterRedirect(__('Failed to delete the device', 'storkmdm'));
+         return false;
+      }
+
+      // Delete documents associated to the agent
+      $document_Item = new Document_Item();
+      $success = $document_Item->deleteByCriteria([
+            'itemtype'  => 'PluginStorkmdmAgent',
+            'items_id'  => $this->fields['id']
+      ]);
+      if (!$success) {
+         Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'storkmdm'));
+         return false;
+      }
+
+      return true;
    }
 
    /**
@@ -472,8 +467,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function post_restoreItem() {
 
-      $computer = new Computer();
-      if ($computer->getFromDB($this->fields['computers_id'])) {
+      $computer = $this->getComputer();
+      if ($computer !== null) {
          $mqttUser = new PluginStorkmdmMqttuser();
          if ($mqttUser->getFromDB($this->fields['computers_id'])) {
             $mqttUser->update([
@@ -910,7 +905,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
 
       // Enrollment is about to succeed then cleanup subtopics
-      $topic = "/$entityId/agent/$serial";
+      $this->fields['computers_id'] = $computerId;
+      $this->fields['entities_id']  = $entityId;
       $this->cleanupSubtopics();
 
       $input['name']                      = $email;
@@ -1393,10 +1389,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $mqttUser = new PluginStorkmdmMqttuser();
       if ($mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'")) {
          $mqttAcl = new PluginStorkmdmMqttacl();
-         if (!$old->getField('is_default') == '1') {
+         if ($old->getField('is_default') == '0') {
             $mqttAcl->getFromDBByQuery("WHERE `topic`='" . $old->getTopic() . "/#'
                   AND `plugin_storkmdm_mqttusers_id`='" . $mqttUser->getID() . "'");
-            if ($new->getField('is_default') == '1') {
+            if ($new->getField('is_default') != '0') {
                $mqttAcl->delete(['id' => $mqttAcl->getID()]);
 
             } else {
