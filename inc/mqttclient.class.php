@@ -127,7 +127,6 @@ class PluginStorkmdmMqttclient {
     * @return true if success, false otherwise
     */
    public function publish($topic, $message, $qos = 0, $retain = 0) {
-
       try {
          if (self::$mqtt !== false) {
             $log = new PluginStorkmdmMqttlog();
@@ -239,7 +238,6 @@ class PluginStorkmdmMqttclient {
 
       return $mqtt;
    }
-
 
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher){
       $protocol = $isTls ? "ssl://" : "tcp://";
