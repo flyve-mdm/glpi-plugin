@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
- class SelfRegistrationUserTestCase extends CommonTestCase {
+class SelfRegistrationUserTestCase extends CommonTestCase {
 
 
    public static function setupBeforeClass() {

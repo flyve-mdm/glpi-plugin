@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -41,7 +41,7 @@ class PluginStorkmdmPolicyFileDeploymentTest extends SuperAdminTestCase {
       ];
       $policy = new PluginStorkmdmPolicyDeployFile($policyData);
       $this->assertInstanceOf('PluginStorkmdmPolicyDeployFile', $policy);
-      
+
       return $policy;
    }
 
@@ -50,7 +50,7 @@ class PluginStorkmdmPolicyFileDeploymentTest extends SuperAdminTestCase {
 
       $table_file = PluginStorkmdmFile::getTable();
       $query = "INSERT INTO `$table_file` (`name`) VALUES ('filename.ext')";
-      $result = $DB->query($query); 
+      $result = $DB->query($query);
       $this->assertNotFalse($result);
 
       $file = new PluginStorkmdmFile();

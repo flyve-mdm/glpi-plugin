@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -242,11 +242,11 @@ class PluginStorkmdmMqttclient {
 
 
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher){
-       $protocol = $isTls ? "ssl://" : "tcp://";
-       $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
-       if($isTls){
-           Toolbox::logInFile("mqtt", "setting context ssl with $sslCipher");
-           $mqtt->setSocketContext(stream_context_create([
+      $protocol = $isTls ? "ssl://" : "tcp://";
+      $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
+      if ($isTls) {
+         Toolbox::logInFile("mqtt", "setting context ssl with $sslCipher");
+         $mqtt->setSocketContext(stream_context_create([
                'ssl' => [
                    'cafile'                => STORKMDM_CONFIG_CACERTMQTT,
                    'verify_peer'           => false,
@@ -257,15 +257,16 @@ class PluginStorkmdmMqttclient {
                    'SNI_enabled'           => true,
                    'allow_self_signed'     => true
                ]
-           ]));
-       }
-       // The (keepalive / 2) delay must be lower than the mysql timeout delay
-       // When the client receives a PINGRESP message, the DB conection
-       // is re-established
-       // here : 50 / 2 lower than 30s
-       $mqtt->setKeepalive(50);
+            ]
+         ));
+      }
+      // The (keepalive / 2) delay must be lower than the mysql timeout delay
+      // When the client receives a PINGRESP message, the DB conection
+      // is re-established
+      // here : 50 / 2 lower than 30s
+      $mqtt->setKeepalive(50);
 
-       return $mqtt;
+      return $mqtt;
    }
 
 }

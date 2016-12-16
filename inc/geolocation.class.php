@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -72,23 +72,23 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
     * @see CommonDBTM::getRights()
     */
    public function getRights($interface='central') {
-         $rights = parent::getRights();
-//       $values = array(READ    => __('Read'),
-//                       PURGE   => array('short' => __('Purge'),
-//                                        'long'  => _x('button', 'Delete permanently')));
+      $rights = parent::getRights();
+      //$values = array(READ    => __('Read'),
+      //                PURGE   => array('short' => __('Purge'),
+      //                                 'long'  => _x('button', 'Delete permanently')));
 
-//       $values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
+      //$values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
 
-//       if ($this->maybeDeleted()) {
-//          $values[DELETE] = array('short' => __('Delete'),
-//                                  'long'  => _x('button', 'Put in dustbin'));
-//       }
-//       if ($this->usenotepad) {
-//          $values[READNOTE] = array('short' => __('Read notes'),
-//                                    'long' => __("Read the item's notes"));
-//          $values[UPDATENOTE] = array('short' => __('Update notes'),
-//                                      'long' => __("Update the item's notes"));
-//       }
+      //if ($this->maybeDeleted()) {
+      //   $values[DELETE] = array('short' => __('Delete'),
+      //                           'long'  => _x('button', 'Put in dustbin'));
+      //}
+      //if ($this->usenotepad) {
+      //   $values[READNOTE] = array('short' => __('Read notes'),
+      //                             'long' => __("Read the item's notes"));
+      //   $values[UPDATENOTE] = array('short' => __('Update notes'),
+      //                               'long' => __("Update the item's notes"));
+      //}
 
       return $rights;
    }

@@ -326,7 +326,6 @@ class PluginStorkmdmInstaller {
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
 
-
          if (count($rows) == 0) {
             // Create only non existing policy objects
             $policyData['type_data'] = json_encode($policyData['type_data'], JSON_UNESCAPED_SLASHES);

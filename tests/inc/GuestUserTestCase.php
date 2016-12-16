@@ -30,7 +30,7 @@
  ------------------------------------------------------------------------------
 */
 
- class GuestUserTestCase extends CommonTestCase
+class GuestUserTestCase extends CommonTestCase
 {
 
    protected static $fixture;

@@ -701,7 +701,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * unsibscribe from a fleet
     */
    public function unsubscribe() {
-       $this->update([
+      $this->update([
             'id' => $this->getID(),
             'plugin_storkmdm_fleets_id' => null
       ]);
@@ -720,8 +720,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    protected static function checkChallengeCombinations($authFactors) {
       $method = self::ENROLL_DENY;
 
-      // require challenge on email and an agent token only
       if (array_key_exists('email', $authFactors) && array_key_exists('agentToken', $authFactors)) {
+         // require challenge on email and an agent token only
          if (count($authFactors) == 2) {
             $method = self::ENROLL_AGENT_TOKEN;
          }
@@ -731,7 +731,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          if (count($authFactors) == 1) {
             $method = self::ENROLL_ENTITY_TOKEN;
          }
-     }
+      }
 
       return $method;
    }
@@ -932,84 +932,84 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @return boolean|PluginStorkmdmAgent
     *
     */
-//    protected static function enrollByEntityToken($serial, $authFactors, $csr, &$errorMessage) {
-//       global $DB;
+   //protected static function enrollByEntityToken($serial, $authFactors, $csr, &$errorMessage) {
+      //global $DB;
 
-//       $token = $DB->escape($authFactors['entityToken']);
+      //$token = $DB->escape($authFactors['entityToken']);
 
-//       // Find an entity matching the given token
-//       $entity = new PluginStorkmdmEntityconfig();
-//       if (! $entity->getFromDBByQuery("WHERE `enroll_token`='$token'")) {
-//          $errorMessage = "no entity token not found";
-//          return false;
-//       }
+      //// Find an entity matching the given token
+      //$entity = new PluginStorkmdmEntityconfig();
+      //if (! $entity->getFromDBByQuery("WHERE `enroll_token`='$token'")) {
+      //   $errorMessage = "no entity token not found";
+      //   return false;
+      //}
 
-//       // Create a new computer for the device being enrolled
-//       // TODO : Enable localization of the type
-//       $computerType = new ComputerType();
-//       $computerTypeId = $computerType->import(array('name' => 'Smartphone'));
-//       if ($computerTypeId == -1 || $computerTypeId === false) {
-//          $computerTypeId = 0;
-//       }
-//       $computer = new Computer();
-//       $condition = "`serial`='" . $DB->escape($serial) . "' AND `entities_id`='" . $entity->getID() . "'";
-//       $computerCollection = $computer->find($condition);
-//       if (count($computerCollection) > 1) {
-//          $errorMessage = "failed to find the computer";
-//          return false;
-//       }
-//       if (count($computerCollection) == 1) {
+      //// Create a new computer for the device being enrolled
+      //// TODO : Enable localization of the type
+      //$computerType = new ComputerType();
+      //$computerTypeId = $computerType->import(array('name' => 'Smartphone'));
+      //if ($computerTypeId == -1 || $computerTypeId === false) {
+      //   $computerTypeId = 0;
+      //}
+      //$computer = new Computer();
+      //$condition = "`serial`='" . $DB->escape($serial) . "' AND `entities_id`='" . $entity->getID() . "'";
+      //$computerCollection = $computer->find($condition);
+      //if (count($computerCollection) > 1) {
+      //   $errorMessage = "failed to find the computer";
+      //   return false;
+      //}
+      //if (count($computerCollection) == 1) {
 
-//          reset($computerCollection);
-//          $computer->getFromDB(key($computerCollection));
-//          $computerId = $computer->getID();
+      //   reset($computerCollection);
+      //   $computer->getFromDB(key($computerCollection));
+      //   $computerId = $computer->getID();
 
-//       } else {
-//          $computerId = $computer->add(array(
-//             'entities_id'        => $entity->getID(),
-//             'serial'             => $serial,
-//             'computertypes_id'   => $computerTypeId
-//          ));
+      //} else {
+      //   $computerId = $computer->add(array(
+      //      'entities_id'        => $entity->getID(),
+      //      'serial'             => $serial,
+      //      'computertypes_id'   => $computerTypeId
+      //   ));
 
-//          if ($computerId === false) {
-//             $errorMessage = "failed to create the computer";
-//             return false;
-//          }
-//       }
+      //   if ($computerId === false) {
+      //      $errorMessage = "failed to create the computer";
+      //      return false;
+      //   }
+      //}
 
-//       if (! $computerId > 0) {
-//          $errorMessage = "failed to update the computer";
-//          return false;
-//       }
+      //if (! $computerId > 0) {
+      //   $errorMessage = "failed to update the computer";
+      //   return false;
+      //}
 
-//       // Create an agent for this device, linked to the new computer
-//       $agent = new PluginStorkmdmAgent();
-//       $condition = "`computers_id`='$computerId'";
-//       $agentCollection = $agent->find($condition);
-//       if (count($agentCollection) > 1) {
-//          return false;
-//       }
-//       if (count($agentCollection) == 1) {
+      //// Create an agent for this device, linked to the new computer
+      //$agent = new PluginStorkmdmAgent();
+      //$condition = "`computers_id`='$computerId'";
+      //$agentCollection = $agent->find($condition);
+      //if (count($agentCollection) > 1) {
+      //   return false;
+      //}
+      //if (count($agentCollection) == 1) {
 
-//          reset($agentCollection);
-//          $agent->getFromDB(key($agentCollection));
-//          $agentId = $agent->getId();
+      //   reset($agentCollection);
+      //   $agent->getFromDB(key($agentCollection));
+      //   $agentId = $agent->getId();
 
-//       } else {
-//          $agentId = $agent->add(array(
-//                'entities_id'     => $entity->getID(),
-//                'computers_id'    => $computer->getID(),
-//                'token_expire'    => '0000-00-00 00:00:00'
-//          ));
-//       }
+      //} else {
+      //   $agentId = $agent->add(array(
+      //         'entities_id'     => $entity->getID(),
+      //         'computers_id'    => $computer->getID(),
+      //         'token_expire'    => '0000-00-00 00:00:00'
+      //   ));
+      //}
 
-//       if (! $agentId > 0) {
-//          return false;
-//       }
+      //if (! $agentId > 0) {
+      //   return false;
+      //}
 
-//       return $agent;
+      //return $agent;
 
-//    }
+   //}
 
    /**
     * Erase delete persisted MQTT topics of the agent
@@ -1090,13 +1090,13 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $updatedPosition = array_pop($updatedPositionRows);
             if ($lastPosition === null && $updatedPosition !== null
                   || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
-                     if ($updatedPosition['latitude'] == 'na') {
-                        $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
-                        return false;
-                     } else {
-                        return true;
-                     }
-                  }
+               if ($updatedPosition['latitude'] == 'na') {
+                  $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
+                  return false;
+               } else {
+                  return true;
+               }
+            }
          }
       }
    }
@@ -1267,7 +1267,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    protected function chooseEnrollMethod($input) {
       // Serial is mandatory
       if (!isset($input['_serial'])) {
-        return self::ENROLL_DENY;
+         return self::ENROLL_DENY;
       }
 
       if (isset($input['_email'])

@@ -43,12 +43,12 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       $this->assertFalse($invitation->isNewItem());
 
       return $invitation;
-    }
+   }
 
     /**
      * @depends testInitCreateInvitation
      */
-    public function testInitEnrollDevice($invitation) {
+   public function testInitEnrollDevice($invitation) {
       // Login as guest user
       $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
       Session::destroy();
@@ -69,9 +69,9 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       $this->assertFalse($agent->isNewItem());
 
       return $agent;
-    }
+   }
 
-    public function testInitCreateFleet() {
+   public function testInitCreateFleet() {
        // Create a fleet
        $fleet = new PluginStorkmdmFleet();
        $fleet->add([
@@ -81,7 +81,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
        $this->assertFalse($fleet->isNewItem());
 
         return $fleet;
-    }
+   }
 
     /**
      * @depends testInitEnrollDevice
@@ -89,7 +89,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
      * @param unknown $agent
      * @param unknown $fleet
      */
-    public function testInitMoveAgentInFleet($agent, $fleet) {
+   public function testInitMoveAgentInFleet($agent, $fleet) {
       // add the agent in the fleet
       $this->assertTrue($agent->update([
             'id'                          => $agent->getID(),
@@ -97,16 +97,16 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       ]));
 
       return $agent;
-    }
+   }
 
-    public function testInitGetDefaultFleet() {
+   public function testInitGetDefaultFleet() {
        // Find the default fleet
        $entityId = $_SESSION['glpiactive_entity'];
        $fleet = new PluginStorkmdmFleet();
        $this->assertTrue($fleet->getFromDBByQuery(" WHERE `is_default`='1' AND `entities_id`='$entityId'"));
 
       return $fleet;
-    }
+   }
 
     /**
     * @depends testInitCreateInvitation

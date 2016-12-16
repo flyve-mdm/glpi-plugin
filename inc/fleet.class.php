@@ -317,7 +317,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
       PluginStorkmdmFleet_Policy::cleanupPolicies($this, $groups);
    }
 
-  /**
+   /**
     * {@inheritDoc}
     * @see CommonDBTM::cleanDBonPurge()
     */

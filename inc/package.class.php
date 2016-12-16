@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -196,7 +196,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                if ($fileExtension == "apk") {
                   $apk = new \ApkParser\Parser($destination);
-               } elseif ($fileExtension == "upk") {
+               } else if ($fileExtension == "upk") {
                   $upkParser = new PluginStorkmdmUpkparser($destination);
                   $apk = $upkParser->getApkParser();
                }

@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -67,7 +67,7 @@ class PluginStorkmdmProfile extends Profile {
          $profile->getFromDB($ID);
       }
       if ($canedit) {
-      	echo "<form action='".$profile->getFormURL()."' method='post'>";
+         echo "<form action='".$profile->getFormURL()."' method='post'>";
       }
 
       $rights = $this->getGeneralRights();
@@ -169,7 +169,7 @@ class PluginStorkmdmProfile extends Profile {
                    PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
                    PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
                    PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
-            )
+             )
          ),
          array('itemtype'  => 'PluginStorkmdmInvitationLog',
                'label'       => PluginStorkmdmInvitationLog::getTypeName(2),

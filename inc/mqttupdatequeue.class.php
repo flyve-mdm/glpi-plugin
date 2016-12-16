@@ -50,16 +50,16 @@ class PluginStorkmdmMqttupdatequeue extends CommonDBTM {
       self::$delay = $delay;
    }
 
-  /**
-   * Update MQTT topics in the update queue
-   *
-   * @param $task Object of CronTask class for log / stat
-   *
-   * @return interger
-   *    >0 : done
-   *    <0 : to be run again (not finished)
-   *     0 : nothing to do
-   */
+   /**
+    * Update MQTT topics in the update queue
+    *
+    * @param $task Object of CronTask class for log / stat
+    *
+    * @return interger
+    *    >0 : done
+    *    <0 : to be run again (not finished)
+    *     0 : nothing to do
+    */
    static function cronUpdateTopics($task) {
       global $DB;
 

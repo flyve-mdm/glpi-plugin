@@ -64,4 +64,3 @@ class GLPIlogs_AllTests  {
    }
 }
 
-?>

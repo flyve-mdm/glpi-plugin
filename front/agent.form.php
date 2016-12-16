@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -49,20 +49,20 @@ if (isset($_POST["add"])) {
       }
    }
    Html::back();
-} elseif (isset($_POST["update"])) {
+} else if (isset($_POST["update"])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update($_POST);
    Html::back();
-} elseif (isset($_POST["wipe"])) {
+} else if (isset($_POST["wipe"])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->wipe($_POST);
    Html::back();
 }  else if (isset($_POST["purge"])) {
    $agent->check($_POST['id'], PURGE);
    if ($agent->delete($_POST, 1)) {
-//       Event::log($_POST["id"], $agent->getTypeName(Session::getPluralNumber()), 4, "inventory",
-//                  //TRANS: %s is the user login
-//                  sprintf(__('%s deletes an item'), $_SESSION["glpiname"]));
+      //Event::log($_POST["id"], $agent->getTypeName(Session::getPluralNumber()), 4, "inventory",
+      //           //TRANS: %s is the user login
+      //           sprintf(__('%s deletes an item'), $_SESSION["glpiname"]));
    }
    $agent->redirectToList();
 } else {

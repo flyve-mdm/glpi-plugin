@@ -18,4 +18,4 @@ script:
   - cd plugins/storkmdm
   - php -S localhost:8088 -t ../.. ../../tests/router.php &>/dev/null &
   - phpunit --verbose
-
+  - phpcs -p --standard=tools/phpcs-rules.xml *.php install/ inc/ front/ ajax/ tests/

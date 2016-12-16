@@ -47,7 +47,8 @@ class ApiRestTestCase extends CommonTestCase {
                   'enable_api'                        => true,
                   'enable_api_login_credentials'      => true,
                   'enable_api_login_external_token'   => true
-      ));
+            )
+      );
    }
 
    protected function setUp() {

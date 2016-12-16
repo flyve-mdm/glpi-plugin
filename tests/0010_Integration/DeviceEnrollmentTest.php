@@ -294,8 +294,8 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
     * @depends testAgentHasMQTTRights
     */
    public function testInvitationExpirationAfterEnrollment() {
-     $invitation = new PluginStorkmdmInvitation();
-     $this->assertTrue($invitation->getFromDB(self::$fixture['invitation']->getID()));
+      $invitation = new PluginStorkmdmInvitation();
+      $this->assertTrue($invitation->getFromDB(self::$fixture['invitation']->getID()));
 
       // Is the token expiry set ?
       $actual = new DateTime($invitation->getField('expiration_date'), new DateTimeZone('UTC'));

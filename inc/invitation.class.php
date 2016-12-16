@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -318,14 +318,14 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $documentId = $document->add($input);
 
       // Build relation between the invitation and the document
-//       $document_Item = new Document_Item();
-//       $document_Item->add([
-//             'documents_id' => $documentId,
-//             'itemtype'     => 'PluginStorkmdmInvitation',
-//             'items_id'     => $this->getID(),
-//             'entities_id'  => $this->fields['entities_id'],
-//             'is_recursive' => '0',
-//       ]);
+      //$document_Item = new Document_Item();
+      //$document_Item->add([
+      //      'documents_id' => $documentId,
+      //      'itemtype'     => 'PluginStorkmdmInvitation',
+      //      'items_id'     => $this->getID(),
+      //      'entities_id'  => $this->fields['entities_id'],
+      //      'is_recursive' => '0',
+      //]);
       return $documentId;
    }
 
