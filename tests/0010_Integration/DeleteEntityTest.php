@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
+class DeleteEntityTest extends RegisteredUserTestCase {
 
    /**
     *
@@ -67,14 +67,15 @@ class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
       $guestEmail = $userEmail->getField('email');
 
       $agent = new PluginStorkmdmAgent();
-      $agentId = $agent ->add([
+      $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $guestEmail,
             '_invitation_token'  => $invitation->getField('invitation_token'),
             '_serial'            => 'AZERTY',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertFalse($agent->isNewItem(), $_SESSION['MESSAGE_AFTER_REDIRECT']);
 
@@ -98,9 +99,9 @@ class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
    }
 
    public function testInitCreateApplication() {
-      $package = new PluginStorkmdmPackage();
       global $DB;
 
+      $package = new PluginStorkmdmPackage();
       // Create an application (directly in DB) because we are not uploading any file
       $packageName = 'com.domain.author.application';
       $packageTable = PluginStorkmdmPackage::getTable();

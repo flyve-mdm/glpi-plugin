@@ -27,10 +27,17 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
 class PluginStorkmdmPackageIntegrationTest extends RegisteredUserTestCase
 {
+
+   protected $applicationName;
+
+   public function setUp() {
+      parent::setUp();
+      $this->applicationName = 'com.domain.author.application';
+   }
 
    public function testInitAddFleet() {
       $fleet = new PluginStorkmdmFleet();
@@ -48,7 +55,8 @@ class PluginStorkmdmPackageIntegrationTest extends RegisteredUserTestCase
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $packageName = 'com.domain.author.application';
+      $this->applicationName = 'com.domain.author.application';
+      $packageName = $this->applicationName;
       $packageTable = PluginStorkmdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
@@ -86,23 +94,20 @@ class PluginStorkmdmPackageIntegrationTest extends RegisteredUserTestCase
       return $policyData;
    }
 
+   public function testGetAppRemovalPolicy() {
+      $policyData = new PluginStorkmdmPolicy();
+      $this->assertTrue($policyData->getFromDBBySymbol('removeApp'));
+
+      return $policyData;
+   }
+
    /**
     * @depends testGetAppDeploymentPolicy
     * @depends testCreateApplication
     * @depends testInitAddFleet
     */
    public function testApplyPolicy(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet $fleet) {
-      $value = new stdClass();
-      $value->remove_on_delete = '1';
-
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-            'plugin_storkmdm_policies_id' => $policyData->getID(),
-            'value'                       => $value,
-            'itemtype'                    => 'PluginStorkmdmPackage',
-            'items_id'                    => $package->getID(),
-      ]);
+      $fleet_policy = $this->applyAddPackagePolicy($policyData, $package, $fleet);
       $this->assertFalse($fleet_policy->isNewItem());
 
       return $fleet_policy;
@@ -128,6 +133,48 @@ class PluginStorkmdmPackageIntegrationTest extends RegisteredUserTestCase
       $itemId = $package->getID();
       $rows = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       $this->assertEquals(0, count($rows));
+   }
+
+   /**
+    * @depends testGetAppRemovalPolicy
+    * @depends testCreateApplication
+    * @depends testApplyPolicy
+    * @param PluginStorkmdmPolicy $policyData
+    * @param PluginStorkmdmPackage $package
+    * @param PluginStorkmdmFleet_Policy $fleet_policy
+    */
+   public function testRemovePolicyAdded(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet_Policy $fleet_policy) {
+      $policyId = $policyData->getID();
+      $packageName = $this->applicationName;
+      $rows = $fleet_policy->find("`plugin_storkmdm_policies_id`='$policyId' AND `value`='$packageName'");
+      $this->assertEquals(1, count($rows));
+   }
+
+   /**
+    * @depends testGetAppDeploymentPolicy
+    * @depends testCreateApplication
+    * @depends testInitAddFleet
+    * @depends testRemovePolicyAdded
+    */
+   public function testAddAndRemoveConflict(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet $fleet) {
+      $fleet_policy = $this->applyAddPackagePolicy($policyData, $package, $fleet);
+      $this->assertTrue($fleet_policy->isNewItem());
+   }
+
+   protected function applyAddPackagePolicy(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet $fleet) {
+      $value = new stdClass();
+      $value->remove_on_delete = '1';
+
+      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $addSuccess = $fleet_policy->add([
+            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
+            'plugin_storkmdm_policies_id' => $policyData->getID(),
+            'value'                       => $value,
+            'itemtype'                    => 'PluginStorkmdmPackage',
+            'items_id'                    => $package->getID(),
+      ]);
+
+      return $fleet_policy;
    }
 
 }
