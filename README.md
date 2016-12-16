@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi.svg?branch=master)](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi)
+
 INSTALLATION
 ============
 
