@@ -7,11 +7,5 @@
     "require-dev": {
        "guzzlehttp/guzzle": "~5",
         "squizlabs/php_codesniffer": "^2.7"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/btry/mqtt.git"
-        }
-    ]
+    }
 }
