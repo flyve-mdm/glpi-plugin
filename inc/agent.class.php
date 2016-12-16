@@ -1285,19 +1285,17 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    protected function setupMqttAccess() {
       if ($user = $this->getOwner()) {
-         $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+         $config = Config::getConfigurationValues('storkmdm', array(
+               'guest_profiles_id',
+               'android_bugcollecctor_url',
+               'android_bugcollector_login',
+               'android_bugcollector_passwd',
+               'mqtt_broker_address',
+               'mqtt_broker_port',
+               'mqtt_broker_tls',
+          ));
          $guestProfileId = $config['guest_profiles_id'];
          if ($user->getID() == $_SESSION['glpiID'] && $_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
-            // Read config for MQTT broker
-            $config = Config::getConfigurationValues(
-                  'storkmdm',
-                  array(
-                        'mqtt_broker_address',
-                        'mqtt_broker_port',
-                        'mqtt_broker_tls',
-                  )
-            );
-
             $mqttClearPassword = '';
 
             // Create, or re-eanble the mqtt user for the device
@@ -1328,9 +1326,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                   ];
 
                   $mqttUser = new PluginStorkmdmMqttuser();
+                  $mqttClearPassword = PluginStorkmdmMqttuser::getRandomPassword();
                   if (!$mqttUser->getByUser($serial)) {
                      // The user does not exists
-                     $mqttClearPassword = PluginStorkmdmMqttuser::getRandomPassword();
                      $mqttUser->add([
                            'user'         => $serial,
                            'enabled'      => '1',
@@ -1340,7 +1338,6 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                      ]);
                   } else {
                      // The user exists
-                     $mqttClearPassword = PluginStorkmdmMqttuser::getRandomPassword();
                      $mqttUser->update([
                            'id'        => $mqttUser->getID(),
                            'enabled'   => '1',
@@ -1353,11 +1350,14 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             }
 
             // The request comes from the owner of the device or the device itself, mandated by the user
-            $this->fields['topic']        = $this->getTopic();
-            $this->fields['mqttpasswd']   = $mqttClearPassword;
-            $this->fields['broker']       = $config['mqtt_broker_address'];
-            $this->fields['port']         = $config['mqtt_broker_port'];
-            $this->fields['tls']          = $config['mqtt_broker_tls'];
+            $this->fields['topic']                       = $this->getTopic();
+            $this->fields['mqttpasswd']                  = $mqttClearPassword;
+            $this->fields['broker']                      = $config['mqtt_broker_address'];
+            $this->fields['port']                        = $config['mqtt_broker_port'];
+            $this->fields['tls']                         = $config['mqtt_broker_tls'];
+            $this->fields['android_bugcollecctor_url']   = $config['android_bugcollecctor_url'];
+            $this->fields['android_bugcollector_login']  = $config['android_bugcollector_login'];
+            $this->fields['android_bugcollector_passwd'] = $config['android_bugcollector_passwd'];
          }
       }
    }

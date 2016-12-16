@@ -607,6 +607,9 @@ class PluginStorkmdmInstaller {
             'ssl_cert_url'                   => '',
             'default_device_limit'           => '0',
             'default_agent_url'              => PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL,
+            'android_bugcollecctor_url'      => '',
+            'android_bugcollector_login'     => '',
+            'android_bugcollector_passwd'    => '',
       ];
       Config::setConfigurationValues("storkmdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);

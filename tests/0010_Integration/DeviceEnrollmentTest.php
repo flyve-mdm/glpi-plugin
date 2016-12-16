@@ -218,11 +218,10 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
       $this->assertTrue(isset($agent->fields['broker']));
       $this->assertTrue(isset($agent->fields['port']));
       $this->assertTrue(isset($agent->fields['tls']));
-      // test disabled for now
-      //$this->assertTrue(isset($agent->fields['android_bugcollecctor_url']));
-      //$this->assertTrue(isset($agent->fields['android_bugcollector_login']));
-      //$this->assertTrue(isset($agent->fields['android_bugcollector_passwd']));
-      //$this->assertTrue(isset($agent->fields['version']));
+      $this->assertTrue(isset($agent->fields['android_bugcollecctor_url']));
+      $this->assertTrue(isset($agent->fields['android_bugcollector_login']));
+      $this->assertTrue(isset($agent->fields['android_bugcollector_passwd']));
+      $this->assertTrue(isset($agent->fields['version']));
 
       return $agent;
    }

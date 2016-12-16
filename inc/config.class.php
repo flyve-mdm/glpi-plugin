@@ -151,6 +151,32 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '<td>'. '' .'</td>';
       echo '</tr>';
 
+      echo '<tr><th colspan="3">'.__('Bug collector', "storkmdm").'</th></tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Android bug collector URL", "storkmdm").'</td>';
+      echo '<td><input type="text" name="android_bugcollecctor_url"' .
+            'value="'. $config['android_bugcollecctor_url'] .'" />';
+      echo '</td>';
+      echo '<td>'. __("https://bugreport.flyvemdm.com/path/to/service", "storkmdm").'</td>';
+      echo '</tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Android bug collector user", "storkmdm").'</td>';
+      echo '<td><input type="text" name="android_bugcollector_login"' .
+            'value="'. $config['android_bugcollector_login'] .'" />';
+      echo '</td>';
+      echo '<td></td>';
+      echo '</tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Android bug collector password", "storkmdm").'</td>';
+      echo '<td><input type="password" name="android_bugcollector_passwd"' .
+            'value="'. $config['android_bugcollector_passwd'] .'" />';
+      echo '</td>';
+      echo '<td></td>';
+      echo '</tr>';
+
       echo '<tr><th colspan="3">'.__('Restrictions', "storkmdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
