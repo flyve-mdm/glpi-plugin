@@ -276,14 +276,6 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
       // Generate default policies for groups of policies
       $fleet_policy = new PluginStorkmdmFleet_Policy();
       $fleet_policy->publishPolicies($this, array('camera', 'connectivity', 'encryption', 'policies'));
-      $this->post_updateItem(0);
-   }
-
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::post_updateItem()
-    */
-   public function post_updateItem($history=1) {
    }
 
    /**
