@@ -168,11 +168,16 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
       $serial = $DB->escape($mqttPath[3]);
       $computer = new Computer();
       if ($computer->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `serial` = '$serial'")) {
+         $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
          $communication = new PluginFusioninventoryCommunication();
-         ob_start();
-         $communication->handleOCSCommunication('', $inventoryXML);
-         ob_end_clean();
+         $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
+         if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
+            foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
+               $logMessage = "Serial $serial : $logMessage\n";
+               Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
+            }
+         }
 
          $this->updateLastContact($topic, $message);
       }
