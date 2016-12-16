@@ -216,6 +216,10 @@ class PluginStorkmdmPackage extends CommonDBTM {
                $input['filesize']      = fileSize($destination);
                $input['dl_filename']   = basename($_FILES['file']['name']);
             } else {
+               if (!is_writable(dirname($destination))) {
+                  $destination = dirname($destination);
+                  Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+               }
                Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
                $input = false;
             }
@@ -265,7 +269,12 @@ class PluginStorkmdmPackage extends CommonDBTM {
 
                   unlink(STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
                } else {
-                  return $false;
+                  if (!is_writable(dirname($destination))) {
+                     $destination = dirname($destination);
+                     Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+                  }
+                  Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
+                  $input = false;
                }
             } catch (Exception $e) {
                // Ignore exceptions for now

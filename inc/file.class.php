@@ -95,6 +95,10 @@ class PluginStorkmdmFile extends CommonDBTM {
 
       $destination = STORKMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
       if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
+         if (!is_writable(dirname($destination))) {
+            $destination = dirname($destination);
+            Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+         }
          return false;
       }
       $input['source'] = $input['entities_id'] . "/" . basename($destination);
@@ -124,6 +128,10 @@ class PluginStorkmdmFile extends CommonDBTM {
          $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
          $destination = STORKMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
          if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
+            if (!is_writable(dirname($destination))) {
+               $destination = dirname($destination);
+               Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+            }
             return false;
          }
          unlink(STORKMDM_FILE_PATH . "/" . $this->fields['source']);
