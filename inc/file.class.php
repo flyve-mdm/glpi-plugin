@@ -283,7 +283,8 @@ class PluginStorkmdmFile extends CommonDBTM {
             }
             $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_storkmdm_policies_id']);
             if ($fleet_policy->getFromDB($fleet_policyId)) {
-               $fleet_policy->publishPolicies($fleet, $policy->getGroup());
+               //$fleet_policy->publishPolicies($fleet, $policy->getGroup());
+               $fleet_policy->updateQueue($fleet, $policy->getGroup());
             }
          }
       }
