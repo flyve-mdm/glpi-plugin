@@ -95,7 +95,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       // Find or create the user
       $userIsNew = false;
       $user = new User();
-      if (!$user->getFromDBbyEmail($input['_useremails'], '')) {
+      if (!$user->getFromDBbyName($input['_useremails'], '')) {
          // The user does not exists yet, create him
          $userId = $user->add([
             '_useremails'     => array($input['_useremails']),
@@ -106,7 +106,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
             'authtype'        => Auth::DB_GLPI
          ]);
          $userIsNew = true;
-         if (! ($userId > 0)) {
+         if ($user->isNewItem()) {
             Session::addMessageAfterRedirect(__("Cannot create the user", 'storkmdm'), false, INFO, true);
             return false;
          }
