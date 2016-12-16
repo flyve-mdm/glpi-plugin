@@ -6,6 +6,7 @@ php:
   - '7.0'
 
 before_script:
+  - pear install pear/PHP_CodeSniffer
   - git clone https://github.com/glpi-project/glpi -b 9.1.1 ../glpi && cd ../glpi
   - composer install --no-dev
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
