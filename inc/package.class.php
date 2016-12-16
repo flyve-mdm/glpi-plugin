@@ -199,6 +199,10 @@ class PluginStorkmdmPackage extends CommonDBTM {
                } else if ($fileExtension == "upk") {
                   $upkParser = new PluginStorkmdmUpkparser($destination);
                   $apk = $upkParser->getApkParser();
+                  if (!($apk instanceof \ApkParser\Parser)) {
+                     Session::addMessageAfterRedirect(__('Could not parse the UPK file', "storkmdm"));
+                     return false;
+                  }
                }
                $manifest               = $apk->getManifest();
                $iconResourceId         = $manifest->getApplication()->getIcon();
