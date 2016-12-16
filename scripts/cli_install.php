@@ -29,6 +29,8 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
+(PHP_SAPI == 'cli') or die("Only available from command line");
+
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
 include (__DIR__ . "/docopt.php");
@@ -111,11 +113,12 @@ $plugin->install($plugin->fields['id']);
 ob_end_clean();
 print("Install Done\n");
 if($apiUserToken){
+   $serviceUser = PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME;
    $storkUser = new User();
-   $storkUser->getFromDBbyName('storknologin');
+   $storkUser->getFromDBbyName($serviceUser);
    $sqlUpdate = "update glpi_users set personal_token = '" . $apiUserToken . "' where id = ". $storkUser->fields['id'];
    $DB->query($sqlUpdate);
-   print("update storknologin user with provided api token " . $apiUserToken . "\n");
+   print("update $serviceUser user with provided api token " . $apiUserToken . "\n");
 }
 
 print("setting queuedmail to Queue mode\n");
