@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -66,7 +66,8 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
             '_serial'            => 'AZERTY',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
 
@@ -78,90 +79,37 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
     * @depends testInitEnrollAgent
     */
    public function testUnenrollAgent(PluginStorkmdmAgent $agent) {
-      // Prepare subscriber
-      $mqttSubscriber = MqttHandlerForTests::getInstance();
-      $publishedMessage = null;
-      $updateSuccess = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent, &$updateSuccess) {
-         $updateSuccess = $agent->update([
-               'id'           => $agent->getID(),
-               '_unenroll'    => '',
-         ]);
-      };
+      $mockAgent->expects($this->once())
+                ->method('notify')
+                ->with(
+                       $this->equalTo($agent->getTopic() . "/Command/Unenroll"),
+                       $this->equalTo(json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES)),
+                       $this->equalTo(0),
+                       $this->equalTo(1));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $pingCallback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         if (count($mqttSubscriber->getPublishedMessages()) == 1) {
-            $mqttSubscriber->stopMqttClient();
-            $publishedMessage = $mqttSubscriber->getPublishedMessages();
-            $publishedMessage = array_shift($publishedMessage);
-         }
-      };
+      $updateSuccess = $mockAgent->update([
+            'id'           => $agent->getID(),
+            '_unenroll'    => '',
+      ]);
 
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($pingCallback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Unenroll");
       $this->assertTrue($updateSuccess, "Failed to update the agent");
-
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testUnenrollAgent
-    */
-   public function testUnenrollMessage($publishedMessage) {
-      $json = $publishedMessage->getMessage();
-      $this->assertJson($json);
-
-      $array = json_decode($json, true);
-      $this->assertArrayHasKey('unenroll', $array);
    }
 
    /**
     * @depends testInitEnrollAgent
-    * @depends testUnenrollMessage
     */
-   public function testUnenrollAck(PluginStorkmdmAgent $agent) {
-      // Prepare subscriber
-      $mqttSubscriber = MqttHandlerForTests::getInstance();
-      $publishedMessages = null;
-      $deleteSuccess = null;
+   public function testDelete(PluginStorkmdmAgent $agent) {
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['cleanupSubtopics']);
+
+      $mockAgent->expects($this->once())
+                ->method('cleanupSubtopics');
 
       $topic = $agent->getTopic();
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent, &$deleteSuccess) {
-         $deleteSuccess = $agent->delete(array('id' => $agent->getID()));
-      };
+      $deleteSuccess = $mockAgent->delete(['id' => $agent->getID()]);
 
-      // Callback each time the mqtt broker sends a pingresp
-      $pingCallback = function () use (&$publishedMessages, &$mqttSubscriber) {
-         if (count($mqttSubscriber->getPublishedMessages()) == count(PluginStorkmdmAgent::getTopicsToCleanup())) {
-            $mqttSubscriber->stopMqttClient();
-            $publishedMessages = $mqttSubscriber->getPublishedMessages();
-         }
-      };
-
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($pingCallback);
-      $mqttSubscriber->subscribe("$topic/#");
+      // check the agent is deleted
       $this->assertTrue($deleteSuccess);
-
-      // Prepare expected topics
-      $expectedTopics = array();
-      PluginStorkmdmAgent::getTopicsToCleanup();
-      foreach (PluginStorkmdmAgent::getTopicsToCleanup() as $expectedTopic) {
-         $expectedTopics["$topic/$expectedTopic"] = '';
-      }
-      
-      // Assertions
-      $this->assertCount(count(PluginStorkmdmAgent::getTopicsToCleanup()), $publishedMessages);
-      foreach ($publishedMessages as $message) {
-         $this->assertEquals('', $message->getMessage());
-         $this->assertTrue(array_key_exists($message->getTopic(), $expectedTopics));
-         unset($expectedTopics[$message->getTopic()]);
-      }
    }
 }

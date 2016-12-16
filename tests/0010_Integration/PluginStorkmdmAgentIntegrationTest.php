@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -75,7 +75,8 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
             '_serial'            => 'AZERTY',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertFalse($agent->isNewItem(), $_SESSION['MESSAGE_AFTER_REDIRECT']);
 
@@ -124,45 +125,22 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       ]);
       $this->assertFalse($fleet->isNewItem(), "Could not create a fixture fleet");
 
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      $updateSuccess = null;
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Subscribe"),
+            $this->equalTo(json_encode(['subscribe' => [['topic' => $fleet->getTopic()]]], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent, &$fleet, &$updateSuccess) {
-         $updateSuccess = $agent->update([
-               'id'                          => $agent->getID(),
-               'plugin_storkmdm_fleets_id'   => $fleet->getID()
-         ]);
-      };
-
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
+      $updateSuccess = $mockAgent->update([
+            'id'                          => $agent->getID(),
+            'plugin_storkmdm_fleets_id'   => $fleet->getID()
+      ]);
       $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Subscribe");
       $this->assertTrue($updateSuccess, "Failed to update the agent");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testChangeFleet
-    */
-   public function testchangeFleetMessageIsValid($publishedMessage)
-   {
-      $json = $publishedMessage->getMessage();
-      $this->assertJson($json);
-
-      $array = json_decode($json, true);
-      $this->assertArrayHasKey('subscribe', $array);
    }
 
    /**
@@ -192,7 +170,8 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
             '_serial'            => 'UIOP',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertGreaterThan(0, $agentId, "Could not create an agent to enroll then purge");
 
@@ -239,7 +218,8 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
             '_serial'            => 'UIOP',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertGreaterThan(0, $agentId, "Could not create an agent to enroll then purge");
 
@@ -294,105 +274,60 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testPingRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'           => $agent->getID(),
-               '_ping'        => ""
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Ping"),
+            $this->equalTo(json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(0));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Ping");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testPingRequest
-    */
-   public function testPingRequestValid($publishedMessage) {
-      $this->assertEquals('{"query":"Ping"}', $publishedMessage->getMessage());
+      $mockAgent->update([
+            'id'           => $agent->getID(),
+            '_ping'        => ""
+      ]);
    }
 
    /**
     * @depends testEnrollAgent
     */
    public function testGeolocateRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'           => $agent->getID(),
-               '_geolocate'   => ""
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Geolocate"),
+            $this->equalTo(json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(0));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Geolocate");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testGeolocateRequest
-    */
-   public function testGeolocateRequestValid($publishedMessage) {
-      $this->assertEquals('{"query":"Geolocate"}', $publishedMessage->getMessage());
+      $mockAgent->update([
+            'id'           => $agent->getID(),
+            '_geolocate'   => ""
+      ]);
    }
 
    /**
     * @depends testEnrollAgent
     */
    public function testInventoryRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id' => $agent->getID(),
-               '_inventory' => ""
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Inventory"),
+            $this->equalTo(json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(0));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Inventory");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testInventoryRequest
-    */
-   public function testInventoryRequestValid($publishedMessage) {
-      $this->assertEquals('{"query":"Inventory"}', $publishedMessage->getMessage());
+      $mockAgent->update([
+            'id' => $agent->getID(),
+            '_inventory' => ""
+      ]);
    }
 
    /**
@@ -411,35 +346,20 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @param PluginStorkmdmAgent $agent
     */
    public function testLockRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'        => $agent->getID(),
-               'lock'      => "1"
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Lock"),
+            $this->equalTo(json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Lock");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testLockRequest
-    */
-   public function testLockRequestValid($publishedMessage) {
-      $this->assertEquals('{"lock":"now"}', $publishedMessage->getMessage());
+      $mockAgent->update([
+            'id'        => $agent->getID(),
+            'lock'      => "1"
+      ]);
    }
 
    /**
@@ -470,35 +390,20 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testWipeStatusUnset
     */
    public function testWipeRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'        => $agent->getID(),
-               'wipe'      => "1"
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Wipe"),
+            $this->equalTo(json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Wipe");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testWipeRequest
-    */
-   public function testWipeRequestValid($publishedMessage) {
-      $this->assertEquals('{"wipe":"now"}', $publishedMessage->getMessage());
+      $mockAgent->update([
+            'id'        => $agent->getID(),
+            'wipe'      => "1"
+      ]);
    }
 
    /**
@@ -530,28 +435,15 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @param PluginStorkmdmAgent $agent
     */
    public function testWipeOverridesLockEnableWipe(PluginStorkmdmAgent $agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'        => $agent->getID(),
-               'lock'      => "1"
-         ]);
-      };
+      $mockAgent->expects($this->never())
+      ->method('notify');
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Lock");
-      $this->assertNull($publishedMessage);
-      return $publishedMessage;
+      $mockAgent->update([
+            'id'        => $agent->getID(),
+            'lock'      => "1"
+      ]);
    }
 
    /**
@@ -630,7 +522,8 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
                '_serial'            => 'GHJK',
                'csr'                => '',
                'firstname'          => 'Registered',
-               'lastname'           => 'user'
+               'lastname'           => 'user',
+               'version'            => '1.0.0',
          ]);
       }
       $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
@@ -661,7 +554,8 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
                '_serial'            => 'WXCV',
                'csr'                => '',
                'firstname'          => 'Registered',
-               'lastname'           => 'user'
+               'lastname'           => 'user',
+               'version'            => '1.0.0',
          ]);
       }
       $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);

@@ -27,7 +27,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
 class DeviceCountLimit extends RegisteredUserTestCase {
 

@@ -27,7 +27,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
 class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
 
@@ -66,7 +66,8 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
             '_serial'            => 'AZERTY',
             'csr'                => '',
             'firstname'          => 'John',
-            'lastname'           => 'Doe'
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
       ]);
       $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
 
@@ -77,28 +78,20 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testWipeRequest($agent) {
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
 
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent) {
-         $agent->update([
-               'id'        => $agent->getID(),
-               'wipe'      => "1"
-         ]);
-      };
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Wipe"),
+            $this->equalTo(json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
 
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $agent->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command/Wipe");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-      return $publishedMessage;
+      $mockAgent->update([
+            'id'        => $agent->getID(),
+            'wipe'      => "1"
+      ]);
    }
 
    /**
@@ -145,53 +138,17 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
 
       Config::setConfigurationValues('storkmdm', array('debug_enrolment' => '1'));
 
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $mqttSubscriber->setAutoDisconect(false);
-
-      $publishedMessages = array();
-
       $agent = new PluginStorkmdmAgent();
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$agent, &$email, &$invitation) {
-         $agentId = $agent->add([
-               'entities_id'        => $_SESSION['glpiactive_entity'],
-               '_email'             => $email,
-               '_invitation_token'  => $invitation->getField('invitation_token'),
-               '_serial'            => 'AZERTY',
-               'csr'                => '',
-               'firstname'          => 'John',
-               'lastname'           => 'Doe'
-         ]);
-      };
-
-      // Callback each time the mqtt broker publishes a message
-      $getMessageCallback = function ($newMessage) use (&$publishedMessages, &$mqttSubscriber) {
-         $publishedMessages[] = $newMessage;
-      };
-
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setGetMqttMessageCallback($getMessageCallback);
-
-      $mqttSubscriber->subscribe("#");
-
-      $this->assertGreaterThan(0, $agent->getID(), $_SESSION['MESSAGE_AFTER_REDIRECT']);
-
-      // Search for a cleanup of wipe
-      $messageFound = false;
-
-      $regex = '#^' . $agent->getTopic() . '/([a-zA-Z-0-9/]+)$#';
-      $topics = array_flip(PluginStorkmdmAgent::getTopicsToCleanup());
-      foreach ($publishedMessages as $message) {
-         if (preg_match($regex, $message->getTopic(), $matches)) {
-            if (array_key_exists($matches[1], $topics)) {
-               unset($topics[$matches[1]]);
-            }
-            $this->assertEmpty($message->getMessage(), $matches[0]);
-         }
-      }
-
-      $this->assertCount(0, $topics);
+      $agentId = $agent->add([
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => $email,
+            '_invitation_token'  => $invitation->getField('invitation_token'),
+            '_serial'            => 'AZERTY',
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
+      ]);
 
       return $agent;
    }

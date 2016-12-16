@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -158,8 +158,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // the active profile is guest user, then check the user is
       // owner of the item's computer
-      $computer = new Computer();
-      if (!$computer->getFromDB($this->fields['computers_id'])) {
+      $computer = $this->getComputer();
+      if ($computer === null) {
          return false;
       }
 
@@ -173,8 +173,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          $mqttMessage = ['wipe' => 'now'];
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Wipe", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $this->notify("$topic/Command/Wipe", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
       }
    }
 
@@ -185,8 +184,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          $mqttMessage = ['lock' => 'now'];
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
       }
    }
 
@@ -197,8 +195,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          $mqttMessage = ['unenroll' => 'now'];
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Unenroll", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $this->notify("$topic/Command/Unenroll", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
       }
    }
 
@@ -488,10 +485,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    public function post_purgeItem() {
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         self::cleanupSubtopics($topic);
-      }
+      $this->cleanupSubtopics();
    }
 
    /**
@@ -651,8 +645,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       $topic = $this->getTopic();
       if ($topicToSubscribe !== null && $topic !== null) {
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Subscribe", json_encode($topicList, JSON_UNESCAPED_SLASHES), 0, 1);
+         $this->notify("$topic/Command/Subscribe", json_encode($topicList, JSON_UNESCAPED_SLASHES), 0, 1);
       }
    }
 
@@ -663,8 +656,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function getTopic() {
       if ($this->topic === null) {
-         $computer = new Computer();
-         if ($computer->getFromDB($this->fields['computers_id'])) {
+         $computer = $this->getComputer();
+         if ($computer !== null) {
             $serial = $computer->getField('serial');
             if (strlen($serial)) {
                $entity = $this->getField('entities_id');
@@ -715,8 +708,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          $topic = $topic . "/Subscription";
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish($topic, json_encode(array(), JSON_UNESCAPED_SLASHES));
+         $this->notify($topic, json_encode(array(), JSON_UNESCAPED_SLASHES));
       }
    }
 
@@ -904,7 +896,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Enrollment is about to succeed then cleanup subtopics
       $topic = "/$entityId/agent/$serial";
-      self::cleanupSubtopics($topic);
+      $this->cleanupSubtopics();
 
       $input['name']                      = $email;
       $input['computers_id']              = $computerId;
@@ -1006,11 +998,11 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    /**
     * Erase delete persisted MQTT topics of the agent
     */
-   public static function cleanupSubtopics($topic) {
+   public function cleanupSubtopics() {
+      $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
          foreach (self::getTopicsToCleanup() as $subTopic) {
-            $mqttClient->publish("$topic/$subTopic", "", 0, 1);
+            $this->notify("$topic/$subTopic", '', 0, 1);
          }
       }
    }
@@ -1051,8 +1043,27 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
          $lastPosition = array_pop($lastPositionRows);
 
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Geolocate", '{"query":"Geolocate"}', 0, 0);
+         $this->notify("$topic/Command/Geolocate", '{"query":"Geolocate"}', 0, 0);
+
+         return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
+      }
+
+      $errorMessage = __('Timeout requesting position', 'storkmdm');
+      return false;
+   }
+
+   /**
+    * Polls in the DB for a new geolocation entry with ID higher than the given one
+    * Timeouts if no new entry after a few seconds
+    * @param unknown $lastPosition
+    * @param string $errorMessage the error message to return to the caller
+    * @return boolean true if a new position found before timeout
+    */
+   protected function pollGeolocationAnswer($lastPosition, &$errorMessage) {
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $geolocation = new PluginStorkmdmGeolocation();
+         $computerId = $this->fields['computers_id'];
 
          // Wait for a reply within a short delay
          $loopCount = 25;
@@ -1062,20 +1073,16 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
             $updatedPosition = array_pop($updatedPositionRows);
             if ($lastPosition === null && $updatedPosition !== null
-                  || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']
-            ) {
-               if ($updatedPosition['latitude'] == 'na') {
-                  $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
-                  return false;
-               } else {
-                  return true;
-               }
-            }
+                  || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
+                     if ($updatedPosition['latitude'] == 'na') {
+                        $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
+                        return false;
+                     } else {
+                        return true;
+                     }
+                  }
          }
       }
-
-      $errorMessage = __('Timeout requesting position', 'storkmdm');
-      return false;
    }
 
    /**
@@ -1091,8 +1098,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $inventoryRows = $inventory->find("`computers_id`='$computerId'", '', '1');
          $lastInventory = array_pop($inventoryRows);
 
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Inventory", '{"query":"Inventory"}', 0, 0);
+         $this->notify("$topic/Command/Inventory", '{"query":"Inventory"}', 0, 0);
 
          // Wait for a reply within a short delay
          $loopCount = 5 * 15; // 15 seconds
@@ -1118,8 +1124,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    protected function sendPingQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttClient = PluginStorkmdmMqttclient::getInstance();
-         $mqttClient->publish("$topic/Command/Ping", '{"query":"Ping"}', 0, 0);
+         $message = [
+               'query'  => 'Ping'
+         ];
+         $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
 
          // Wait for a reply within a short delay
          $loopCount = 25;
@@ -1414,4 +1422,30 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $DB->query("DROP TABLE IF EXISTS `$table`") or die($DB->error());
    }
 
+   /**
+    * Get the computer associatated to the agent
+    * @return NULL|Computer
+    */
+   public function getComputer() {
+      if (!isset($this->fields['computers_id'])) {
+         return null;
+      }
+
+      $computer = new Computer();
+      if (!$computer->getFromDB($this->fields['computers_id'])) {
+         return null;
+      }
+
+      return $computer;
+   }
+
+   /**
+    *
+    * {@inheritDoc}
+    * @see PluginStorkmdmNotifiable::notify()
+    */
+   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
+      $mqttClient = PluginStorkmdmMqttclient::getInstance();
+      $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
 }

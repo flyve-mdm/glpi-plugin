@@ -8,10 +8,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -142,69 +142,26 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
     * @depends testInitCreateApplication
     */
    public function testApplyPolicy(PluginStorkmdmFleet $fleet, PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package) {
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      global $DB;
 
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
-
-      $addSuccess = null;
-
-      $cronTask = new CronTask();
-      $cronTask->getFromDBbyName("PluginStorkmdmMqttupdatequeue", "UpdateTopics");
-      $cronTask->update(['id' => $cronTask->getID(), 'lastrun' => null]);
-
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$fleet_policy, &$policyData, &$package, &$fleet, &$addSuccess) {
-         $addSuccess = $fleet_policy->add([
-               'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-               'plugin_storkmdm_policies_id' => $policyData->getID(),
-               'value'                       => $package->getField('name'),
-         ]);
-         PluginStorkmdmMqttupdatequeue::setDelay("PT0S");
-         CronTask::launch(CronTask::MODE_EXTERNAL, 1, 'UpdateTopics');
-      };
-
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
+      $table = PluginStorkmdmMqttupdatequeue::getTable();
+      $this->assertTrue($DB->query("TRUNCATE TABLE `$table`"));
 
       $groupName = $policyData->getField('group');
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $fleet->getTopic();
-      $mqttSubscriber->subscribe("$topic/$groupName");
+      $fleetId = $fleet->getID();
 
-      $this->assertGreaterThan(0, $addSuccess, 'Failed to apply the policy');
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
+      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy->add([
+            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
+            'plugin_storkmdm_policies_id' => $policyData->getID(),
+            'value'                       => $package->getField('name'),
+      ]);
+      $this->assertFalse($fleet_policy->isNewItem());
 
-      return $publishedMessage;
-   }
-
-   /**
-    * @depends testApplyPolicy
-    * @param \sskaje\mqtt\Message\PUBLISH $publishedMessage
-    */
-   public function testMessageIsJson(\sskaje\mqtt\Message\PUBLISH $publishedMessage) {
-      $message = $publishedMessage->getMessage();
-      $this->assertJson($message);
-
-      return json_decode($message, JSON_OBJECT_AS_ARRAY);
-   }
-
-   /**
-    * @depends testMessageIsJson
-    * @depends testInitCreateApplication
-    */
-   public function testMessageContent(array $message, PluginStorkmdmPackage $package) {
-      $expected = [
-            'application' => [
-                  0 => [
-                        'removeApp'    => $package->getField('name')
-                  ]
-            ]
-      ];
-      $this->assertArraySubset($expected, $message);
+      $mqttUpdateQueue = new PluginStorkmdmMqttupdatequeue();
+      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
+            AND `plugin_storkmdm_fleets_id` = '$fleetId'
+            AND `status` = 'queued'");
+      $this->assertCount(1, $rows);
    }
 }

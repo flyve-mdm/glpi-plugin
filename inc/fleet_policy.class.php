@@ -7,10 +7,10 @@ Copyright (C) 2010-2016 by the FusionInventory Development Team.
 
 This file is part of Flyve MDM Plugin for GLPI.
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile 
-device management software. 
+Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
+device management software.
 
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or 
+Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -91,9 +91,9 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          $input['value'] = '';
       }
       if (!isset($input['_silent'])) {
-         $input['_silent'] = false;
+         $this->silent = false;
       } else {
-         $input['_silent'] = ($input['_silent'] === true);
+         $this->silent = ($input['_silent'] === true);
       }
 
       return $input;
@@ -312,6 +312,10 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          // Then send them immediately
          $this->publishPolicies($item, $groups);
       } else {
+         if ($this->silent) {
+            return;
+         }
+
          // Queue an update for each group
          foreach ($groups as $group) {
             $mqttUpdateQueue = new PluginStorkmdmMqttupdatequeue();
@@ -342,31 +346,28 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          $topic = $item->getTopic();
          $fleetId = $fleet->getID();
 
-         $fleet_policyTable = PluginStorkmdmFleet_Policy::getTable();
-         $policyTable = PluginStorkmdmPolicy::getTable();
-         $query = "SELECT DISTINCT `group`
-               FROM `$fleet_policyTable` `fp`
-               LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_storkmdm_policies_id` = `p`.`id`
-               WHERE `fp`.`plugin_storkmdm_fleets_id` = '$fleetId'";
-         $result = $DB->query($query);
+         if (count($groups) == 0) {
+            $fleet_policyTable = PluginStorkmdmFleet_Policy::getTable();
+            $policyTable = PluginStorkmdmPolicy::getTable();
+            $query = "SELECT DISTINCT `group`
+            FROM `$fleet_policyTable` `fp`
+            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_storkmdm_policies_id` = `p`.`id`
+            WHERE `fp`.`plugin_storkmdm_fleets_id` = '$fleetId'";
+            $result = $DB->query($query);
 
-         if ($result === false) {
-            // SQL error
-         } else {
-            $mqttClient = PluginStorkmdmMqttclient::getInstance();
-            if (count($groups) == 0) {
+            if ($result === false) {
                while ($row = $DB->fetch_assoc($result)) {
                   $groupName = $row['group'];
                   $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
                   $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
-                  $mqttClient->publish("$topic/$groupName", $encodedGroup, 0, 1);
+                  $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
                }
-            } else {
-               foreach($groups as $groupName) {
-                  $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
-                  $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
-                  $mqttClient->publish("$topic/$groupName", $encodedGroup, 0, 1);
-               }
+            }
+         } else {
+            foreach($groups as $groupName) {
+               $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
+               $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
+               $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
             }
          }
       }

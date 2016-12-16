@@ -61,10 +61,24 @@ abstract class CommonTestCase extends CommonDBTestCase
       // Check logs
       $fileSqlContent = file_get_contents(GLPI_LOG_DIR."/sql-errors.log");
       $filePhpContent = file_get_contents(GLPI_LOG_DIR."/php-errors.log");
-      
+
       self::resetGLPILogs();
-      
+
       $this->assertEquals('', $fileSqlContent, 'sql-errors.log not empty');
       $this->assertEquals('', $filePhpContent, 'php-errors.log not empty');
    }
+
+   public function getMockForItemtype($classname, $methods = []) {
+      // create mock
+      $mock = $this->getMockBuilder($classname)
+      ->setMethods($methods)
+      ->getMock();
+
+      //Override computation of table to match the original class name
+      // see CommonDBTM::getTable()
+      $_SESSION['glpi_table_of'][get_class($mock)] = getTableForItemType($classname);
+
+      return $mock;
+   }
+
 }
