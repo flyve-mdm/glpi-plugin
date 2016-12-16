@@ -100,55 +100,71 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       if (!isset($input['computers_id'])) {
+         Session::addMessageAfterRedirect(__('associated device is mandatory', 'storkmdm'));
          return false;
       }
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
+         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'storkmdm'));
          return false;
       }
 
-      if (!$input['latitude'] == 'na' && $input['longitude'] == 'na') {
+      if (!$input['latitude'] == 'na' && !$input['longitude'] == 'na') {
          $input['latitude']      = floatval($input['latitude']);
          $input['longitude']     = floatval($input['longitude']);
          $input['computers_id']  = intval($input['computers_id']);
 
          if ($input['latitude'] < -180 || $input['latitude'] > 180) {
+            Session::addMessageAfterRedirect(__('latitude is invalid', 'storkmdm'));
             return false;
          }
          if ($input['longitude'] < -180 || $input['longitude'] > 180) {
+            Session::addMessageAfterRedirect(__('longitude is invalid', 'storkmdm'));
             return false;
          }
       }
 
       $computer = new Computer();
       if (!$computer->getFromDB($input['computers_id'])) {
+         Session::addMessageAfterRedirect(__('Device not found', 'storkmdm'));
          return false;
       }
 
       return $input;
-
    }
 
    public function prepareInputForUpdate($input) {
+      if (!isset($input['latitude']) || !isset($input['longitude'])) {
+         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'storkmdm'));
+         return false;
+      }
+
       if (isset($input['computers_id'])) {
          $input['computers_id'] = intval($input['computers_id']);
          $computer = new Computer();
          if (!$computer->getFromDB($input['computers_id'])) {
+            Session::addMessageAfterRedirect(__('Device not found', 'storkmdm'));
             return false;
          }
       }
 
-      if (isset($input['latitude'])) {
-         $input['latitude'] = floatval($input['latitude']);
-         if ($input['latitude'] < -180 || $input['latitude'] > 180) {
-            return false;
+      if (!$input['latitude'] == 'na' && !$input['longitude'] == 'na') {
+         if (isset($input['latitude'])) {
+            $input['latitude'] = floatval($input['latitude']);
+            if ($input['latitude'] < -180 || $input['latitude'] > 180) {
+               Session::addMessageAfterRedirect(__('latitude is invalid', 'storkmdm'));
+               return false;
+            }
+         }
+         if (isset($input['longitude'])) {
+            $input['longitude'] = floatval($input['longitude']);
+            if ($input['longitude'] < -180 || $input['longitude'] > 180) {
+               Session::addMessageAfterRedirect(__('longitude is invalid', 'storkmdm'));
+               return false;
+            }
          }
       }
-      if (isset($input['longitude'])) {
-         $input['longitude'] = floatval($input['longitude']);
-         if ($input['longitude'] < -180 || $input['longitude'] > 180) {
-            return false;
-         }
-      }
+
+      return $input;
    }
 
    /*
