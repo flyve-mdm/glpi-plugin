@@ -900,7 +900,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $user->update([
                'id'        => $userId,
                'firstname' => $firstname,
-               'realname'  => "$firstname $lastname",
+               'realname'  => $lastname,
          ]);
       }
 
