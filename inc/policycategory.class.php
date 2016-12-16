@@ -47,21 +47,7 @@ class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
     * @param $nb  integer  number of item in the type (default 0)
     */
    static function getTypeName($nb=0) {
-
       return _n('Policy category', 'Policy categories', 2);
-
-   }
-
-   /**
-    * Install process
-    * @param Migration $migration
-    */
-   public static function install(Migration $migration) {
-
-      $table = self::getTable();
-
-      $migration->migrationOneTable($table);
-
    }
 
    /**
@@ -69,7 +55,6 @@ class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
     * @see CommonTreeDropdown::getSearchOptions()
     */
    public function getSearchOptions() {
-
       global $CFG_GLPI;
 
       $tab = array();
@@ -94,26 +79,5 @@ class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
       $tab[3]['datatype']        = 'text';
 
       return $tab;
-
    }
-
-   /**
-    * Uninstall process
-    */
-   static function uninstall() {
-      global $DB;
-
-      foreach (array('DisplayPreference', 'Bookmark') as $itemtype) {
-         $item = new $itemtype();
-         $item->deleteByCriteria(array('itemtype' => __CLASS__));
-      }
-
-      // Remove dropdowns localization
-      $dropdownTranslation = new DropdownTranslation();
-      $dropdownTranslation->deleteByCriteria(array("itemtype LIKE '" . __CLASS__ . "'"), 1);
-
-      $table = getTableForItemType(__CLASS__);
-      $DB->query("DROP TABLE IF EXISTS `$table`");
-   }
-
 }

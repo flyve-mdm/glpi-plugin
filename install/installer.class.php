@@ -76,6 +76,18 @@ class PluginStorkmdmInstaller {
    protected $migration;
 
    /**
+    * Autoloader for installation
+    */
+   public function autoload($classname) {
+      // useful only for installer GLPi autoloader already handles inc/ folder
+      $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginStorkmdm', '', $classname)). '.class.php';
+      if (is_readable($filename) && is_file($filename)) {
+         include_once($filename);
+         return true;
+      }
+   }
+
+   /**
     *
     * Install the plugin
     *
@@ -85,6 +97,8 @@ class PluginStorkmdmInstaller {
    public function install() {
       global $DB;
 
+      spl_autoload_register(array(__CLASS__, 'autoload'));
+
       $this->migration = new Migration(PLUGIN_STORKMDM_VERSION);
       $this->migration->setVersion(PLUGIN_STORKMDM_VERSION);
 
@@ -93,7 +107,7 @@ class PluginStorkmdmInstaller {
 
       // Load itemtype classes
       foreach (self::$itemtypesToInstall as $itemtype) {
-         require_once PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php";
+         //require_once PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php";
       }
 
       // adding DB model from sql file
@@ -147,7 +161,7 @@ class PluginStorkmdmInstaller {
       $this->createNotificationTargetInvitation();
       $this->createJobs();
 
-      \Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
+      Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
 
       return true;
    }
@@ -368,14 +382,8 @@ class PluginStorkmdmInstaller {
       }
    }
 
-   public function createNotificationTargetInvitation() {
-      // Create the notification template
-      $notification = new Notification();
-      $template = new NotificationTemplate();
-      $translation = new NotificationTemplateTranslation();
-      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
-
-      $events = array(
+   protected function getNotificationTargetInvitationEvents() {
+      return array(
             PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
                   'name'            => __('User invitation', "storkmdm"),
                   'subject'         => __('You have been invited to join Flyve MDM', 'storkmdm'),
@@ -411,8 +419,16 @@ class PluginStorkmdmInstaller {
                   ', 'storkmdm')
             )
       );
+   }
 
-      foreach ($events as $event => $data) {
+   public function createNotificationTargetInvitation() {
+      // Create the notification template
+      $notification = new Notification();
+      $template = new NotificationTemplate();
+      $translation = new NotificationTemplateTranslation();
+      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
+
+      foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          if (count($template->find("`itemtype`='PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "'")) < 1) {
             // Add template
             $templateId = $template->add([
@@ -517,15 +533,24 @@ class PluginStorkmdmInstaller {
          require_once (PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php");
       }
 
-      $itentypesToUninstallReversed = array_reverse(self::$itemtypesToInstall);
-      foreach ($itentypesToUninstallReversed as $itemtype) {
+      $itemToUninstallReversed = array_reverse(self::$itemtypesToInstall);
+      foreach ($itemToUninstallReversed as $itemtype) {
          require_once (PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php");
          $className = "PluginStorkmdm" . $itemtype;
-         $className::uninstall();
+         if (method_exists($className, 'uninstall')) {
+            $className::uninstall();
+         }
       }
       $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/storkmdm");
 
-      $config = new \Config();
+      $this->deleteRelations();
+      $this->deleteNotificationTargetInvitation();
+      $this->deleteProfileRights();
+      $this->deleteProfiles();
+      $this->deleteTables();
+      $this->deleteDisplayPreferences();
+
+      $config = new Config();
       $config->deleteByCriteria(array('context' => 'storkmdm'));
 
       return true;
@@ -582,7 +607,7 @@ class PluginStorkmdmInstaller {
             'debug_noexpire'                 => '0',
             'ssl_cert_url'                   => '',
             'default_device_limit'           => '0',
-            'default_agent_url'              => PUGIN_STORKMDM_AGENT_DOWNLOAD_URL,
+            'default_agent_url'              => PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL,
       ];
       Config::setConfigurationValues("storkmdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
@@ -976,5 +1001,137 @@ class PluginStorkmdmInstaller {
       Session::loadLanguage($currentLocale);
 
       return $policies;
+   }
+
+   protected function deleteNotificationTargetInvitation() {
+      global $DB;
+
+      // Define DB tables
+      $tableTargets      = getTableForItemType('NotificationTarget');
+      $tableNotification = getTableForItemType('Notification');
+      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
+      $tableTemplates    = getTableForItemType('NotificationTemplate');
+
+      foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
+         //TODO : implement cleanup
+         // Delete translations
+         $query = "DELETE FROM `$tableTranslations`
+         WHERE `notificationtemplates_id` IN (
+         SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "')";
+         $DB->query($query);
+
+         // Delete notification templates
+         $query = "DELETE FROM `$tableTemplates`
+         WHERE `itemtype` = 'PluginStorkmdmAgent' AND `name`='" . $data['name'] . "'";
+         $DB->query($query);
+
+         // Delete notification targets
+         $query = "DELETE FROM `$tableTargets`
+         WHERE `notifications_id` IN (
+         SELECT `id` FROM `$tableNotification` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event')";
+         $DB->query($query);
+
+         // Delete notifications
+         $query = "DELETE FROM `$tableNotification`
+         WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event'";
+         $DB->query($query);
+      }
+   }
+
+   protected function deleteTables() {
+      global $DB;
+
+      $tables = array(
+            PluginStorkmdmAgent::getTable(),
+            PluginStorkmdmEntityconfig::getTable(),
+            PluginStorkmdmFile::getTable(),
+            PluginStorkmdmInvitationlog::getTable(),
+            PluginStorkmdmMqttupdatequeue::getTable(),
+            PluginStorkmdmFleet::getTable(),
+            PluginStorkmdmFleet_Policy::getTable(),
+            PluginStorkmdmGeolocation::getTable(),
+            PluginStorkmdmInvitation::getTable(),
+            PluginStorkmdmMqttacl::getTable(),
+            PluginStorkmdmMqttlog::getTable(),
+            PluginStorkmdmMqttupdatequeue::getTable(),
+            PluginStorkmdmMqttuser::getTable(),
+            PluginStorkmdmPackage::getTable(),
+            PluginStorkmdmPolicy::getTable(),
+            PluginStorkmdmPolicyCategory::getTable(),
+            PluginStorkmdmWellknownpath::getTable(),
+      );
+
+      foreach ($tables as $table) {
+         $DB->query("DROP TABLE IF EXISTS `$table`");
+      }
+   }
+
+   protected  function deleteProfiles() {
+      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id', 'guest_profiles_id'));
+      $registeredProfileId = $config['registered_profiles_id'];
+      $guestProfileId = $config['guest_profiles_id'];
+
+      $profile = new Profile();
+      $profile->getFromDB($registeredProfileId);
+      if (!$profile->deleteFromDB()) {
+         // TODO : log or warn for not deletion of the profile
+      } else {
+         $profileUser= new Profile_User();
+         $profileUser->deleteByCriteria(array('profiles_id' => $registeredProfileId), true);
+      }
+
+      $profile->getFromDB($guestProfileId);
+      if (!$profile->deleteFromDB()) {
+         // TODO : log or warn for not deletion of the profile
+      } else {
+         $profileUser= new Profile_User();
+         $profileUser->deleteByCriteria(array('profiles_id' => $guestProfileId), true);
+      }
+   }
+
+   protected function deleteProfileRights() {
+      $rights = array(
+            PluginStorkmdmAgent::$rightname,
+            PluginStorkmdmFile::$rightname,
+            PluginStorkmdmFleet::$rightname,
+            PluginStorkmdmGeolocation::$rightname,
+            PluginStorkmdmInvitation::$rightname,
+            PluginStorkmdmInvitationlog::$rightname,
+            PluginStorkmdmPackage::$rightname,
+            PluginStorkmdmPolicy::$rightname,
+            PluginStorkmdmProfile::$rightname,
+            PluginStorkmdmWellknownpath::$rightname,
+      );
+      foreach ($rights as $right) {
+         ProfileRight::deleteProfileRights(array($right));
+         unset($_SESSION["glpiactiveprofile"][$right]);
+      }
+   }
+
+   protected function deleteRelations() {
+      $pluginItemtypes = array(
+            'PluginStorkmdmAgent',
+            'PluginStorkmdmEntityconfig',
+            'PluginStorkmdmFile',
+            'PluginStorkmdmFleet',
+            'PluginStorkmdmGeolocation',
+            'PluginStorkmdmInvitation',
+            'PluginStorkmdmPackage',
+            'PluginStorkmdmPolicy',
+            'PluginStorkmdmPolicyCategory',
+            'PluginStorkmdmWellknownpath'
+      );
+      foreach ($pluginItemtypes as $pluginItemtype) {
+         foreach (array('Notepad', 'DisplayPreference', 'DropdownTranslation', 'Log', 'Bookmark') as $itemtype) {
+            $item = new $itemtype();
+            $item->deleteByCriteria(array('itemtype' => $pluginItemtype));
+         }
+      }
+   }
+
+   protected function deleteDisplayPreferences() {
+      // To cleanup display preferences if any
+      //$displayPreference = new DisplayPreference();
+      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MIN . " AND `num` <= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MAX));
    }
 }

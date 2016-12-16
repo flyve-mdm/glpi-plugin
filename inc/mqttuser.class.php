@@ -245,15 +245,4 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
 
       return $aclList;
    }
-
-   /**
-    * Uninstall from GLPI
-    */
-   public static function uninstall() {
-      global $DB;
-
-      $table = self::getTable();
-      $DB->query("DROP TABLE IF EXISTS `$table`") or die($DB->error());
-   }
-
 }

@@ -93,37 +93,6 @@ class PluginStorkmdmProfile extends Profile {
    }
 
    /**
-    * Uninstall storkmdm profile from GLPI
-    */
-   public static function uninstall() {
-      global $DB;
-
-      ProfileRight::deleteProfileRights(array(
-         self::$rightname
-      ));
-      unset($_SESSION["glpiactiveprofile"][self::$rightname]);
-
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id', 'guest_profiles_id'));
-      $registeredProfileId = $config['registered_profiles_id'];
-      $guestProfileId = $config['guest_profiles_id'];
-      $profile = new Profile();
-      $profile->getFromDB($registeredProfileId);
-      if (!$profile->deleteFromDB()) {
-         // TODO : log or warn for not deletion of the profile
-      } else {
-         $profileUser= new Profile_User();
-         $profileUser->deleteByCriteria(array('profiles_id' => $registeredProfileId), true);
-      }
-      $profile->getFromDB($guestProfileId);
-      if (!$profile->deleteFromDB()) {
-         // TODO : log or warn for not deletion of the profile
-      } else {
-         $profileUser= new Profile_User();
-         $profileUser->deleteByCriteria(array('profiles_id' => $guestProfileId), true);
-      }
-   }
-
-   /**
     * {@inheritDoc}
     * @see Profile::getTabNameForItem()
     */
@@ -133,7 +102,6 @@ class PluginStorkmdmProfile extends Profile {
       }
       return '';
    }
-
 
    /**
     * @deprecated
@@ -228,5 +196,4 @@ class PluginStorkmdmProfile extends Profile {
          $_SESSION['plugin_storkmdm_guest_profiles_id'] = '';
       }
    }
-
 }

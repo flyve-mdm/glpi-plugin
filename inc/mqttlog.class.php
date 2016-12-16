@@ -111,15 +111,4 @@ class PluginStorkmdmMqttlog extends CommonDBTM {
          }
       }
    }
-
-   /**
-    * Uninstall from GLPI
-    */
-   public static function uninstall() {
-      global $DB;
-
-      $table = getTableForItemType(__CLASS__);
-      $DB->query("DROP TABLE IF EXISTS `$table`");
-   }
-
 }

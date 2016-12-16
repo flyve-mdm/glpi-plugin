@@ -148,7 +148,8 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
    }
 
    /**
-    *
+    * {@inheritDoc}
+    * @see PluginStorkmdmPolicyBase::unicityCheck()
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
       $fleetId = $fleet->getID();

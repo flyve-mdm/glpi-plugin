@@ -109,24 +109,4 @@ class PluginStorkmdmWellknownpath extends CommonDropdown {
 
       return $tab;
    }
-
-   /**
-    * Uninstall process
-    */
-   public static function uninstall() {
-      global $DB;
-
-      foreach (array('DisplayPreference', 'Bookmark') as $itemtype) {
-         $item = new $itemtype();
-         $item->deleteByCriteria(array('itemtype' => __CLASS__));
-      }
-
-      // Remove dropdowns localization
-      $dropdownTranslation = new DropdownTranslation();
-      $dropdownTranslation->deleteByCriteria(array("itemtype LIKE '" . __CLASS__ . "'"), 1);
-
-      $table = getTableForItemType(__CLASS__);
-      $DB->query("DROP TABLE IF EXISTS `$table`");
-   }
-
 }

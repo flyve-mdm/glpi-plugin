@@ -107,6 +107,7 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
     * @see PluginStorkmdmPolicyBase::unicityCheck()
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+      // Check the policy is already applied
       $fleetId = $fleet->getID();
       $fleet_policy = new PluginStorkmdmFleet_Policy();
       $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'

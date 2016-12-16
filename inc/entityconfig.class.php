@@ -273,24 +273,4 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       return $tab;
    }
 
-   /**
-    * Uninstall from GLPI
-    */
-   public static function uninstall() {
-      global $DB;
-
-      ProfileRight::deleteProfileRights(array(
-         self::$rightname
-      ));
-      unset($_SESSION["glpiactiveprofile"][self::$rightname]);
-
-      foreach (array('Notepad', 'DisplayPreference', 'Log') as $itemtype) {
-         $item = new $itemtype();
-         $item->deleteByCriteria(array('itemtype' => __CLASS__));
-      }
-
-      $table = getTableForItemType(__CLASS__);
-      $DB->query("DROP TABLE IF EXISTS `$table`") or die($DB->error());
-   }
-
 }

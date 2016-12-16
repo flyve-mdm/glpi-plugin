@@ -493,15 +493,4 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       return $tab;
 
    }
-
-   /**
-    * Uninstall from GLPI
-    */
-   public static function uninstall() {
-      global $DB;
-
-      $table = getTableForItemType(__CLASS__);
-      $DB->query("DROP TABLE IF EXISTS `$table`") or die($DB->error());
-   }
-
 }

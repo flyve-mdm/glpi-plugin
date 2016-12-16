@@ -109,9 +109,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     * @param $entity the entity on which the event is raised
     */
    public function getNotificationTargets($entity) {
-
       $this->addTarget(Notification::USER, __('Guest user', 'storkmdm'));
-
    }
 
    /**
@@ -132,43 +130,4 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
          }
       }
    }
-
-   /**
-    * Uninstallation process
-    */
-   public static function uninstall() {
-      global $DB;
-
-      // Define DB tables
-      $tableTargets      = getTableForItemType('NotificationTarget');
-      $tableNotification = getTableForItemType('Notification');
-      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
-      $tableTemplates    = getTableForItemType('NotificationTemplate');
-
-      foreach (self::getNotifications() as $event => $data) {
-         //TODO : implement cleanup
-         // Delete translations
-         $query = "DELETE FROM `$tableTranslations`
-                WHERE `notificationtemplates_id` IN (
-                  SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "')";
-         $DB->query($query);
-
-         // Delete notification templates
-         $query = "DELETE FROM `$tableTemplates`
-                WHERE `itemtype` = 'PluginStorkmdmAgent' AND `name`='" . $data['name'] . "'";
-         $DB->query($query);
-
-         // Delete notification targets
-         $query = "DELETE FROM `$tableTargets`
-                WHERE `notifications_id` IN (
-                  SELECT `id` FROM `$tableNotification` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event')";
-         $DB->query($query);
-
-         // Delete notifications
-         $query = "DELETE FROM `$tableNotification`
-                WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event'";
-         $DB->query($query);
-      }
-   }
-
 }

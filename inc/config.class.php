@@ -49,19 +49,6 @@ class PluginStorkmdmConfig extends CommonDBTM {
    static $config = array();
 
    /**
-    * Uninstall process
-    */
-   public static function uninstall() {
-      global $DB;
-
-      // To cleanup display preferences if any
-      //$displayPreference = new DisplayPreference();
-      //$displayPreference->deleteByCriteria(array("`num` >= " . self::RESERVED_TYPE_RANGE_MIN . " AND `num` <= " . self::RESERVED_TYPE_RANGE_MAX));
-
-      Config::deleteConfigurationValues('storkmdm');
-   }
-
-   /**
     * Display the configuration form for the plugin.
     */
    public function showForm() {

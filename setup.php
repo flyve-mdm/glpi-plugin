@@ -39,7 +39,7 @@ define ("PLUGIN_STORKMDM_PHP_MIN_VERSION", "5.5");
 
 define ("PLUGIN_STORKMDM_ROOT", GLPI_ROOT . "/plugins/storkmdm");
 
-define ("PUGIN_STORKMDM_AGENT_DOWNLOAD_URL", 'https://flyve-mdm.com/download/android-agent.apk');
+define ("PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL", 'https://flyve-mdm.com/download/android-agent.apk');
 
 if (!defined("STORKMDM_CONFIG_PATH")) {
    define("STORKMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . "/storkmdm");
