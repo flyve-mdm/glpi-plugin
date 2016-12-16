@@ -65,6 +65,21 @@ function plugin_storkmdm_postinit() {
 }
 
 /**
+ * Actions done when a profile_user is being purged
+ */
+function plugin_storkmdm_hook_pre_profileuser_purge(CommonDBTM $item) {
+   $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id', 'registered_profiles_id'));
+   $guestProfileId = $config['guest_profiles_id'];
+
+   if ($item->getField('profiles_id') == $guestProfileId) {
+      $invitation = new PluginStorkmdmInvitation();
+      if (!$invitation->deleteByCriteria(array('users_id' => $item->getField('users_id')))) {
+         $item->input = false;
+      }
+   }
+}
+
+/**
  * Define Dropdown tables to be managed in GLPI
  * @return translated[]
  */

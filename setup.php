@@ -131,6 +131,7 @@ function plugin_init_storkmdm() {
       $PLUGIN_HOOKS['pre_item_purge']['storkmdm']   = array(
             'PluginStorkmdmInvitation' => array('PluginStorkmdmInvitation', 'hook_pre_self_purge'),
             'Document'                 => array('PluginStorkmdmInvitation', 'hook_pre_document_purge'),
+            'Profile_User'             => 'plugin_storkmdm_hook_pre_profileuser_purge',
       );
 
       // Add css and js resources if the requested page needs them
