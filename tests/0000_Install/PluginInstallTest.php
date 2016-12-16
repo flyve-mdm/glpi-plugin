@@ -72,10 +72,6 @@ class PluginInstallTest extends SuperAdminTestCase
       $plugin->install($plugin->fields['id']);
       ob_end_clean();
 
-      $GLPIlog = new GLPIlogs();
-      $GLPIlog->testSQLlogs();
-      $GLPIlog->testPHPlogs();
-
       $PluginDBTest = new PluginDB();
       $PluginDBTest->checkInstall("storkmdm", "install");
 
