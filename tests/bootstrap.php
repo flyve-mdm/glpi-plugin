@@ -54,6 +54,8 @@ UnitTestAutoload::register();
 
 define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
 define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
+define("GLPI_LOG_DIR", __DIR__ . '/logs');
+
 include (GLPI_ROOT . "/inc/includes.php");
 
 // need to set theses in DB, because tests for API use http call and this bootstrap file is not called

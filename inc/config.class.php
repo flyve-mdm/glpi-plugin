@@ -187,7 +187,24 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "storkmdm").'</td>';
       echo '</tr>';
 
+      echo '<tr><th colspan="3">'.__('Demo mode', "storkmdm").'</th></tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Demo mode", "storkmdm").'</td>';
+      echo '<td>' . Dropdown::showYesNo('demo_mode', $config['demo_mode'], -1, array('display' => false));
+      echo '</td>';
+      echo '<td>'. __("Demo mode enables email validation step when self creating an entity", "storkmdm").'</td>';
+      echo '</tr>';
+
       echo '<tr><th colspan="3">'.__('Frontend setup', "storkmdm").'</th></tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Webapp URL", "storkmdm").'</td>';
+      echo '<td><input type="text" name="webapp_url"' .
+            'value="'. $config['webapp_url'] .'" />';
+      echo '</td>';
+      echo '<td>'. __("URL of the web interface used for management", "storkmdm").'</td>';
+      echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
       echo '<td>'. __("Service's User Token", "storkmdm").'</td>';

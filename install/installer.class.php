@@ -155,10 +155,12 @@ class PluginStorkmdmInstaller {
       $this->createFirstAccess();
       $this->createServiceProfileAccess();
       $this->createRegisteredProfileAccess();
+      $this->createInactiveRegisteredProfileAccess();
       $this->createGuestProfileAccess();
       $this->createServiceUserAccount();
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
+      $this->createNotificationTargetAccountvalidation();
       $this->createJobs();
 
       Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
@@ -314,6 +316,18 @@ class PluginStorkmdmInstaller {
       ]);
    }
 
+   /**
+    * Setup rights for inactive registered users profile
+    */
+   protected function createInactiveRegisteredProfileAccess() {
+      // create profile for registered users
+      $profileId = self::getOrCreateProfile(
+            __("Stork MDM inactive registered users", "storkmdm"),
+            __("inactive registered StorkMDM users. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            );
+      Config::setConfigurationValues('storkmdm', array('inactive_registered_profiles_id' => $profileId));
+   }
+
    protected function createGuestProfileAccess() {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
@@ -386,38 +400,39 @@ class PluginStorkmdmInstaller {
    protected function getNotificationTargetInvitationEvents() {
       return array(
             PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
+                  'itemtype'        => PluginStorkmdmInvitation::class,
                   'name'            => __('User invitation', "storkmdm"),
                   'subject'         => __('You have been invited to join Flyve MDM', 'storkmdm'),
                   'content_text'    => __('Hi,\n\n
 
-                  Please join the Flyve Mobile Device Management system by downloading
-                  and installing the Flyve MDM application for Android from the following link.\n\n
+Please join the Flyve Mobile Device Management system by downloading
+and installing the Flyve MDM application for Android from the following link.\n\n
 
-                  ##storkmdm.download_app##\n\n
+##storkmdm.download_app##\n\n
 
-                  If you\'re viewing this email from a computer flash the QR code you see below
-                  with the Flyve MDM Application.\n\n
+If you\'re viewing this email from a computer flash the QR code you see below
+with the Flyve MDM Application.\n\n
 
-                  If you\'re viewing this email from your device to enroll then tap the
-                  following link.\n\n
+If you\'re viewing this email from your device to enroll then tap the
+following link.\n\n
 
-                  ##storkmdm.enroll_url##\n\n
+##storkmdm.enroll_url##\n\n
 
-                  Regards,
+Regards,
 
-                  ', 'storkmdm'),
+', 'storkmdm'),
                   'content_html'    => __('Hi,\n\n
 
-                  Please join the Flyve Mobile Device Management system by downloading
-                  and installing the Flyve MDM application for Android from the following link.\n\n
+Please join the Flyve Mobile Device Management system by downloading
+and installing the Flyve MDM application for Android from the following link.\n\n
 
-                  ##storkmdm.download_app##\n\n
+##storkmdm.download_app##\n\n
 
-                  <img src="cid:##storkmdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">\n\n
+<img src="cid:##storkmdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">\n\n
 
-                  Regards,
+Regards,
 
-                  ', 'storkmdm')
+', 'storkmdm')
             )
       );
    }
@@ -430,12 +445,13 @@ class PluginStorkmdmInstaller {
       $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
-         if (count($template->find("`itemtype`='PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "'")) < 1) {
+         $itemtype = $data['itemtype'];
+         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
             // Add template
             $templateId = $template->add([
                   'name'      => addcslashes($data['name'], "'\""),
                   'comment'   => '',
-                  'itemtype'  => 'PluginStorkmdmInvitation'
+                  'itemtype'  => $itemtype,
             ]);
 
             // Add default translation
@@ -459,7 +475,105 @@ class PluginStorkmdmInstaller {
                   'entities_id'              => 0,
                   'is_recursive'             => 1,
                   'is_active'                => 1,
-                  'itemtype'                 => 'PluginStorkmdmInvitation',
+                  'itemtype'                 => $itemtype,
+                  'notificationtemplates_id' => $templateId,
+                  'event'                    => $event,
+                  'mode'                     => 'mail'
+            ]);
+
+            $notificationTarget->add([
+                  'items_id'           => Notification::USER,
+                  'type'               => Notification::USER_TYPE,
+                  'notifications_id'   => $notificationId
+            ]);
+
+         }
+      }
+   }
+
+   protected function getNotificationTargetRegistrationEvents() {
+      return array(
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('Self registration', "storkmdm"),
+                  'subject'         => __('Please, activate your Flyve MDM account', 'storkmdm'),
+                  'content_text'    => __('Hi,\n\n
+
+You or someone else created an account on Flyve MDM with your email address.\n\n
+
+If you did not created an account, please ignore this email.\n\n
+
+If you created an acount, please activate it with the link below. It is active for ##storkmdm.activation_delay##.\n\n
+
+##storkmdm.registration_url##\n\n
+
+After activation of your account, please login here\n\n
+
+##storkmdm.webapp_url##\n\n
+
+Regards,
+
+', 'storkmdm'),
+                  'content_html'    => __('Hi,\n\n
+
+You or someone else created an account on Flyve MDM with your email address.\n\n
+
+If you did not created an account, please ignore this email.\n\n
+
+If you created an acount, please activate it with the link below. It is active for ##storkmdm.activation_delay##.\n\n
+
+##storkmdm.registration_url##\n\n
+
+After activation of your account, please login here\n\n
+
+##storkmdm.webapp_url##\n\n
+
+Regards,
+
+', 'storkmdm')
+            )
+      );
+   }
+
+   public function createNotificationTargetAccountvalidation() {
+      // Create the notification template
+      $notification = new Notification();
+      $template = new NotificationTemplate();
+      $translation = new NotificationTemplateTranslation();
+      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
+
+      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
+            // Add template
+            $templateId = $template->add([
+                  'name'      => addcslashes($data['name'], "'\""),
+                  'comment'   => '',
+                  'itemtype'  => $itemtype
+            ]);
+
+            // Add default translation
+            if (!isset($data['content_html'])) {
+               $contentHtml = self::convertTextToHtml($data['content_text']);
+            } else {
+               $contentHtml = self::convertTextToHtml($data['content_html']);
+            }
+            $translation->add([
+                  'notificationtemplates_id' => $templateId,
+                  'language'                 => '',
+                  'subject'                  => addcslashes($data['subject'], "'\""),
+                  'content_text'             => addcslashes($data['content_text'], "'\""),
+                  'content_html'             => $contentHtml
+            ]);
+
+            // Create the notification
+            $notificationId = $notification->add([
+                  'name'                     => addcslashes($data['name'], "'\""),
+                  'comment'                  => '',
+                  'entities_id'              => 0,
+                  'is_recursive'             => 1,
+                  'is_active'                => 1,
+                  'itemtype'                 => $itemtype,
                   'notificationtemplates_id' => $templateId,
                   'event'                    => $event,
                   'mode'                     => 'mail'
@@ -491,6 +605,7 @@ class PluginStorkmdmInstaller {
       }
 
       $this->createPolicies();
+      $this->createJobs();
    }
 
    protected function createJobs() {
@@ -498,6 +613,18 @@ class PluginStorkmdmInstaller {
       CronTask::Register('PluginStorkmdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
             array(
                   'comment'   => __('Update retained MQTT topics for fleet policies', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
+
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Remove expired account activations (demo mode)', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
+
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'DisableExpiredTrial', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Disable expired accounts (demo mode)', 'storkmdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
    }
@@ -548,10 +675,12 @@ class PluginStorkmdmInstaller {
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
+      $this->deleteNotificationTargetAccountvalidation();
       $this->deleteProfileRights();
       $this->deleteProfiles();
       $this->deleteTables();
       $this->deleteDisplayPreferences();
+      // Cron jobs deletion handled by GLPi
 
       $config = new Config();
       $config->deleteByCriteria(array('context' => 'storkmdm'));
@@ -612,6 +741,9 @@ class PluginStorkmdmInstaller {
             'android_bugcollecctor_url'      => '',
             'android_bugcollector_login'     => '',
             'android_bugcollector_passwd'    => '',
+            'webapp_url'                     => '',
+            'demo_mode'                      => '0',
+            'inactive_registered_profiles_id'=> '',
       ];
       Config::setConfigurationValues("storkmdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
@@ -1017,27 +1149,66 @@ class PluginStorkmdmInstaller {
       $tableTemplates    = getTableForItemType('NotificationTemplate');
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         $name = $data['name'];
          //TODO : implement cleanup
          // Delete translations
          $query = "DELETE FROM `$tableTranslations`
-         WHERE `notificationtemplates_id` IN (
-         SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "')";
+                   WHERE `notificationtemplates_id` IN (
+                   SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = '$itemtype' AND `name`='$name')";
          $DB->query($query);
 
          // Delete notification templates
          $query = "DELETE FROM `$tableTemplates`
-         WHERE `itemtype` = 'PluginStorkmdmAgent' AND `name`='" . $data['name'] . "'";
+                  WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
          $DB->query($query);
 
          // Delete notification targets
          $query = "DELETE FROM `$tableTargets`
-         WHERE `notifications_id` IN (
-         SELECT `id` FROM `$tableNotification` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event')";
+                   WHERE `notifications_id` IN (
+                   SELECT `id` FROM `$tableNotification` WHERE `itemtype` = '$itemtype' AND `event`='$event')";
          $DB->query($query);
 
          // Delete notifications
          $query = "DELETE FROM `$tableNotification`
-         WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event'";
+                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
+         $DB->query($query);
+      }
+   }
+
+   protected function deleteNotificationTargetAccountvalidation() {
+      global $DB;
+
+      // Define DB tables
+      $tableTargets      = getTableForItemType('NotificationTarget');
+      $tableNotification = getTableForItemType('Notification');
+      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
+      $tableTemplates    = getTableForItemType('NotificationTemplate');
+
+      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         $name = $data['name'];
+         //TODO : implement cleanup
+         // Delete translations
+         $query = "DELETE FROM `$tableTranslations`
+                   WHERE `notificationtemplates_id` IN (
+                   SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = '$itemtype' AND `name`='$name')";
+         $DB->query($query);
+
+         // Delete notification templates
+         $query = "DELETE FROM `$tableTemplates`
+                   WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
+         $DB->query($query);
+
+         // Delete notification targets
+         $query = "DELETE FROM `$tableTargets`
+                   WHERE `notifications_id` IN (
+                   SELECT `id` FROM `$tableNotification` WHERE `itemtype` = '$itemtype' AND `event`='$event')";
+         $DB->query($query);
+
+         // Delete notifications
+         $query = "DELETE FROM `$tableNotification`
+                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
          $DB->query($query);
       }
    }
@@ -1050,7 +1221,6 @@ class PluginStorkmdmInstaller {
             PluginStorkmdmEntityconfig::getTable(),
             PluginStorkmdmFile::getTable(),
             PluginStorkmdmInvitationlog::getTable(),
-            PluginStorkmdmMqttupdatequeue::getTable(),
             PluginStorkmdmFleet::getTable(),
             PluginStorkmdmFleet_Policy::getTable(),
             PluginStorkmdmGeolocation::getTable(),
