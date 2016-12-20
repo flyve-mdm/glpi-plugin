@@ -155,8 +155,7 @@ class PluginStorkmdmUser extends User {
       ));
       self::$creation = false;
       if ($entityId === false) {
-
-         Session::addMessageAfterRedirect(__('Failed to create entity for the user', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('An entity already exists for your email. You probably already have an account.', 'storkmdm'));
          return false;
       }
 
