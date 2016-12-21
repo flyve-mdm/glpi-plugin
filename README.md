@@ -90,13 +90,15 @@ The directory **glpi/plugins/storkmdm/scripts** must be inaccessible from the we
 
 ## Mysql / MariaDB
 
-Mosquitto requires an access to the database.
+The DBMS must provide an access to the message queuing server for the authentication process of its clients. This server will be configured below; let's focus on the DBMS for now.
 
-Assuming your DBMS server is not exposed to the world and Mosquitto is on an other server, edit **my.cnf** to listen on **0.0.0.0** instead of 127.0.0.1.
+Assuming your DBMS server is not exposed to the world and the message queuing is on an other server, edit **my.cnf** to listen on **0.0.0.0** instead of 127.0.0.1.
 
 ```
 bind-address = 0.0.0.0
 ```
+
+Create a new user in the DBMS able to read only the GLPI's database, and restrict this user to the IP of the future message queuing server.
 
 ## Mosquitto
 
@@ -231,13 +233,10 @@ auth_opt_aclquery SELECT topic FROM glpi_plugin_storkmdm_mqttacls a LEFT JOIN gl
 auth_opt_cacheseconds 300
 
 ```
-
 Adapt the server, port and credentials to your setup.
 * The server is your MySQL or MariaDB IP or hostname
 * the port is  the listening port of your DBMS
-* user and password should be a user able to read only your DB. No need to grant any write access.
-
-
+* user and password should be a user able to read only your DB. No need to grant any write access. You created these credentials while setting up the DBMS.
 
 # Contributing
 
