@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-define ("PLUGIN_STORKMDM_VERSION", "0.7.0-dev");
+define ("PLUGIN_STORKMDM_VERSION", "1.0.1");
 // Minimal GLPI version, inclusive
 define ("PLUGIN_STORKMDM_GLPI_MIN_VERSION", "9.1");
 // Maximum GLPI version, exclusive
