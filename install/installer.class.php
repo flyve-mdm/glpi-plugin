@@ -482,9 +482,11 @@ class PluginStorkmdmInstaller {
          default:
       }
       if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev")) {
-         include __DIR__ . "/update_dev.php";
-         if (function_exists('update_dev')) {
-            update_dev($this->migration);
+         if (is_readable(__DIR__ . "/update_dev.php") && is_file(__DIR__ . "/update_dev.php")) {
+            include __DIR__ . "/update_dev.php";
+            if (function_exists('update_dev')) {
+               update_dev($this->migration);
+            }
          }
       }
 
