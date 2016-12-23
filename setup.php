@@ -200,6 +200,11 @@ function plugin_storkmdm_check_prerequisites() {
       $prerequisitesSuccess = false;
    }
 
+   if (! extension_loaded('gd')) {
+      echo "This plugin requires PHP gd extension<br>";
+      $prerequisitesSuccess = false;
+   }
+
    $plugin = new Plugin();
    if ( !($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory')) ) {
       echo "This plugin requires Fusioninventory for GLPi<br>";
