@@ -78,7 +78,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
          return false;
       }
       if (!isset($input['download_url'])) {
-         $input['download_url'] = 'http://flyve-mdm.com/download/android-agent.apk';
+         $input['download_url'] = PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL;
       }
       $input['entities_id'] = $input['id'];
 
@@ -105,7 +105,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
 
       unset($input['entities_id']);
       unset($input['enroll_token']);
-      unset($input['managed']); //
+      unset($input['managed']);
 
       $input = $this->sanitizeTokenLifeTime($input);
 
