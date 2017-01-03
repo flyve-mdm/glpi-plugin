@@ -248,6 +248,15 @@ class PluginStorkmdmConfig extends CommonDBTM {
             }
          }
       }
+      if (isset($input['demo_mode'])) {
+         $user = new User();
+         if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+            $user->update(array(
+                  'id'        => $user->getID(),
+                  'is_active' => ($input['demo_mode'] == 0 ? 0 : 1)
+            ));
+         }
+      }
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
