@@ -140,7 +140,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $expirationDateTime = new DateTime($this->getField('date_creation'));
       $expirationDateTime->add(new DateInterval($this->getActivationDelay()));
       if ($expirationDateTime < $currentDateTime) {
-         Session::addMessageAfterRedirect(__('Validation token is invalid (expired)', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Validation token expired', 'storkmdm'));
          return false;
       }
 
