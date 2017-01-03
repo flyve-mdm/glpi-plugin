@@ -44,6 +44,11 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @var string
     */
    const ACTIVATION_DELAY = 'P1D';
+
+   /**
+    * Trial duration
+    * @var string
+    */
    const TRIAL_LIFETIME   = 'P90D';
 
    /**
