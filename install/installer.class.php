@@ -105,15 +105,9 @@ class PluginStorkmdmInstaller {
       // Load non-itemtype classes
       require_once PLUGIN_STORKMDM_ROOT . '/inc/notifiable.class.php';
 
-      // Load itemtype classes
-      foreach (self::$itemtypesToInstall as $itemtype) {
-         //require_once PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php";
-      }
-
       // adding DB model from sql file
       // TODO : migrate in-code DB model setup here
       if (self::getCurrentVersion() == '') {
-
          // Setup DB model
          $version = str_replace('.', '-', PLUGIN_STORKMDM_VERSION);
 
@@ -125,23 +119,6 @@ class PluginStorkmdmInstaller {
          }
 
          $this->createInitialConfig();
-
-         // Initialize plugin
-         // TODO : deprecated - install logic should be here now
-         foreach (self::$itemtypesToInstall as $itemtype) {
-            $className = "PluginStorkmdm" . $itemtype;
-            if (method_exists($className, 'install')) {
-               $className::install($this->migration);
-            }
-         }
-
-         foreach (self::$itemtypesToInstall as $itemtype) {
-            $className = "PluginStorkmdm" . $itemtype;
-            if (method_exists($className, 'post_install')) {
-               $className::post_install($this->migration);
-            }
-         }
-
       } else {
          if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0) ) {
             // TODO : Upgrade (or downgrade)
@@ -654,23 +631,6 @@ Regards,
     * @return boolean true (assume success, needs enhancement)
     */
    public function uninstall() {
-
-      // Load internal classes
-      require_once PLUGIN_STORKMDM_ROOT . '/inc/notifiable.class.php';
-
-      // load all classes
-      foreach (self::$itemtypesToInstall as $itemtype) {
-         require_once (PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php");
-      }
-
-      $itemToUninstallReversed = array_reverse(self::$itemtypesToInstall);
-      foreach ($itemToUninstallReversed as $itemtype) {
-         require_once (PLUGIN_STORKMDM_ROOT . "/inc/$itemtype.class.php");
-         $className = "PluginStorkmdm" . $itemtype;
-         if (method_exists($className, 'uninstall')) {
-            $className::uninstall();
-         }
-      }
       $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/storkmdm");
 
       $this->deleteRelations();
