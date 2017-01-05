@@ -71,7 +71,7 @@ class DemoAccountTest extends ApiRestTestCase
 
    public function expiredAccountProvider() {
       return [
-            'nearlyexpired'   => [
+            'expired'   => [
                   'name'      => 'expired@localhost.local',
                   'password'  => 'password',
                   'firstname' => 'is',
@@ -80,9 +80,9 @@ class DemoAccountTest extends ApiRestTestCase
       ];
    }
 
-   public function nearlyExpiredAccountProvider() {
+   public function toRemindAccountProvider() {
       return [
-            'active'      => [
+            'nearlyexpired'      => [
                   'name'      => 'nearlyexpired@localhost.local',
                   'password'  => 'password',
                   'firstname' => 'will',
@@ -96,7 +96,7 @@ class DemoAccountTest extends ApiRestTestCase
             $this->inactiveAccountProvider(),
             $this->activeAccountProvider(),
             $this->expiredAccountProvider(),
-            $this->nearlyExpiredAccountProvider()
+            $this->toRemindAccountProvider()
       );
    }
 
@@ -104,7 +104,7 @@ class DemoAccountTest extends ApiRestTestCase
       return array_merge(
             $this->activeAccountProvider(),
             $this->expiredAccountProvider(),
-            $this->nearlyExpiredAccountProvider()
+            $this->toRemindAccountProvider()
       );
    }
 
@@ -242,11 +242,11 @@ class DemoAccountTest extends ApiRestTestCase
    }
 
    /**
-    * @dataProvider nearlyExpiredAccountProvider
+    * @dataProvider toRemindAccountProvider
     * @depends testInitGetServiceSessionToken
     * @depends testCreateOtherDemoUsers
     */
-   public function testInitNearlyExpireOtherTrialAccounts($name, $password, $firstname, $realname, $sessionToken) {
+   public function testInitReachRemindDateForTrialAccounts($name, $password, $firstname, $realname, $sessionToken) {
       global $DB;
 
       $user = new User();
@@ -426,7 +426,7 @@ class DemoAccountTest extends ApiRestTestCase
     * @dataProvider inactiveAccountProvider
     * @depends testInitExpireNotActivatedAccount
     */
-   public function testDisableExpiredTrialAccounts($name, $password, $firstname, $realname) {
+   public function testCleanupNotActivatedAccounts($name, $password, $firstname, $realname) {
       $user = new User();
       $user->getFromDBbyName($name);
       $this->assertFalse($user->isNewItem());
@@ -442,7 +442,7 @@ class DemoAccountTest extends ApiRestTestCase
     * @dataProvider expiredAccountProvider
     * @depends testInitExpireOtherTrialAccounts
     */
-   public function testDeleteExpiredNotActivatedActivations($name, $password, $firstname, $realname) {
+   public function testDisableAccountsWithTrialOver($name, $password, $firstname, $realname) {
       $user = new User();
       $user->getFromDBbyName($name);
       $this->assertFalse($user->isNewItem());
@@ -456,10 +456,10 @@ class DemoAccountTest extends ApiRestTestCase
    }
 
    /**
-    * @dataProvider nearlyExpiredAccountProvider
-    * @depends testInitNearlyExpireOtherTrialAccounts
+    * @dataProvider toRemindAccountProvider
+    * @depends testInitReachRemindDateForTrialAccounts
     */
-   public function testRemindNearlyExpiredTrialAccount($name, $password, $firstname, $realname) {
+   public function testRemindActiveAccount($name, $password, $firstname, $realname) {
       $user = new User();
       $user->getFromDBbyName($name);
       $this->assertFalse($user->isNewItem());

@@ -382,20 +382,23 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
       $inactiveProfileId = $config['inactive_registered_profiles_id'];
       $profile_user = new Profile_User();
-      $profile_user->getFromDBByQuery("WHERE `users_id` = '$userId'
-                                      AND `entities_id` = '$entityId'
-                                      AND `profiles_id` = '$profileId'");
-      $profile_user2 = new Profile_User();
-      if ($profile_user2->add(array(
-            'users_id'     => $userId,
-            'profiles_id'  => $inactiveProfileId,
-            'entities_id'  => $entityId,
-            'is_recursive' => $profile_user->getField('is_recursive'),
-      ))) {
-         // If add succeeded, then delete active profile
-         $profile_user->delete(array(
-               'id'        => $profile_user->getID(),
-         ));
+      $profile_users = $profile_user->find("`entities_id` = '$entityId'
+                                     AND `profiles_id` = '$profileId'");
+      foreach ($profile_users as $profile_user) {
+         $userId = $profile_user['users_id'];
+         $profile_user2 = new Profile_User();
+         if ($profile_user2->add(array(
+               'users_id'     => $userId,
+               'profiles_id'  => $inactiveProfileId,
+               'entities_id'  => $entityId,
+               'is_recursive' => $profile_user['is_recursive'],
+         ))) {
+            // If add succeeded, then delete active profile
+            $oldProfile_user = new Profile_User();
+            $oldProfile_user->delete(array(
+                  'id'        => $profile_user['id'],
+            ));
+         }
       }
    }
 }
