@@ -8,13 +8,13 @@ php:
 
 env:
   global:
-    - FUSION_SOURCE=https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1
+    - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
   matrix:
-    - GLPI_SOURCE=https://github.com/flyve-mdm/glpi -b 9.1.1-backport
+    - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.1-backport"
 
 before_script:
   - git clone $GLPI_SOURCE ../glpi && cd ../glpi
-  - composer install --no-dev
+  - composer install
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/storkmdm
