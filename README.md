@@ -7,13 +7,34 @@ device management software.
 
 # Installation
 
+## General view of the infrastructure
+
+You need several servers to run Flyve MDM:
+* a server running Linux, Apache, Mysql/MariaDB and PHP (a LAMP server),
+* a server running Mosquitto,
+* a server running the web interface.
+
+## Installation overview
+
+Flyve MDM runs on GLPi 9.1.1 and later. It depends on inventory features of FusionInventory for GLPi. You need FusionInventory 9.1+1.0 or later. The version depends on the version of GLPi you're planning to setup.
+
+The general steps to properly configure the whole infrastructure are :
+* install GLPi
+* install FusionInventory and Flyve MDM plugin for GLPi
+* configure Flyve MDM plugin for GLPi
+* configure your DBMS
+* Install and configure Mosquitto
+* Install and configure the web application
+
 ## Dependencies
 
 This plugin is depends on GLPi, FusionInventory for GLPi and a some packages
 
-* Download GLPi 9.1.1 or later (please refer to its documentation)
+* Download our specific version of GLPi 9.1.1 (please refer to its documentation to install)
 * Download FusionInventory 9.1+1.0 for GLPi and put it in glpi/plugins/
 * Donwload Flyve MDM for GLPi and put it in glpi/plugins/
+
+You will probably ask why you need a specific version of GLPi. Flyve MDM relies on a rest API GLPi developed recently. Flyve MDM requires some improvements which are not in the latest stable relase of GLPi. The specific version of GLPi we provide is the latest stable version, with a few backports from the development versions, to satisfy our needs.
 
 You should have a directory structure like this :
 
@@ -75,6 +96,31 @@ External #1: Launch queuedmail
 * If a rule named **Computer constraint (name)** exists, then open it and disable it.
 
 Missing this will make FusionInventory reject inventories from devices.
+
+### Configuration of Flyve MDM for GLPi
+
+* Open **Configuration > Plugins**
+* Click on **Stork Mobile Device Management**
+
+* **mqtt broker address** is the public hostname or IP address of Mosquitto. It is sent to devices to tell them where is your Mosquitto server on the Internet. (*mandatory*).
+* **mqtt broker internal address** is the private hostname or IP address of Mosquitto. It is used to tell GLPi where is your Mosquitto server in your local network. (*mandatory*).
+* **mqtt broker port** is the port used by your mobile devices *and* GLPi (*mandatory*).
+* **use TLS** enables TLS communication for mobile devices *and* GLPi.
+* **CA certificate** is the certificate of an authority to verify the Mosquitto server.
+* **Cipher suite** is used to limit the ciphers used with TLS.
+
+* **use client certificates** (*not working yet*) is used to allow mobile devices to verify the Mosquitto server
+* **Ssl certificate server for MQTT clients** (*not working yet*) is a server which signs certificate requests of devices. This is for a future and stronger authentication method of devices with Mosquitto.
+
+* **Enable explicit enrolment failures** sends to devices the exact reason of an enrollment failure. For debug purpose only.
+* **Disable token expiration on successful enrolment** is to prevent a token to expire when a device successfully enrolls. For debug purpose only.
+
+* **Android bug collector URL** is the URL of a ACRA server. This server collects crash reports sent by Flyve MDM for Android.
+* **Android bug collector user** is the username used by devices when they send a crash report.
+* **Android bug collector password** is the password used by devices when they send a ccrash report.
+
+* **Default device limit per entity** is the maximum uantity of devices allowed in an entity. Designed for the demo mode, but might be useful to enhance security. 
+* **Service's User Token** is the token to put un config.js when setting up the web application.
 
 ### Security
 
