@@ -7,8 +7,10 @@ php:
   - '7.1'
 
 env:
-  - GLPI_SOURCE=https://github.com/flyve-mdm/glpi -b 9.1.1-backport
-  - FUSION_SOURCE=https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1
+  global:
+    - FUSION_SOURCE=https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1
+  matrix:
+    - GLPI_SOURCE=https://github.com/flyve-mdm/glpi -b 9.1.1-backport
 
 before_script:
   - git clone $GLPI_SOURCE ../glpi && cd ../glpi
