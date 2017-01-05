@@ -249,12 +249,18 @@ class PluginStorkmdmConfig extends CommonDBTM {
          }
       }
       if (isset($input['demo_mode'])) {
-         $user = new User();
-         if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-            $user->update(array(
-                  'id'        => $user->getID(),
-                  'is_active' => ($input['demo_mode'] == 0 ? 0 : 1)
-            ));
+         if ($input['demo_mode'] != '0'
+               && (!isset($input['webapp_url']) || empty($input['webapp_url']))) {
+            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'storkmdm', false, ERROR));
+            unset($input['demo_mode']);
+         } else {
+            $user = new User();
+            if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+               $user->update(array(
+                     'id'        => $user->getID(),
+                     'is_active' => ($input['demo_mode'] == 0 ? 0 : 1)
+               ));
+            }
          }
       }
       unset($input['_CACertificateFile']);
