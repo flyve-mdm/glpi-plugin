@@ -38,7 +38,8 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarget {
 
-   const EVENT_SELF_REGISTRATION = 'plugin_flyvemdm_self_registration';
+   const EVENT_SELF_REGISTRATION       = 'plugin_flyvemdm_self_registration';
+   const EVENT_TRIAL_EXPIRATION_REMIND = 'plugin_flyvemdm_trial_will_expire';
 
    /**
     *
@@ -74,7 +75,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
       $tagCollection = array(
             'storkmdm.registration_url'      => __('Account validation URL', 'storkmdm'),
             'storkmdm.webapp_url'            => __('URL to the web application', 'storkmdm'),
-            'storkmdm.activation_delay'  => __('Account activation delay', 'storkmdm'),
+            'storkmdm.activation_delay'      => __('Account activation delay', 'storkmdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -107,6 +108,9 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
             }
+            break;
+
+         case self::EVENT_TRIAL_EXPIRATION_REMIND:
             break;
       }
    }

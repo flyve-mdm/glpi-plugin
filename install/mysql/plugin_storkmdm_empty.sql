@@ -241,7 +241,9 @@ CREATE TABLE `glpi_plugin_storkmdm_accountvalidations` (
   `profiles_id`                       int(11)                  NOT NULL DEFAULT '0',
   `validation_pass`                   varchar(255)             NOT NULL DEFAULT '',
   `date_creation`                     datetime                 NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_mod`                          datetime                 NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_end_trial`                    datetime                 NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `is_trial_ended`                    tinyint(1)               NOT NULL DEFAULT '0',
+  `is_reminder_sent`                  tinyint(1)               NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

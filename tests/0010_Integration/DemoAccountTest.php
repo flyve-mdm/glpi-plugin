@@ -71,7 +71,7 @@ class DemoAccountTest extends ApiRestTestCase
 
    public function expiredAccountProvider() {
       return [
-            'active'      => [
+            'nearlyexpired'   => [
                   'name'      => 'expired@localhost.local',
                   'password'  => 'password',
                   'firstname' => 'is',
@@ -80,18 +80,31 @@ class DemoAccountTest extends ApiRestTestCase
       ];
    }
 
+   public function nearlyExpiredAccountProvider() {
+      return [
+            'active'      => [
+                  'name'      => 'nearlyexpired@localhost.local',
+                  'password'  => 'password',
+                  'firstname' => 'will',
+                  'realname'  => 'expire',
+            ],
+      ];
+   }
+
    public function allAccountsProvider() {
       return array_merge(
             $this->inactiveAccountProvider(),
             $this->activeAccountProvider(),
-            $this->expiredAccountProvider()
+            $this->expiredAccountProvider(),
+            $this->nearlyExpiredAccountProvider()
       );
    }
 
    public function activeAndExpiredAccountProvider() {
       return array_merge(
             $this->activeAccountProvider(),
-            $this->expiredAccountProvider()
+            $this->expiredAccountProvider(),
+            $this->nearlyExpiredAccountProvider()
       );
    }
 
@@ -190,8 +203,8 @@ class DemoAccountTest extends ApiRestTestCase
 
       $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
       $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
-            SET `date_creation` = '2016-01-01 00:00:00'
-            WHERE `users_id` = '$userId'"));
+                                        SET `date_creation` = '2016-01-01 00:00:00'
+                                        WHERE `users_id` = '$userId'"));
 
    }
 
@@ -224,8 +237,37 @@ class DemoAccountTest extends ApiRestTestCase
 
       $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
       $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
-                  SET `date_mod` = '2016-01-01 00:00:00'
-                  WHERE `users_id` = '$userId'"));
+                                        SET `date_end_trial` = '2016-01-01 00:00:00'
+                                        WHERE `users_id` = '$userId'"));
+   }
+
+   /**
+    * @dataProvider nearlyExpiredAccountProvider
+    * @depends testInitGetServiceSessionToken
+    * @depends testCreateOtherDemoUsers
+    */
+   public function testInitNearlyExpireOtherTrialAccounts($name, $password, $firstname, $realname, $sessionToken) {
+      global $DB;
+
+      $user = new User();
+      $this->assertTrue($user->getFromDBbyName($name));
+      $userId = $user->getID();
+
+      // Divide by 2 the reminder delay before expiration
+      $endOfTrialDatetime = new DateTime();
+      $remindDateTime = new DateTime();
+      $endOfTrialDatetime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_LIFETIME));
+      $remindDateTime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND));
+      $half = $endOfTrialDatetime->getTimestamp() - $remindDateTime->getTimestamp();
+      $half = (int) ($half / 2);
+      $expirationDateTime = new DateTime();
+      $expirationDateTime->add(new DateInterval('PT' . $half . 'S'));
+      $expirationDateTime = $expirationDateTime->format('Y-m-d H:i:s');
+
+      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
+             SET `date_end_trial` = '$expirationDateTime'
+             WHERE `users_id` = '$userId'"));
    }
 
    /**
@@ -411,6 +453,20 @@ class DemoAccountTest extends ApiRestTestCase
       $profiles = Profile_User::getUserProfiles($user->getID());
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
-       }
+   }
 
+   /**
+    * @dataProvider nearlyExpiredAccountProvider
+    * @depends testInitNearlyExpireOtherTrialAccounts
+    */
+   public function testRemindNearlyExpiredTrialAccount($name, $password, $firstname, $realname) {
+      $user = new User();
+      $user->getFromDBbyName($name);
+      $this->assertFalse($user->isNewItem());
+
+      CronTask::launch(-1, 1, 'RemindTrialExpiration');
+
+      $accountValidation = $this->getAccountValidation($user->getID());
+      $this->assertEquals('1', $accountValidation->getField('is_reminder_sent'));
+   }
 }

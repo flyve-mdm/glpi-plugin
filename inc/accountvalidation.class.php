@@ -40,16 +40,22 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 {
 
    /**
-    * Delay to activate an account
+    * Delay to activate an account; see DateInterval format
     * @var string
     */
    const ACTIVATION_DELAY = 'P1D';
 
    /**
-    * Trial duration
+    * Trial duration; see DateInterval format
     * @var string
     */
    const TRIAL_LIFETIME   = 'P90D';
+
+   /**
+    * delay after beginning of a trial to remind about the end; see DateInterval format
+    * @var string
+    */
+   const TRIAL_REMIND     = 'P83D';
 
    /**
     * Localized name of the type
@@ -119,12 +125,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       return $input;
    }
 
-   /**
-    *
-    * {@inheritDoc}
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
-   public function prepareInputForUpdate($input) {
+   public function validateForRegisteredUser($input) {
       if (!isset($input['_validate']) || empty($input['_validate'])) {
          Session::addMessageAfterRedirect(__('Validation token missing', 'storkmdm'));
          return false;
@@ -176,7 +177,30 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
 
-      $input['validation_pass'] = '';
+      $input['validation_pass']  = '';
+      $endTrialDateTime = $currentDateTime->add(new DateInterval(self::TRIAL_LIFETIME));
+      $input['date_end_trial'] = $endTrialDateTime->format('Y-m-d H:i:s');
+
+      return $input;
+   }
+
+   /**
+    *
+    * {@inheritDoc}
+    * @see CommonDBTM::prepareInputForUpdate()
+    */
+   public function prepareInputForUpdate($input) {
+
+      // Check the user is using the service profile
+      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $serviceProfileId = $config['service_profiles_id'];
+      if ($serviceProfileId === null) {
+         return false;
+      }
+
+      if ($_SESSION['glpiactiveprofile']['id'] == $serviceProfileId) {
+         return $this->validateForRegisteredUser($input);
+      }
 
       return $input;
    }
@@ -228,21 +252,52 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $task->log("Disable expired trial accounts");
 
       // Compute the oldest items to keep
-      $oldestAllowedItems = new DateTime($_SESSION["glpi_currenttime"]);
-      $dateInterval = new DateInterval(static::TRIAL_LIFETIME);
-      $oldestAllowedItems->sub($dateInterval);
-      $oldestAllowedItems = $oldestAllowedItems->format('Y-m-d H:i:s');
-
+      $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
+      $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
       $accountValidation = new static();
       $rows = $accountValidation->find("`validation_pass` = ''
-                                        AND (`date_mod` < '$oldestAllowedItems')",
+                                        AND (`date_end_trial` < '$currentDateTime')
+                                        AND `is_trial_ended` = '0'",
                                        '',
                                        '200');
 
       $volume = 0;
       foreach($rows as $id => $row) {
          $accountValidation->disableTrialAccount($row['users_id'], $row['profiles_id'], $row['assigned_entities_id']);
-         if ($accountValidation->delete(array('id' => $id))) {
+         if ($accountValidation->update(array('id' => $id, 'is_trial_ended' => '1'))) {
+            $volume++;
+         }
+      }
+
+      $task->setVolume($volume);
+
+      return 1;
+   }
+
+   public static function cronRemindTrialExpiration($task) {
+      $task->log("Remind the trial incoming expiration");
+
+      // Compute the oldest items to keep
+      $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
+      $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
+
+      $remindDateTime = new DateTime();
+      $remindDateTime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_LIFETIME));
+      $remindDateTime->sub(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND));
+      $remindDateTime = $remindDateTime->format('Y-m-d H:i:s');
+
+      // Find activated accoutns (no validation_pass)
+      $accountValidation = new static();
+      $rows = $accountValidation->find("`validation_pass` = ''
+                                        AND (`date_end_trial` > '$currentDateTime')
+                                        AND (`date_end_trial` < '$remindDateTime')
+                                        AND `is_reminder_sent` = '0'",
+                                       '',
+                                       '200');
+
+      $volume = 0;
+      foreach($rows as $id => $row) {
+         if ($accountValidation->update(array('id' => $id, 'is_reminder_sent' => '1'))) {
             $volume++;
          }
       }

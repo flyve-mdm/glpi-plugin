@@ -604,6 +604,12 @@ Regards,
                   'comment'   => __('Disable expired accounts (demo mode)', 'storkmdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
+
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'RemindTrialExpiration', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Remind imminent end of trial period (demo mode)', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
    }
 
    /**
