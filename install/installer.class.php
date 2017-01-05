@@ -1228,6 +1228,7 @@ Regards,
             PluginStorkmdmPolicy::getTable(),
             PluginStorkmdmPolicyCategory::getTable(),
             PluginStorkmdmWellknownpath::getTable(),
+            PluginStorkmdmAccountvalidation::getTable(),
       );
 
       foreach ($tables as $table) {
