@@ -20,13 +20,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
-------------------------------------------------------------------------------
-@author    Thierry Bugier Pineau
-@copyright Copyright (c) 2016 Flyve MDM plugin team
-@license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
-@link      https://github.com/flyvemdm/backend
-@link      http://www.glpi-project.org/
-------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------
+ @author    Thierry Bugier Pineau
+ @copyright Copyright (c) 2016 Flyve MDM plugin team
+ @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ @link      https://github.com/flyvemdm/backend
+ @link      http://www.glpi-project.org/
+ ------------------------------------------------------------------------------
 */
 
 if (!defined('GLPI_ROOT')) {
