@@ -55,7 +55,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * delay after beginning of a trial to remind about the end; see DateInterval format
     * @var string
     */
-   const TRIAL_REMIND     = 'P83D';
+   const TRIAL_REMIND     = 'P0D';
 
    /**
     * Localized name of the type
@@ -293,7 +293,6 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       // Find activated accoutns (no validation_pass)
       $accountValidation = new static();
       $rows = $accountValidation->find("`validation_pass` = ''
-                                        AND (`date_end_trial` > '$currentDateTime')
                                         AND (`date_end_trial` < '$remindDateTime')
                                         AND `is_reminder_sent` = '0'",
                                        '',
