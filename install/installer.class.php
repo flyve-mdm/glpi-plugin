@@ -508,7 +508,36 @@ After activation of your account, please login here\n\n
 Regards,
 
 ', 'storkmdm')
+            ),
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('End of trial reminder', "storkmdm"),
+                  'subject'         => __('Your Flyve MDM trial will end soon', 'storkmdm'),
+                  'content_text'    => __('Hi,\n\n
+
+Hi,\n\n
+
+You created an account on the demo platform of Flyve MDM recently. Your trial period will end soon.\n\n
+
+We hope you enjoyed Flyve MDM. If you want to use it, please contact us at contact@teclib.com.\n\n
+
+
+Regards,
+
+', 'storkmdm'),
+                  'content_html'    => __('Hi,\n\n
+
+Hi,\n\n
+
+You created an account on the demo platform of Flyve MDM recently. Your trial period will end soon.\n\n
+
+We hope you enjoyed Flyve MDM. If you want to use it, please contact us at <a href="mailto:contact@teclib.com">contact@teclib.com</a>.\n\n
+
+Regards,
+
+', 'storkmdm')
             )
+
       );
    }
 

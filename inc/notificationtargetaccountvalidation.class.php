@@ -76,6 +76,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             'storkmdm.registration_url'      => __('Account validation URL', 'storkmdm'),
             'storkmdm.webapp_url'            => __('URL to the web application', 'storkmdm'),
             'storkmdm.activation_delay'      => __('Account activation delay', 'storkmdm'),
+            'storkmdm.trial_duration'        => __('Duration of a trial account', 'storkmdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -99,14 +100,20 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $accountValidationId = $accountValidation->getID();
                $validationToken = $accountValidation->getField('validation_pass');
                $validationUrl = $config['webapp_url'] . "?id=$accountValidationId&validate=$validationToken";
+
                $activationDelay = new DateInterval($accountValidation->getActivationDelay());
                $activationDelay = $activationDelay->format('%d');
                $activationDelay.= " " . _n('day', 'days', $activationDelay, 'storkmdm');
+
+               $trialDuration = new DateInterval($accountValidation->getTrialDuration());
+               $trialDuration = $trialDuration->format('%d');
+               $trialDuration.= " " . _n('day', 'days', $trialDuration, 'storkmdm');
 
                // Fill the template
                $event->datas['##storkmdm.registration_url##'] = $validationUrl;
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
+               $event->datas['##storkmdm.activation_delay##'] = $trialDuration;
             }
             break;
 

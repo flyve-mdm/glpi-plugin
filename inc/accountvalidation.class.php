@@ -95,6 +95,10 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       return static::ACTIVATION_DELAY;
    }
 
+   public function getTrialDuration() {
+      return static::TRIAL_LIFETIME;
+   }
+
    /**
     *
     * {@inheritDoc}
@@ -297,6 +301,10 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
       $volume = 0;
       foreach($rows as $id => $row) {
+         NotificationEvent::raiseEvent(
+               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND,
+               $accountValidation
+         );
          if ($accountValidation->update(array('id' => $id, 'is_reminder_sent' => '1'))) {
             $volume++;
          }
