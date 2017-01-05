@@ -301,9 +301,12 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
       $volume = 0;
       foreach($rows as $id => $row) {
+         $accountValidation = new static();
+         $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
                PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND,
-               $accountValidation
+               $accountValidation,
+               array('entities_id' => $accountValidation->getField('assigned_entities_id'))
          );
          if ($accountValidation->update(array('id' => $id, 'is_reminder_sent' => '1'))) {
             $volume++;
