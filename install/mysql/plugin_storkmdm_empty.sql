@@ -230,3 +230,18 @@ CREATE TABLE `glpi_plugin_storkmdm_invitationlogs` (
   PRIMARY KEY (`id`),
   INDEX `status` (`date_creation`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+-- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_accountvalidations
+DROP TABLE IF EXISTS `glpi_plugin_storkmdm_accountvalidations`;
+CREATE TABLE `glpi_plugin_storkmdm_accountvalidations` (
+  `id`                                int(11)                  NOT NULL AUTO_INCREMENT,
+  `users_id`                          int(11)                  NOT NULL DEFAULT '0',
+  `assigned_entities_id`              int(11)                  NOT NULL DEFAULT '0',
+  `profiles_id`                       int(11)                  NOT NULL DEFAULT '0',
+  `validation_pass`                   varchar(255)             NOT NULL DEFAULT '',
+  `date_creation`                     datetime                 NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_mod`                          datetime                 NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+

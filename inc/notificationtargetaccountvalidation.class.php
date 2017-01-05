@@ -27,18 +27,27 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
 /**
- * @since 0.1.0
+ * @since 0.1.33
  */
-class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
+class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarget {
 
-   const EVENT_GUEST_INVITATION = 'plugin_storkmdm_invitation';
+   const EVENT_SELF_REGISTRATION = 'plugin_flyvemdm_self_registration';
+
+   /**
+    *
+    * @param number $nb
+    * @return translated
+    */
+   static function getTypeName($nb=0) {
+      return _n('Account validation', 'Account validations', $nb);
+   }
 
    /**
     * Define plugins notification events
@@ -46,7 +55,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public function getEvents() {
       return array(
-            self::EVENT_GUEST_INVITATION => __('Invitation', 'storkmdm')
+            self::EVENT_SELF_REGISTRATION => __('User registration', 'storkmdm')
       );
    }
 
@@ -55,7 +64,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public static function addEvents($target) {
          Plugin::loadLang('storkmdm');
-         $target->events[self::EVENT_GUEST_INVITATION] = __('Invitation', 'storkmdm');
+         $target->events[self::EVENT_SELF_REGISTRATION] = __('User registration', 'storkmdm');
    }
 
    /**
@@ -63,8 +72,9 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public function getTags() {
       $tagCollection = array(
-         'storkmdm.download_app'    => __('Link to download the StorkMDM Android application', 'storkmdm'),
-         'storkmdm.qrcode'          => __('Enroll QRCode', 'storkmdm'),
+            'storkmdm.registration_url'      => __('Account validation URL', 'storkmdm'),
+            'storkmdm.webapp_url'            => __('URL to the web application', 'storkmdm'),
+            'storkmdm.activation_delay'  => __('Account activation delay', 'storkmdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -81,21 +91,21 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
       switch ($event->raiseevent) {
-         case self::EVENT_GUEST_INVITATION:
+         case self::EVENT_SELF_REGISTRATION:
+            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
             if (isset($event->obj)) {
-               $invitation = $event->obj;
-
-               // Get the document containing the QR code
-               $document = new Document();
-               $document->getFromDB($invitation->getField('documents_id'));
+               $accountValidation = $event->obj;
+               $accountValidationId = $accountValidation->getID();
+               $validationToken = $accountValidation->getField('validation_pass');
+               $validationUrl = $config['webapp_url'] . "?id=$accountValidationId&validate=$validationToken";
+               $activationDelay = new DateInterval($accountValidation->getActivationDelay());
+               $activationDelay = $activationDelay->format('%d');
+               $activationDelay.= " " . _n('day', 'days', $activationDelay, 'storkmdm');
 
                // Fill the template
-               $event->datas['##storkmdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->datas['##storkmdm.enroll_url##'] = '(not implemented)';
-               $event->obj->documents = array($document->getID());
-               $entityConfig = new PluginStorkmdmEntityconfig();
-               $entityConfig->getFromDB($event->obj->getField('entities_id'));
-               $event->datas['##storkmdm.download_app##'] = $entityConfig->getField('download_url');
+               $event->datas['##storkmdm.registration_url##'] = $validationUrl;
+               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
+               $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
             }
             break;
       }
@@ -109,7 +119,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     * @param $entity the entity on which the event is raised
     */
    public function getNotificationTargets($entity) {
-      $this->addTarget(Notification::USER, __('Guest user', 'storkmdm'));
+      $this->addTarget(Notification::USER, __('Registered user', 'storkmdm'));
    }
 
    /**
@@ -120,8 +130,8 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
    public function getSpecificTargets($data, $options) {
       if ($data['type'] == Notification::USER_TYPE) {
          switch ($data['items_id']) {
-            case Notification::USER :
-               if ($this->obj->getType() == 'PluginStorkmdmInvitation') {
+            case Notification::USER:
+               if ($this->obj->getType() == 'PluginStorkmdmAccountvalidation') {
                   $this->addToAddressesList([
                         'users_id' => $this->obj->getField('users_id')
                   ]);
