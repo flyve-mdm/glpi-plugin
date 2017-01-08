@@ -18,11 +18,11 @@ before_script:
   - composer install
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone $FUSION_SOURCE plugins/fusioninventory
-  - cd plugins/fusioninventory
-  - git apply --check  ../storkmdm/tests/patches/fi_version-check.patch && git apply ../storkmdm/tests/patches/fi_version-check.patch
-  - cd ../..
   - mv ../flyve-mdm-glpi plugins/storkmdm
   - cd plugins/storkmdm && composer install
+  - cd ../..
+  - cd plugins/fusioninventory
+  - git apply --check  ../storkmdm/tests/patches/fi_version-check.patch && git apply ../storkmdm/tests/patches/fi_version-check.patch
   - cd ../..
 
 script:
