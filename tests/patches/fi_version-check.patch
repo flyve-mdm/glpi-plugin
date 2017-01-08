@@ -1,0 +1,27 @@
+From d4c0a8e002fda09a0a64d8409a619466974096f6 Mon Sep 17 00:00:00 2001
+From: dethegeek <dethegeek@workstation-01.intra.dethegeek.eu.org>
+Date: Sun, 8 Jan 2017 17:41:49 +0100
+Subject: [PATCH] unlock version check
+
+---
+ setup.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/setup.php b/setup.php
+index 512fa5786..a8470c78d 100644
+--- a/setup.php
++++ b/setup.php
+@@ -513,8 +513,8 @@ function plugin_fusioninventory_check_prerequisites() {
+       $_SESSION['glpi_plugins'] = array();
+    }
+ 
+-   if (version_compare(GLPI_VERSION, '9.1.1', 'lt') || version_compare(GLPI_VERSION, '9.2', 'ge')) {
+-      echo __('Your GLPI version not compatible, require >= 9.1.1 and < 9.2', 'fusioninventory');
++   if (version_compare(GLPI_VERSION, '9.1.1', 'lt') || version_compare(GLPI_VERSION, '9.3', 'ge')) {
++      echo __('Your GLPI version not compatible, require >= 9.1.1 and < 9.3', 'fusioninventory');
+       return FALSE;
+    }
+ 
+-- 
+2.11.0
+
