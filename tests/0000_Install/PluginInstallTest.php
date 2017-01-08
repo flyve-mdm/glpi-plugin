@@ -36,11 +36,11 @@ class PluginInstallTest extends SuperAdminTestCase
       // Do not run parent::setupBeforeClass()
    }
 
-   public function setUp() {
-      parent::setUp();
-      self::setupGLPIFramework();
-      self::login('glpi', 'glpi', true);
-   }
+//    public function setUp() {
+//       parent::setUp();
+//       self::setupGLPIFramework();
+//       self::login('glpi', 'glpi', true);
+//    }
 
    public function testInstallPlugin() {
       global $DB;
