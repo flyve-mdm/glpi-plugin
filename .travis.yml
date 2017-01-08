@@ -5,13 +5,24 @@ php:
   - '5.6'
   - '7.0'
 
+env:
+  global:
+    - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
+  matrix:
+    - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.1-backport"
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.1/bugfixes"
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master"
+
 before_script:
-  - git clone https://github.com/glpi-project/glpi -b 9.1.1 ../glpi && cd ../glpi
-  - composer install --no-dev
+  - git clone $GLPI_SOURCE ../glpi && cd ../glpi
+  - composer install
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
-  - mkdir plugins/fusioninventory && git clone https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.0 plugins/fusioninventory
+  - mkdir plugins/fusioninventory && git clone $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/storkmdm
   - cd plugins/storkmdm && composer install
+  - cd ../..
+  - cd plugins/fusioninventory
+  - git apply --check  ../storkmdm/tests/patches/fi_version-check.patch && git apply ../storkmdm/tests/patches/fi_version-check.patch
   - cd ../..
 
 script:

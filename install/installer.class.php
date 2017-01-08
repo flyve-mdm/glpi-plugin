@@ -172,10 +172,10 @@ class PluginStorkmdmInstaller {
    public function createDirectories() {
       if (! file_exists(STORKMDM_PACKAGE_PATH)) {
          if (! mkdir(STORKMDM_PACKAGE_PATH, 0770, true)) {
-            $this->migration->displayWarning("Cannot create " . STORKMDM_PACKAGE_PATH . " directory");
+            $this->migration->displayWarning("Cannot create " . STORKMDM_PACKAGE_PATH . " directory\n");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_PACKAGE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
             } else {
                // TODO : echo and flush a success message for this operation
@@ -188,7 +188,7 @@ class PluginStorkmdmInstaller {
             $this->migration->displayWarning("Cannot create " . STORKMDM_FILE_PATH . " directory");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_FILE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
             } else {
                // TODO : echo and flush a success message for this operation
@@ -353,7 +353,6 @@ class PluginStorkmdmInstaller {
                'password'        => '42',
                'personal_token'  => User::getUniquePersonalToken(),
                '_profiles_id'    => $profile->getID(),
-               'language'        => $_SESSION['glpilanguage']     // Propagate language preference to service account
          ])) {
             die ('Could not create the service account');
          }

@@ -142,7 +142,9 @@ class PluginStorkmdmPolicyFileDeploymentTest extends SuperAdminTestCase {
             'destination'        => $data,
             'remove_on_delete'   => 0,
       ), JSON_UNESCAPED_SLASHES);
-      $success = $policy->integrityCheck($value, $item->getType(), $item->getId());
+      $itemtype = $item->getType();
+      $itemId = $item->getId();
+      $success = $policy->integrityCheck($value, $item->getType(), $itemId);
    }
 
 }
