@@ -115,7 +115,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $event->datas['##storkmdm.registration_url##'] = $validationUrl;
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
-               $event->datas['##storkmdm.activation_delay##'] = $trialDuration;
+               $event->datas['##storkmdm.trial_duration##'] = $trialDuration;
             }
             break;
 
