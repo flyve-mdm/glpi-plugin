@@ -254,12 +254,13 @@ class PluginStorkmdmConfig extends CommonDBTM {
             Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'storkmdm', false, ERROR));
             unset($input['demo_mode']);
          } else {
-            $user = new User();
-            if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-               $user->update(array(
-                     'id'        => $user->getID(),
-                     'is_active' => ($input['demo_mode'] == 0 ? 0 : 1)
-               ));
+            $config = new static();
+            if ($input['demo_mode'] == 0) {
+               $config->resetDemoNotificationSignature();
+               $config->disableDemoAccountService();
+            } else {
+               $config->setDemoNotificationSignature();
+               $config->enableDemoAccountService();
             }
          }
       }
@@ -284,4 +285,37 @@ class PluginStorkmdmConfig extends CommonDBTM {
       }
       return $fields;
    }
+
+   protected function setDemoNotificationSignature() {
+      $config = Config::setConfigurationValues('core', [
+            'mailing_signature' => '',
+      ]);
+   }
+
+   protected function resetDemoNotificationSignature() {
+      $config = Config::setConfigurationValues('core', [
+            'mailing_signature' => 'SIGNATURE',
+      ]);
+   }
+
+   protected function enableDemoAccountService() {
+      $user = new User();
+      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+         $user->update(array(
+               'id'        => $user->getID(),
+               'is_active' => 1
+         ));
+      }
+   }
+
+   protected function disableDemoAccountService() {
+      $user = new User();
+      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+         $user->update(array(
+               'id'        => $user->getID(),
+               'is_active' => 1
+         ));
+      }
+   }
+
 }

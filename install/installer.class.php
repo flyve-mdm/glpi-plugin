@@ -33,8 +33,6 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-//use ApkParser\Config;
-
 /**
  *
  * @author tbugier
@@ -48,6 +46,14 @@ class PluginStorkmdmInstaller {
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
    const BACKEND_MQTT_USER = 'storkmdm-backend';
+
+   const FLYVE_MDM_PRODUCT_WEBSITE = 'www.flyve-mdm.com';
+
+   const FLYVE_MDM_PRODUCT_GOOGLEPLUS = 'https://plus.google.com/collection/c32TsB';
+
+   const FLYVE_MDM_PRODUCT_TWITTER = 'https://twitter.com/FlyveMDM';
+
+   const FLYVE_MDM_PRODUCT_FACEBOOK = 'https://www.facebook.com/Flyve-MDM-1625450937768377/';
 
    // Order of this array is mandatory due tu dependancies on install and uninstall
    protected static $itemtypesToInstall = array(
@@ -474,42 +480,42 @@ Regards,
                   'itemtype'        => PluginStorkmdmAccountvalidation::class,
                   'name'            => __('Self registration', "storkmdm"),
                   'subject'         => __('Please, activate your Flyve MDM account', 'storkmdm'),
-                  'content_text'    => __('Hi,\n\n
+                  'content_text'    => __('Hi there,
 
-You or someone else created an account on Flyve MDM with your email address.\n\n
+You or someone else created an account on Flyve MDM with your email address.
 
-If you did not created an account, please ignore this email.\n\n
+If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an acount, please activate it with the link below. It is active for ##storkmdm.activation_delay##.\n\n
+If you created an acount, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
 
-##storkmdm.registration_url##\n\n
+##storkmdm.registration_url##
 
-After activation of your account, please login here\n\n
+After activating your account, please login and enjoy Flyve MDM for ##storkmdm.trial_duration## days, entering :
 
-##storkmdm.webapp_url##\n\n
+##storkmdm.webapp_url##
 
 Regards,
 
 ', 'storkmdm'),
-                  'content_html'    => __('Hi,\n\n
+                  'content_html'    => __('Hi there,
 
-You or someone else created an account on Flyve MDM with your email address.\n\n
+You or someone else created an account on Flyve MDM with your email address.
 
-If you did not created an account, please ignore this email.\n\n
+If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an acount, please activate it with the link below. It is active for ##storkmdm.activation_delay##.\n\n
+If you created an acount, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
 
-##storkmdm.registration_url##\n\n
+<a href="##storkmdm.registration_url##">##storkmdm.registration_url##</a>
 
-After activation of your account, please login here\n\n
+After activating your account, please login and <span style="text-weight: bold">enjoy Flyve MDM for ##storkmdm.trial_duration## days</span>, entering :
 
-##storkmdm.webapp_url##\n\n
+##storkmdm.webapp_url##
 
 Regards,
 
 ', 'storkmdm')
             ),
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND => array(
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1 => array(
                   'itemtype'        => PluginStorkmdmAccountvalidation::class,
                   'name'            => __('End of trial reminder', "storkmdm"),
                   'subject'         => __('Your Flyve MDM trial will end soon', 'storkmdm'),
@@ -1303,5 +1309,34 @@ Regards,
       // To cleanup display preferences if any
       //$displayPreference = new DisplayPreference();
       //$displayPreference->deleteByCriteria(array("`num` >= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MIN . " AND `num` <= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MAX));
+   }
+
+   protected function getHTMLMailingSignature() {
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature.= '<a src="' . FLYVE_MDM_PRODUCT_WEBSITE . ">" . FLYVE_MDM_PRODUCT_WEBSITE . "</a>\n";
+      $signature.= FLYVE_MDM_PRODUCT_FACEBOOK . " | " . FLYVE_MDM_PRODUCT_GOOGLEPLUS . " | " . FLYVE_MDM_PRODUCT_TWITTER. "\n";
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $signature;
+   }
+
+   protected function getTextMailingSignature() {
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature.= FLYVE_MDM_PRODUCT_WEBSITE . "\n";
+      $signature.= FLYVE_MDM_PRODUCT_FACEBOOK . " | " . FLYVE_MDM_PRODUCT_GOOGLEPLUS . " | " . FLYVE_MDM_PRODUCT_TWITTER. "\n";
+
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $signature;
    }
 }

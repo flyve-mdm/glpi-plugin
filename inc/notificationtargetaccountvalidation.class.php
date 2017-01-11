@@ -38,8 +38,10 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarget {
 
-   const EVENT_SELF_REGISTRATION       = 'plugin_flyvemdm_self_registration';
-   const EVENT_TRIAL_EXPIRATION_REMIND = 'plugin_flyvemdm_trial_will_expire';
+   const EVENT_SELF_REGISTRATION          = 'plugin_flyvemdm_self_registration';
+   const EVENT_TRIAL_BEGIN                = 'plugin_flyvemdm_trial_begin';
+   const EVENT_TRIAL_EXPIRATION_REMIND_1  = 'plugin_flyvemdm_trial_remind_1';
+   const EVENT_TRIAL_EXPIRATION_REMIND_2  = 'plugin_flyvemdm_trial_remind_2';
 
    /**
     *

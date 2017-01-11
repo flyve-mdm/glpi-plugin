@@ -257,7 +257,7 @@ class DemoAccountTest extends ApiRestTestCase
       $endOfTrialDatetime = new DateTime();
       $remindDateTime = new DateTime();
       $endOfTrialDatetime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_LIFETIME));
-      $remindDateTime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND));
+      $remindDateTime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND_1));
       $half = $endOfTrialDatetime->getTimestamp() - $remindDateTime->getTimestamp();
       $half = (int) ($half / 2);
       $expirationDateTime = new DateTime();
@@ -467,6 +467,6 @@ class DemoAccountTest extends ApiRestTestCase
       CronTask::launch(-1, 1, 'RemindTrialExpiration');
 
       $accountValidation = $this->getAccountValidation($user->getID());
-      $this->assertEquals('1', $accountValidation->getField('is_reminder_sent'));
+      $this->assertEquals('1', $accountValidation->getField('is_reminder_1_sent'));
    }
 }
