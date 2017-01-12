@@ -227,12 +227,12 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history = 1) {
-      if (isset($this->updates['validation_pass']) && $this->updates['validation_pass'] == '') {
+      if (array_search('validation_pass', $this->updates) !== false) {
          // Trial begins
          NotificationEvent::raiseEvent(
-               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND,
-               $accountValidation,
-               array('entities_id' => $accountValidation->getField('assigned_entities_id'))
+               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN,
+               $this,
+               array('entities_id' => $this->getField('assigned_entities_id'))
          );
       }
    }
@@ -309,19 +309,23 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
    public static function cronRemindTrialExpiration($task) {
       $task->log("Remind the trial incoming expiration");
 
-      // Compute the oldest items to keep
+      // Compute the dates for all reminders
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
       $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
 
       $remindDateTime_1 = new DateTime();
-      $remindDateTime_1->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_LIFETIME));
+      $remindDateTime_1->add(new DateInterval(self::TRIAL_LIFETIME));
       $remindDateTime_2 = clone $remindDateTime_1;
 
-      $remindDateTime_1->sub(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND_1));
+      $remindDateTime_1->sub(new DateInterval(self::TRIAL_REMIND_1));
       $remindDateTime_1 = $remindDateTime_1->format('Y-m-d H:i:s');
 
-      $remindDateTime_2->sub(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND_2));
+      $remindDateTime_2->sub(new DateInterval(self::TRIAL_REMIND_2));
       $remindDateTime_2 = $remindDateTime_2->format('Y-m-d H:i:s');
+
+      $remindDateTime_3 = new DateTime();
+      $remindDateTime_3->sub(new DateInterval(self::TRIAL_POST_REMIND));
+      $remindDateTime_3 = $remindDateTime_3->format('Y-m-d H:i:s');
 
       // Find activated accoutns (no validation_pass)
       $accountValidation = new static();
@@ -359,8 +363,27 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2,
                $accountValidation,
                array('entities_id' => $accountValidation->getField('assigned_entities_id'))
-               );
+         );
          if ($accountValidation->update(array('id' => $id, 'is_reminder_2_sent' => '1'))) {
+            $volume++;
+         }
+      }
+
+      // Process post expiration reminder
+      $rows = $accountValidation->find("`validation_pass` = ''
+                                        AND (`date_end_trial` < '$remindDateTime_3')
+                                        AND `is_post_reminder_sent` = '0'",
+                                        '',
+                                        '100');
+      foreach($rows as $id => $row) {
+         $accountValidation = new static();
+         $accountValidation->getFromDB($id);
+         NotificationEvent::raiseEvent(
+               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND,
+               $accountValidation,
+               array('entities_id' => $accountValidation->getField('assigned_entities_id'))
+         );
+         if ($accountValidation->update(array('id' => $id, 'is_post_reminder_sent' => '1'))) {
             $volume++;
          }
       }

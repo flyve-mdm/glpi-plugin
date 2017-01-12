@@ -42,6 +42,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
    const EVENT_TRIAL_BEGIN                = 'plugin_flyvemdm_trial_begin';
    const EVENT_TRIAL_EXPIRATION_REMIND_1  = 'plugin_flyvemdm_trial_remind_1';
    const EVENT_TRIAL_EXPIRATION_REMIND_2  = 'plugin_flyvemdm_trial_remind_2';
+   const EVENT_POST_TRIAL_REMIND          = 'plugin_flyvemdm_post_trial';
 
    /**
     *
@@ -79,6 +80,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             'storkmdm.webapp_url'            => __('URL to the web application', 'storkmdm'),
             'storkmdm.activation_delay'      => __('Account activation delay', 'storkmdm'),
             'storkmdm.trial_duration'        => __('Duration of a trial account', 'storkmdm'),
+            'storkmdm.days_remaining'        => __('Trial days remaining', 'storkmdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -87,6 +89,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                'value'  => true,
                'events' => NotificationTarget::TAG_FOR_ALL_EVENTS));
       }
+
    }
 
    /**
@@ -119,8 +122,34 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             }
             break;
 
-         case self::EVENT_TRIAL_EXPIRATION_REMIND:
+         case self::EVENT_TRIAL_BEGIN:
+            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
+            if (isset($event->obj)) {
+               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
+            }
             break;
+
+         case self::EVENT_TRIAL_EXPIRATION_REMIND_1:
+         case self::EVENT_TRIAL_EXPIRATION_REMIND_2:
+            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
+            if (isset($event->obj)) {
+               $accountValidation = $event->obj;
+
+               $nowDateTime = new DateTime();
+               $endOfTrial  = new Datetime($accountValidation->getField('date_end_trial'));
+               $delay = $endOfTrial->diff($nowDateTime);
+               $delay = $delay->format('%a');
+               $delay.= " " . _n('day', 'days', $delay, 'storkmdm');
+               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
+               $event->datas['##storkmdm.days_remaining##'] = $delay;
+            }
+            break;
+
+         case self::EVENT_POST_TRIAL_REMIND:
+            if (isset($event->obj)) {
+               $accountValidation = $event->obj;
+
+            }
       }
    }
 
