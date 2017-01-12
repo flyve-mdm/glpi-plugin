@@ -151,7 +151,7 @@ function plugin_version_storkmdm() {
    return array ('name'           => __s('Stork Mobile Device Management', "storkmdm"),
          'version'        => PLUGIN_STORKMDM_VERSION,
          'author'         => $author,
-         'license'        => 'GPLv2+',
+         'license'        => 'AGPLv3+',
          'homepage'       => '',
          'minGlpiVersion' => PLUGIN_STORKMDM_GLPI_MIN_VERSION);
 }
