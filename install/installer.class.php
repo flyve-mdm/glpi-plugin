@@ -377,7 +377,8 @@ class PluginStorkmdmInstaller {
                'password'        => '42',
                'personal_token'  => User::getUniquePersonalToken(),
                '_profiles_id'    => $profile->getID(),
-               'language'        => $_SESSION['glpilanguage']     // Propagate language preference to service account
+               'language'        => $_SESSION['glpilanguage'], // Propagate language preference to service account
+               'is_active'       => '0',
          ])) {
             die ('Could not create the service account');
          }
