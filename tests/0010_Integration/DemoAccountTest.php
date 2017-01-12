@@ -200,13 +200,32 @@ class DemoAccountTest extends ApiRestTestCase
    /**
     * @depends testInitGetServiceSessionToken
     */
-   public function testCreateDemoUserWithInvalidePassword($sessionToken) {
+   public function testCreateDemoUserWithInvalidPassword($sessionToken) {
       $headers = ['Session-Token' => $sessionToken];
       $body = json_encode([
             'input'     => [
                   'name'      => 'registereduser@localhost.local',
                   'password'  => 'short',
                   'password2' => 'short',
+                  'firstname' => 'test',
+                  'realname'  => 'test',
+            ],
+      ]);
+      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+   }
+
+   /**
+    * @depends testInitGetServiceSessionToken
+    */
+   public function testCreateDemoUserWithInvalidRetypedPassword($sessionToken) {
+      $headers = ['Session-Token' => $sessionToken];
+      $body = json_encode([
+            'input'     => [
+                  'name'      => 'registereduser@localhost.local',
+                  'password'  => 'password',
+                  'password2' => 'passworD',
                   'firstname' => 'test',
                   'realname'  => 'test',
             ],

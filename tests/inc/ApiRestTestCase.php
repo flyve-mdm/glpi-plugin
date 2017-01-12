@@ -164,6 +164,7 @@ class ApiRestTestCase extends CommonTestCase {
       //Restart a session if previously closed by the API
       if (session_status() != PHP_SESSION_ACTIVE) {
          session_start();
+         //$_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
       }
    }
 }
