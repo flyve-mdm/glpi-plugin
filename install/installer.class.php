@@ -504,7 +504,7 @@ You or someone else created an account on Flyve MDM with your email address.
 
 If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an acount, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
 
 ##storkmdm.registration_url##
 
@@ -521,7 +521,7 @@ You or someone else created an account on Flyve MDM with your email address.
 
 If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an acount, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
 
 <a href="##storkmdm.registration_url##">##storkmdm.registration_url##</a>
 
@@ -548,9 +548,9 @@ To use it during your 90 days trial, sign in to ##storkmdm.webapp_url##, with yo
 
 We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to contact@flyve-mdm.com!
 
-Ready to upgrade?
+You want to upgrade?
 
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
+You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: sales@flyve-mdm.com!
 
 Regards,
 
@@ -566,9 +566,9 @@ To use it during your 90 days trial, sign in to <a href="##storkmdm.webapp_url##
 
 We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to <a href="contact@flyve-mdm.com">contact@flyve-mdm.com</a>!
 
-<span style="font-weight: bold;">Ready to upgrade?</span>
+<span style="font-weight: bold;">You want to upgrade?</span>
 
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
+You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
 
 Regards,
 
@@ -642,9 +642,10 @@ The trial period for Flyve MDM has ended!
 
 We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
 
-Ready to upgrade?
+Upgrade to the next level!
 
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
+Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
+Email us at: sales@flyve-mdm.com, we will be happy to hear from you!
 
 Regards,
 
@@ -655,9 +656,10 @@ Regards,
 
 We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
 
-<span style="font-weight: bold;">Ready to upgrade?</span>
+<span style="font-weight: bold;">Upgrade to the next level!</span>
 
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
+Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
+Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>, we will be happy to hear from you!
 
 Regards,
 

@@ -154,7 +154,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       // Create subdirectories for aplications and files
       $packagesDir = STORKMDM_PACKAGE_PATH . "/" . $item->getID();
       if (!is_dir($packagesDir) && !is_readable($packagesDir)) {
-         if (! @mkdir($packagesDir, 0770)) {
+         if (! @mkdir($packagesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $packagesDir");
             // TODO : handle error here
          }
@@ -162,7 +162,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
 
       $filesDir = STORKMDM_FILE_PATH . "/" . $item->getID();
       if (!is_dir($filesDir) && !is_readable($filesDir)) {
-         if (! @mkdir($filesDir, 0770)) {
+         if (! @mkdir($filesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $filesDir");
             // TODO : handle error here
          }

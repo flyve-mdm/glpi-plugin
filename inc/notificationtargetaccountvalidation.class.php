@@ -135,10 +135,11 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             if (isset($event->obj)) {
                $accountValidation = $event->obj;
 
-               $nowDateTime = new DateTime();
-               $endOfTrial  = new Datetime($accountValidation->getField('date_end_trial'));
-               $delay = $endOfTrial->diff($nowDateTime);
-               $delay = $delay->format('%a');
+               if ($event->raiseevent == self::EVENT_TRIAL_EXPIRATION_REMIND_1) {
+                  $delay = PluginStorkmdmAccountvalidation::TRIAL_REMIND_1;
+               } else {
+                  $delay = PluginStorkmdmAccountvalidation::TRIAL_REMIND_2;
+               }
                $delay.= " " . _n('day', 'days', $delay, 'storkmdm');
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.days_remaining##'] = $delay;

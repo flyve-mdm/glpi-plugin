@@ -30,7 +30,7 @@
 */
 
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
-global $CFG_GLPI;
+global $CFG_GLPI, $PLUGIN_HOOKS, $_CFG_GLPI;
 
 class UnitTestAutoload
 {

@@ -43,6 +43,13 @@ class DemoAccountTest extends ApiRestTestCase
             'webapp_url'   => 'https://localhost',
       ]);
 
+      $user = new User();
+      $user->getFromDBbyName(PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME);
+      $user->update([
+            'id'           => $user->getID(),
+            'is_active'    => '1',
+      ]);
+
       self::$registeredUser = 'johndoe@localhost.local';
       self::$registeredPass = 'password';
    }
@@ -137,6 +144,81 @@ class DemoAccountTest extends ApiRestTestCase
    /**
     * @depends testInitGetServiceSessionToken
     */
+   public function testCreateDemoUserWithInvalideEmail($sessionToken) {
+      $headers = ['Session-Token' => $sessionToken];
+      $body = json_encode([
+            'input'     => [
+                  'name'      => 'invalidemail',
+                  'password'  => 'password',
+                  'password2' => 'password',
+                  'firstname' => 'test',
+                  'realname'  => 'test',
+            ],
+      ]);
+      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+   }
+
+   /**
+    * @depends testInitGetServiceSessionToken
+    */
+   public function testCreateUser($sessionToken) {
+      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+
+      $headers = ['Session-Token' => $sessionToken];
+      $body = json_encode([
+            'input'     => [
+                  'name'      => 'rejecteduser',
+                  '_entities_id'    => 0,
+                  '_is_recursive'   => 0,
+                  '_profiles_id'    => $config['service_profiles_id'],
+                  'firstname' => 'test',
+                  'realname'  => 'test',
+            ],
+      ]);
+      $this->emulateRestRequest('post', 'User', $headers, $body);
+
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+   }
+
+   /**
+    * @depends testInitGetServiceSessionToken
+    */
+   public function testCreateEntity($sessionToken) {
+      $headers = ['Session-Token' => $sessionToken];
+      $body = json_encode([
+            'input'     => [
+                  'name'      => 'rejected entity',
+            ],
+      ]);
+      $this->emulateRestRequest('post', 'Entity', $headers, $body);
+
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+   }
+
+   /**
+    * @depends testInitGetServiceSessionToken
+    */
+   public function testCreateDemoUserWithInvalidePassword($sessionToken) {
+      $headers = ['Session-Token' => $sessionToken];
+      $body = json_encode([
+            'input'     => [
+                  'name'      => 'registereduser@localhost.local',
+                  'password'  => 'short',
+                  'password2' => 'short',
+                  'firstname' => 'test',
+                  'realname'  => 'test',
+            ],
+      ]);
+      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+   }
+
+   /**
+    * @depends testInitGetServiceSessionToken
+    */
    public function testCreateDemoUser($sessionToken) {
       $headers = ['Session-Token' => $sessionToken];
       $body = json_encode([
@@ -165,6 +247,16 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertNotNull($accountValidation);
       $this->assertEquals($config['registered_profiles_id'], $accountValidation->getField('profiles_id'));
 
+      // check the entity of the user
+      $userName = self::$registeredUser;
+      $entity = new Entity();
+      $this->assertTrue($entity->getFromDBByQuery("WHERE `name` = '$userName'"));
+
+      // check the entity config
+      $entityconfig = new PluginStorkmdmEntityconfig();
+      $this->assertTrue($entityconfig->getFromDB($entity->getID()));
+      $this->assertEquals($entityconfig->getField('entities_id'), $entityconfig->getID());
+      $this->assertEquals($entityconfig->getField('entities_id'), $entity->getID());
       return $this->restResponse['id'];
    }
 
@@ -256,8 +348,8 @@ class DemoAccountTest extends ApiRestTestCase
       // Divide by 2 the reminder delay before expiration
       $endOfTrialDatetime = new DateTime();
       $remindDateTime = new DateTime();
-      $endOfTrialDatetime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_LIFETIME));
-      $remindDateTime->add(new DateInterval(PluginStorkmdmAccountvalidation::TRIAL_REMIND_1));
+      $endOfTrialDatetime->add(new DateInterval('P' . PluginStorkmdmAccountvalidation::TRIAL_LIFETIME . 'D'));
+      $remindDateTime->add(new DateInterval('P' . PluginStorkmdmAccountvalidation::TRIAL_REMIND_1 . 'D'));
       $half = $endOfTrialDatetime->getTimestamp() - $remindDateTime->getTimestamp();
       $half = (int) ($half / 2);
       $expirationDateTime = new DateTime();

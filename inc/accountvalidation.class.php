@@ -43,31 +43,31 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * Delay to activate an account; see DateInterval format
     * @var string
     */
-   const ACTIVATION_DELAY = 'P1D';
+   const ACTIVATION_DELAY = '1';
 
    /**
     * Trial duration; see DateInterval format
     * @var string
     */
-   const TRIAL_LIFETIME       = 'P90D';
+   const TRIAL_LIFETIME       = '90';
 
    /**
-    * delay after beginning of a trial for first remind; see DateInterval format
+    * delay after beginning of a trial for first remind; in days
     * @var string
     */
-   const TRIAL_REMIND_1       = 'P75D';
+   const TRIAL_REMIND_1       = '75';
 
    /**
-    * delay after beginning of a trial for second remind; see DateInterval format
+    * delay after beginning of a trial for second remind; in days
     * @var string
     */
-   const TRIAL_REMIND_2       = 'P5D';
+   const TRIAL_REMIND_2       = '5';
 
    /**
-    * delay after end of a trial for last remind; see DateInterval format
+    * delay after end of a trial for last remind; in days
     * @var string
     */
-   const TRIAL_POST_REMIND    = 'P5D';
+   const TRIAL_POST_REMIND    = '5';
 
    /**
     * Localized name of the type
@@ -104,11 +104,11 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
    }
 
    public function getActivationDelay() {
-      return static::ACTIVATION_DELAY;
+      return 'P' . static::ACTIVATION_DELAY . 'D';
    }
 
    public function getTrialDuration() {
-      return static::TRIAL_LIFETIME;
+      return 'P' . static::TRIAL_LIFETIME . 'D';
    }
 
    /**
@@ -194,7 +194,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
 
       $input['validation_pass']  = '';
-      $endTrialDateTime = $currentDateTime->add(new DateInterval(self::TRIAL_LIFETIME));
+      $endTrialDateTime = $currentDateTime->add(new DateInterval('P' . self::TRIAL_LIFETIME . 'D'));
       $input['date_end_trial'] = $endTrialDateTime->format('Y-m-d H:i:s');
 
       return $input;
@@ -249,7 +249,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       // Compute the oldest items to keep
       // substract the interval twice to delay deletion of expired items
       $oldestAllowedItems = new DateTime($_SESSION["glpi_currenttime"]);
-      $dateInterval = new DateInterval(static::ACTIVATION_DELAY);
+      $dateInterval = new DateInterval('P' . static::ACTIVATION_DELAY . 'D');
       $oldestAllowedItems->sub($dateInterval);
       $oldestAllowedItems->sub($dateInterval);
       $oldestAllowedItems = $oldestAllowedItems->format('Y-m-d H:i:s');
@@ -314,17 +314,17 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
 
       $remindDateTime_1 = new DateTime();
-      $remindDateTime_1->add(new DateInterval(self::TRIAL_LIFETIME));
+      $remindDateTime_1->add(new DateInterval('P' . self::TRIAL_LIFETIME . 'D'));
       $remindDateTime_2 = clone $remindDateTime_1;
 
-      $remindDateTime_1->sub(new DateInterval(self::TRIAL_REMIND_1));
+      $remindDateTime_1->sub(new DateInterval('P' . self::TRIAL_REMIND_1 . 'D'));
       $remindDateTime_1 = $remindDateTime_1->format('Y-m-d H:i:s');
 
-      $remindDateTime_2->sub(new DateInterval(self::TRIAL_REMIND_2));
+      $remindDateTime_2->sub(new DateInterval('P' . self::TRIAL_REMIND_2 . 'D'));
       $remindDateTime_2 = $remindDateTime_2->format('Y-m-d H:i:s');
 
       $remindDateTime_3 = new DateTime();
-      $remindDateTime_3->sub(new DateInterval(self::TRIAL_POST_REMIND));
+      $remindDateTime_3->sub(new DateInterval('P' . self::TRIAL_POST_REMIND . 'D'));
       $remindDateTime_3 = $remindDateTime_3->format('Y-m-d H:i:s');
 
       // Find activated accoutns (no validation_pass)
