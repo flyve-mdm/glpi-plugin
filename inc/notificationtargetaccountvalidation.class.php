@@ -97,6 +97,12 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     * @param array $options
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
+      $signatureDocuments = array_values(Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]));
+
       switch ($event->raiseevent) {
          case self::EVENT_SELF_REGISTRATION:
             $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
@@ -119,6 +125,8 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
                $event->datas['##storkmdm.trial_duration##'] = $trialDuration;
+
+               $event->obj->documents = $signatureDocuments;
             }
             break;
 
@@ -126,6 +134,8 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
             if (isset($event->obj)) {
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
+
+               $event->obj->documents = $signatureDocuments;
             }
             break;
 
@@ -135,14 +145,19 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             if (isset($event->obj)) {
                $accountValidation = $event->obj;
 
+               // Compute the remaining trial days depending on the first or second reminder
+               $delay = PluginStorkmdmAccountvalidation::TRIAL_LIFETIME;
                if ($event->raiseevent == self::EVENT_TRIAL_EXPIRATION_REMIND_1) {
-                  $delay = PluginStorkmdmAccountvalidation::TRIAL_REMIND_1;
+                  $delay = $delay - PluginStorkmdmAccountvalidation::TRIAL_REMIND_1;
                } else {
-                  $delay = PluginStorkmdmAccountvalidation::TRIAL_REMIND_2;
+                  $delay = $delay - PluginStorkmdmAccountvalidation::TRIAL_REMIND_2;
                }
                $delay.= " " . _n('day', 'days', $delay, 'storkmdm');
+
                $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
                $event->datas['##storkmdm.days_remaining##'] = $delay;
+
+               $event->obj->documents = $signatureDocuments;
             }
             break;
 
@@ -150,6 +165,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
             if (isset($event->obj)) {
                $accountValidation = $event->obj;
 
+               $event->obj->documents = $signatureDocuments;
             }
       }
    }

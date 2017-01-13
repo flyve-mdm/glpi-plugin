@@ -136,15 +136,17 @@ class PluginStorkmdmInstaller {
 
       $this->createDirectories();
       $this->createFirstAccess();
-      $this->createServiceProfileAccess();
-      $this->createRegisteredProfileAccess();
-      $this->createInactiveRegisteredProfileAccess();
+      $this->createServiceProfileAccess();                     // Demo mode
+      $this->createRegisteredProfileAccess();                  // Demo mode
+      $this->createInactiveRegisteredProfileAccess();          // Demo mode
       $this->createGuestProfileAccess();
-      $this->createServiceUserAccount();
+      $this->createServiceUserAccount();                       // Demo mode
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
-      $this->createNotificationTargetAccountvalidation();
+      $this->createSocialMediaIcons();                         // Demo mode
+      $this->createNotificationTargetAccountvalidation();      // Demo mode
       $this->createJobs();
+      $this->createDemoModeJobs();                             // Demo mode
 
       Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
 
@@ -747,13 +749,14 @@ Regards,
    }
 
    protected function createJobs() {
-
       CronTask::Register('PluginStorkmdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
             array(
                   'comment'   => __('Update retained MQTT topics for fleet policies', 'storkmdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
+   }
 
+   protected function createDemoModeJobs() {
       CronTask::Register('PluginStorkmdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
             array(
                   'comment'   => __('Remove expired account activations (demo mode)', 'storkmdm'),
@@ -807,6 +810,7 @@ Regards,
       $this->deleteProfiles();
       $this->deleteTables();
       $this->deleteDisplayPreferences();
+      $this->deleteSocialMediaIcons();                      // Demo mode
       // Cron jobs deletion handled by GLPi
 
       $config = new Config();
@@ -1440,15 +1444,39 @@ Regards,
    }
 
    protected function getHTMLMailingSignature() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_twit']);
+      $twitterTag = Document::getImageTag($document->getField('tag'));
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_gplus']);
+      $gplusTag = Document::getImageTag($document->getField('tag'));
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_facebook']);
+      $facebookTag = Document::getImageTag($document->getField('tag'));
+
       // Force locale for localized strings
       $currentLocale = $_SESSION['glpilanguage'];
       Session::loadLanguage('en_GB');
 
       $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
       $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_WEBSITE . '">' . self::FLYVE_MDM_PRODUCT_WEBSITE . "</a>\n";
-      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_FACEBOOK .'">Facebook</a>'
-                   . ' | <a href="' . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . '">Google+</a>'
-                   . ' | <a href="' . self::FLYVE_MDM_PRODUCT_TWITTER . '">Twitter</a>' . "\n";
+      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_FACEBOOK .'">'
+                   . '<img src="cid:' . $facebookTag . '" alt="Facebook" title="Facebook" width="30" height="30">'
+                   . '</a>'
+                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_TWITTER . '">'
+                   . '<img src="cid:' . $twitterTag . '" alt="Twitter" title="Twitter" width="30" height="30">'
+                   . '</a>'
+                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . '">'
+                   . '<img src="cid:' . $gplusTag . '" alt="Google+" title="Google+" width="30" height="30">'
+                   .'</a>' . "\n";
 
       // Restore user's locale
       Session::loadLanguage($currentLocale);
@@ -1471,5 +1499,73 @@ Regards,
       Session::loadLanguage($currentLocale);
 
       return $signature;
+   }
+
+   /**
+    * create documents for demo mode social media icons
+    */
+   protected function createSocialMediaIcons() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      if (!isset($config['social_media_twit'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-twitter.jpg', GLPI_TMP_DIR . '/flyve-twitter.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Twitter icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-twitter.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_twit']     = $document->getID();
+         }
+      }
+
+      if (!isset($config['social_media_gplus'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-gplus.jpg', GLPI_TMP_DIR . '/flyve-gplus.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Google Plus icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-gplus.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_gplus']    = $document->getID();
+         }
+      }
+
+      if (!isset($config['social_media_facebook'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-facebook.jpg', GLPI_TMP_DIR . '/flyve-facebook.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Facebook  icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-facebook.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_facebook'] = $document->getID();
+         }
+      }
+
+      Config::setConfigurationValues('storkmdm', $config);
+   }
+
+   protected function deleteSocialMediaIcons() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      foreach ($config as $documentId) {
+         $document = new Document();
+         $document->delete(['id'    => $documentId], 1);
+      }
    }
 }

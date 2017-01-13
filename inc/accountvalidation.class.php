@@ -61,7 +61,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * delay after beginning of a trial for second remind; in days
     * @var string
     */
-   const TRIAL_REMIND_2       = '5';
+   const TRIAL_REMIND_2       = '85';
 
    /**
     * delay after end of a trial for last remind; in days
@@ -313,17 +313,15 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
       $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
 
-      $remindDateTime_1 = new DateTime();
-      $remindDateTime_1->add(new DateInterval('P' . self::TRIAL_LIFETIME . 'D'));
-      $remindDateTime_2 = clone $remindDateTime_1;
-
-      $remindDateTime_1->sub(new DateInterval('P' . self::TRIAL_REMIND_1 . 'D'));
+      $remindDateTime_1 = new DateTime($_SESSION["glpi_currenttime"]);
+      $remindDateTime_1->add(new DateInterval('P' . (self::TRIAL_LIFETIME - self::TRIAL_REMIND_1) . 'D'));
       $remindDateTime_1 = $remindDateTime_1->format('Y-m-d H:i:s');
 
-      $remindDateTime_2->sub(new DateInterval('P' . self::TRIAL_REMIND_2 . 'D'));
+      $remindDateTime_2 = new DateTime($_SESSION["glpi_currenttime"]);
+      $remindDateTime_2->add(new DateInterval('P' . (self::TRIAL_LIFETIME - self::TRIAL_REMIND_2) . 'D'));
       $remindDateTime_2 = $remindDateTime_2->format('Y-m-d H:i:s');
 
-      $remindDateTime_3 = new DateTime();
+      $remindDateTime_3 = new DateTime($_SESSION["glpi_currenttime"]);
       $remindDateTime_3->sub(new DateInterval('P' . self::TRIAL_POST_REMIND . 'D'));
       $remindDateTime_3 = $remindDateTime_3->format('Y-m-d H:i:s');
 
@@ -372,7 +370,8 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       // Process post expiration reminder
       $rows = $accountValidation->find("`validation_pass` = ''
                                         AND (`date_end_trial` < '$remindDateTime_3')
-                                        AND `is_post_reminder_sent` = '0'",
+                                        AND `is_post_reminder_sent` = '0'
+                                        AND `is_trial_ended` = '1'",
                                         '',
                                         '100');
       foreach($rows as $id => $row) {
