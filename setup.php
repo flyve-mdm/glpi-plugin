@@ -205,6 +205,11 @@ function plugin_storkmdm_check_prerequisites() {
       $prerequisitesSuccess = false;
    }
 
+   if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_file(__DIR__ . '/vendor/autoload.php')) {
+      echo "Run composer install --no-dev in the plugin directory<br>";
+      $prerequisitesSuccess = false;
+   }
+
    $plugin = new Plugin();
    if ( !($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory')) ) {
       echo "This plugin requires Fusioninventory for GLPi<br>";
