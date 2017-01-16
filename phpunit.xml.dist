@@ -33,7 +33,7 @@
       <directory suffix="Test.php">./tests/0015_API/</directory>
     </testsuite>
    <testsuite name="Uninstall">
-      <directory suffix="Test.php">./tests/9999_uninstall/</directory>
+      <directory suffix="Test.php">./tests/9999_Uninstall/</directory>
     </testsuite>
   </testsuites>
   <php>
