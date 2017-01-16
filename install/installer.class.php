@@ -874,6 +874,7 @@ Regards,
             'android_bugcollector_passwd'    => '',
             'webapp_url'                     => '',
             'demo_mode'                      => '0',
+            'demo_time_limit'                => '0',
             'inactive_registered_profiles_id'=> '',
       ];
       Config::setConfigurationValues("storkmdm", $newConfig);

@@ -196,6 +196,13 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '<td>'. __("Demo mode enables email validation step when self creating an entity", "storkmdm").'</td>';
       echo '</tr>';
 
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Time limit", "storkmdm").'</td>';
+      echo '<td>' . Dropdown::showYesNo('demo_time_limit', $config['demo_time_limit'], -1, array('display' => false));
+      echo '</td>';
+      echo '<td>'. __("Limit lifetime of a demo account", "storkmdm").'</td>';
+      echo '</tr>';
+
       echo '<tr><th colspan="3">'.__('Frontend setup', "storkmdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
