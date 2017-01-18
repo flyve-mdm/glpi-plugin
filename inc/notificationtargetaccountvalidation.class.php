@@ -112,11 +112,11 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $validationToken = $accountValidation->getField('validation_pass');
                $validationUrl = $config['webapp_url'] . "?id=$accountValidationId&validate=$validationToken";
 
-               $activationDelay = new DateInterval($accountValidation->getActivationDelay());
+               $activationDelay = new DateInterval('P' . $accountValidation->getActivationDelay() . 'D');
                $activationDelay = $activationDelay->format('%d');
                $activationDelay.= " " . _n('day', 'days', $activationDelay, 'storkmdm');
 
-               $trialDuration = new DateInterval($accountValidation->getTrialDuration());
+               $trialDuration = new DateInterval('P' . $accountValidation->getTrialDuration() . 'D');
                $trialDuration = $trialDuration->format('%d');
                $trialDuration.= " " . _n('day', 'days', $trialDuration, 'storkmdm');
 
@@ -146,11 +146,14 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $accountValidation = $event->obj;
 
                // Compute the remaining trial days depending on the first or second reminder
-               $delay = PluginStorkmdmAccountvalidation::TRIAL_LIFETIME;
-               if ($event->raiseevent == self::EVENT_TRIAL_EXPIRATION_REMIND_1) {
-                  $delay = $delay - PluginStorkmdmAccountvalidation::TRIAL_REMIND_1;
-               } else {
-                  $delay = $delay - PluginStorkmdmAccountvalidation::TRIAL_REMIND_2;
+               switch ($event->raiseevent) {
+                  case  self::EVENT_TRIAL_EXPIRATION_REMIND_1:
+                     $delay = $accountValidation->getReminderDelay(1);
+                     break;
+
+                  case  self::EVENT_TRIAL_EXPIRATION_REMIND_2:
+                     $delay = $accountValidation->getReminderDelay(2);
+                     break;
                }
                $delay.= " " . _n('day', 'days', $delay, 'storkmdm');
 

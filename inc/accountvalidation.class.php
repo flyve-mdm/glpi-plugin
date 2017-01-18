@@ -40,13 +40,13 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 {
 
    /**
-    * Delay to activate an account; see DateInterval format
+    * Delay to activate an account; in days
     * @var string
     */
    const ACTIVATION_DELAY = '1';
 
    /**
-    * Trial duration; see DateInterval format
+    * Trial duration in days
     * @var string
     */
    const TRIAL_LIFETIME       = '90';
@@ -104,11 +104,31 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
    }
 
    public function getActivationDelay() {
-      return 'P' . static::ACTIVATION_DELAY . 'D';
+      return static::ACTIVATION_DELAY;
    }
 
    public function getTrialDuration() {
-      return 'P' . static::TRIAL_LIFETIME . 'D';
+      return static::TRIAL_LIFETIME;
+   }
+
+   public function getReminderDelay($reminderNumber) {
+      switch ($reminderNumber) {
+         case 1:
+            return (self::TRIAL_LIFETIME - self::TRIAL_REMIND_1);
+            break;
+
+         case 2:
+            return (self::TRIAL_LIFETIME - self::TRIAL_REMIND_2);
+            break;
+      }
+   }
+
+   public function getPostReminderDelay($reminderNumber) {
+      switch ($reminderNumber) {
+         case 1:
+            return (self::TRIAL_POST_REMIND);
+            break;
+      }
    }
 
    /**
@@ -155,7 +175,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       // Check the token is still valid
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
       $expirationDateTime = new DateTime($this->getField('date_creation'));
-      $expirationDateTime->add(new DateInterval($this->getActivationDelay()));
+      $expirationDateTime->add(new DateInterval('P' . $this->getActivationDelay() . 'D'));
       if ($expirationDateTime < $currentDateTime) {
          Session::addMessageAfterRedirect(__('Validation token expired', 'storkmdm'));
          return false;
@@ -194,7 +214,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
 
       $input['validation_pass']  = '';
-      $endTrialDateTime = $currentDateTime->add(new DateInterval('P' . self::TRIAL_LIFETIME . 'D'));
+      $endTrialDateTime = $currentDateTime->add('P' . new DateInterval($this->getTrialDuration() . 'D'));
       $input['date_end_trial'] = $endTrialDateTime->format('Y-m-d H:i:s');
 
       return $input;
@@ -248,15 +268,15 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
       // Compute the oldest items to keep
       // substract the interval twice to delay deletion of expired items
+      $accountValidation = new static();
       $oldestAllowedItems = new DateTime($_SESSION["glpi_currenttime"]);
-      $dateInterval = new DateInterval('P' . static::ACTIVATION_DELAY . 'D');
+      $dateInterval = new DateInterval('P' . $accountValidation->getActivationDelay() . 'D');
       $oldestAllowedItems->sub($dateInterval);
       $oldestAllowedItems->sub($dateInterval);
       $oldestAllowedItems = $oldestAllowedItems->format('Y-m-d H:i:s');
 
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
       $profileId = $config['inactive_registered_profiles_id'];
-      $accountValidation = new static();
       $rows = $accountValidation->find("`validation_pass` <> ''
                                         AND (`date_creation` < '$oldestAllowedItems' OR `date_creation` IS NULL)",
                                        '',
@@ -309,24 +329,25 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
    public static function cronRemindTrialExpiration($task) {
       $task->log("Remind the trial incoming expiration");
 
+      $accountValidation = new static();
+
       // Compute the dates for all reminders
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
       $currentDateTime = $currentDateTime->format('Y-m-d H:i:s');
 
       $remindDateTime_1 = new DateTime($_SESSION["glpi_currenttime"]);
-      $remindDateTime_1->add(new DateInterval('P' . (self::TRIAL_LIFETIME - self::TRIAL_REMIND_1) . 'D'));
+      $remindDateTime_1->add(new DateInterval('P' . $accountValidation->getReminderDelay(1) . 'D'));
       $remindDateTime_1 = $remindDateTime_1->format('Y-m-d H:i:s');
 
       $remindDateTime_2 = new DateTime($_SESSION["glpi_currenttime"]);
-      $remindDateTime_2->add(new DateInterval('P' . (self::TRIAL_LIFETIME - self::TRIAL_REMIND_2) . 'D'));
+      $remindDateTime_2->add(new DateInterval('P' . $accountValidation->getReminderDelay(2) . 'D'));
       $remindDateTime_2 = $remindDateTime_2->format('Y-m-d H:i:s');
 
       $remindDateTime_3 = new DateTime($_SESSION["glpi_currenttime"]);
-      $remindDateTime_3->sub(new DateInterval('P' . self::TRIAL_POST_REMIND . 'D'));
+      $remindDateTime_3->sub(new DateInterval('P' . $accountValidation->getPostReminderDelay(1) . 'D'));
       $remindDateTime_3 = $remindDateTime_3->format('Y-m-d H:i:s');
 
       // Find activated accoutns (no validation_pass)
-      $accountValidation = new static();
       $volume = 0;
 
       // Process first reminder
