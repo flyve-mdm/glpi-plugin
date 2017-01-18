@@ -298,10 +298,18 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * Disable accounts with trial over
     *
     * @param unknown $task
-    * @return integer quantity of accounts deactivated
+    * @return integer
     */
    public static function cronDisableExpiredTrial($task) {
       $task->log("Disable expired trial accounts");
+      $volume = 0;
+
+      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit'));
+      if ($config['demo_time_limit'] < 1) {
+         // Time limit disabled; disable email campaign
+         $task->setVolume($volume);
+         return 1;
+      }
 
       // Compute the oldest items to keep
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
@@ -313,7 +321,6 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                        '',
                                        '200');
 
-      $volume = 0;
       foreach($rows as $id => $row) {
          $accountValidation->disableTrialAccount($row['users_id'], $row['profiles_id'], $row['assigned_entities_id']);
          if ($accountValidation->update(array('id' => $id, 'is_trial_ended' => '1'))) {
@@ -326,8 +333,21 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       return 1;
    }
 
+   /**
+    *
+    * @param unknown $task
+    * @return number
+    */
    public static function cronRemindTrialExpiration($task) {
       $task->log("Remind the trial incoming expiration");
+      $volume = 0;
+
+      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit'));
+      if ($config['demo_time_limit'] < 1) {
+         // Time limit disabled; disable email campaign
+         $task->setVolume($volume);
+         return 1;
+      }
 
       $accountValidation = new static();
 
@@ -346,9 +366,6 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $remindDateTime_3 = new DateTime($_SESSION["glpi_currenttime"]);
       $remindDateTime_3->sub(new DateInterval('P' . $accountValidation->getPostReminderDelay(1) . 'D'));
       $remindDateTime_3 = $remindDateTime_3->format('Y-m-d H:i:s');
-
-      // Find activated accoutns (no validation_pass)
-      $volume = 0;
 
       // Process first reminder
       $rows = $accountValidation->find("`validation_pass` = ''
@@ -475,25 +492,27 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @param unknown $entityId
     */
    protected function disableTrialAccount($userId, $profileId, $entityId) {
-      $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
-      $inactiveProfileId = $config['inactive_registered_profiles_id'];
-      $profile_user = new Profile_User();
-      $profile_users = $profile_user->find("`entities_id` = '$entityId'
-                                     AND `profiles_id` = '$profileId'");
-      foreach ($profile_users as $profile_user) {
-         $userId = $profile_user['users_id'];
-         $profile_user2 = new Profile_User();
-         if ($profile_user2->add(array(
-               'users_id'     => $userId,
-               'profiles_id'  => $inactiveProfileId,
-               'entities_id'  => $entityId,
-               'is_recursive' => $profile_user['is_recursive'],
-         ))) {
-            // If add succeeded, then delete active profile
-            $oldProfile_user = new Profile_User();
-            $oldProfile_user->delete(array(
-                  'id'        => $profile_user['id'],
-            ));
+      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit', 'inactive_registered_profiles_id'));
+      if ($config['demo_time_limit'] > 0) {
+         $inactiveProfileId = $config['inactive_registered_profiles_id'];
+         $profile_user = new Profile_User();
+         $profile_users = $profile_user->find("`entities_id` = '$entityId'
+                                        AND `profiles_id` = '$profileId'");
+         foreach ($profile_users as $profile_user) {
+            $userId = $profile_user['users_id'];
+            $profile_user2 = new Profile_User();
+            if ($profile_user2->add(array(
+                  'users_id'     => $userId,
+                  'profiles_id'  => $inactiveProfileId,
+                  'entities_id'  => $entityId,
+                  'is_recursive' => $profile_user['is_recursive'],
+            ))) {
+               // If add succeeded, then delete active profile
+               $oldProfile_user = new Profile_User();
+               $oldProfile_user->delete(array(
+                     'id'        => $profile_user['id'],
+               ));
+            }
          }
       }
    }
