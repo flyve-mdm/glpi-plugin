@@ -215,6 +215,16 @@ function plugin_storkmdm_check_prerequisites() {
       echo "This plugin requires Fusioninventory for GLPi<br>";
       $prerequisitesSuccess = false;
    }
+
+   if ($CFG_GLPI['enable_api'] == 0) {
+      echo "This plugin requires GLPI's Rest API enabled<br>";
+      $prerequisitesSuccess = false;
+   }
+
+   if ($CFG_GLPI['use_mailing'] == 0) {
+      echo "This plugin requires GLPI's email notifications enabled<br>";
+      $prerequisitesSuccess = false;
+   }
    return $prerequisitesSuccess;
 }
 
