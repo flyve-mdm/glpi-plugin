@@ -808,9 +808,9 @@ Regards,
       $this->deleteNotificationTargetAccountvalidation();
       $this->deleteProfileRights();
       $this->deleteProfiles();
-      $this->deleteTables();
       $this->deleteDisplayPreferences();
       $this->deleteSocialMediaIcons();                      // Demo mode
+      $this->deleteTables();
       // Cron jobs deletion handled by GLPi
 
       $config = new Config();

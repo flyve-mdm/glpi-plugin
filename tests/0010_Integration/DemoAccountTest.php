@@ -39,8 +39,9 @@ class DemoAccountTest extends ApiRestTestCase
       parent::setupBeforeClass();
 
       config::setConfigurationValues('storkmdm', [
-            'demo_mode'    => 1,
-            'webapp_url'   => 'https://localhost',
+            'demo_mode'       => 1,
+            'webapp_url'      => 'https://localhost',
+            'demo_time_limit' => '1',
       ]);
 
       $user = new User();
@@ -365,9 +366,11 @@ class DemoAccountTest extends ApiRestTestCase
       $userId = $user->getID();
 
       // Divide by 2 the reminder delay before expiration
+      $accountValidation = new PluginStorkmdmAccountvalidation();
+
       $endOfTrialDatetime = new DateTime();
       $remindDateTime = new DateTime();
-      $endOfTrialDatetime->add(new DateInterval('P' . PluginStorkmdmAccountvalidation::TRIAL_LIFETIME . 'D'));
+      $endOfTrialDatetime->add(new DateInterval('P' . $accountValidation->getTrialDuration() . 'D'));
       $remindDateTime->add(new DateInterval('P' . PluginStorkmdmAccountvalidation::TRIAL_REMIND_1 . 'D'));
       $half = $endOfTrialDatetime->getTimestamp() - $remindDateTime->getTimestamp();
       $half = (int) ($half / 2);
@@ -405,7 +408,6 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
    }
-
 
    /**
     * @depends testInitGetServiceSessionToken

@@ -65,7 +65,7 @@ class ApiRestTestCase extends CommonTestCase {
       self::$backupServer = $_SERVER;
    }
 
-   protected function setUp() {
+   public function setUp() {
       global $CFG_GLPI;
 
       parent::setUp();
