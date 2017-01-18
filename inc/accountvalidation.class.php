@@ -214,7 +214,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
 
       $input['validation_pass']  = '';
-      $endTrialDateTime = $currentDateTime->add('P' . new DateInterval($this->getTrialDuration() . 'D'));
+      $endTrialDateTime = $currentDateTime->add(new DateInterval('P' . $this->getTrialDuration() . 'D'));
       $input['date_end_trial'] = $endTrialDateTime->format('Y-m-d H:i:s');
 
       return $input;
