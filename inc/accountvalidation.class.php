@@ -172,6 +172,11 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
          return false;
       }
 
+      if (preg_match('#^[a-f0-9]{64}$#', $input['_validate']) != 1) {
+         Session::addMessageAfterRedirect(__('Validation token is invalid', 'storkmdm'));
+         return false;
+      }
+
       // Check the token is still valid
       $currentDateTime = new DateTime($_SESSION["glpi_currenttime"]);
       $expirationDateTime = new DateTime($this->getField('date_creation'));

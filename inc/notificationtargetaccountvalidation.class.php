@@ -110,7 +110,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                $accountValidation = $event->obj;
                $accountValidationId = $accountValidation->getID();
                $validationToken = $accountValidation->getField('validation_pass');
-               $validationUrl = $config['webapp_url'] . "?id=$accountValidationId&validate=$validationToken";
+               $validationUrl = $config['webapp_url'] . "/account/$account/validation/$validationToken";
 
                $activationDelay = new DateInterval('P' . $accountValidation->getActivationDelay() . 'D');
                $activationDelay = $activationDelay->format('%d');
