@@ -360,4 +360,9 @@ class PluginStorkmdmInvitation extends CommonDBTM {
 
       return $tab;
    }
+
+   public function hook_entity_purge(CommonDBTM $item) {
+      $invitation = new static();
+      $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+   }
 }

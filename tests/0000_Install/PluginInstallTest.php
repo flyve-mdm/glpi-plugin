@@ -44,6 +44,7 @@ class PluginInstallTest extends SuperAdminTestCase
 
    protected function setupGLPI() {
       global $CFG_GLPI;
+      
       $settings = [
             'use_mailing' => '1',
             'enable_api'  => '1',
@@ -136,12 +137,6 @@ class PluginInstallTest extends SuperAdminTestCase
       return $config;
    }
 
-   public function testServiceAccountExists() {
-      $user = new User();
-      $this->assertTrue($user->getFromDBbyName('storknologin'));
-      return $user;
-   }
-
    /**
     * @depends testConfigurationExists
     */
@@ -149,15 +144,6 @@ class PluginInstallTest extends SuperAdminTestCase
       $guestProfileId = $config['guest_profiles_id'];
       $profile = new Profile();
       $this->assertTrue($profile->getFromDB($guestProfileId));
-   }
-
-   /**
-    * @depends testConfigurationExists
-    */
-   public function testRegisteredProfileExists($config) {
-      $registeredProfileId = $config['registered_profiles_id'];
-      $profile = new Profile();
-      $this->assertTrue($profile->getFromDB($registeredProfileId));
    }
 
 }

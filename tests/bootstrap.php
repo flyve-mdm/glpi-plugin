@@ -30,12 +30,13 @@
 */
 
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
-global $CFG_GLPI, $PLUGIN_HOOKS, $_CFG_GLPI;
+global $CFG_GLPI, $PLUGIN_HOOKS;
 
 class UnitTestAutoload
 {
 
    public static function register() {
+      require_once(__DIR__ . '/../vendor/autoload.php');
       spl_autoload_register(array('UnitTestAutoload', 'autoload'));
    }
 

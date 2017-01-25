@@ -44,8 +44,6 @@ class PluginStorkmdmConfig extends CommonDBTM {
 
    const PLUGIN_STORKMDM_MQTT_CLIENT = "storkmdm";
 
-   const SERVICE_ACCOUNT_NAME = 'storknologin';
-
    static $config = array();
 
    /**
@@ -185,39 +183,6 @@ class PluginStorkmdmConfig extends CommonDBTM {
             'value="'. $config['default_device_limit'] .'" min="0" />';
       echo '</td>';
       echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "storkmdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Demo mode', "storkmdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Demo mode", "storkmdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('demo_mode', $config['demo_mode'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. __("Demo mode enables email validation step when self creating an entity", "storkmdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Time limit", "storkmdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('demo_time_limit', $config['demo_time_limit'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. __("Limit lifetime of a demo account", "storkmdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Frontend setup', "storkmdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Webapp URL", "storkmdm").'</td>';
-      echo '<td><input type="text" name="webapp_url"' .
-            'value="'. $config['webapp_url'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("URL of the web interface used for management", "storkmdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Service's User Token", "storkmdm").'</td>';
-      echo '<td>' . $apiKey;
-      echo '</td>';
-      echo '<td>'. __("To be saved in frontend's app/config.js file", "storkmdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1"><td class="center" colspan="2">';

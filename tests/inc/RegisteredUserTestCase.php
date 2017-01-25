@@ -42,20 +42,21 @@ class RegisteredUserTestCase extends CommonTestCase
       self::$fixture['registeredUserEmail']     = 'registereduser@localhost.local';
       self::$fixture['registeredUserPasswd']    = 'password';
 
-      self::login('glpi', 'glpi', true);
-      $user = new PluginStorkmdmUser();
-      $userId = $user->add([
-         'name'      => self::$fixture['registeredUserEmail'],
-         'password'  => self::$fixture['registeredUserPasswd'],
-         'password2' => self::$fixture['registeredUserPasswd']
-      ]);
+//       self::login('glpi', 'glpi', true);
+//       $user = new PluginStorkmdmUser();
+//       $userId = $user->add([
+//          'name'      => self::$fixture['registeredUserEmail'],
+//          'password'  => self::$fixture['registeredUserPasswd'],
+//          'password2' => self::$fixture['registeredUserPasswd']
+//       ]);
 
-      Session::destroy();
+//       Session::destroy();
    }
 
    public function setUp() {
       self::setupGLPIFramework();
-      $this->assertTrue(self::login(self::$fixture['registeredUserEmail'], self::$fixture['registeredUserPasswd']));
+      //$this->assertTrue(self::login(self::$fixture['registeredUserEmail'], self::$fixture['registeredUserPasswd']));
+      $this->assertTrue(self::login('glpi', 'glpi', true));
    }
 
 }

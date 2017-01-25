@@ -124,18 +124,13 @@ function plugin_init_storkmdm() {
       }
 
       // Hooks for the plugin : objects inherited from GLPI or
-      $PLUGIN_HOOKS['pre_item_add']['storkmdm']     = array(
-            'User'                  => array('PluginStorkmdmUser', 'hook_pre_user_add'),
-            'Entity'                => array('PluginStorkmdmEntityconfig', 'hook_pre_entity_add'),
-      );
       $PLUGIN_HOOKS['item_add']['storkmdm']     = array(
-            'Entity'                => array('PluginStorkmdmEntityconfig', 'hook_entity_add'),
-            'PluginStorkmdmEntity'  => array('PluginStorkmdmEntityconfig', 'hook_entity_add'),
+            'Entity'                => 'plugin_storkmdm_hook_entity_add',
       );
       $PLUGIN_HOOKS['item_purge']['storkmdm']   = array(
             'User'                  => array('PluginStorkmdmUser', 'hook_pre_user_purge'),
-            'Entity'                => array('PluginStorkmdmEntityconfig', 'hook_entity_purge'),
-            'Computer'              => array('PluginStorkmdmGeolocation', 'hook_computer_purge'),
+            'Entity'                => 'plugin_storkmdm_hook_entity_purge',
+            'Computer'              => 'plugin_storkmdm_computer_purge',
       );
       $PLUGIN_HOOKS['pre_item_purge']['storkmdm']   = array(
             'PluginStorkmdmInvitation' => array('PluginStorkmdmInvitation', 'hook_pre_self_purge'),
@@ -160,7 +155,7 @@ function plugin_version_storkmdm() {
    return array ('name'           => __s('Stork Mobile Device Management', "storkmdm"),
          'version'        => PLUGIN_STORKMDM_VERSION,
          'author'         => $author,
-         'license'        => 'AGPLv3+',
+         'license'        => 'GPLv2+',
          'homepage'       => '',
          'minGlpiVersion' => PLUGIN_STORKMDM_GLPI_MIN_VERSION);
 }

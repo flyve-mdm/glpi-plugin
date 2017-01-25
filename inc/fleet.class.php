@@ -58,6 +58,9 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    protected $usenotepadRights         = true;
 
+
+   protected $deleteDefaultFleet       =  false;
+
    static $types = array(
          'Phone'
    );
@@ -124,6 +127,10 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
+      if (isset($input['is_recursive']) && $this->fields['is_recursive'] != $input['is_recursive']) {
+         // Do not change recrusivity of default fleet
+         unset($input['is_recursive']);
+      }
 
       return $input;
    }
@@ -137,26 +144,29 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
       global $DB;
 
       // check if fleet being deleted is the default one
-      if ($this->fields['is_default'] == '1') {
+      if ($this->fields['is_default'] == '1' && $this->deleteDefaultFleet !== true) {
 
          $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
-         if ( !Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
-            Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'storkmdm'));
-            return false;
-         }
+         //if ( !Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
+            //Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'storkmdm'));
+            //return false;
+         //}
       }
 
       // move agents in the fleet into the default one
       $fleetId = $this->getID();
       $agent = new PluginStorkmdmAgent();
       $entityId = $this->fields['entities_id'];
-      $defaultFleet = self::getDefaultFleet($entityId);
+      $defaultFleet = new static();
+      $defaultFleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'");
       $agents = $this->getAgents();
-      if ($defaultFleet === null && count($agents) > 0) {
-         // No default fleet
-         // TODO : Create it again ?
-         Session::addMessageAfterRedirect(__('No default fleet found to move devices', 'storkmdm'));
-         return false;
+      if ($defaultFleet->isNewItem() && count($agents) > 0) {
+         if (!$this->deleteDefaultFleet) {
+            // No default fleet
+            // TODO : Create it again ?
+            Session::addMessageAfterRedirect(__('No default fleet found to move devices', 'storkmdm'));
+            return false;
+         }
       }
 
       foreach ($agents as $agent) {
@@ -420,18 +430,22 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param string $entityId ID of the entoty to search in
     * @return PluginStorkmdmFleet|null
     */
-   public static function getDefaultFleet($entityId = '') {
-      if ($entityId == '') {
+   public function getFromDBByDefaultForEntity($entityId = null) {
+      if ($entityId === null) {
          $entityId = $_SESSION['glpiactive_entity'];
       }
 
-      $defaultFleet = new PluginStorkmdmFleet();
-      if (!$defaultFleet->getFromDBByQuery(
-            "WHERE `is_default`='1' AND `entities_id`='$entityId'"
-            )) {
-         return null;
+      $rows = $this->find("`is_default`='1' AND `entities_id`='$entityId'", "`id` ASC");
+      if (count($rows) < 1) {
+         return $this->add(array(
+               'is_default'  => '1',
+               'name'        => __("not managed fleet", 'storkmdm'),
+               'entities_id' => $entityId,
+         ));
       }
-      return $defaultFleet;
+      reset($rows);
+      $this->getFromDB(current(array_keys($rows)));
+      return $this->getID();
    }
 
    /**
@@ -442,5 +456,24 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginStorkmdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
+
+   /**
+    * create folders and initial setup of the entity related to MDM
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_add(CommonDBTM $item) {
+      if ($item instanceof Entity) {
+         // Create the default fleet for a new entity
+         $this->getFromDBByDefaultForEntity($item->getID());
+      }
+   }
+
+   public function hook_entity_purge(CommonDBTM $item) {
+      if ($item instanceof Entity) {
+         $fleet = new static();
+         $fleet->deleteDefaultFleet = true;
+         $fleet->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      }
    }
 }

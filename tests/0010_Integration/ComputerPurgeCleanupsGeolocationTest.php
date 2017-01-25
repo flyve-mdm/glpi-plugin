@@ -71,7 +71,7 @@ class ComputerPurgeCleanupsGeolocationTest extends RegisteredUserTestCase
       $geolocationId = $geolocation->getID();
       $computer->delete([
             'id'  => $compuerId
-      ], true);
+      ], 1);
       $computer = new Computer();
       $geolocation = new PluginStorkmdmGeolocation();
       $computer->getFromDB($compuerId);

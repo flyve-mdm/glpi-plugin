@@ -542,4 +542,8 @@ class PluginStorkmdmPackage extends CommonDBTM {
 
       exit(0);
    }
+   public function hook_entity_purge(CommonDBTM $item) {
+      $package = new static();
+      $package->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+   }
 }

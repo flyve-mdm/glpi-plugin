@@ -31,6 +31,23 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 class DeleteEntityTest extends RegisteredUserTestCase {
 
+   static $entity;
+   public static function setUpBeforeClass() {
+      parent::setupBeforeClass();
+
+      self::login('glpi', 'glpi', true);
+      self::$entity = new Entity();
+      self::$entity->add([
+            'name'   => "to be deleted",
+      ]);
+      Session::destroy();
+   }
+
+   public function setUp() {
+      parent::setUp();
+      Session::changeActiveEntities(self::$entity->getID(), 0);
+   }
+
    /**
     *
     * @return PluginStorkmdmInvitation
@@ -173,7 +190,7 @@ class DeleteEntityTest extends RegisteredUserTestCase {
       self::login('glpi', 'glpi', true);
 
       $entity = new Entity();
-      $entity->delete(array('id' => $entityId));
+      $entity->delete(array('id' => $entityId), 1);
 
       $invitation = new PluginStorkmdmInvitation();
       $rows = $invitation->find("`entities_id` = '$entityId'");

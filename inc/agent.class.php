@@ -208,7 +208,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginStorkmdmEntityconfig();
-      if (!$entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
+      if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
          $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'storkmdm')));
          return false;
       }
@@ -886,8 +886,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $fiLock->addLocks('Computer', $computerId, array('name', 'users_id'));
 
       // Create the agent
-      $defaultFleet = PluginStorkmdmFleet::getDefaultFleet();
-      if ($defaultFleet === null) {
+      $defaultFleet = new PluginStorkmdmFleet();
+      $defaultFleet->getFromDBByDefaultForEntity();
+      if ($defaultFleet->isNewItem()) {
          $computer->delete(['id' => $computerId]);
          $event = __("No default fleet available for the device",'storkmdm');
          $this->filterMessages($event);
@@ -1437,5 +1438,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginStorkmdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
+
+   public function hook_entity_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
 }

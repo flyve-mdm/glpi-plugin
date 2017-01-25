@@ -134,3 +134,36 @@ function plugin_storkmdm_getDatabaseRelations() {
    return [
    ];
 }
+
+function plugin_storkmdm_hook_entity_add(CommonDBTM $item) {
+   if ($item instanceof Entity) {
+      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig->hook_entity_add($item);
+      
+      $fleet = new PluginStorkmdmFleet();
+      $fleet->hook_entity_add($item);
+   }
+}
+
+function plugin_storkmdm_hook_entity_purge(CommonDBTM $item) {
+   if ($item instanceof Entity) {
+      $itemtypes = array(
+            'PluginStorkmdmEntityconfig',
+            'PluginStorkmdmInvitation',
+            'PluginStorkmdmAgent',
+            'PluginStorkmdmFleet',
+            'PluginStorkmdmPackage',
+            'PluginStorkmdmFile',
+      );
+
+      foreach ($itemtypes as $itemtype) {
+         $itemToPurge = new $itemtype();
+         $itemToPurge->hook_entity_purge($item);
+      }
+   }
+}
+
+function plugin_storkmdm_computer_purge(CommonDBTM $item) {
+   $geolocation = new PluginStorkmdmGeolocation();
+   $geolocation->hook_computer_purge($item);
+}

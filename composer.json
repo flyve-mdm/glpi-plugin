@@ -1,11 +1,53 @@
 {
     "require": {
+        "ext-gd": "*",
+        "ext-zip": "*",
+        "ext-openssl": "*",
+        "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
         "spomky-labs/otphp": "^8.2",
         "tufanbarisyildirim/php-apk-parser": "dev-master"
     },
     "require-dev": {
        "guzzlehttp/guzzle": "~5",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7",
+        "glpi-project/test": "dev-master",
+        "flyve-mdm/test": "dev-master"
+    },
+    "repositories": [
+    {
+        "type": "package",
+        "package": {
+            "name": "glpi-project/test",
+            "version": "dev-master",
+            "source": {
+                "url": "file:///home/intra.dethegeek.eu.org/dethegeek/projects/flyvemdm/glpi-test/",
+                "type": "git",
+                "reference": "master"
+            },
+            "autoload": {
+                "psr-4" : {
+                    "Glpi\\Test\\" : "src"
+                }
+            }
+        }
+    },
+    {
+        "type": "package",
+        "package": {
+            "name": "flyve-mdm/test",
+            "version": "dev-master",
+            "source": {
+                "url": "file:///home/intra.dethegeek.eu.org/dethegeek/projects/flyvemdm/flyve-mdm-test/",
+                "type": "git",
+                "reference": "master"
+            },
+            "autoload": {
+                "psr-4" : {
+                    "Flyvemdm\\Test\\" : "src"
+                }
+            }
+        }
     }
+    ]
 }
