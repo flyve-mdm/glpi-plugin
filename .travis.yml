@@ -14,10 +14,10 @@ env:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master"
 
 before_script:
-  - git clone $GLPI_SOURCE ../glpi && cd ../glpi
+  - git clone --depth=50 $GLPI_SOURCE ../glpi && cd ../glpi
   - composer install
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
-  - mkdir plugins/fusioninventory && git clone $FUSION_SOURCE plugins/fusioninventory
+  - mkdir plugins/fusioninventory && git clone --depth=50 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/storkmdm
   - cd plugins/storkmdm && composer install
   - cd ../..

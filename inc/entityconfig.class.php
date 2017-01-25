@@ -190,14 +190,8 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       }
 
       // Delete folders for the entity
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID())) {
-         // TODO : handle error here
-         Toolbox::logInFile('php-errors', "Failed to delete packages dir for entity " . $item->getID() . "\n");
-      }
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID())) {
-         Toolbox::logInFile('php-errors', "Failed to delete files dir for entity " . $item->getID() . "\n");
-         // TODO : handle error here
-      }
+      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID());
+      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID());
    }
 
    /**
