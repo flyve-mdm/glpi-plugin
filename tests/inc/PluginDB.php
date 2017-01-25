@@ -54,7 +54,7 @@ class PluginDB extends PHPUnit_Framework_Assert{
             $current_table = $matches[1];
          } else {
             if (preg_match("/^`/", trim($line))) {
-               $line = preg_replace('/\s+/', ' ',$line);
+               $line = preg_replace('/\s+/', ' ', $line);
                $s_line = explode("`", $line);
                $s_type = explode("COMMENT", $s_line[2]);
                $s_type[0] = trim($s_type[0]);
@@ -85,7 +85,7 @@ class PluginDB extends PHPUnit_Framework_Assert{
          }
       }
 
-      foreach($a_tables as $table) {
+      foreach ($a_tables as $table) {
          $query = "SHOW CREATE TABLE ".$table;
          $result = $DB->query($query);
          while ($data=$DB->fetch_array($result)) {
@@ -99,7 +99,7 @@ class PluginDB extends PHPUnit_Framework_Assert{
                   $current_table = $matches[1];
                } else {
                   if (preg_match("/^`/", trim($line))) {
-                     $line = preg_replace('/\s+/', ' ',$line);
+                     $line = preg_replace('/\s+/', ' ', $line);
                      $s_line = explode("`", $line);
                      $s_type = explode("COMMENT", $s_line[2]);
                      $s_type[0] = trim($s_type[0]);

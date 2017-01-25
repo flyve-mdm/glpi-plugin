@@ -94,8 +94,7 @@ class PolicyNotification extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @param array $data
     */
-   public function testPolicyApplyMessageIsValid($data)
-   {
+   public function testPolicyApplyMessageIsValid($data) {
       $published = $data['publishedMessage'];
       $json = $published->getMessage();
       $this->assertJson($json);

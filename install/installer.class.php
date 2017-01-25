@@ -126,7 +126,7 @@ class PluginStorkmdmInstaller {
 
          $this->createInitialConfig();
       } else {
-         if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0) ) {
+         if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0)) {
             // TODO : Upgrade (or downgrade)
             $this->upgrade(self::getCurrentVersion());
          }
@@ -187,8 +187,6 @@ class PluginStorkmdmInstaller {
             if (! $htAccessHandler = fopen(STORKMDM_PACKAGE_PATH . "/.htaccess", "w")) {
                fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
-            } else {
-               // TODO : echo and flush a success message for this operation
             }
          }
       }
@@ -200,8 +198,6 @@ class PluginStorkmdmInstaller {
             if (! $htAccessHandler = fopen(STORKMDM_FILE_PATH . "/.htaccess", "w")) {
                fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
-            } else {
-               // TODO : echo and flush a success message for this operation
             }
          }
       }
@@ -340,7 +336,7 @@ class PluginStorkmdmInstaller {
 
       $policy = new PluginStorkmdmPolicy();
       $policyTable = PluginStorkmdmPolicy::getTable();
-      foreach(self::getPolicies() as $policyData) {
+      foreach (self::getPolicies() as $policyData) {
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
 
@@ -825,12 +821,13 @@ Regards,
    protected function rrmdir($dir) {
       if (file_exists($dir) && is_dir($dir)) {
          $objects = scandir($dir);
-         foreach ( $objects as $object ) {
+         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-               if (filetype($dir . "/" . $object) == "dir")
+               if (filetype($dir . "/" . $object) == "dir") {
                   $this->rrmdir($dir . "/" . $object);
-               else
+               } else {
                   unlink($dir . "/" . $object);
+               }
             }
          }
          reset($objects);
@@ -1381,7 +1378,7 @@ Regards,
       $profile = new Profile();
       $profile->getFromDB($registeredProfileId);
       if (!$profile->deleteFromDB()) {
-         // TODO : log or warn for not deletion of the profile
+         $this->migration->log("Could not delete registered profile", true);
       } else {
          $profileUser= new Profile_User();
          $profileUser->deleteByCriteria(array('profiles_id' => $registeredProfileId), true);
@@ -1389,7 +1386,7 @@ Regards,
 
       $profile->getFromDB($guestProfileId);
       if (!$profile->deleteFromDB()) {
-         // TODO : log or warn for not deletion of the profile
+         $this->migration->log("Could not delete guest profile", true);
       } else {
          $profileUser= new Profile_User();
          $profileUser->deleteByCriteria(array('profiles_id' => $guestProfileId), true);

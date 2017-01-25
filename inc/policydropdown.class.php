@@ -85,7 +85,7 @@ class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements P
     */
    public function translateData() {
       $translated = array();
-      foreach($this->valueList as $key => $value) {
+      foreach ($this->valueList as $key => $value) {
          $translated[$key] = __($value, 'storkmdm');
       }
 

@@ -149,8 +149,7 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
     * {@inheritDoc}
     * @see PluginStorkmdmPolicyInterface::unapply()
     */
-   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId)
-   {
+   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;

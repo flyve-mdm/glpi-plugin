@@ -149,7 +149,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
    protected static function getMaxFileSize() {
       $val = trim(ini_get('post_max_size'));
       $last = strtolower($val[strlen($val)-1]);
-      switch($last) {
+      switch ($last) {
          case 'g':
             $val *= 1024;
          case 'm':
@@ -211,7 +211,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
                $apkLabel               = $apk->getResources($labelResourceId);
                $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
                $input['name']          = $manifest->getPackageName();
-               if ( (!isset($input['alias'])) || (strlen($input['alias']) == 0) ) {
+               if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
                   $input['alias']         = $apkLabel[0]; // Get the first item
                }
                $input['version']       = $manifest->getVersionName();
@@ -254,11 +254,6 @@ class PluginStorkmdmPackage extends CommonDBTM {
                if ($this->saveUploadedFile($_FILES['file'], $destination)) {
                   $apk = new \ApkParser\Parser($destination);
                   $manifest = $apk->getManifest();
-                  // check the new application has the same fqname than the older one
-                  if ($this->fields['name'] != $manifest->getPackageName()) {
-                     //unlink($destination);
-                     //return false;
-                  }
                   $iconResourceId         = $manifest->getApplication()->getIcon();
                   $labelResourceId        = $manifest->getApplication()->getLabel();
                   $iconResource           = $apk->getResources($iconResourceId);
@@ -375,7 +370,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
          $success = false;
       } else {
          $this->createEntityDirectory(dirname($destination));
-         if  (!move_uploaded_file($source['tmp_name'], $destination)) {
+         if (!move_uploaded_file($source['tmp_name'], $destination)) {
             $success = false;
          } else {
             $success = true;

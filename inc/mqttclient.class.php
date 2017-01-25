@@ -100,14 +100,14 @@ class PluginStorkmdmMqttclient {
       $this->disconnect = false;
       $this->beginTimestamp = time();
 
-      if(self::$mqtt === false) {
+      if (self::$mqtt === false) {
          exit(1);
       }
       $log = new PluginStorkmdmMqttlog();
       $topics[$topic] = $qos;
       self::$mqtt->subscribe($topics);
 
-      while(!$this->mustDisconnect()) {
+      while (!$this->mustDisconnect()) {
          try {
             self::$mqtt->loop();
          } catch (Exception $e) {
@@ -225,7 +225,7 @@ class PluginStorkmdmMqttclient {
          $mqtt = $this->buildMqtt($mqttBrokerAddress, $mqttBrokerPort, $isTls, $sslCiphers);
          $mqtt->setAuth($config['mqtt_user'], $config['mqtt_passwd']);
          try {
-            if(!$mqtt->connect()) {
+            if (!$mqtt->connect()) {
                return false;
             }
          } catch (Exception $e) {
@@ -239,7 +239,7 @@ class PluginStorkmdmMqttclient {
       return $mqtt;
    }
 
-   protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher){
+   protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher) {
       $protocol = $isTls ? "ssl://" : "tcp://";
       $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
       if ($isTls) {

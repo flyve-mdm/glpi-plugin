@@ -96,8 +96,7 @@ class PluginStorkmdmPolicyDeployapplicationIntegrationTest extends RegisteredUse
     * @depends testInitCreateApplication
     * @depends testInitCreateFleet
     */
-   public function testApplyPolicyWithoutValue(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet $fleet)
-   {
+   public function testApplyPolicyWithoutValue(PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package, PluginStorkmdmFleet $fleet) {
       $value = new stdClass();
 
       $fleet_policy = new PluginStorkmdmFleet_Policy();

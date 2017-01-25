@@ -68,9 +68,6 @@ if (isset($_POST['add'])) {
          $jsonAnswer = [
                'id'  => $newID,
          ];
-         if ($_SESSION['glpibackcreated']) {
-            //Html::redirect($package->getFormURL() . "?id=" . $newID);
-         }
       }
    } else {
       header("Not allowed", false, 401);

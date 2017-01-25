@@ -82,9 +82,6 @@ class ApiRestRegisteredUserTestCase extends ApiRestTestCase
                      'body'      => json_encode($body, JSON_UNESCAPED_SLASHES),
                ]
          );
-         if ($res !== null && $res->getStatusCode() == 201) {
-
-         }
       }
    }
 

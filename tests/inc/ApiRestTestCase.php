@@ -150,6 +150,7 @@ class ApiRestTestCase extends CommonTestCase {
          $apiRest->call();
       } catch (ApiExitException $e) {
          // Emulated exit from the API
+         unset($e);
       }
       $this->restHeaders = $headers;
       $this->restHttpCode = $httpCode;

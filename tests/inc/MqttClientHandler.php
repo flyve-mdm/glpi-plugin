@@ -105,8 +105,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
       ));
       if (empty($config['mqtt_broker_internal_address'])
             ||empty($config['mqtt_broker_port'])
-            ||(!isset($config['mqtt_broker_tls'])))
-      {
+            ||(!isset($config['mqtt_broker_tls']))) {
          return false;
       } else {
 
@@ -147,7 +146,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
          }
          $mqtt->setAuth($config['mqtt_user'], $config['mqtt_passwd']);
          try {
-            if(!$mqtt->connect()) {
+            if (!$mqtt->connect()) {
 
                return false;
 
@@ -174,7 +173,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
       $this->startTime = time();
 
       //$mqtt = $this->getMQTTConnection();
-      if(self::$mqtt === false) {
+      if (self::$mqtt === false) {
          return;
       }
 
@@ -183,7 +182,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
       self::$mqtt->setKeepalive(2); // MQTT client has odd behavior if set to 1
       self::$mqtt->subscribe($this->topics);
 
-      while(!$this->disconnect) {
+      while (!$this->disconnect) {
 
          try {
             self::$mqtt->loop();
@@ -228,7 +227,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
       }
 
       // Discoonnect on timeout or incoming message
-      if (time() - $this->startTime > 20 || ($this->autoDisconnect && $this->published !== null) ) {
+      if (time() - $this->startTime > 20 || ($this->autoDisconnect && $this->published !== null)) {
          $this->unsubscribeAll($mqtt);
       }
    }
