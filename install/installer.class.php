@@ -185,7 +185,7 @@ class PluginStorkmdmInstaller {
             $this->migration->displayWarning("Cannot create " . STORKMDM_PACKAGE_PATH . " directory");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_PACKAGE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
             } else {
                // TODO : echo and flush a success message for this operation
@@ -198,7 +198,7 @@ class PluginStorkmdmInstaller {
             $this->migration->displayWarning("Cannot create " . STORKMDM_FILE_PATH . " directory");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_FILE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
             } else {
                // TODO : echo and flush a success message for this operation
@@ -379,7 +379,6 @@ class PluginStorkmdmInstaller {
                'password'        => '42',
                'personal_token'  => User::getUniquePersonalToken(),
                '_profiles_id'    => $profile->getID(),
-               'language'        => $_SESSION['glpilanguage'], // Propagate language preference to service account
                'is_active'       => '0',
          ])) {
             die ('Could not create the service account');
