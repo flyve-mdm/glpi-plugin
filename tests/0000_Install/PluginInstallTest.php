@@ -42,8 +42,23 @@ class PluginInstallTest extends SuperAdminTestCase
       self::login('glpi', 'glpi', true);
    }
 
+   protected function setupGLPI() {
+      global $CFG_GLPI;
+      $settings = [
+            'use_mailing' => '1',
+            'enable_api'  => '1',
+            'enable_api_login_credentials'  => '1',
+            'enable_api_login_external_token'  => '1',
+      ];
+      config::setConfigurationValues('core', $settings);
+
+      $CFG_GLPI = $settings + $CFG_GLPI;
+   }
+
    public function testInstallPlugin() {
       global $DB;
+
+      $this->setupGLPI();
 
       $this->assertTrue($DB->connected, "Problem connecting to the Database");
 

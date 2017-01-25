@@ -31,6 +31,9 @@
 
 abstract class CommonTestCase extends CommonDBTestCase
 {
+   public function setUp() {
+      self::setupGLPIFramework();
+   }
 
    protected static function resetState() {
       self::resetGLPILogs();

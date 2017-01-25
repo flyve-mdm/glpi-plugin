@@ -36,7 +36,15 @@ class ApiRestTestCase extends CommonTestCase {
    protected $base_uri = "";
    protected $last_error = "";
 
+   protected $restResponse = null;
+   protected $restHttpCode = 0;
+   protected $restHeaders = [];
+
+   protected static $backupServer;
+
    public static function setupBeforeClass() {
+      global $CFG_GLPI;
+
       parent::setupBeforeClass();
       self::resetState();
 
@@ -49,9 +57,15 @@ class ApiRestTestCase extends CommonTestCase {
                   'enable_api_login_external_token'   => true
             )
       );
+      $CFG_GLPI['enable_api'] = 1;
+      $CFG_GLPI['enable_api_login_credentials'] = 1;
+      $CFG_GLPI['enable_api_login_external_token'] = 1;
+
+      // Backup $_SERVER before changing it for API tests
+      self::$backupServer = $_SERVER;
    }
 
-   protected function setUp() {
+   public function setUp() {
       global $CFG_GLPI;
 
       parent::setUp();
@@ -79,4 +93,78 @@ class ApiRestTestCase extends CommonTestCase {
       }
    }
 
+   /**
+    * emulate a HTTP request by a direct call to the API
+    *
+    * @param string $method
+    * @param string $relative_uri
+    * @param array  $reqHeaders
+    * @param string $body
+    * @param array  $params
+    */
+   protected function emulateRestRequest($method = 'get', $relativeUri = '', $reqHeaders = [], $body = '', $params = []) {
+      // Prepare $_SERVER vars
+      $_SERVER["REMOTE_ADDR"] = '127.0.0.1';
+      $_SERVER['REQUEST_METHOD'] = strtoupper($method);
+      $_SERVER['PATH_INFO'] = '/' . $relativeUri;
+      $_SERVER['REQUEST_URI'] = '/apirest.php' . $_SERVER['PATH_INFO'];
+      $_SERVER['QUERY_STRING'] = http_build_query($params);
+      foreach ($reqHeaders as $headerName => $headerValue) {
+         $headerName = str_replace('-', '_', $headerName);
+         $headerName = 'HTTP_' . strtoupper($headerName);
+         $_SERVER[$headerName] = $headerValue;
+      }
+
+      if (!isset($reqHeaders['content_type'])) {
+         $_SERVER['CONTENT_TYPE'] = 'application/json';
+      } else {
+         $_SERVER['CONTENT_TYPE'] = $reqHeaders['content_type'];
+      }
+
+      if (isset($reqHeaders['authorization'])) {
+         if (strpos($reqHeaders['authorization'], 'Basic ') === 0) {
+            $credentials = str_replace('Basic ', '', $reqHeaders['authorization']);
+            list($user, $pass) = explode(':', base64_decode($credentials, true));
+            $_SERVER['PHP_AUTH_USER'] = $user;
+            $_SERVER['PHP_AUTH_PW'] = $pass;
+         }
+      }
+
+      $response = [];
+      $httpCode = 0;
+      $headers = [];
+      $apiRest = $this->getMockForItemtype(APIRest::class, ['getHttpBodyStream', 'returnResponse']);
+      $apiRest->method('returnResponse')
+              ->willReturnCallback(function ($_response, $_httpCode = 200, $_headers = array())
+                                   use (&$response, &$httpCode, &$headers) {
+                  $response = $_response;
+                  $httpCode = $_httpCode;
+                  $headers = $_headers;
+                  // Emulate exit
+                  throw new ApiExitException();
+              });
+      $apiRest->method('getHttpBodyStream')
+              ->willReturn($body);
+
+      try {
+         $apiRest->call();
+      } catch (ApiExitException $e) {
+         // Emulated exit from the API
+      }
+      $this->restHeaders = $headers;
+      $this->restHttpCode = $httpCode;
+      $this->restResponse = $response;
+   }
+
+   public function tearDown() {
+      parent::tearDown();
+      // restore $_SERVER after changing it for API tests
+      $_SERVER = self::$backupServer;
+
+      //Restart a session if previously closed by the API
+      if (session_status() != PHP_SESSION_ACTIVE) {
+         session_start();
+         //$_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
+      }
+   }
 }

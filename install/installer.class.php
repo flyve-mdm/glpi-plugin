@@ -33,8 +33,6 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-//use ApkParser\Config;
-
 /**
  *
  * @author tbugier
@@ -48,6 +46,14 @@ class PluginStorkmdmInstaller {
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
    const BACKEND_MQTT_USER = 'storkmdm-backend';
+
+   const FLYVE_MDM_PRODUCT_WEBSITE     = 'www.flyve-mdm.com';
+
+   const FLYVE_MDM_PRODUCT_GOOGLEPLUS  = 'https://plus.google.com/collection/c32TsB';
+
+   const FLYVE_MDM_PRODUCT_TWITTER     = 'https://twitter.com/FlyveMDM';
+
+   const FLYVE_MDM_PRODUCT_FACEBOOK    = 'https://www.facebook.com/Flyve-MDM-1625450937768377/';
 
    // Order of this array is mandatory due tu dependancies on install and uninstall
    protected static $itemtypesToInstall = array(
@@ -130,13 +136,17 @@ class PluginStorkmdmInstaller {
 
       $this->createDirectories();
       $this->createFirstAccess();
-      $this->createServiceProfileAccess();
-      $this->createRegisteredProfileAccess();
+      $this->createServiceProfileAccess();                     // Demo mode
+      $this->createRegisteredProfileAccess();                  // Demo mode
+      $this->createInactiveRegisteredProfileAccess();          // Demo mode
       $this->createGuestProfileAccess();
-      $this->createServiceUserAccount();
+      $this->createServiceUserAccount();                       // Demo mode
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
+      $this->createSocialMediaIcons();                         // Demo mode
+      $this->createNotificationTargetAccountvalidation();      // Demo mode
       $this->createJobs();
+      $this->createDemoModeJobs();                             // Demo mode
 
       Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
 
@@ -215,7 +225,7 @@ class PluginStorkmdmInstaller {
    protected function createFirstAccess() {
       $profileRight = new ProfileRight();
 
-      $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], array(
+      $newRights = array(
             PluginStorkmdmProfile::$rightname         => PluginStorkmdmProfile::RIGHT_STORKMDM_USE,
             PluginStorkmdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
             PluginStorkmdmAgent::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
@@ -231,7 +241,11 @@ class PluginStorkmdmInstaller {
                                                          | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
                                                          | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
             PluginStorkmdmInvitationLog::$rightname   => READ,
-      ));
+      );
+
+      $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
+
+      $_SESSION['glpiactiveprofile'] = $_SESSION['glpiactiveprofile'] + $newRights;
    }
 
    protected function createServiceProfileAccess() {
@@ -289,6 +303,18 @@ class PluginStorkmdmInstaller {
             'id'                 => $profileId,
             '_password_update'   => 1
       ]);
+   }
+
+   /**
+    * Setup rights for inactive registered users profile
+    */
+   protected function createInactiveRegisteredProfileAccess() {
+      // create profile for registered users
+      $profileId = self::getOrCreateProfile(
+            __("Stork MDM inactive registered users", "storkmdm"),
+            __("inactive registered StorkMDM users. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            );
+      Config::setConfigurationValues('storkmdm', array('inactive_registered_profiles_id' => $profileId));
    }
 
    protected function createGuestProfileAccess() {
@@ -353,7 +379,8 @@ class PluginStorkmdmInstaller {
                'password'        => '42',
                'personal_token'  => User::getUniquePersonalToken(),
                '_profiles_id'    => $profile->getID(),
-               'language'        => $_SESSION['glpilanguage']     // Propagate language preference to service account
+               'language'        => $_SESSION['glpilanguage'], // Propagate language preference to service account
+               'is_active'       => '0',
          ])) {
             die ('Could not create the service account');
          }
@@ -361,42 +388,52 @@ class PluginStorkmdmInstaller {
    }
 
    protected function getNotificationTargetInvitationEvents() {
-      return array(
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $notifications = array(
             PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
+                  'itemtype'        => PluginStorkmdmInvitation::class,
                   'name'            => __('User invitation', "storkmdm"),
                   'subject'         => __('You have been invited to join Flyve MDM', 'storkmdm'),
-                  'content_text'    => __('Hi,\n\n
+                  'content_text'    => __('Hi,
 
-                  Please join the Flyve Mobile Device Management system by downloading
-                  and installing the Flyve MDM application for Android from the following link.\n\n
+Please join the Flyve Mobile Device Management system by downloading
+and installing the Flyve MDM application for Android from the following link.
 
-                  ##storkmdm.download_app##\n\n
+##storkmdm.download_app##
 
-                  If you\'re viewing this email from a computer flash the QR code you see below
-                  with the Flyve MDM Application.\n\n
+If you\'re viewing this email from a computer flash the QR code you see below
+with the Flyve MDM Application.
 
-                  If you\'re viewing this email from your device to enroll then tap the
-                  following link.\n\n
+If you\'re viewing this email from your device to enroll then tap the
+following link.
 
-                  ##storkmdm.enroll_url##\n\n
+##storkmdm.enroll_url##
 
-                  Regards,
+Regards,
 
-                  ', 'storkmdm'),
-                  'content_html'    => __('Hi,\n\n
+', 'storkmdm'),
+                  'content_html'    => __('Hi,
 
-                  Please join the Flyve Mobile Device Management system by downloading
-                  and installing the Flyve MDM application for Android from the following link.\n\n
+Please join the Flyve Mobile Device Management system by downloading
+and installing the Flyve MDM application for Android from the following link.
 
-                  ##storkmdm.download_app##\n\n
+##storkmdm.download_app##
 
-                  <img src="cid:##storkmdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">\n\n
+<img src="cid:##storkmdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">
 
-                  Regards,
+Regards,
 
-                  ', 'storkmdm')
+', 'storkmdm')
             )
       );
+
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $notifications;
    }
 
    public function createNotificationTargetInvitation() {
@@ -407,12 +444,13 @@ class PluginStorkmdmInstaller {
       $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
-         if (count($template->find("`itemtype`='PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "'")) < 1) {
+         $itemtype = $data['itemtype'];
+         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
             // Add template
             $templateId = $template->add([
                   'name'      => addcslashes($data['name'], "'\""),
                   'comment'   => '',
-                  'itemtype'  => 'PluginStorkmdmInvitation'
+                  'itemtype'  => $itemtype,
             ]);
 
             // Add default translation
@@ -436,7 +474,246 @@ class PluginStorkmdmInstaller {
                   'entities_id'              => 0,
                   'is_recursive'             => 1,
                   'is_active'                => 1,
-                  'itemtype'                 => 'PluginStorkmdmInvitation',
+                  'itemtype'                 => $itemtype,
+                  'notificationtemplates_id' => $templateId,
+                  'event'                    => $event,
+                  'mode'                     => 'mail'
+            ]);
+
+            $notificationTarget->add([
+                  'items_id'           => Notification::USER,
+                  'type'               => Notification::USER_TYPE,
+                  'notifications_id'   => $notificationId
+            ]);
+
+         }
+      }
+   }
+
+   protected function getNotificationTargetRegistrationEvents() {
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $notifications = array(
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('Self registration', "storkmdm"),
+                  'subject'         => __('Flyve MDM Account Activation', 'storkmdm'),
+                  'content_text'    => __('Hi there,
+
+You or someone else created an account on Flyve MDM with your email address.
+
+If you did not register for an account, please discard this email message, we apologize for any inconveniences.
+
+If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+
+##storkmdm.registration_url##
+
+After activating your account, please login and enjoy Flyve MDM for ##storkmdm.trial_duration##, entering :
+
+##storkmdm.webapp_url##
+
+Regards,
+
+', 'storkmdm') . $this->getTextMailingSignature(),
+                  'content_html'    => __('Hi there,
+
+You or someone else created an account on Flyve MDM with your email address.
+
+If you did not register for an account, please discard this email message, we apologize for any inconveniences.
+
+If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+
+<a href="##storkmdm.registration_url##">##storkmdm.registration_url##</a>
+
+After activating your account, please login and <span style="text-weight: bold">enjoy Flyve MDM for ##storkmdm.trial_duration##</span>, entering :
+
+<a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a>
+
+Regards,
+
+', 'storkmdm') . $this->getHTMLMailingSignature()
+            ),
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('Account activated', "storkmdm"),
+                  'subject'         => __('Get started with Flyve MDM', 'storkmdm'),
+                  'content_text'    => __('Hi there,
+
+Thank you for joining us, you have successfully activated your Flyve MDM account!
+
+Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
+Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
+
+To use it during your 90 days trial, sign in to ##storkmdm.webapp_url##, with your account’s login.
+
+We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to contact@flyve-mdm.com!
+
+You want to upgrade?
+
+You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: sales@flyve-mdm.com!
+
+Regards,
+
+', 'storkmdm') . $this->getTextMailingSignature(),
+                  'content_html'    => __('Hi there,
+
+Thank you for joining us, you have successfully activated your Flyve MDM account!
+
+Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
+Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
+
+To use it during your 90 days trial, sign in to <a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a>, with your account’s login.
+
+We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to <a href="contact@flyve-mdm.com">contact@flyve-mdm.com</a>!
+
+<span style="font-weight: bold;">You want to upgrade?</span>
+
+You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
+
+Regards,
+
+', 'storkmdm') . $this->getHTMLMailingSignature()
+            ),
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1 => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('First trial reminder', "storkmdm"),
+                  'subject'         => __('Your Flyve MDM trial will end soon! - Only ##storkmdm.days_remaining## left!', 'storkmdm'),
+                  'content_text'    => __('Hi there,
+
+Your 90 days trial for ##storkmdm.webapp_url## is coming to an end in ##storkmdm.days_remaining## and we deeply hope you have been enjoying the experience!
+
+Ready to upgrade?
+
+To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
+
+Regards,
+
+', 'storkmdm') . $this->getTextMailingSignature(),
+                  'content_html'    => __('Hi there,
+
+Your 90 days trial for <a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a> is coming to an end in ##storkmdm.days_remaining## and we deeply hope you have been enjoying the experience!
+
+<span style="font-weight: bold;">Ready to upgrade?</span>
+
+To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
+
+Regards,
+
+', 'storkmdm') . $this->getHTMLMailingSignature()
+            ),
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2 => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('Second trial reminder', "storkmdm"),
+                  'subject'         => __('Your free Flyve MDM trial expires in ##storkmdm.days_remaining##!', 'storkmdm'),
+                  'content_text'    => __('Hi there,
+
+We want to give you a heads-up that in ##storkmdm.days_remaining## your Flyve MDM trial comes to an end!
+
+We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
+
+Ready to upgrade?
+
+To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
+
+Regards,
+
+', 'storkmdm') . $this->getTextMailingSignature(),
+                  'content_html'    => __('Hi there,
+
+We want to give you a heads-up that <span style="font-weight: bold;">in ##storkmdm.days_remaining## your Flyve MDM trial comes to an end!</span>
+
+We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
+
+<span style="font-weight: bold;">Ready to upgrade?</span>
+
+To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
+
+Regards,
+
+', 'storkmdm') . $this->getHTMLMailingSignature()
+            ),
+            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND => array(
+                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
+                  'name'            => __('End of trial reminder', "storkmdm"),
+                  'subject'         => __('Your free Flyve MDM trial has expired.', 'storkmdm'),
+                  'content_text'    => __('Hi there,
+
+The trial period for Flyve MDM has ended!
+
+We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
+
+Upgrade to the next level!
+
+Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
+Email us at: sales@flyve-mdm.com, we will be happy to hear from you!
+
+Regards,
+
+', 'storkmdm') . $this->getTextMailingSignature(),
+                  'content_html'    => __('Hi there,
+
+<span style="font-weight: bold;">The trial period for Flyve MDM has ended!</span>
+
+We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
+
+<span style="font-weight: bold;">Upgrade to the next level!</span>
+
+Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
+Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>, we will be happy to hear from you!
+
+Regards,
+
+', 'storkmdm') . $this->getHTMLMailingSignature()
+            ),
+      );
+
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $notifications;
+   }
+
+   public function createNotificationTargetAccountvalidation() {
+      // Create the notification template
+      $notification = new Notification();
+      $template = new NotificationTemplate();
+      $translation = new NotificationTemplateTranslation();
+      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
+
+      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
+            // Add template
+            $templateId = $template->add([
+                  'name'      => addcslashes($data['name'], "'\""),
+                  'comment'   => '',
+                  'itemtype'  => $itemtype
+            ]);
+
+            // Add default translation
+            if (!isset($data['content_html'])) {
+               $contentHtml = self::convertTextToHtml($data['content_text']);
+            } else {
+               $contentHtml = self::convertTextToHtml($data['content_html']);
+            }
+            $translation->add([
+                  'notificationtemplates_id' => $templateId,
+                  'language'                 => '',
+                  'subject'                  => addcslashes($data['subject'], "'\""),
+                  'content_text'             => addcslashes($data['content_text'], "'\""),
+                  'content_html'             => addcslashes($contentHtml, "'\"")
+            ]);
+
+            // Create the notification
+            $notificationId = $notification->add([
+                  'name'                     => addcslashes($data['name'], "'\""),
+                  'comment'                  => '',
+                  'entities_id'              => 0,
+                  'is_recursive'             => 1,
+                  'is_active'                => 1,
+                  'itemtype'                 => $itemtype,
                   'notificationtemplates_id' => $templateId,
                   'event'                    => $event,
                   'mode'                     => 'mail'
@@ -468,13 +745,33 @@ class PluginStorkmdmInstaller {
       }
 
       $this->createPolicies();
+      $this->createJobs();
    }
 
    protected function createJobs() {
-
       CronTask::Register('PluginStorkmdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
             array(
                   'comment'   => __('Update retained MQTT topics for fleet policies', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
+   }
+
+   protected function createDemoModeJobs() {
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Remove expired account activations (demo mode)', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
+
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'DisableExpiredTrial', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Disable expired accounts (demo mode)', 'storkmdm'),
+                  'mode'      => CronTask::MODE_EXTERNAL
+            ));
+
+      CronTask::Register('PluginStorkmdmAccountvalidation', 'RemindTrialExpiration', 12 * HOUR_TIMESTAMP,
+            array(
+                  'comment'   => __('Remind imminent end of trial period (demo mode)', 'storkmdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
    }
@@ -508,10 +805,13 @@ class PluginStorkmdmInstaller {
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
+      $this->deleteNotificationTargetAccountvalidation();
       $this->deleteProfileRights();
       $this->deleteProfiles();
-      $this->deleteTables();
       $this->deleteDisplayPreferences();
+      $this->deleteSocialMediaIcons();                      // Demo mode
+      $this->deleteTables();
+      // Cron jobs deletion handled by GLPi
 
       $config = new Config();
       $config->deleteByCriteria(array('context' => 'storkmdm'));
@@ -572,6 +872,10 @@ class PluginStorkmdmInstaller {
             'android_bugcollecctor_url'      => '',
             'android_bugcollector_login'     => '',
             'android_bugcollector_passwd'    => '',
+            'webapp_url'                     => '',
+            'demo_mode'                      => '0',
+            'demo_time_limit'                => '0',
+            'inactive_registered_profiles_id'=> '',
       ];
       Config::setConfigurationValues("storkmdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
@@ -625,7 +929,8 @@ class PluginStorkmdmInstaller {
     * @param string $text
     */
    protected static function convertTextToHtml($text) {
-      $text = '<p>' . addcslashes(str_replace('\n', '<br>', $text), "'\"") . '</p>';
+      $text = '<p>' . str_replace("\n\n", '</p><p>', $text) . '</p>';
+      $text = '<p>' . str_replace("\n", '<br>', $text) . '</p>';
       return $text;
    }
 
@@ -977,27 +1282,66 @@ class PluginStorkmdmInstaller {
       $tableTemplates    = getTableForItemType('NotificationTemplate');
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         $name = $data['name'];
          //TODO : implement cleanup
          // Delete translations
          $query = "DELETE FROM `$tableTranslations`
-         WHERE `notificationtemplates_id` IN (
-         SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `name`='" . $data['name'] . "')";
+                   WHERE `notificationtemplates_id` IN (
+                   SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = '$itemtype' AND `name`='$name')";
          $DB->query($query);
 
          // Delete notification templates
          $query = "DELETE FROM `$tableTemplates`
-         WHERE `itemtype` = 'PluginStorkmdmAgent' AND `name`='" . $data['name'] . "'";
+                  WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
          $DB->query($query);
 
          // Delete notification targets
          $query = "DELETE FROM `$tableTargets`
-         WHERE `notifications_id` IN (
-         SELECT `id` FROM `$tableNotification` WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event')";
+                   WHERE `notifications_id` IN (
+                   SELECT `id` FROM `$tableNotification` WHERE `itemtype` = '$itemtype' AND `event`='$event')";
          $DB->query($query);
 
          // Delete notifications
          $query = "DELETE FROM `$tableNotification`
-         WHERE `itemtype` = 'PluginStorkmdmInvitation' AND `event`='$event'";
+                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
+         $DB->query($query);
+      }
+   }
+
+   protected function deleteNotificationTargetAccountvalidation() {
+      global $DB;
+
+      // Define DB tables
+      $tableTargets      = getTableForItemType('NotificationTarget');
+      $tableNotification = getTableForItemType('Notification');
+      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
+      $tableTemplates    = getTableForItemType('NotificationTemplate');
+
+      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
+         $itemtype = $data['itemtype'];
+         $name = $data['name'];
+         //TODO : implement cleanup
+         // Delete translations
+         $query = "DELETE FROM `$tableTranslations`
+                   WHERE `notificationtemplates_id` IN (
+                   SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = '$itemtype' AND `name`='$name')";
+         $DB->query($query);
+
+         // Delete notification templates
+         $query = "DELETE FROM `$tableTemplates`
+                   WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
+         $DB->query($query);
+
+         // Delete notification targets
+         $query = "DELETE FROM `$tableTargets`
+                   WHERE `notifications_id` IN (
+                   SELECT `id` FROM `$tableNotification` WHERE `itemtype` = '$itemtype' AND `event`='$event')";
+         $DB->query($query);
+
+         // Delete notifications
+         $query = "DELETE FROM `$tableNotification`
+                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
          $DB->query($query);
       }
    }
@@ -1010,7 +1354,6 @@ class PluginStorkmdmInstaller {
             PluginStorkmdmEntityconfig::getTable(),
             PluginStorkmdmFile::getTable(),
             PluginStorkmdmInvitationlog::getTable(),
-            PluginStorkmdmMqttupdatequeue::getTable(),
             PluginStorkmdmFleet::getTable(),
             PluginStorkmdmFleet_Policy::getTable(),
             PluginStorkmdmGeolocation::getTable(),
@@ -1023,6 +1366,7 @@ class PluginStorkmdmInstaller {
             PluginStorkmdmPolicy::getTable(),
             PluginStorkmdmPolicyCategory::getTable(),
             PluginStorkmdmWellknownpath::getTable(),
+            PluginStorkmdmAccountvalidation::getTable(),
       );
 
       foreach ($tables as $table) {
@@ -1096,6 +1440,133 @@ class PluginStorkmdmInstaller {
    protected function deleteDisplayPreferences() {
       // To cleanup display preferences if any
       //$displayPreference = new DisplayPreference();
-      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MIN . " AND `num` <= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MAX));
+      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MIN . "
+      //                                             AND `num` <= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MAX));
+   }
+
+   protected function getHTMLMailingSignature() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_twit']);
+      $twitterTag = Document::getImageTag($document->getField('tag'));
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_gplus']);
+      $gplusTag = Document::getImageTag($document->getField('tag'));
+
+      $document = new Document();
+      $document->getFromDB($config['social_media_facebook']);
+      $facebookTag = Document::getImageTag($document->getField('tag'));
+
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_WEBSITE . '">' . self::FLYVE_MDM_PRODUCT_WEBSITE . "</a>\n";
+      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_FACEBOOK .'">'
+                   . '<img src="cid:' . $facebookTag . '" alt="Facebook" title="Facebook" width="30" height="30">'
+                   . '</a>'
+                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_TWITTER . '">'
+                   . '<img src="cid:' . $twitterTag . '" alt="Twitter" title="Twitter" width="30" height="30">'
+                   . '</a>'
+                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . '">'
+                   . '<img src="cid:' . $gplusTag . '" alt="Google+" title="Google+" width="30" height="30">'
+                   .'</a>' . "\n";
+
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $signature;
+   }
+
+   protected function getTextMailingSignature() {
+      // Force locale for localized strings
+      $currentLocale = $_SESSION['glpilanguage'];
+      Session::loadLanguage('en_GB');
+
+      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature.= self::FLYVE_MDM_PRODUCT_WEBSITE . "\n";
+      $signature.= self::FLYVE_MDM_PRODUCT_FACEBOOK . "\n"
+                   . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . "\n"
+                   . self::FLYVE_MDM_PRODUCT_TWITTER . "\n";
+
+      // Restore user's locale
+      Session::loadLanguage($currentLocale);
+
+      return $signature;
+   }
+
+   /**
+    * create documents for demo mode social media icons
+    */
+   protected function createSocialMediaIcons() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      if (!isset($config['social_media_twit'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-twitter.jpg', GLPI_TMP_DIR . '/flyve-twitter.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Twitter icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-twitter.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_twit']     = $document->getID();
+         }
+      }
+
+      if (!isset($config['social_media_gplus'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-gplus.jpg', GLPI_TMP_DIR . '/flyve-gplus.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Google Plus icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-gplus.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_gplus']    = $document->getID();
+         }
+      }
+
+      if (!isset($config['social_media_facebook'])) {
+         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-facebook.jpg', GLPI_TMP_DIR . '/flyve-facebook.jpg');
+         $input = array();
+         $document = new Document();
+         $input['entities_id']               = '0';
+         $input['is_recursive']              = '1';
+         $input['name']                      = __('Flyve MDM Facebook  icon', 'storkmdm');
+         $input['_filename']                 = array('flyve-facebook.jpg');
+         $input['_only_if_upload_succeed']   = true;
+         if ($document->add($input)) {
+            $config['social_media_facebook'] = $document->getID();
+         }
+      }
+
+      Config::setConfigurationValues('storkmdm', $config);
+   }
+
+   protected function deleteSocialMediaIcons() {
+      $config = Config::getConfigurationValues('storkmdm', [
+            'social_media_twit',
+            'social_media_gplus',
+            'social_media_facebook',
+      ]);
+
+      foreach ($config as $documentId) {
+         $document = new Document();
+         $document->delete(['id'    => $documentId], 1);
+      }
    }
 }

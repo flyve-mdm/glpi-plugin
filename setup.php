@@ -103,6 +103,15 @@ function plugin_init_storkmdm() {
       $PLUGIN_HOOKS['item_get_datas']['storkmdm'] =
             array('PluginStorkmdmNotificationTargetInvitation' => array('PluginStorkmdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'));
       Plugin::registerClass('PluginStorkmdmInvitation', array(
+            'notificationtemplates_types' => true, // 'document_types' => true
+      ));
+
+      $PLUGIN_HOOKS['item_get_events']['storkmdm'] =
+            array('PluginStorkmdmNotificationTargetAccountvalidation' => array('PluginStorkmdmNotificationTargetAccountvalidation', 'addEvents'));
+      $PLUGIN_HOOKS['item_get_datas']['storkmdm'] =
+            array('PluginStorkmdmNotificationTargetAccountvalidation' => array('PluginStorkmdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'));
+
+      Plugin::registerClass('PluginStorkmdmAccountvalidation', array(
          'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
@@ -196,9 +205,24 @@ function plugin_storkmdm_check_prerequisites() {
       $prerequisitesSuccess = false;
    }
 
+   if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_file(__DIR__ . '/vendor/autoload.php')) {
+      echo "Run composer install --no-dev in the plugin directory<br>";
+      $prerequisitesSuccess = false;
+   }
+
    $plugin = new Plugin();
    if ( !($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory')) ) {
       echo "This plugin requires Fusioninventory for GLPi<br>";
+      $prerequisitesSuccess = false;
+   }
+
+   if ($CFG_GLPI['enable_api'] == 0) {
+      echo "This plugin requires GLPI's Rest API enabled<br>";
+      $prerequisitesSuccess = false;
+   }
+
+   if ($CFG_GLPI['use_mailing'] == 0) {
+      echo "This plugin requires GLPI's email notifications enabled<br>";
       $prerequisitesSuccess = false;
    }
    return $prerequisitesSuccess;

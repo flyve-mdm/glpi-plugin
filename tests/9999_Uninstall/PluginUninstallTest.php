@@ -27,45 +27,25 @@
  @link      https://github.com/flyvemdm/backend
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
-*/
+ */
 
-// fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
-global $CFG_GLPI, $PLUGIN_HOOKS, $_CFG_GLPI;
-
-class UnitTestAutoload
+class PluginUninstallTest extends SuperAdminTestCase
 {
+   public function testUninstall() {
+      global $DB;
 
-   public static function register() {
-      spl_autoload_register(array('UnitTestAutoload', 'autoload'));
-   }
+      $plugin = new Plugin();
+      $plugin->getFromDBbyDir("storkmdm");
 
-   public static function autoload($className) {
-      $file = __DIR__ . "/inc/$className.php";
-      if (is_readable($file) && is_file($file)) {
-         include_once(__DIR__ . "/inc/$className.php");
-         return true;
+      ob_start(function($in) { return ''; });
+      $plugin->uninstall($plugin->getID());
+      ob_end_clean();
+
+      $tables = [];
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_storkmdm_%'");
+      while ($row = $DB->fetch_assoc($result) ) {
+         $tables[] = array_pop($row);
       }
-      return false;
+      $this->assertCount(0, $tables, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
    }
-
 }
-
-UnitTestAutoload::register();
-
-define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
-define("GLPI_LOG_DIR", __DIR__ . '/logs');
-
-include (GLPI_ROOT . "/inc/includes.php");
-
-// need to set theses in DB, because tests for API use http call and this bootstrap file is not called
-Config::setConfigurationValues('core', [
-      'url_base'     => GLPI_URI,
-      'url_base_api' => GLPI_URI . '/apirest.php'
-]);
-$CFG_GLPI['url_base']      = GLPI_URI;
-$CFG_GLPI['url_base_api']  = GLPI_URI . '/apirest.php';
-
-// Mock PluginStorkmdmMqttClient
-include __DIR__ . "/inc/MqttClient.php";
-

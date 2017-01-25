@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
@@ -138,13 +138,27 @@ class PluginStorkmdmUser extends User {
       }
 
       // Create the user, with authorization on his entity via the registered user profile
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id'));
+      $config = Config::getConfigurationValues('storkmdm', array(
+            'registered_profiles_id',
+            'inactive_registered_profiles_id',
+      ));
 
-      if (!isset($config['registered_profiles_id'])) {
-         Session::addMessageAfterRedirect(__('No profile available to setup user rights', 'storkmdm'));
-         return false;
+      $accountValidation = new PluginStorkmdmAccountvalidation();
+      $demoMode = $accountValidation->isDemoEnabled();
+
+      if ($demoMode) {
+         $registeredProfileId = $config['inactive_registered_profiles_id'];
+         if (!isset($config['registered_profiles_id'])) {
+            Session::addMessageAfterRedirect(__('No inactive profile available to setup user rights', 'storkmdm'));
+            return false;
+         }
+      } else {
+         $registeredProfileId = $config['registered_profiles_id'];
+         if (!isset($config['registered_profiles_id'])) {
+            Session::addMessageAfterRedirect(__('No profile available to setup user rights', 'storkmdm'));
+            return false;
+         }
       }
-      $registeredProfileId = $config['registered_profiles_id'];
 
       // Create an entity for the user
       self::$creation = true;
@@ -179,11 +193,11 @@ class PluginStorkmdmUser extends User {
       if ($input === false) {
          return false;
       }
-      $input["_profiles_id"] = $registeredProfileId;
-      $input["profiles_id"] = $registeredProfileId;      // Default profile when user logs in
-      $input["_entities_id"] = $this->entity->getID();
+      $input["_profiles_id"]  = $registeredProfileId;
+      $input["profiles_id"]   = $registeredProfileId;      // Default profile when user logs in
+      $input["_entities_id"]  = $this->entity->getID();
       $input["_is_recursive"] = 0;
-      $input['_useremails'] = array ($input['name']);
+      $input['_useremails']   = array ($input['name']);
 
       return $input;
    }
@@ -274,6 +288,25 @@ class PluginStorkmdmUser extends User {
             $affectation["users_id"]     = $this->fields["id"];
             $right                       = new Profile_User();
             $right->add($affectation);
+
+            // If demo mode enabled, send an activation email
+            $accountValidation = new PluginStorkmdmAccountvalidation();
+            $demoMode = $accountValidation->isDemoEnabled();
+
+            if ($demoMode) {
+               $config = Config::getConfigurationValues('storkmdm', array(
+                     'registered_profiles_id',
+               ));
+               $affectation['assigned_entities_id'] = $affectation['entities_id'];
+               $affectation['profiles_id']          = $config['registered_profiles_id'];
+               $accountValidation->add($affectation);
+
+               NotificationEvent::raiseEvent(
+                     PluginStorkmdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION,
+                     $accountValidation,
+                     array('entities_id' => $right->getField('entities_id'))
+               );
+            }
          }
       }
    }

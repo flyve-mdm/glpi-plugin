@@ -187,7 +187,31 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "storkmdm").'</td>';
       echo '</tr>';
 
+      echo '<tr><th colspan="3">'.__('Demo mode', "storkmdm").'</th></tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Demo mode", "storkmdm").'</td>';
+      echo '<td>' . Dropdown::showYesNo('demo_mode', $config['demo_mode'], -1, array('display' => false));
+      echo '</td>';
+      echo '<td>'. __("Demo mode enables email validation step when self creating an entity", "storkmdm").'</td>';
+      echo '</tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Time limit", "storkmdm").'</td>';
+      echo '<td>' . Dropdown::showYesNo('demo_time_limit', $config['demo_time_limit'], -1, array('display' => false));
+      echo '</td>';
+      echo '<td>'. __("Limit lifetime of a demo account", "storkmdm").'</td>';
+      echo '</tr>';
+
       echo '<tr><th colspan="3">'.__('Frontend setup', "storkmdm").'</th></tr>';
+
+      echo '<tr class="tab_bg_1">';
+      echo '<td>'. __("Webapp URL", "storkmdm").'</td>';
+      echo '<td><input type="text" name="webapp_url"' .
+            'value="'. $config['webapp_url'] .'" />';
+      echo '</td>';
+      echo '<td>'. __("URL of the web interface used for management", "storkmdm").'</td>';
+      echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
       echo '<td>'. __("Service's User Token", "storkmdm").'</td>';
@@ -231,6 +255,22 @@ class PluginStorkmdmConfig extends CommonDBTM {
             }
          }
       }
+      if (isset($input['demo_mode'])) {
+         if ($input['demo_mode'] != '0'
+               && (!isset($input['webapp_url']) || empty($input['webapp_url']))) {
+            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'storkmdm', false, ERROR));
+            unset($input['demo_mode']);
+         } else {
+            $config = new static();
+            if ($input['demo_mode'] == 0) {
+               $config->resetDemoNotificationSignature();
+               $config->disableDemoAccountService();
+            } else {
+               $config->setDemoNotificationSignature();
+               $config->enableDemoAccountService();
+            }
+         }
+      }
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
@@ -252,4 +292,37 @@ class PluginStorkmdmConfig extends CommonDBTM {
       }
       return $fields;
    }
+
+   protected function setDemoNotificationSignature() {
+      $config = Config::setConfigurationValues('core', [
+            'mailing_signature' => '',
+      ]);
+   }
+
+   protected function resetDemoNotificationSignature() {
+      $config = Config::setConfigurationValues('core', [
+            'mailing_signature' => 'SIGNATURE',
+      ]);
+   }
+
+   protected function enableDemoAccountService() {
+      $user = new User();
+      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+         $user->update(array(
+               'id'        => $user->getID(),
+               'is_active' => 1
+         ));
+      }
+   }
+
+   protected function disableDemoAccountService() {
+      $user = new User();
+      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
+         $user->update(array(
+               'id'        => $user->getID(),
+               'is_active' => 1
+         ));
+      }
+   }
+
 }

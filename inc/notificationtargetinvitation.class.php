@@ -55,7 +55,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public static function addEvents($target) {
          Plugin::loadLang('storkmdm');
-         $target->events['plugin_storkmdm_invitation'] = __('Invitation', 'storkmdm');
+         $target->events[self::EVENT_GUEST_INVITATION] = __('Invitation', 'storkmdm');
    }
 
    /**
