@@ -44,8 +44,8 @@ class PluginUninstallTest extends SuperAdminTestCase
       $tables = [];
       $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_storkmdm_%'");
       while ($row = $DB->fetch_assoc($result) ) {
-         $tables[] = $row[0];
+         $tables[] = array_pop($row);
       }
-      $this->assertCount(0, $tables, "not deleted tables " . json_encode($tables, JSON_PRETTY_PRINT));
+      $this->assertCount(0, $tables, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
    }
 }
