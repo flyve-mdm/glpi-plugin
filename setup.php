@@ -165,43 +165,76 @@ function plugin_version_storkmdm() {
          'minGlpiVersion' => PLUGIN_STORKMDM_GLPI_MIN_VERSION);
 }
 
-// Optional : check prerequisites before install : may print errors or add to message after redirect
+/**
+ * Check pre-requisites before install
+ * OPTIONNAL, but recommanded
+ *
+ * @return boolean
+ */
 function plugin_storkmdm_check_prerequisites() {
    global $CFG_GLPI;
    $prerequisitesSuccess = true;
 
    if (version_compare(GLPI_VERSION, PLUGIN_STORKMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_STORKMDM_GLPI_MAX_VERSION, 'ge')) {
-      echo "This plugin requires GLPi >= " . PLUGIN_STORKMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_STORKMDM_GLPI_MAX_VERSION . "<br>";
+      if (method_exists('Plugin', 'messageIncompatible')) {
+         echo Plugin::messageIncompatible('core', PLUGIN_STORKMDM_GLPI_MIN_VERSION, PLUGIN_STORKMDM_GLPI_MAX_VERSION) . '<br/>';
+      } else {
+         echo "This plugin requires GLPi >= " . PLUGIN_STORKMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_STORKMDM_GLPI_MAX_VERSION . "<br/>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (version_compare(PHP_VERSION, PLUGIN_STORKMDM_PHP_MIN_VERSION, 'lt')) {
-      echo "This plugin requires PHP >=" . PLUGIN_STORKMDM_PHP_MIN_VERSION . "<br>";
+      if (method_exists('Plugin', 'messageIncompatible')) {
+         echo Plugin::messageIncompatible('core', PLUGIN_STORKMDM_PHP_MIN_VERSION) . '<br/>';
+      } else {
+         echo "This plugin requires PHP >=" . PLUGIN_STORKMDM_PHP_MIN_VERSION . "<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (! function_exists("openssl_random_pseudo_bytes")) {
-      echo "This plugin requires PHP compiled with --with-openssl<br>";
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('ext', 'OpenSSL') . '<br/>';
+      } else {
+         echo "This plugin requires PHP compiled with --with-openssl<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (! function_exists("socket_create")) {
-      echo "This plugin requires PHP compiled with --enable-sockets<br>";
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('compil', '--enable-sockets') . '<br/>';
+      } else {
+         echo "This plugin requires PHP compiled with --enable-sockets<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (!isset($CFG_GLPI["url_base"]) || strlen($CFG_GLPI["url_base"]) == 0) {
-      echo "This plugin requires GLPi url base set<br>";
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('param', 'url_base') . '<br/>';
+      } else {
+         echo "This plugin requires GLPi url base set<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (! extension_loaded('zip')) {
-      echo "This plugin requires PHP ZIP extension<br>";
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('ext', 'ZIP') . '<br/>';
+      } else {
+         echo "This plugin requires PHP ZIP extension<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
    if (! extension_loaded('gd')) {
-      echo "This plugin requires PHP gd extension<br>";
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('ext', 'GD') . '<br/>';
+      } else {
+         echo "This plugin requires PHP gd extension<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
@@ -211,8 +244,12 @@ function plugin_storkmdm_check_prerequisites() {
    }
 
    $plugin = new Plugin();
-   if ( !($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory')) ) {
-      echo "This plugin requires Fusioninventory for GLPi<br>";
+   if (!($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory'))) {
+      if (method_exists('Plugin', 'messageMissingRequirement')) {
+         echo Plugin::messageMissingRequirement('plugin', 'FusionInventory') . '<br/>';
+      } else {
+         echo "This plugin requires Fusioninventory for GLPi<br>";
+      }
       $prerequisitesSuccess = false;
    }
 
