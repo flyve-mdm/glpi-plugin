@@ -1,4 +1,9 @@
 {
+    "title": "Flyve MDM",
+    "description": "Flyve MDM plugin for GLPI",
+    "type": "project",
+    "licence": "AGPLv3+",
+    "keywords": ["glpi", "flyve", "mdm"],
     "require": {
         "sskaje/mqtt": "dev-master",
         "spomky-labs/otphp": "^8.2",
