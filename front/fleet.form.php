@@ -53,13 +53,9 @@ if (isset($_POST["add"])) {
    $fleet->check($_POST['id'], UPDATE);
    $fleet->update($_POST);
    Html::back();
-}  else if (isset($_POST["purge"])) {
+} else if (isset($_POST["purge"])) {
    $fleet->check($_POST['id'], PURGE);
-   if ($fleet->delete($_POST, 1)) {
-      //Event::log($_POST["id"], $fleet->getTypeName(Session::getPluralNumber()), 4, "inventory",
-      //           //TRANS: %s is the user login
-      //           sprintf(__('%s purges an item'), $_SESSION["glpiname"]));
-   }
+   $fleet->delete($_POST, 1);
    $fleet->redirectToList();
 } else {
    Html::header(

@@ -86,8 +86,7 @@ class PluginStorkmdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitCreateFile
     * @depends testInitCreateFleet
     */
-   public function testApplyPolicyWithoutValue(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet)
-   {
+   public function testApplyPolicyWithoutValue(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet) {
       $fleet_policy = new PluginStorkmdmFleet_Policy();
       $addSuccess = $fleet_policy->add([
             'plugin_storkmdm_fleets_id'   => $fleet->getID(),
@@ -103,8 +102,7 @@ class PluginStorkmdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitCreateFile
     * @depends testInitCreateFleet
     */
-   public function testApplyPolicyWithoutDestination(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet)
-   {
+   public function testApplyPolicyWithoutDestination(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet) {
       $value = new stdClass();
       $value->remove_on_delete = '1';
 
@@ -125,8 +123,7 @@ class PluginStorkmdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitCreateFleet
     * @depends testInitGetDestination
     */
-   public function testApplyPolicyWithoutRemoveFlag(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet, $destination)
-   {
+   public function testApplyPolicyWithoutRemoveFlag(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet, $destination) {
       $value = new stdClass();
       $value->destination = $destination;
 

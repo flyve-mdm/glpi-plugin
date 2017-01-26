@@ -161,7 +161,7 @@ class PluginStorkmdmFile extends CommonDBTM {
          $success = false;
       } else {
          $this->createEntityDirectory(dirname($destination));
-         if  (!move_uploaded_file($source['tmp_name'], $destination)) {
+         if (!move_uploaded_file($source['tmp_name'], $destination)) {
             Session::addMessageAfterRedirect(__('Could not save file', "storkmdm"));
             $success = false;
          } else {

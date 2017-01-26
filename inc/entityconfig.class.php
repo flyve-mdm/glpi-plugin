@@ -178,12 +178,8 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       $entityConfig->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
 
       // Delete folders for the entity
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID())) {
-         // TODO : handle error here
-      }
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID())) {
-         // TODO : handle error here
-      }
+      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID());
+      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID());
    }
 
    /**

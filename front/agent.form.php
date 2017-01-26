@@ -57,13 +57,9 @@ if (isset($_POST["add"])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->wipe($_POST);
    Html::back();
-}  else if (isset($_POST["purge"])) {
+} else if (isset($_POST["purge"])) {
    $agent->check($_POST['id'], PURGE);
-   if ($agent->delete($_POST, 1)) {
-      //Event::log($_POST["id"], $agent->getTypeName(Session::getPluralNumber()), 4, "inventory",
-      //           //TRANS: %s is the user login
-      //           sprintf(__('%s deletes an item'), $_SESSION["glpiname"]));
-   }
+   $agent->delete($_POST, 1);
    $agent->redirectToList();
 } else {
    Html::header(

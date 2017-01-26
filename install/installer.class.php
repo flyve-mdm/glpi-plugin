@@ -116,7 +116,7 @@ class PluginStorkmdmInstaller {
 
          $this->createInitialConfig();
       } else {
-         if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0) ) {
+         if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0)) {
             // TODO : Upgrade (or downgrade)
             $this->upgrade(self::getCurrentVersion());
          }
@@ -169,10 +169,8 @@ class PluginStorkmdmInstaller {
             $this->migration->displayWarning("Cannot create " . STORKMDM_PACKAGE_PATH . " directory");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_PACKAGE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
-            } else {
-               // TODO : echo and flush a success message for this operation
             }
          }
       }
@@ -182,10 +180,8 @@ class PluginStorkmdmInstaller {
             $this->migration->displayWarning("Cannot create " . STORKMDM_FILE_PATH . " directory");
          } else {
             if (! $htAccessHandler = fopen(STORKMDM_FILE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory");
+               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
-            } else {
-               // TODO : echo and flush a success message for this operation
             }
          }
       }
@@ -267,7 +263,7 @@ class PluginStorkmdmInstaller {
 
       $policy = new PluginStorkmdmPolicy();
       $policyTable = PluginStorkmdmPolicy::getTable();
-      foreach(self::getPolicies() as $policyData) {
+      foreach (self::getPolicies() as $policyData) {
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
 
@@ -466,12 +462,13 @@ Regards,
    protected function rrmdir($dir) {
       if (file_exists($dir) && is_dir($dir)) {
          $objects = scandir($dir);
-         foreach ( $objects as $object ) {
+         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-               if (filetype($dir . "/" . $object) == "dir")
+               if (filetype($dir . "/" . $object) == "dir") {
                   $this->rrmdir($dir . "/" . $object);
-               else
+               } else {
                   unlink($dir . "/" . $object);
+               }
             }
          }
          reset($objects);

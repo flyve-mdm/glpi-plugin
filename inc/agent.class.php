@@ -134,7 +134,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       if ($this->canUpdate()) {
          echo "<tr class='tab_bg_1'>";
          echo "<td>Actions</td><td>";
-         echo "<td>" . Html::submit(_x('button','Wipe'), array('name' => 'wipe')) . "</td>";
+         echo "<td>" . Html::submit(_x('button', 'Wipe'), array('name' => 'wipe')) . "</td>";
          echo '</tr>';
       }
 
@@ -254,14 +254,14 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $oldFleet = new PluginStorkmdmFleet();
          if (!$oldFleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
             // Unable to load fleet currently associated to  the agent
-            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists",'storkmdm'));
+            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists", 'storkmdm'));
             return false;
          }
 
          $newFleet = new PluginStorkmdmFleet();
          if (!$newFleet->getFromDB($input['plugin_storkmdm_fleets_id'])) {
             //Unable to load the new fleet
-            Session::addMessageAfterRedirect(__("The target fleet does not exists",'storkmdm'));
+            Session::addMessageAfterRedirect(__("The target fleet does not exists", 'storkmdm'));
             return false;
          }
 
@@ -769,7 +769,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          return false;
       }
 
-      if (preg_match('#^[\d\.]+$#', $version) !== 1 ) {
+      if (preg_match('#^[\d\.]+$#', $version) !== 1) {
          $event = __('Bad agent version', 'storkmdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
@@ -890,14 +890,14 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $defaultFleet->getFromDBByDefaultForEntity();
       if ($defaultFleet->isNewItem()) {
          $computer->delete(['id' => $computerId]);
-         $event = __("No default fleet available for the device",'storkmdm');
+         $event = __("No default fleet available for the device", 'storkmdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
       // Enrollment is about to succeed, then update the user
-      if (!empty($user->getField('firstname')) || !empty($user->getField('lastname')) ) {
+      if (!empty($user->getField('firstname')) || !empty($user->getField('lastname'))) {
          $user->update([
                'id'        => $userId,
                'firstname' => $firstname,
@@ -1194,7 +1194,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see PluginStorkmdmNotifiable::getPackages()
     */
    public function getPackages() {
-      if ( $this->getID() > 0 ) {
+      if ($this->getID() > 0) {
 
          $fleet = new PluginStorkmdmFleet();
          if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
@@ -1210,7 +1210,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see PluginStorkmdmNotifiable::getFiles()
     */
    public function getFiles() {
-      if ( $this->getID() > 0 ) {
+      if ($this->getID() > 0) {
          $fleet = new PluginStorkmdmFleet();
          if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
             return $fleet->getFiles();
@@ -1299,7 +1299,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $computer = new Computer();
             if (!$computer->getFromDB($this->fields['computers_id'])) {
                // TODO : failed to find the computer
-
+               return;
             } else {
                $serial = $computer->getField('serial');
                if (!empty($serial)) {

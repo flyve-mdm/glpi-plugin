@@ -128,7 +128,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
       if (isset($input['is_recursive']) && $this->fields['is_recursive'] != $input['is_recursive']) {
-         // Do not change recrusivity of default fleet
+         // Do not change recursivity of default fleet
          unset($input['is_recursive']);
       }
 
@@ -192,13 +192,13 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
          }
       }
       if (!$fleet_Policy->deleteByCriteria(array('plugin_storkmdm_fleets_id' => $fleetId), true)) {
-         Session::addMessageAfterRedirect(__('Could not delete policies on the fleet','storkmdm'));
+         Session::addMessageAfterRedirect(__('Could not delete policies on the fleet', 'storkmdm'));
          return false;
       }
 
       $mqttQueue = new PluginStorkmdmMqttupdatequeue();
       if (!$mqttQueue->deleteByCriteria(array('plugin_storkmdm_fleets_id' => $fleetId))) {
-         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet','storkmdm'));
+         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet', 'storkmdm'));
          // Do not fail yet. We need a CRON purge feature on this itemtype
          //return false;
       }
@@ -271,7 +271,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see PluginStorkmdmNotifiable::getTopic()
     */
    public function getTopic() {
-      if (!isset($this->fields['id']) ) {
+      if (!isset($this->fields['id'])) {
          return null;
       }
 
@@ -354,7 +354,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function getAgents() {
       $id = $this->getID();
-      if (! ($id > 0) ) {
+      if (! ($id > 0)) {
          return array();
       }
       $agents = array();

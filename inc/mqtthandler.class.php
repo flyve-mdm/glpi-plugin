@@ -109,7 +109,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
       $mqttPath = explode('/', $topic, 5);
       if (isset($mqttPath[4])) {
-         if ( $mqttPath[4] == "Status/Ping" && $message == "!") {
+         if ($mqttPath[4] == "Status/Ping" && $message == "!") {
             $this->updateLastContact($topic, $message);
          } else if ($mqttPath[4] == "Status/Geolocation"  && $message != "?") {
             $this->saveGeolocationPosition($topic, $message);

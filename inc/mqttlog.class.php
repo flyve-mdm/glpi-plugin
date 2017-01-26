@@ -99,16 +99,14 @@ class PluginStorkmdmMqttlog extends CommonDBTM {
          $topicList = array($topicList);
       }
       $msg = $DB->escape($msg);
-      foreach($topicList as $topic) {
+      foreach ($topicList as $topic) {
          $topic = $DB->escape($topic);
          $this->fields['date'] = date('Y-m-d H:i:s');
          $this->fields['direction'] = $direction;
          $this->fields['topic'] = $topic;
          $this->fields['message'] = $msg;
          unset($this->fields['id']);
-         if (! $this->addToDB()) {
-
-         }
+         $this->addToDB();
       }
    }
 }
