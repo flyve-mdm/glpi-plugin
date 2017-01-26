@@ -57,11 +57,6 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '<tr><th colspan="3">'.__('Stork MDM settings', "storkmdm").'</th></tr>';
 
       $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $apiKey = $user->getField('personal_token');
-      } else {
-         $apiKey = '';
-      }
 
       echo '<tr><th colspan="3">'.__("MQTT broker", "storkmdm").'</th></tr>';
 
