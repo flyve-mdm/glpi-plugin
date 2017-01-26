@@ -287,7 +287,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                        '',
                                        '200');
       $volume = 0;
-      foreach($rows as $id => $row) {
+      foreach ($rows as $id => $row) {
          $accountValidation->removeProfile($row['users_id'], $profileId, $row['assigned_entities_id']);
          if ($accountValidation->delete(array('id' => $id))) {
             $volume++;
@@ -326,7 +326,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                        '',
                                        '200');
 
-      foreach($rows as $id => $row) {
+      foreach ($rows as $id => $row) {
          $accountValidation->disableTrialAccount($row['users_id'], $row['profiles_id'], $row['assigned_entities_id']);
          if ($accountValidation->update(array('id' => $id, 'is_trial_ended' => '1'))) {
             $volume++;
@@ -378,7 +378,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                         AND `is_reminder_1_sent` = '0'",
                                        '',
                                        '100');
-      foreach($rows as $id => $row) {
+      foreach ($rows as $id => $row) {
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
@@ -397,7 +397,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                         AND `is_reminder_2_sent` = '0'",
                                         '',
                                         '100');
-      foreach($rows as $id => $row) {
+      foreach ($rows as $id => $row) {
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
@@ -417,7 +417,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                         AND `is_trial_ended` = '1'",
                                         '',
                                         '100');
-      foreach($rows as $id => $row) {
+      foreach ($rows as $id => $row) {
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
@@ -477,7 +477,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                'profiles_id'  => $profileId,
          ), true);
          $entity = new Entity();
-         $entity->delete(array('id' => $entityId),  true);
+         $entity->delete(array('id' => $entityId), true);
       } else {
          $user = new User();
          $success = $user->delete(array('id' => $userId), true);
@@ -485,7 +485,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
       if ($success) {
          $entity = new Entity();
-         $entity->delete(array('id' => $entityId),  true);
+         $entity->delete(array('id' => $entityId), true);
       }
    }
 

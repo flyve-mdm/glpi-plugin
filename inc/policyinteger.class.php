@@ -70,7 +70,7 @@ class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements Pl
     * @see PluginStorkmdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
-      if ( $value === null || (!strval(intval($value)) == strval($value)) ) {
+      if ($value === null || (!strval(intval($value)) == strval($value))) {
          return false;
       }
 
@@ -78,7 +78,7 @@ class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements Pl
          return false;
       }
 
-      if ($this->maxValue !== null && ($value > $this->maxValue) ) {
+      if ($this->maxValue !== null && ($value > $this->maxValue)) {
          return false;
       }
       return true;

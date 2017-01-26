@@ -80,7 +80,7 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach($this->input['_acl'] as $acl) {
+         foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
                $mqttAcl = new PluginStorkmdmMqttacl();
                $mqttAcl->add([
@@ -103,7 +103,7 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach($this->input['_acl'] as $acl) {
+         foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
                $mqttAcl = new PluginStorkmdmMqttacl();
                $mqttAcl->add([
@@ -140,7 +140,7 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
          $hash_length = strlen(hash($algorithm, "", true));
          $block_count = ceil(24 / $hash_length);
          $output = "";
-         for($i = 1; $i <= $block_count; $i++) {
+         for ($i = 1; $i <= $block_count; $i++) {
             // $i encoded as 4 bytes, big endian.
             $last = $salt . pack("N", $i);
             // first iteration
@@ -152,7 +152,7 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
             $output .= $xorsum;
          }
 
-         if($rawOutput) {
+         if ($rawOutput) {
             $hashed = substr($output, 0, $keyLength);
          } else {
             $hashed = bin2hex(substr($output, 0, $keyLength));

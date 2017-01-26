@@ -140,7 +140,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
       if ($this->fields['is_default'] == '1') {
 
          $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
-         if ( !Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
+         if (!Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
             Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'storkmdm'));
             return false;
          }
@@ -182,13 +182,13 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
          }
       }
       if (!$fleet_Policy->deleteByCriteria(array('plugin_storkmdm_fleets_id' => $fleetId), true)) {
-         Session::addMessageAfterRedirect(__('Could not delete policies on the fleet','storkmdm'));
+         Session::addMessageAfterRedirect(__('Could not delete policies on the fleet', 'storkmdm'));
          return false;
       }
 
       $mqttQueue = new PluginStorkmdmMqttupdatequeue();
       if (!$mqttQueue->deleteByCriteria(array('plugin_storkmdm_fleets_id' => $fleetId))) {
-         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet','storkmdm'));
+         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet', 'storkmdm'));
          // Do not fail yet. We need a CRON purge feature on this itemtype
          //return false;
       }
@@ -261,7 +261,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see PluginStorkmdmNotifiable::getTopic()
     */
    public function getTopic() {
-      if (!isset($this->fields['id']) ) {
+      if (!isset($this->fields['id'])) {
          return null;
       }
 
@@ -344,7 +344,7 @@ class PluginStorkmdmFleet extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function getAgents() {
       $id = $this->getID();
-      if (! ($id > 0) ) {
+      if (! ($id > 0)) {
          return array();
       }
       $agents = array();

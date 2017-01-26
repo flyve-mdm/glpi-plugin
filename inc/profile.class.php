@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
@@ -54,7 +54,7 @@ class PluginStorkmdmProfile extends Profile {
     * {@inheritDoc}
     * @see Profile::showForm()
     */
-   public function showForm($ID, $options = array()){
+   public function showForm($ID, $options = array()) {
       global $LANG;
 
       if (!Profile::canView()) {
@@ -62,7 +62,7 @@ class PluginStorkmdmProfile extends Profile {
       }
       $canedit = Profile::canUpdate();
       $profile    = new Profile();
-      if ($ID){
+      if ($ID) {
          //$this->getFromDBByProfile($ID);
          $profile->getFromDB($ID);
       }

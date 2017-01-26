@@ -191,8 +191,6 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
          $geolocationTable = self::getTable();
          $computerTable = 'c'; // See self::addDefaultJoin
          $where .= getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
-      } else {
-
       }
 
       return $where;

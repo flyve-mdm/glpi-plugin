@@ -95,7 +95,7 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
       $rows = $wellKnownPath->find('1');
       $basePathIsValid = false;
       foreach ($rows as $row) {
-         if (strpos($value['destination'], $row['name']) === 0 ) {
+         if (strpos($value['destination'], $row['name']) === 0) {
             // Path begins with a well known path
             if ($value['destination'] == $row['name']) {
                 // ... and is the same

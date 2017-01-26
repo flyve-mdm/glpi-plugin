@@ -58,7 +58,7 @@ class MqttHandlerForTests extends PluginStorkmdmMqtthandler
     * the state of the MQTT client
     * @param integer
     */
-   protected $state /*= self::STATE_CONSUME_PREVIOUS_MESSAGES*/;
+   protected $state;
 
    /**
     * @var string

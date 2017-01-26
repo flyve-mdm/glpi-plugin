@@ -67,9 +67,6 @@ if (isset($_POST['add'])) {
          $jsonAnswer = [
                'id'  => $newID,
          ];
-         if ($_SESSION['glpibackcreated']) {
-            //Html::redirect($package->getFormURL() . "?id=" . $newID);
-         }
       }
    } else {
       header("Not allowed", false, 401);
@@ -81,13 +78,9 @@ if (isset($_POST['add'])) {
    $package->check($_POST['id'], UPDATE, $_POST);
    $package->update($_POST);
    Html::back();
-}  else if (isset($_POST["purge"])) {
+} else if (isset($_POST["purge"])) {
    $package->check($_POST['id'], PURGE);
-   if ($package->delete($_POST, 1)) {
-      //Event::log($_POST["id"], $package->getTypeName(Session::getPluralNumber()), 4, "inventory",
-      //           //TRANS: %s is the user login
-      //           sprintf(__('%s purges an item'), $_SESSION["glpiname"]));
-   }
+   $package->delete($_POST, 1);
    $package->redirectToList();
 } else {
    die();

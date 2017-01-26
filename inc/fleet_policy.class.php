@@ -369,7 +369,7 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
                }
             }
          } else {
-            foreach($groups as $groupName) {
+            foreach ($groups as $groupName) {
                $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
                $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
                $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
@@ -448,7 +448,7 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
 
       $mqttClient = PluginStorkmdmMqttclient::getInstance();
       $topic = $item->getTopic();
-      foreach($groups as $groupName) {
+      foreach ($groups as $groupName) {
          $mqttClient->publish("$topic/$groupName", null, 0, 1);
       }
    }
