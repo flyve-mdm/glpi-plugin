@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmEntity extends Entity {
+class PluginFlyvemdmEntity extends Entity {
 
    /**
     * {@inheritDoc}
@@ -51,7 +51,7 @@ class PluginStorkmdmEntity extends Entity {
    }
 
    //public function addNeededInfoToInput($input) {
-      //// the entity is managed by StorkMDM
+      //// the entity is managed by FlyveMDM
       //$input['managed'] = '1';
    //}
 

@@ -66,14 +66,14 @@ class PluginInstallTest extends SuperAdminTestCase
 
       //Drop plugin configuration if exists
       $config = new Config();
-      $config->deleteByCriteria(array('context' => 'storkmdm'));
+      $config->deleteByCriteria(array('context' => 'flyvemdm'));
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
       $result = $DB->query($query);
       while ($data = $DB->fetch_array($result)) {
 
-         if (strstr($data[0], "glpi_plugin_storkmdm") !== false) {
+         if (strstr($data[0], "glpi_plugin_flyvemdm") !== false) {
             $DB->query("DROP TABLE ".$data[0]);
          }
       }
@@ -81,35 +81,35 @@ class PluginInstallTest extends SuperAdminTestCase
       self::resetGLPILogs();
 
       $plugin = new Plugin();
-      $plugin->getFromDBbyDir("storkmdm");
+      $plugin->getFromDBbyDir("flyvemdm");
 
       ob_start(function($in) { return ''; });
       $plugin->install($plugin->fields['id']);
       ob_end_clean();
 
       $PluginDBTest = new PluginDB();
-      $PluginDBTest->checkInstall("storkmdm", "install");
+      $PluginDBTest->checkInstall("flyvemdm", "install");
 
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
-      $this->assertTrue($plugin->isActivated("storkmdm"), "Cannot enable the plugin");
+      $this->assertTrue($plugin->isActivated("flyvemdm"), "Cannot enable the plugin");
 
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
       // and not force broker's reconfiguration when launching tests on the test-dedicates DB
-      $mqttUser = new PluginStorkmdmMqttuser();
-      if (!empty(PHPUNIT_STORKMDM_MQTT_PASSWD)) {
-         $mqttUser->getByUser('storkmdm-backend');
+      $mqttUser = new PluginFlyvemdmMqttuser();
+      if (!empty(PHPUNIT_FLYVEMDM_MQTT_PASSWD)) {
+         $mqttUser->getByUser('flyvemdm-backend');
          $mqttUser->update([
                'id'        => $mqttUser->getID(),
-               'password'  => PHPUNIT_STORKMDM_MQTT_PASSWD
+               'password'  => PHPUNIT_FLYVEMDM_MQTT_PASSWD
          ]);
-         Config::setConfigurationValues('storkmdm', ['mqtt_passwd' => PHPUNIT_STORKMDM_MQTT_PASSWD]);
+         Config::setConfigurationValues('flyvemdm', ['mqtt_passwd' => PHPUNIT_FLYVEMDM_MQTT_PASSWD]);
       }
    }
 
    public function testConfigurationExists() {
-      $config = Config::getConfigurationValues('storkmdm');
+      $config = Config::getConfigurationValues('flyvemdm');
       $expected = [
             'mqtt_broker_address',
             'mqtt_broker_internal_address',
@@ -138,7 +138,7 @@ class PluginInstallTest extends SuperAdminTestCase
 
    public function testServiceAccountExists() {
       $user = new User();
-      $this->assertTrue($user->getFromDBbyName('storknologin'));
+      $this->assertTrue($user->getFromDBbyName('flyvenologin'));
       return $user;
    }
 

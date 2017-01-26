@@ -36,12 +36,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmPackage extends CommonDBTM {
+class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'storkmdm:package';
+   static $rightname                   = 'flyvemdm:package';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
@@ -59,7 +59,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
     */
    public static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Package', 'Packages', $nb, "storkmdm");
+      return _n('Package', 'Packages', $nb, "flyvemdm");
    }
 
    /**
@@ -88,7 +88,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
 
       switch ($item->getType()) {
          case 'Software' :
-            return _n('Package Stork MDM', 'Packages Stork MDM', Session::getPluralNumber(), "storkmdm");
+            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(), "flyvemdm");
 
       }
       return '';
@@ -133,7 +133,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
       Html::autocompletionTextField($this, 'name', array('value' => $objectName));
       echo "</td>";
 
-      echo "<td>" . $this->fields["filename"] . " <br>". __s('Upload package', "storkmdm") . "</td><td>" .
+      echo "<td>" . $this->fields["filename"] . " <br>". __s('Upload package', "flyvemdm") . "</td><td>" .
             "<br><input type='file' name='filename' />" .
             "</td>";
 
@@ -179,28 +179,28 @@ class PluginStorkmdmPackage extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       if (!isset($_FILES['file'])) {
-         Session::addMessageAfterRedirect(__('No file uploaded', "storkmdm"));
+         Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
          return false;
       }
 
       if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
          if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "storkmdm"));
+            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
          }
          $input = false;
       } else {
          try {
-            $destination = STORKMDM_PACKAGE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
+            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
             if ($this->saveUploadedFile($_FILES['file'], $destination)) {
                $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                if ($fileExtension == "apk") {
                   $apk = new \ApkParser\Parser($destination);
                } else if ($fileExtension == "upk") {
-                  $upkParser = new PluginStorkmdmUpkparser($destination);
+                  $upkParser = new PluginFlyvemdmUpkparser($destination);
                   $apk = $upkParser->getApkParser();
                   if (!($apk instanceof \ApkParser\Parser)) {
-                     Session::addMessageAfterRedirect(__('Could not parse the UPK file', "storkmdm"));
+                     Session::addMessageAfterRedirect(__('Could not parse the UPK file', "flyvemdm"));
                      return false;
                   }
                }
@@ -222,14 +222,14 @@ class PluginStorkmdmPackage extends CommonDBTM {
             } else {
                if (!is_writable(dirname($destination))) {
                   $destination = dirname($destination);
-                  Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+                  Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
                }
-               Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
+               Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
                $input = false;
             }
          } catch (Exception $e) {
             // Ignore exceptions for now
-            Session::addMessageAfterRedirect(__('Could not parse the APK file', "storkmdm"));
+            Session::addMessageAfterRedirect(__('Could not parse the APK file', "flyvemdm"));
             $input = false;
          }
       }
@@ -244,13 +244,13 @@ class PluginStorkmdmPackage extends CommonDBTM {
    public function prepareInputForUpdate($input) {
       if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
          if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('Could not upload package file', "storkmdm"));
+            Session::addMessageAfterRedirect(__('Could not upload package file', "flyvemdm"));
          }
          $input['filename'] = $this->fields['filename'];
       } else {
          if (isset ($_FILES['file'])) {
             try {
-               $destination = STORKMDM_PACKAGE_PATH . "/" . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
+               $destination = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
                if ($this->saveUploadedFile($_FILES['file'], $destination)) {
                   $apk = new \ApkParser\Parser($destination);
                   $manifest = $apk->getManifest();
@@ -266,13 +266,13 @@ class PluginStorkmdmPackage extends CommonDBTM {
                   $input['filesize']      = fileSize($destination);
                   $input['dl_filename']   = basename($_FILES['file']['name']);
 
-                  unlink(STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
+                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
                } else {
                   if (!is_writable(dirname($destination))) {
                      $destination = dirname($destination);
-                     Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+                     Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
                   }
-                  Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
+                  Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
                   $input = false;
                }
             } catch (Exception $e) {
@@ -311,17 +311,17 @@ class PluginStorkmdmPackage extends CommonDBTM {
          $itemtype = $this->getType();
          $itemId = $this->getID();
 
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
          $fleet_policyCol = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-         $fleet = new PluginStorkmdmFleet();
-         $policyFactory = new PluginStorkmdmPolicyFactory();
+         $fleet = new PluginFlyvemdmFleet();
+         $policyFactory = new PluginFlyvemdmPolicyFactory();
          foreach ($fleet_policyCol as $fleet_policyId => $fleet_policyRow) {
-            $fleetId = $fleet_policyRow['plugin_storkmdm_fleets_id'];
+            $fleetId = $fleet_policyRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors', "Plugin Storkmdm : Could not find fleet id = '$fleetId'");
+               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
-            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_storkmdm_policies_id']);
+            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_flyvemdm_policies_id']);
             if ($fleet_policy->getFromDB($fleet_policyId)) {
                //$fleet_policy->publishPolicies($fleet, $policy->getGroup());
                $fleet_policy->updateQueue($fleet, $policy->getGroup());
@@ -337,7 +337,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
    public function pre_deleteItem() {
       global $DB;
 
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       return $fleet_policy->deleteByCriteria(array(
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
@@ -349,7 +349,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
+      $filename = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
       if (is_writable($filename)) {
          unlink($filename);
       }
@@ -399,7 +399,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('Package ', "storkmdm");
+      $tab['common']                 = __s('Package ', "flyvemdm");
 
       $i = 1;
       $tab[$i]['table']               = self::getTable();
@@ -418,28 +418,28 @@ class PluginStorkmdmPackage extends CommonDBTM {
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'alias';
-      $tab[$i]['name']                = __('alias', 'storkmdm');
+      $tab[$i]['name']                = __('alias', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'version';
-      $tab[$i]['name']                = __('version', 'storkmdm');
+      $tab[$i]['name']                = __('version', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'icon';
-      $tab[$i]['name']                = __('icon', 'storkmdm');
+      $tab[$i]['name']                = __('icon', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'image';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'filesize';
-      $tab[$i]['name']                = __('filesize', 'storkmdm');
+      $tab[$i]['name']                = __('filesize', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
@@ -451,7 +451,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
     * @return boolean|string
     */
    public function getFileURL() {
-      $config = Config::getConfigurationValues('storkmdm', array('deploy_base_url'));
+      $config = Config::getConfigurationValues('flyvemdm', array('deploy_base_url'));
       $deployBaseURL = $config['deploy_base_url'];
 
       if ($deployBaseURL === null) {
@@ -463,7 +463,7 @@ class PluginStorkmdmPackage extends CommonDBTM {
    }
 
    protected function sendFile() {
-      $streamSource = STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
+      $streamSource = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
 
       if (!file_exists($streamSource) || !is_file($streamSource)) {
          header("HTTP/1.0 404 Not Found");

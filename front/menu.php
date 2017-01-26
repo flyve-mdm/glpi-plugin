@@ -30,14 +30,14 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 
 include ("../../../inc/includes.php");
-Session::checkRight("storkmdm:storkmdm", PluginStorkmdmProfile::RIGHT_STORKMDM_USE);
+Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
-if (true /*| Session::haveRight('plugin_stork_config', PluginStorkmdmConfig::RIGHT_VIEW_STORKMDM) */) {
-   Html::header(PluginStorkmdmMenu::getTypeName(Session::getPluralNumber()), "", "tools", "PluginStorkmdmMenu", "Menu");
+if (true /*| Session::haveRight('plugin_flyve_config', PluginFlyvemdmConfig::RIGHT_VIEW_FLYVEMDM) */) {
+   Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), "", "tools", "PluginFlyvemdmMenu", "Menu");
    // Use later to disable GLPI header
    //Html::nullHeader("test header");
 
-   PluginStorkmdmMenu::displayMenu();
+   PluginFlyvemdmMenu::displayMenu();
 
    Html::footer();
 

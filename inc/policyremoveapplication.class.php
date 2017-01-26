@@ -36,12 +36,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicyRemoveapplication extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @param string $properties
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
       $this->group = $policy->getField('group');
@@ -49,11 +49,11 @@ class PluginStorkmdmPolicyRemoveapplication extends PluginStorkmdmPolicyBase imp
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       if ($value == '') {
-         Session::addMessageAfterRedirect(__('An application ID is required', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('An application ID is required', 'flyvemdm'));
          return false;
       }
 
@@ -70,19 +70,19 @@ class PluginStorkmdmPolicyRemoveapplication extends PluginStorkmdmPolicyBase imp
    /**
     *
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::unicityCheck()
+    * @see PluginFlyvemdmPolicyBase::unicityCheck()
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'", "", "1");
       return (count($rows) == 0);
    }
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::jsonEncode()
+    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (! $this->integrityCheck($value, $itemtype, $itemId)) {

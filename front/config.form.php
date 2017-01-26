@@ -30,12 +30,12 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  */
 
 include ('../../../inc/includes.php');
-Session::checkRight("storkmdm:storkmdm", PluginStorkmdmProfile::RIGHT_STORKMDM_USE);
+Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 Session::checkRight("config", UPDATE);
 
 $plugin = new Plugin();
 $config = new Config();
-$pluginConfig = new PluginStorkmdmConfig();
+$pluginConfig = new PluginFlyvemdmConfig();
 if (isset($_POST["update"])) {
    $config->update($_POST);
    Html::back();
@@ -47,7 +47,7 @@ if (isset($_POST["update"])) {
       '',
       'config',
       'plugin',
-      "storkmdm"
+      "flyvemdm"
    );
    $pluginConfig->showForm();
    // Footer

@@ -18,15 +18,15 @@ before_script:
   - composer install
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone --depth=50 $FUSION_SOURCE plugins/fusioninventory
-  - mv ../flyve-mdm-glpi plugins/storkmdm
-  - cd plugins/storkmdm && composer install
+  - mv ../flyve-mdm-glpi plugins/flyvemdm
+  - cd plugins/flyvemdm && composer install
   - cd ../..
   - cd plugins/fusioninventory
-  - git apply --check  ../storkmdm/tests/patches/fi_version-check.patch && git apply ../storkmdm/tests/patches/fi_version-check.patch
+  - git apply --check  ../flyvemdm/tests/patches/fi_version-check.patch && git apply ../flyvemdm/tests/patches/fi_version-check.patch
   - cd ../..
 
 script:
-  - cd plugins/storkmdm
+  - cd plugins/flyvemdm
   - php -S localhost:8088 -t ../.. ../../tests/router.php &>/dev/null &
   - phpunit --verbose
   - vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/

@@ -36,36 +36,36 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.32
  */
-class PluginStorkmdmFleet_Policy extends CommonDBRelation {
+class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
 
    // From CommonDBRelation
    /**
     * @var string $itemtype_1 First itemtype of the relation
     */
-   public static $itemtype_1 = 'PluginStorkmdmFleet';
+   public static $itemtype_1 = 'PluginFlyvemdmFleet';
 
    /**
     * @var string $items_id_1 DB's column name storing the ID of the first itemtype
     */
-   public static $items_id_1 = 'plugin_storkmdm_fleets_id';
+   public static $items_id_1 = 'plugin_flyvemdm_fleets_id';
 
    /**
     * @var string $itemtype_2 Second itemtype of the relation
     */
-   public static $itemtype_2 = 'PluginStorkmdmPolicy';
+   public static $itemtype_2 = 'PluginFlyvemdmPolicy';
 
    /**
     * @var string $items_id_2 DB's column name storing the ID of the second itemtype
     */
-   public static $items_id_2 = 'plugin_storkmdm_policies_id';
+   public static $items_id_2 = 'plugin_flyvemdm_policies_id';
 
    /**
-    * @var PluginStorkmdmPolicyBase Policy
+    * @var PluginFlyvemdmPolicyBase Policy
     */
    protected $policy;
 
    /**
-    * @var PluginStorkmdmFleet $fleet Fleet
+    * @var PluginFlyvemdmFleet $fleet Fleet
     */
    protected $fleet;
 
@@ -117,17 +117,17 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          $value = $input['value'];
       }
 
-      if (!isset($input['plugin_storkmdm_policies_id'])
-            || !isset($input['plugin_storkmdm_fleets_id'])) {
-               Session::addMessageAfterRedirect(__('Fleet and policy must be specified', 'storkmdm'), false, ERROR);
+      if (!isset($input['plugin_flyvemdm_policies_id'])
+            || !isset($input['plugin_flyvemdm_fleets_id'])) {
+               Session::addMessageAfterRedirect(__('Fleet and policy must be specified', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       // Check the policy exists
-      $policyFactory = new PluginStorkmdmPolicyFactory();
-      $this->policy  = $policyFactory->createFromDBByID($input['plugin_storkmdm_policies_id']);
-      if (!$this->policy instanceof PluginStorkmdmPolicyInterface) {
-         Session::addMessageAfterRedirect(__('Policy not found', 'storkmdm'), false, ERROR);
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $this->policy  = $policyFactory->createFromDBByID($input['plugin_flyvemdm_policies_id']);
+      if (!$this->policy instanceof PluginFlyvemdmPolicyInterface) {
+         Session::addMessageAfterRedirect(__('Policy not found', 'flyvemdm'), false, ERROR);
          return false;
       }
 
@@ -135,27 +135,27 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       if (!$this->policy->integrityCheck($value, $input['itemtype'], $input['items_id'])) {
          if (isset($_SESSION['MESSAGE_AFTER_REDIRECT']) && $_SESSION['MESSAGE_AFTER_REDIRECT'] === null
                || !isset($_SESSION['MESSAGE_AFTER_REDIRECT'])) {
-            Session::addMessageAfterRedirect(__('Incorrect value for this policy', 'storkmdm'), false, ERROR);
+            Session::addMessageAfterRedirect(__('Incorrect value for this policy', 'flyvemdm'), false, ERROR);
          }
          return false;
       }
 
       // Check the fleet exists
-      $fleetId = $input['plugin_storkmdm_fleets_id'];
-      $this->fleet = new PluginStorkmdmFleet();
+      $fleetId = $input['plugin_flyvemdm_fleets_id'];
+      $this->fleet = new PluginFlyvemdmFleet();
       if (!$this->fleet->getFromDB($fleetId)) {
-         Session::addMessageAfterRedirect(__('Cannot find the target fleet', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Cannot find the target fleet', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       // default fleet check
       if ($this->fleet->getField('is_default')) {
-         Session::addMessageAfterRedirect(__('Cannot apply a policy on a not managed fleet', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Cannot apply a policy on a not managed fleet', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       if (!$this->policy->unicityCheck($value, $input['itemtype'], $input['items_id'], $this->fleet)) {
-         Session::addMessageAfterRedirect(__('Policy already applied', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Policy already applied', 'flyvemdm'), false, ERROR);
          return false;
       }
 
@@ -166,12 +166,12 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
 
       // Check the policy may be applied to the fleet and the value matches requirements
       if (!$this->policy->canApply($this->fleet, $input['value'], $input['itemtype'], $input['items_id'])) {
-         Session::addMessageAfterRedirect(__('The requirements for this policy are not met', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('The requirements for this policy are not met', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       if (! $this->policy->apply($this->fleet, $input['value'], $input['itemtype'], $input['items_id'])) {
-         Session::addMessageAfterRedirect(__('Failed to apply the policy', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Failed to apply the policy', 'flyvemdm'), false, ERROR);
          return false;
       }
 
@@ -197,15 +197,15 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       }
 
       // Take into account the policy being applied if its ID changes
-      if (isset($input['plugin_storkmdm_policies_id'])) {
-         $policyId = $input['plugin_storkmdm_policies_id'];
+      if (isset($input['plugin_flyvemdm_policies_id'])) {
+         $policyId = $input['plugin_flyvemdm_policies_id'];
       } else {
-         $policyId = $this->fields['plugin_storkmdm_policies_id'];
+         $policyId = $this->fields['plugin_flyvemdm_policies_id'];
       }
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $this->policy = $policyFactory->createFromDBByID($policyId);
-      if (!$this->policy instanceof PluginStorkmdmPolicyInterface) {
-         Session::addMessageAfterRedirect(__('Policy not found', 'storkmdm'), false, ERROR);
+      if (!$this->policy instanceof PluginFlyvemdmPolicyInterface) {
+         Session::addMessageAfterRedirect(__('Policy not found', 'flyvemdm'), false, ERROR);
          return false;
       }
 
@@ -222,45 +222,45 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       }
 
       //Check the fleet exists
-      if (isset($input['plugin_storkmdm_fleets_id'])) {
-         $fleetId = $input['plugin_storkmdm_fleets_id'];
+      if (isset($input['plugin_flyvemdm_fleets_id'])) {
+         $fleetId = $input['plugin_flyvemdm_fleets_id'];
       } else {
-         $fleetId = $this->fields['plugin_storkmdm_fleets_id'];
+         $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
       }
-      $this->fleet = new PluginStorkmdmFleet();
+      $this->fleet = new PluginFlyvemdmFleet();
       if (!$this->fleet->getFromDB($fleetId)) {
-         Session::addMessageAfterRedirect(__('Cannot find the target fleet', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Cannot find the target fleet', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       // default fleet check
       if ($this->fleet->getField('is_default')) {
-         Session::addMessageAfterRedirect(__('Cannot apply a policy on a not managed fleet', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Cannot apply a policy on a not managed fleet', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       // Check the policy may be applied to the fleet and the value is matches requirements
       if (!$this->policy->integrityCheck($value, $itemtype, $itemId)) {
-         Session::addMessageAfterRedirect(__('Incorrect value for this policy', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Incorrect value for this policy', 'flyvemdm'), false, ERROR);
          return false;
       }
 
-      if ($itemId != $this->fields['items_id'] || $policyId != $this->fields['plugin_storkmdm_policies_id']) {
+      if ($itemId != $this->fields['items_id'] || $policyId != $this->fields['plugin_flyvemdm_policies_id']) {
          // the fleet and the policy are not changing, then check unicity
          if (!$this->policy->unicityCheck($this->fleet)) {
-            Session::addMessageAfterRedirect(__('Policy already applied', 'storkmdm'), false, ERROR);
+            Session::addMessageAfterRedirect(__('Policy already applied', 'flyvemdm'), false, ERROR);
             return false;
          }
       }
 
       if (!$this->policy->canApply($this->fleet, $value, $itemtype, $itemId)) {
-         Session::addMessageAfterRedirect(__('The requirements for this policy are not met', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('The requirements for this policy are not met', 'flyvemdm'), false, ERROR);
          return false;
       }
 
       // TODO : What if the fleet changes, or the value changes ?
       if (! $this->policy->apply($this->fleet, $value, $itemtype, $itemId)) {
-         Session::addMessageAfterRedirect(__('Failed to apply the policy', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Failed to apply the policy', 'flyvemdm'), false, ERROR);
          return false;
       }
 
@@ -289,15 +289,15 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      $policyFactory = new PluginStorkmdmPolicyFactory();
-      $this->policy  = $policyFactory->createFromDBByID($this->fields['plugin_storkmdm_policies_id']);
-      if (!$this->policy instanceof PluginStorkmdmPolicyInterface) {
-         Session::addMessageAfterRedirect(__('Policy not found', 'storkmdm'), false, ERROR);
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $this->policy  = $policyFactory->createFromDBByID($this->fields['plugin_flyvemdm_policies_id']);
+      if (!$this->policy instanceof PluginFlyvemdmPolicyInterface) {
+         Session::addMessageAfterRedirect(__('Policy not found', 'flyvemdm'), false, ERROR);
          return false;
       }
-      $this->fleet = new PluginStorkmdmFleet();
-      if (!$this->fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
-         Session::addMessageAfterRedirect(__('Fleet not found', 'storkmdm'), false, ERROR);
+      $this->fleet = new PluginFlyvemdmFleet();
+      if (!$this->fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         Session::addMessageAfterRedirect(__('Fleet not found', 'flyvemdm'), false, ERROR);
          return false;
       }
       return $this->policy->unapply($this->fleet, $this->fields['value'], $this->fields['itemtype'], $this->fields['items_id']);
@@ -311,8 +311,8 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       $this->updateQueue($this->fleet, array($this->policy->getGroup()));
    }
 
-   public function updateQueue(PluginStorkmdmNotifiable $item, $groups = array()) {
-      if (! $item instanceof PluginStorkmdmFleet) {
+   public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = array()) {
+      if (! $item instanceof PluginFlyvemdmFleet) {
          // Cannot queue MQTT messages for devices
          // Then send them immediately
          $this->publishPolicies($item, $groups);
@@ -323,9 +323,9 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
 
          // Queue an update for each group
          foreach ($groups as $group) {
-            $mqttUpdateQueue = new PluginStorkmdmMqttupdatequeue();
+            $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
             $mqttUpdateQueue->add([
-                  'plugin_storkmdm_fleets_id' => $item->getID(),
+                  'plugin_flyvemdm_fleets_id' => $item->getID(),
                   'group'                     => $group
             ]);
          }
@@ -335,10 +335,10 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
    /**
     * MQTT publish all policies applying to the fleet
     *
-    * @param PluginStorkmdmNotifiable $item
+    * @param PluginFlyvemdmNotifiable $item
     * @param array $groups the notifiable is updated only for the following policies groups
     */
-   public function publishPolicies(PluginStorkmdmNotifiable $item, $groups = array()) {
+   public function publishPolicies(PluginFlyvemdmNotifiable $item, $groups = array()) {
       global $DB;
 
       if ($this->silent) {
@@ -352,12 +352,12 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
          $fleetId = $fleet->getID();
 
          if (count($groups) == 0) {
-            $fleet_policyTable = PluginStorkmdmFleet_Policy::getTable();
-            $policyTable = PluginStorkmdmPolicy::getTable();
+            $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
+            $policyTable = PluginFlyvemdmPolicy::getTable();
             $query = "SELECT DISTINCT `group`
             FROM `$fleet_policyTable` `fp`
-            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_storkmdm_policies_id` = `p`.`id`
-            WHERE `fp`.`plugin_storkmdm_fleets_id` = '$fleetId'";
+            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
+            WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
             $result = $DB->query($query);
 
             if ($result === false) {
@@ -382,30 +382,30 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
     * Builds a group of policies using the value of an applied policy for a fleet, and the default value of
     * non applied policies of the same group
     * @param string $group name of a group of policies
-    * @param PluginStorkmdmFleet $fleet fleet the group will built for
+    * @param PluginFlyvemdmFleet $fleet fleet the group will built for
     */
    protected function buildGroupOfPolicies($group, $fleet) {
       global $DB;
 
-      $policy = new PluginStorkmdmPolicy();
+      $policy = new PluginFlyvemdmPolicy();
       $policiesByDefault = $policy->find("`group` = '$group'");
 
       // Collect ids of applied policies and prepare applied data
       $fleetId = $fleet->getID();
-      $fleet_Policy = new PluginStorkmdmFleet_Policy();
-      $fleet_policyTable = PluginStorkmdmFleet_Policy::getTable();
-      $policyTable = PluginStorkmdmPolicy::getTable();
+      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
+      $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
+      $policyTable = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT * FROM `$fleet_policyTable` `fp`
-            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_storkmdm_policies_id` = `p`.`id`
-            WHERE `fp`.`plugin_storkmdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
+            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
+            WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $groupToEncode = array();
       $excludedPolicyIds = array();
       while ($row = $DB->fetch_assoc($result)) {
-         $policy = $policyFactory->createFromDBByID($row['plugin_storkmdm_policies_id']);
+         $policy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
          if ($policy === null) {
-            Toolbox::logInFile('php-errors', "Plugin Storkmdm : Policy ID " . $row['plugin_storkmdm_policies_id'] . "not found while generating MQTT message\n" );
+            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policyMessage = $policy->getMqttMessage($row['value'], $row['itemtype'], $row['items_id']);
             if ($policyMessage === false) {
@@ -414,16 +414,16 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
             }
             $groupToEncode[] = $policyMessage;
          }
-         $excludedPolicyIds[] = $row['plugin_storkmdm_policies_id'];
+         $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
       }
 
       $excludedPolicyIds = "'" . implode("', '", $excludedPolicyIds) . "'";
-      $policy = new PluginStorkmdmPolicy();
+      $policy = new PluginFlyvemdmPolicy();
       $rows = $policy->find("`group` = '$group' AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN ('')");
       foreach ($rows as $policyId => $row) {
          $policy = $policyFactory->createFromDBByID($row['id']);
          if ($policy === null) {
-            Toolbox::logInFile('php-errors', "Plugin Storkmdm : Policy ID " . $row['plugin_storkmdm_policies_id'] . "not found while generating MQTT message\n" );
+            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policyMessage = $policy->getMqttMessage($row['default_value'], '', '');
             if ($policyMessage === false) {
@@ -440,13 +440,13 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
    /**
     * Removes persisted MQTT messages for groups of policies
     *
-    * @param PluginStorkmdmNotifiable $item a notifiable item
+    * @param PluginFlyvemdmNotifiable $item a notifiable item
     * @param array $groups array of groups to delete
     */
-   public static function cleanupPolicies(PluginStorkmdmNotifiable $item, $groups = array()) {
+   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = array()) {
       global $DB;
 
-      $mqttClient = PluginStorkmdmMqttclient::getInstance();
+      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {
          $mqttClient->publish("$topic/$groupName", null, 0, 1);
@@ -469,13 +469,13 @@ class PluginStorkmdmFleet_Policy extends CommonDBRelation {
       $tab[2]['massiveaction'] = false;
       $tab[2]['datatype']      = 'number';
 
-      $tab[3]['table']         = PluginStorkmdmFleet::getTable();
+      $tab[3]['table']         = PluginFlyvemdmFleet::getTable();
       $tab[3]['field']         = 'id';
       $tab[3]['name']          = __('Fleet ID');
       $tab[3]['massiveaction'] = false;
       $tab[3]['datatype']      = 'dropdown';
 
-      $tab[4]['table']         = PluginStorkmdmPolicy::getTable();
+      $tab[4]['table']         = PluginFlyvemdmPolicy::getTable();
       $tab[4]['field']         = 'id';
       $tab[4]['name']          = __('Policy ID');
       $tab[4]['massiveaction'] = false;

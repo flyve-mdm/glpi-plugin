@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmFleetIntegrationTest extends RegisteredUserTestCase {
 
    /**
     * Create an invitation for enrollment tests
@@ -37,7 +37,7 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
    public function testInitInvitationCreation() {
       self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => self::$fixture['guestEmail'],
@@ -58,7 +58,7 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -75,7 +75,7 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
    }
 
    public function testDeleteDefaultFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $entityId = $_SESSION['glpiactive_entity'];
       $this->assertTrue($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId' LIMIT 1"));
 
@@ -89,7 +89,7 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
             'name'            => 'a fleet'
       ];
 
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $this->assertGreaterThan(0, $fleet->add($input));
       return $fleet;
    }
@@ -98,10 +98,10 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
     * @depends testAddFleet
     * @depends testInitEnrollAgent
     */
-   public function testAddAgentToFleet(PluginStorkmdmFleet $fleet, PluginStorkmdmAgent $agent) {
+   public function testAddAgentToFleet(PluginFlyvemdmFleet $fleet, PluginFlyvemdmAgent $agent) {
       $updateSuccess = $agent->update([
             'id'                          => $agent->getID(),
-            'plugin_storkmdm_fleets_id'   => $fleet->getID()
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID()
       ]);
       $this->assertTrue($updateSuccess);
 
@@ -112,13 +112,13 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
     * @depends testAddFleet
     * @depends testInitEnrollAgent
     */
-   public function testApplyPolicyToFleet(PluginStorkmdmFleet $fleet) {
-      $policyData = new PluginStorkmdmPolicy();
+   public function testApplyPolicyToFleet(PluginFlyvemdmFleet $fleet) {
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->getFromDBBySymbol('disableGPS');
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleet_policy->add([
-            'plugin_storkmdm_policies_id'    => $policyData->getID(),
-            'plugin_storkmdm_fleets_id'      => $fleet->getID(),
+            'plugin_flyvemdm_policies_id'    => $policyData->getID(),
+            'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
             'value'                          => '0'
       ]);
 
@@ -129,7 +129,7 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
     * @depends testAddAgentToFleet
     * @depends testApplyPolicyToFleet
     */
-   public function testPurgeFleet(PluginStorkmdmFleet $fleet) {
+   public function testPurgeFleet(PluginFlyvemdmFleet $fleet) {
       $deleteSuccess = $fleet->delete([
             'id'     => $fleet->getID()
       ]);
@@ -141,12 +141,12 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
    /**
     * @depends testPurgeFleet
     */
-   public function testAgentUnlinkedAfterPurge(PluginStorkmdmFleet $fleet) {
+   public function testAgentUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
       $entityId = $_SESSION['glpiactive_entity'];
       $fleetId = $fleet->getID();
 
-      $agent = new PluginStorkmdmAgent();
-      $rows = $agent->find("`entities_id`='$entityId' AND `plugin_storkmdm_fleets_id`='$fleetId'");
+      $agent = new PluginFlyvemdmAgent();
+      $rows = $agent->find("`entities_id`='$entityId' AND `plugin_flyvemdm_fleets_id`='$fleetId'");
 
       // Should be no agent linked to the deleted fleet
       $this->assertEquals(0, count($rows));
@@ -155,10 +155,10 @@ class PluginStorkmdmFleetIntegrationTest extends RegisteredUserTestCase {
    /**
     * @depends testPurgeFleet
     */
-   public function testPolicyUnlinkedAfterPurge(PluginStorkmdmFleet $fleet) {
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+   public function testPolicyUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleetId = $fleet->getID();
-      $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id`='$fleetId'");
+      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
       $this->assertEquals(0, count($rows));
    }
 

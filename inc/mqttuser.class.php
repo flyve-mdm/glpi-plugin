@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqttuser extends CommonDBTM {
+class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
     * {@inheritDoc}
@@ -76,15 +76,15 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
     */
    public function post_addItem() {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
          foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginStorkmdmMqttacl();
+               $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_storkmdm_mqttusers_id'   => $this->fields['id'],
+                     'plugin_flyvemdm_mqttusers_id'   => $this->fields['id'],
                      'topic'                          => $acl['topic'],
                      'access_level'                   => $acl['access_level'],
                ]);
@@ -99,15 +99,15 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
     */
    public function post_updateItem($history=1) {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
          foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginStorkmdmMqttacl();
+               $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_storkmdm_mqttusers_id'   => $this->fields['id'],
+                     'plugin_flyvemdm_mqttusers_id'   => $this->fields['id'],
                      'topic'                          => $acl['topic'],
                      'access_level'                   => $acl['access_level'],
                ]);
@@ -204,9 +204,9 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $mqttAcl = new PluginStorkmdmMqttacl();
+      $mqttAcl = new PluginFlyvemdmMqttacl();
       $mqttAcl->deleteByCriteria([
-            'plugin_storkmdm_mqttusers_id'   => $this->getID()
+            'plugin_flyvemdm_mqttusers_id'   => $this->getID()
       ]);
    }
 
@@ -222,9 +222,9 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * Returns an array of PluginStorkmdmMqttACL for the user
+    * Returns an array of PluginFlyvemdmMqttACL for the user
     *
-    * @return PluginStorkmdmMqttacl[]
+    * @return PluginFlyvemdmMqttacl[]
     */
    public function getACLs() {
       if ($this->isNewItem()) {
@@ -232,11 +232,11 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
       }
 
       $aclList = array();
-      $mqttAcl = new PluginStorkmdmMqttacl();
+      $mqttAcl = new PluginFlyvemdmMqttacl();
       $userId = $this->fields['id'];
-      $rows = $mqttAcl->find("`plugin_storkmdm_mqttusers_id` = '$userId'");
+      $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
       foreach ($rows as $rowId => $row) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->getFromDB($rowId);
          if (!$mqttAcl->isNewItem()) {
             $aclList[] = $mqttAcl;

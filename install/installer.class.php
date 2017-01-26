@@ -39,13 +39,13 @@ if (!defined('GLPI_ROOT')) {
  * @since 0.1.0
  *
  */
-class PluginStorkmdmInstaller {
+class PluginFlyvemdmInstaller {
 
-   const SERVICE_PROFILE_NAME = 'Stork MDM service profile';
+   const SERVICE_PROFILE_NAME = 'Flyve MDM service profile';
 
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
-   const BACKEND_MQTT_USER = 'storkmdm-backend';
+   const BACKEND_MQTT_USER = 'flyvemdm-backend';
 
    const FLYVE_MDM_PRODUCT_WEBSITE     = 'www.flyve-mdm.com';
 
@@ -86,7 +86,7 @@ class PluginStorkmdmInstaller {
     */
    public function autoload($classname) {
       // useful only for installer GLPi autoloader already handles inc/ folder
-      $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginStorkmdm', '', $classname)). '.class.php';
+      $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '', $classname)). '.class.php';
       if (is_readable($filename) && is_file($filename)) {
          include_once($filename);
          return true;
@@ -105,20 +105,20 @@ class PluginStorkmdmInstaller {
 
       spl_autoload_register(array(__CLASS__, 'autoload'));
 
-      $this->migration = new Migration(PLUGIN_STORKMDM_VERSION);
-      $this->migration->setVersion(PLUGIN_STORKMDM_VERSION);
+      $this->migration = new Migration(PLUGIN_FLYVEMDM_VERSION);
+      $this->migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
       // Load non-itemtype classes
-      require_once PLUGIN_STORKMDM_ROOT . '/inc/notifiable.class.php';
+      require_once PLUGIN_FLYVEMDM_ROOT . '/inc/notifiable.class.php';
 
       // adding DB model from sql file
       // TODO : migrate in-code DB model setup here
       if (self::getCurrentVersion() == '') {
          // Setup DB model
-         $version = str_replace('.', '-', PLUGIN_STORKMDM_VERSION);
+         $version = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
 
          $version = "";
-         $dbFile = PLUGIN_STORKMDM_ROOT . "/install/mysql/plugin_storkmdm_empty.sql";
+         $dbFile = PLUGIN_FLYVEMDM_ROOT . "/install/mysql/plugin_flyvemdm_empty.sql";
          if (!$DB->runFile($dbFile)) {
             $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
             return false;
@@ -126,7 +126,7 @@ class PluginStorkmdmInstaller {
 
          $this->createInitialConfig();
       } else {
-         if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_STORKMDM_VERSION) != 0)) {
+         if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_FLYVEMDM_VERSION) != 0)) {
             // TODO : Upgrade (or downgrade)
             $this->upgrade(self::getCurrentVersion());
          }
@@ -148,7 +148,7 @@ class PluginStorkmdmInstaller {
       $this->createJobs();
       $this->createDemoModeJobs();                             // Demo mode
 
-      Config::setConfigurationValues('storkmdm', array('version' => PLUGIN_STORKMDM_VERSION));
+      Config::setConfigurationValues('flyvemdm', array('version' => PLUGIN_FLYVEMDM_VERSION));
 
       return true;
    }
@@ -167,7 +167,7 @@ class PluginStorkmdmInstaller {
       $profiles = $profile->find("`comment`='$comment'");
       $row = array_shift($profiles);
       if ($row === null) {
-         $profile->fields["name"] = $DB->escape(__($name, "storkmdm"));
+         $profile->fields["name"] = $DB->escape(__($name, "flyvemdm"));
          $profile->fields["comment"] = $comment;
          $profile->fields["interface"] = "central";
          if ($profile->addToDB() === false) {
@@ -180,22 +180,22 @@ class PluginStorkmdmInstaller {
    }
 
    public function createDirectories() {
-      if (! file_exists(STORKMDM_PACKAGE_PATH)) {
-         if (! mkdir(STORKMDM_PACKAGE_PATH, 0770, true)) {
-            $this->migration->displayWarning("Cannot create " . STORKMDM_PACKAGE_PATH . " directory");
+      if (! file_exists(FLYVEMDM_PACKAGE_PATH)) {
+         if (! mkdir(FLYVEMDM_PACKAGE_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . FLYVEMDM_PACKAGE_PATH . " directory");
          } else {
-            if (! $htAccessHandler = fopen(STORKMDM_PACKAGE_PATH . "/.htaccess", "w")) {
+            if (! $htAccessHandler = fopen(FLYVEMDM_PACKAGE_PATH . "/.htaccess", "w")) {
                fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
             }
          }
       }
 
-      if (! file_exists(STORKMDM_FILE_PATH)) {
-         if (! mkdir(STORKMDM_FILE_PATH, 0770, true)) {
-            $this->migration->displayWarning("Cannot create " . STORKMDM_FILE_PATH . " directory");
+      if (! file_exists(FLYVEMDM_FILE_PATH)) {
+         if (! mkdir(FLYVEMDM_FILE_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . FLYVEMDM_FILE_PATH . " directory");
          } else {
-            if (! $htAccessHandler = fopen(STORKMDM_FILE_PATH . "/.htaccess", "w")) {
+            if (! $htAccessHandler = fopen(FLYVEMDM_FILE_PATH . "/.htaccess", "w")) {
                fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
             }
@@ -205,7 +205,7 @@ class PluginStorkmdmInstaller {
 
    public static function getCurrentVersion() {
       if (self::$currentVersion === NULL) {
-         $config = \Config::getConfigurationValues("storkmdm", array('version'));
+         $config = \Config::getConfigurationValues("flyvemdm", array('version'));
          if (!isset($config['version'])) {
             self::$currentVersion = '';
          } else {
@@ -222,21 +222,21 @@ class PluginStorkmdmInstaller {
       $profileRight = new ProfileRight();
 
       $newRights = array(
-            PluginStorkmdmProfile::$rightname         => PluginStorkmdmProfile::RIGHT_STORKMDM_USE,
-            PluginStorkmdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
-            PluginStorkmdmAgent::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmPolicy::$rightname          => READ,
-            PluginStorkmdmPolicyCategory::$rightname  => READ,
-            PluginStorkmdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
-            PluginStorkmdmEntityconfig::$rightname    => READ
-                                                         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT
-                                                         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-                                                         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
-            PluginStorkmdmInvitationLog::$rightname   => READ,
+            PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+            PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
+            PluginFlyvemdmAgent::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmPolicy::$rightname          => READ,
+            PluginFlyvemdmPolicyCategory::$rightname  => READ,
+            PluginFlyvemdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
+            PluginFlyvemdmEntityconfig::$rightname    => READ
+                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+            PluginFlyvemdmInvitationLog::$rightname   => READ,
       );
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -248,9 +248,9 @@ class PluginStorkmdmInstaller {
       // create profile for service account (provides the API key allowing self account cezation for registered users)
       $profileId = self::getOrCreateProfile(
             self::SERVICE_PROFILE_NAME,
-            __("service StorkMDM user's profile. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            __("service FlyveMDM user's profile. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
             );
-      Config::setConfigurationValues('storkmdm', array('service_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', array('service_profiles_id' => $profileId));
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, array(
             Entity::$rightname                     => CREATE | UPDATE,
@@ -265,26 +265,26 @@ class PluginStorkmdmInstaller {
    protected function createRegisteredProfileAccess() {
       // create profile for registered users
       $profileId = self::getOrCreateProfile(
-            __("Stork MDM registered users", "storkmdm"),
-            __("registered StorkMDM users. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            __("Flyve MDM registered users", "flyvemdm"),
+            __("registered FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
       );
-      Config::setConfigurationValues('storkmdm', array('registered_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', array('registered_profiles_id' => $profileId));
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, array(
-            PluginStorkmdmAgent::$rightname           => READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, // No create right
-            PluginStorkmdmInvitation::$rightname      => ALLSTANDARDRIGHT,
-            PluginStorkmdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginStorkmdmGeolocation::$rightname     => READ | PURGE,
-            PluginStorkmdmWellknownpath::$rightname   => READ,
-            PluginStorkmdmPolicy::$rightname          => READ,
-            PluginStorkmdmPolicyCategory::$rightname  => READ,
-            PluginStorkmdmProfile::$rightname         => PluginStorkmdmProfile::RIGHT_STORKMDM_USE,
-            PluginStorkmdmEntityconfig::$rightname    => READ
-                                                         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-                                                         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
-            PluginStorkmdmInvitationlog::$rightname   => READ,
+            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, // No create right
+            PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT,
+            PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+            PluginFlyvemdmGeolocation::$rightname     => READ | PURGE,
+            PluginFlyvemdmWellknownpath::$rightname   => READ,
+            PluginFlyvemdmPolicy::$rightname          => READ,
+            PluginFlyvemdmPolicyCategory::$rightname  => READ,
+            PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+            PluginFlyvemdmEntityconfig::$rightname    => READ
+                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+            PluginFlyvemdmInvitationlog::$rightname   => READ,
             Config::$rightname                        => READ,
             User::$rightname                          => ALLSTANDARDRIGHT,
             Profile::$rightname                       => CREATE,
@@ -307,24 +307,24 @@ class PluginStorkmdmInstaller {
    protected function createInactiveRegisteredProfileAccess() {
       // create profile for registered users
       $profileId = self::getOrCreateProfile(
-            __("Stork MDM inactive registered users", "storkmdm"),
-            __("inactive registered StorkMDM users. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            __("Flyve MDM inactive registered users", "flyvemdm"),
+            __("inactive registered FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
             );
-      Config::setConfigurationValues('storkmdm', array('inactive_registered_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', array('inactive_registered_profiles_id' => $profileId));
    }
 
    protected function createGuestProfileAccess() {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
-            __("Stork MDM guest users", "storkmdm"),
-            __("guest StorkMDM users. Created by Stork MDM - do NOT modify this comment.", "storkmdm")
+            __("Flyve MDM guest users", "flyvemdm"),
+            __("guest FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
       );
-      Config::setConfigurationValues('storkmdm', array('guest_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', array('guest_profiles_id' => $profileId));
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, array(
-            PluginStorkmdmAgent::$rightname           => READ | CREATE,
-            PluginStorkmdmFile::$rightname           => READ,
-            PluginStorkmdmPackage::$rightname           => READ,
+            PluginFlyvemdmAgent::$rightname           => READ | CREATE,
+            PluginFlyvemdmFile::$rightname           => READ,
+            PluginFlyvemdmPackage::$rightname           => READ,
       ));
    }
 
@@ -334,8 +334,8 @@ class PluginStorkmdmInstaller {
    protected function createPolicies() {
       global $DB;
 
-      $policy = new PluginStorkmdmPolicy();
-      $policyTable = PluginStorkmdmPolicy::getTable();
+      $policy = new PluginFlyvemdmPolicy();
+      $policyTable = PluginFlyvemdmPolicy::getTable();
       foreach (self::getPolicies() as $policyData) {
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
@@ -346,7 +346,7 @@ class PluginStorkmdmInstaller {
             $policy->add($policyData);
          } else {
             // Update default value and recommended value for existing policy objects
-            $policy2 = new PluginStorkmdmPolicy();
+            $policy2 = new PluginFlyvemdmPolicy();
             $policy2->getFromDBBySymbol($symbol);
             $policy2->update(array(
                   'id'                 => $policy2->getID(),
@@ -363,15 +363,15 @@ class PluginStorkmdmInstaller {
    protected static function createServiceUserAccount() {
       $user = new User();
 
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
       $profile = new Profile();
       $profile->getFromDB($config['service_profiles_id']);
 
-      if (!$user->getIdByName(PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME)) {
+      if (!$user->getIdByName(PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME)) {
          if (!$user->add([
-               'name'            => PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME,
-               'comment'         => 'StorkMDM service account',
-               'firstname'       => 'Plugin Storkmdm',
+               'name'            => PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME,
+               'comment'         => 'FlyveMDM service account',
+               'firstname'       => 'Plugin Flyvemdm',
                'password'        => '42',
                'personal_token'  => User::getUniquePersonalToken(),
                '_profiles_id'    => $profile->getID(),
@@ -388,16 +388,16 @@ class PluginStorkmdmInstaller {
       Session::loadLanguage('en_GB');
 
       $notifications = array(
-            PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
-                  'itemtype'        => PluginStorkmdmInvitation::class,
-                  'name'            => __('User invitation', "storkmdm"),
-                  'subject'         => __('You have been invited to join Flyve MDM', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
+                  'itemtype'        => PluginFlyvemdmInvitation::class,
+                  'name'            => __('User invitation', "flyvemdm"),
+                  'subject'         => __('You have been invited to join Flyve MDM', 'flyvemdm'),
                   'content_text'    => __('Hi,
 
 Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.
 
-##storkmdm.download_app##
+##flyvemdm.download_app##
 
 If you\'re viewing this email from a computer flash the QR code you see below
 with the Flyve MDM Application.
@@ -405,23 +405,23 @@ with the Flyve MDM Application.
 If you\'re viewing this email from your device to enroll then tap the
 following link.
 
-##storkmdm.enroll_url##
+##flyvemdm.enroll_url##
 
 Regards,
 
-', 'storkmdm'),
+', 'flyvemdm'),
                   'content_html'    => __('Hi,
 
 Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.
 
-##storkmdm.download_app##
+##flyvemdm.download_app##
 
-<img src="cid:##storkmdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">
+<img src="cid:##flyvemdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">
 
 Regards,
 
-', 'storkmdm')
+', 'flyvemdm')
             )
       );
 
@@ -436,7 +436,7 @@ Regards,
       $notification = new Notification();
       $template = new NotificationTemplate();
       $translation = new NotificationTemplateTranslation();
-      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
+      $notificationTarget = new PluginFlyvemdmNotificationTargetInvitation();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
@@ -491,49 +491,49 @@ Regards,
       Session::loadLanguage('en_GB');
 
       $notifications = array(
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION => array(
-                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
-                  'name'            => __('Self registration', "storkmdm"),
-                  'subject'         => __('Flyve MDM Account Activation', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION => array(
+                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
+                  'name'            => __('Self registration', "flyvemdm"),
+                  'subject'         => __('Flyve MDM Account Activation', 'flyvemdm'),
                   'content_text'    => __('Hi there,
 
 You or someone else created an account on Flyve MDM with your email address.
 
 If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+If you created an account, please activate it with the link below. The link will be active for ##flyvemdm.activation_delay##.
 
-##storkmdm.registration_url##
+##flyvemdm.registration_url##
 
-After activating your account, please login and enjoy Flyve MDM for ##storkmdm.trial_duration##, entering :
+After activating your account, please login and enjoy Flyve MDM for ##flyvemdm.trial_duration##, entering :
 
-##storkmdm.webapp_url##
+##flyvemdm.webapp_url##
 
 Regards,
 
-', 'storkmdm') . $this->getTextMailingSignature(),
+', 'flyvemdm') . $this->getTextMailingSignature(),
                   'content_html'    => __('Hi there,
 
 You or someone else created an account on Flyve MDM with your email address.
 
 If you did not register for an account, please discard this email message, we apologize for any inconveniences.
 
-If you created an account, please activate it with the link below. The link will be active for ##storkmdm.activation_delay##.
+If you created an account, please activate it with the link below. The link will be active for ##flyvemdm.activation_delay##.
 
-<a href="##storkmdm.registration_url##">##storkmdm.registration_url##</a>
+<a href="##flyvemdm.registration_url##">##flyvemdm.registration_url##</a>
 
-After activating your account, please login and <span style="text-weight: bold">enjoy Flyve MDM for ##storkmdm.trial_duration##</span>, entering :
+After activating your account, please login and <span style="text-weight: bold">enjoy Flyve MDM for ##flyvemdm.trial_duration##</span>, entering :
 
-<a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a>
+<a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a>
 
 Regards,
 
-', 'storkmdm') . $this->getHTMLMailingSignature()
+', 'flyvemdm') . $this->getHTMLMailingSignature()
             ),
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN => array(
-                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
-                  'name'            => __('Account activated', "storkmdm"),
-                  'subject'         => __('Get started with Flyve MDM', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN => array(
+                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
+                  'name'            => __('Account activated', "flyvemdm"),
+                  'subject'         => __('Get started with Flyve MDM', 'flyvemdm'),
                   'content_text'    => __('Hi there,
 
 Thank you for joining us, you have successfully activated your Flyve MDM account!
@@ -541,7 +541,7 @@ Thank you for joining us, you have successfully activated your Flyve MDM account
 Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
 Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
 
-To use it during your 90 days trial, sign in to ##storkmdm.webapp_url##, with your account’s login.
+To use it during your 90 days trial, sign in to ##flyvemdm.webapp_url##, with your account’s login.
 
 We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to contact@flyve-mdm.com!
 
@@ -551,7 +551,7 @@ You can upgrade to a full and unlimited Flyve MDM account at any time during you
 
 Regards,
 
-', 'storkmdm') . $this->getTextMailingSignature(),
+', 'flyvemdm') . $this->getTextMailingSignature(),
                   'content_html'    => __('Hi there,
 
 Thank you for joining us, you have successfully activated your Flyve MDM account!
@@ -559,7 +559,7 @@ Thank you for joining us, you have successfully activated your Flyve MDM account
 Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
 Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
 
-To use it during your 90 days trial, sign in to <a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a>, with your account’s login.
+To use it during your 90 days trial, sign in to <a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a>, with your account’s login.
 
 We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to <a href="contact@flyve-mdm.com">contact@flyve-mdm.com</a>!
 
@@ -569,15 +569,15 @@ You can upgrade to a full and unlimited Flyve MDM account at any time during you
 
 Regards,
 
-', 'storkmdm') . $this->getHTMLMailingSignature()
+', 'flyvemdm') . $this->getHTMLMailingSignature()
             ),
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1 => array(
-                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
-                  'name'            => __('First trial reminder', "storkmdm"),
-                  'subject'         => __('Your Flyve MDM trial will end soon! - Only ##storkmdm.days_remaining## left!', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1 => array(
+                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
+                  'name'            => __('First trial reminder', "flyvemdm"),
+                  'subject'         => __('Your Flyve MDM trial will end soon! - Only ##flyvemdm.days_remaining## left!', 'flyvemdm'),
                   'content_text'    => __('Hi there,
 
-Your 90 days trial for ##storkmdm.webapp_url## is coming to an end in ##storkmdm.days_remaining## and we deeply hope you have been enjoying the experience!
+Your 90 days trial for ##flyvemdm.webapp_url## is coming to an end in ##flyvemdm.days_remaining## and we deeply hope you have been enjoying the experience!
 
 Ready to upgrade?
 
@@ -585,10 +585,10 @@ To continue enjoying Flyve MDM features, contact our experts and get a personali
 
 Regards,
 
-', 'storkmdm') . $this->getTextMailingSignature(),
+', 'flyvemdm') . $this->getTextMailingSignature(),
                   'content_html'    => __('Hi there,
 
-Your 90 days trial for <a href="##storkmdm.webapp_url##">##storkmdm.webapp_url##</a> is coming to an end in ##storkmdm.days_remaining## and we deeply hope you have been enjoying the experience!
+Your 90 days trial for <a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a> is coming to an end in ##flyvemdm.days_remaining## and we deeply hope you have been enjoying the experience!
 
 <span style="font-weight: bold;">Ready to upgrade?</span>
 
@@ -596,15 +596,15 @@ To continue enjoying Flyve MDM features, contact our experts and get a personali
 
 Regards,
 
-', 'storkmdm') . $this->getHTMLMailingSignature()
+', 'flyvemdm') . $this->getHTMLMailingSignature()
             ),
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2 => array(
-                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
-                  'name'            => __('Second trial reminder', "storkmdm"),
-                  'subject'         => __('Your free Flyve MDM trial expires in ##storkmdm.days_remaining##!', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2 => array(
+                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
+                  'name'            => __('Second trial reminder', "flyvemdm"),
+                  'subject'         => __('Your free Flyve MDM trial expires in ##flyvemdm.days_remaining##!', 'flyvemdm'),
                   'content_text'    => __('Hi there,
 
-We want to give you a heads-up that in ##storkmdm.days_remaining## your Flyve MDM trial comes to an end!
+We want to give you a heads-up that in ##flyvemdm.days_remaining## your Flyve MDM trial comes to an end!
 
 We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
 
@@ -614,10 +614,10 @@ To continue enjoying Flyve MDM features, contact our experts and get a personali
 
 Regards,
 
-', 'storkmdm') . $this->getTextMailingSignature(),
+', 'flyvemdm') . $this->getTextMailingSignature(),
                   'content_html'    => __('Hi there,
 
-We want to give you a heads-up that <span style="font-weight: bold;">in ##storkmdm.days_remaining## your Flyve MDM trial comes to an end!</span>
+We want to give you a heads-up that <span style="font-weight: bold;">in ##flyvemdm.days_remaining## your Flyve MDM trial comes to an end!</span>
 
 We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
 
@@ -627,12 +627,12 @@ To continue enjoying Flyve MDM features, contact our experts and get a personali
 
 Regards,
 
-', 'storkmdm') . $this->getHTMLMailingSignature()
+', 'flyvemdm') . $this->getHTMLMailingSignature()
             ),
-            PluginStorkmdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND => array(
-                  'itemtype'        => PluginStorkmdmAccountvalidation::class,
-                  'name'            => __('End of trial reminder', "storkmdm"),
-                  'subject'         => __('Your free Flyve MDM trial has expired.', 'storkmdm'),
+            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND => array(
+                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
+                  'name'            => __('End of trial reminder', "flyvemdm"),
+                  'subject'         => __('Your free Flyve MDM trial has expired.', 'flyvemdm'),
                   'content_text'    => __('Hi there,
 
 The trial period for Flyve MDM has ended!
@@ -646,7 +646,7 @@ Email us at: sales@flyve-mdm.com, we will be happy to hear from you!
 
 Regards,
 
-', 'storkmdm') . $this->getTextMailingSignature(),
+', 'flyvemdm') . $this->getTextMailingSignature(),
                   'content_html'    => __('Hi there,
 
 <span style="font-weight: bold;">The trial period for Flyve MDM has ended!</span>
@@ -660,7 +660,7 @@ Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>, we wi
 
 Regards,
 
-', 'storkmdm') . $this->getHTMLMailingSignature()
+', 'flyvemdm') . $this->getHTMLMailingSignature()
             ),
       );
 
@@ -675,7 +675,7 @@ Regards,
       $notification = new Notification();
       $template = new NotificationTemplate();
       $translation = new NotificationTemplateTranslation();
-      $notificationTarget = new PluginStorkmdmNotificationTargetInvitation();
+      $notificationTarget = new PluginFlyvemdmNotificationTargetInvitation();
 
       foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
@@ -725,12 +725,12 @@ Regards,
    }
 
    protected function upgrade($fromVersion) {
-      $toVersion   = str_replace('.', '-', PLUGIN_STORKMDM_VERSION);
+      $toVersion   = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
 
       switch ($fromVersion) {
          default:
       }
-      if ($this->endsWith(PLUGIN_STORKMDM_VERSION, "-dev")) {
+      if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
          if (is_readable(__DIR__ . "/update_dev.php") && is_file(__DIR__ . "/update_dev.php")) {
             include __DIR__ . "/update_dev.php";
             if (function_exists('update_dev')) {
@@ -744,29 +744,29 @@ Regards,
    }
 
    protected function createJobs() {
-      CronTask::Register('PluginStorkmdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
+      CronTask::Register('PluginFlyvemdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
             array(
-                  'comment'   => __('Update retained MQTT topics for fleet policies', 'storkmdm'),
+                  'comment'   => __('Update retained MQTT topics for fleet policies', 'flyvemdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
    }
 
    protected function createDemoModeJobs() {
-      CronTask::Register('PluginStorkmdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
+      CronTask::Register('PluginFlyvemdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
             array(
-                  'comment'   => __('Remove expired account activations (demo mode)', 'storkmdm'),
+                  'comment'   => __('Remove expired account activations (demo mode)', 'flyvemdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
 
-      CronTask::Register('PluginStorkmdmAccountvalidation', 'DisableExpiredTrial', 12 * HOUR_TIMESTAMP,
+      CronTask::Register('PluginFlyvemdmAccountvalidation', 'DisableExpiredTrial', 12 * HOUR_TIMESTAMP,
             array(
-                  'comment'   => __('Disable expired accounts (demo mode)', 'storkmdm'),
+                  'comment'   => __('Disable expired accounts (demo mode)', 'flyvemdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
 
-      CronTask::Register('PluginStorkmdmAccountvalidation', 'RemindTrialExpiration', 12 * HOUR_TIMESTAMP,
+      CronTask::Register('PluginFlyvemdmAccountvalidation', 'RemindTrialExpiration', 12 * HOUR_TIMESTAMP,
             array(
-                  'comment'   => __('Remind imminent end of trial period (demo mode)', 'storkmdm'),
+                  'comment'   => __('Remind imminent end of trial period (demo mode)', 'flyvemdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
             ));
    }
@@ -796,7 +796,7 @@ Regards,
     * @return boolean true (assume success, needs enhancement)
     */
    public function uninstall() {
-      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/storkmdm");
+      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
@@ -809,13 +809,13 @@ Regards,
       // Cron jobs deletion handled by GLPi
 
       $config = new Config();
-      $config->deleteByCriteria(array('context' => 'storkmdm'));
+      $config->deleteByCriteria(array('context' => 'flyvemdm'));
 
       return true;
    }
 
    /**
-    * Cannot use the method from PluginStorkmdmToolbox if the plugin is being uninstalled
+    * Cannot use the method from PluginFlyvemdmToolbox if the plugin is being uninstalled
     * @param string $dir
     */
    protected function rrmdir($dir) {
@@ -841,8 +841,8 @@ Regards,
    protected function createInitialConfig() {
       global $CFG_GLPI;
 
-      $MdmMqttUser = 'storkmdm-backend';
-      $MdmMqttPassword = PluginStorkmdmMqttuser::getRandomPassword();
+      $MdmMqttUser = 'flyvemdm-backend';
+      $MdmMqttPassword = PluginFlyvemdmMqttuser::getRandomPassword();
 
       // New config management provided by GLPi
 
@@ -864,7 +864,7 @@ Regards,
             'debug_noexpire'                 => '0',
             'ssl_cert_url'                   => '',
             'default_device_limit'           => '0',
-            'default_agent_url'              => PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL,
+            'default_agent_url'              => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
             'android_bugcollecctor_url'      => '',
             'android_bugcollector_login'     => '',
             'android_bugcollector_passwd'    => '',
@@ -873,7 +873,7 @@ Regards,
             'demo_time_limit'                => '0',
             'inactive_registered_profiles_id'=> '',
       ];
-      Config::setConfigurationValues("storkmdm", $newConfig);
+      Config::setConfigurationValues("flyvemdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
    }
 
@@ -886,7 +886,7 @@ Regards,
       global $DB;
 
       // Create mqtt credentials for the plugin
-      $mqttUser = new PluginStorkmdmMqttuser();
+      $mqttUser = new PluginFlyvemdmMqttuser();
 
       // Check the MQTT user account for the plugin exists
       if (!$mqttUser->getFromDBByQuery("WHERE `user`='$MdmMqttUser'")) {
@@ -897,21 +897,21 @@ Regards,
                'enabled'         => '1',
                '_acl'            => [[
                      'topic'           => '#',
-                     'access_level'    => PluginStorkmdmMqttacl::MQTTACL_READ_WRITE
+                     'access_level'    => PluginFlyvemdmMqttacl::MQTTACL_READ_WRITE
                ]],
          ])) {
             // Failed to create the account
-            $this->migration->displayWarning('Unable to create the MQTT account for StorkMDM : ' . $DB->error());
+            $this->migration->displayWarning('Unable to create the MQTT account for FlyveMDM : ' . $DB->error());
          } else {
             // Check the ACL has been created
             $aclList = $mqttUser->getACLs();
             $mqttAcl = array_shift($aclList);
             if ($mqttAcl === null) {
-               $this->migration->displayWarning('Unable to create the MQTT ACL for StorkMDM : ' . $DB->error());
+               $this->migration->displayWarning('Unable to create the MQTT ACL for FlyveMDM : ' . $DB->error());
             }
 
             // Save MQTT credentials in configuration
-            Config::setConfigurationValues("storkmdm", array('mqtt_user'       => $MdmMqttUser, 'mqtt_passwd'     => $MdmMqttPassword));
+            Config::setConfigurationValues("flyvemdm", array('mqtt_user'       => $MdmMqttUser, 'mqtt_passwd'     => $MdmMqttPassword));
          }
       }
    }
@@ -937,22 +937,22 @@ Regards,
 
       $categories = [
             [
-                  'name'                                 => __('Security', 'storkmdm'),
+                  'name'                                 => __('Security', 'flyvemdm'),
             ],
             [
-                  'name'                                 => __('Authentication', 'storkmdm'),
+                  'name'                                 => __('Authentication', 'flyvemdm'),
             ],
             [
-                  'name'                                 => __('Password', 'storkmdm'),
+                  'name'                                 => __('Password', 'flyvemdm'),
             ],
             [
-                  'name'                                 => __('Encryption', 'storkmdm'),
+                  'name'                                 => __('Encryption', 'flyvemdm'),
             ],
             [
-                  'name'                                 => __('Peripherals', 'storkmdm'),
+                  'name'                                 => __('Peripherals', 'flyvemdm'),
             ],
             [
-                  'name'                                 => __('Deployment', 'storkmdm'),
+                  'name'                                 => __('Deployment', 'flyvemdm'),
             ],
       ];
 
@@ -972,24 +972,24 @@ Regards,
 
       $policies = [
             [
-                  'name'                                 => __('Password enabled', 'storkmdm'),
+                  'name'                                 => __('Password enabled', 'flyvemdm'),
                   'symbol'                               => 'passwordEnabled',
                   'group'                                => 'policies',
                   'type'                                 => 'dropdown',
                   'type_data'                            => [
-                        "PASSWORD_NONE"                  => __('No', 'storkmdm'),
-                        "PASSWORD_PIN"                   => __('Pin', 'storkmdm'),
-                        "PASSWORD_PASSWD"                => __('Password', 'storkmdm')
+                        "PASSWORD_NONE"                  => __('No', 'flyvemdm'),
+                        "PASSWORD_PIN"                   => __('Pin', 'flyvemdm'),
+                        "PASSWORD_PASSWD"                => __('Password', 'flyvemdm')
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('Password enabled description', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('Password enabled description', 'flyvemdm'),
                   'default_value'                        => 'PASSWORD_NONE',
                   'recommended_value'                    => 'PASSWORD_PIN',
             ],
 
             [
-                  'name'                                 => __('Minimum password length', 'storkmdm'),
+                  'name'                                 => __('Minimum password length', 'flyvemdm'),
                   'symbol'                               => 'passwordMinLength',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -997,34 +997,34 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('Set the required number of characters for the password. For example, you can require PIN or passwords to have at least six characters', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('Set the required number of characters for the password. For example, you can require PIN or passwords to have at least six characters', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '6',
             ],
 
             [
-                  'name'                                 => __('Password quality', 'storkmdm'),
+                  'name'                                 => __('Password quality', 'flyvemdm'),
                   'symbol'                               => 'passwordQuality',
                   'group'                                => 'policies',
                   'type'                                 => 'dropdown',
                   'type_data'                            => [
-                        "PASSWORD_QUALITY_UNSPECIFIED"   => __('Unspecified', 'storkmdm'),
-                        "PASSWORD_QUALITY_SOMETHING"     => __('Something', 'storkmdm'),
-                        "PASSWORD_QUALITY_NUMERIC"       => __('Numeric', 'storkmdm'),
-                        "PASSWORD_QUALITY_ALPHABETIC"    => __('Alphabetic', 'storkmdm'),
-                        "PASSWORD_QUALITY_ALPHANUMERIC"  => __('Alphanumeric', 'storkmdm'),
-                        "PASSWORD_QUALITY_COMPLEX"       => __('Complex', 'storkmdm')
+                        "PASSWORD_QUALITY_UNSPECIFIED"   => __('Unspecified', 'flyvemdm'),
+                        "PASSWORD_QUALITY_SOMETHING"     => __('Something', 'flyvemdm'),
+                        "PASSWORD_QUALITY_NUMERIC"       => __('Numeric', 'flyvemdm'),
+                        "PASSWORD_QUALITY_ALPHABETIC"    => __('Alphabetic', 'flyvemdm'),
+                        "PASSWORD_QUALITY_ALPHANUMERIC"  => __('Alphanumeric', 'flyvemdm'),
+                        "PASSWORD_QUALITY_COMPLEX"       => __('Complex', 'flyvemdm')
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('Complexity of allowed password', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('Complexity of allowed password', 'flyvemdm'),
                   'default_value'                        => 'PASSWORD_QUALITY_UNSPECIFIED',
                   'recommended_value'                    => 'PASSWORD_QUALITY_UNSPECIFIED',
             ],
 
             [
-                  'name'                                 => __('Minimum letters required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum letters required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinLetters',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1032,14 +1032,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of letters required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of letters required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Minimum lowercase letters required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum lowercase letters required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinLowerCase',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1047,14 +1047,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of lowercase letters required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of lowercase letters required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '1',
             ],
 
             [
-                  'name'                                 => __('Minimum non-letter characters required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum non-letter characters required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinNonLetter',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1062,14 +1062,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of non-letter characters required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of non-letter characters required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Minimum numerical digits required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum numerical digits required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinNumeric',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1077,14 +1077,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of numerical digits required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of numerical digits required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '1',
             ],
 
             [
-                  'name'                                 => __('Minimum symbols required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum symbols required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinSymbols',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1092,14 +1092,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of symbols required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of symbols required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Minimum uppercase letters required in password', 'storkmdm'),
+                  'name'                                 => __('Minimum uppercase letters required in password', 'flyvemdm'),
                   'symbol'                               => 'passwordMinUpperCase',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1107,14 +1107,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('The minimum number of uppercase letters required in the password for all admins or a particular one', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('The minimum number of uppercase letters required in the password for all admins or a particular one', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '1',
             ],
 
             [
-                  'name'                                 => __('Maximum failed password attemps for wipe', 'storkmdm'),
+                  'name'                                 => __('Maximum failed password attemps for wipe', 'flyvemdm'),
                   'symbol'                               => 'MaximumFailedPasswordsForWipe',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1122,14 +1122,14 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('Number of consecutive failed attemps of unlock the device to wipe', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('Number of consecutive failed attemps of unlock the device to wipe', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '5',
             ],
 
             [
-                  'name'                                 => __('Maximum time to lock (milliseconds)', 'storkmdm'),
+                  'name'                                 => __('Maximum time to lock (milliseconds)', 'flyvemdm'),
                   'symbol'                               => 'MaximumTimeToLock',
                   'group'                                => 'policies',
                   'type'                                 => 'int',
@@ -1137,125 +1137,125 @@ Regards,
                         "min"                            => 0,
                   ],
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 3,
-                  'comment'                              => __('Maximum time to lock the device in milliseconds', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 3,
+                  'comment'                              => __('Maximum time to lock the device in milliseconds', 'flyvemdm'),
                   'default_value'                        => '60000',
                   'recommended_value'                    => '60000',
             ],
 
             [
-                  'name'                                 => __('Internal Storage encryption', 'storkmdm'),
+                  'name'                                 => __('Internal Storage encryption', 'flyvemdm'),
                   'symbol'                               => 'storageEncryption',
                   'group'                                => 'encryption',
                   'type'                                 => 'bool',
                   'type_data'                            => '',
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 4,
-                  'comment'                              => __('Force internal storage encryption', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 4,
+                  'comment'                              => __('Force internal storage encryption', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Disable Camera', 'storkmdm'),
+                  'name'                                 => __('Disable Camera', 'flyvemdm'),
                   'symbol'                               => 'disableCamera',
                   'group'                                => 'camera',
                   'type'                                 => 'bool',
                   'type_data'                            => '',
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 5,
-                  'comment'                              => __('Prevent usage of the Camera', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 5,
+                  'comment'                              => __('Prevent usage of the Camera', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Deploy application', 'storkmdm'),
+                  'name'                                 => __('Deploy application', 'flyvemdm'),
                   'symbol'                               => 'deployApp',
                   'group'                                => 'application',
                   'type'                                 => 'deployapp',
                   'type_data'                            => '',
                   'unicity'                              => 0,
-                  'plugin_storkmdm_policycategories_id'  => 6,
-                  'comment'                              => __('Deploy an application on the device', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 6,
+                  'comment'                              => __('Deploy an application on the device', 'flyvemdm'),
                   'default_value'                        => '',
                   'recommended_value'                    => '',
             ],
 
             [
-                  'name'                                 => __('Remove application', 'storkmdm'),
+                  'name'                                 => __('Remove application', 'flyvemdm'),
                   'symbol'                               => 'removeApp',
                   'group'                                => 'application',
                   'type'                                 => 'removeapp',
                   'type_data'                            => '',
                   'unicity'                              => 0,
-                  'plugin_storkmdm_policycategories_id'  => 6,
-                  'comment'                              => __('Uninstall an application on the device', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 6,
+                  'comment'                              => __('Uninstall an application on the device', 'flyvemdm'),
                   'default_value'                        => '',
                   'recommended_value'                    => '',
             ],
 
             [
-                  'name'                                 => __('Deploy file', 'storkmdm'),
+                  'name'                                 => __('Deploy file', 'flyvemdm'),
                   'symbol'                               => 'deployFile',
                   'group'                                => 'file',
                   'type'                                 => 'deployfile',
                   'type_data'                            => '',
                   'unicity'                              => 0,
-                  'plugin_storkmdm_policycategories_id'  => 6,
-                  'comment'                              => __('Deploy a file on the device', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 6,
+                  'comment'                              => __('Deploy a file on the device', 'flyvemdm'),
                   'default_value'                        => '',
                   'recommended_value'                    => '',
             ],
 
             [
-                  'name'                                 => __('Remove file', 'storkmdm'),
+                  'name'                                 => __('Remove file', 'flyvemdm'),
                   'symbol'                               => 'removeFile',
                   'group'                                => 'file',
                   'type'                                 => 'removefile',
                   'type_data'                            => '',
                   'unicity'                              => 0,
-                  'plugin_storkmdm_policycategories_id'  => 6,
-                  'comment'                              => __('Uninstall a file on the device', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 6,
+                  'comment'                              => __('Uninstall a file on the device', 'flyvemdm'),
                   'default_value'                        => '',
                   'recommended_value'                    => '',
             ],
 
             [
-                  'name'                                 => __('Disable Wifi', 'storkmdm'),
+                  'name'                                 => __('Disable Wifi', 'flyvemdm'),
                   'symbol'                               => 'disableWifi',
                   'group'                                => 'connectivity',
                   'type'                                 => 'bool',
                   'type_data'                            => '',
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 5,
-                  'comment'                              => __('Disable wifi connectivity', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 5,
+                  'comment'                              => __('Disable wifi connectivity', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Disable Bluetooth', 'storkmdm'),
+                  'name'                                 => __('Disable Bluetooth', 'flyvemdm'),
                   'symbol'                               => 'disableBluetooth',
                   'group'                                => 'connectivity',
                   'type'                                 => 'bool',
                   'type_data'                            => '',
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 5,
-                  'comment'                              => __('Disable Bluetooth connectivity', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 5,
+                  'comment'                              => __('Disable Bluetooth connectivity', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
 
             [
-                  'name'                                 => __('Disable GPS', 'storkmdm'),
+                  'name'                                 => __('Disable GPS', 'flyvemdm'),
                   'symbol'                               => 'disableGPS',
                   'group'                                => 'connectivity',
                   'type'                                 => 'bool',
                   'type_data'                            => '',
                   'unicity'                              => 1,
-                  'plugin_storkmdm_policycategories_id'  => 5,
-                  'comment'                              => __('Disable GPS', 'storkmdm'),
+                  'plugin_flyvemdm_policycategories_id'  => 5,
+                  'comment'                              => __('Disable GPS', 'flyvemdm'),
                   'default_value'                        => '0',
                   'recommended_value'                    => '0',
             ],
@@ -1346,23 +1346,23 @@ Regards,
       global $DB;
 
       $tables = array(
-            PluginStorkmdmAgent::getTable(),
-            PluginStorkmdmEntityconfig::getTable(),
-            PluginStorkmdmFile::getTable(),
-            PluginStorkmdmInvitationlog::getTable(),
-            PluginStorkmdmFleet::getTable(),
-            PluginStorkmdmFleet_Policy::getTable(),
-            PluginStorkmdmGeolocation::getTable(),
-            PluginStorkmdmInvitation::getTable(),
-            PluginStorkmdmMqttacl::getTable(),
-            PluginStorkmdmMqttlog::getTable(),
-            PluginStorkmdmMqttupdatequeue::getTable(),
-            PluginStorkmdmMqttuser::getTable(),
-            PluginStorkmdmPackage::getTable(),
-            PluginStorkmdmPolicy::getTable(),
-            PluginStorkmdmPolicyCategory::getTable(),
-            PluginStorkmdmWellknownpath::getTable(),
-            PluginStorkmdmAccountvalidation::getTable(),
+            PluginFlyvemdmAgent::getTable(),
+            PluginFlyvemdmEntityconfig::getTable(),
+            PluginFlyvemdmFile::getTable(),
+            PluginFlyvemdmInvitationlog::getTable(),
+            PluginFlyvemdmFleet::getTable(),
+            PluginFlyvemdmFleet_Policy::getTable(),
+            PluginFlyvemdmGeolocation::getTable(),
+            PluginFlyvemdmInvitation::getTable(),
+            PluginFlyvemdmMqttacl::getTable(),
+            PluginFlyvemdmMqttlog::getTable(),
+            PluginFlyvemdmMqttupdatequeue::getTable(),
+            PluginFlyvemdmMqttuser::getTable(),
+            PluginFlyvemdmPackage::getTable(),
+            PluginFlyvemdmPolicy::getTable(),
+            PluginFlyvemdmPolicyCategory::getTable(),
+            PluginFlyvemdmWellknownpath::getTable(),
+            PluginFlyvemdmAccountvalidation::getTable(),
       );
 
       foreach ($tables as $table) {
@@ -1371,7 +1371,7 @@ Regards,
    }
 
    protected  function deleteProfiles() {
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id', 'guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id', 'guest_profiles_id'));
       $registeredProfileId = $config['registered_profiles_id'];
       $guestProfileId = $config['guest_profiles_id'];
 
@@ -1395,16 +1395,16 @@ Regards,
 
    protected function deleteProfileRights() {
       $rights = array(
-            PluginStorkmdmAgent::$rightname,
-            PluginStorkmdmFile::$rightname,
-            PluginStorkmdmFleet::$rightname,
-            PluginStorkmdmGeolocation::$rightname,
-            PluginStorkmdmInvitation::$rightname,
-            PluginStorkmdmInvitationlog::$rightname,
-            PluginStorkmdmPackage::$rightname,
-            PluginStorkmdmPolicy::$rightname,
-            PluginStorkmdmProfile::$rightname,
-            PluginStorkmdmWellknownpath::$rightname,
+            PluginFlyvemdmAgent::$rightname,
+            PluginFlyvemdmFile::$rightname,
+            PluginFlyvemdmFleet::$rightname,
+            PluginFlyvemdmGeolocation::$rightname,
+            PluginFlyvemdmInvitation::$rightname,
+            PluginFlyvemdmInvitationlog::$rightname,
+            PluginFlyvemdmPackage::$rightname,
+            PluginFlyvemdmPolicy::$rightname,
+            PluginFlyvemdmProfile::$rightname,
+            PluginFlyvemdmWellknownpath::$rightname,
       );
       foreach ($rights as $right) {
          ProfileRight::deleteProfileRights(array($right));
@@ -1414,16 +1414,16 @@ Regards,
 
    protected function deleteRelations() {
       $pluginItemtypes = array(
-            'PluginStorkmdmAgent',
-            'PluginStorkmdmEntityconfig',
-            'PluginStorkmdmFile',
-            'PluginStorkmdmFleet',
-            'PluginStorkmdmGeolocation',
-            'PluginStorkmdmInvitation',
-            'PluginStorkmdmPackage',
-            'PluginStorkmdmPolicy',
-            'PluginStorkmdmPolicyCategory',
-            'PluginStorkmdmWellknownpath'
+            'PluginFlyvemdmAgent',
+            'PluginFlyvemdmEntityconfig',
+            'PluginFlyvemdmFile',
+            'PluginFlyvemdmFleet',
+            'PluginFlyvemdmGeolocation',
+            'PluginFlyvemdmInvitation',
+            'PluginFlyvemdmPackage',
+            'PluginFlyvemdmPolicy',
+            'PluginFlyvemdmPolicyCategory',
+            'PluginFlyvemdmWellknownpath'
       );
       foreach ($pluginItemtypes as $pluginItemtype) {
          foreach (array('Notepad', 'DisplayPreference', 'DropdownTranslation', 'Log', 'Bookmark') as $itemtype) {
@@ -1436,12 +1436,12 @@ Regards,
    protected function deleteDisplayPreferences() {
       // To cleanup display preferences if any
       //$displayPreference = new DisplayPreference();
-      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MIN . "
-      //                                             AND `num` <= " . PluginStorkmdmConfig::RESERVED_TYPE_RANGE_MAX));
+      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MIN . "
+      //                                             AND `num` <= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MAX));
    }
 
    protected function getHTMLMailingSignature() {
-      $config = Config::getConfigurationValues('storkmdm', [
+      $config = Config::getConfigurationValues('flyvemdm', [
             'social_media_twit',
             'social_media_gplus',
             'social_media_facebook',
@@ -1463,7 +1463,7 @@ Regards,
       $currentLocale = $_SESSION['glpilanguage'];
       Session::loadLanguage('en_GB');
 
-      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature = __("Flyve MDM Team", 'flyvemdm') . "\n";
       $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_WEBSITE . '">' . self::FLYVE_MDM_PRODUCT_WEBSITE . "</a>\n";
       $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_FACEBOOK .'">'
                    . '<img src="cid:' . $facebookTag . '" alt="Facebook" title="Facebook" width="30" height="30">'
@@ -1486,7 +1486,7 @@ Regards,
       $currentLocale = $_SESSION['glpilanguage'];
       Session::loadLanguage('en_GB');
 
-      $signature = __("Flyve MDM Team", 'storkmdm') . "\n";
+      $signature = __("Flyve MDM Team", 'flyvemdm') . "\n";
       $signature.= self::FLYVE_MDM_PRODUCT_WEBSITE . "\n";
       $signature.= self::FLYVE_MDM_PRODUCT_FACEBOOK . "\n"
                    . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . "\n"
@@ -1502,19 +1502,19 @@ Regards,
     * create documents for demo mode social media icons
     */
    protected function createSocialMediaIcons() {
-      $config = Config::getConfigurationValues('storkmdm', [
+      $config = Config::getConfigurationValues('flyvemdm', [
             'social_media_twit',
             'social_media_gplus',
             'social_media_facebook',
       ]);
 
       if (!isset($config['social_media_twit'])) {
-         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-twitter.jpg', GLPI_TMP_DIR . '/flyve-twitter.jpg');
+         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-twitter.jpg', GLPI_TMP_DIR . '/flyve-twitter.jpg');
          $input = array();
          $document = new Document();
          $input['entities_id']               = '0';
          $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Twitter icon', 'storkmdm');
+         $input['name']                      = __('Flyve MDM Twitter icon', 'flyvemdm');
          $input['_filename']                 = array('flyve-twitter.jpg');
          $input['_only_if_upload_succeed']   = true;
          if ($document->add($input)) {
@@ -1523,12 +1523,12 @@ Regards,
       }
 
       if (!isset($config['social_media_gplus'])) {
-         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-gplus.jpg', GLPI_TMP_DIR . '/flyve-gplus.jpg');
+         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-gplus.jpg', GLPI_TMP_DIR . '/flyve-gplus.jpg');
          $input = array();
          $document = new Document();
          $input['entities_id']               = '0';
          $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Google Plus icon', 'storkmdm');
+         $input['name']                      = __('Flyve MDM Google Plus icon', 'flyvemdm');
          $input['_filename']                 = array('flyve-gplus.jpg');
          $input['_only_if_upload_succeed']   = true;
          if ($document->add($input)) {
@@ -1537,12 +1537,12 @@ Regards,
       }
 
       if (!isset($config['social_media_facebook'])) {
-         copy(PLUGIN_STORKMDM_ROOT . '/pics/flyve-facebook.jpg', GLPI_TMP_DIR . '/flyve-facebook.jpg');
+         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-facebook.jpg', GLPI_TMP_DIR . '/flyve-facebook.jpg');
          $input = array();
          $document = new Document();
          $input['entities_id']               = '0';
          $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Facebook  icon', 'storkmdm');
+         $input['name']                      = __('Flyve MDM Facebook  icon', 'flyvemdm');
          $input['_filename']                 = array('flyve-facebook.jpg');
          $input['_only_if_upload_succeed']   = true;
          if ($document->add($input)) {
@@ -1550,11 +1550,11 @@ Regards,
          }
       }
 
-      Config::setConfigurationValues('storkmdm', $config);
+      Config::setConfigurationValues('flyvemdm', $config);
    }
 
    protected function deleteSocialMediaIcons() {
-      $config = Config::getConfigurationValues('storkmdm', [
+      $config = Config::getConfigurationValues('flyvemdm', [
             'social_media_twit',
             'social_media_gplus',
             'social_media_facebook',

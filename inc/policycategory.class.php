@@ -36,10 +36,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0.33
  */
-class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
+class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
 
    // name of the right in DB
-   public static  $rightname           = 'storkmdm:policycategory';
+   public static  $rightname           = 'flyvemdm:policycategory';
    public         $can_be_translated   = true;
 
    /**
@@ -58,7 +58,7 @@ class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Policy category', "storkmdm");
+      $tab['common']             = __s('Policy category', "flyvemdm");
 
       $tab[1]['table']           = self::getTable();
       $tab[1]['field']           = 'completename';
@@ -74,7 +74,7 @@ class PluginStorkmdmPolicyCategory extends CommonTreeDropdown {
 
       $tab[3]['table']           = self::getTable();
       $tab[3]['field']           = 'comment';
-      $tab[3]['name']            = __('comment', 'storkmdm');
+      $tab[3]['name']            = __('comment', 'flyvemdm');
       $tab[3]['massiveaction']   = false;
       $tab[3]['datatype']        = 'text';
 

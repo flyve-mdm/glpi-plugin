@@ -37,7 +37,7 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
    public function testInvitationCreation() {
       self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => self::$fixture['guestEmail'],
@@ -58,7 +58,7 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -78,7 +78,7 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testWipeRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -102,7 +102,7 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
    public function testSecondInvitationCreation() {
       self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => self::$fixture['guestEmail'],
@@ -136,9 +136,9 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
 
       $email = self::$fixture['guestEmail'];
 
-      Config::setConfigurationValues('storkmdm', array('debug_enrolment' => '1'));
+      Config::setConfigurationValues('flyvemdm', array('debug_enrolment' => '1'));
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $email,

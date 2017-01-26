@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmPolicyRemoveApplicationIntegrationTest extends RegisteredUserTestCase {
 
    public function testInitGetPackageName() {
       return 'com.domain.author.application';
@@ -38,13 +38,13 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
    /**
     * @depends testInitGetPackageName
     * @param unknown $packageName
-    * @return PluginStorkmdmPackage
+    * @return PluginFlyvemdmPackage
     */
    public function testInitCreateApplication($packageName) {
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $packageTable = PluginStorkmdmPackage::getTable();
+      $packageTable = PluginFlyvemdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
       `name`,
@@ -68,7 +68,7 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       $this->assertTrue($package->getFromDBByQuery("WHERE `name`='$packageName'"), $mysqlError);
 
       return $package;
@@ -77,7 +77,7 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
    public function testInitCreateFleet() {
       // Create a fleet
       $entityId = $_SESSION['glpiactive_entity'];
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'name'            => 'managed fleet',
             'entities_id'     => $entityId,
@@ -88,7 +88,7 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
    }
 
    public function testGetPolicyData() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $this->assertTrue($policyData->getFromDBBySymbol('removeApp'));
 
       return $policyData;
@@ -98,9 +98,9 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
     * @depends testGetPolicyData
     */
    public function testGetRemoveApplicationPolicy($policyData) {
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromPolicy($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyRemoveapplication', $policy);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyRemoveapplication', $policy);
 
       return $policy;
    }
@@ -110,11 +110,11 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
     * @depends testGetPolicyData
     * @depends testInitCreateApplication
     */
-   public function testApplyPolicyWithEmptyValue(PluginStorkmdmFleet $fleet, PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package) {
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+   public function testApplyPolicyWithEmptyValue(PluginFlyvemdmFleet $fleet, PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package) {
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleet_policy->add([
-            'plugin_storkmdm_policies_id' => $policyData->getID(),
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policyData->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'value'                       => '',
       ]);
       $this->assertTrue($fleet_policy->isNewItem());
@@ -125,11 +125,11 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
     * @depends testGetPolicyData
     * @depends testInitCreateApplication
     */
-   public function testApplyPolicyWithoutValue(PluginStorkmdmFleet $fleet, PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package) {
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+   public function testApplyPolicyWithoutValue(PluginFlyvemdmFleet $fleet, PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package) {
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleet_policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-            'plugin_storkmdm_policies_id' => $policyData->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policyData->getID(),
 
       ]);
       $this->assertTrue($fleet_policy->isNewItem());
@@ -140,26 +140,26 @@ class PluginStorkmdmPolicyRemoveApplicationIntegrationTest extends RegisteredUse
     * @depends testGetPolicyData
     * @depends testInitCreateApplication
     */
-   public function testApplyPolicy(PluginStorkmdmFleet $fleet, PluginStorkmdmPolicy $policyData, PluginStorkmdmPackage $package) {
+   public function testApplyPolicy(PluginFlyvemdmFleet $fleet, PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package) {
       global $DB;
 
-      $table = PluginStorkmdmMqttupdatequeue::getTable();
+      $table = PluginFlyvemdmMqttupdatequeue::getTable();
       $this->assertTrue($DB->query("TRUNCATE TABLE `$table`"));
 
       $groupName = $policyData->getField('group');
       $fleetId = $fleet->getID();
 
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleet_policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-            'plugin_storkmdm_policies_id' => $policyData->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $package->getField('name'),
       ]);
       $this->assertFalse($fleet_policy->isNewItem());
 
-      $mqttUpdateQueue = new PluginStorkmdmMqttupdatequeue();
+      $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
       $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-            AND `plugin_storkmdm_fleets_id` = '$fleetId'
+            AND `plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `status` = 'queued'");
       $this->assertCount(1, $rows);
    }

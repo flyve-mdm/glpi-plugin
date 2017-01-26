@@ -36,31 +36,31 @@ if (! defined('GLPI_ROOT')) {
 /**
  * @since 0.1.31
  */
-interface PluginStorkmdmNotifiable {
+interface PluginFlyvemdmNotifiable {
 
    public function getTopic();
 
    /**
     * get the agents related to the notifiable
-    * @return array the final PluginStorkmdmAgents to be notified
+    * @return array the final PluginFlyvemdmAgents to be notified
     */
    public function getAgents();
 
    /**
     * get the fleet attached to the notifiable
-    * @return PluginStorkmdmFleet the fleet associated to the notifiable
+    * @return PluginFlyvemdmFleet the fleet associated to the notifiable
     */
    public function  getFleet();
 
    /**
     * get the applications related to the notifiable
-    * @return array of PluginStorkmdmPackage
+    * @return array of PluginFlyvemdmPackage
     */
    public function getPackages();
 
    /**
     * get the files related to the notifiable
-    * @return array of PluginStorkmdmFile
+    * @return array of PluginFlyvemdmFile
     */
    public function getFiles();
 

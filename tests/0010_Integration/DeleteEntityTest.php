@@ -33,10 +33,10 @@ class DeleteEntityTest extends RegisteredUserTestCase {
 
    /**
     *
-    * @return PluginStorkmdmInvitation
+    * @return PluginFlyvemdmInvitation
     */
    public function testInitCreateInvitation() {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
 
       $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
@@ -50,9 +50,9 @@ class DeleteEntityTest extends RegisteredUserTestCase {
 
    /**
     * @depends testInitCreateInvitation
-    * @return PluginStorkmdmAgent
+    * @return PluginFlyvemdmAgent
     */
-   public function testInitEnrollAgent(PluginStorkmdmInvitation $invitation) {
+   public function testInitEnrollAgent(PluginFlyvemdmInvitation $invitation) {
       // Login as guest user
       $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
       Session::destroy();
@@ -66,7 +66,7 @@ class DeleteEntityTest extends RegisteredUserTestCase {
       $this->assertFalse($userEmail->isNewItem());
       $guestEmail = $userEmail->getField('email');
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $guestEmail,
@@ -84,10 +84,10 @@ class DeleteEntityTest extends RegisteredUserTestCase {
 
    /**
     *
-    * @return PluginStorkmdmFleet
+    * @return PluginFlyvemdmFleet
     */
    public function testInitCreateFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'name'         => 'a fleet',
             'entities_id'  => $_SESSION['glpiactive_entity'],
@@ -101,10 +101,10 @@ class DeleteEntityTest extends RegisteredUserTestCase {
    public function testInitCreateApplication() {
       global $DB;
 
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       // Create an application (directly in DB) because we are not uploading any file
       $packageName = 'com.domain.author.application';
-      $packageTable = PluginStorkmdmPackage::getTable();
+      $packageTable = PluginFlyvemdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
          `name`,
@@ -128,7 +128,7 @@ class DeleteEntityTest extends RegisteredUserTestCase {
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       $this->assertTrue($package->getFromDBByQuery("WHERE `name`='$packageName'"), $mysqlError);
 
       return $package;
@@ -139,7 +139,7 @@ class DeleteEntityTest extends RegisteredUserTestCase {
 
       // Create an file (directly in DB)
       $fileName = 'flyve-user-manual.pdf';
-      $fileTable = PluginStorkmdmFile::getTable();
+      $fileTable = PluginFlyvemdmFile::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $fileTable (
          `name`,
@@ -153,7 +153,7 @@ class DeleteEntityTest extends RegisteredUserTestCase {
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       $this->assertTrue($file->getFromDBByQuery("WHERE `name`='$fileName'"), $mysqlError);
 
       return $file;
@@ -175,27 +175,27 @@ class DeleteEntityTest extends RegisteredUserTestCase {
       $entity = new Entity();
       $entity->delete(array('id' => $entityId));
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $rows = $invitation->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $rows = $agent->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $rows = $fleet->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $application = new PluginStorkmdmPackage();
+      $application = new PluginFlyvemdmPackage();
       $rows = $application->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       $rows = $file->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       $rows = $entityConfig->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
    }

@@ -33,7 +33,7 @@
 //$AJAX_INCLUDE = 1;
 include ('../../../inc/includes.php');
 
-//define("PLUGIN_STORKMDM_ROOT", $CFG_GLPI['root_doc'] . "/plugins/storkmdm");
+//define("PLUGIN_FLYVEMDM_ROOT", $CFG_GLPI['root_doc'] . "/plugins/flyvemdm");
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -71,10 +71,10 @@ if ($address === false || $port === false) {
    echo '{"status" : "ko"}';
    exit();
 }
-$clientid = "storkmdm-test";
-$mqttClient = PluginStorkmdmMqttclient::getInstance();
+$clientid = "flyvemdm-test";
+$mqttClient = PluginFlyvemdmMqttclient::getInstance();
 if ($mqttClient->sendTestMessage($address, $port, $isTls, $sslCiphers)) {
-   echo json_encode(array("status" => __('Test message sent', 'storkmdm')), JSON_UNESCAPED_SLASHES);
+   echo json_encode(array("status" => __('Test message sent', 'flyvemdm')), JSON_UNESCAPED_SLASHES);
 } else {
-   echo json_encode(array("status" => __('Test message not sent', 'storkmdm')), JSON_UNESCAPED_SLASHES);
+   echo json_encode(array("status" => __('Test message not sent', 'flyvemdm')), JSON_UNESCAPED_SLASHES);
 }

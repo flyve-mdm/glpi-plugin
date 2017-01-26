@@ -36,27 +36,27 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0.33
  */
-interface PluginStorkmdmPolicyInterface {
+interface PluginFlyvemdmPolicyInterface {
 
-   public function __construct(PluginStorkmdmPolicy $policy);
+   public function __construct(PluginFlyvemdmPolicy $policy);
 
    /**
     * Check the policy may apply with respect of unicity constraint
-    * @param PluginStorkmdmFleet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     * @param string $value
     * @param string $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     */
-   public function canApply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId);
+   public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * Check the unicity of the policy
     * @param unknown $value
     * @param unknown $itemtype
     * @param unknown $itemId
-    * @param PluginStorkmdmFleet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet);
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
 
    /**
     * Check the value used to apply a policy is valid, and check the the item to link
@@ -71,9 +71,9 @@ interface PluginStorkmdmPolicyInterface {
     * @param unknown $value
     * @param unknown $itemtype
     * @param unknown $itemId
-    * @param PluginStorkmdmFleet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet);
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
 
    /**
     * Returns an array describing the policy applied vith the given value and item
@@ -97,15 +97,15 @@ interface PluginStorkmdmPolicyInterface {
 
    /**
     * Actions done before a policy is applied to a fleet
-    * @param PluginStorkmdmFleet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     * @param string $value
     */
-   public function apply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId);
+   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * Actions done after a policy is unapplied to a fleet
-    * @param PluginStorkmdmFleet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     * @param string $value
     */
-   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId);
+   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 }

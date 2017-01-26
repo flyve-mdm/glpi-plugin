@@ -36,10 +36,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmGeolocation extends CommonDBTM {
+class PluginFlyvemdmGeolocation extends CommonDBTM {
 
    // name of the right in DB
-   static $rightname = 'storkmdm:geolocation';
+   static $rightname = 'flyvemdm:geolocation';
 
    /**
     * @var bool $dohistory maintain history
@@ -64,7 +64,7 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
     */
    public static function getTypeName($nb = 0) {
       global $LANG;
-      return _n('Geolocation', 'Geolocations', $nb, "storkmdm");
+      return _n('Geolocation', 'Geolocations', $nb, "flyvemdm");
    }
 
    /**
@@ -100,11 +100,11 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       if (!isset($input['computers_id'])) {
-         Session::addMessageAfterRedirect(__('associated device is mandatory', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('associated device is mandatory', 'flyvemdm'));
          return false;
       }
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
-         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'flyvemdm'));
          return false;
       }
 
@@ -114,18 +114,18 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
          $input['computers_id']  = intval($input['computers_id']);
 
          if ($input['latitude'] < -180 || $input['latitude'] > 180) {
-            Session::addMessageAfterRedirect(__('latitude is invalid', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('latitude is invalid', 'flyvemdm'));
             return false;
          }
          if ($input['longitude'] < -180 || $input['longitude'] > 180) {
-            Session::addMessageAfterRedirect(__('longitude is invalid', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('longitude is invalid', 'flyvemdm'));
             return false;
          }
       }
 
       $computer = new Computer();
       if (!$computer->getFromDB($input['computers_id'])) {
-         Session::addMessageAfterRedirect(__('Device not found', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Device not found', 'flyvemdm'));
          return false;
       }
 
@@ -134,7 +134,7 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
 
    public function prepareInputForUpdate($input) {
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
-         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'flyvemdm'));
          return false;
       }
 
@@ -142,7 +142,7 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
          $input['computers_id'] = intval($input['computers_id']);
          $computer = new Computer();
          if (!$computer->getFromDB($input['computers_id'])) {
-            Session::addMessageAfterRedirect(__('Device not found', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('Device not found', 'flyvemdm'));
             return false;
          }
       }
@@ -151,14 +151,14 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
          if (isset($input['latitude'])) {
             $input['latitude'] = floatval($input['latitude']);
             if ($input['latitude'] < -180 || $input['latitude'] > 180) {
-               Session::addMessageAfterRedirect(__('latitude is invalid', 'storkmdm'));
+               Session::addMessageAfterRedirect(__('latitude is invalid', 'flyvemdm'));
                return false;
             }
          }
          if (isset($input['longitude'])) {
             $input['longitude'] = floatval($input['longitude']);
             if ($input['longitude'] < -180 || $input['longitude'] > 180) {
-               Session::addMessageAfterRedirect(__('longitude is invalid', 'storkmdm'));
+               Session::addMessageAfterRedirect(__('longitude is invalid', 'flyvemdm'));
                return false;
             }
          }
@@ -205,7 +205,7 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Geolocation', "storkmdm");
+      $tab['common']             = __s('Geolocation', "flyvemdm");
 
       $i = 2;
       $tab[$i]['table']           = self::getTable();
@@ -224,14 +224,14 @@ class PluginStorkmdmGeolocation extends CommonDBTM {
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'latitude';
-      $tab[$i]['name']            = __('latitude', 'storkmdm');
+      $tab[$i]['name']            = __('latitude', 'flyvemdm');
       $tab[$i]['datatype']        = 'string';
       $tab[$i]['massiveaction']   = false;
 
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'longitude';
-      $tab[$i]['name']            = __('longitude', 'storkmdm');
+      $tab[$i]['name']            = __('longitude', 'flyvemdm');
       $tab[$i]['datatype']        = 'string';
       $tab[$i]['massiveaction']   = false;
 

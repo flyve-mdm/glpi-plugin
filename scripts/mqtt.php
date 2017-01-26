@@ -42,6 +42,6 @@ if (isset($argv[1])) {
 
 include (__DIR__ . '/../../../inc/includes.php');
 
-$mqttLogger = PluginStorkmdmMqttclient::getInstance();
-$mqttLogger->setHandler(PluginStorkmdmMqtthandler::getInstance());
+$mqttLogger = PluginFlyvemdmMqttclient::getInstance();
+$mqttLogger->setHandler(PluginFlyvemdmMqtthandler::getInstance());
 $mqttLogger->subscribe();

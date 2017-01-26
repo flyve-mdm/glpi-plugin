@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 1.0.2
  */
-class PluginStorkmdmAccountvalidation extends CommonDBTM
+class PluginFlyvemdmAccountvalidation extends CommonDBTM
 {
 
    /**
@@ -74,7 +74,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      return _n('Account validation', 'Account validations', $nb, "storkmdm");
+      return _n('Account validation', 'Account validations', $nb, "flyvemdm");
    }
 
    /**
@@ -90,7 +90,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @return boolean
     */
    public static function canUpdate() {
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
       $serviceProfileId = $config['service_profiles_id'];
       if ($serviceProfileId === null) {
          return false;
@@ -163,17 +163,17 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
 
    public function validateForRegisteredUser($input) {
       if (!isset($input['_validate']) || empty($input['_validate'])) {
-         Session::addMessageAfterRedirect(__('Validation token missing', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Validation token missing', 'flyvemdm'));
          return false;
       }
 
       if ($input['_validate'] != $this->fields['validation_pass']) {
-         Session::addMessageAfterRedirect(__('Validation token is invalid', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Validation token is invalid', 'flyvemdm'));
          return false;
       }
 
       if (preg_match('#^[a-f0-9]{64}$#', $input['_validate']) != 1) {
-         Session::addMessageAfterRedirect(__('Validation token is invalid', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Validation token is invalid', 'flyvemdm'));
          return false;
       }
 
@@ -182,12 +182,12 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $expirationDateTime = new DateTime($this->getField('date_creation'));
       $expirationDateTime->add(new DateInterval('P' . $this->getActivationDelay() . 'D'));
       if ($expirationDateTime < $currentDateTime) {
-         Session::addMessageAfterRedirect(__('Validation token expired', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Validation token expired', 'flyvemdm'));
          return false;
       }
 
       // The validation pass is valid
-      $config = Config::getConfigurationValues('storkmdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', array(
             'inactive_registered_profiles_id',
       ));
 
@@ -199,7 +199,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
                                        AND `profiles_id` = '$profileId'
                                        AND `entities_id` = '$entityId'");
       if ($profile_user->isNewItem()) {
-         Session::addMessageAfterRedirect(__('Failed to find your account', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to find your account', 'flyvemdm'));
          return false;
       }
 
@@ -216,7 +216,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
          ));
       }
 
-      $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('inactive_registered_profiles_id'));
 
       $input['validation_pass']  = '';
       $endTrialDateTime = $currentDateTime->add(new DateInterval('P' . $this->getTrialDuration() . 'D'));
@@ -233,7 +233,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
    public function prepareInputForUpdate($input) {
 
       // Check the user is using the service profile
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
       $serviceProfileId = $config['service_profiles_id'];
       if ($serviceProfileId === null) {
          return false;
@@ -255,7 +255,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       if (array_search('validation_pass', $this->updates) !== false) {
          // Trial begins
          NotificationEvent::raiseEvent(
-               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN,
+               PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN,
                $this,
                array('entities_id' => $this->getField('assigned_entities_id'))
          );
@@ -280,7 +280,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $oldestAllowedItems->sub($dateInterval);
       $oldestAllowedItems = $oldestAllowedItems->format('Y-m-d H:i:s');
 
-      $config = Config::getConfigurationValues('storkmdm', array('inactive_registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('inactive_registered_profiles_id'));
       $profileId = $config['inactive_registered_profiles_id'];
       $rows = $accountValidation->find("`validation_pass` <> ''
                                         AND (`date_creation` < '$oldestAllowedItems' OR `date_creation` IS NULL)",
@@ -309,7 +309,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $task->log("Disable expired trial accounts");
       $volume = 0;
 
-      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', array('demo_time_limit'));
       if ($config['demo_time_limit'] < 1) {
          // Time limit disabled; disable email campaign
          $task->setVolume($volume);
@@ -347,7 +347,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
       $task->log("Remind the trial incoming expiration");
       $volume = 0;
 
-      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', array('demo_time_limit'));
       if ($config['demo_time_limit'] < 1) {
          // Time limit disabled; disable email campaign
          $task->setVolume($volume);
@@ -382,7 +382,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
-               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1,
+               PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1,
                $accountValidation,
                array('entities_id' => $accountValidation->getField('assigned_entities_id'))
          );
@@ -401,7 +401,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
-               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2,
+               PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2,
                $accountValidation,
                array('entities_id' => $accountValidation->getField('assigned_entities_id'))
          );
@@ -421,7 +421,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
          $accountValidation = new static();
          $accountValidation->getFromDB($id);
          NotificationEvent::raiseEvent(
-               PluginStorkmdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND,
+               PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND,
                $accountValidation,
                array('entities_id' => $accountValidation->getField('assigned_entities_id'))
          );
@@ -441,7 +441,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @return boolean true if demo mode is enabled
     */
    public function isDemoEnabled() {
-      $config = Config::getConfigurationValues('storkmdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', array(
             'demo_mode',
             'webapp_url',
             'inactive_registered_profiles_id',
@@ -497,7 +497,7 @@ class PluginStorkmdmAccountvalidation extends CommonDBTM
     * @param unknown $entityId
     */
    protected function disableTrialAccount($userId, $profileId, $entityId) {
-      $config = Config::getConfigurationValues('storkmdm', array('demo_time_limit', 'inactive_registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('demo_time_limit', 'inactive_registered_profiles_id'));
       if ($config['demo_time_limit'] > 0) {
          $inactiveProfileId = $config['inactive_registered_profiles_id'];
          $profile_user = new Profile_User();

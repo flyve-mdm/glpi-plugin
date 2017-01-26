@@ -37,11 +37,11 @@ if (!defined('GLPI_ROOT')) {
  * @since 0.1.0
  * @deprecated
  */
-class PluginStorkmdmMenu extends CommonGLPI {
-   static $rightname = 'plugin_stork_config';
+class PluginFlyvemdmMenu extends CommonGLPI {
+   static $rightname = 'plugin_flyve_config';
 
    public static function getMenuName() {
-      return __('Stork MDM');
+      return __('Flyve MDM');
    }
 
    /**
@@ -51,27 +51,27 @@ class PluginStorkmdmMenu extends CommonGLPI {
    **/
    public static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Menu', 'Menus', $nb, "storkmdm");
+      return _n('Menu', 'Menus', $nb, "flyvemdm");
    }
 
    public static function displayMenu() {
       global $CFG_GLPI;
 
-      $iconPath = $CFG_GLPI['root_doc']."/plugins/storkmdm/pics";
+      $iconPath = $CFG_GLPI['root_doc']."/plugins/flyvemdm/pics";
 
-      echo "<ul class='storkmdm_menu'>";
+      echo "<ul class='flyvemdm_menu'>";
 
       echo "<li><a href='agent.php'>";
       //echo "<img src='$iconPath/agent.png'>";
-      echo "".__('Agent', 'storkmdm')."</a></li>";
+      echo "".__('Agent', 'flyvemdm')."</a></li>";
 
       echo "<li><a href='fleet.php'>";
       //echo "<img src='$iconPath/fleet.png'>";
-      echo "".__('Fleet', 'storkmdm')."</a></li>";
+      echo "".__('Fleet', 'flyvemdm')."</a></li>";
 
       echo "<li><a href='package.php'>";
       //echo "<img src='$iconPath/package.png'>";
-      echo "".__('Package', 'storkmdm')."</a></li>";
+      echo "".__('Package', 'flyvemdm')."</a></li>";
 
       echo "</ul>";
       echo "<span class='clear'></span>";
@@ -84,20 +84,20 @@ class PluginStorkmdmMenu extends CommonGLPI {
     */
    public static function getMenuContent() {
 
-      $front_storkmdm = "/plugins/storkmdm/front";
+      $front_flyvemdm = "/plugins/flyvemdm/front";
 
       $menu = array();
       $menu['title'] = self::getMenuName();
-      $menu['page']  = "$front_storkmdm/menu.php";
-      if (true /*| Session::haveRight('plugin_storkmdm_config',
-                                   PluginstorkmdmConfig::RIGHT_EDIT_CONFIGURATION)*/) {
-         $menu['links']['config']  = "$front_storkmdm/config.form.php";
+      $menu['page']  = "$front_flyvemdm/menu.php";
+      if (true /*| Session::haveRight('plugin_flyvemdm_config',
+                                   PluginflyvemdmConfig::RIGHT_EDIT_CONFIGURATION)*/) {
+         $menu['links']['config']  = "$front_flyvemdm/config.form.php";
       }
 
       $itemtypes = array(
-            'PluginStorkmdmAgent'                  => 'agent',
-            'PluginStorkmdmPackage'                => 'package',
-            'PluginStorkmdmFleet'                  => 'fleet',
+            'PluginFlyvemdmAgent'                  => 'agent',
+            'PluginFlyvemdmPackage'                => 'package',
+            'PluginFlyvemdmFleet'                  => 'fleet',
             );
 
       foreach ($itemtypes as $itemtype => $option) {
@@ -107,9 +107,9 @@ class PluginStorkmdmMenu extends CommonGLPI {
          if ($itemtype::canCreate()) {
             $menu['options'][$option]['links']['add'] = $itemtype::getFormURL(false);
 
-            //if (Session::haveRight('plugin_storkmdm_config',
-            //                       PluginStorkmdmConfig::RIGHT_EDIT_CONFIGURATION)) {
-            //   $menu['options'][$option]['links']['config'] = "$front_storkmdm/config.form.php";
+            //if (Session::haveRight('plugin_flyvemdm_config',
+            //                       PluginFlyvemdmConfig::RIGHT_EDIT_CONFIGURATION)) {
+            //   $menu['options'][$option]['links']['config'] = "$front_flyvemdm/config.form.php";
             //}
          }
       }

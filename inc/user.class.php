@@ -36,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmUser extends User {
+class PluginFlyvemdmUser extends User {
 
-   static $rightname = 'storkmdm:user';
+   static $rightname = 'flyvemdm:user';
 
    /**
     * @var Entity
@@ -46,7 +46,7 @@ class PluginStorkmdmUser extends User {
    protected $entity = null;
 
    /**
-    * @var PluginStorkmdmFleet
+    * @var PluginFlyvemdmFleet
     */
    protected $defaultFleet = null;
 
@@ -78,7 +78,7 @@ class PluginStorkmdmUser extends User {
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      return _n('StorkMDM user', 'StorkMDM users', $nb, 'storkmdm');
+      return _n('FlyveMDM user', 'FlyveMDM users', $nb, 'flyvemdm');
    }
 
    /**
@@ -106,7 +106,7 @@ class PluginStorkmdmUser extends User {
     * @return booleen
     */
    public static function canCreate() {
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id'));
       $registeredProfileId = $config['registered_profiles_id'];
       if ($registeredProfileId === null) {
          return false;
@@ -133,29 +133,29 @@ class PluginStorkmdmUser extends User {
       $input['name'] = filter_var($input['name'], FILTER_VALIDATE_EMAIL);
       if (!$input['name']) {
          // User name is not an email
-         Session::addMessageAfterRedirect(__('Email address is not valid', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Email address is not valid', 'flyvemdm'));
          return false;
       }
 
       // Create the user, with authorization on his entity via the registered user profile
-      $config = Config::getConfigurationValues('storkmdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', array(
             'registered_profiles_id',
             'inactive_registered_profiles_id',
       ));
 
-      $accountValidation = new PluginStorkmdmAccountvalidation();
+      $accountValidation = new PluginFlyvemdmAccountvalidation();
       $demoMode = $accountValidation->isDemoEnabled();
 
       if ($demoMode) {
          $registeredProfileId = $config['inactive_registered_profiles_id'];
          if (!isset($config['registered_profiles_id'])) {
-            Session::addMessageAfterRedirect(__('No inactive profile available to setup user rights', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('No inactive profile available to setup user rights', 'flyvemdm'));
             return false;
          }
       } else {
          $registeredProfileId = $config['registered_profiles_id'];
          if (!isset($config['registered_profiles_id'])) {
-            Session::addMessageAfterRedirect(__('No profile available to setup user rights', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('No profile available to setup user rights', 'flyvemdm'));
             return false;
          }
       }
@@ -169,22 +169,22 @@ class PluginStorkmdmUser extends User {
       ));
       self::$creation = false;
       if ($entityId === false) {
-         Session::addMessageAfterRedirect(__('An entity already exists for your email. You probably already have an account.', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('An entity already exists for your email. You probably already have an account.', 'flyvemdm'));
          return false;
       }
 
       // Create the default fleet for the new entity
-      $this->defaultFleet = new PluginStorkmdmFleet();
+      $this->defaultFleet = new PluginFlyvemdmFleet();
       $fleetId = $this->defaultFleet->add(array(
          'is_default'  => '1',
-         'name'        => __("not managed fleet", 'storkmdm'),
+         'name'        => __("not managed fleet", 'flyvemdm'),
          'entities_id' => $entityId
       ));
       if ($fleetId === false) {
          $this->defaultFleet = null;
          $this->entity->delete(['id' => $entityId]);
          $this->entity = null;
-         Session::addMessageAfterRedirect(__('Failed to create default fleet', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to create default fleet', 'flyvemdm'));
          return false;
       }
 
@@ -208,12 +208,12 @@ class PluginStorkmdmUser extends User {
    protected function checkPassword($input) {
       if ($input['password'] != $input['password2']) {
          // Password and password check are different
-         Session::addMessageAfterRedirect(__('Passwords are different', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Passwords are different', 'flyvemdm'));
          return false;
       }
 
       if (strlen($input['password']) < 8) {
-         Session::addMessageAfterRedirect(__('Password too short', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Password too short', 'flyvemdm'));
          return false;
       }
 
@@ -290,11 +290,11 @@ class PluginStorkmdmUser extends User {
             $right->add($affectation);
 
             // If demo mode enabled, send an activation email
-            $accountValidation = new PluginStorkmdmAccountvalidation();
+            $accountValidation = new PluginFlyvemdmAccountvalidation();
             $demoMode = $accountValidation->isDemoEnabled();
 
             if ($demoMode) {
-               $config = Config::getConfigurationValues('storkmdm', array(
+               $config = Config::getConfigurationValues('flyvemdm', array(
                      'registered_profiles_id',
                ));
                $affectation['assigned_entities_id'] = $affectation['entities_id'];
@@ -302,7 +302,7 @@ class PluginStorkmdmUser extends User {
                $accountValidation->add($affectation);
 
                NotificationEvent::raiseEvent(
-                     PluginStorkmdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION,
+                     PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION,
                      $accountValidation,
                      array('entities_id' => $right->getField('entities_id'))
                );
@@ -312,11 +312,11 @@ class PluginStorkmdmUser extends User {
    }
 
    /**
-    * Creating users (not PluginStorkmdmUser) with service account is forbidden
+    * Creating users (not PluginFlyvemdmUser) with service account is forbidden
     * @param CommonDBTM $item
     */
    public static function hook_pre_user_add(CommonDBTM $item) {
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
       $serviceProfileId = $config['service_profiles_id'];
       if ($serviceProfileId === null) {
          $item->input = null;

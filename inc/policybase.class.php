@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @var bool $unicityRequired if true The posicy cannot be applied more than once to a fleet
@@ -54,11 +54,11 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
    protected $group;
 
    /**
-    * @var PluginStorkmdmPolicy instance of the policy in the DB
+    * @var PluginFlyvemdmPolicy instance of the policy in the DB
     */
    protected $policyData;
 
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       $this->policyData = $policy;
    }
 
@@ -85,22 +85,22 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
    /**
     *
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::canApply()
+    * @see PluginFlyvemdmPolicyInterface::canApply()
     */
-   public function canApply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       return true;
    }
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::unicityCheck()
+    * @see PluginFlyvemdmPolicyInterface::unicityCheck()
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       if ($this->unicityRequired) {
          $policyId            = $this->policyData->getID();
          $fleetId             = $fleet->getID();
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
-         $relationCollection  = $fleet_policy->find("`plugin_storkmdm_fleets_id`='$fleetId' AND `plugin_storkmdm_policies_id`='$policyId'", '', '1');
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $relationCollection  = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
          if (count($relationCollection) > 0) {
             // A relation already exists for this policy and this fleet
             return false;
@@ -111,15 +111,15 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       return true;
    }
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       return true;
@@ -127,7 +127,7 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::translateData()
+    * @see PluginFlyvemdmPolicyInterface::translateData()
     */
    public function translateData() {
       return '';
@@ -139,17 +139,17 @@ abstract class PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::apply()
+    * @see PluginFlyvemdmPolicyInterface::apply()
     */
-   public function apply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       return true;
    }
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::unapply()
+    * @see PluginFlyvemdmPolicyInterface::unapply()
     */
-   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;

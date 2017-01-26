@@ -41,7 +41,7 @@ class SelfRegistrationUserTestCase extends CommonTestCase {
    public function setUp() {
       self::setupGLPIFramework();
       $user = new User();
-      $user->getFromDBbyName('storknologin');
+      $user->getFromDBbyName('flyvenologin');
       $_REQUEST['user_token'] = $user->getField('personal_token');
       $this->assertTrue(self::login('', '', false));
    }

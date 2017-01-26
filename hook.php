@@ -32,12 +32,12 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 /**
  * Entry point for installation process
  */
-function plugin_storkmdm_install() {
+function plugin_flyvemdm_install() {
 
    global $DB;
 
-   require_once(PLUGIN_STORKMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginStorkmdmInstaller();
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
+   $installer = new PluginFlyvemdmInstaller();
 
    return $installer->install();
 
@@ -47,10 +47,10 @@ function plugin_storkmdm_install() {
  * Uninstalls the plugin
  * @return boolean True if success
  */
-function plugin_storkmdm_uninstall() {
+function plugin_flyvemdm_uninstall() {
 
-   require_once(PLUGIN_STORKMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginStorkmdmInstaller();
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
+   $installer = new PluginFlyvemdmInstaller();
 
    return $installer->uninstall();
 
@@ -60,19 +60,19 @@ function plugin_storkmdm_uninstall() {
  * Second pass of initialization after all other initiaization of other plugins
  * Also force inclusion of this file
  */
-function plugin_storkmdm_postinit() {
+function plugin_flyvemdm_postinit() {
 
 }
 
 /**
  * Actions done when a profile_user is being purged
  */
-function plugin_storkmdm_hook_pre_profileuser_purge(CommonDBTM $item) {
-   $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id', 'registered_profiles_id'));
+function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
+   $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id', 'registered_profiles_id'));
    $guestProfileId = $config['guest_profiles_id'];
 
    if ($item->getField('profiles_id') == $guestProfileId) {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       if (!$invitation->deleteByCriteria(array('users_id' => $item->getField('users_id')))) {
          $item->input = false;
       }
@@ -83,14 +83,14 @@ function plugin_storkmdm_hook_pre_profileuser_purge(CommonDBTM $item) {
  * Define Dropdown tables to be managed in GLPI
  * @return translated[]
  */
-function plugin_storkmdm_getDropdown() {
+function plugin_flyvemdm_getDropdown() {
 
    $plugin = new Plugin();
-   if ($plugin->isActivated("storkmdm")) {
+   if ($plugin->isActivated("flyvemdm")) {
       // Table => Name
       return array(
-            'PluginStorkmdmWellknownpath'  => __("Well known Android's FS paths", 'storkmdm'),
-            'PluginStorkmdmPolicyCategory' => __("Policy Categories", 'storkmdm')
+            'PluginFlyvemdmWellknownpath'  => __("Well known Android's FS paths", 'flyvemdm'),
+            'PluginFlyvemdmPolicyCategory' => __("Policy Categories", 'flyvemdm')
       );
    } else {
       return array();
@@ -102,14 +102,14 @@ function plugin_storkmdm_getDropdown() {
  * Add a default WHERE in SELECT queries on itemtypes
  * @param string $itemtype Itemtype
  */
-function plugin_Storkmdm_addDefaultJoin($itemtype) {
+function plugin_Flyvemdm_addDefaultJoin($itemtype) {
 
    switch ($itemtype) {
-      case 'PluginStorkmdmGeolocation':
-         return PluginStorkmdmGeolocation::addDefaultJoin();
+      case 'PluginFlyvemdmGeolocation':
+         return PluginFlyvemdmGeolocation::addDefaultJoin();
 
-      case 'PluginStorkmdmAgent':
-         return PluginStorkmdmAgent::addDefaultJoin();
+      case 'PluginFlyvemdmAgent':
+         return PluginFlyvemdmAgent::addDefaultJoin();
    }
 
 }
@@ -118,19 +118,19 @@ function plugin_Storkmdm_addDefaultJoin($itemtype) {
  * Add a default WHERE in SELECT queries on itemtypes
  * @param string $itemtype Itemtype
  */
-function plugin_Storkmdm_addDefaultWhere($itemtype) {
+function plugin_Flyvemdm_addDefaultWhere($itemtype) {
 
    switch ($itemtype) {
-      case 'PluginStorkmdmGeolocation':
-         return PluginStorkmdmGeolocation::addDefaultWhere();
+      case 'PluginFlyvemdmGeolocation':
+         return PluginFlyvemdmGeolocation::addDefaultWhere();
 
-      case 'PluginStorkmdmAgent':
-         return PluginStorkmdmAgent::addDefaultWhere();
+      case 'PluginFlyvemdmAgent':
+         return PluginFlyvemdmAgent::addDefaultWhere();
    }
 
 }
 
-function plugin_storkmdm_getDatabaseRelations() {
+function plugin_flyvemdm_getDatabaseRelations() {
    return [
    ];
 }

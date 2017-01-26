@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmMqttuserIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmMqttuserIntegrationTest extends RegisteredUserTestCase {
 
    public function mqttuserProvider() {
 
@@ -45,7 +45,7 @@ class PluginStorkmdmMqttuserIntegrationTest extends RegisteredUserTestCase {
     */
    public function testAddMqttuser($input) {
 
-      $mqttuser = new PluginStorkmdmMqttuser();
+      $mqttuser = new PluginFlyvemdmMqttuser();
       $this->assertGreaterThan(0, $mqttuser->add($input), "failed to add a mqtt user");
 
    }
@@ -56,7 +56,7 @@ class PluginStorkmdmMqttuserIntegrationTest extends RegisteredUserTestCase {
    public function testPurgeqttuser($input) {
 
       $name = $input['user'];
-      $mqttuser = new PluginStorkmdmMqttuser();
+      $mqttuser = new PluginFlyvemdmMqttuser();
       $this->assertTrue($mqttuser->getFromDBByQuery("WHERE `user`='$name'"));
 
       $this->assertTrue($mqttuser->delete(['id' => $mqttuser->getID()]), "failed to delete a mqtt user");

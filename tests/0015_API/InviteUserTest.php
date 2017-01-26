@@ -77,7 +77,7 @@ class InviteUserTest extends ApiRestRegisteredUserTestCase
             'input'  => $data
       ];
 
-      $res = $this->doHttpRequest('POST', 'PluginStorkmdmInvitation/',
+      $res = $this->doHttpRequest('POST', 'PluginFlyvemdmInvitation/',
             [
                   'headers'   => [
                         'Session-Token' => self::$sessionToken
@@ -97,7 +97,7 @@ class InviteUserTest extends ApiRestRegisteredUserTestCase
             'input'  => $data
       ];
 
-      $res = $this->doHttpRequest('POST', 'PluginStorkmdmInvitation/',
+      $res = $this->doHttpRequest('POST', 'PluginFlyvemdmInvitation/',
             [
                   'headers'   => [
                         'Session-Token' => self::$sessionToken
@@ -111,7 +111,7 @@ class InviteUserTest extends ApiRestRegisteredUserTestCase
 
       // Check the invitation is actually created
       $invitationId = $response['id'];
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitation->getFromDB($invitationId);
       $this->assertFalse($invitation->isNewItem());
 
@@ -123,7 +123,7 @@ class InviteUserTest extends ApiRestRegisteredUserTestCase
 
       // Check the notifications email is queued
       $queuedMail = new QueuedMail();
-      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginStorkmdmInvitation' AND `items_id`='$invitationId'");
+      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'");
       $this->assertFalse($queuedMail->isNewItem());
 
       // Check a QR code document has been created
