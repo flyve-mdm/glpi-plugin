@@ -22,7 +22,7 @@ before_script:
   - cd plugins/flyvemdm && composer install
   - cd ../..
   - cd plugins/fusioninventory
-  - git apply --check  ../flyvemdm/tests/patches/fi_version-check.patch && git apply ../storkmdm/tests/patches/fi_version-check.patch
+  - git apply --check  ../flyvemdm/tests/patches/fi_version-check.patch && git apply ../flyvemdm/tests/patches/fi_version-check.patch
   - cd ../..
 
 script:
