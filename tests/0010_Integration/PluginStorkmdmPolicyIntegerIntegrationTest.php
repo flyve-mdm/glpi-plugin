@@ -29,10 +29,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyIntegerIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmPolicyIntegerIntegrationTest extends RegisteredUserTestCase {
 
    public function testInitAddPolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->add([
             'name'      => 'integer policy',
             'symbol'    => 'integerTest',
@@ -47,9 +47,9 @@ class PluginStorkmdmPolicyIntegerIntegrationTest extends RegisteredUserTestCase 
     * @depends testInitAddPolicy
     */
    public function testGetIntegerPolicy($policyData) {
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
-      $this->assertInstanceOf('PluginStorkmdmPolicyInteger', $policy);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyInteger', $policy);
       return $policy;
    }
 

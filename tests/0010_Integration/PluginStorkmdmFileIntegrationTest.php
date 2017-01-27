@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
  */
 
-class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
+class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
 {
 
    protected $fileDestination;
@@ -40,7 +40,7 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
    }
 
    public function testInitAddFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'entities_id'     => $_SESSION['glpiactive_entity'],
             'name'            => 'a fleet'
@@ -55,7 +55,7 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
 
       // Create an file (directly in DB)
       $fileName = 'flyve-user-manual.pdf';
-      $fileTable = PluginStorkmdmFile::getTable();
+      $fileTable = PluginFlyvemdmFile::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $fileTable (
          `name`,
@@ -69,21 +69,21 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       $this->assertTrue($file->getFromDBByQuery("WHERE `name`='$fileName'"), $mysqlError);
 
       return $file;
    }
 
    public function testGetFileDeploymentPolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $this->assertTrue($policyData->getFromDBBySymbol('deployFile'));
 
       return $policyData;
    }
 
    public function testGetFileRemovalPolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $this->assertTrue($policyData->getFromDBBySymbol('removeFile'));
 
       return $policyData;
@@ -94,7 +94,7 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testInitCreateFile
     * @depends testInitAddFleet
     */
-   public function testApplyPolicy(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet) {
+   public function testApplyPolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
       $fleet_policy = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
       $this->assertFalse($fleet_policy->isNewItem());
 
@@ -104,7 +104,7 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
    /**
     * @depends testInitCreateFile
     */
-   public function testDeleteFile(PluginStorkmdmFile $file) {
+   public function testDeleteFile(PluginFlyvemdmFile $file) {
       $this->assertTrue($file->delete([
             'id'           => $file->getID()
       ]));
@@ -117,7 +117,7 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @depends testDeleteFile
     */
-   public function testAppliedPoliciesRemoved(PluginStorkmdmFile $file, PluginStorkmdmFleet_Policy $fleet_policy) {
+   public function testAppliedPoliciesRemoved(PluginFlyvemdmFile $file, PluginFlyvemdmFleet_Policy $fleet_policy) {
       $itemtype = $file->getType();
       $itemId = $file->getID();
       $rows = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
@@ -130,10 +130,10 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @depends testDeleteFile
     */
-   public function testRemovePolicyAdded(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet_Policy $fleet_policy) {
+   public function testRemovePolicyAdded(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet_Policy $fleet_policy) {
       $policyId = $policyData->getID();
       $filePath = $this->fileDestination . $file->getField('name');
-      $rows = $fleet_policy->find("`plugin_storkmdm_policies_id`='$policyId' AND `value`='$filePath'");
+      $rows = $fleet_policy->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
       $this->assertEquals(1, count($rows));
    }
 
@@ -144,22 +144,22 @@ class PluginStorkmdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testInitAddFleet
     * @depends testRemovePolicyAdded
     */
-   public function testAddAndRemoveConflict(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet) {
+   public function testAddAndRemoveConflict(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
       $fleet_policy = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
       $this->assertTrue($fleet_policy->isNewItem());
    }
 
-   protected function ApplyAddFilePolicy(PluginStorkmdmPolicy $policyData, PluginStorkmdmFile $file, PluginStorkmdmFleet $fleet) {
+   protected function ApplyAddFilePolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
       $value = new stdClass();
       $value->remove_on_delete = '1';
       $value->destination = $this->fileDestination;
 
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $addSuccess = $fleet_policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-            'plugin_storkmdm_policies_id' => $policyData->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $value,
-            'itemtype'                    => 'PluginStorkmdmFile',
+            'itemtype'                    => 'PluginFlyvemdmFile',
             'items_id'                    => $file->getID()
       ]);
 

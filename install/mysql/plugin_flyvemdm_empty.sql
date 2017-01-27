@@ -1,9 +1,9 @@
 #Storkmdm Dump database on 2016-04-26 15:57
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_agents
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_agents`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_agents` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_agents
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_agents`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `id`                        int(11)                                           NOT NULL AUTO_INCREMENT,
   `name`                      varchar(255)                                      NOT NULL DEFAULT '',
   `version`                   varchar(255)                                      NOT NULL DEFAULT '',
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_agents` (
   `lock`                      int(1)                                            NOT NULL DEFAULT '0',
   `enroll_status`             enum('enrolled','unenrolling','unenrolled')       NOT NULL DEFAULT 'enrolled',
   `entities_id`               int(11)                                           NOT NULL DEFAULT '0',
-  `plugin_storkmdm_fleets_id` int(11)                                           DEFAULT NULL,
+  `plugin_flyvemdm_fleets_id` int(11)                                           DEFAULT NULL,
   `last_report`               datetime                                          DEFAULT NULL,
   `last_contact`              datetime                                          DEFAULT NULL,
   `certificate`               text                                              NOT NULL,
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_agents` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_entityconfigs
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_entityconfigs`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_entityconfigs` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_entityconfigs
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_entityconfigs`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_entityconfigs` (
   `id`                        int(11)                                           NOT NULL DEFAULT '0',
   `entities_id`               int(11)                                           NOT NULL DEFAULT '0',
   `enroll_token`              varchar(255)                                      DEFAULT NULL,
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_entityconfigs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_files
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_files`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_files` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_files
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_files`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_files` (
   `id`                        int(11)      NOT NULL AUTO_INCREMENT,
   `name`                      varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `source`                    varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_files` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_fleets
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_fleets`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_fleets` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_fleets
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fleets`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_fleets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `entities_id` int(11) NOT NULL DEFAULT '0',
@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_fleets` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_geolocations
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_geolocations`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_geolocations` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_geolocations
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_geolocations`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_geolocations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `computers_id` int(11) NOT NULL DEFAULT '0',
   `latitude` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -69,21 +69,21 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_geolocations` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_mqttacls
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_mqttacls`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_mqttacls` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_mqttacls
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttacls`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttacls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plugin_storkmdm_mqttusers_id` int(11) NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_mqttusers_id` int(11) NOT NULL DEFAULT '0',
   `topic` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `access_level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unicity` (`plugin_storkmdm_mqttusers_id`,`topic`)
+  UNIQUE KEY `unicity` (`plugin_flyvemdm_mqttusers_id`,`topic`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_mqttlogs
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_mqttlogs`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_mqttlogs` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_mqttlogs
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttlogs`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttlogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
   `direction` varchar(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'I for received message, O for sent message',
@@ -95,9 +95,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_mqttlogs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Received MQTT messages log';
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_mqttusers
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_mqttusers`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_mqttusers` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_mqttusers
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttusers`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -107,9 +107,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_mqttusers` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_packages
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_packages`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_packages` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_packages
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_packages`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
@@ -124,9 +124,9 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_packages` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_wellknownpaths
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_wellknownpaths`;
-CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_wellknownpaths` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_wellknownpaths
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_wellknownpaths`;
+CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_wellknownpaths` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `comment` text COLLATE utf8_unicode_ci NOT NULL,
@@ -134,37 +134,37 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_wellknownpaths` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO `glpi_plugin_storkmdm_wellknownpaths` VALUES (1, '%SDCARD%',      '', 1);
-INSERT INTO `glpi_plugin_storkmdm_wellknownpaths` VALUES (2, '%DOCUMENTS%',   '', 0);
-INSERT INTO `glpi_plugin_storkmdm_wellknownpaths` VALUES (3, '%PHOTOS%',      '', 0);
-INSERT INTO `glpi_plugin_storkmdm_wellknownpaths` VALUES (4, '%MUSIC%',       '', 0);
+INSERT INTO `glpi_plugin_flyvemdm_wellknownpaths` VALUES (1, '%SDCARD%',      '', 1);
+INSERT INTO `glpi_plugin_flyvemdm_wellknownpaths` VALUES (2, '%DOCUMENTS%',   '', 0);
+INSERT INTO `glpi_plugin_flyvemdm_wellknownpaths` VALUES (3, '%PHOTOS%',      '', 0);
+INSERT INTO `glpi_plugin_flyvemdm_wellknownpaths` VALUES (4, '%MUSIC%',       '', 0);
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_policycategories
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_policycategories`;
-CREATE TABLE `glpi_plugin_storkmdm_policycategories` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_policycategories
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_policycategories`;
+CREATE TABLE `glpi_plugin_flyvemdm_policycategories` (
   `id`                                         int(11)        NOT NULL    AUTO_INCREMENT,
   `name`                                       varchar(255)   NOT NULL    DEFAULT '',
-  `plugin_storkmdm_policycategories_id`        int(11)        NOT NULL    DEFAULT '0',
+  `plugin_flyvemdm_policycategories_id`        int(11)        NOT NULL    DEFAULT '0',
   `completename`                               text           DEFAULT NULL,
   `comment`                                    text           DEFAULT NULL,
   `level`                                      int(11)        NOT NULL    DEFAULT '0',
   `sons_cache`                                 longtext       DEFAULT NULL,
   `ancestors_cache`                            longtext       DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `unicity` (`plugin_storkmdm_policycategories_id`, `name`)
+  UNIQUE INDEX `unicity` (`plugin_flyvemdm_policycategories_id`, `name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (1, 'Security', '0', 'Security', '', 1, NULL, NULL);
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (2, 'Authentication', '1', 'Security > Authentication', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (3, 'Password', '2', 'Security > Authentication > Password', '', '3', NULL, NULL);
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (4, 'Encryption', '1', 'Security > Encryption', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (5, 'Peripherals', '1', 'Security > Peripherals', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_storkmdm_policycategories` VALUES (6, 'Deployment', '0', 'Deployment', '', '1', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (1, 'Security', '0', 'Security', '', 1, NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (2, 'Authentication', '1', 'Security > Authentication', '', '2', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (3, 'Password', '2', 'Security > Authentication > Password', '', '3', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (4, 'Encryption', '1', 'Security > Encryption', '', '2', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (5, 'Peripherals', '1', 'Security > Peripherals', '', '2', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (6, 'Deployment', '0', 'Deployment', '', '1', NULL, NULL);
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_policies
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_policies`;
-CREATE TABLE `glpi_plugin_storkmdm_policies` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_policies
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_policies`;
+CREATE TABLE `glpi_plugin_flyvemdm_policies` (
   `id`                                         int(11)        NOT NULL AUTO_INCREMENT,
   `name`                                       varchar(255)   NOT NULL DEFAULT '',
   `group`                                      varchar(255)   NOT NULL DEFAULT '',
@@ -172,7 +172,7 @@ CREATE TABLE `glpi_plugin_storkmdm_policies` (
   `type`                                       varchar(255)   NOT NULL DEFAULT '',
   `type_data`                                  text           DEFAULT NULL,
   `unicity`                                    tinyint(1)     NOT NULL DEFAULT '1',
-  `plugin_storkmdm_policycategories_id`        int(11)        NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_policycategories_id`        int(11)        NOT NULL DEFAULT '0',
   `comment`                                    text           DEFAULT NULL,
   `default_value`                              varchar(255)   NOT NULL DEFAULT '',
   `recommended_value`                          varchar(255)   NOT NULL DEFAULT '',
@@ -180,12 +180,12 @@ CREATE TABLE `glpi_plugin_storkmdm_policies` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_fleets_policies
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_fleets_policies`;
-CREATE TABLE `glpi_plugin_storkmdm_fleets_policies` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_fleets_policies
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fleets_policies`;
+CREATE TABLE `glpi_plugin_flyvemdm_fleets_policies` (
   `id`                                         int(11)      NOT NULL AUTO_INCREMENT,
-  `plugin_storkmdm_fleets_id`                  int(11)      NOT NULL DEFAULT '0',
-  `plugin_storkmdm_policies_id`                int(11)      NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_fleets_id`                  int(11)      NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_policies_id`                int(11)      NOT NULL DEFAULT '0',
   `value`                                      varchar(255) NOT NULL DEFAULT '',
   `itemtype`                                   varchar(255) DEFAULT NULL,
   `items_id`                                   int(11)      NOT NULL DEFAULT '0',
@@ -193,9 +193,9 @@ CREATE TABLE `glpi_plugin_storkmdm_fleets_policies` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_invitations
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_invitations`;
-CREATE TABLE `glpi_plugin_storkmdm_invitations` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_invitations
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_invitations`;
+CREATE TABLE `glpi_plugin_flyvemdm_invitations` (
   `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
   `invitation_token`                 varchar(255)              NOT NULL DEFAULT '',
   `users_id`                         int(11)                   NOT NULL DEFAULT '0',
@@ -207,12 +207,12 @@ CREATE TABLE `glpi_plugin_storkmdm_invitations` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_mqttupdatequeues
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_mqttupdatequeues`;
-CREATE TABLE `glpi_plugin_storkmdm_mqttupdatequeues` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_mqttupdatequeues
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttupdatequeues`;
+CREATE TABLE `glpi_plugin_flyvemdm_mqttupdatequeues` (
   `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
   `group`                            varchar(255)              NOT NULL DEFAULT '',
-  `plugin_storkmdm_fleets_id`        int(11)                   NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_fleets_id`        int(11)                   NOT NULL DEFAULT '0',
   `date`                             datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status`                           enum('queued','done')     NOT NULL DEFAULT 'queued',
   PRIMARY KEY (`id`),
@@ -220,11 +220,11 @@ CREATE TABLE `glpi_plugin_storkmdm_mqttupdatequeues` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_invitationlogs
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_invitationlogs`;
-CREATE TABLE `glpi_plugin_storkmdm_invitationlogs` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_invitationlogs
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_invitationlogs`;
+CREATE TABLE `glpi_plugin_flyvemdm_invitationlogs` (
   `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
-  `plugin_storkmdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
   `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
   `event`                            varchar(255)              NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
@@ -232,9 +232,9 @@ CREATE TABLE `glpi_plugin_storkmdm_invitationlogs` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-storkmdm. glpi_plugin_storkmdm_accountvalidations
-DROP TABLE IF EXISTS `glpi_plugin_storkmdm_accountvalidations`;
-CREATE TABLE `glpi_plugin_storkmdm_accountvalidations` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_accountvalidations
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_accountvalidations`;
+CREATE TABLE `glpi_plugin_flyvemdm_accountvalidations` (
   `id`                                int(11)                  NOT NULL AUTO_INCREMENT,
   `users_id`                          int(11)                  NOT NULL DEFAULT '0',
   `assigned_entities_id`              int(11)                  NOT NULL DEFAULT '0',

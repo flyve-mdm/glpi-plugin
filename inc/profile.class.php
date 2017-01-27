@@ -36,14 +36,14 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmProfile extends Profile {
+class PluginFlyvemdmProfile extends Profile {
 
-   const RIGHT_STORKMDM_USE = 128;
+   const RIGHT_FLYVEMDM_USE = 128;
 
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname = 'storkmdm:storkmdm';
+   static $rightname = 'flyvemdm:flyvemdm';
 
    public static function purgeProfiles(Profile $prof) {
       $plugprof = new self();
@@ -98,7 +98,7 @@ class PluginStorkmdmProfile extends Profile {
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
       if ($item->getType() == 'Profile') {
-         return __('Stork MDM', 'storkmdm');
+         return __('Flyve MDM', 'flyvemdm');
       }
       return '';
    }
@@ -124,24 +124,24 @@ class PluginStorkmdmProfile extends Profile {
     */
    public function getGeneralRights() {
       $rights = array(
-         array('itemtype'  => 'PluginStorkmdmProfile',
+         array('itemtype'  => 'PluginFlyvemdmProfile',
              'label'       => parent::getTypeName(2),
              'field'       => self::$rightname,
-             'rights'      => array(self::RIGHT_STORKMDM_USE => __('Use Stork MDM'))
+             'rights'      => array(self::RIGHT_FLYVEMDM_USE => __('Use Flyve MDM'))
          ),
-         array('itemtype'  => 'PluginStorkmdmEntityconfig',
-             'label'       => PluginStorkmdmEntityconfig::getTypeName(2),
-             'field'       => PluginStorkmdmEntityconfig::$rightname,
+         array('itemtype'  => 'PluginFlyvemdmEntityconfig',
+             'label'       => PluginFlyvemdmEntityconfig::getTypeName(2),
+             'field'       => PluginFlyvemdmEntityconfig::$rightname,
              'rights'      => array(
                    READ                                                             => __('Read'),
-                   PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
-                   PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
-                   PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
+                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
+                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
+                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
              )
          ),
-         array('itemtype'  => 'PluginStorkmdmInvitationLog',
-               'label'       => PluginStorkmdmInvitationLog::getTypeName(2),
-               'field'       => PluginStorkmdmInvitationLog::$rightname,
+         array('itemtype'  => 'PluginFlyvemdmInvitationLog',
+               'label'       => PluginFlyvemdmInvitationLog::getTypeName(2),
+               'field'       => PluginFlyvemdmInvitationLog::$rightname,
                'rights'      => array(
                      READ                                                          => __('Read'),
                )
@@ -157,16 +157,16 @@ class PluginStorkmdmProfile extends Profile {
     */
    public function getAssetsRights() {
       $itemtypes = array(
-         //'PluginStorkmdmEntityconfig',
-         'PluginStorkmdmAgent',
-         'PluginStorkmdmInvitation',
-         'PluginStorkmdmFleet',
-         'PluginStorkmdmPackage',
-         'PluginStorkmdmFile',
-         'PluginStorkmdmGeolocation',
-         'PluginStorkmdmPolicy',
-         'PluginStorkmdmPolicyCategory',
-         'PluginStorkmdmWellknownpath',
+         //'PluginFlyvemdmEntityconfig',
+         'PluginFlyvemdmAgent',
+         'PluginFlyvemdmInvitation',
+         'PluginFlyvemdmFleet',
+         'PluginFlyvemdmPackage',
+         'PluginFlyvemdmFile',
+         'PluginFlyvemdmGeolocation',
+         'PluginFlyvemdmPolicy',
+         'PluginFlyvemdmPolicyCategory',
+         'PluginFlyvemdmWellknownpath',
       );
 
       $rights = array();
@@ -189,11 +189,11 @@ class PluginStorkmdmProfile extends Profile {
             self::$rightname
       ));
 
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       if (isset($config['guest_profiles_id'])) {
-         $_SESSION['plugin_storkmdm_guest_profiles_id'] = $config['guest_profiles_id'];
+         $_SESSION['plugin_flyvemdm_guest_profiles_id'] = $config['guest_profiles_id'];
       } else {
-         $_SESSION['plugin_storkmdm_guest_profiles_id'] = '';
+         $_SESSION['plugin_flyvemdm_guest_profiles_id'] = '';
       }
    }
 }

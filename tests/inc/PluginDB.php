@@ -76,7 +76,7 @@ class PluginDB extends PHPUnit_Framework_Assert{
       $query = "SHOW TABLES";
       $result = $DB->query($query);
       while ($data=$DB->fetch_array($result)) {
-         if (strstr($data[0], "storkmdm")) {
+         if (strstr($data[0], "flyvemdm")) {
 
             $data[0] = str_replace(" COLLATE utf8_unicode_ci", "", $data[0]);
             $data[0] = str_replace("( ", "(", $data[0]);
@@ -150,8 +150,8 @@ class PluginDB extends PHPUnit_Framework_Assert{
        */
       $crontask = new CronTask();
 
-      $mqttUser = new PluginStorkmdmMqttuser();
-      $mqttUser->getFromDBByQuery("WHERE `user`='storkmdm-backend'");
+      $mqttUser = new PluginFlyvemdmMqttuser();
+      $mqttUser->getFromDBByQuery("WHERE `user`='flyvemdm-backend'");
       $this->assertLessThan($mqttUser->getID(), 0, "plugin's mqtt user not added");
 
    }

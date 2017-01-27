@@ -44,17 +44,17 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
       $rights = ProfileRight::getProfileRights(
             $profileId,
             array(
-                  PluginStorkmdmAgent::$rightname,
-                  PluginStorkmdmFleet::$rightname,
-                  PluginStorkmdmPackage::$rightname,
-                  PluginStorkmdmFile::$rightname,
-                  PluginStorkmdmGeolocation::$rightname,
-                  PluginStorkmdmWellknownpath::$rightname,
-                  PluginStorkmdmPolicy::$rightname,
-                  PluginStorkmdmPolicyCategory::$rightname,
-                  PluginStorkmdmProfile::$rightname,
-                  PluginStorkmdmEntityconfig::$rightname,
-                  PluginStorkmdmInvitationlog::$rightname,
+                  PluginFlyvemdmAgent::$rightname,
+                  PluginFlyvemdmFleet::$rightname,
+                  PluginFlyvemdmPackage::$rightname,
+                  PluginFlyvemdmFile::$rightname,
+                  PluginFlyvemdmGeolocation::$rightname,
+                  PluginFlyvemdmWellknownpath::$rightname,
+                  PluginFlyvemdmPolicy::$rightname,
+                  PluginFlyvemdmPolicyCategory::$rightname,
+                  PluginFlyvemdmProfile::$rightname,
+                  PluginFlyvemdmEntityconfig::$rightname,
+                  PluginFlyvemdmInvitationlog::$rightname,
                   Config::$rightname,
                   User::$rightname,
                   Profile::$rightname,
@@ -74,7 +74,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileAgentRight($rights) {
-      $this->assertEquals(READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, $rights[PluginStorkmdmAgent::$rightname]);
+      $this->assertEquals(READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmAgent::$rightname]);
    }
 
    /**
@@ -82,7 +82,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileFleetRight($rights) {
-      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginStorkmdmFleet::$rightname]);
+      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmFleet::$rightname]);
    }
 
    /**
@@ -90,7 +90,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfilePackageRight($rights) {
-      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginStorkmdmPackage::$rightname]);
+      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmPackage::$rightname]);
    }
 
    /**
@@ -98,7 +98,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileFileRight($rights) {
-      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginStorkmdmFile::$rightname]);
+      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmFile::$rightname]);
    }
 
    /**
@@ -106,7 +106,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileGeolocationRight($rights) {
-      $this->assertEquals(READ | PURGE, $rights[PluginStorkmdmGeolocation::$rightname]);
+      $this->assertEquals(READ | PURGE, $rights[PluginFlyvemdmGeolocation::$rightname]);
    }
 
    /**
@@ -114,14 +114,14 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileWellknownpathRight($rights) {
-      $this->assertEquals(READ, $rights[PluginStorkmdmWellknownpath::$rightname]);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmWellknownpath::$rightname]);
    }
    /**
     * @depends testGetRights
     * @param array $rights
     */
    public function testRegisteredUsernProfilePolicyRight($rights) {
-      $this->assertEquals(READ, $rights[PluginStorkmdmPolicy::$rightname]);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmPolicy::$rightname]);
    }
 
    /**
@@ -129,7 +129,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfilePolicyCategoryRight($rights) {
-      $this->assertEquals(READ, $rights[PluginStorkmdmPolicyCategory::$rightname]);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmPolicyCategory::$rightname]);
    }
 
    /**
@@ -137,7 +137,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfilePluginProfileRight($rights) {
-      $this->assertEquals(PluginStorkmdmProfile::RIGHT_STORKMDM_USE, $rights[PluginStorkmdmProfile::$rightname]);
+      $this->assertEquals(PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE, $rights[PluginFlyvemdmProfile::$rightname]);
    }
 
    /**
@@ -179,9 +179,9 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
    public function testRegisteredUserProfileEntityconfigRight($rights) {
       $this->assertEquals(
             READ
-                  | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-                  | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
-            $rights[PluginStorkmdmEntityconfig::$rightname]);
+                  | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+                  | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+            $rights[PluginFlyvemdmEntityconfig::$rightname]);
    }
 
    /**
@@ -197,7 +197,7 @@ class RegisteredUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testRegisteredUserProfileInvitatioinLogRight($rights) {
-      $this->assertEquals(READ, $rights[PluginStorkmdmInvitationlog::$rightname]);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmInvitationlog::$rightname]);
    }
 
    /**

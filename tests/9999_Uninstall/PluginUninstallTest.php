@@ -35,14 +35,14 @@ class PluginUninstallTest extends SuperAdminTestCase
       global $DB;
 
       $plugin = new Plugin();
-      $plugin->getFromDBbyDir("storkmdm");
+      $plugin->getFromDBbyDir("flyvemdm");
 
       ob_start(function($in) { return ''; });
       $plugin->uninstall($plugin->getID());
       ob_end_clean();
 
       $tables = [];
-      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_storkmdm_%'");
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm_%'");
       while ($row = $DB->fetch_assoc($result)) {
          $tables[] = array_pop($row);
       }

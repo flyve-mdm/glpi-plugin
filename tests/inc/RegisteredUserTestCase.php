@@ -43,7 +43,7 @@ class RegisteredUserTestCase extends CommonTestCase
       self::$fixture['registeredUserPasswd']    = 'password';
 
       self::login('glpi', 'glpi', true);
-      $user = new PluginStorkmdmUser();
+      $user = new PluginFlyvemdmUser();
       $userId = $user->add([
          'name'      => self::$fixture['registeredUserEmail'],
          'password'  => self::$fixture['registeredUserPasswd'],

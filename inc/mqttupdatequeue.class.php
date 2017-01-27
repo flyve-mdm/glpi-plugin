@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmMqttupdatequeue extends CommonDBTM {
+class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
 
    protected static $delay = 'PT30S';
 
@@ -91,14 +91,14 @@ class PluginStorkmdmMqttupdatequeue extends CommonDBTM {
          $query = "SELECT *
             FROM `" . self::getTable() . "`
             WHERE `id` IN ($idList)
-            GROUP BY `plugin_storkmdm_fleets_id`, `group`
+            GROUP BY `plugin_flyvemdm_fleets_id`, `group`
             ORDER BY `date` ASC";
          $result = $DB->query($query);
 
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
          while ($row = $DB->fetch_assoc($result)) {
-            $fleet = new PluginStorkmdmFleet();
-            $fleet->getFromDB($row['plugin_storkmdm_fleets_id']);
+            $fleet = new PluginFlyvemdmFleet();
+            $fleet->getFromDB($row['plugin_flyvemdm_fleets_id']);
             $fleet_policy->publishPolicies($fleet, array($row['group']));
          }
 

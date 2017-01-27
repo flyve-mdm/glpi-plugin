@@ -36,12 +36,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @param string $properties
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
@@ -50,48 +50,48 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check values exist
       if (!isset($value['destination']) || !isset($value['remove_on_delete'])) {
-         Session::addMessageAfterRedirect(__('A destination and the remove on delete flag are mandatory', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('A destination and the remove on delete flag are mandatory', 'flyvemdm'));
          return false;
       }
 
       // Check remove_on_delete is boolean
       if ($value['remove_on_delete'] != '0' && $value['remove_on_delete'] != '1') {
-         Session::addMessageAfterRedirect(__('The remove on delete flag must be 0 or 1', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('The remove on delete flag must be 0 or 1', 'flyvemdm'));
          return false;
       }
 
       // Check the itemtype is a file
-      if ($itemtype != 'PluginStorkmdmFile') {
-         Session::addMessageAfterRedirect(__('You must choose a file to apply this policy', 'storkmdm'));
+      if ($itemtype != 'PluginFlyvemdmFile') {
+         Session::addMessageAfterRedirect(__('You must choose a file to apply this policy', 'flyvemdm'));
          return false;
       }
 
       // Check the file exists
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       if (!$file->getFromDB($itemId)) {
-         Session::addMessageAfterRedirect(__('The file does not exists', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('The file does not exists', 'flyvemdm'));
          return false;
       }
 
       // Check relative directory expression
       if (!strpos($value['destination'], '/../') === false || !strpos($value['destination'], '/./') === false) {
-         Session::addMessageAfterRedirect(__('invalid base path', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('invalid base path', 'flyvemdm'));
          return false;
       }
 
       // Check double directory separator
       if (!strpos($value['destination'], '//') === false) {
-         Session::addMessageAfterRedirect(__('invalid base path', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('invalid base path', 'flyvemdm'));
          return false;
       }
 
       // Check base path against well known paths
-      $wellKnownPath = new PluginStorkmdmWellknownpath();
+      $wellKnownPath = new PluginFlyvemdmWellknownpath();
       $rows = $wellKnownPath->find('1');
       $basePathIsValid = false;
       foreach ($rows as $row) {
@@ -113,7 +113,7 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
          }
       }
       if (!$basePathIsValid) {
-         Session::addMessageAfterRedirect(__('invalid base path', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('invalid base path', 'flyvemdm'));
          return false;
       }
 
@@ -122,7 +122,7 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::jsonEncode()
+    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -135,7 +135,7 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
          $decodedValue['destination'] .= '/';
       }
 
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       $file->getFromDB($itemId);
       $array = [
             $this->symbol  => $decodedValue['destination'],
@@ -148,12 +148,12 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::unicityCheck()
+    * @see PluginFlyvemdmPolicyBase::unicityCheck()
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '$itemtype'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
@@ -166,22 +166,22 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
-      $policyData = new PluginStorkmdmPolicy();
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+      $policyData = new PluginFlyvemdmPolicy();
       if (!$policyData->getFromDBBySymbol('removeFile')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
          // Give up this check
       } else {
          $fleetId = $fleet->getID();
          $policyId = $policyData->getID();
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
-         $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'
-               AND `plugin_storkmdm_policies_id` = '$policyId'");
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+               AND `plugin_flyvemdm_policies_id` = '$policyId'");
          foreach ($rows as $row) {
             if ($row['value'] == $value['destination']) {
-               Session::addMessageAfterRedirect(__('A removal policy is applied for this file destination. Please, remove it first.', 'storkmdm'), false, ERROR);
+               Session::addMessageAfterRedirect(__('A removal policy is applied for this file destination. Please, remove it first.', 'flyvemdm'), false, ERROR);
                return false;
             }
          }
@@ -191,16 +191,16 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
 
     /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::unapply()
+    * @see PluginFlyvemdmPolicyBase::unapply()
     */
-   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;
       }
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($value['remove_on_delete'] !=  '0') {
-         $policyData = new PluginStorkmdmPolicy();
+         $policyData = new PluginFlyvemdmPolicy();
          if (!$policyData->getFromDBBySymbol('removeFile')) {
             Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
             return false;
@@ -210,10 +210,10 @@ class PluginStorkmdmPolicyDeployfile extends PluginStorkmdmPolicyBase implements
             return false;
          }
 
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
          if (!$fleet_policy->add([
-               'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-               'plugin_storkmdm_policies_id' => $policyData->getID(),
+               'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+               'plugin_flyvemdm_policies_id' => $policyData->getID(),
                'value'                       => $decodedValue['destination'] . $file->getField('name'),
                '_silent'                     => true,
          ])) {

@@ -33,14 +33,14 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginStorkmdmInvitation extends CommonDBTM {
+class PluginFlyvemdmInvitation extends CommonDBTM {
 
    const DEFAULT_TOKEN_LIFETIME  = "P7D";
 
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'storkmdm:invitation';
+   public static $rightname            = 'flyvemdm:invitation';
 
    /**
     * @var User The invited user
@@ -49,8 +49,8 @@ class PluginStorkmdmInvitation extends CommonDBTM {
 
    public function getEnumInvitationStatus() {
       return array(
-            'pending'         => __('Pending', 'storkmdm'),
-            'done'            => __('Done', 'storkmdm'),
+            'pending'         => __('Pending', 'flyvemdm'),
+            'done'            => __('Done', 'flyvemdm'),
       );
    }
 
@@ -60,7 +60,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
     */
    public static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Invitation', 'Invitations', $nb, "storkmdm");
+      return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
    /**
@@ -78,18 +78,18 @@ class PluginStorkmdmInvitation extends CommonDBTM {
    public function prepareInputForAdd($input) {
       // integrity checks
       if (!isset($input['_useremails'])) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'storkmdm'));
+         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
          return false;
       }
 
       $input['_useremails'] = filter_var($input['_useremails'], FILTER_VALIDATE_EMAIL);
       if (!$input['_useremails']) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'storkmdm'));
+         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
          return false;
       }
 
       // Find guest profile's id
-      $config = Config::getConfigurationValues("storkmdm", ['guest_profiles_id']);
+      $config = Config::getConfigurationValues("flyvemdm", ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
 
       // Find or create the user
@@ -107,14 +107,14 @@ class PluginStorkmdmInvitation extends CommonDBTM {
          ]);
          $userIsNew = true;
          if ($user->isNewItem()) {
-            Session::addMessageAfterRedirect(__("Cannot create the user", 'storkmdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO, true);
             return false;
          }
 
       } else {
          // Do not handle deleted users
          if ($user->isDeleted()) {
-            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.", 'storkmdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.", 'flyvemdm'), false, INFO, true);
             return false;
          }
 
@@ -143,7 +143,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $input['invitation_token'] = $this->setInvitationToken();
 
       // Get the default expiration delay
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       if ($entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
          $tokenExpire = $entityConfig->getField('agent_token_life');
       } else {
@@ -158,7 +158,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       // Generate the QR code
       $documentId = $this->createQRCodeDocument($user, $input['invitation_token']);
       if ($documentId === false) {
-         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'storkmdm'), false, INFO, true);
+         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'flyvemdm'), false, INFO, true);
          return false;
       }
 
@@ -175,7 +175,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
 
       // Registered users need right to send again an invitation
       // but shall not be able to edit anything
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id'));
       $registeredProfileId = $config['registered_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $registeredProfileId) {
          $forbidden = array_diff_key(
@@ -214,8 +214,8 @@ class PluginStorkmdmInvitation extends CommonDBTM {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
-      return $invitationLog->deleteByCriteria(array('plugin_storkmdm_invitations_id' => $this->getID()));
+      $invitationLog = new PluginFlyvemdmInvitationlog();
+      return $invitationLog->deleteByCriteria(array('plugin_flyvemdm_invitations_id' => $this->getID()));
    }
 
    /**
@@ -247,7 +247,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $documentId = $item->getID();
       $rows = $invitation->find("`documents_id`='$documentId'", '', '1');
       if (count($rows) > 0) {
-         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first', 'flyvemdm'));
          $item->input = false;
       }
    }
@@ -312,7 +312,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $document = new Document();
       $input['entities_id']               = $this->input['entities_id'];
       $input['is_recursive']              = '0';
-      $input['name']                      = __('Enrollment QRcode', 'storkmdm');
+      $input['name']                      = __('Enrollment QRcode', 'flyvemdm');
       $input['_filename']                 = array($tmpFile);
       $input['_only_if_upload_succeed']   = true;
       $documentId = $document->add($input);
@@ -321,7 +321,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       //$document_Item = new Document_Item();
       //$document_Item->add([
       //      'documents_id' => $documentId,
-      //      'itemtype'     => 'PluginStorkmdmInvitation',
+      //      'itemtype'     => 'PluginFlyvemdmInvitation',
       //      'items_id'     => $this->getID(),
       //      'entities_id'  => $this->fields['entities_id'],
       //      'is_recursive' => '0',
@@ -331,7 +331,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
 
    public function sendInvitation() {
       NotificationEvent::raiseEvent(
-            PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
+            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
             $this
       );
    }
@@ -344,7 +344,7 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('Invitation', "storkmdm");
+      $tab['common']                 = __s('Invitation', "flyvemdm");
 
       $tab[2]['table']               = self::getTable();
       $tab[2]['field']               = 'id';

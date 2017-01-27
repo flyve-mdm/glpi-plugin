@@ -44,8 +44,8 @@ $api = new APIRest();
 $api->parseIncomingParams();
 $api->retrieveSession();
 
-//Session::checkRight("storkmdm:storkmdm", PluginStorkmdmProfile::RIGHT_STORKMDM_USE);
-if (! Session::haveRight('storkmdm:storkmdm', PluginStorkmdmProfile::RIGHT_STORKMDM_USE)) {
+//Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+if (! Session::haveRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
    header("Not allowed", false, 401);
    die();
 }
@@ -58,7 +58,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$file = new PluginStorkmdmFile();
+$file = new PluginFlyvemdmFile();
 $_POST['add'] = '';
 if (isset($_POST['add'])) {
    //$file->check(-1, CREATE, $_POST);

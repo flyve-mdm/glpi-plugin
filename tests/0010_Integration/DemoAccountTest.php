@@ -38,14 +38,14 @@ class DemoAccountTest extends ApiRestTestCase
    public static function setupBeforeClass() {
       parent::setupBeforeClass();
 
-      config::setConfigurationValues('storkmdm', [
+      config::setConfigurationValues('flyvemdm', [
             'demo_mode'       => 1,
             'webapp_url'      => 'https://localhost',
             'demo_time_limit' => '1',
       ]);
 
       $user = new User();
-      $user->getFromDBbyName(PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME);
+      $user->getFromDBbyName(PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME);
       $user->update([
             'id'           => $user->getID(),
             'is_active'    => '1',
@@ -121,7 +121,7 @@ class DemoAccountTest extends ApiRestTestCase
     */
    public function testInitGetServiceSessionToken() {
       $user = new User();
-      $user->getFromDBbyName(PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME);
+      $user->getFromDBbyName(PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME);
       $this->assertFalse($user->isNewItem());
       $userToken = $user->getField('personal_token');
 
@@ -134,7 +134,7 @@ class DemoAccountTest extends ApiRestTestCase
    }
 
    protected function getAccountValidation($userId) {
-      $accountValidation = new PluginStorkmdmAccountvalidation();
+      $accountValidation = new PluginFlyvemdmAccountvalidation();
       if (!$accountValidation->getFromDBByQuery("WHERE `users_id` = '$userId'")) {
          $accountValidation = null;
       }
@@ -156,7 +156,7 @@ class DemoAccountTest extends ApiRestTestCase
                   'realname'  => 'test',
             ],
       ]);
-      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+      $this->emulateRestRequest('post', 'PluginFlyvemdmUser', $headers, $body);
 
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
    }
@@ -165,7 +165,7 @@ class DemoAccountTest extends ApiRestTestCase
     * @depends testInitGetServiceSessionToken
     */
    public function testCreateUser($sessionToken) {
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
 
       $headers = ['Session-Token' => $sessionToken];
       $body = json_encode([
@@ -212,7 +212,7 @@ class DemoAccountTest extends ApiRestTestCase
                   'realname'  => 'test',
             ],
       ]);
-      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+      $this->emulateRestRequest('post', 'PluginFlyvemdmUser', $headers, $body);
 
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
    }
@@ -231,7 +231,7 @@ class DemoAccountTest extends ApiRestTestCase
                   'realname'  => 'test',
             ],
       ]);
-      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+      $this->emulateRestRequest('post', 'PluginFlyvemdmUser', $headers, $body);
 
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
    }
@@ -250,14 +250,14 @@ class DemoAccountTest extends ApiRestTestCase
                   'realname'  => 'Doe',
             ],
       ]);
-      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+      $this->emulateRestRequest('post', 'PluginFlyvemdmUser', $headers, $body);
 
       // Check user creation
       $this->assertEquals(201, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertArrayHasKey('id', $this->restResponse, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       // Check the user has only inactive registered user profile
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($this->restResponse['id']);
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
@@ -273,7 +273,7 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertTrue($entity->getFromDBByQuery("WHERE `name` = '$userName'"));
 
       // check the entity config
-      $entityconfig = new PluginStorkmdmEntityconfig();
+      $entityconfig = new PluginFlyvemdmEntityconfig();
       $this->assertTrue($entityconfig->getFromDB($entity->getID()));
       $this->assertEquals($entityconfig->getField('entities_id'), $entityconfig->getID());
       $this->assertEquals($entityconfig->getField('entities_id'), $entity->getID());
@@ -295,7 +295,7 @@ class DemoAccountTest extends ApiRestTestCase
                   'realname'  => $realname,
             ],
       ]);
-      $this->emulateRestRequest('post', 'PluginStorkmdmUser', $headers, $body);
+      $this->emulateRestRequest('post', 'PluginFlyvemdmUser', $headers, $body);
 
       // Check user creation
       $this->assertEquals(201, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
@@ -313,7 +313,7 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertTrue($user->getFromDBbyName($name));
       $userId = $user->getID();
 
-      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $accountValidation_table = PluginFlyvemdmAccountvalidation::getTable();
       $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
                                         SET `date_creation` = '2016-01-01 00:00:00'
                                         WHERE `users_id` = '$userId'"));
@@ -347,7 +347,7 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertTrue($user->getFromDBbyName($name));
       $userId = $user->getID();
 
-      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $accountValidation_table = PluginFlyvemdmAccountvalidation::getTable();
       $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
                                         SET `date_end_trial` = '2016-01-01 00:00:00'
                                         WHERE `users_id` = '$userId'"));
@@ -366,19 +366,19 @@ class DemoAccountTest extends ApiRestTestCase
       $userId = $user->getID();
 
       // Divide by 2 the reminder delay before expiration
-      $accountValidation = new PluginStorkmdmAccountvalidation();
+      $accountValidation = new PluginFlyvemdmAccountvalidation();
 
       $endOfTrialDatetime = new DateTime();
       $remindDateTime = new DateTime();
       $endOfTrialDatetime->add(new DateInterval('P' . $accountValidation->getTrialDuration() . 'D'));
-      $remindDateTime->add(new DateInterval('P' . PluginStorkmdmAccountvalidation::TRIAL_REMIND_1 . 'D'));
+      $remindDateTime->add(new DateInterval('P' . PluginFlyvemdmAccountvalidation::TRIAL_REMIND_1 . 'D'));
       $half = $endOfTrialDatetime->getTimestamp() - $remindDateTime->getTimestamp();
       $half = (int) ($half / 2);
       $expirationDateTime = new DateTime();
       $expirationDateTime->add(new DateInterval('PT' . $half . 'S'));
       $expirationDateTime = $expirationDateTime->format('Y-m-d H:i:s');
 
-      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $accountValidation_table = PluginFlyvemdmAccountvalidation::getTable();
       $this->assertNotFalse($DB->query("UPDATE `$accountValidation_table`
              SET `date_end_trial` = '$expirationDateTime'
              WHERE `users_id` = '$userId'"));
@@ -397,13 +397,13 @@ class DemoAccountTest extends ApiRestTestCase
                   '_validate'    => $accountValidation->getField('validation_pass') . "ab",
            ],
       ]);
-      $this->emulateRestRequest('put', 'PluginStorkmdmAccountValidation', $headers, $body);
+      $this->emulateRestRequest('put', 'PluginFlyvemdmAccountValidation', $headers, $body);
 
       // Request should faile due to bad validation pass
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       // Check the user has only inactive registered user profile
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($userId);
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
@@ -422,13 +422,13 @@ class DemoAccountTest extends ApiRestTestCase
                   '_validate'    => '',
             ],
       ]);
-      $this->emulateRestRequest('put', 'PluginStorkmdmAccountValidation', $headers, $body);
+      $this->emulateRestRequest('put', 'PluginFlyvemdmAccountValidation', $headers, $body);
 
       // Request should faile due to bad validation pass
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       // Check the user has only inactive registered user profile
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($userId);
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
@@ -444,7 +444,7 @@ class DemoAccountTest extends ApiRestTestCase
       $accountValidation = $this->getAccountValidation($userId);
 
       // Force expiration of the validation pass
-      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $accountValidation_table = PluginFlyvemdmAccountvalidation::getTable();
       $success = $DB->query("UPDATE `$accountValidation_table`
                              SET `date_creation` = '1970-01-01 00:00:00'
                              WHERE `users_id` = '$userId'");
@@ -460,13 +460,13 @@ class DemoAccountTest extends ApiRestTestCase
                   '_validate'    => $accountValidation->getField('validation_pass'),
             ],
       ]);
-      $this->emulateRestRequest('put', 'PluginStorkmdmAccountValidation', $headers, $body);
+      $this->emulateRestRequest('put', 'PluginFlyvemdmAccountValidation', $headers, $body);
 
       // Request should faile due to bad validation pass
       $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       // Check the user has only inactive registered user profile
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($userId);
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);
@@ -483,7 +483,7 @@ class DemoAccountTest extends ApiRestTestCase
 
       // Force activation pass to be useable
       $date = new DateTime();
-      $accountValidation_table = PluginStorkmdmAccountvalidation::getTable();
+      $accountValidation_table = PluginFlyvemdmAccountvalidation::getTable();
       $success = $DB->query("UPDATE `$accountValidation_table`
             SET `date_creation` = '" . $date->format('Y-m-d H:i:s') ."'
             WHERE `users_id` = '$userId'");
@@ -499,7 +499,7 @@ class DemoAccountTest extends ApiRestTestCase
                   '_validate'    => $accountValidation->getField('validation_pass'),
             ],
       ]);
-      $this->emulateRestRequest('put', 'PluginStorkmdmAccountValidation', $headers, $body);
+      $this->emulateRestRequest('put', 'PluginFlyvemdmAccountValidation', $headers, $body);
 
       // Request should succeed
       $this->assertEquals(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
@@ -515,7 +515,7 @@ class DemoAccountTest extends ApiRestTestCase
       $this->assertEmpty($accountValidation->getField('validation_pass'));
 
       // Check the user has only (active) registered user profile
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($userId);
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['registered_profiles_id'], $profiles);
@@ -562,7 +562,7 @@ class DemoAccountTest extends ApiRestTestCase
 
       CronTask::launch(-1, 1, 'DisableExpiredTrial');
 
-      $config = Config::getConfigurationValues('storkmdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['inactive_registered_profiles_id', 'registered_profiles_id']);
       $profiles = Profile_User::getUserProfiles($user->getID());
       $this->assertCount(1, $profiles);
       $this->assertArrayHasKey($config['inactive_registered_profiles_id'], $profiles);

@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmInvitationIntegrationTest extends RegisteredUserTestCase
+class PluginFlyvemdmInvitationIntegrationTest extends RegisteredUserTestCase
 {
    public static function setupBeforeClass() {
       parent::setupBeforeClass();
@@ -41,7 +41,7 @@ class PluginStorkmdmInvitationIntegrationTest extends RegisteredUserTestCase
     *
     */
    public function testCreateInvitation() {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => self::$fixture['userEmails'],
@@ -74,7 +74,7 @@ class PluginStorkmdmInvitationIntegrationTest extends RegisteredUserTestCase
     * @param User $user
     */
    public function testCreateInvitationForTheSameUser($firstInvitation) {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => self::$fixture['userEmails'],

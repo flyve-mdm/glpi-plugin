@@ -36,10 +36,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
+class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
    /**
-    * @var PluginStorkmdmMqttlog $log mqtt messages logger
+    * @var PluginFlyvemdmMqttlog $log mqtt messages logger
     */
    protected $log;
 
@@ -53,7 +53,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    protected static $instance = null;
 
    protected function __construct() {
-      $this->log = new PluginStorkmdmMqttlog();
+      $this->log = new PluginFlyvemdmMqttlog();
       $this->startTime = time();
    }
 
@@ -67,7 +67,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    protected function publishManifest($mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('storkmdm', array('version'));
+      $config = Config::getConfigurationValues('flyvemdm', array('version'));
       $version = $config['version'];
 
       if ($this->flyveManifestMissing) {
@@ -87,7 +87,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       global $DB;
 
-      if (time() - $this->startTime > PluginStorkmdmMqttclient::MQTT_MAXIMUM_DURATION) {
+      if (time() - $this->startTime > PluginFlyvemdmMqttclient::MQTT_MAXIMUM_DURATION) {
          $mqtt->unsubscribe(array('#'));
       } else {
          // Reconnect to DB to avoid timeouts
@@ -135,7 +135,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateAgentVersion($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic) !== false) {
          preg_match("#^[\d.]+$#", $message, $sanitized);
          if (!empty($sanitized[0])) {
@@ -150,7 +150,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    protected function publishFlyveManifest() {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('storkmdm', 'version');
+      $config = Config::getConfigurationValues('flyvemdm', 'version');
       $version = $config['version'];
 
       preg_match('/^([\d\.]+)/', $version, $matches);
@@ -184,7 +184,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function updateLastContact($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
 
          $date = new DateTime("now", new DateTimeZone("UTC"));
@@ -196,7 +196,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function deleteAgent($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agent->getByTopic($topic);
       $agent->delete([
             'id'  => $agent->getID(),
@@ -205,17 +205,17 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
    protected function saveInstallationFeedback($topic, $message) {
       if ($message = json_decode($message, true)) {
-         $agent = new PluginStorkmdmAgent();
+         $agent = new PluginFlyvemdmAgent();
          if ($agent->getByTopic($topic)
                && isset($message['ack'])) {
             $agentId = $agent->getID();
-            $package = new PluginStorkmdmPackage();
+            $package = new PluginFlyvemdmPackage();
             $name = $message['ack'];
             $package->getFromDBByQuery("WHERE `name`='$name'");
             $packageId = $package->getID();
-            $agent_Package = new PluginStorkmdmAgent_Package();
-            $query = "WHERE `plugin_storkmdm_packages_id`='$packageId'
-            AND `plugin_storkmdm_agents_id`='$agentId'";
+            $agent_Package = new PluginFlyvemdmAgent_Package();
+            $query = "WHERE `plugin_flyvemdm_packages_id`='$packageId'
+            AND `plugin_flyvemdm_agents_id`='$agentId'";
             if ($agent_Package->getFromDBByQuery($query)) {
                $agent_Package->update([
                      'id'     => $agent_Package->getID(),
@@ -229,7 +229,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function saveGeolocationPosition($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
          if (isset($position['datetime'])) {
@@ -239,7 +239,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginStorkmdmGeolocation();
+               $geolocation = new PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -250,7 +250,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
          } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
             // No GPS geolocation available at this time, log it anyway
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginStorkmdmGeolocation();
+               $geolocation = new PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),

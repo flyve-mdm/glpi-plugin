@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmToolbox {
+class PluginFlyvemdmToolbox {
 
    /**
     * Recursively delete a directory

@@ -37,7 +37,7 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 0.1.0.33
  */
-class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @var array $valueList
@@ -48,7 +48,7 @@ class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements P
     * Constructor
     * @param string $properties
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $this->valueList = json_decode($policy->getField('type_data'), true);
 
@@ -59,7 +59,7 @@ class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements P
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       return array_key_exists($value, $this->valueList);
@@ -67,7 +67,7 @@ class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements P
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::jsonEncode()
+    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {
@@ -81,12 +81,12 @@ class PluginStorkmdmPolicyDropdown extends PluginStorkmdmPolicyBase implements P
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::translateData()
+    * @see PluginFlyvemdmPolicyBase::translateData()
     */
    public function translateData() {
       $translated = array();
       foreach ($this->valueList as $key => $value) {
-         $translated[$key] = __($value, 'storkmdm');
+         $translated[$key] = __($value, 'flyvemdm');
       }
 
       return $translated;

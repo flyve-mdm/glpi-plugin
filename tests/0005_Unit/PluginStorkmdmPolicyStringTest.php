@@ -29,35 +29,35 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyStringTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyStringTest extends SuperAdminTestCase {
 
    public function testCreatePolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'testGroup',
             'symbol'    => 'stringPolicy',
             'type_data' => '',
             'unicity'   => '1',
       ];
-      $policy = new PluginStorkmdmPolicyString($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyString', $policy);
+      $policy = new PluginFlyvemdmPolicyString($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyString', $policy);
       return $policy;
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithString(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithString(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck('a little string', null, '0'));
    }
 
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testApplyPolicy(PluginStorkmdmPolicyInterface $policy) {
+   public function testApplyPolicy(PluginFlyvemdmPolicyInterface $policy) {
       $array = $policy->getMqttMessage('a little string', null, '0');
       reset($array);
       $symbol = key($array);

@@ -41,7 +41,7 @@ class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
       // enable email notifications mailing
       $CFG_GLPI["use_mailing"] = 1;
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => self::$fixture['guestEmail'],
@@ -70,7 +70,7 @@ class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
    public function testQueuedMail($invitation, $user) {
       $invitationId = $invitation->getID();
       $queuedMail = new QueuedMail();
-      $this->assertTrue($queuedMail->getFromDBByQuery(" WHERE `itemtype`='PluginStorkmdmInvitation' AND `items_id`='$invitationId'" ));
+      $this->assertTrue($queuedMail->getFromDBByQuery(" WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'" ));
    }
 
 }

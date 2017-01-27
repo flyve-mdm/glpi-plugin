@@ -106,17 +106,17 @@ if (!TableExists("glpi_configs")) {
 $plugin = new Plugin();
 
 // Install the plugin
-$plugin->getFromDBbyDir("storkmdm");
+$plugin->getFromDBbyDir("flyvemdm");
 print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
 ob_start(function($in) { return ''; });
 $plugin->install($plugin->fields['id']);
 ob_end_clean();
 print("Install Done\n");
 if($apiUserToken){
-   $serviceUser = PluginStorkmdmConfig::SERVICE_ACCOUNT_NAME;
-   $storkUser = new User();
-   $storkUser->getFromDBbyName($serviceUser);
-   $sqlUpdate = "update glpi_users set personal_token = '" . $apiUserToken . "' where id = ". $storkUser->fields['id'];
+   $serviceUser = PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME;
+   $flyveUser = new User();
+   $flyveUser->getFromDBbyName($serviceUser);
+   $sqlUpdate = "update glpi_users set personal_token = '" . $apiUserToken . "' where id = ". $flyveUser->fields['id'];
    $DB->query($sqlUpdate);
    print("update $serviceUser user with provided api token " . $apiUserToken . "\n");
 }
@@ -141,6 +141,6 @@ print("Activation Done\n");
 
 //Load the plugin
 print("Loading Plugin...\n");
-$plugin->load("storkmdm");
+$plugin->load("flyvemdm");
 print("Load Done...\n");
 

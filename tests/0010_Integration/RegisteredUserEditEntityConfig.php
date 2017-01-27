@@ -34,10 +34,10 @@ class RegisteredUserEditEntityConfig extends RegisteredUserTestCase
 
    public function testEditDeviceLimit() {
       // getDefault limit
-      $config = Config::getConfigurationValues('storkmdm', array('default_device_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
 
       // update the device limit
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->getFromDB($_SESSION['glpiactive_entity']);
 
       $this->assertTrue($entityConfig->update([
@@ -52,10 +52,10 @@ class RegisteredUserEditEntityConfig extends RegisteredUserTestCase
 
    public function testEditDownloadUrl() {
       // getDefault limit
-      $config = Config::getConfigurationValues('storkmdm', array('default_agent_url'));
+      $config = Config::getConfigurationValues('flyvemdm', array('default_agent_url'));
 
       // update the device limit
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->getFromDB($_SESSION['glpiactive_entity']);
 
       $this->assertTrue($entityConfig->update([
@@ -71,7 +71,7 @@ class RegisteredUserEditEntityConfig extends RegisteredUserTestCase
    public function testEditInvitationTokenLife() {
 
       // update the device limit
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->getFromDB($_SESSION['glpiactive_entity']);
 
       $this->assertTrue($entityConfig->update([

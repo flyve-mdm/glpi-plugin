@@ -36,10 +36,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.30
  */
-class PluginStorkmdmFile extends CommonDBTM {
+class PluginFlyvemdmFile extends CommonDBTM {
 
    // name of the right in DB
-   static $rightname                   = 'storkmdm:file';
+   static $rightname                   = 'flyvemdm:file';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
@@ -58,7 +58,7 @@ class PluginStorkmdmFile extends CommonDBTM {
    public static function getTypeName($nb=0) {
       global $LANG;
 
-      return _n('File', 'Files', $nb, "storkmdm");
+      return _n('File', 'Files', $nb, "flyvemdm");
    }
 
    /**
@@ -80,24 +80,24 @@ class PluginStorkmdmFile extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       if (!isset($_FILES['file'])) {
-         Session::addMessageAfterRedirect(__('No file uploaded', "storkmdm"));
+         Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
          return false;
       }
 
       if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
          if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "storkmdm"));
+            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
          }
          return false;
       }
 
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
-      $destination = STORKMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
+      $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
       if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
          if (!is_writable(dirname($destination))) {
             $destination = dirname($destination);
-            Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
          }
          return false;
       }
@@ -116,7 +116,7 @@ class PluginStorkmdmFile extends CommonDBTM {
    public function prepareInputForUpdate($input) {
       if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
          if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "storkmdm"));
+            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
          }
          return false;
       }
@@ -126,15 +126,15 @@ class PluginStorkmdmFile extends CommonDBTM {
       if (isset($_FILES['file'])) {
          // A file has been uploaded
          $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-         $destination = STORKMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
+         $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
          if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
             if (!is_writable(dirname($destination))) {
                $destination = dirname($destination);
-               Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
+               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
             }
             return false;
          }
-         unlink(STORKMDM_FILE_PATH . "/" . $this->fields['source']);
+         unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
          $input['source']      = $input['entities_id'] . "/" . basename($destination);
       } else {
          // No file uploaded
@@ -162,10 +162,10 @@ class PluginStorkmdmFile extends CommonDBTM {
       } else {
          $this->createEntityDirectory(dirname($destination));
          if (!move_uploaded_file($source['tmp_name'], $destination)) {
-            Session::addMessageAfterRedirect(__('Could not save file', "storkmdm"));
+            Session::addMessageAfterRedirect(__('Could not save file', "flyvemdm"));
             $success = false;
          } else {
-            Session::addMessageAfterRedirect(__('File sucessfully uploaded', "storkmdm"));
+            Session::addMessageAfterRedirect(__('File sucessfully uploaded', "flyvemdm"));
             $success = true;
          }
       }
@@ -178,7 +178,7 @@ class PluginStorkmdmFile extends CommonDBTM {
     * @return string|boolean URL of the file
     */
    public function getFileURL() {
-      $config = Config::getConfigurationValues('storkmdm', array('deploy_base_url'));
+      $config = Config::getConfigurationValues('flyvemdm', array('deploy_base_url'));
       $deployBaseURL = $config['deploy_base_url'];
       if ($deployBaseURL === null) {
          return false;
@@ -206,7 +206,7 @@ class PluginStorkmdmFile extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('File', "storkmdm");
+      $tab['common']                 = __s('File', "flyvemdm");
 
       $tab[1]['table']               = self::getTable();
       $tab[1]['field']               = 'name';
@@ -222,7 +222,7 @@ class PluginStorkmdmFile extends CommonDBTM {
 
       $tab[3]['table']               = self::getTable();
       $tab[3]['field']               = 'source';
-      $tab[3]['name']                = __('Source', 'storkmdm');
+      $tab[3]['name']                = __('Source', 'flyvemdm');
       $tab[3]['datatype']            = 'string';
       $tab[3]['massiveaction']       = false;
 
@@ -236,7 +236,7 @@ class PluginStorkmdmFile extends CommonDBTM {
    public function pre_deleteItem() {
       global $DB;
 
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       return $fleet_policy->deleteByCriteria(array(
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
@@ -271,17 +271,17 @@ class PluginStorkmdmFile extends CommonDBTM {
          $itemtype = $this->getType();
          $itemId = $this->getID();
 
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
          $fleet_policyCol = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-         $fleet = new PluginStorkmdmFleet();
-         $policyFactory = new PluginStorkmdmPolicyFactory();
+         $fleet = new PluginFlyvemdmFleet();
+         $policyFactory = new PluginFlyvemdmPolicyFactory();
          foreach ($fleet_policyCol as $fleet_policyId => $fleet_policyRow) {
-            $fleetId = $fleet_policyRow['plugin_storkmdm_fleets_id'];
+            $fleetId = $fleet_policyRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors', "Plugin Storkmdm : Could not find fleet id = '$fleetId'");
+               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
-            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_storkmdm_policies_id']);
+            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_flyvemdm_policies_id']);
             if ($fleet_policy->getFromDB($fleet_policyId)) {
                //$fleet_policy->publishPolicies($fleet, $policy->getGroup());
                $fleet_policy->updateQueue($fleet, $policy->getGroup());
@@ -295,14 +295,14 @@ class PluginStorkmdmFile extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = STORKMDM_FILE_PATH . "/" . $this->fields['source'];
+      $filename = FLYVEMDM_FILE_PATH . "/" . $this->fields['source'];
       if (is_writeable($filename)) {
          unlink($filename);
       }
    }
 
    protected function sendFile() {
-      $streamSource = STORKMDM_FILE_PATH . "/" . $this->fields['source'];
+      $streamSource = FLYVEMDM_FILE_PATH . "/" . $this->fields['source'];
 
       // Ensure the file exists
       if (!file_exists($streamSource) || !is_file($streamSource)) {

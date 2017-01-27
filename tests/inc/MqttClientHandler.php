@@ -95,7 +95,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
     * @return sskaje\mqtt\MQTT|false MQTT object
     */
    protected function getMQTTConnection() {
-      $config = Config::getConfigurationValues('storkmdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', array(
             'mqtt_broker_internal_address',
             'mqtt_broker_port',
             'mqtt_broker_tls',
@@ -120,7 +120,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
             $mqtt->setSocketContext(stream_context_create([
                   'ssl' => [
                         // TODO : Enable commented out parameters to enhance security. Check the documentation
-                        'cafile'                => STORKMDM_CONFIG_CACERTMQTT,
+                        'cafile'                => FLYVEMDM_CONFIG_CACERTMQTT,
                         'verify_depth'          => 5,
                         'verify_peer'           => true,
                         //'verify_peer_name'      => true,
@@ -167,7 +167,7 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmMqttclient::subscribe()
+    * @see PluginFlyvemdmMqttclient::subscribe()
     */
    public function subscribe($topic = "#", $qos = 0) {
       $this->startTime = time();

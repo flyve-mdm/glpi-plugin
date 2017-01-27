@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
-class MqttHandlerForTests extends PluginStorkmdmMqtthandler
+class MqttHandlerForTests extends PluginFlyvemdmMqtthandler
 {
 
    const STATE_CONSUME_PREVIOUS_MESSAGES = 1;
@@ -96,7 +96,7 @@ class MqttHandlerForTests extends PluginStorkmdmMqtthandler
       \sskaje\mqtt\Debug::SetLogPriority(\sskaje\mqtt\Debug::NONE);
       $this->state = self::STATE_CONSUME_PREVIOUS_MESSAGES;
       $this->topics = array($topic);
-      $this->mqttClient = PluginStorkmdmMqttclient::getInstance();
+      $this->mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $this->mqttClient->setKeepalive(2); // MQTT client has odd behavior if set to 1
       $this->receivedMessages = array();
       $this->startTime = time();
@@ -107,7 +107,7 @@ class MqttHandlerForTests extends PluginStorkmdmMqtthandler
    /**
     *
     * {@inheritDoc}
-    * @see PluginStorkmdmMqtthandler::publish()
+    * @see PluginFlyvemdmMqtthandler::publish()
     */
    public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {
       $this->publishReceivedSinceLastPing = true;

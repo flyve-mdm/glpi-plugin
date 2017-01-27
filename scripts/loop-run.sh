@@ -4,7 +4,7 @@ SELF=`readlink -f $0`
 SELFDIR=`dirname $SELF`
 PHPCLI=/usr/bin/php
 PHP_SCRIPT=$SELFDIR/mqtt.php
-PIDFILE=/var/run/storkmdm.pid
+PIDFILE=/var/run/flyvemdm.pid
 
 on_term()
 {

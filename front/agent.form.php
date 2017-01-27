@@ -30,7 +30,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 
 include ('../../../inc/includes.php');
-Session::checkRight("storkmdm:storkmdm", PluginStorkmdmProfile::RIGHT_STORKMDM_USE);
+Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
 if (!isset($_GET["id"])) {
    $_GET["id"] = "";
@@ -40,7 +40,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$agent = new PluginStorkmdmAgent();
+$agent = new PluginFlyvemdmAgent();
 if (isset($_POST["add"])) {
    $agent->check(-1, CREATE, $_POST);
    if ($newID = $agent->add($_POST)) {
@@ -63,10 +63,10 @@ if (isset($_POST["add"])) {
    $agent->redirectToList();
 } else {
    Html::header(
-         PluginStorkmdmAgent::getTypeName(Session::getPluralNumber()),
+         PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
          "",
          "tools",
-         "PluginStorkmdmMenu",
+         "PluginFlyvemdmMenu",
          "agent"
    );
    $agent->display(array('id' => $_GET["id"],

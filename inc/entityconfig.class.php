@@ -37,17 +37,17 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 0.1.0
  */
-class PluginStorkmdmEntityconfig extends CommonDBTM {
+class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
-   const RIGHT_STORKMDM_DEVICE_COUNT_LIMIT      = 128;
-   const RIGHT_STORKMDM_APP_DOWNLOAD_URL        = 256;
-   const RIGHT_STORKMDM_INVITATION_TOKEN_LIFE   = 512;
+   const RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT      = 128;
+   const RIGHT_FLYVEMDM_APP_DOWNLOAD_URL        = 256;
+   const RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE   = 512;
    /**
     * @var bool $dohistory maintain history
     */
    public $dohistory                   = true;
 
-   public static $rightname            = 'storkmdm:entity';
+   public static $rightname            = 'flyvemdm:entity';
 
    static function getTypeName($nb=0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
@@ -60,9 +60,9 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
    static function canUpdate() {
 
       if (static::$rightname) {
-         return Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT
-               | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-               | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE
+         return Session::haveRight(static::$rightname, PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+               | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+               | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE
          );
       }
    }
@@ -78,7 +78,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
          return false;
       }
       if (!isset($input['download_url'])) {
-         $input['download_url'] = PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL;
+         $input['download_url'] = PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL;
       }
       $input['entities_id'] = $input['id'];
 
@@ -91,15 +91,15 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT)) {
+      if (!Session::haveRight(static::$rightname, PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
          unset($input['device_limit']);
       }
 
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL)) {
+      if (!Session::haveRight(static::$rightname, PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
       }
 
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE)) {
+      if (!Session::haveRight(static::$rightname, PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
          unset($input['agent_token_life']);
       }
 
@@ -125,7 +125,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
          $days = intval(substr($input['agent_token_life'], 1, -1));
          if ($days < 1 || $days > 180) {
             // 1 day minimum and 180 days maximum
-            Session::addMessageAfterRedirect(__('The agent token life invalid or too long', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('The agent token life invalid or too long', 'flyvemdm'));
             return false;
          }
       }
@@ -137,13 +137,13 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
     * @param CommonDBTM $item
     */
    public static function hook_entity_add(CommonDBTM $item) {
-      // Determine if the entity has been created by StorkMDM
-      $managed = ( $item instanceof PluginStorkmdmEntity ) ? '1' : '0';
+      // Determine if the entity has been created by FlyveMDM
+      $managed = ( $item instanceof PluginFlyvemdmEntity ) ? '1' : '0';
 
-      $config = Config::getConfigurationValues('storkmdm', array('default_device_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
 
       // Create entity configuration
-      $entityconfig = new PluginStorkmdmEntityconfig();
+      $entityconfig = new PluginFlyvemdmEntityconfig();
       $entityconfig->add([
             'id'           => $item->getID(),
             'managed'      => $managed,
@@ -152,7 +152,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       ]);
 
       // Create subdirectories for aplications and files
-      $packagesDir = STORKMDM_PACKAGE_PATH . "/" . $item->getID();
+      $packagesDir = FLYVEMDM_PACKAGE_PATH . "/" . $item->getID();
       if (!is_dir($packagesDir) && !is_readable($packagesDir)) {
          if (! @mkdir($packagesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $packagesDir");
@@ -160,7 +160,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
          }
       }
 
-      $filesDir = STORKMDM_FILE_PATH . "/" . $item->getID();
+      $filesDir = FLYVEMDM_FILE_PATH . "/" . $item->getID();
       if (!is_dir($filesDir) && !is_readable($filesDir)) {
          if (! @mkdir($filesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $filesDir");
@@ -176,12 +176,12 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
    public static function hook_entity_purge(CommonDBTM $item) {
 
       $itemtypes = array(
-            'PluginStorkmdmEntityconfig',
-            'PluginStorkmdmInvitation',
-            'PluginStorkmdmAgent',
-            'PluginStorkmdmFleet',
-            'PluginStorkmdmPackage',
-            'PluginStorkmdmFile',
+            'PluginFlyvemdmEntityconfig',
+            'PluginFlyvemdmInvitation',
+            'PluginFlyvemdmAgent',
+            'PluginFlyvemdmFleet',
+            'PluginFlyvemdmPackage',
+            'PluginFlyvemdmFile',
       );
 
       foreach ($itemtypes as $itemtype) {
@@ -190,8 +190,8 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       }
 
       // Delete folders for the entity
-      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID());
-      PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID());
+      PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
+      PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_FILE_PATH . "/" . $item->getID());
    }
 
    /**
@@ -206,7 +206,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
     * @param CommonDBTM $item
     */
    public static function hook_pre_entity_add(CommonDBTM $item) {
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
       $serviceProfileId = $config['service_profiles_id'];
       if ($serviceProfileId === null) {
          $item->input = null;
@@ -214,7 +214,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       }
 
       if ($_SESSION['glpiactiveprofile']['id'] == $serviceProfileId) {
-         if (PluginStorkmdmUser::getCreation() !== true) {
+         if (PluginFlyvemdmUser::getCreation() !== true) {
             $item->input = null;
             return false;
          }
@@ -229,7 +229,7 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('Invitation', "storkmdm");
+      $tab['common']                 = __s('Invitation', "flyvemdm");
 
       $i = 2;
       $tab[$i]['table']               = self::getTable();
@@ -241,28 +241,28 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'enroll_token';
-      $tab[$i]['name']                = __('Entity enroll token', 'storkmdm');
+      $tab[$i]['name']                = __('Entity enroll token', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'agent_token_life';
-      $tab[$i]['name']                = __('Invitation token lifetime', 'storkmdm');
+      $tab[$i]['name']                = __('Invitation token lifetime', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'download_url';
-      $tab[$i]['name']                = __('dowlnoad URL', 'storkmdm');
+      $tab[$i]['name']                = __('dowlnoad URL', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 
       $i++;
       $tab[$i]['table']               = self::getTable();
       $tab[$i]['field']               = 'device_limit';
-      $tab[$i]['name']                = __('Device limit', 'storkmdm');
+      $tab[$i]['name']                = __('Device limit', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
 

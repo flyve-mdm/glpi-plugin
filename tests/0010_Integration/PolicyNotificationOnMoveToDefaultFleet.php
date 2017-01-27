@@ -35,7 +35,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
    protected $guestEmail;
 
    public function testInitCreateInvitation() {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitation->add([
             '_useremails'        => 'guest@localhost.local',
             'entities_id'        => $_SESSION['glpiactive_entity']
@@ -55,7 +55,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       self::login('', '', false);
       unset($_REQUEST['user_token']);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agent->add([
             '_serial'            => 'AZERTY',
             '_email'             => 'guest@localhost.local',
@@ -73,7 +73,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
 
    public function testInitCreateFleet() {
        // Create a fleet
-       $fleet = new PluginStorkmdmFleet();
+       $fleet = new PluginFlyvemdmFleet();
        $fleet->add([
              'name'               => 'test fleet',
              'entities_id'        => $_SESSION['glpiactive_entity']
@@ -93,7 +93,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
       // add the agent in the fleet
       $this->assertTrue($agent->update([
             'id'                          => $agent->getID(),
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
       ]));
 
       return $agent;
@@ -102,7 +102,7 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
    public function testInitGetDefaultFleet() {
        // Find the default fleet
        $entityId = $_SESSION['glpiactive_entity'];
-       $fleet = new PluginStorkmdmFleet();
+       $fleet = new PluginFlyvemdmFleet();
        $this->assertTrue($fleet->getFromDBByQuery(" WHERE `is_default`='1' AND `entities_id`='$entityId'"));
 
       return $fleet;
@@ -113,14 +113,14 @@ class PolicyNotificationOnMoveToDefaultFleet extends RegisteredUserTestCase
     * @depends testInitGetDefaultFleet
     */
    public function testPolicyNotification($agent, $defaultFleet) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->never())
       ->method('notify');
 
       $updateSuccess = $mockAgent->update([
             'id'                          => $agent->getID(),
-            'plugin_storkmdm_fleets_id'   => $defaultFleet->getID()
+            'plugin_flyvemdm_fleets_id'   => $defaultFleet->getID()
       ]);
    }
 }

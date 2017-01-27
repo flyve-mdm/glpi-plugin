@@ -1,6 +1,6 @@
 #!/bin/bash
 
-soft='GLPI - Stork MDM plugin'
+soft='GLPI - Flyve MDM plugin'
 version='0.85'
 email=adelaunay@teclib.com
 copyright='TECLIB'
@@ -9,13 +9,13 @@ copyright='TECLIB'
 
 # Only strings with domain specified are extracted (use Xt args of keyword param to set number of args needed)
 
-xgettext *.php */*.php -o locales/storkmdm.pot -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po  \
+xgettext *.php */*.php -o locales/flyvemdm.pot -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po  \
       --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t \
       --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t
 
 
 ### for using tx :
-##tx set --execute --auto-local -r GLPI_example.glpi-084-current 'locales/<lang>.po' --source-lang en --source-file locales/storkmdm.pot
+##tx set --execute --auto-local -r GLPI_example.glpi-084-current 'locales/<lang>.po' --source-lang en --source-file locales/flyvemdm.pot
 ## tx push -s
 ## tx pull -a
 

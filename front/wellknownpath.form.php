@@ -31,5 +31,5 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 include ('../../../inc/includes.php');
 
-$dropdown = new PluginStorkmdmWellknownpath();
+$dropdown = new PluginFlyvemdmWellknownpath();
 include (GLPI_ROOT . "/front/dropdown.common.form.php");

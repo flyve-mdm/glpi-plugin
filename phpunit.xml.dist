@@ -39,8 +39,8 @@
   <php>
     <const name="GLPI_URI"                     value="http://localhost:8088" />
     <!-- Match password in a development database to avoid reconfigure of Mosquitto each time the test database is used -->
-    <!-- see table glpi_configs where context='storkmdm' and name='mqtt_passwd' -->
+    <!-- see table glpi_configs where context='flyvemdm' and name='mqtt_passwd' -->
     <!-- Empty to allow normal behavior of FlyveMDM (random password computed upon install) -->
-    <const name="PHPUNIT_STORKMDM_MQTT_PASSWD" value="backend-mqtt-pass" />
+    <const name="PHPUNIT_FLYVEMDM_MQTT_PASSWD" value="backend-mqtt-pass" />
   </php>
 </phpunit>

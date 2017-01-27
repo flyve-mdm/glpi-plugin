@@ -29,18 +29,18 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyFileDeploymentTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyFileDeploymentTest extends SuperAdminTestCase {
 
    public function testInitCreatePolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'file',
             'symbol'    => 'deployFile',
             'type_data' => '',
             'unicity'   => '0',
       ];
-      $policy = new PluginStorkmdmPolicyDeployFile($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyDeployFile', $policy);
+      $policy = new PluginFlyvemdmPolicyDeployFile($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyDeployFile', $policy);
 
       return $policy;
    }
@@ -48,12 +48,12 @@ class PluginStorkmdmPolicyFileDeploymentTest extends SuperAdminTestCase {
    public function testInitCreateFile() {
       global $DB;
 
-      $table_file = PluginStorkmdmFile::getTable();
+      $table_file = PluginFlyvemdmFile::getTable();
       $query = "INSERT INTO `$table_file` (`name`) VALUES ('filename.ext')";
       $result = $DB->query($query);
       $this->assertNotFalse($result);
 
-      $file = new PluginStorkmdmFile();
+      $file = new PluginFlyvemdmFile();
       $file->getFromDB($DB->insert_id());
       $this->assertFalse($file->isNewItem());
 

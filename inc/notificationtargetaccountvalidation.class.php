@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarget {
+class PluginFlyvemdmNotificationTargetAccountvalidation extends NotificationTarget {
 
    const EVENT_SELF_REGISTRATION          = 'plugin_flyvemdm_self_registration';
    const EVENT_TRIAL_BEGIN                = 'plugin_flyvemdm_trial_begin';
@@ -59,7 +59,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     */
    public function getEvents() {
       return array(
-            self::EVENT_SELF_REGISTRATION => __('User registration', 'storkmdm')
+            self::EVENT_SELF_REGISTRATION => __('User registration', 'flyvemdm')
       );
    }
 
@@ -67,8 +67,8 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     * @param NotificationTarget $target
     */
    public static function addEvents($target) {
-         Plugin::loadLang('storkmdm');
-         $target->events[self::EVENT_SELF_REGISTRATION] = __('User registration', 'storkmdm');
+         Plugin::loadLang('flyvemdm');
+         $target->events[self::EVENT_SELF_REGISTRATION] = __('User registration', 'flyvemdm');
    }
 
    /**
@@ -76,11 +76,11 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     */
    public function getTags() {
       $tagCollection = array(
-            'storkmdm.registration_url'      => __('Account validation URL', 'storkmdm'),
-            'storkmdm.webapp_url'            => __('URL to the web application', 'storkmdm'),
-            'storkmdm.activation_delay'      => __('Account activation delay', 'storkmdm'),
-            'storkmdm.trial_duration'        => __('Duration of a trial account', 'storkmdm'),
-            'storkmdm.days_remaining'        => __('Trial days remaining', 'storkmdm'),
+            'flyvemdm.registration_url'      => __('Account validation URL', 'flyvemdm'),
+            'flyvemdm.webapp_url'            => __('URL to the web application', 'flyvemdm'),
+            'flyvemdm.activation_delay'      => __('Account activation delay', 'flyvemdm'),
+            'flyvemdm.trial_duration'        => __('Duration of a trial account', 'flyvemdm'),
+            'flyvemdm.days_remaining'        => __('Trial days remaining', 'flyvemdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -97,7 +97,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     * @param array $options
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
-      $signatureDocuments = array_values(Config::getConfigurationValues('storkmdm', [
+      $signatureDocuments = array_values(Config::getConfigurationValues('flyvemdm', [
             'social_media_twit',
             'social_media_gplus',
             'social_media_facebook',
@@ -105,7 +105,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
 
       switch ($event->raiseevent) {
          case self::EVENT_SELF_REGISTRATION:
-            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
+            $config = Config::getConfigurationValues('flyvemdm', array('webapp_url'));
             if (isset($event->obj)) {
                $accountValidation = $event->obj;
                $accountValidationId = $accountValidation->getID();
@@ -114,26 +114,26 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
 
                $activationDelay = new DateInterval('P' . $accountValidation->getActivationDelay() . 'D');
                $activationDelay = $activationDelay->format('%d');
-               $activationDelay.= " " . _n('day', 'days', $activationDelay, 'storkmdm');
+               $activationDelay.= " " . _n('day', 'days', $activationDelay, 'flyvemdm');
 
                $trialDuration = new DateInterval('P' . $accountValidation->getTrialDuration() . 'D');
                $trialDuration = $trialDuration->format('%d');
-               $trialDuration.= " " . _n('day', 'days', $trialDuration, 'storkmdm');
+               $trialDuration.= " " . _n('day', 'days', $trialDuration, 'flyvemdm');
 
                // Fill the template
-               $event->datas['##storkmdm.registration_url##'] = $validationUrl;
-               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
-               $event->datas['##storkmdm.activation_delay##'] = $activationDelay;
-               $event->datas['##storkmdm.trial_duration##'] = $trialDuration;
+               $event->datas['##flyvemdm.registration_url##'] = $validationUrl;
+               $event->datas['##flyvemdm.webapp_url##'] = $config['webapp_url'];
+               $event->datas['##flyvemdm.activation_delay##'] = $activationDelay;
+               $event->datas['##flyvemdm.trial_duration##'] = $trialDuration;
 
                $event->obj->documents = $signatureDocuments;
             }
             break;
 
          case self::EVENT_TRIAL_BEGIN:
-            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
+            $config = Config::getConfigurationValues('flyvemdm', array('webapp_url'));
             if (isset($event->obj)) {
-               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
+               $event->datas['##flyvemdm.webapp_url##'] = $config['webapp_url'];
 
                $event->obj->documents = $signatureDocuments;
             }
@@ -141,7 +141,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
 
          case self::EVENT_TRIAL_EXPIRATION_REMIND_1:
          case self::EVENT_TRIAL_EXPIRATION_REMIND_2:
-            $config = Config::getConfigurationValues('storkmdm', array('webapp_url'));
+            $config = Config::getConfigurationValues('flyvemdm', array('webapp_url'));
             if (isset($event->obj)) {
                $accountValidation = $event->obj;
 
@@ -155,10 +155,10 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
                      $delay = $accountValidation->getReminderDelay(2);
                      break;
                }
-               $delay.= " " . _n('day', 'days', $delay, 'storkmdm');
+               $delay.= " " . _n('day', 'days', $delay, 'flyvemdm');
 
-               $event->datas['##storkmdm.webapp_url##'] = $config['webapp_url'];
-               $event->datas['##storkmdm.days_remaining##'] = $delay;
+               $event->datas['##flyvemdm.webapp_url##'] = $config['webapp_url'];
+               $event->datas['##flyvemdm.days_remaining##'] = $delay;
 
                $event->obj->documents = $signatureDocuments;
             }
@@ -181,7 +181,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
     * @param $entity the entity on which the event is raised
     */
    public function getNotificationTargets($entity) {
-      $this->addTarget(Notification::USER, __('Registered user', 'storkmdm'));
+      $this->addTarget(Notification::USER, __('Registered user', 'flyvemdm'));
    }
 
    /**
@@ -193,7 +193,7 @@ class PluginStorkmdmNotificationTargetAccountvalidation extends NotificationTarg
       if ($data['type'] == Notification::USER_TYPE) {
          switch ($data['items_id']) {
             case Notification::USER:
-               if ($this->obj->getType() == 'PluginStorkmdmAccountvalidation') {
+               if ($this->obj->getType() == 'PluginFlyvemdmAccountvalidation') {
                   $this->addToAddressesList([
                         'users_id' => $this->obj->getField('users_id')
                   ]);

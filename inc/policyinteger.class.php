@@ -35,7 +35,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0.33
  */
-class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @var integer|null $minValue Minimum value allowed for the policy
@@ -50,7 +50,7 @@ class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements Pl
     * @param string $properties JSON encoded properties
     * @param string $symbol name of the policy used for MQTT messages
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $defaultProperties = [
             'min' => null,
@@ -67,7 +67,7 @@ class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements Pl
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       if ($value === null || (!strval(intval($value)) == strval($value))) {
@@ -87,7 +87,7 @@ class PluginStorkmdmPolicyInteger extends PluginStorkmdmPolicyBase implements Pl
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::jsonEncode()
+    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {

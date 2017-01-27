@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable {
+class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable {
 
    const ENROLL_DENY             = 0;
    //const ENROLL_AGENT_TOKEN      = 1;
@@ -48,7 +48,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'storkmdm:agent';
+   public static $rightname            = 'flyvemdm:agent';
 
    /**
     * @var bool $dohistory maintain history
@@ -73,7 +73,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Agent', 'Agents', $nb, "storkmdm");
+      return _n('Agent', 'Agents', $nb, "flyvemdm");
    }
 
    /**
@@ -96,7 +96,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public function defineTabs($options = array()) {
       $tab = array();
       $this->addDefaultFormTab($tab);
-      $this->addStandardTab('PluginStorkmdmAgent_Fleet', $tab, $options);
+      $this->addStandardTab('PluginFlyvemdmAgent_Fleet', $tab, $options);
       $this->addStandardTab('Notepad', $tab, $options);
       $this->addStandardTab('Log', $tab, $options);
 
@@ -147,7 +147,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function canViewItem() {
       // Check the active profile
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       if ($_SESSION['glpiactiveprofile']['id'] != $config['guest_profiles_id']) {
          return parent::canViewItem();
       }
@@ -204,12 +204,12 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      $config        = Config::getConfigurationValues("storkmdm", array('debug_enrolment', 'mqtt_broker_address', 'mqtt_broker_port', 'mqtt_broker_tls'));
+      $config        = Config::getConfigurationValues("flyvemdm", array('debug_enrolment', 'mqtt_broker_address', 'mqtt_broker_port', 'mqtt_broker_tls'));
 
       // Get the maximum quantity of devices allowed for the current entity
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       if (!$entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
-         $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'storkmdm')));
+         $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'flyvemdm')));
          return false;
       }
 
@@ -218,7 +218,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $deviceCount = countElementsInTable($this->getTable(), "`entities_id`='$entityId'");
       if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
          // Too many devices
-         $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'storkmdm')));
+         $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));
          $input = false;
       }
 
@@ -226,7 +226,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       switch ($this->chooseEnrollMethod($input)) {
          case self::ENROLL_DENY:
-            $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'storkmdm')));
+            $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'flyvemdm')));
             $input = false;
             break;
 
@@ -248,20 +248,20 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      if (isset($input['plugin_storkmdm_fleets_id'])) {
+      if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
          $computerId = $this->getField('computers_id');
-         $oldFleet = new PluginStorkmdmFleet();
-         if (!$oldFleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+         $oldFleet = new PluginFlyvemdmFleet();
+         if (!$oldFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Unable to load fleet currently associated to  the agent
-            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists", 'flyvemdm'));
             return false;
          }
 
-         $newFleet = new PluginStorkmdmFleet();
-         if (!$newFleet->getFromDB($input['plugin_storkmdm_fleets_id'])) {
+         $newFleet = new PluginFlyvemdmFleet();
+         if (!$newFleet->getFromDB($input['plugin_flyvemdm_fleets_id'])) {
             //Unable to load the new fleet
-            Session::addMessageAfterRedirect(__("The target fleet does not exists", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The target fleet does not exists", 'flyvemdm'));
             return false;
          }
 
@@ -286,19 +286,19 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //Send a connection status request to the device
       if (isset($input['_ping'])) {
          if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
 
          if (!$this->sendPingQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("Timeout querying the device", 'flyvemdm'));
             return false;
          }
       }
 
       if (isset($input['_geolocate'])) {
          if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
 
@@ -311,12 +311,12 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       if (isset($input['_inventory'])) {
          if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
 
          if (!$this->sendInventoryQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device inventory", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("Timeout querying the device inventory", 'flyvemdm'));
             return false;
          }
       }
@@ -361,10 +361,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
 
       // get the guest profile ID
-      $config = Config::getConfigurationValues("storkmdm", array('guest_profiles_id'));
+      $config = Config::getConfigurationValues("flyvemdm", array('guest_profiles_id'));
       $guestProfileId = $config['guest_profiles_id'];
       if ($guestProfileId === null) {
-         Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'flyvemdm'));
          return false;
       }
 
@@ -386,7 +386,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                'is_dynamic'      => 0
          ]);
          if (!$success) {
-            Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'flyvemdm'));
             return false;
          }
 
@@ -401,10 +401,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
-         $mqttUser = new PluginStorkmdmMqttuser();
+         $mqttUser = new PluginFlyvemdmMqttuser();
          if ($mqttUser->getFromDBByQuery("WHERE `user` = '$serial'")) {
             if (!$mqttUser->delete(['id' => $mqttUser->getID()], true)) {
-               Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'storkmdm'));
+               Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'flyvemdm'));
                return false;
             }
          }
@@ -412,18 +412,18 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Delete the computer associated to the agent
       if (!$computer->delete(['id' => $computerId], true)) {
-         Session::addMessageAfterRedirect(__('Failed to delete the device', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to delete the device', 'flyvemdm'));
          return false;
       }
 
       // Delete documents associated to the agent
       $document_Item = new Document_Item();
       $success = $document_Item->deleteByCriteria([
-            'itemtype'  => 'PluginStorkmdmAgent',
+            'itemtype'  => 'PluginFlyvemdmAgent',
             'items_id'  => $this->fields['id']
       ]);
       if (!$success) {
-         Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'flyvemdm'));
          return false;
       }
 
@@ -436,12 +436,12 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @return nothing
     */
    public function post_updateItem($history=1) {
-      if (in_array('plugin_storkmdm_fleets_id', $this->updates)) {
+      if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
 
          $this->updateSubscription();
-         if (isset($this->oldvalues['plugin_storkmdm_fleets_id'])) {
-            $oldFleet = new PluginStorkmdmFleet();
-            $oldFleet->getFromDB($this->oldvalues['plugin_storkmdm_fleets_id']);
+         if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
+            $oldFleet = new PluginFlyvemdmFleet();
+            $oldFleet->getFromDB($this->oldvalues['plugin_flyvemdm_fleets_id']);
          }
       }
 
@@ -469,7 +469,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       $computer = $this->getComputer();
       if ($computer !== null) {
-         $mqttUser = new PluginStorkmdmMqttuser();
+         $mqttUser = new PluginFlyvemdmMqttuser();
          if ($mqttUser->getFromDB($this->fields['computers_id'])) {
             $mqttUser->update([
                   'id'        => $mqttUser->getID(),
@@ -491,7 +491,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Agent', "storkmdm");
+      $tab['common']             = __s('Agent', "flyvemdm");
 
       $i = 1;
       $tab[$i]['table']           = self::getTable();
@@ -508,9 +508,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $tab[$i]['datatype']        = 'number';
 
       $i++;
-      $tab[$i]['table']           = PluginStorkmdmFleet::getTable();
+      $tab[$i]['table']           = PluginFlyvemdmFleet::getTable();
       $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Fleet', 'storkmdm');
+      $tab[$i]['name']            = __('Fleet', 'flyvemdm');
       $tab[$i]['datatype']        = 'dropdown';
 
       $i++;
@@ -540,16 +540,16 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                                                          'condition' => '')));
 
       $i++;
-      $tab[$i]['table']           = PluginStorkmdmFleet::getTable();
+      $tab[$i]['table']           = PluginFlyvemdmFleet::getTable();
       $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Fleet', 'storkmdm')." - ".__('ID');
+      $tab[$i]['name']            = __('Fleet', 'flyvemdm')." - ".__('ID');
       $tab[$i]['massiveaction']   = false;
       $tab[$i]['datatype']        = 'number';
 
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'last_contact';
-      $tab[$i]['name']            = __('last contact', "storkmdm");
+      $tab[$i]['name']            = __('last contact', "flyvemdm");
       $tab[$i]['datatype']        = 'datetime';
       $tab[$i]['massiveaction']   = false;
 
@@ -568,7 +568,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'version';
-      $tab[$i]['name']            = __('version', "storkmdm");
+      $tab[$i]['name']            = __('version', "flyvemdm");
       $tab[$i]['datatype']        = 'string';
       $tab[$i]['massiveaction']   = false;
 
@@ -581,7 +581,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public static function addDefaultJoin() {
       $join = '';
 
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
          $agentTable = self::getTable();
@@ -598,7 +598,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public static function addDefaultWhere() {
       $where = '';
 
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
          $agentTable = self::getTable();
@@ -617,9 +617,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     *
     */
    public function getSubscribedTopic() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $subscribedTopic = null;
-      if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+      if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
          if (! $fleet->fields['is_default']) {
             $subscribedTopic = $fleet->getTopic();
          }
@@ -698,7 +698,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public function unsubscribe() {
       $this->update([
             'id' => $this->getID(),
-            'plugin_storkmdm_fleets_id' => null
+            'plugin_flyvemdm_fleets_id' => null
       ]);
       $topic = $this->getTopic();
       if ($topic !== null) {
@@ -746,31 +746,31 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       $input = array();
 
-      $config = Config::getConfigurationValues("storkmdm", array('mqtt_broker_tls', 'mqtt_use_client_cert', 'debug_noexpire'));
+      $config = Config::getConfigurationValues("flyvemdm", array('mqtt_broker_tls', 'mqtt_use_client_cert', 'debug_noexpire'));
 
       // Find the invitation
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       if (!$invitation->getFromDBByToken($invitationToken)) {
-         $this->filterMessages(__('Invitation token invalid', 'storkmdm'));
+         $this->filterMessages(__('Invitation token invalid', 'flyvemdm'));
          return false;
       }
 
       if (empty($serial)) {
-         $event = __('Serial missing', 'storkmdm');
+         $event = __('Serial missing', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
       if (empty($version)) {
-         $event = __('Agent version missing', 'storkmdm');
+         $event = __('Agent version missing', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
       if (preg_match('#^[\d\.]+$#', $version) !== 1) {
-         $event = __('Bad agent version', 'storkmdm');
+         $event = __('Bad agent version', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -778,7 +778,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Check the invitation is pending
       if ($invitation->getField('status') != 'pending') {
-         $event = __('Invitation is not pending', 'storkmdm');
+         $event = __('Invitation is not pending', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -786,7 +786,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Check the token has not yet expired
       if ($invitation->getField('expiration_date') === null) {
-         $event = __('Expiration date of the invitation is not set', 'storkmdm');
+         $event = __('Expiration date of the invitation is not set', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -794,7 +794,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $currentDatetime = new DateTime("now", new DateTimeZone("UTC"));
       $expirationDatetime = new DateTime($invitation->getField('expiration_date'), new DateTimeZone("UTC"));
       if ($currentDatetime >= $expirationDatetime) {
-         $event = __('Invitation token expired', 'storkmdm');
+         $event = __('Invitation token expired', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -804,7 +804,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $user = new User();
       $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
       if ($user->getFromDBbyEmail($email, $condition) === false) {
-         $event = __('wrong email address', 'storkmdm');
+         $event = __('wrong email address', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -816,7 +816,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $entityId = $invitation->getField('entities_id');
       $rows = $computer->find("`entities_id`='$entityId' AND `serial`='$serial'");
       if (count($rows) > 0) {
-         $event = __('The serial already exists', 'storkmdm');
+         $event = __('The serial already exists', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -827,7 +827,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $answer = self::signCertificate($csr);
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
          if ($crt === false) {
-            $event = __("Failed to sign the certificate", 'storkmdm')  . "\n " . $answer['message'];
+            $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
             $this->filterMessages($event);
             $this->logInvitationEvent($invitation, $event);
             return false;
@@ -850,7 +850,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
          // Update the invitation
          if (!$invitation->update($invitationInput)) {
-            $event = __("Failed update the invitation", 'storkmdm');
+            $event = __("Failed update the invitation", 'flyvemdm');
             $this->filterMessages($event);
             $this->logInvitationEvent($invitation, $event);
             return false;
@@ -875,7 +875,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             'serial'       => $serial
       ));
       if ($computerId === false) {
-         $event = __("Cannot create the device", 'storkmdm');
+         $event = __("Cannot create the device", 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -886,10 +886,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $fiLock->addLocks('Computer', $computerId, array('name', 'users_id'));
 
       // Create the agent
-      $defaultFleet = PluginStorkmdmFleet::getDefaultFleet();
+      $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
       if ($defaultFleet === null) {
          $computer->delete(['id' => $computerId]);
-         $event = __("No default fleet available for the device", 'storkmdm');
+         $event = __("No default fleet available for the device", 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -912,7 +912,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $input['name']                      = $email;
       $input['computers_id']              = $computerId;
       $input['entities_id']               = $entityId;
-      $input['plugin_storkmdm_fleets_id'] = $defaultFleet->getID();
+      $input['plugin_flyvemdm_fleets_id'] = $defaultFleet->getID();
       $input['_invitations_id']           = $invitation->getID();
       $input['enroll_status']             = 'enrolled';
       $input['version']                   = $version;
@@ -925,7 +925,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param array $authFactors
     * @param string $csr Certificate Signing Request from the agent
     * @param &string $notFoundMessage Contains the error message if the enrollment failed
-    * @return boolean|PluginStorkmdmAgent
+    * @return boolean|PluginFlyvemdmAgent
     *
     */
    //protected static function enrollByEntityToken($serial, $authFactors, $csr, &$errorMessage) {
@@ -934,7 +934,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //$token = $DB->escape($authFactors['entityToken']);
 
       //// Find an entity matching the given token
-      //$entity = new PluginStorkmdmEntityconfig();
+      //$entity = new PluginFlyvemdmEntityconfig();
       //if (! $entity->getFromDBByQuery("WHERE `enroll_token`='$token'")) {
       //   $errorMessage = "no entity token not found";
       //   return false;
@@ -979,7 +979,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //}
 
       //// Create an agent for this device, linked to the new computer
-      //$agent = new PluginStorkmdmAgent();
+      //$agent = new PluginFlyvemdmAgent();
       //$condition = "`computers_id`='$computerId'";
       //$agentCollection = $agent->find($condition);
       //if (count($agentCollection) > 1) {
@@ -1051,7 +1051,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          $computerId = $this->fields['computers_id'];
-         $geolocation = new PluginStorkmdmGeolocation();
+         $geolocation = new PluginFlyvemdmGeolocation();
          $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
          $lastPosition = array_pop($lastPositionRows);
 
@@ -1060,7 +1060,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
       }
 
-      $errorMessage = __('Timeout requesting position', 'storkmdm');
+      $errorMessage = __('Timeout requesting position', 'flyvemdm');
       return false;
    }
 
@@ -1074,7 +1074,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    protected function pollGeolocationAnswer($lastPosition, &$errorMessage) {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $geolocation = new PluginStorkmdmGeolocation();
+         $geolocation = new PluginFlyvemdmGeolocation();
          $computerId = $this->fields['computers_id'];
 
          // Wait for a reply within a short delay
@@ -1087,7 +1087,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             if ($lastPosition === null && $updatedPosition !== null
                   || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
                if ($updatedPosition['latitude'] == 'na') {
-                  $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
+                  $errorMessage = __('GPS is turned off or is not ready', 'flyvemdm');
                   return false;
                } else {
                   return true;
@@ -1162,7 +1162,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param String $csr Certificate signing request
     */
    protected static function signCertificate($csr) {
-      $config = Config::getConfigurationValues('storkmdm', array('ssl_cert_url'));
+      $config = Config::getConfigurationValues('flyvemdm', array('ssl_cert_url'));
       if ($config === null) {
          return false;
       }
@@ -1182,7 +1182,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getAgents()
+    * @see PluginFlyvemdmNotifiable::getAgents()
     */
    public function getAgents() {
       return array($this);
@@ -1190,13 +1190,13 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getPackages()
+    * @see PluginFlyvemdmNotifiable::getPackages()
     */
    public function getPackages() {
       if ($this->getID() > 0) {
 
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+         $fleet = new PluginFlyvemdmFleet();
+         if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             return $fleet->getPackages();
          }
       }
@@ -1206,12 +1206,12 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getFiles()
+    * @see PluginFlyvemdmNotifiable::getFiles()
     */
    public function getFiles() {
       if ($this->getID() > 0) {
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+         $fleet = new PluginFlyvemdmFleet();
+         if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             return $fleet->getFiles();
          }
       }
@@ -1221,18 +1221,18 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getFleet()
+    * @see PluginFlyvemdmNotifiable::getFleet()
     */
    public function getFleet() {
       $fleet = null;
 
       if (! $this->isNewItem()) {
          // The agent exists in DB
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->isNewID($this->fields['plugin_storkmdm_fleets_id'])) {
+         $fleet = new PluginFlyvemdmFleet();
+         if ($fleet->isNewID($this->fields['plugin_flyvemdm_fleets_id'])) {
             $fleet = null;
          } else {
-            if (!$fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+            if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
                $fleet = null;
             }
          }
@@ -1281,7 +1281,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    protected function setupMqttAccess() {
       if ($user = $this->getOwner()) {
-         $config = Config::getConfigurationValues('storkmdm', array(
+         $config = Config::getConfigurationValues('flyvemdm', array(
                'guest_profiles_id',
                'android_bugcollecctor_url',
                'android_bugcollector_login',
@@ -1305,24 +1305,24 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                   $acls = [
                         [
                               'topic'        => $this->getTopic() . '/Status/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_WRITE
+                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
                         ],
                         [
                               'topic'        => $this->getTopic() . '/Command/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_READ
+                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
                         ],
                         [
                               'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_WRITE
+                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
                         ],
                         [
                               'topic'        => '/FlyvemdmManifest/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_READ
+                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
                         ],
                   ];
 
-                  $mqttUser = new PluginStorkmdmMqttuser();
-                  $mqttClearPassword = PluginStorkmdmMqttuser::getRandomPassword();
+                  $mqttUser = new PluginFlyvemdmMqttuser();
+                  $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
                   if (!$mqttUser->getByUser($serial)) {
                      // The user does not exists
                      $mqttUser->add([
@@ -1363,35 +1363,35 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param unknown $error
     */
    protected function filterMessages($error) {
-      $config = Config::getConfigurationValues('storkmdm', array('debug_enrolment'));
+      $config = Config::getConfigurationValues('flyvemdm', array('debug_enrolment'));
       if ($config['debug_enrolment'] == 0) {
-         Session::addMessageAfterRedirect(__('Enrollment failed', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Enrollment failed', 'flyvemdm'));
       } else {
          Session::addMessageAfterRedirect($error);
       }
    }
-   protected function logInvitationEvent(PluginStorkmdmInvitation $invitation, $event) {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+   protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $invitationLog->add([
-            'plugin_storkmdm_invitations_id' => $invitation->getID(),
+            'plugin_flyvemdm_invitations_id' => $invitation->getID(),
             'event'                          => $event
       ]);
    }
 
    /**
     * Update settings related to fleet change
-    * @param PluginStorkmdmFleet $old old fleet
-    * @param PluginStorkmdmFleet $new new fleet
+    * @param PluginFlyvemdmFleet $old old fleet
+    * @param PluginFlyvemdmFleet $new new fleet
     */
-   protected function changeFleet(PluginStorkmdmFleet $old, PluginStorkmdmFleet $new) {
+   protected function changeFleet(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
-      $mqttUser = new PluginStorkmdmMqttuser();
+      $mqttUser = new PluginFlyvemdmMqttuser();
       if ($mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'")) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          if ($old->getField('is_default') == '0') {
             $mqttAcl->getFromDBByQuery("WHERE `topic`='" . $old->getTopic() . "/#'
-                  AND `plugin_storkmdm_mqttusers_id`='" . $mqttUser->getID() . "'");
+                  AND `plugin_flyvemdm_mqttusers_id`='" . $mqttUser->getID() . "'");
             if ($new->getField('is_default') != '0') {
                $mqttAcl->delete(['id' => $mqttAcl->getID()]);
 
@@ -1399,14 +1399,14 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                $mqttAcl->update([
                      'id'                             => $mqttAcl->getID(),
                      'topic'                          => $new->getTopic() . '/#',
-                     'access_level'                   => PluginStorkmdmMqttacl::MQTTACL_READ
+                     'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
                ]);
             }
          } else {
             $mqttAcl->add([
-                  'plugin_storkmdm_mqttusers_id'   => $mqttUser->getID(),
+                  'plugin_flyvemdm_mqttusers_id'   => $mqttUser->getID(),
                   'topic'                          => $new->getTopic() . '/#',
-                  'access_level'                   => PluginStorkmdmMqttacl::MQTTACL_READ
+                  'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
             ]);
          }
       }
@@ -1432,10 +1432,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    /**
     *
     * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::notify()
+    * @see PluginFlyvemdmNotifiable::notify()
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginStorkmdmMqttclient::getInstance();
+      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
 }

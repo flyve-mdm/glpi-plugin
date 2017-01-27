@@ -66,6 +66,6 @@ Config::setConfigurationValues('core', [
 $CFG_GLPI['url_base']      = GLPI_URI;
 $CFG_GLPI['url_base_api']  = GLPI_URI . '/apirest.php';
 
-// Mock PluginStorkmdmMqttClient
+// Mock PluginFlyvemdmMqttClient
 include __DIR__ . "/inc/MqttClient.php";
 

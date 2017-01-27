@@ -34,11 +34,11 @@ use sskaje\mqtt\MQTT;
 class DeviceEnrollmentTest extends GuestUserTestCase {
 
    public function testEnrollAgentWithUnknownEmail() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $invitation = self::$fixture['invitation'];
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
@@ -57,11 +57,11 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithBadToken() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -79,12 +79,12 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithoutVersion() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
       $invitation = self::$fixture['invitation'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -101,12 +101,12 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithBadVersion() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
       $invitation = self::$fixture['invitation'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -124,12 +124,12 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    }
 
    public function testEnrollAgentWithEmptySerial() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
       $invitation = self::$fixture['invitation'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -155,13 +155,13 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
     */
    public function testEnrollAgent() {
       // Count invitation log entries
-      $invitationLog = new PluginStorkmdmInvitationlog();
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $rows = $invitationLog->find("1");
       $logCount = count($rows);
 
       self::$fixture['serial'] = 'AZERTY';
       $invitation = self::$fixture['invitation'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
 
       // Prepare subscriber
       $mqttSubscriber = MqttHandlerForTests::getInstance();
@@ -232,7 +232,7 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    public function testAgentHasMQTTUser($agent) {
       // Is the mqtt user created and enabled ?
       $serial = self::$fixture['serial'];
-      $mqttUser = new PluginStorkmdmMqttuser();
+      $mqttUser = new PluginFlyvemdmMqttuser();
       $this->assertTrue($mqttUser->getFromDBByQuery("WHERE `user`='$serial'"));
       return $mqttUser;
    }
@@ -247,7 +247,7 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    /**
     * @depends testAgentHasMQTTUser
     */
-   public function testAgentMqttUserHasACL(PluginStorkmdmMqttuser $mqttUser) {
+   public function testAgentMqttUserHasACL(PluginFlyvemdmMqttuser $mqttUser) {
       $mqttUserId = $mqttUser->getID();
 
       // Are the MQTT ACLs set ?
@@ -266,16 +266,16 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
 
       foreach ($mqttACLs as $acl) {
          if (preg_match("~/agent/$serial/Command/#$~", $acl->getField('topic')) == 1) {
-            $this->assertEquals(PluginStorkmdmMqttacl::MQTTACL_READ, $acl->getField('access_level'));
+            $this->assertEquals(PluginFlyvemdmMqttacl::MQTTACL_READ, $acl->getField('access_level'));
             $validated++;
          } else if (preg_match("~/agent/$serial/Status/#$~", $acl->getField('topic')) == 1) {
-            $this->assertEquals(PluginStorkmdmMqttacl::MQTTACL_WRITE, $acl->getField('access_level'));
+            $this->assertEquals(PluginFlyvemdmMqttacl::MQTTACL_WRITE, $acl->getField('access_level'));
             $validated++;
          } else if (preg_match("~^/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
-            $this->assertEquals(PluginStorkmdmMqttacl::MQTTACL_READ, $acl->getField('access_level'));
+            $this->assertEquals(PluginFlyvemdmMqttacl::MQTTACL_READ, $acl->getField('access_level'));
             $validated++;
          } else if (preg_match("~/agent/$serial/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
-            $this->assertEquals(PluginStorkmdmMqttacl::MQTTACL_WRITE, $acl->getField('access_level'));
+            $this->assertEquals(PluginFlyvemdmMqttacl::MQTTACL_WRITE, $acl->getField('access_level'));
             $validated++;
          }
       }
@@ -288,7 +288,7 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
     * @depends testAgentHasMQTTRights
     */
    public function testInvitationExpirationAfterEnrollment() {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $this->assertTrue($invitation->getFromDB(self::$fixture['invitation']->getID()));
 
       // Is the token expiry set ?
@@ -303,7 +303,7 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
    public function testEnrollAgentAgain() {
       self::$fixture['serial'] = 'AZERTY';
       $invitation = self::$fixture['invitation'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],

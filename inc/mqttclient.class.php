@@ -38,7 +38,7 @@ use sskaje\mqtt;
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqttclient {
+class PluginFlyvemdmMqttclient {
 
    const MQTT_MAXIMUM_DURATION = 60 * 60 * 24; // 24h
 
@@ -57,7 +57,7 @@ class PluginStorkmdmMqttclient {
    protected $duration = self::MQTT_MAXIMUM_DURATION;
 
    /**
-    * @var PluginStorkmdmMqttclient instance of this class (singleton)
+    * @var PluginFlyvemdmMqttclient instance of this class (singleton)
     */
    private static $instance = null;
 
@@ -66,8 +66,8 @@ class PluginStorkmdmMqttclient {
    }
 
    /**
-    * Get the unique instance of PluginStorkmdmMqttclient
-    * @return PluginStorkmdmMqttclient instance of this class (singleton)
+    * Get the unique instance of PluginFlyvemdmMqttclient
+    * @return PluginFlyvemdmMqttclient instance of this class (singleton)
     */
    public static function getInstance() {
       if (self::$instance === null) {
@@ -103,7 +103,7 @@ class PluginStorkmdmMqttclient {
       if (self::$mqtt === false) {
          exit(1);
       }
-      $log = new PluginStorkmdmMqttlog();
+      $log = new PluginFlyvemdmMqttlog();
       $topics[$topic] = $qos;
       self::$mqtt->subscribe($topics);
 
@@ -129,7 +129,7 @@ class PluginStorkmdmMqttclient {
    public function publish($topic, $message, $qos = 0, $retain = 0) {
       try {
          if (self::$mqtt !== false) {
-            $log = new PluginStorkmdmMqttlog();
+            $log = new PluginFlyvemdmMqttlog();
             if (self::$mqtt->publish_sync($topic, $message, $qos, $retain)) {
                $log->saveOutgoingMqttMessage($topic, $message);
                return true;
@@ -173,7 +173,7 @@ class PluginStorkmdmMqttclient {
       // Sanity check
       $port = intval($port);
 
-      $config = Config::getConfigurationValues('storkmdm', array('mqtt_user', 'mqtt_passwd'));
+      $config = Config::getConfigurationValues('flyvemdm', array('mqtt_user', 'mqtt_passwd'));
       if (empty($config['mqtt_user']) || empty($config['mqtt_passwd'])) {
          return false;
       }
@@ -183,7 +183,7 @@ class PluginStorkmdmMqttclient {
          $mqtt = $this->buildMqtt($address, $port, $isTls, $sslCipher);
          $mqtt->setAuth($config['mqtt_user'], $config['mqtt_passwd']);
          if ($mqtt->connect()) {
-            $log = new PluginStorkmdmMqttlog();
+            $log = new PluginFlyvemdmMqttlog();
             $topic = "/testtopic";
             $message =  "Hello, MQTT Broker !";
             $mqtt->publish_sync($topic, $message, 0, 0);
@@ -205,7 +205,7 @@ class PluginStorkmdmMqttclient {
     * @return sskaje\mqtt\MQTT|false MQTT object
     */
    protected function getMQTTConnection() {
-      $config = Config::getConfigurationValues('storkmdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', array(
             'mqtt_broker_internal_address',
             'mqtt_broker_port',
             'mqtt_broker_tls',
@@ -246,7 +246,7 @@ class PluginStorkmdmMqttclient {
          Toolbox::logInFile("mqtt", "setting context ssl with $sslCipher");
          $mqtt->setSocketContext(stream_context_create([
                'ssl' => [
-                   'cafile'                => STORKMDM_CONFIG_CACERTMQTT,
+                   'cafile'                => FLYVEMDM_CONFIG_CACERTMQTT,
                    'verify_peer'           => false,
                    'verify_peer_name'      => false,
                    'disable_compression'   => true,

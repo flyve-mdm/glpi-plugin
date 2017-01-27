@@ -33,7 +33,7 @@ class PolicyNotification extends RegisteredUserTestCase
 {
 
    public function testInitCreateFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'name'               => 'test fleet',
             'entities_id'        => $entityId
@@ -48,9 +48,9 @@ class PolicyNotification extends RegisteredUserTestCase
     */
    public function testApplyPolicy($fleet) {
       // Get a policy
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $this->assertTrue($policyData->getFromDBByQuery("WHERE `symbol`='passwordEnabled'"));
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
 
       // Prepare subscriber
@@ -63,10 +63,10 @@ class PolicyNotification extends RegisteredUserTestCase
       // function to trigger the mqtt message
       $sendMqttMessageCallback = function () use (&$fleetPolicy, &$fleetPolicyId, &$fleet, &$policyData) {
          // Apply the policy to a fleet
-         $fleetPolicy = new PluginStorkmdmFleet_Policy();
+         $fleetPolicy = new PluginFlyvemdmFleet_Policy();
          $fleetPolicyId = $fleetPolicy->add([
-               'plugin_storkmdm_fleets_id'      => $fleet->getID(),
-               'plugin_storkmdm_policies_id'    => $policyData->getID(),
+               'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
+               'plugin_flyvemdm_policies_id'    => $policyData->getID(),
                'value'                          => 'PASSWORD_NONE'
          ]);
       };
