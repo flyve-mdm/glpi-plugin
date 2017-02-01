@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.19
  */
-class PluginStorkmdmMqttacl extends CommonDBTM {
+class PluginFlyvemdmMqttacl extends CommonDBTM {
 
    const MQTTACL_NONE = 0;
    const MQTTACL_READ = 1;
@@ -46,11 +46,11 @@ class PluginStorkmdmMqttacl extends CommonDBTM {
 
    /**
     * Delete all MQTT ACLs for the MQTT user
-    * @param PluginStorkmdmMQTTUser $mqttUser
+    * @param PluginFlyvemdmMQTTUser $mqttUser
     */
-   public function removeAllForUser(PluginStorkmdmMQTTUser $mqttUser) {
+   public function removeAllForUser(PluginFlyvemdmMQTTUser $mqttUser) {
       return $this->deleteByCriteria([
-            'plugin_storkmdm_mqttusers_id'   => $mqttUser->getID()
+            'plugin_flyvemdm_mqttusers_id'   => $mqttUser->getID()
       ]);
    }
 

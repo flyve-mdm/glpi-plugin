@@ -30,7 +30,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 use Flyvemdm\Test\ApiRestTestCase;
 
-class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
+class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
 
    /**
     * The current session token
@@ -52,7 +52,7 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
 
    /**
     * enrolled agent
-    * @var PluginStorkmdmAgent
+    * @var PluginFlyvemdmAgent
     */
    protected static $enrolledAgent;
 
@@ -61,13 +61,13 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
 
       self::login('glpi', 'glpi', true);
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
             'entities_id'  => self::$entityId,
             '_useremails'  => self::$guestEmail,
       ]);
 
-      self::$enrolledAgent = new PluginStorkmdmAgent();
+      self::$enrolledAgent = new PluginFlyvemdmAgent();
       self::$enrolledAgent ->add([
             'entities_id'        => 0,
             '_email'             => self::$guestEmail,
@@ -96,7 +96,7 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
     * @depends testInitGetSessionToken
     */
    public function testDeleteDefaultFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $entityId = self::$entityId;
       $this->assertTrue($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId' LIMIT 1"));
       $body = json_encode([
@@ -122,7 +122,7 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->getFromDB($this->restResponse['id']);
       return $fleet;
    }
@@ -130,11 +130,11 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
    /**
     * @depends testAddFleet
     */
-   public function testAddAgentToFleet(PluginStorkmdmFleet $fleet) {
+   public function testAddAgentToFleet(PluginFlyvemdmFleet $fleet) {
       $body = json_encode([
             'input'  => [
                'id'                          => self::$enrolledAgent->getID(),
-               'plugin_storkmdm_fleets_id'   => $fleet->getID()
+               'plugin_flyvemdm_fleets_id'   => $fleet->getID()
       ]]);
       $this->agent('update', self::$sessionToken, $body);
 
@@ -148,14 +148,14 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
     * @depends testAddFleet
     * @depends testAddAgentToFleet
     */
-   public function testApplyPolicyToFleet(PluginStorkmdmFleet $fleet) {
-      $policyData = new PluginStorkmdmPolicy();
+   public function testApplyPolicyToFleet(PluginFlyvemdmFleet $fleet) {
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->getFromDBBySymbol('disableGPS');
 
       $body = json_encode([
             'input'  => [
-                  'plugin_storkmdm_policies_id' => $policyData->getID(),
-                  'plugin_storkmdm_fleets_id'   => $fleet->getID(),
+                  'plugin_flyvemdm_policies_id' => $policyData->getID(),
+                  'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                   'value'                       => '0',
       ]]);
 
@@ -169,7 +169,7 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
     * @depends testAddAgentToFleet
     * @depends testApplyPolicyToFleet
     */
-   public function testPurgeFleet(PluginStorkmdmFleet $fleet) {
+   public function testPurgeFleet(PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
       $body = json_encode([
             'input'  => [
@@ -181,8 +181,8 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       // Check there is no agent linked to the deleted fleet
-      $agent = new PluginStorkmdmAgent();
-      $rows = $agent->find("`plugin_storkmdm_fleets_id`='$fleetId'");
+      $agent = new PluginFlyvemdmAgent();
+      $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
       $this->assertEquals(0, count($rows));
 
       return $fleet;
@@ -191,10 +191,10 @@ class PluginStorkmdmFleetIntegrationTest extends ApiRestTestCase {
    /**
     * @depends testPurgeFleet
     */
-   public function testPolicyUnlinkedAfterPurge(PluginStorkmdmFleet $fleet) {
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
+   public function testPolicyUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
       $fleetId = $fleet->getID();
-      $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id`='$fleetId'");
+      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
       $this->assertEquals(0, count($rows));
    }
 

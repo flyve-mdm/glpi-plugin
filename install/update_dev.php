@@ -2,7 +2,7 @@
 /**
  LICENSE
 
-This file is part of the storkmdm plugin.
+This file is part of the flyvemdm plugin.
 
 Order plugin is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with GLPI; along with storkmdm. If not, see <http://www.gnu.org/licenses/>.
+along with GLPI; along with flyvemdm. If not, see <http://www.gnu.org/licenses/>.
 --------------------------------------------------------------------------
-@package   storkmdm
-@author    the storkmdm plugin team
-@copyright Copyright (c) 2015 storkmdm plugin team
+@package   flyvemdm
+@author    the flyvemdm plugin team
+@copyright Copyright (c) 2015 flyvemdm plugin team
 @license   GPLv2+ http://www.gnu.org/licenses/gpl.txt
-@link      https://github.com/teclib/storkmdm
+@link      https://github.com/teclib/flyvemdm
 @link      http://www.glpi-project.org/
 @since     0.1.0
 ----------------------------------------------------------------------
@@ -38,9 +38,9 @@ function update_dev(Migration $migration) {
    ini_set("memory_limit", "-1");
 
    // Create invitations table
-   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_invitationlogs` (
+   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_invitationlogs` (
               `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
-              `plugin_storkmdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
+              `plugin_flyvemdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
               `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
               `event`                            varchar(255)              NOT NULL DEFAULT '',
               PRIMARY KEY (`id`),
@@ -54,30 +54,30 @@ function update_dev(Migration $migration) {
    // Merge new rights into current profile
    $currentRights = ProfileRight::getProfileRights($_SESSION['glpiactiveprofile']['id']);
    $newRights = array_merge($currentRights, array(
-         PluginStorkmdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
-         PluginStorkmdmInvitationlog::$rightname   => READ,
-         PluginStorkmdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
+         PluginFlyvemdmInvitationlog::$rightname   => READ,
+         PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
 
    ));
    $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
    // Merge new rights into registered user profile
-   $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id'));
+   $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id'));
    $profileId = $config['registered_profiles_id'];
    $currentRights = ProfileRight::getProfileRights($profileId);
    $newRights = array_merge($currentRights, array(
-         PluginStorkmdmAgent::$rightname           => READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, // No create right
-         PluginStorkmdmInvitation::$rightname      => ALLSTANDARDRIGHT,
-         PluginStorkmdmInvitationlog::$rightname   => READ,
+         PluginFlyvemdmAgent::$rightname           => READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, // No create right
+         PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT,
+         PluginFlyvemdmInvitationlog::$rightname   => READ,
          Config::$rightname                        => READ,
          Computer::$rightname                      => READ,
          Software::$rightname                      => READ,
          Entity::$rightname                        => READ,
          NetworkPort::$rightname                   => READ,
-         PluginStorkmdmWellknownpath::$rightname   => READ,
-         PluginStorkmdmEntityconfig::$rightname    => READ
-         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-         | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE,
+         PluginFlyvemdmWellknownpath::$rightname   => READ,
+         PluginFlyvemdmEntityconfig::$rightname    => READ
+         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
    ));
    $profileRight->updateProfileRights($profileId, $newRights);
    $profile = new Profile();
@@ -86,37 +86,37 @@ function update_dev(Migration $migration) {
          '_password_update'   => 1
    ]);
 
-   $table = PluginStorkmdmAgent::getTable();
+   $table = PluginFlyvemdmAgent::getTable();
    if (! FieldExists($table, 'enroll_status')) {
-      $query = "ALTER TABLE `glpi_plugin_storkmdm_agents`
+      $query = "ALTER TABLE `glpi_plugin_flyvemdm_agents`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
       $DB->query($query) or die("Could upgrade table $table" . $DB->error());
    }
 
-   $table = PluginStorkmdmPolicy::getTable();
+   $table = PluginFlyvemdmPolicy::getTable();
    $migration->addField($table, 'recommended_value', 'string', array('after' => 'default_value'));
 
    // remove download base URL setting
-   Config::deleteConfigurationValues('storkmdm', array('deploy_base_url'));
+   Config::deleteConfigurationValues('flyvemdm', array('deploy_base_url'));
 
    // @since 0.6.0
-   $migration->addField(PluginStorkmdmAgent::getTable(), 'version', 'string', array('after' => 'name'));
+   $migration->addField(PluginFlyvemdmAgent::getTable(), 'version', 'string', array('after' => 'name'));
 
-   Config::setConfigurationValues('storkmdm', array(
-         'default_agent_url' => PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL
+   Config::setConfigurationValues('flyvemdm', array(
+         'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL
    ));
 
-   $config = Config::getConfigurationValues('storkmdm', array('android_bugcollecctor'));
+   $config = Config::getConfigurationValues('flyvemdm', array('android_bugcollecctor'));
    if (!isset($config['android_bugcollecctor_url'])) {
       $config = [
             'android_bugcollecctor_url'      => '',
             'android_bugcollector_login'     => '',
             'android_bugcollector_passwd'    => '',
       ];
-      Config::setConfigurationValues('storkmdm', $config);
+      Config::setConfigurationValues('flyvemdm', $config);
    }
 
-   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_storkmdm_accountvalidations` (
+   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_accountvalidations` (
               `id`                                int(11)                  NOT NULL AUTO_INCREMENT,
               `users_id`                          int(11)                  NOT NULL DEFAULT '0',
               `assigned_entities_id`              int(11)                  NOT NULL DEFAULT '0',
@@ -133,9 +133,9 @@ function update_dev(Migration $migration) {
 
    $DB->query($query) or die("Could not create account validations table " . $DB->error());
 
-   $migration->changeField(PluginStorkmdmAccountvalidation::getTable(), 'is_reminder_sent', 'is_reminder_1_sent', 'bool');
-   $migration->addField(PluginStorkmdmAccountvalidation::getTable(), 'is_reminder_2_sent', 'bool');
-   $migration->addField(PluginStorkmdmAccountvalidation::getTable(), 'is_post_reminder_sent', 'bool');
+   $migration->changeField(PluginFlyvemdmAccountvalidation::getTable(), 'is_reminder_sent', 'is_reminder_1_sent', 'bool');
+   $migration->addField(PluginFlyvemdmAccountvalidation::getTable(), 'is_reminder_2_sent', 'bool');
+   $migration->addField(PluginFlyvemdmAccountvalidation::getTable(), 'is_post_reminder_sent', 'bool');
 
-   $migration->addField(PluginStorkmdmFleet::getTable(), `is_recursive`, 'bool');
+   $migration->addField(PluginFlyvemdmFleet::getTable(), `is_recursive`, 'bool');
 }

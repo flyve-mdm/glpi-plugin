@@ -1,12 +1,12 @@
 #!/bin/bash
 ### BEGIN INIT INFO
-# Provides:          glpi_storkmdm_mqtt_subscriber
+# Provides:          glpi_flyvemdm_mqtt_subscriber
 # Required-Start:    networking mysql
 # Required-Stop:     networking mysql
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: MQTT implementation for Stork mdm plugin for GLPI
-# Description:       Stork MDM uses MQTT to dialog with managed devices
+# Short-Description: MQTT implementation for Flyve mdm plugin for GLPI
+# Description:       Flyve MDM uses MQTT to dialog with managed devices
 #                    
 #                    
 ### END INIT INFO
@@ -14,7 +14,7 @@
 
 . /lib/lsb/init-functions
 
-NAME="Stork Mobile Device Management for GLPI"
+NAME="Flyve Mobile Device Management for GLPI"
 # Daemon name, where is the actual executable
 SELF=`readlink -f $0`
 SELFDIR=`dirname $SELF`
@@ -22,7 +22,7 @@ USER=www-data
 GROUP=www-data
 PHPCLI=/usr/bin/php
 PHP_SCRIPT=$SELFDIR/mqtt.php
-PIDFILE=/var/run/storkmdm.pid
+PIDFILE=/var/run/flyvemdm.pid
 
 ## Do some sanity checks before even trying to start.
 function sanity_checks {

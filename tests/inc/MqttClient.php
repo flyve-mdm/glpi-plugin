@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
  */
 
-class PluginStorkmdmMqttClient
+class PluginFlyvemdmMqttClient
 {
 
    public function publish($topic, $message, $qos = 0, $retain = 0) {

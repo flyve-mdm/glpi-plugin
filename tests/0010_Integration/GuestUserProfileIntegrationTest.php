@@ -33,7 +33,7 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
 {
 
    public function testInitGetGuestProfileId() {
-      $config = Config::getConfigurationValues('storkmdm', ['guest_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $this->assertArrayHasKey('guest_profiles_id', $config);
       return $config['guest_profiles_id'];
    }
@@ -43,20 +43,20 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
     * @return array Rights
     */
    public function testGetRights($profileId) {
-      $config = Config::getConfigurationValues('storkmdm', ['guest_profiles_id']);
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $profileId = $config['guest_profiles_id'];
       $rights = ProfileRight::getProfileRights(
             $profileId,
             array(
-                  PluginStorkmdmAgent::$rightname,
-                  PluginStorkmdmFleet::$rightname,
-                  PluginStorkmdmPackage::$rightname,
-                  PluginStorkmdmFile::$rightname,
-                  PluginStorkmdmGeolocation::$rightname,
-                  PluginStorkmdmWellknownpath::$rightname,
-                  PluginStorkmdmPolicy::$rightname,
-                  PluginStorkmdmPolicyCategory::$rightname,
-                  PluginStorkmdmProfile::$rightname,
+                  PluginFlyvemdmAgent::$rightname,
+                  PluginFlyvemdmFleet::$rightname,
+                  PluginFlyvemdmPackage::$rightname,
+                  PluginFlyvemdmFile::$rightname,
+                  PluginFlyvemdmGeolocation::$rightname,
+                  PluginFlyvemdmWellknownpath::$rightname,
+                  PluginFlyvemdmPolicy::$rightname,
+                  PluginFlyvemdmPolicyCategory::$rightname,
+                  PluginFlyvemdmProfile::$rightname,
             )
       );
       $this->assertGreaterThan(0, count($rights));
@@ -68,11 +68,11 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
     * @param array $rights
     */
    public function testAgentRight($rights) {
-      $this->assertEquals(READ | CREATE, $rights[PluginStorkmdmAgent::$rightname]);
+      $this->assertEquals(READ | CREATE, $rights[PluginFlyvemdmAgent::$rightname]);
    }
 
    public function testSessionHasGuestProfileId() {
-      $this->assertTrue(isset($_SESSION['plugin_storkmdm_guest_profiles_id']));
+      $this->assertTrue(isset($_SESSION['plugin_flyvemdm_guest_profiles_id']));
    }
 
    /**
@@ -80,6 +80,6 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
     * @depends testSessionHasGuestProfileId
     */
    public function testSessionGuestProfileIdValue($profileId) {
-      $this->assertEquals($profileId, $_SESSION['plugin_storkmdm_guest_profiles_id']);
+      $this->assertEquals($profileId, $_SESSION['plugin_flyvemdm_guest_profiles_id']);
    }
 }

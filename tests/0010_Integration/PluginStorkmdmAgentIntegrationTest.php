@@ -31,7 +31,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 use sskaje\mqtt\MQTT;
 
-class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
    /**
     * Create an invitation for enrollment tests
@@ -39,7 +39,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
    public function testInvitationCreation() {
       self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => self::$fixture['guestEmail'],
@@ -67,7 +67,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       $this->assertFalse($userEmail->isNewItem());
       $guestEmail = $userEmail->getField('email');
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $guestEmail,
@@ -87,7 +87,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testInvitationCreation
     * @depends testEnrollAgent
     */
-   public function testInvitationUpdate(PluginStorkmdmInvitation $invitation) {
+   public function testInvitationUpdate(PluginFlyvemdmInvitation $invitation) {
       // Refresh the invitation from DB
       $invitation->getFromDB($invitation->getID());
 
@@ -118,14 +118,14 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testGetEnrollData
     */
    public function testChangeFleet($agent) {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             'name'         => 'fleet A'
       ]);
       $this->assertFalse($fleet->isNewItem(), "Could not create a fixture fleet");
 
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -137,7 +137,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
 
       $updateSuccess = $mockAgent->update([
             'id'                          => $agent->getID(),
-            'plugin_storkmdm_fleets_id'   => $fleet->getID()
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID()
       ]);
       $topic = $agent->getTopic();
       $this->assertTrue($updateSuccess, "Failed to update the agent");
@@ -149,7 +149,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
    public function testPurgeEnroledAgent() {
       // Create invitation for an enroled agent to be purged
       $name = 'topurge@localhost.local';
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $this->assertGreaterThan(0, $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => $name,
@@ -162,7 +162,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       unset($_REQUEST['user_token']);
 
       // Enroll the agent
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $name,
@@ -176,7 +176,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       $this->assertGreaterThan(0, $agentId, "Could not create an agent to enroll then purge");
 
       // Get enrolment data to enable the agent's MQTT account
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $this->assertTrue($agent->getFromDB($agentId));
 
       // Switch back to registered user
@@ -185,7 +185,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       $this->assertTrue(self::login('glpi', 'glpi', true));
 
       $computerId = $agent->getField('computers_id');
-      $mqttUser = new PluginStorkmdmMqttuser();
+      $mqttUser = new PluginFlyvemdmMqttuser();
       $this->assertTrue($mqttUser->getByUser('UIOP'), "mqtt user has not been created");
 
       $this->assertTrue($agent->delete(['id' => $agentId], 1));
@@ -198,7 +198,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
    public function testPurgeAgent() {
       // Create invitation for an enroled agent to be purged
       $name = 'topurgebeforeenrolment@localhost.local';
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $this->assertGreaterThan(0, $invitation->add([
             'entities_id'  => $_SESSION['glpiactive_entity'],
             '_useremails'  => $name,
@@ -211,7 +211,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       unset($_REQUEST['user_token']);
 
       // Enroll the agent
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $name,
@@ -225,7 +225,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
       $this->assertGreaterThan(0, $agentId, "Could not create an agent to enroll then purge");
 
       // Get enrolment data to enable the agent's MQTT account
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $this->assertTrue($agent->getFromDB($agentId));
 
       // Get the userId of the owner of the device
@@ -267,7 +267,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     */
    public function testFailingAddAgent($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add($input);
       $this->assertFalse($agentId);
    }
@@ -276,7 +276,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testPingRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -296,7 +296,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testGeolocateRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -316,7 +316,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     */
    public function testInventoryRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -334,9 +334,9 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
 
    /**
     * @depends testEnrollAgent
-    * @param PluginStorkmdmAgent $agent
+    * @param PluginFlyvemdmAgent $agent
     */
-   public function testLockStatusUnset(PluginStorkmdmAgent $agent) {
+   public function testLockStatusUnset(PluginFlyvemdmAgent $agent) {
       // sync agent's state in memory against DB
       $agent->getFromDB($agent->getID());
       $this->assertEquals(0, $agent->getField('lock'));
@@ -345,10 +345,10 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
    /**
     * @depends testEnrollAgent
     * @testLockStatusUnset
-    * @param PluginStorkmdmAgent $agent
+    * @param PluginFlyvemdmAgent $agent
     */
    public function testLockRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -368,7 +368,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     * @depends testLockRequest
     */
-   public function testLockStateSaved(PluginStorkmdmAgent $agent) {
+   public function testLockStateSaved(PluginFlyvemdmAgent $agent) {
       // sync agent's state in memory against DB
       $agent->getFromDB($agent->getID());
       $this->assertEquals(1, $agent->getField('lock'));
@@ -379,9 +379,9 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     *
     * @depends testEnrollAgent
     * @depends testLockStateSaved
-    * @param PluginStorkmdmAgent $agent
+    * @param PluginFlyvemdmAgent $agent
     */
-   public function testWipeStatusUnset(PluginStorkmdmAgent $agent) {
+   public function testWipeStatusUnset(PluginFlyvemdmAgent $agent) {
       // sync agent's state in memory against DB
       $agent->getFromDB($agent->getID());
       $this->assertEquals(0, $agent->getField('wipe'));
@@ -392,7 +392,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testWipeStatusUnset
     */
    public function testWipeRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
       ->method('notify')
@@ -412,7 +412,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testEnrollAgent
     * @depends testWipeRequest
     */
-   public function testWipeStateSaved(PluginStorkmdmAgent $agent) {
+   public function testWipeStateSaved(PluginFlyvemdmAgent $agent) {
       // sync agent's state in memory against DB
       $agent->getFromDB($agent->getID());
       $this->assertEquals(1, $agent->getField('wipe'));
@@ -424,7 +424,7 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
     * @depends testWipeStateSaved
     * @depends testLockStateSaved
     */
-   public function testWipeOverridesLockResetLock(PluginStorkmdmAgent $agent) {
+   public function testWipeOverridesLockResetLock(PluginFlyvemdmAgent $agent) {
       $this->assertTrue($agent->update([
             'id'     => $agent->getID(),
             'lock'   => '0'
@@ -434,10 +434,10 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
 
    /**
     * @depends testWipeOverridesLockResetLock
-    * @param PluginStorkmdmAgent $agent
+    * @param PluginFlyvemdmAgent $agent
     */
-   public function testWipeOverridesLockEnableWipe(PluginStorkmdmAgent $agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+   public function testWipeOverridesLockEnableWipe(PluginFlyvemdmAgent $agent) {
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->never())
       ->method('notify');
@@ -451,9 +451,9 @@ class PluginStorkmdmAgentIntegrationTest extends RegisteredUserTestCase {
    /**
     * @depends testWipeOverridesLockResetLock
     * @depends testWipeOverridesLockEnableWipe
-    * @param PluginStorkmdmAgent $agent
+    * @param PluginFlyvemdmAgent $agent
     */
-   public function testWipeOverridesLockFinalState(PluginStorkmdmAgent $agent) {
+   public function testWipeOverridesLockFinalState(PluginFlyvemdmAgent $agent) {
       // Reload agent to sync with DB
       $agent->getFromDB($agent->getID());
       $this->assertTrue($agent->getField('wipe') == '1' && $agent->getField('lock') == '1');

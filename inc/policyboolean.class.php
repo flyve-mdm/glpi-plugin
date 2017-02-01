@@ -35,12 +35,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicyBoolean extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @param string $properties
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
@@ -49,7 +49,7 @@ class PluginStorkmdmPolicyBoolean extends PluginStorkmdmPolicyBase implements Pl
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // no item link allowed
@@ -64,7 +64,7 @@ class PluginStorkmdmPolicyBoolean extends PluginStorkmdmPolicyBase implements Pl
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::apply()
+    * @see PluginFlyvemdmPolicyInterface::apply()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {

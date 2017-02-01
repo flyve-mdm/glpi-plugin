@@ -29,42 +29,42 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyDropdownTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyDropdownTest extends SuperAdminTestCase {
 
    public function testCreatePolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'testGroup',
             'symbol'    => 'dropdownPolicy',
             'type_data' => '{"VAL_1":"value 1", "VAL_2":"value 2"}',
             'unicity'   => '1',
       ];
-      $policy = new PluginStorkmdmPolicyDropdown($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyDropdown', $policy);
+      $policy = new PluginFlyvemdmPolicyDropdown($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyDropdown', $policy);
       return $policy;
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithValidItem(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithValidItem(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck("VAL_1", null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithInvalidItem(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithInvalidItem(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck("VAL_INVALID", null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testApplyPolicy(PluginStorkmdmPolicyInterface $policy) {
+   public function testApplyPolicy(PluginFlyvemdmPolicyInterface $policy) {
       $array = $policy->getMqttMessage('VAL_1', null, '0');
       reset($array);
       $symbol = key($array);

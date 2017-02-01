@@ -29,10 +29,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
 
    public function testInitAddFleet() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'entities_id'     => $_SESSION['glpiactive_entity'],
             'name'            => 'a fleet'
@@ -51,7 +51,7 @@ class PluginStorkmdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
     * @depends testGetGuestEmail
     */
    public function testInitInvitationCreation($guestEmail) {
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => $guestEmail,
@@ -72,7 +72,7 @@ class PluginStorkmdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => 'guestuser0001@localhost.local',
@@ -94,25 +94,25 @@ class PluginStorkmdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
    public function testApplyPolicy($fleet) {
       global $DB;
 
-      $policy = new PluginStorkmdmPolicy();
+      $policy = new PluginFlyvemdmPolicy();
       $policy->getFromDBByQuery("WHERE `symbol` = 'storageEncryption'");
       $groupName = $policy->getField('group');
       $this->assertGreaterThan(0, $policy->getID(), "Could not find the test policy");
       $fleetId = $fleet->getID();
 
-      $table = PluginStorkmdmMqttupdatequeue::getTable();
+      $table = PluginFlyvemdmMqttupdatequeue::getTable();
       $this->assertTrue($DB->query("TRUNCATE TABLE `$table`"));
 
-      $fleet_Policy = new PluginStorkmdmFleet_Policy();
+      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
       $addSuccess = $fleet_Policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleetId,
-            'plugin_storkmdm_policies_id' => $policy->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleetId,
+            'plugin_flyvemdm_policies_id' => $policy->getID(),
             'value'                       => '0'
       ]);
 
-      $mqttUpdateQueue = new PluginStorkmdmMqttupdatequeue();
+      $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
       $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-                                      AND `plugin_storkmdm_fleets_id` = '$fleetId'
+                                      AND `plugin_flyvemdm_fleets_id` = '$fleetId'
                                       AND `status` = 'queued'");
       $this->assertCount(1, $rows);
 
@@ -124,14 +124,14 @@ class PluginStorkmdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
     * @depends testApplyPolicy
     */
    public function testApplyUniquePolicyTwice($fleet) {
-      $fleet_Policy = new PluginStorkmdmFleet_Policy();
-      $policy = new PluginStorkmdmPolicy();
+      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
+      $policy = new PluginFlyvemdmPolicy();
       $policy->getFromDBByQuery("WHERE `symbol`='storageEncryption'");
       $this->assertGreaterThan(0, $policy->getID(), "Could not find the test policy");
 
       $fleet_PolicyId = $fleet_Policy->add([
-            'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-            'plugin_storkmdm_policies_id' => $policy->getID(),
+            'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policy->getID(),
             'value'                       => '0'
       ]);
       $this->assertFalse($fleet_PolicyId);

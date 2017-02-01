@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqttlog extends CommonDBTM {
+class PluginFlyvemdmMqttlog extends CommonDBTM {
 
    const MQTT_MAXIMUM_DURATION = 60;
 
@@ -64,7 +64,7 @@ class PluginStorkmdmMqttlog extends CommonDBTM {
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      return _n('MQTT subscriber', 'MQTT subscribers', $nb, "storkmdm");
+      return _n('MQTT subscriber', 'MQTT subscribers', $nb, "flyvemdm");
    }
 
    /**

@@ -36,13 +36,13 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmConfig extends CommonDBTM {
+class PluginFlyvemdmConfig extends CommonDBTM {
 
    // Type reservation : https://forge.indepnet.net/projects/plugins/wiki/PluginTypesReservation
    const RESERVED_TYPE_RANGE_MIN = 11000;
    const RESERVED_TYPE_RANGE_MAX = 11049;
 
-   const PLUGIN_STORKMDM_MQTT_CLIENT = "storkmdm";
+   const PLUGIN_FLYVEMDM_MQTT_CLIENT = "flyvemdm";
 
    static $config = array();
 
@@ -50,112 +50,112 @@ class PluginStorkmdmConfig extends CommonDBTM {
     * Display the configuration form for the plugin.
     */
    public function showForm() {
-      $config = Config::getConfigurationValues('storkmdm');
+      $config = Config::getConfigurationValues('flyvemdm');
 
-      echo '<form id="pluginStorkmdm-config" method="post" action="./config.form.php">';
+      echo '<form id="pluginFlyvemdm-config" method="post" action="./config.form.php">';
       echo '<table class="tab_cadre" cellpadding="5">';
-      echo '<tr><th colspan="3">'.__('Stork MDM settings', "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__('Flyve MDM settings', "flyvemdm").'</th></tr>';
 
       $user = new User();
 
-      echo '<tr><th colspan="3">'.__("MQTT broker", "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__("MQTT broker", "flyvemdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker address", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker address", "flyvemdm").'</td>';
       echo '<td><input type="text" name="mqtt_broker_address"' .
          'value="'. $config['mqtt_broker_address'] .'" />';
       echo '</td>';
-      echo '<td>'. __("mqtt broker address example", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker address example", "flyvemdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker internal address", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker internal address", "flyvemdm").'</td>';
       echo '<td><input type="text" name="mqtt_broker_internal_address"' .
          'value="'. $config['mqtt_broker_internal_address'] .'" />';
       echo '</td>';
-      echo '<td>'. __("mqtt broker address example", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker address example", "flyvemdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker port", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker port", "flyvemdm").'</td>';
       echo '<td><input type="number" name="mqtt_broker_port"' .
             'value="'. $config['mqtt_broker_port'] .'" min="1" max="65535" />';
       echo '</td>';
-      echo '<td>'. __("mqtt broker port example", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker port example", "flyvemdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("use TLS", "storkmdm").'</td>';
+      echo '<td>'. __("use TLS", "flyvemdm").'</td>';
       echo '<td>' . Dropdown::showYesNo('mqtt_broker_tls', $config['mqtt_broker_tls'], -1, array('display' => false));
       echo '</td>';
       echo '<td></td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("CA certificate", "storkmdm").'</td>';
+      echo '<td>'. __("CA certificate", "flyvemdm").'</td>';
       echo '<td>' . Html::file(array('name' => 'CACertificateFile')) . '</td>';
       echo '</td>';
       echo '<td></td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Cipher suite (TLS enabled)", "storkmdm").'</td>';
+      echo '<td>'. __("Cipher suite (TLS enabled)", "flyvemdm").'</td>';
       echo '<td><input type="text" name="mqtt_broker_tls_ciphers"' .
             'value="'. $config['mqtt_broker_tls_ciphers'] .'" />';
       echo '</td>';
-      echo '<td>'. __("mqtt broker cipher suite", "storkmdm").'</td>';
+      echo '<td>'. __("mqtt broker cipher suite", "flyvemdm").'</td>';
       echo '</tr>';
 
-      echo '<tr><td>'.__('test', "storkmdm").'</td>';
-      echo '<td><input type="button" id="pluginStorkmdm-mqtt-test" name="mqtt-test" value="'.__('Test', "storkmdm").'" class="submit">';
-      echo '<span id="pluginStorkmdm-test-feedback"></span>';
+      echo '<tr><td>'.__('test', "flyvemdm").'</td>';
+      echo '<td><input type="button" id="pluginFlyvemdm-mqtt-test" name="mqtt-test" value="'.__('Test', "flyvemdm").'" class="submit">';
+      echo '<span id="pluginFlyvemdm-test-feedback"></span>';
       echo '</td></tr>';
 
-      echo '<tr><th colspan="3">'.__("Client certificate server (Broker MQTT with TLS enabled)", "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__("Client certificate server (Broker MQTT with TLS enabled)", "flyvemdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("use client certificates", "storkmdm").'</td>';
+      echo '<td>'. __("use client certificates", "flyvemdm").'</td>';
       echo '<td>' . Dropdown::showYesNo('mqtt_use_client_cert', $config['mqtt_use_client_cert'], -1, array('display' => false));
       echo '</td>';
       echo '<td></td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Ssl certificate server for MQTT clients", "storkmdm").'</td>';
+      echo '<td>'. __("Ssl certificate server for MQTT clients", "flyvemdm").'</td>';
       echo '<td><input type="text" name="ssl_cert_url"' .
             'value="'. $config['ssl_cert_url'] .'" />';
       echo '</td>';
-      echo '<td>'. __("https://cert.domain.com/path/to/service", "storkmdm").'</td>';
+      echo '<td>'. __("https://cert.domain.com/path/to/service", "flyvemdm").'</td>';
       echo '</tr>';
 
-      echo '<tr><th colspan="3">'.__('Debug mode', "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__('Debug mode', "flyvemdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Enable explicit enrolment failures", "storkmdm").'</td>';
+      echo '<td>'. __("Enable explicit enrolment failures", "flyvemdm").'</td>';
       echo '<td>' . Dropdown::showYesNo('debug_enrolment', $config['debug_enrolment'], -1, array('display' => false));
       echo '</td>';
       echo '<td>'. '' .'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Disable token expiration on successful enrolment", "storkmdm").'</td>';
+      echo '<td>'. __("Disable token expiration on successful enrolment", "flyvemdm").'</td>';
       echo '<td>' . Dropdown::showYesNo('debug_noexpire', $config['debug_noexpire'], -1, array('display' => false));
       echo '</td>';
       echo '<td>'. '' .'</td>';
       echo '</tr>';
 
-      echo '<tr><th colspan="3">'.__('Bug collector', "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__('Bug collector', "flyvemdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector URL", "storkmdm").'</td>';
+      echo '<td>'. __("Android bug collector URL", "flyvemdm").'</td>';
       echo '<td><input type="text" name="android_bugcollecctor_url"' .
             'value="'. $config['android_bugcollecctor_url'] .'" />';
       echo '</td>';
-      echo '<td>'. __("https://bugreport.flyvemdm.com/path/to/service", "storkmdm").'</td>';
+      echo '<td>'. __("https://bugreport.flyvemdm.com/path/to/service", "flyvemdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector user", "storkmdm").'</td>';
+      echo '<td>'. __("Android bug collector user", "flyvemdm").'</td>';
       echo '<td><input type="text" name="android_bugcollector_login"' .
             'value="'. $config['android_bugcollector_login'] .'" />';
       echo '</td>';
@@ -163,27 +163,27 @@ class PluginStorkmdmConfig extends CommonDBTM {
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector password", "storkmdm").'</td>';
+      echo '<td>'. __("Android bug collector password", "flyvemdm").'</td>';
       echo '<td><input type="password" name="android_bugcollector_passwd"' .
             'value="'. $config['android_bugcollector_passwd'] .'" />';
       echo '</td>';
       echo '<td></td>';
       echo '</tr>';
 
-      echo '<tr><th colspan="3">'.__('Restrictions', "storkmdm").'</th></tr>';
+      echo '<tr><th colspan="3">'.__('Restrictions', "flyvemdm").'</th></tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Default device limit per entity", "storkmdm").'</td>';
+      echo '<td>'. __("Default device limit per entity", "flyvemdm").'</td>';
       echo '<td><input type="number" name="default_device_limit"' .
             'value="'. $config['default_device_limit'] .'" min="0" />';
       echo '</td>';
-      echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "storkmdm").'</td>';
+      echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "flyvemdm").'</td>';
       echo '</tr>';
 
       echo '<tr class="tab_bg_1"><td class="center" colspan="2">';
       echo '<input type="hidden" name="id" value="1" class="submit">';
-      echo '<input type="hidden" name="config_context" value="storkmdm">';
-      echo '<input type="hidden" name="config_class" value="PluginStorkmdmConfig">';
+      echo '<input type="hidden" name="config_context" value="flyvemdm">';
+      echo '<input type="hidden" name="config_class" value="PluginFlyvemdmConfig">';
       echo '<input type="submit" name="update" value="'.__('Save').'" class="submit">';
       echo '</td></tr>';
 
@@ -211,14 +211,14 @@ class PluginStorkmdmConfig extends CommonDBTM {
          if (isset($input['_CACertificateFile'][0])) {
             $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
             if (is_writable($file)) {
-               rename($file, STORKMDM_CONFIG_CACERTMQTT);
+               rename($file, FLYVEMDM_CONFIG_CACERTMQTT);
             }
          }
       }
       if (isset($input['demo_mode'])) {
          if ($input['demo_mode'] != '0'
                && (!isset($input['webapp_url']) || empty($input['webapp_url']))) {
-            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'storkmdm', false, ERROR));
+            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'flyvemdm', false, ERROR));
             unset($input['demo_mode']);
          } else {
             $config = new static();
@@ -246,7 +246,7 @@ class PluginStorkmdmConfig extends CommonDBTM {
    }
 
    public static function undiscloseConfigValue($fields) {
-      if ($fields['context'] == 'storkmdm'
+      if ($fields['context'] == 'flyvemdm'
             && in_array($fields['name'], array('mqtt_passwd'))) {
          unset($fields['value']);
       }

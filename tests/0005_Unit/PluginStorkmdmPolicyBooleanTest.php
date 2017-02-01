@@ -29,10 +29,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyBooleanTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyBooleanTest extends SuperAdminTestCase {
 
    public function testCreatePolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'testGroup',
             'symbol'    => 'booleanPolicy',
@@ -40,48 +40,48 @@ class PluginStorkmdmPolicyBooleanTest extends SuperAdminTestCase {
             'unicity'   => '1',
             'value'     => '0'
       ];
-      $policy = new PluginStorkmdmPolicyBoolean($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyBoolean', $policy);
+      $policy = new PluginFlyvemdmPolicyBoolean($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyBoolean', $policy);
       return $policy;
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithFalse(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithFalse(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck('0', null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithTrue(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithTrue(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck('1', null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithNonBoolean(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithNonBoolean(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck('something', null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithItemtype(PluginStorkmdmPolicyInterface $policy) {
-      $this->assertFalse($policy->integrityCheck('0', 'PluginStorkmdmFile', '1'));
+   public function testIntegrityCheckWithItemtype(PluginFlyvemdmPolicyInterface $policy) {
+      $this->assertFalse($policy->integrityCheck('0', 'PluginFlyvemdmFile', '1'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testApplyPolicy(PluginStorkmdmPolicyInterface $policy) {
+   public function testApplyPolicy(PluginFlyvemdmPolicyInterface $policy) {
       $array = $policy->getMqttMessage('0', null, '0');
       reset($array);
       $symbol = key($array);

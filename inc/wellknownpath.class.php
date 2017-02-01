@@ -36,17 +36,17 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0.33
  */
-class PluginStorkmdmWellknownpath extends CommonDropdown {
+class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    // name of the right in DB
-   public static $rightname            = 'storkmdm:wellknownpath';
+   public static $rightname            = 'flyvemdm:wellknownpath';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      return __s('Well known path', 'storkmdm');
+      return __s('Well known path', 'flyvemdm');
    }
 
    /**
@@ -77,7 +77,7 @@ class PluginStorkmdmWellknownpath extends CommonDropdown {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Wellknownpath', "storkmdm");
+      $tab['common']             = __s('Wellknownpath', "flyvemdm");
 
       $i = 1;
       $tab[$i]['table']           = self::getTable();
@@ -96,14 +96,14 @@ class PluginStorkmdmWellknownpath extends CommonDropdown {
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'comment';
-      $tab[$i]['name']            = __('comment', 'storkmdm');
+      $tab[$i]['name']            = __('comment', 'flyvemdm');
       $tab[$i]['massiveaction']   = false;
       $tab[$i]['datatype']        = 'text';
 
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'is_default';
-      $tab[$i]['name']            = __('default', 'storkmdm');
+      $tab[$i]['name']            = __('default', 'flyvemdm');
       $tab[$i]['massiveaction']   = false;
       $tab[$i]['datatype']        = 'bool';
 

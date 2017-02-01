@@ -46,10 +46,10 @@ class ComputerPurgeCleanupsGeolocationTest extends RegisteredUserTestCase
    /**
     * @depends testInitCreateComputer
     * @param Computer $computer
-    * @return PluginStorkmdmGeolocation
+    * @return PluginFlyvemdmGeolocation
     */
    public function testInitCreateGeolocationEntries(Computer $computer) {
-      $geolocation = new PluginStorkmdmGeolocation();
+      $geolocation = new PluginFlyvemdmGeolocation();
       $geolocation->add([
             'computers_id' => $computer->getID(),
             'latitude'     => '1',
@@ -66,14 +66,14 @@ class ComputerPurgeCleanupsGeolocationTest extends RegisteredUserTestCase
     * @depends testInitCreateComputer
     * @depends testInitCreateGeolocationEntries
     */
-   public function testPurgeComputer(Computer $computer, PluginStorkmdmGeolocation $geolocation) {
+   public function testPurgeComputer(Computer $computer, PluginFlyvemdmGeolocation $geolocation) {
       $compuerId = $computer->getID();
       $geolocationId = $geolocation->getID();
       $computer->delete([
             'id'  => $compuerId
       ], 1);
       $computer = new Computer();
-      $geolocation = new PluginStorkmdmGeolocation();
+      $geolocation = new PluginFlyvemdmGeolocation();
       $computer->getFromDB($compuerId);
       $geolocation->getFromDB($geolocationId);
 

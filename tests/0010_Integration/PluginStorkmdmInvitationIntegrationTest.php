@@ -30,7 +30,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 use Flyvemdm\Test\ApiRestTestCase;
 
-class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
+class PluginFlyvemdmInvitationIntegrationTest extends ApiRestTestCase {
    /**
     * The current session token
     * @var string
@@ -125,14 +125,14 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitation->getFromDB($this->restResponse['id']);
       return $invitation;
    }
 
    /**
     * @depends testCreateInvitation
-    * @param PluginStorkmdmInvitation $invitation
+    * @param PluginFlyvemdmInvitation $invitation
     */
    public function testUserCreated($invitation) {
       $user = new User();
@@ -152,7 +152,7 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
 
    /**
     * @depends testCreateInvitation
-    * @param PluginStorkmdmInvitation $firstInvitation
+    * @param PluginFlyvemdmInvitation $firstInvitation
     */
    public function testCreateInvitationForTheSameUser($firstInvitation) {
       $body = json_encode([
@@ -167,7 +167,7 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitation->getFromDB($this->restResponse['id']);
       return $invitation;
    }
@@ -175,8 +175,8 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
    /**
     * @depends testCreateInvitation
     * @depends testCreateInvitationForTheSameUser
-    * @param PluginStorkmdmInvitation $invitation
-    * @param PluginStorkmdmInvitation $secondInvntation
+    * @param PluginFlyvemdmInvitation $invitation
+    * @param PluginFlyvemdmInvitation $secondInvntation
     */
    public function testSecondInvitationHasSameUserThanFirstOne($invitation, $secondInvntation) {
       $this->assertEquals($invitation->getField('users_id'), $secondInvntation->getField('users_id'));
@@ -213,7 +213,7 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
 
       // Check the invitation is actually created
       $invitationId = $this->restResponse['id'];
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitation->getFromDB($invitationId);
       $this->assertFalse($invitation->isNewItem());
 
@@ -225,7 +225,7 @@ class PluginStorkmdmInvitationIntegrationTest extends ApiRestTestCase {
 
       // Check the notifications email is queued
       $queuedMail = new QueuedMail();
-      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginStorkmdmInvitation' AND `items_id`='$invitationId'");
+      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'");
       $this->assertFalse($queuedMail->isNewItem());
 
       // Check a QR code document has been created

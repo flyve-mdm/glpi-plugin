@@ -37,7 +37,7 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
    public function testInitInvitationCreation() {
       self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
 
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => self::$fixture['guestEmail'],
@@ -58,7 +58,7 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
 
-      $agent = new PluginStorkmdmAgent();
+      $agent = new PluginFlyvemdmAgent();
       $agentId = $agent ->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => self::$fixture['guestEmail'],
@@ -78,8 +78,8 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
    /**
     * @depends testInitEnrollAgent
     */
-   public function testUnenrollAgent(PluginStorkmdmAgent $agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['notify']);
+   public function testUnenrollAgent(PluginFlyvemdmAgent $agent) {
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
 
       $mockAgent->expects($this->once())
                 ->method('notify')
@@ -100,8 +100,8 @@ class DeviceUnenrollmentTest extends RegisteredUserTestCase {
    /**
     * @depends testInitEnrollAgent
     */
-   public function testDelete(PluginStorkmdmAgent $agent) {
-      $mockAgent = $this->getMockForItemtype(PluginStorkmdmAgent::class, ['cleanupSubtopics']);
+   public function testDelete(PluginFlyvemdmAgent $agent) {
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['cleanupSubtopics']);
 
       $mockAgent->expects($this->once())
                 ->method('cleanupSubtopics');

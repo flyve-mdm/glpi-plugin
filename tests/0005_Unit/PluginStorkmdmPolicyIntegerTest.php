@@ -29,42 +29,42 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyIntegerTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyIntegerTest extends SuperAdminTestCase {
 
    public function testCreatePolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'testGroup',
             'symbol'    => 'integerPolicy',
             'type_data' => '',
             'unicity'   => '1',
       ];
-      $policy = new PluginStorkmdmPolicyInteger($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyInteger', $policy);
+      $policy = new PluginFlyvemdmPolicyInteger($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyInteger', $policy);
       return $policy;
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithNonInteger(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithNonInteger(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck('a string', null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testIntegrityCheckWithInteger(PluginStorkmdmPolicyInterface $policy) {
+   public function testIntegrityCheckWithInteger(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck('42', null, '0'));
    }
 
    /**
     * @depends testCreatePolicy
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testApplyPolicy(PluginStorkmdmPolicyInterface $policy) {
+   public function testApplyPolicy(PluginFlyvemdmPolicyInterface $policy) {
       $array = $policy->getMqttMessage('6', null, '0');
       reset($array);
       $symbol = key($array);
@@ -72,47 +72,47 @@ class PluginStorkmdmPolicyIntegerTest extends SuperAdminTestCase {
    }
 
    public function testCreatePolicyWithConstraints() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->fields = [
             'group'     => 'testGroup',
             'symbol'    => 'integerPolicy',
             'type_data' => '{"min":"-5", "max":"5"}',
             'unicity'   => '1'
       ];
-      $policy = new PluginStorkmdmPolicyInteger($policyData);
-      $this->assertInstanceOf('PluginStorkmdmPolicyInteger', $policy);
+      $policy = new PluginFlyvemdmPolicyInteger($policyData);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyInteger', $policy);
       return $policy;
    }
 
    /**
     * @depends testCreatePolicyWithConstraints
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testCheckLessThanMinimum(PluginStorkmdmPolicyInterface $policy) {
+   public function testCheckLessThanMinimum(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck('-10', null, '0'));
    }
 
    /**
     * @depends testCreatePolicyWithConstraints
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testCheckGreaterThanMaximum(PluginStorkmdmPolicyInterface $policy) {
+   public function testCheckGreaterThanMaximum(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck('10', null, '0'));
    }
 
    /**
     * @depends testCreatePolicyWithConstraints
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testCheckBetweenLimits(PluginStorkmdmPolicyInterface $policy) {
+   public function testCheckBetweenLimits(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertTrue($policy->integrityCheck('3', null, '0'));
    }
 
    /**
     * @depends testCreatePolicyWithConstraints
-    * @param PluginStorkmdmPolicyInterface $policy
+    * @param PluginFlyvemdmPolicyInterface $policy
     */
-   public function testCheckString(PluginStorkmdmPolicyInterface $policy) {
+   public function testCheckString(PluginFlyvemdmPolicyInterface $policy) {
       $this->assertFalse($policy->integrityCheck('a string', null, '0'));
    }
 

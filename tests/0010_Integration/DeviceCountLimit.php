@@ -38,7 +38,7 @@ class DeviceCountLimit extends RegisteredUserTestCase {
     * before creating the registered user account
     */
    public function testInitDeviceLimit() {
-      $entityConfig = new PluginStorkmdmEntityConfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       $entityConfig->update(array(
          'id'           => $_SESSION['glpiactive_entity'],
          'device_limit' => self::$deviceLimit
@@ -49,7 +49,7 @@ class DeviceCountLimit extends RegisteredUserTestCase {
       $data = array();
       for ($i = 0; $i <=  self::$deviceLimit; $i++) {
          $email = "guestuser$i@localhost.local";
-         $invitation = new PluginStorkmdmInvitation();
+         $invitation = new PluginFlyvemdmInvitation();
          $invitationId = $invitation->add([
                'entities_id'  => $_SESSION['glpiactive_entity'],
                '_useremails'  => $email,
@@ -76,7 +76,7 @@ class DeviceCountLimit extends RegisteredUserTestCase {
          $this->assertTrue(self::login('', '', false));
          unset($_REQUEST['user_token']);
 
-         $agent = new PluginStorkmdmAgent();
+         $agent = new PluginFlyvemdmAgent();
          $agentId = $agent ->add([
                'entities_id'        => $_SESSION['glpiactive_entity'],
                '_email'             => $email,
@@ -99,7 +99,7 @@ class DeviceCountLimit extends RegisteredUserTestCase {
    }
 
    public function testRegisteredUserCannotChangeLimit() {
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityconfig();
       $right = $entityConfig->canUpdate();
       $right = ($right === null || $right === false);
       $this->assertTrue($right);

@@ -41,7 +41,7 @@ class GuestUserTestCase extends CommonTestCase
 
       // Create the registered user acount
       self::login('glpi', 'glpi', true);
-//       $user = new PluginStorkmdmUser();
+//       $user = new PluginFlyvemdmUser();
 //       $userId = $user->add([
 //          'name'      => 'registereduser@localhost.local',
 //          'password'  => 'password',
@@ -53,7 +53,7 @@ class GuestUserTestCase extends CommonTestCase
 //       // The registered user creates an invitation
 //       self::login('registereduser@localhost.local', 'password', true);
       self::$fixture['guestEmail'] = "guest@localhost.local";
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
          'entities_id'  => $_SESSION['glpiactive_entity'],
          '_useremails'  => self::$fixture['guestEmail'],

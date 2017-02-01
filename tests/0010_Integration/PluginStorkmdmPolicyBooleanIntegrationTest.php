@@ -29,10 +29,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginStorkmdmPolicyBooleanIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmPolicyBooleanIntegrationTest extends RegisteredUserTestCase {
 
    public function testInitAddPolicy() {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       $policyData->add([
             'name'      => 'boolean policy',
             'symbol'    => 'booleanTest',
@@ -47,9 +47,9 @@ class PluginStorkmdmPolicyBooleanIntegrationTest extends RegisteredUserTestCase 
     * @depends testInitAddPolicy
     */
    public function testGetBooleanPolicy($policyData) {
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
-      $this->assertInstanceOf('PluginStorkmdmPolicyBoolean', $policy);
+      $this->assertInstanceOf('PluginFlyvemdmPolicyBoolean', $policy);
       return $policy;
    }
 

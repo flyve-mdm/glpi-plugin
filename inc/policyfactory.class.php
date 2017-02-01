@@ -37,44 +37,44 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 0.1.0.33
  */
-class PluginStorkmdmPolicyFactory {
+class PluginFlyvemdmPolicyFactory {
 
    /**
     * Create an empty policy by type
     * @param string $type
     */
-   public function createFromPolicy(PluginStorkmdmPolicy $policyData) {
+   public function createFromPolicy(PluginFlyvemdmPolicy $policyData) {
       switch ($policyData->getField('type')) {
          case 'string':
-            $policy = new PluginStorkmdmPolicyString($policyData);
+            $policy = new PluginFlyvemdmPolicyString($policyData);
             break;
 
          case 'bool':
-            $policy = new PluginStorkmdmPolicyBoolean($policyData);
+            $policy = new PluginFlyvemdmPolicyBoolean($policyData);
             break;
 
          case 'int':
-            $policy = new PluginStorkmdmPolicyInteger($policyData);
+            $policy = new PluginFlyvemdmPolicyInteger($policyData);
             break;
 
          case 'dropdown':
-            $policy = new PluginStorkmdmPolicyDropdown($policyData);
+            $policy = new PluginFlyvemdmPolicyDropdown($policyData);
             break;
 
          case 'deployapp':
-            $policy = new PluginStorkmdmPolicyDeployapplication($policyData);
+            $policy = new PluginFlyvemdmPolicyDeployapplication($policyData);
             break;
 
          case 'removeapp':
-            $policy = new PluginStorkmdmPolicyRemoveapplication($policyData);
+            $policy = new PluginFlyvemdmPolicyRemoveapplication($policyData);
             break;
 
          case 'deployfile':
-            $policy = new PluginStorkmdmPolicyDeployfile($policyData);
+            $policy = new PluginFlyvemdmPolicyDeployfile($policyData);
             break;
 
          case 'removefile':
-            $policy = new PluginStorkmdmPolicyRemovefile($policyData);
+            $policy = new PluginFlyvemdmPolicyRemovefile($policyData);
             break;
 
          default:
@@ -87,10 +87,10 @@ class PluginStorkmdmPolicyFactory {
    /**
     * Create and returns a policy from DB
     * @param integer $id
-    * @return PluginStorkmdmPolicyInterface
+    * @return PluginFlyvemdmPolicyInterface
     */
    public function createFromDBByID($id) {
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       if (!$policyData->getFromDB($id)) {
          return null;
       }

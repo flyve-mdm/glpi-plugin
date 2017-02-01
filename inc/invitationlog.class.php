@@ -33,12 +33,12 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginStorkmdmInvitationlog extends CommonDBTM {
+class PluginFlyvemdmInvitationlog extends CommonDBTM {
 
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'storkmdm:invitationLog';
+   public static $rightname            = 'flyvemdm:invitationLog';
 
    /**
     * Localized name of the type
@@ -46,7 +46,7 @@ class PluginStorkmdmInvitationlog extends CommonDBTM {
     */
    public static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Invitation log', 'Invitation logs', $nb, "storkmdm");
+      return _n('Invitation log', 'Invitation logs', $nb, "flyvemdm");
    }
 
    /**
@@ -69,7 +69,7 @@ class PluginStorkmdmInvitationlog extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Invitation log', "storkmdm");
+      $tab['common']             = __s('Invitation log', "flyvemdm");
 
       $i = 2;
       $tab[$i]['table']           = self::getTable();
@@ -86,7 +86,7 @@ class PluginStorkmdmInvitationlog extends CommonDBTM {
       $tab[$i]['datatype']        = 'datetime';
 
       $i++;
-      $tab[$i]['table']           = PluginStorkmdmInvitation::getTable();
+      $tab[$i]['table']           = PluginFlyvemdmInvitation::getTable();
       $tab[$i]['field']           = 'id';
       $tab[$i]['name']            = __('ID');
       $tab[$i]['massiveaction']   = false;
@@ -95,7 +95,7 @@ class PluginStorkmdmInvitationlog extends CommonDBTM {
       $i++;
       $tab[$i]['table']           = self::getTable();
       $tab[$i]['field']           = 'event';
-      $tab[$i]['name']            = __('event', 'storkmdm');
+      $tab[$i]['name']            = __('event', 'flyvemdm');
       $tab[$i]['massiveaction']   = false;
       $tab[$i]['datatype']        = 'string';
 

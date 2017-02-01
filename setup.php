@@ -29,135 +29,135 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-define ("PLUGIN_STORKMDM_VERSION", "1.1.1");
+define ("PLUGIN_FLYVEMDM_VERSION", "1.1.1");
 // Minimal GLPI version, inclusive
-define ("PLUGIN_STORKMDM_GLPI_MIN_VERSION", "9.1.1");
+define ("PLUGIN_FLYVEMDM_GLPI_MIN_VERSION", "9.1.1");
 // Maximum GLPI version, exclusive
-define ("PLUGIN_STORKMDM_GLPI_MAX_VERSION", "9.3");
+define ("PLUGIN_FLYVEMDM_GLPI_MAX_VERSION", "9.3");
 // Minimum PHP version inclusive
-define ("PLUGIN_STORKMDM_PHP_MIN_VERSION", "5.5");
+define ("PLUGIN_FLYVEMDM_PHP_MIN_VERSION", "5.5");
 
-define ("PLUGIN_STORKMDM_ROOT", GLPI_ROOT . "/plugins/storkmdm");
+define ("PLUGIN_FLYVEMDM_ROOT", GLPI_ROOT . "/plugins/flyvemdm");
 
-define ("PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL", 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
+define ("PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL", 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
 
-if (!defined("STORKMDM_CONFIG_PATH")) {
-   define("STORKMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . "/storkmdm");
+if (!defined("FLYVEMDM_CONFIG_PATH")) {
+   define("FLYVEMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
 }
 
-if (!defined("STORKMDM_CONFIG_CACERTMQTT")) {
-   define("STORKMDM_CONFIG_CACERTMQTT", STORKMDM_CONFIG_PATH . "/CACert-mqtt.crt");
+if (!defined("FLYVEMDM_CONFIG_CACERTMQTT")) {
+   define("FLYVEMDM_CONFIG_CACERTMQTT", FLYVEMDM_CONFIG_PATH . "/CACert-mqtt.crt");
 }
 
-if (!defined("STORKMDM_PACKAGE_PATH")) {
-   define("STORKMDM_PACKAGE_PATH", GLPI_PLUGIN_DOC_DIR . "/storkmdm/package");
+if (!defined("FLYVEMDM_PACKAGE_PATH")) {
+   define("FLYVEMDM_PACKAGE_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm/package");
 }
 
-if (!defined("STORKMDM_FILE_PATH")) {
-   define("STORKMDM_FILE_PATH", GLPI_PLUGIN_DOC_DIR . "/storkmdm/file");
+if (!defined("FLYVEMDM_FILE_PATH")) {
+   define("FLYVEMDM_FILE_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm/file");
 }
 
 // Init the hooks of the plugins -Needed
-function plugin_init_storkmdm() {
+function plugin_init_flyvemdm() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
-   $PLUGIN_HOOKS['csrf_compliant']['storkmdm'] = true;
-   $PLUGIN_HOOKS['undiscloseConfigValue']['storkmdm'] = array('PluginStorkmdmConfig', 'undiscloseConfigValue');
+   $PLUGIN_HOOKS['csrf_compliant']['flyvemdm'] = true;
+   $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = array('PluginFlyvemdmConfig', 'undiscloseConfigValue');
 
    $plugin = new Plugin();
 
-   $config = Config::getConfigurationValues('storkmdm', array('version'));
-   if (isset($config['version']) && $config['version'] != PLUGIN_STORKMDM_VERSION) {
-      $plugin->getFromDBbyDir('storkmdm');
+   $config = Config::getConfigurationValues('flyvemdm', array('version'));
+   if (isset($config['version']) && $config['version'] != PLUGIN_FLYVEMDM_VERSION) {
+      $plugin->getFromDBbyDir('flyvemdm');
       $plugin->update([
             'id'     => $plugin->getID(),
             'state'  => Plugin::NOTUPDATED
       ]);
    }
 
-   if ($plugin->isInstalled("storkmdm") && $plugin->isActivated("storkmdm")) {
+   if ($plugin->isInstalled("flyvemdm") && $plugin->isActivated("flyvemdm")) {
       require_once(__DIR__ . '/vendor/autoload.php');
 
-      $PLUGIN_HOOKS['change_profile']['storkmdm']   = array('PluginStorkmdmProfile','changeProfile');
+      $PLUGIN_HOOKS['change_profile']['flyvemdm']   = array('PluginFlyvemdmProfile','changeProfile');
 
-      Plugin::registerClass('PluginStorkmdmMqttsubscriber');
-      Plugin::registerClass('PluginStorkmdmAgent');
-      Plugin::registerClass('PluginStorkmdmProfile',
+      Plugin::registerClass('PluginFlyvemdmMqttsubscriber');
+      Plugin::registerClass('PluginFlyvemdmAgent');
+      Plugin::registerClass('PluginFlyvemdmProfile',
             array('addtabon' => 'Profile'));
-      Plugin::registerClass('PluginStorkmdmPackage');
-      Plugin::registerClass('PluginStorkmdmFile');
+      Plugin::registerClass('PluginFlyvemdmPackage');
+      Plugin::registerClass('PluginFlyvemdmFile');
 
       // Dropdowns
-      Plugin::registerClass('PluginStorkmdmWellknownpath');
-      Plugin::registerClass('PluginStorkmdmWPolicyCategory');
+      Plugin::registerClass('PluginFlyvemdmWellknownpath');
+      Plugin::registerClass('PluginFlyvemdmWPolicyCategory');
 
       //if glpi is loaded
       if (Session::getLoginUserID()) {
-         $PLUGIN_HOOKS['menu']["storkmdm"]                  = true;
+         $PLUGIN_HOOKS['menu']["flyvemdm"]                  = true;
       }
-      $PLUGIN_HOOKS['post_init']["storkmdm"]                = 'plugin_storkmdm_postinit';
+      $PLUGIN_HOOKS['post_init']["flyvemdm"]                = 'plugin_flyvemdm_postinit';
 
       // Notifications
-      $PLUGIN_HOOKS['item_get_events']['storkmdm'] =
-            array('PluginStorkmdmNotificationTargetInvitation' => array('PluginStorkmdmNotificationTargetInvitation', 'addEvents'));
-      $PLUGIN_HOOKS['item_get_datas']['storkmdm'] =
-            array('PluginStorkmdmNotificationTargetInvitation' => array('PluginStorkmdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'));
-      Plugin::registerClass('PluginStorkmdmInvitation', array(
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] =
+            array('PluginFlyvemdmNotificationTargetInvitation' => array('PluginFlyvemdmNotificationTargetInvitation', 'addEvents'));
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] =
+            array('PluginFlyvemdmNotificationTargetInvitation' => array('PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'));
+      Plugin::registerClass('PluginFlyvemdmInvitation', array(
             'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
-      $PLUGIN_HOOKS['item_get_events']['storkmdm'] =
-            array('PluginStorkmdmNotificationTargetAccountvalidation' => array('PluginStorkmdmNotificationTargetAccountvalidation', 'addEvents'));
-      $PLUGIN_HOOKS['item_get_datas']['storkmdm'] =
-            array('PluginStorkmdmNotificationTargetAccountvalidation' => array('PluginStorkmdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'));
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] =
+            array('PluginFlyvemdmNotificationTargetAccountvalidation' => array('PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents'));
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] =
+            array('PluginFlyvemdmNotificationTargetAccountvalidation' => array('PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'));
 
-      Plugin::registerClass('PluginStorkmdmAccountvalidation', array(
+      Plugin::registerClass('PluginFlyvemdmAccountvalidation', array(
          'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
-      if (Session::haveRight(PluginStorkmdmProfile::$rightname, PluginStorkmdmProfile::RIGHT_STORKMDM_USE)) {
+      if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
          // Display a menu entries
-         $PLUGIN_HOOKS['menu_toadd']["storkmdm"] = array(
-               'tools'  => 'PluginStorkmdmMenu',
+         $PLUGIN_HOOKS['menu_toadd']["flyvemdm"] = array(
+               'tools'  => 'PluginFlyvemdmMenu',
          );
-         $PLUGIN_HOOKS['config_page']["storkmdm"] = 'front/config.form.php';
+         $PLUGIN_HOOKS['config_page']["flyvemdm"] = 'front/config.form.php';
       }
 
       // Hooks for the plugin : objects inherited from GLPI or
-      $PLUGIN_HOOKS['item_add']['storkmdm']     = array(
-            'Entity'                => 'plugin_storkmdm_hook_entity_add',
+      $PLUGIN_HOOKS['item_add']['flyvemdm']     = array(
+            'Entity'                => 'plugin_flyvemdm_hook_entity_add',
       );
-      $PLUGIN_HOOKS['item_purge']['storkmdm']   = array(
-            'User'                  => array('PluginStorkmdmUser', 'hook_pre_user_purge'),
-            'Entity'                => 'plugin_storkmdm_hook_entity_purge',
-            'Computer'              => 'plugin_storkmdm_computer_purge',
+      $PLUGIN_HOOKS['item_purge']['flyvemdm']   = array(
+            'User'                  => array('PluginFlyvemdmUser', 'hook_pre_user_purge'),
+            'Entity'                => 'plugin_flyvemdm_hook_entity_purge',
+            'Computer'              => 'plugin_flyvemdm_computer_purge',
       );
-      $PLUGIN_HOOKS['pre_item_purge']['storkmdm']   = array(
-            'PluginStorkmdmInvitation' => array('PluginStorkmdmInvitation', 'hook_pre_self_purge'),
-            'Document'                 => array('PluginStorkmdmInvitation', 'hook_pre_document_purge'),
-            'Profile_User'             => 'plugin_storkmdm_hook_pre_profileuser_purge',
+      $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = array(
+            'PluginFlyvemdmInvitation' => array('PluginFlyvemdmInvitation', 'hook_pre_self_purge'),
+            'Document'                 => array('PluginFlyvemdmInvitation', 'hook_pre_document_purge'),
+            'Profile_User'             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
       );
 
       // Add css and js resources if the requested page needs them
-      if (strpos($_SERVER['REQUEST_URI'], "storkmdm" . "/front/config.form.php") !== false) {
-         $PLUGIN_HOOKS['add_javascript']["storkmdm"][] = 'config.js';
+      if (strpos($_SERVER['REQUEST_URI'], "flyvemdm" . "/front/config.form.php") !== false) {
+         $PLUGIN_HOOKS['add_javascript']["flyvemdm"][] = 'config.js';
       }
 
-      $CFG_GLPI['fleet_types'] = array('PluginStorkmdmFile', 'PluginStorkmdmPackage');
+      $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
    }
 }
 
 // Get the name and the version of the plugin - Needed
-function plugin_version_storkmdm() {
+function plugin_version_flyvemdm() {
    global $LANG;
 
    $author = "<a href='http://www.teclib.com'>Teclib</a>";
-   return array ('name'           => __s('Stork Mobile Device Management', "storkmdm"),
-         'version'        => PLUGIN_STORKMDM_VERSION,
+   return array ('name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
+         'version'        => PLUGIN_FLYVEMDM_VERSION,
          'author'         => $author,
          'license'        => 'GPLv2+',
          'homepage'       => '',
-         'minGlpiVersion' => PLUGIN_STORKMDM_GLPI_MIN_VERSION);
+         'minGlpiVersion' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION);
 }
 
 /**
@@ -166,24 +166,24 @@ function plugin_version_storkmdm() {
  *
  * @return boolean
  */
-function plugin_storkmdm_check_prerequisites() {
+function plugin_flyvemdm_check_prerequisites() {
    global $CFG_GLPI;
    $prerequisitesSuccess = true;
 
-   if (version_compare(GLPI_VERSION, PLUGIN_STORKMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_STORKMDM_GLPI_MAX_VERSION, 'ge')) {
+   if (version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', PLUGIN_STORKMDM_GLPI_MIN_VERSION, PLUGIN_STORKMDM_GLPI_MAX_VERSION) . '<br/>';
+         echo Plugin::messageIncompatible('core', PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION) . '<br/>';
       } else {
-         echo "This plugin requires GLPi >= " . PLUGIN_STORKMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_STORKMDM_GLPI_MAX_VERSION . "<br/>";
+         echo "This plugin requires GLPi >= " . PLUGIN_FLYVEMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_FLYVEMDM_GLPI_MAX_VERSION . "<br/>";
       }
       $prerequisitesSuccess = false;
    }
 
-   if (version_compare(PHP_VERSION, PLUGIN_STORKMDM_PHP_MIN_VERSION, 'lt')) {
+   if (version_compare(PHP_VERSION, PLUGIN_FLYVEMDM_PHP_MIN_VERSION, 'lt')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', PLUGIN_STORKMDM_PHP_MIN_VERSION) . '<br/>';
+         echo Plugin::messageIncompatible('core', PLUGIN_FLYVEMDM_PHP_MIN_VERSION) . '<br/>';
       } else {
-         echo "This plugin requires PHP >=" . PLUGIN_STORKMDM_PHP_MIN_VERSION . "<br>";
+         echo "This plugin requires PHP >=" . PLUGIN_FLYVEMDM_PHP_MIN_VERSION . "<br>";
       }
       $prerequisitesSuccess = false;
    }
@@ -261,6 +261,6 @@ function plugin_storkmdm_check_prerequisites() {
 }
 
 // Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
-function plugin_storkmdm_check_config() {
+function plugin_flyvemdm_check_config() {
    return true;
 }

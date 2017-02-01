@@ -36,12 +36,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicy extends CommonDBTM {
+class PluginFlyvemdmPolicy extends CommonDBTM {
 
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'storkmdm:policy';
+   static $rightname                   = 'flyvemdm:policy';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
@@ -63,11 +63,11 @@ class PluginStorkmdmPolicy extends CommonDBTM {
     */
    public function post_getFromDB() {
       // Translate some fields
-      $this->fields['name'] = __($this->fields['name'], 'storkmdm');
-      $this->fields['comment'] = __($this->fields['comment'], 'storkmdm');
+      $this->fields['name'] = __($this->fields['name'], 'flyvemdm');
+      $this->fields['comment'] = __($this->fields['comment'], 'flyvemdm');
 
       // Internationalize type_data field depending on the type of policy
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromPolicy($this);
       $translatedTypeData = $policy->translateData();
       $this->fields['type_data'] = json_encode($translatedTypeData, JSON_UNESCAPED_SLASHES);
@@ -79,7 +79,7 @@ class PluginStorkmdmPolicy extends CommonDBTM {
     **/
    static function getTypeName($nb=0) {
       global $LANG;
-      return _n('Policy', 'Policies', $nb, "storkmdm");
+      return _n('Policy', 'Policies', $nb, "flyvemdm");
    }
 
    /**
@@ -90,7 +90,7 @@ class PluginStorkmdmPolicy extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('Policy', "storkmdm");
+      $tab['common']                 = __s('Policy', "flyvemdm");
 
       $tab[1]['table']               = self::getTable();
       $tab[1]['field']               = 'name';
@@ -104,38 +104,38 @@ class PluginStorkmdmPolicy extends CommonDBTM {
       $tab[2]['massiveaction']       = false;
       $tab[2]['datatype']            = 'number';
 
-      $tab[3]['table']               = PluginStorkmdmPolicyCategory::getTable();
+      $tab[3]['table']               = PluginFlyvemdmPolicyCategory::getTable();
       $tab[3]['field']               = 'completename';
-      $tab[3]['name']                = __('Policy category', 'storkmdm');
+      $tab[3]['name']                = __('Policy category', 'flyvemdm');
       $tab[3]['datatype']            = 'dropdown';
       $tab[3]['massiveaction']       = false;
 
       $tab[4]['table']               = self::getTable();
       $tab[4]['field']               = 'type';
-      $tab[4]['name']                = __('Type', 'storkmdm');
+      $tab[4]['name']                = __('Type', 'flyvemdm');
       $tab[4]['datatype']            = 'string';
 
       $tab[5]['table']               = self::getTable();
       $tab[5]['field']               = 'type_data';
-      $tab[5]['name']                = __('Enumeration data', 'storkmdm');
+      $tab[5]['name']                = __('Enumeration data', 'flyvemdm');
       $tab[5]['datatype']            = 'string';
       $tab[5]['massiveaction']       = false;
 
       $tab[6]['table']               = self::getTable();
       $tab[6]['field']               = 'group';
-      $tab[6]['name']                = __('Group', 'storkmdm');
+      $tab[6]['name']                = __('Group', 'flyvemdm');
       $tab[6]['datatype']            = 'string';
       $tab[6]['massiveaction']       = false;
 
       $tab[7]['table']               = self::getTable();
       $tab[7]['field']               = 'default_value';
-      $tab[7]['name']                = __('Default value', 'storkmdm');
+      $tab[7]['name']                = __('Default value', 'flyvemdm');
       $tab[7]['datatype']            = 'string';
       $tab[7]['massiveaction']       = false;
 
       $tab[8]['table']               = self::getTable();
       $tab[8]['field']               = 'recommended_value';
-      $tab[8]['name']                = __('Recommended value', 'storkmdm');
+      $tab[8]['name']                = __('Recommended value', 'flyvemdm');
       $tab[8]['datatype']            = 'string';
       $tab[8]['massiveaction']       = false;
 

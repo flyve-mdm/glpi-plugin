@@ -36,12 +36,12 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase implements PluginStorkmdmPolicyInterface {
+class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
     * @param string $properties
     */
-   public function __construct(PluginStorkmdmPolicy $policy) {
+   public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
@@ -50,31 +50,31 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::integrityCheck()
+    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check the value exists
       if (!isset($value['remove_on_delete'])) {
-         Session::addMessageAfterRedirect(__('The remove on delete flag is mandatory', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('The remove on delete flag is mandatory', 'flyvemdm'));
          return false;
       }
 
       // Check the value is a boolean
       if ($value['remove_on_delete'] != '0' && $value['remove_on_delete'] != '1') {
-         Session::addMessageAfterRedirect(__('The remove on delete flag must be 0 or 1', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('The remove on delete flag must be 0 or 1', 'flyvemdm'));
          return false;
       }
 
       // Check the itemtype is an application
-      if ($itemtype != 'PluginStorkmdmPackage') {
-         Session::addMessageAfterRedirect(__('You must choose an application to apply this policy', 'storkmdm'));
+      if ($itemtype != 'PluginFlyvemdmPackage') {
+         Session::addMessageAfterRedirect(__('You must choose an application to apply this policy', 'flyvemdm'));
          return false;
       }
 
       //check the item exists
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       if (!$package->getFromDB($itemId)) {
-         Session::addMessageAfterRedirect(__('The application does not exists', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'));
          return false;
       }
 
@@ -83,14 +83,14 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::jsonEncode()
+    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
       }
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       $package->getFromDB($itemId);
       $array = [
             $this->symbol  => $package->getField('name'),
@@ -104,13 +104,13 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
    /**
     *
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::unicityCheck()
+    * @see PluginFlyvemdmPolicyBase::unicityCheck()
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Check the policy is already applied
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_storkmdm_fleets_id` = '$fleetId'
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '$itemtype' AND `items_id` = '$itemId'", '', '1');
       if (count($rows) > 0) {
          return false;
@@ -120,29 +120,29 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
 
    /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyInterface::conflictCheck()
+    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginStorkmdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Check there is not already a removal policy (to avoind opposite policy)
-      $package = new PluginStorkmdmPackage();
+      $package = new PluginFlyvemdmPackage();
       if (!$package->getFromDB($itemId)) {
          // Cannot apply a non existing applciation
-         Session::addMessageAfterRedirect(__('The application does not exists', 'storkmdm'), false, ERROR);
+         Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'), false, ERROR);
          return false;
       }
       $packageName = $package->getField('name');
 
-      $policyData = new PluginStorkmdmPolicy();
+      $policyData = new PluginFlyvemdmPolicy();
       if (!$policyData->getFromDBBySymbol('removeApp')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
          // Give up this check
       } else {
          $policyId = $policyData->getID();
          $fleetId = $fleet->getID();
-         $count = countElementsInTable(PluginStorkmdmFleet_Policy::getTable(), "`plugin_storkmdm_fleets_id` = '$fleetId'
-               AND `plugin_storkmdm_policies_id` = '$policyId' AND `value` = '$packageName'");
+         $count = countElementsInTable(PluginFlyvemdmFleet_Policy::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'
+               AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
          if ($count > 0) {
-            Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'storkmdm'), false, ERROR);
+            Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'flyvemdm'), false, ERROR);
             return false;
          }
       }
@@ -152,25 +152,25 @@ class PluginStorkmdmPolicyDeployapplication extends PluginStorkmdmPolicyBase imp
 
     /**
     * {@inheritDoc}
-    * @see PluginStorkmdmPolicyBase::unapply()
+    * @see PluginFlyvemdmPolicyBase::unapply()
     */
-   public function unapply(PluginStorkmdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;
       }
       if ($decodedValue['remove_on_delete'] !=  '0') {
-         $policyData = new PluginStorkmdmPolicy();
+         $policyData = new PluginFlyvemdmPolicy();
          if (!$policyData->getFromDBBySymbol('removeApp')) {
             Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
             return false;
          }
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
-         $package = new PluginStorkmdmPackage();
+         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $package = new PluginFlyvemdmPackage();
          if ($package->getFromDB($itemId)) {
             if (!$fleet_policy->add([
-                  'plugin_storkmdm_fleets_id'   => $fleet->getID(),
-                  'plugin_storkmdm_policies_id' => $policyData->getID(),
+                  'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+                  'plugin_flyvemdm_policies_id' => $policyData->getID(),
                   'value'                       => $package->getField('name'),
                   '_silent'                     => true,
             ])) {

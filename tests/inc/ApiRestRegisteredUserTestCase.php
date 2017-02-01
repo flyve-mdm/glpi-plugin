@@ -73,7 +73,7 @@ class ApiRestRegisteredUserTestCase extends ApiRestTestCase
                ]
          ];
          $res = $httpClient->post(
-               trim($CFG_GLPI['url_base_api'], "/") . "/PluginStorkmdmUser",
+               trim($CFG_GLPI['url_base_api'], "/") . "/PluginFlyvemdmUser",
                [
                      'headers'   => [
                            'Session-Token'   => $sessionToken,

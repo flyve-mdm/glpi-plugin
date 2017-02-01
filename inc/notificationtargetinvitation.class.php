@@ -36,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
+class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
-   const EVENT_GUEST_INVITATION = 'plugin_storkmdm_invitation';
+   const EVENT_GUEST_INVITATION = 'plugin_flyvemdm_invitation';
 
    /**
     * Define plugins notification events
@@ -46,7 +46,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public function getEvents() {
       return array(
-            self::EVENT_GUEST_INVITATION => __('Invitation', 'storkmdm')
+            self::EVENT_GUEST_INVITATION => __('Invitation', 'flyvemdm')
       );
    }
 
@@ -54,8 +54,8 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     * @param NotificationTarget $target
     */
    public static function addEvents($target) {
-         Plugin::loadLang('storkmdm');
-         $target->events[self::EVENT_GUEST_INVITATION] = __('Invitation', 'storkmdm');
+         Plugin::loadLang('flyvemdm');
+         $target->events[self::EVENT_GUEST_INVITATION] = __('Invitation', 'flyvemdm');
    }
 
    /**
@@ -63,8 +63,8 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     */
    public function getTags() {
       $tagCollection = array(
-         'storkmdm.download_app'    => __('Link to download the StorkMDM Android application', 'storkmdm'),
-         'storkmdm.qrcode'          => __('Enroll QRCode', 'storkmdm'),
+         'flyvemdm.download_app'    => __('Link to download the FlyveMDM Android application', 'flyvemdm'),
+         'flyvemdm.qrcode'          => __('Enroll QRCode', 'flyvemdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -90,12 +90,12 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
                $document->getFromDB($invitation->getField('documents_id'));
 
                // Fill the template
-               $event->datas['##storkmdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->datas['##storkmdm.enroll_url##'] = '(not implemented)';
+               $event->datas['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
+               $event->datas['##flyvemdm.enroll_url##'] = '(not implemented)';
                $event->obj->documents = array($document->getID());
-               $entityConfig = new PluginStorkmdmEntityconfig();
+               $entityConfig = new PluginFlyvemdmEntityconfig();
                $entityConfig->getFromDB($event->obj->getField('entities_id'));
-               $event->datas['##storkmdm.download_app##'] = $entityConfig->getField('download_url');
+               $event->datas['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
             }
             break;
       }
@@ -109,7 +109,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
     * @param $entity the entity on which the event is raised
     */
    public function getNotificationTargets($entity) {
-      $this->addTarget(Notification::USER, __('Guest user', 'storkmdm'));
+      $this->addTarget(Notification::USER, __('Guest user', 'flyvemdm'));
    }
 
    /**
@@ -121,7 +121,7 @@ class PluginStorkmdmNotificationTargetInvitation extends NotificationTarget {
       if ($data['type'] == Notification::USER_TYPE) {
          switch ($data['items_id']) {
             case Notification::USER :
-               if ($this->obj->getType() == 'PluginStorkmdmInvitation') {
+               if ($this->obj->getType() == 'PluginFlyvemdmInvitation') {
                   $this->addToAddressesList([
                         'users_id' => $this->obj->getField('users_id')
                   ]);
