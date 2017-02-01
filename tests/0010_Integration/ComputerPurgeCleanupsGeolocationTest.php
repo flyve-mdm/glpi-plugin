@@ -28,48 +28,38 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
+use Flyvemdm\Test\ApiRestTestCase;
 
 class ComputerPurgeCleanupsGeolocationTest extends RegisteredUserTestCase
 {
 
-   public function testInitCreateComputer() {
-      $computer = new Computer();
-      $computer->add([
+   protected static $computer;
+
+   protected static $geolocation;
+
+   public static function setupBeforeClass() {
+      parent::setupBeforeClass();
+
+      self::login('glpi', 'glpi');
+      self::$computer = new Computer();
+      self::$computer->add([
             'name'         => 'computer',
             'entities_id'  => $_SESSION['glpiactive_entity'],
       ]);
-      $this->assertFalse($computer->isNewItem());
 
-      return $computer;
-   }
-
-   /**
-    * @depends testInitCreateComputer
-    * @param Computer $computer
-    * @return PluginFlyvemdmGeolocation
-    */
-   public function testInitCreateGeolocationEntries(Computer $computer) {
-      $geolocation = new PluginFlyvemdmGeolocation();
-      $geolocation->add([
-            'computers_id' => $computer->getID(),
+      self::$geolocation = new PluginFlyvemdmGeolocation();
+      self::$geolocation->add([
+            'computers_id' => self::$computer->getID(),
             'latitude'     => '1',
             'longitude'    => '1',
-            'entities_id'  => $computer->getField('entities_id'),
+            'entities_id'  => self::$computer->getField('entities_id'),
       ]);
-
-      $this->assertFalse($geolocation->isNewItem());
-
-      return $geolocation;
    }
 
-   /**
-    * @depends testInitCreateComputer
-    * @depends testInitCreateGeolocationEntries
-    */
-   public function testPurgeComputer(Computer $computer, PluginFlyvemdmGeolocation $geolocation) {
-      $compuerId = $computer->getID();
-      $geolocationId = $geolocation->getID();
-      $computer->delete([
+   public function testPurgeComputer() {
+      $compuerId = self::$computer->getID();
+      $geolocationId = self::$geolocation->getID();
+      self::$computer->delete([
             'id'  => $compuerId
       ], 1);
       $computer = new Computer();

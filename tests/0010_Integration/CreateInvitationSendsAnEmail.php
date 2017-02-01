@@ -29,48 +29,63 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class CreateInvitationSendsAnEmail extends RegisteredUserTestCase {
+use Flyvemdm\Test\ApiRestTestCase;
+
+class CreateInvitationSendsAnEmail extends ApiRestTestCase {
+
+   protected static $sessionToken;
+
+   protected static $entityId;
+
+   protected static $guestEmail;
+
+   public static function setUpBeforeClass() {
+      parent::setUpBeforeClass();
+
+      self::$guestEmail = 'guestuser0001@localhost.local';
+   }
 
    /**
+    *
+    */
+   public function testInitGetSessionToken() {
+      $this->initSessionByCredentials('glpi', 'glpi');
+      $this->assertEquals(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      self::$sessionToken = $this->restResponse['session_token'];
+      self::$entityId = $_SESSION['glpiactive_entity'];
+
+      Session::destroy();
+   }
+
+   /**
+    * @depends testInitGetSessionToken
     * Create an invitation for enrollment tests
     */
    public function testInvitationCreation() {
-      global $CFG_GLPI;
-      self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
+      $body = json_encode([
+            'input' => [
+                  'entities_id'  => self::$entityId,
+                  '_useremails'  => self::$guestEmail,
+      ]]);
 
-      // enable email notifications mailing
-      $CFG_GLPI["use_mailing"] = 1;
+      $this->invitation('post', self::$sessionToken, $body);
 
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      // retrieve the invitation
       $invitation = new PluginFlyvemdmInvitation();
-      $invitationId = $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => self::$fixture['guestEmail'],
-      ]);
-      $this->assertGreaterThan(0, $invitationId);
+      $invitationId = $invitation->getFromDB($this->restResponse['id']);
 
-      return $invitation;
-   }
-
-   /**
-    * @depends testInvitationCreation
-    */
-   public function testUserExists($invitation) {
+      // check the guest user exists
       $user = new User();
       $this->assertTrue($user->getFromDB($invitation->getField('users_id')));
 
-      return $user;
-   }
-
-   /**
-    * @depends testInvitationCreation
-    * @depends testUserExists
-    * @param unknown $invitation
-    * @param unknown $user
-    */
-   public function testQueuedMail($invitation, $user) {
-      $invitationId = $invitation->getID();
+      // check a email was queued
       $queuedMail = new QueuedMail();
       $this->assertTrue($queuedMail->getFromDBByQuery(" WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'" ));
-   }
 
+      return $invitation;
+   }
 }
