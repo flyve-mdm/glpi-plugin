@@ -97,11 +97,10 @@ function plugin_init_flyvemdm() {
       }
       $PLUGIN_HOOKS['post_init']["flyvemdm"]                = 'plugin_flyvemdm_postinit';
 
-      
       // Notifications
       $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array();
       $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array();
-      
+
       $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation']
             = array('PluginFlyvemdmNotificationTargetInvitation', 'addEvents');
       $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation']
