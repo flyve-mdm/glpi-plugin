@@ -139,7 +139,7 @@ function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
    if ($item instanceof Entity) {
       $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->hook_entity_add($item);
-      
+
       $fleet = new PluginFlyvemdmFleet();
       $fleet->hook_entity_add($item);
    }

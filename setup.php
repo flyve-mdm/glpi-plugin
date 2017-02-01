@@ -98,18 +98,29 @@ function plugin_init_flyvemdm() {
       $PLUGIN_HOOKS['post_init']["flyvemdm"]                = 'plugin_flyvemdm_postinit';
 
       // Notifications
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] =
-            array('PluginFlyvemdmNotificationTargetInvitation' => array('PluginFlyvemdmNotificationTargetInvitation', 'addEvents'));
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] =
-            array('PluginFlyvemdmNotificationTargetInvitation' => array('PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'));
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array();
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array();
+
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+            'PluginFlyvemdmNotificationTargetInvitation', 'addEvents'
+      );
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+            'PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'
+      );
       Plugin::registerClass('PluginFlyvemdmInvitation', array(
             'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] =
-            array('PluginFlyvemdmNotificationTargetAccountvalidation' => array('PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents'));
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] =
-            array('PluginFlyvemdmNotificationTargetAccountvalidation' => array('PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'));
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array(
+            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
+                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents'
+            )
+      );
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array(
+            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
+                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'
+            )
+      );
 
       Plugin::registerClass('PluginFlyvemdmAccountvalidation', array(
          'notificationtemplates_types' => true, // 'document_types' => true
@@ -151,11 +162,11 @@ function plugin_init_flyvemdm() {
 function plugin_version_flyvemdm() {
    global $LANG;
 
-   $author = "<a href='http://www.teclib.com'>Teclib</a>";
+   $author = '<a href="http://www.teclib.com">Teclib</a>';
    return array ('name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
          'version'        => PLUGIN_FLYVEMDM_VERSION,
          'author'         => $author,
-         'license'        => 'GPLv2+',
+         'license'        => 'AGPLv3+',
          'homepage'       => '',
          'minGlpiVersion' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION);
 }

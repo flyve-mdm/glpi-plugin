@@ -157,10 +157,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $fleetId = $this->getID();
       $agent = new PluginFlyvemdmAgent();
       $entityId = $this->fields['entities_id'];
-      $defaultFleet = new static();
-      $defaultFleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'");
+      $defaultFleet = self::getDefaultFleet($entityId);
       $agents = $this->getAgents();
-      if ($defaultFleet->isNewItem() && count($agents) > 0) {
+      if ($defaultFleet === null && count($agents) > 0) {
          if (!$this->deleteDefaultFleet) {
             // No default fleet
             // TODO : Create it again ?
@@ -449,6 +448,24 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
+    * Gets the default fleet for an entity
+    * @param string $entityId ID of the entoty to search in
+    * @return PluginFlyvemdmFleet|null
+    */
+   public static function getDefaultFleet($entityId = '') {
+      if ($entityId == '') {
+         $entityId = $_SESSION['glpiactive_entity'];
+      }
+      $defaultFleet = new PluginFlyvemdmFleet();
+      if (!$defaultFleet->getFromDBByQuery(
+            "WHERE `is_default`='1' AND `entities_id`='$entityId'"
+            )) {
+               return null;
+            }
+            return $defaultFleet;
+   }
+
+   /**
     *
     * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::notify()
@@ -457,7 +474,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
-
    /**
     * create folders and initial setup of the entity related to MDM
     * @param CommonDBTM $item
@@ -469,6 +485,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * delete fleets in the entity being purged
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       if ($item instanceof Entity) {
          $fleet = new static();

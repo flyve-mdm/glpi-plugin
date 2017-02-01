@@ -886,9 +886,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $fiLock->addLocks('Computer', $computerId, array('name', 'users_id'));
 
       // Create the agent
-      $defaultFleet = new PluginFlyvemdmFleet();
-      $defaultFleet->getFromDBByDefaultForEntity();
-      if ($defaultFleet->isNewItem()) {
+      $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
+      if ($defaultFleet === null) {
          $computer->delete(['id' => $computerId]);
          $event = __("No default fleet available for the device", 'flyvemdm');
          $this->filterMessages($event);
@@ -1440,6 +1439,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
 
+   /**
+    * purge agents in the entity being purged
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $agent = new static();
       $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);

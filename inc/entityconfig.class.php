@@ -78,7 +78,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
          return false;
       }
       if (!isset($input['download_url'])) {
-         $input['download_url'] = addslashes(PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL);
+         $input['download_url'] = PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL;
       }
       $input['entities_id'] = $input['id'];
 
