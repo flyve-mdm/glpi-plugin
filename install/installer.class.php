@@ -131,6 +131,7 @@ class PluginFlyvemdmInstaller {
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
       $this->createJobs();
+      $this->createRootEntityConfig();
 
       Config::setConfigurationValues('flyvemdm', array('version' => PLUGIN_FLYVEMDM_VERSION));
 
@@ -197,6 +198,17 @@ class PluginFlyvemdmInstaller {
          }
       }
       return self::$currentVersion;
+   }
+
+
+   protected function createRootEntityConfig() {
+      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig->add([
+            'id'                 => '0',
+            'entities_id'        => '0',
+            'download_url'       => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+            'agent_token_life'   => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
+      ]);
    }
 
    /**

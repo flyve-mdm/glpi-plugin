@@ -178,8 +178,6 @@ class DeleteEntityTest extends ApiRestTestCase {
 
       self::$sessionToken = $this->restResponse['session_token'];
       self::$entityId = $_SESSION['glpiactive_entity'];
-
-      Session::destroy();
    }
 
    /**
