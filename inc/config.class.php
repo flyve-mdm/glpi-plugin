@@ -215,22 +215,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             }
          }
       }
-      if (isset($input['demo_mode'])) {
-         if ($input['demo_mode'] != '0'
-               && (!isset($input['webapp_url']) || empty($input['webapp_url']))) {
-            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'flyvemdm', false, ERROR));
-            unset($input['demo_mode']);
-         } else {
-            $config = new static();
-            if ($input['demo_mode'] == 0) {
-               $config->resetDemoNotificationSignature();
-               $config->disableDemoAccountService();
-            } else {
-               $config->setDemoNotificationSignature();
-               $config->enableDemoAccountService();
-            }
-         }
-      }
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
@@ -252,37 +236,4 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
       return $fields;
    }
-
-   protected function setDemoNotificationSignature() {
-      $config = Config::setConfigurationValues('core', [
-            'mailing_signature' => '',
-      ]);
-   }
-
-   protected function resetDemoNotificationSignature() {
-      $config = Config::setConfigurationValues('core', [
-            'mailing_signature' => 'SIGNATURE',
-      ]);
-   }
-
-   protected function enableDemoAccountService() {
-      $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $user->update(array(
-               'id'        => $user->getID(),
-               'is_active' => 1
-         ));
-      }
-   }
-
-   protected function disableDemoAccountService() {
-      $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $user->update(array(
-               'id'        => $user->getID(),
-               'is_active' => 1
-         ));
-      }
-   }
-
 }
