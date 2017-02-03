@@ -10,7 +10,6 @@
         "ext-openssl": "*",
         "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
-        "spomky-labs/otphp": "^8.2",
         "tufanbarisyildirim/php-apk-parser": "dev-master"
     },
     "require-dev": {
