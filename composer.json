@@ -18,41 +18,18 @@
         "squizlabs/php_codesniffer": "^2.7",
         "glpi-project/coding-standard": "^0.5.0",
         "phpunit/phpunit": "^5.6",
-        "glpi-project/test": "dev-master",
         "flyve-mdm/test": "dev-master"
     },
     "repositories": [
     {
         "type": "package",
         "package": {
-            "name": "glpi-project/test",
-            "version": "dev-master",
-            "source": {
-                "url": "file:///home/intra.dethegeek.eu.org/dethegeek/projects/flyvemdm/glpi-test/",
-                "type": "git",
-                "reference": "master"
-            },
-            "autoload": {
-                "psr-4" : {
-                    "Glpi\\Test\\" : "src"
-                }
-            }
-        }
-    },
-    {
-        "type": "package",
-        "package": {
             "name": "flyve-mdm/test",
             "version": "dev-master",
             "source": {
-                "url": "file:///home/intra.dethegeek.eu.org/dethegeek/projects/flyvemdm/flyve-mdm-test/",
+                "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
                 "type": "git",
                 "reference": "master"
-            },
-            "autoload": {
-                "psr-4" : {
-                    "Flyvemdm\\Test\\" : "src"
-                }
             }
         }
     }
