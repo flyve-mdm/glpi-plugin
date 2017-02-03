@@ -62,6 +62,8 @@ if (isset($args['--tests']) && $args['--tests'] !== false ) {
    define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
 }
 
+include (__DIR__ . "/../../../inc/includes.php");
+
 if (isset($args['--enable-api']) && $args['--enable-api'] !== false ) {
    $config = [
          'enable_api'                        => '1',
@@ -79,8 +81,6 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false ) {
    Config::setConfigurationValues('core', $config);
    $CFG_GLPI = $config + $CFG_GLPI;
 }
-
-include (__DIR__ . "/../../../inc/includes.php");
 
 // Init debug variable
 $_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;
