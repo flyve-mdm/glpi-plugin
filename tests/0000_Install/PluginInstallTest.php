@@ -28,13 +28,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
+use Glpi\Test\CommonTestCase;
 
-class PluginInstallTest extends SuperAdminTestCase
+class PluginInstallTest extends CommonTestCase
 {
-
-   public static function setupBeforeClass() {
-      // Do not run parent::setupBeforeClass()
-   }
 
    public function setUp() {
       parent::setUp();
@@ -44,7 +41,7 @@ class PluginInstallTest extends SuperAdminTestCase
 
    protected function setupGLPI() {
       global $CFG_GLPI;
-      
+
       $settings = [
             'use_mailing' => '1',
             'enable_api'  => '1',

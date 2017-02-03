@@ -22,16 +22,8 @@
     },
     "repositories": [
     {
-        "type": "package",
-        "package": {
-            "name": "flyve-mdm/test",
-            "version": "dev-master",
-            "source": {
-                "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
-                "type": "git",
-                "reference": "master"
-            }
-        }
+        "type": "vcs",
+        "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test"
     }
     ]
 }
