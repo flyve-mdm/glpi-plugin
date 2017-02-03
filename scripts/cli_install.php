@@ -43,7 +43,9 @@ Usage:
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
-   --api-user-token APITOKEN    APITOKEN
+   --api-user-token     APITOKEN    APITOKEN
+   --enable-api         Enable GLPI's API
+   --enable-email       Enable GLPI's email notification
    --tests              Use GLPi test database
 
 DOC;
