@@ -39,7 +39,7 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [ --tests ]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ]
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
@@ -60,6 +60,24 @@ if (isset($args['--tests']) && $args['--tests'] !== false ) {
    // Requires use of cliinstall of GLPI with --tests argument
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
    define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
+}
+
+if (isset($args['--enable-api']) && $args['--enable-api'] !== false ) {
+   $config = [
+         'enable_api'                        => '1',
+         'enable_api_login_credentials'      => '1',
+         'enable_api_login_external_token'   => '1',
+   ];
+   Config::setConfigurationValues('core', $config);
+   $CFG_GLPI = $config + $CFG_GLPI;
+}
+
+if (isset($args['--enable-email']) && $args['--enable-email'] !== false ) {
+   $config = [
+         'use_mailing'                        => '1',
+   ];
+   Config::setConfigurationValues('core', $config);
+   $CFG_GLPI = $config + $CFG_GLPI;
 }
 
 include (__DIR__ . "/../../../inc/includes.php");
