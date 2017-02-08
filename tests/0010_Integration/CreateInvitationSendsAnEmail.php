@@ -67,7 +67,7 @@ class CreateInvitationSendsAnEmail extends ApiRestTestCase {
             'input' => [
                   'entities_id'  => self::$entityId,
                   '_useremails'  => self::$guestEmail,
-      ]]);
+            ]]);
 
       $this->invitation('post', self::$sessionToken, $body);
 

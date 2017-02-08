@@ -164,10 +164,10 @@ class DeleteEntityTest extends ApiRestTestCase {
       Session::destroy();
    }
 
-//    public function setUp() {
-//       parent::setUp();
-//       Session::changeActiveEntities(self::$entity->getID(), 0);
-//    }
+   //    public function setUp() {
+   //       parent::setUp();
+   //       Session::changeActiveEntities(self::$entity->getID(), 0);
+   //    }
 
    /**
     *

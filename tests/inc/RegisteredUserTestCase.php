@@ -42,15 +42,15 @@ class RegisteredUserTestCase extends CommonTestCase
       self::$fixture['registeredUserEmail']     = 'registereduser@localhost.local';
       self::$fixture['registeredUserPasswd']    = 'password';
 
-//       self::login('glpi', 'glpi', true);
-//       $user = new PluginFlyvemdmUser();
-//       $userId = $user->add([
-//          'name'      => self::$fixture['registeredUserEmail'],
-//          'password'  => self::$fixture['registeredUserPasswd'],
-//          'password2' => self::$fixture['registeredUserPasswd']
-//       ]);
+      //       self::login('glpi', 'glpi', true);
+      //       $user = new PluginFlyvemdmUser();
+      //       $userId = $user->add([
+      //          'name'      => self::$fixture['registeredUserEmail'],
+      //          'password'  => self::$fixture['registeredUserPasswd'],
+      //          'password2' => self::$fixture['registeredUserPasswd']
+      //       ]);
 
-//       Session::destroy();
+      //       Session::destroy();
    }
 
    public function setUp() {

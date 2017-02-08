@@ -188,7 +188,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    protected function setEnrollToken() {
       return bin2hex(openssl_random_pseudo_bytes(32));
    }
-   
+
    public function getFromDBOrCreate($ID) {
       if (!$this->getFromDB($ID)) {
          $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));

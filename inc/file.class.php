@@ -385,10 +385,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       // Endnow to prevent any unwanted bytes
       exit(0);
    }
-   
+
    public function hook_entity_purge(CommonDBTM $item) {
       $file = new static();
       $file->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
-    
+
 }

@@ -992,9 +992,7 @@ Regards,
       foreach ($config as $profileId) {
          $profile = new Profile();
          $profile->getFromDB($profileId);
-         if (!$profile->deleteFromDB()) {
-            // TODO : log or warn for not deletion of the profile
-         } else {
+         if ($profile->deleteFromDB()) {
             $profileUser= new Profile_User();
             $profileUser->deleteByCriteria(array('profiles_id' => $profileId), true);
          }

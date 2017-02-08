@@ -461,7 +461,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             "WHERE `is_default`='1' AND `entities_id`='$entityId'"
             )) {
                return null;
-            }
+      }
             return $defaultFleet;
    }
 

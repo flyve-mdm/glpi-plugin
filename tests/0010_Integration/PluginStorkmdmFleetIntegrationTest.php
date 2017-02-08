@@ -116,7 +116,7 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
             'input'  => [
                   'entities_id'     => self::$entityId,
                   'name'            => 'a fleet'
-      ]]);
+            ]]);
       $this->fleet('post', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
@@ -135,7 +135,7 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
             'input'  => [
                'id'                          => self::$enrolledAgent->getID(),
                'plugin_flyvemdm_fleets_id'   => $fleet->getID()
-      ]]);
+            ]]);
       $this->agent('update', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
@@ -157,13 +157,13 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
                   'plugin_flyvemdm_policies_id' => $policyData->getID(),
                   'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                   'value'                       => '0',
-      ]]);
+            ]]);
 
       $this->fleet_policy('post', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
-       }
+   }
 
    /**
     * @depends testAddAgentToFleet
@@ -174,7 +174,7 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
       $body = json_encode([
             'input'  => [
                   'id' => $fleetId,
-      ]]);
+            ]]);
       $this->fleet('delete', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
