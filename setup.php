@@ -111,21 +111,6 @@ function plugin_init_flyvemdm() {
             'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array(
-            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
-                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents'
-            )
-      );
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array(
-            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
-                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'
-            )
-      );
-
-      Plugin::registerClass('PluginFlyvemdmAccountvalidation', array(
-         'notificationtemplates_types' => true, // 'document_types' => true
-      ));
-
       if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
          // Display a menu entries
          $PLUGIN_HOOKS['menu_toadd']["flyvemdm"] = array(
