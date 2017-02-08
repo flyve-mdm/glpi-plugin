@@ -134,3 +134,36 @@ function plugin_flyvemdm_getDatabaseRelations() {
    return [
    ];
 }
+
+function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
+   if ($item instanceof Entity) {
+      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig->hook_entity_add($item);
+
+      $fleet = new PluginFlyvemdmFleet();
+      $fleet->hook_entity_add($item);
+   }
+}
+
+function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
+   if ($item instanceof Entity) {
+      $itemtypes = array(
+            'PluginFlyvemdmEntityconfig',
+            'PluginFlyvemdmInvitation',
+            'PluginFlyvemdmAgent',
+            'PluginFlyvemdmFleet',
+            'PluginFlyvemdmPackage',
+            'PluginFlyvemdmFile',
+      );
+
+      foreach ($itemtypes as $itemtype) {
+         $itemToPurge = new $itemtype();
+         $itemToPurge->hook_entity_purge($item);
+      }
+   }
+}
+
+function plugin_flyvemdm_computer_purge(CommonDBTM $item) {
+   $geolocation = new PluginFlyvemdmGeolocation();
+   $geolocation->hook_computer_purge($item);
+}

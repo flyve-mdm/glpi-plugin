@@ -41,17 +41,17 @@ class GuestUserTestCase extends CommonTestCase
 
       // Create the registered user acount
       self::login('glpi', 'glpi', true);
-      $user = new PluginFlyvemdmUser();
-      $userId = $user->add([
-         'name'      => 'registereduser@localhost.local',
-         'password'  => 'password',
-         'password2' => 'password'
-      ]);
+      //       $user = new PluginFlyvemdmUser();
+      //       $userId = $user->add([
+      //          'name'      => 'registereduser@localhost.local',
+      //          'password'  => 'password',
+      //          'password2' => 'password'
+      //       ]);
 
-      Session::destroy();
+      //       Session::destroy();
 
-      // The registered user creates an invitation
-      self::login('registereduser@localhost.local', 'password', true);
+      //       // The registered user creates an invitation
+      //       self::login('registereduser@localhost.local', 'password', true);
       self::$fixture['guestEmail'] = "guest@localhost.local";
       $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([

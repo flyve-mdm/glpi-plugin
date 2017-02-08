@@ -5,13 +5,24 @@
     "licence": "AGPLv3+",
     "keywords": ["glpi", "flyve", "mdm"],
     "require": {
+        "ext-gd": "*",
+        "ext-zip": "*",
+        "ext-openssl": "*",
+        "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
-        "spomky-labs/otphp": "^8.2",
         "tufanbarisyildirim/php-apk-parser": "dev-master"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "~5",
         "squizlabs/php_codesniffer": "^2.7",
-        "glpi-project/coding-standard": "^0.5.0"
+        "glpi-project/coding-standard": "^0.5.0",
+        "phpunit/phpunit": "^4.8 || ^5.7",
+        "flyve-mdm/test": "dev-master"
+    },
+    "repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test"
     }
+    ]
 }

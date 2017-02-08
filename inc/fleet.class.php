@@ -58,6 +58,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    protected $usenotepadRights         = true;
 
+
+   protected $deleteDefaultFleet       =  false;
+
    static $types = array(
          'Phone'
    );
@@ -124,6 +127,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
+      if (isset($input['is_recursive']) && $this->fields['is_recursive'] != $input['is_recursive']) {
+         // Do not change recursivity of default fleet
+         unset($input['is_recursive']);
+      }
 
       return $input;
    }
@@ -137,13 +144,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // check if fleet being deleted is the default one
-      if ($this->fields['is_default'] == '1') {
+      if ($this->fields['is_default'] == '1' && $this->deleteDefaultFleet !== true) {
 
          $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
-         if (!Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
-            Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'flyvemdm'));
-            return false;
-         }
+         //if ( !Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
+            //Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'flyvemdm'));
+            //return false;
+         //}
       }
 
       // move agents in the fleet into the default one
@@ -153,10 +160,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $defaultFleet = self::getDefaultFleet($entityId);
       $agents = $this->getAgents();
       if ($defaultFleet === null && count($agents) > 0) {
-         // No default fleet
-         // TODO : Create it again ?
-         Session::addMessageAfterRedirect(__('No default fleet found to move devices', 'flyvemdm'));
-         return false;
+         if (!$this->deleteDefaultFleet) {
+            // No default fleet
+            // TODO : Create it again ?
+            Session::addMessageAfterRedirect(__('No default fleet found to move devices', 'flyvemdm'));
+            return false;
+         }
       }
 
       foreach ($agents as $agent) {
@@ -420,18 +429,40 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param string $entityId ID of the entoty to search in
     * @return PluginFlyvemdmFleet|null
     */
+   public function getFromDBByDefaultForEntity($entityId = null) {
+      if ($entityId === null) {
+         $entityId = $_SESSION['glpiactive_entity'];
+      }
+
+      $rows = $this->find("`is_default`='1' AND `entities_id`='$entityId'", "`id` ASC");
+      if (count($rows) < 1) {
+         return $this->add(array(
+               'is_default'  => '1',
+               'name'        => __("not managed fleet", 'flyvemdm'),
+               'entities_id' => $entityId,
+         ));
+      }
+      reset($rows);
+      $this->getFromDB(current(array_keys($rows)));
+      return $this->getID();
+   }
+
+   /**
+    * Gets the default fleet for an entity
+    * @param string $entityId ID of the entoty to search in
+    * @return PluginFlyvemdmFleet|null
+    */
    public static function getDefaultFleet($entityId = '') {
       if ($entityId == '') {
          $entityId = $_SESSION['glpiactive_entity'];
       }
-
       $defaultFleet = new PluginFlyvemdmFleet();
       if (!$defaultFleet->getFromDBByQuery(
             "WHERE `is_default`='1' AND `entities_id`='$entityId'"
             )) {
-         return null;
+               return null;
       }
-      return $defaultFleet;
+            return $defaultFleet;
    }
 
    /**
@@ -442,5 +473,27 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
+   /**
+    * create folders and initial setup of the entity related to MDM
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_add(CommonDBTM $item) {
+      if ($item instanceof Entity) {
+         // Create the default fleet for a new entity
+         $this->getFromDBByDefaultForEntity($item->getID());
+      }
+   }
+
+   /**
+    * delete fleets in the entity being purged
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_purge(CommonDBTM $item) {
+      if ($item instanceof Entity) {
+         $fleet = new static();
+         $fleet->deleteDefaultFleet = true;
+         $fleet->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      }
    }
 }

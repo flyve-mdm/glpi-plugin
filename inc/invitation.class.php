@@ -92,6 +92,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $config = Config::getConfigurationValues("flyvemdm", ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
 
+      $entityId = $input['entities_id'];
+
       // Find or create the user
       $userIsNew = false;
       $user = new User();
@@ -101,7 +103,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
             '_useremails'     => array($input['_useremails']),
             'name'            => $input['_useremails'],
             '_profiles_id'    => $guestProfileId,
-            '_entities_id'    => $_SESSION['glpiactive_entity'],
+            '_entities_id'    => $entityId,
             '_is_recursive'   => 0,
             'authtype'        => Auth::DB_GLPI
          ]);
@@ -359,5 +361,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $tab[3]['datatype']            = 'string';
 
       return $tab;
+   }
+
+   public function hook_entity_purge(CommonDBTM $item) {
+      $invitation = new static();
+      $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
 }

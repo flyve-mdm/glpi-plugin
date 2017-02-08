@@ -41,19 +41,9 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmInstaller {
 
-   const SERVICE_PROFILE_NAME = 'Flyve MDM service profile';
-
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
    const BACKEND_MQTT_USER = 'flyvemdm-backend';
-
-   const FLYVE_MDM_PRODUCT_WEBSITE     = 'www.flyve-mdm.com';
-
-   const FLYVE_MDM_PRODUCT_GOOGLEPLUS  = 'https://plus.google.com/collection/c32TsB';
-
-   const FLYVE_MDM_PRODUCT_TWITTER     = 'https://twitter.com/FlyveMDM';
-
-   const FLYVE_MDM_PRODUCT_FACEBOOK    = 'https://www.facebook.com/Flyve-MDM-1625450937768377/';
 
    // Order of this array is mandatory due tu dependancies on install and uninstall
    protected static $itemtypesToInstall = array(
@@ -136,17 +126,12 @@ class PluginFlyvemdmInstaller {
 
       $this->createDirectories();
       $this->createFirstAccess();
-      $this->createServiceProfileAccess();                     // Demo mode
-      $this->createRegisteredProfileAccess();                  // Demo mode
-      $this->createInactiveRegisteredProfileAccess();          // Demo mode
       $this->createGuestProfileAccess();
-      $this->createServiceUserAccount();                       // Demo mode
+      $this->createDefaultFleet();
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
-      $this->createSocialMediaIcons();                         // Demo mode
-      $this->createNotificationTargetAccountvalidation();      // Demo mode
       $this->createJobs();
-      $this->createDemoModeJobs();                             // Demo mode
+      $this->createRootEntityConfig();
 
       Config::setConfigurationValues('flyvemdm', array('version' => PLUGIN_FLYVEMDM_VERSION));
 
@@ -215,6 +200,17 @@ class PluginFlyvemdmInstaller {
       return self::$currentVersion;
    }
 
+
+   protected function createRootEntityConfig() {
+      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig->add([
+            'id'                 => '0',
+            'entities_id'        => '0',
+            'download_url'       => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+            'agent_token_life'   => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
+      ]);
+   }
+
    /**
     * Give all rights on the plugin to the profile of the current user
     */
@@ -244,73 +240,16 @@ class PluginFlyvemdmInstaller {
       $_SESSION['glpiactiveprofile'] = $_SESSION['glpiactiveprofile'] + $newRights;
    }
 
-   protected function createServiceProfileAccess() {
-      // create profile for service account (provides the API key allowing self account cezation for registered users)
-      $profileId = self::getOrCreateProfile(
-            self::SERVICE_PROFILE_NAME,
-            __("service FlyveMDM user's profile. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
-            );
-      Config::setConfigurationValues('flyvemdm', array('service_profiles_id' => $profileId));
-      $profileRight = new ProfileRight();
-      $profileRight->updateProfileRights($profileId, array(
-            Entity::$rightname                     => CREATE | UPDATE,
-            User::$rightname                       => CREATE,
-            Profile::$rightname                    => READ
-      ));
-   }
-
-   /**
-    * Setup rights for registered users profile
-    */
-   protected function createRegisteredProfileAccess() {
-      // create profile for registered users
-      $profileId = self::getOrCreateProfile(
-            __("Flyve MDM registered users", "flyvemdm"),
-            __("registered FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
-      );
-      Config::setConfigurationValues('flyvemdm', array('registered_profiles_id' => $profileId));
-      $profileRight = new ProfileRight();
-      $profileRight->updateProfileRights($profileId, array(
-            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | DELETE | PURGE | READNOTE | UPDATENOTE, // No create right
-            PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT,
-            PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmGeolocation::$rightname     => READ | PURGE,
-            PluginFlyvemdmWellknownpath::$rightname   => READ,
-            PluginFlyvemdmPolicy::$rightname          => READ,
-            PluginFlyvemdmPolicyCategory::$rightname  => READ,
-            PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-            PluginFlyvemdmEntityconfig::$rightname    => READ
-                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-            PluginFlyvemdmInvitationlog::$rightname   => READ,
-            Config::$rightname                        => READ,
-            User::$rightname                          => ALLSTANDARDRIGHT,
-            Profile::$rightname                       => CREATE,
-            Entity::$rightname                        => CREATE,
-            Computer::$rightname                      => READ,
-            Software::$rightname                      => READ,
-            NetworkPort::$rightname                   => READ,
-            CommonDropdown::$rightname                => READ,
-      ));
-      $profile = new Profile();
-      $profile->update([
-            'id'                 => $profileId,
-            '_password_update'   => 1
-      ]);
-   }
-
-   /**
-    * Setup rights for inactive registered users profile
-    */
-   protected function createInactiveRegisteredProfileAccess() {
-      // create profile for registered users
-      $profileId = self::getOrCreateProfile(
-            __("Flyve MDM inactive registered users", "flyvemdm"),
-            __("inactive registered FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
-            );
-      Config::setConfigurationValues('flyvemdm', array('inactive_registered_profiles_id' => $profileId));
+   protected function createDefaultFleet() {
+      $fleet = new PluginFlyvemdmFleet();
+      if (!$fleet->getFromDBByQuery("WHERE `is_default` = '1' AND `entities_id` = '0'")) {
+         $fleet->add([
+               'name'         => __("not managed fleet", 'flyvemdm'),
+               'entities_id'  => '0',
+               'is_recursive' => '1',
+               'is_default'   => '1',
+         ]);
+      }
    }
 
    protected function createGuestProfileAccess() {
@@ -353,31 +292,6 @@ class PluginFlyvemdmInstaller {
                   'default_value'      => $policyData['default_value'],
                   'recommended_value'  => $policyData['recommended_value'],
             ));
-         }
-      }
-   }
-
-   /**
-    * Create service account
-    */
-   protected static function createServiceUserAccount() {
-      $user = new User();
-
-      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
-      $profile = new Profile();
-      $profile->getFromDB($config['service_profiles_id']);
-
-      if (!$user->getIdByName(PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME)) {
-         if (!$user->add([
-               'name'            => PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME,
-               'comment'         => 'FlyveMDM service account',
-               'firstname'       => 'Plugin Flyvemdm',
-               'password'        => '42',
-               'personal_token'  => User::getUniquePersonalToken(),
-               '_profiles_id'    => $profile->getID(),
-               'is_active'       => '0',
-         ])) {
-            die ('Could not create the service account');
          }
       }
    }
@@ -485,245 +399,6 @@ Regards,
       }
    }
 
-   protected function getNotificationTargetRegistrationEvents() {
-      // Force locale for localized strings
-      $currentLocale = $_SESSION['glpilanguage'];
-      Session::loadLanguage('en_GB');
-
-      $notifications = array(
-            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_SELF_REGISTRATION => array(
-                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
-                  'name'            => __('Self registration', "flyvemdm"),
-                  'subject'         => __('Flyve MDM Account Activation', 'flyvemdm'),
-                  'content_text'    => __('Hi there,
-
-You or someone else created an account on Flyve MDM with your email address.
-
-If you did not register for an account, please discard this email message, we apologize for any inconveniences.
-
-If you created an account, please activate it with the link below. The link will be active for ##flyvemdm.activation_delay##.
-
-##flyvemdm.registration_url##
-
-After activating your account, please login and enjoy Flyve MDM for ##flyvemdm.trial_duration##, entering :
-
-##flyvemdm.webapp_url##
-
-Regards,
-
-', 'flyvemdm') . $this->getTextMailingSignature(),
-                  'content_html'    => __('Hi there,
-
-You or someone else created an account on Flyve MDM with your email address.
-
-If you did not register for an account, please discard this email message, we apologize for any inconveniences.
-
-If you created an account, please activate it with the link below. The link will be active for ##flyvemdm.activation_delay##.
-
-<a href="##flyvemdm.registration_url##">##flyvemdm.registration_url##</a>
-
-After activating your account, please login and <span style="text-weight: bold">enjoy Flyve MDM for ##flyvemdm.trial_duration##</span>, entering :
-
-<a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a>
-
-Regards,
-
-', 'flyvemdm') . $this->getHTMLMailingSignature()
-            ),
-            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_BEGIN => array(
-                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
-                  'name'            => __('Account activated', "flyvemdm"),
-                  'subject'         => __('Get started with Flyve MDM', 'flyvemdm'),
-                  'content_text'    => __('Hi there,
-
-Thank you for joining us, you have successfully activated your Flyve MDM account!
-
-Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
-Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
-
-To use it during your 90 days trial, sign in to ##flyvemdm.webapp_url##, with your account’s login.
-
-We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to contact@flyve-mdm.com!
-
-You want to upgrade?
-
-You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: sales@flyve-mdm.com!
-
-Regards,
-
-', 'flyvemdm') . $this->getTextMailingSignature(),
-                  'content_html'    => __('Hi there,
-
-Thank you for joining us, you have successfully activated your Flyve MDM account!
-
-Flyve MDM is an open source Mobile Device Management Solution that allows you to manage and control the entire mobile fleet of your organization, in just a few clicks!
-Install or delete applications remotely, send files, erase data and/or lock your device if you lose it, and enjoy many other functionalities that will make your daily life easier!
-
-To use it during your 90 days trial, sign in to <a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a>, with your account’s login.
-
-We would love to hear whether you think Flyve MDM helps fulfill your goals or what we can do to improve. If you have any questions about getting started, we would be happy to help. Just send us an email to <a href="contact@flyve-mdm.com">contact@flyve-mdm.com</a>!
-
-<span style="font-weight: bold;">You want to upgrade?</span>
-
-You can upgrade to a full and unlimited Flyve MDM account at any time during your trial. Contact directly our experts to discuss your project and get a tailor-made quotation for your business! Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
-
-Regards,
-
-', 'flyvemdm') . $this->getHTMLMailingSignature()
-            ),
-            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_1 => array(
-                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
-                  'name'            => __('First trial reminder', "flyvemdm"),
-                  'subject'         => __('Your Flyve MDM trial will end soon! - Only ##flyvemdm.days_remaining## left!', 'flyvemdm'),
-                  'content_text'    => __('Hi there,
-
-Your 90 days trial for ##flyvemdm.webapp_url## is coming to an end in ##flyvemdm.days_remaining## and we deeply hope you have been enjoying the experience!
-
-Ready to upgrade?
-
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
-
-Regards,
-
-', 'flyvemdm') . $this->getTextMailingSignature(),
-                  'content_html'    => __('Hi there,
-
-Your 90 days trial for <a href="##flyvemdm.webapp_url##">##flyvemdm.webapp_url##</a> is coming to an end in ##flyvemdm.days_remaining## and we deeply hope you have been enjoying the experience!
-
-<span style="font-weight: bold;">Ready to upgrade?</span>
-
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
-
-Regards,
-
-', 'flyvemdm') . $this->getHTMLMailingSignature()
-            ),
-            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_TRIAL_EXPIRATION_REMIND_2 => array(
-                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
-                  'name'            => __('Second trial reminder', "flyvemdm"),
-                  'subject'         => __('Your free Flyve MDM trial expires in ##flyvemdm.days_remaining##!', 'flyvemdm'),
-                  'content_text'    => __('Hi there,
-
-We want to give you a heads-up that in ##flyvemdm.days_remaining## your Flyve MDM trial comes to an end!
-
-We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
-
-Ready to upgrade?
-
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: sales@flyve-mdm.com!
-
-Regards,
-
-', 'flyvemdm') . $this->getTextMailingSignature(),
-                  'content_html'    => __('Hi there,
-
-We want to give you a heads-up that <span style="font-weight: bold;">in ##flyvemdm.days_remaining## your Flyve MDM trial comes to an end!</span>
-
-We would love to keep you as a customer, and there is still time to upgrade to a full and unlimited paid plan.
-
-<span style="font-weight: bold;">Ready to upgrade?</span>
-
-To continue enjoying Flyve MDM features, contact our experts and get a personalized advice and quotation at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>!
-
-Regards,
-
-', 'flyvemdm') . $this->getHTMLMailingSignature()
-            ),
-            PluginFlyvemdmNotificationTargetAccountvalidation::EVENT_POST_TRIAL_REMIND => array(
-                  'itemtype'        => PluginFlyvemdmAccountvalidation::class,
-                  'name'            => __('End of trial reminder', "flyvemdm"),
-                  'subject'         => __('Your free Flyve MDM trial has expired.', 'flyvemdm'),
-                  'content_text'    => __('Hi there,
-
-The trial period for Flyve MDM has ended!
-
-We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
-
-Upgrade to the next level!
-
-Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
-Email us at: sales@flyve-mdm.com, we will be happy to hear from you!
-
-Regards,
-
-', 'flyvemdm') . $this->getTextMailingSignature(),
-                  'content_html'    => __('Hi there,
-
-<span style="font-weight: bold;">The trial period for Flyve MDM has ended!</span>
-
-We hope you enjoyed our solution and that it helped you increase your productivity, saving you time and energy!
-
-<span style="font-weight: bold;">Upgrade to the next level!</span>
-
-Upgrade to a full and unlimited Flyve MDM account right now and continue benefiting from its numerous features! Contact directly our experts to discuss your project and get a tailor-made quotation for your business!
-Email us at: <a href="mailto:sales@flyve-mdm.com">sales@flyve-mdm.com</a>, we will be happy to hear from you!
-
-Regards,
-
-', 'flyvemdm') . $this->getHTMLMailingSignature()
-            ),
-      );
-
-      // Restore user's locale
-      Session::loadLanguage($currentLocale);
-
-      return $notifications;
-   }
-
-   public function createNotificationTargetAccountvalidation() {
-      // Create the notification template
-      $notification = new Notification();
-      $template = new NotificationTemplate();
-      $translation = new NotificationTemplateTranslation();
-      $notificationTarget = new PluginFlyvemdmNotificationTargetInvitation();
-
-      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
-         $itemtype = $data['itemtype'];
-         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
-            // Add template
-            $templateId = $template->add([
-                  'name'      => addcslashes($data['name'], "'\""),
-                  'comment'   => '',
-                  'itemtype'  => $itemtype
-            ]);
-
-            // Add default translation
-            if (!isset($data['content_html'])) {
-               $contentHtml = self::convertTextToHtml($data['content_text']);
-            } else {
-               $contentHtml = self::convertTextToHtml($data['content_html']);
-            }
-            $translation->add([
-                  'notificationtemplates_id' => $templateId,
-                  'language'                 => '',
-                  'subject'                  => addcslashes($data['subject'], "'\""),
-                  'content_text'             => addcslashes($data['content_text'], "'\""),
-                  'content_html'             => addcslashes($contentHtml, "'\"")
-            ]);
-
-            // Create the notification
-            $notificationId = $notification->add([
-                  'name'                     => addcslashes($data['name'], "'\""),
-                  'comment'                  => '',
-                  'entities_id'              => 0,
-                  'is_recursive'             => 1,
-                  'is_active'                => 1,
-                  'itemtype'                 => $itemtype,
-                  'notificationtemplates_id' => $templateId,
-                  'event'                    => $event,
-                  'mode'                     => 'mail'
-            ]);
-
-            $notificationTarget->add([
-                  'items_id'           => Notification::USER,
-                  'type'               => Notification::USER_TYPE,
-                  'notifications_id'   => $notificationId
-            ]);
-
-         }
-      }
-   }
-
    protected function upgrade($fromVersion) {
       $toVersion   = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
 
@@ -732,9 +407,10 @@ Regards,
       }
       if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
          if (is_readable(__DIR__ . "/update_dev.php") && is_file(__DIR__ . "/update_dev.php")) {
-            include __DIR__ . "/update_dev.php";
-            if (function_exists('update_dev')) {
-               update_dev($this->migration);
+            include_once __DIR__ . "/update_dev.php";
+            $updateDevFunction = 'plugin_flyvemdm_update_dev';
+            if (function_exists($updateDevFunction)) {
+               $updateDevFunction($this->migration);
             }
          }
       }
@@ -751,26 +427,6 @@ Regards,
             ));
    }
 
-   protected function createDemoModeJobs() {
-      CronTask::Register('PluginFlyvemdmAccountvalidation', 'CleanupAccountActivation', 12 * HOUR_TIMESTAMP,
-            array(
-                  'comment'   => __('Remove expired account activations (demo mode)', 'flyvemdm'),
-                  'mode'      => CronTask::MODE_EXTERNAL
-            ));
-
-      CronTask::Register('PluginFlyvemdmAccountvalidation', 'DisableExpiredTrial', 12 * HOUR_TIMESTAMP,
-            array(
-                  'comment'   => __('Disable expired accounts (demo mode)', 'flyvemdm'),
-                  'mode'      => CronTask::MODE_EXTERNAL
-            ));
-
-      CronTask::Register('PluginFlyvemdmAccountvalidation', 'RemindTrialExpiration', 12 * HOUR_TIMESTAMP,
-            array(
-                  'comment'   => __('Remind imminent end of trial period (demo mode)', 'flyvemdm'),
-                  'mode'      => CronTask::MODE_EXTERNAL
-            ));
-   }
-
    /**
     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
     * @param unknown $haystack
@@ -778,7 +434,7 @@ Regards,
     */
    protected function startsWith($haystack, $needle) {
       // search backwards starting from haystack length characters from the end
-      return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+      return $needle === '' || strrpos($haystack, $needle, -strlen($haystack)) !== false;
    }
 
    /**
@@ -788,7 +444,7 @@ Regards,
     */
    protected function endsWith($haystack, $needle) {
       // search forward starting from end minus needle length characters
-      return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
    }
 
    /**
@@ -800,13 +456,11 @@ Regards,
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
-      $this->deleteNotificationTargetAccountvalidation();
       $this->deleteProfileRights();
       $this->deleteProfiles();
       $this->deleteDisplayPreferences();
-      $this->deleteSocialMediaIcons();                      // Demo mode
       $this->deleteTables();
-      // Cron jobs deletion handled by GLPi
+      // Cron jobs deletion handled by GLPI
 
       $config = new Config();
       $config->deleteByCriteria(array('context' => 'flyvemdm'));
@@ -1305,43 +959,6 @@ Regards,
       }
    }
 
-   protected function deleteNotificationTargetAccountvalidation() {
-      global $DB;
-
-      // Define DB tables
-      $tableTargets      = getTableForItemType('NotificationTarget');
-      $tableNotification = getTableForItemType('Notification');
-      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
-      $tableTemplates    = getTableForItemType('NotificationTemplate');
-
-      foreach ($this->getNotificationTargetRegistrationEvents() as $event => $data) {
-         $itemtype = $data['itemtype'];
-         $name = $data['name'];
-         //TODO : implement cleanup
-         // Delete translations
-         $query = "DELETE FROM `$tableTranslations`
-                   WHERE `notificationtemplates_id` IN (
-                   SELECT `id` FROM `$tableTemplates` WHERE `itemtype` = '$itemtype' AND `name`='$name')";
-         $DB->query($query);
-
-         // Delete notification templates
-         $query = "DELETE FROM `$tableTemplates`
-                   WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
-         $DB->query($query);
-
-         // Delete notification targets
-         $query = "DELETE FROM `$tableTargets`
-                   WHERE `notifications_id` IN (
-                   SELECT `id` FROM `$tableNotification` WHERE `itemtype` = '$itemtype' AND `event`='$event')";
-         $DB->query($query);
-
-         // Delete notifications
-         $query = "DELETE FROM `$tableNotification`
-                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
-         $DB->query($query);
-      }
-   }
-
    protected function deleteTables() {
       global $DB;
 
@@ -1362,7 +979,6 @@ Regards,
             PluginFlyvemdmPolicy::getTable(),
             PluginFlyvemdmPolicyCategory::getTable(),
             PluginFlyvemdmWellknownpath::getTable(),
-            PluginFlyvemdmAccountvalidation::getTable(),
       );
 
       foreach ($tables as $table) {
@@ -1371,25 +987,15 @@ Regards,
    }
 
    protected  function deleteProfiles() {
-      $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id', 'guest_profiles_id'));
-      $registeredProfileId = $config['registered_profiles_id'];
-      $guestProfileId = $config['guest_profiles_id'];
+      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
 
-      $profile = new Profile();
-      $profile->getFromDB($registeredProfileId);
-      if (!$profile->deleteFromDB()) {
-         $this->migration->log("Could not delete registered profile", true);
-      } else {
-         $profileUser= new Profile_User();
-         $profileUser->deleteByCriteria(array('profiles_id' => $registeredProfileId), true);
-      }
-
-      $profile->getFromDB($guestProfileId);
-      if (!$profile->deleteFromDB()) {
-         $this->migration->log("Could not delete guest profile", true);
-      } else {
-         $profileUser= new Profile_User();
-         $profileUser->deleteByCriteria(array('profiles_id' => $guestProfileId), true);
+      foreach ($config as $profileId) {
+         $profile = new Profile();
+         $profile->getFromDB($profileId);
+         if ($profile->deleteFromDB()) {
+            $profileUser= new Profile_User();
+            $profileUser->deleteByCriteria(array('profiles_id' => $profileId), true);
+         }
       }
    }
 
@@ -1438,131 +1044,5 @@ Regards,
       //$displayPreference = new DisplayPreference();
       //$displayPreference->deleteByCriteria(array("`num` >= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MIN . "
       //                                             AND `num` <= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MAX));
-   }
-
-   protected function getHTMLMailingSignature() {
-      $config = Config::getConfigurationValues('flyvemdm', [
-            'social_media_twit',
-            'social_media_gplus',
-            'social_media_facebook',
-      ]);
-
-      $document = new Document();
-      $document->getFromDB($config['social_media_twit']);
-      $twitterTag = Document::getImageTag($document->getField('tag'));
-
-      $document = new Document();
-      $document->getFromDB($config['social_media_gplus']);
-      $gplusTag = Document::getImageTag($document->getField('tag'));
-
-      $document = new Document();
-      $document->getFromDB($config['social_media_facebook']);
-      $facebookTag = Document::getImageTag($document->getField('tag'));
-
-      // Force locale for localized strings
-      $currentLocale = $_SESSION['glpilanguage'];
-      Session::loadLanguage('en_GB');
-
-      $signature = __("Flyve MDM Team", 'flyvemdm') . "\n";
-      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_WEBSITE . '">' . self::FLYVE_MDM_PRODUCT_WEBSITE . "</a>\n";
-      $signature.= '<a href="' . self::FLYVE_MDM_PRODUCT_FACEBOOK .'">'
-                   . '<img src="cid:' . $facebookTag . '" alt="Facebook" title="Facebook" width="30" height="30">'
-                   . '</a>'
-                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_TWITTER . '">'
-                   . '<img src="cid:' . $twitterTag . '" alt="Twitter" title="Twitter" width="30" height="30">'
-                   . '</a>'
-                   . '&nbsp;<a href="' . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . '">'
-                   . '<img src="cid:' . $gplusTag . '" alt="Google+" title="Google+" width="30" height="30">'
-                   .'</a>' . "\n";
-
-      // Restore user's locale
-      Session::loadLanguage($currentLocale);
-
-      return $signature;
-   }
-
-   protected function getTextMailingSignature() {
-      // Force locale for localized strings
-      $currentLocale = $_SESSION['glpilanguage'];
-      Session::loadLanguage('en_GB');
-
-      $signature = __("Flyve MDM Team", 'flyvemdm') . "\n";
-      $signature.= self::FLYVE_MDM_PRODUCT_WEBSITE . "\n";
-      $signature.= self::FLYVE_MDM_PRODUCT_FACEBOOK . "\n"
-                   . self::FLYVE_MDM_PRODUCT_GOOGLEPLUS . "\n"
-                   . self::FLYVE_MDM_PRODUCT_TWITTER . "\n";
-
-      // Restore user's locale
-      Session::loadLanguage($currentLocale);
-
-      return $signature;
-   }
-
-   /**
-    * create documents for demo mode social media icons
-    */
-   protected function createSocialMediaIcons() {
-      $config = Config::getConfigurationValues('flyvemdm', [
-            'social_media_twit',
-            'social_media_gplus',
-            'social_media_facebook',
-      ]);
-
-      if (!isset($config['social_media_twit'])) {
-         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-twitter.jpg', GLPI_TMP_DIR . '/flyve-twitter.jpg');
-         $input = array();
-         $document = new Document();
-         $input['entities_id']               = '0';
-         $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Twitter icon', 'flyvemdm');
-         $input['_filename']                 = array('flyve-twitter.jpg');
-         $input['_only_if_upload_succeed']   = true;
-         if ($document->add($input)) {
-            $config['social_media_twit']     = $document->getID();
-         }
-      }
-
-      if (!isset($config['social_media_gplus'])) {
-         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-gplus.jpg', GLPI_TMP_DIR . '/flyve-gplus.jpg');
-         $input = array();
-         $document = new Document();
-         $input['entities_id']               = '0';
-         $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Google Plus icon', 'flyvemdm');
-         $input['_filename']                 = array('flyve-gplus.jpg');
-         $input['_only_if_upload_succeed']   = true;
-         if ($document->add($input)) {
-            $config['social_media_gplus']    = $document->getID();
-         }
-      }
-
-      if (!isset($config['social_media_facebook'])) {
-         copy(PLUGIN_FLYVEMDM_ROOT . '/pics/flyve-facebook.jpg', GLPI_TMP_DIR . '/flyve-facebook.jpg');
-         $input = array();
-         $document = new Document();
-         $input['entities_id']               = '0';
-         $input['is_recursive']              = '1';
-         $input['name']                      = __('Flyve MDM Facebook  icon', 'flyvemdm');
-         $input['_filename']                 = array('flyve-facebook.jpg');
-         $input['_only_if_upload_succeed']   = true;
-         if ($document->add($input)) {
-            $config['social_media_facebook'] = $document->getID();
-         }
-      }
-
-      Config::setConfigurationValues('flyvemdm', $config);
-   }
-
-   protected function deleteSocialMediaIcons() {
-      $config = Config::getConfigurationValues('flyvemdm', [
-            'social_media_twit',
-            'social_media_gplus',
-            'social_media_facebook',
-      ]);
-
-      foreach ($config as $documentId) {
-         $document = new Document();
-         $document->delete(['id'    => $documentId], 1);
-      }
    }
 }

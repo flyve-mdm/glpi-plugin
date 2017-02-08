@@ -101,18 +101,26 @@ function plugin_init_flyvemdm() {
       $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array();
       $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array();
 
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation']
-            = array('PluginFlyvemdmNotificationTargetInvitation', 'addEvents');
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation']
-            = array('PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate');
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+            'PluginFlyvemdmNotificationTargetInvitation', 'addEvents'
+      );
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+            'PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'
+      );
       Plugin::registerClass('PluginFlyvemdmInvitation', array(
             'notificationtemplates_types' => true, // 'document_types' => true
       ));
 
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetAccountvalidation']
-            = array('PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents');
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetAccountvalidation']
-            = array('PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate');
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array(
+            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
+                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'addEvents'
+            )
+      );
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array(
+            'PluginFlyvemdmNotificationTargetAccountvalidation' => array(
+                  'PluginFlyvemdmNotificationTargetAccountvalidation', 'getAdditionalDatasForTemplate'
+            )
+      );
 
       Plugin::registerClass('PluginFlyvemdmAccountvalidation', array(
          'notificationtemplates_types' => true, // 'document_types' => true
@@ -127,18 +135,13 @@ function plugin_init_flyvemdm() {
       }
 
       // Hooks for the plugin : objects inherited from GLPI or
-      $PLUGIN_HOOKS['pre_item_add']['flyvemdm']     = array(
-            'User'                  => array('PluginFlyvemdmUser', 'hook_pre_user_add'),
-            'Entity'                => array('PluginFlyvemdmEntityconfig', 'hook_pre_entity_add'),
-      );
       $PLUGIN_HOOKS['item_add']['flyvemdm']     = array(
-            'Entity'                => array('PluginFlyvemdmEntityconfig', 'hook_entity_add'),
-            'PluginFlyvemdmEntity'  => array('PluginFlyvemdmEntityconfig', 'hook_entity_add'),
+            'Entity'                => 'plugin_flyvemdm_hook_entity_add',
       );
       $PLUGIN_HOOKS['item_purge']['flyvemdm']   = array(
             'User'                  => array('PluginFlyvemdmUser', 'hook_pre_user_purge'),
-            'Entity'                => array('PluginFlyvemdmEntityconfig', 'hook_entity_purge'),
-            'Computer'              => array('PluginFlyvemdmGeolocation', 'hook_computer_purge'),
+            'Entity'                => 'plugin_flyvemdm_hook_entity_purge',
+            'Computer'              => 'plugin_flyvemdm_computer_purge',
       );
       $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = array(
             'PluginFlyvemdmInvitation' => array('PluginFlyvemdmInvitation', 'hook_pre_self_purge'),

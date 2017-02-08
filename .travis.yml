@@ -9,13 +9,13 @@ env:
   global:
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
   matrix:
-    - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.1-backport"
+    - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.2-backport"
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.1/bugfixes"
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master"
 
 before_script:
   - git clone --depth=50 $GLPI_SOURCE ../glpi && cd ../glpi
-  - composer install
+  - composer install --no-dev
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone --depth=50 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/flyvemdm
@@ -28,7 +28,7 @@ before_script:
 script:
   - cd plugins/flyvemdm
   - php -S localhost:8088 -t ../.. ../../tests/router.php &>/dev/null &
-  - phpunit --verbose
+  - vendor/bin/phpunit --verbose
   - vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/
 
 notifications:

@@ -29,83 +29,98 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class DeleteEntityTest extends RegisteredUserTestCase {
+use Flyvemdm\Test\ApiRestTestCase;
 
-   /**
-    *
-    * @return PluginFlyvemdmInvitation
-    */
-   public function testInitCreateInvitation() {
-      $invitation = new PluginFlyvemdmInvitation();
+class DeleteEntityTest extends ApiRestTestCase {
 
-      $invitation->add([
-            'entities_id'  => $_SESSION['glpiactive_entity'],
-            '_useremails'  => 'a.user@localhost.local',
+   protected static $sessionToken;
+
+   protected static $entityId;
+
+   protected static $entity;
+
+   protected static $invitation;
+
+   protected static $guestEmail;
+
+   protected static $guestUser;
+
+   protected static $agent;
+
+   protected static $defaultFleet;
+
+   protected static $fleet;
+
+   protected static $package;
+
+   protected static $file;
+
+   public static function setUpBeforeClass() {
+      global $DB;
+
+      parent::setupBeforeClass();
+
+      self::login('glpi', 'glpi', true);
+      self::$entity = new Entity();
+      self::$entity->add([
+            'name'   => "to be deleted",
+      ]);
+      $entityId = self::$entity->getID();
+
+      self::$guestEmail = 'a.user@localhost.local';
+
+      // create invitation
+      self::$invitation = new PluginFlyvemdmInvitation();
+      self::$invitation->add([
+            'entities_id'  => $entityId,
+            '_useremails'  => self::$guestEmail,
       ]);
 
-      $this->assertFalse($invitation->isNewItem());
+      self::$guestUser = new User();
+      self::$guestUser->getFromDB(self::$invitation->getField('users_id'));
 
-      return $invitation;
-   }
-
-   /**
-    * @depends testInitCreateInvitation
-    * @return PluginFlyvemdmAgent
-    */
-   public function testInitEnrollAgent(PluginFlyvemdmInvitation $invitation) {
-      // Login as guest user
-      $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
       Session::destroy();
-      $this->assertTrue(self::login('', '', false));
+      self::setupGLPIFramework();
+
+      // Login as guest user
+      $_REQUEST['user_token'] = User::getPersonalToken(self::$invitation->getField('users_id'));
+      self::login('', '', false);
       unset($_REQUEST['user_token']);
 
-      // Find email of the guest user
-      $userId = $invitation->getField('users_id');
-      $userEmail = new UserEmail();
-      $userEmail->getFromDBByQuery("WHERE `users_id`='$userId' AND `is_default` <> '0'");
-      $this->assertFalse($userEmail->isNewItem());
-      $guestEmail = $userEmail->getField('email');
-
-      $agent = new PluginFlyvemdmAgent();
-      $agentId = $agent->add([
-            'entities_id'        => $_SESSION['glpiactive_entity'],
-            '_email'             => $guestEmail,
-            '_invitation_token'  => $invitation->getField('invitation_token'),
+      // enroll an agent
+      self::$agent = new PluginFlyvemdmAgent();
+      self::$agent->add([
+            'entities_id'        => $entityId,
+            '_email'             => self::$guestEmail,
+            '_invitation_token'  => self::$invitation->getField('invitation_token'),
             '_serial'            => 'AZERTY',
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
       ]);
-      $this->assertFalse($agent->isNewItem(), $_SESSION['MESSAGE_AFTER_REDIRECT']);
 
-      return $agent;
-   }
+      Session::destroy();
+      self::setupGLPIFramework();
 
-   /**
-    *
-    * @return PluginFlyvemdmFleet
-    */
-   public function testInitCreateFleet() {
-      $fleet = new PluginFlyvemdmFleet();
-      $fleet->add([
+      // login as super admin
+      self::login('glpi', 'glpi', true);
+
+      //find default fleet
+      self::$defaultFleet = new PluginFlyvemdmFleet();
+      self::$defaultFleet->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `is_default` <> '0'");
+
+      // create a fleet
+      self::$fleet = new PluginFlyvemdmFleet();
+      self::$fleet->add([
             'name'         => 'a fleet',
-            'entities_id'  => $_SESSION['glpiactive_entity'],
+            'entities_id'  => $entityId,
       ]);
 
-      $this->assertFalse($fleet->isNewItem());
-
-      return $fleet;
-   }
-
-   public function testInitCreateApplication() {
-      global $DB;
-
-      $package = new PluginFlyvemdmPackage();
+      self::$package = new PluginFlyvemdmPackage();
       // Create an application (directly in DB) because we are not uploading any file
       $packageName = 'com.domain.author.application';
       $packageTable = PluginFlyvemdmPackage::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
          `name`,
          `alias`,
@@ -125,22 +140,14 @@ class DeleteEntityTest extends RegisteredUserTestCase {
          '$entityId',
          'application_105.apk',
          ''
-      )";
+         )";
       $DB->query($query);
-      $mysqlError = $DB->error();
-      $package = new PluginFlyvemdmPackage();
-      $this->assertTrue($package->getFromDBByQuery("WHERE `name`='$packageName'"), $mysqlError);
-
-      return $package;
-   }
-
-   public function testInitCreateFile() {
-      global $DB;
+      self::$package->getFromDBByQuery("WHERE `name`='$packageName'");
 
       // Create an file (directly in DB)
+      self::$file = new PluginFlyvemdmFile();
       $fileName = 'flyve-user-manual.pdf';
       $fileTable = PluginFlyvemdmFile::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $fileTable (
          `name`,
          `source`,
@@ -152,49 +159,105 @@ class DeleteEntityTest extends RegisteredUserTestCase {
          '$entityId'
       )";
       $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = new PluginFlyvemdmFile();
-      $this->assertTrue($file->getFromDBByQuery("WHERE `name`='$fileName'"), $mysqlError);
+      self::$file->getFromDBByQuery("WHERE `name`='$fileName'");
 
-      return $file;
+      Session::destroy();
+   }
+
+   //    public function setUp() {
+   //       parent::setUp();
+   //       Session::changeActiveEntities(self::$entity->getID(), 0);
+   //    }
+
+   /**
+    *
+    */
+   public function testInitGetSessionToken() {
+      $this->initSessionByCredentials('glpi', 'glpi');
+      $this->assertEquals(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      self::$sessionToken = $this->restResponse['session_token'];
+      self::$entityId = $_SESSION['glpiactive_entity'];
    }
 
    /**
-    * @depends testInitCreateInvitation
-    * @depends testInitEnrollAgent
-    * @depends testInitCreateFleet
-    * @depends testInitCreateApplication
-    * @depends testInitCreateFile
+    *
     */
    public function testDeleteEntity() {
-      $entityId = $_SESSION['glpiactive_entity'];
+      $entityId = self::$entity->getID();
 
-      // Use a super admin account
-      self::login('glpi', 'glpi', true);
+      $body = json_encode([
+            'input' => [
+                  'id'  => $entityId,
+            ],
+            'force_purge' => true,
+      ]);
+      $this->entity("delete", self::$sessionToken, $body);
 
-      $entity = new Entity();
-      $entity->delete(array('id' => $entityId));
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
+      // Check invitations were purged
+      $this->assertFalse(self::$invitation->isNewItem());
+      self::$invitation = new PluginFlyvemdmInvitation();
+      self::$invitation->getFromDB(self::$invitation->getID());
+      $this->assertTrue(self::$invitation->isNewItem());
+
+      // check no invitation exist in the purged entity
       $invitation = new PluginFlyvemdmInvitation();
       $rows = $invitation->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
-      $agent = new PluginFlyvemdmAgent();
-      $rows = $agent->find("`entities_id` = '$entityId'");
-      $this->assertCount(0, $rows);
+      // check fleets were purged
+      $this->assertFalse(self::$defaultFleet->isNewItem());
+      self::$defaultFleet = new PluginFlyvemdmFleet();
+      self::$defaultFleet->getFromDB(self::$defaultFleet->getID());
+      $this->assertTrue(self::$defaultFleet->isNewItem());
 
+      $this->assertFalse(self::$fleet->isNewItem());
+      self::$fleet = new PluginFlyvemdmFleet();
+      self::$fleet->getFromDB(self::$fleet->getID());
+      $this->assertTrue(self::$fleet->isNewItem());
+
+      // check no fleet exists in the purged entity
       $fleet = new PluginFlyvemdmFleet();
       $rows = $fleet->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
+      // check agents were purged
+      $this->assertFalse(self::$agent->isNewItem());
+      self::$agent = new PluginFlyvemdmAgent();
+      self::$agent->getFromDB(self::$agent->getID());
+      $this->assertTrue(self::$agent->isNewItem());
+
+      // check no agent exists in the purged entity
+      $agent = new PluginFlyvemdmAgent();
+      $rows = $agent->find("`entities_id` = '$entityId'");
+      $this->assertCount(0, $rows);
+
+      // check applications were purged
+      $this->assertFalse(self::$package->isNewItem());
+      self::$package = new PluginFlyvemdmPackage();
+      self::$package->getFromDB(self::$package->getID());
+      $this->assertTrue(self::$package->isNewItem());
+
+      // check no application exists in the purged entity
       $application = new PluginFlyvemdmPackage();
       $rows = $application->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
+      // check files were purged
+      $this->assertFalse(self::$file->isNewItem());
+      self::$file = new PluginFlyvemdmFile();
+      self::$file->getFromDB(self::$file->getID());
+      $this->assertTrue(self::$file->isNewItem());
+
+      // check no file exists in the purged entity
       $file = new PluginFlyvemdmFile();
       $rows = $file->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);
 
+      // check no entityConfig exists for the purged entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
       $rows = $entityConfig->find("`entities_id` = '$entityId'");
       $this->assertCount(0, $rows);

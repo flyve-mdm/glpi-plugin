@@ -29,7 +29,14 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginFlyvemdmPolicyFileDeploymentTest extends SuperAdminTestCase {
+class PluginFlyvemdmPolicyFileDeploymentTest extends CommonTestCase {
+
+   public function setUp() {
+      parent::setUp();
+      self::setupGLPIFramework();
+      self::login('glpi', 'glpi', true);
+   }
+
 
    public function testInitCreatePolicy() {
       $policyData = new PluginFlyvemdmPolicy();

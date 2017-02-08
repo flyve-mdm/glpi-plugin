@@ -40,7 +40,7 @@ use sskaje\mqtt;
  */
 class PluginFlyvemdmMqttclient {
 
-   const MQTT_MAXIMUM_DURATION = 60 * 60 * 24; // 24h
+   const MQTT_MAXIMUM_DURATION = 86400; // 24h
 
    /**
     * @var integer time of the beginning of subscription when used as a MQTT subscriver

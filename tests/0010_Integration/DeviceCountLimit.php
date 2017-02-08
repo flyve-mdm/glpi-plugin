@@ -33,20 +33,20 @@ class DeviceCountLimit extends RegisteredUserTestCase {
 
    protected static $deviceLimit = 5;
 
-   /**
-    * Set the default device limit to a low valur for testing purpose
-    * before creating the registered user account
-    */
-   public function testInitDeviceLimit() {
+   protected static $invitationData;
+
+   public static function setUpBeforeClass() {
+      parent::setUpBeforeClass();
+
+      self::login('glpi', 'glpi', true);
+
       $entityConfig = new PluginFlyvemdmEntityConfig();
       $entityConfig->update(array(
-         'id'           => $_SESSION['glpiactive_entity'],
-         'device_limit' => self::$deviceLimit
+            'id'           => $_SESSION['glpiactive_entity'],
+            'device_limit' => self::$deviceLimit
       ));
-   }
 
-   public  function testCreateInvitations() {
-      $data = array();
+      self::$invitationData = array();
       for ($i = 0; $i <=  self::$deviceLimit; $i++) {
          $email = "guestuser$i@localhost.local";
          $invitation = new PluginFlyvemdmInvitation();
@@ -54,21 +54,20 @@ class DeviceCountLimit extends RegisteredUserTestCase {
                'entities_id'  => $_SESSION['glpiactive_entity'],
                '_useremails'  => $email,
          ]);
-          $data[] = array('invitation' => $invitation, 'email' => $email);
+         self::$invitationData[] = array('invitation' => $invitation, 'email' => $email);
       }
-      return $data;
+
+      Session::destroy();
    }
 
    /**
     * Enrolls an agent as guest user
     *
-    * @depends testCreateInvitations
     */
-   public function testEnrollAgent($enrollmentData) {
-
-      for ($i = 0; $i < count($enrollmentData); $i++) {
-         $invitation = $enrollmentData[$i]['invitation'];
-         $email = $enrollmentData[$i]['email'];
+   public function testEnrollAgent() {
+      for ($i = 0; $i < count(self::$invitationData) - 1; $i++) {
+         $invitation = self::$invitationData[$i]['invitation'];
+         $email = self::$invitationData[$i]['email'];
 
          // Login as guest user
          $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
@@ -77,32 +76,44 @@ class DeviceCountLimit extends RegisteredUserTestCase {
          unset($_REQUEST['user_token']);
 
          $agent = new PluginFlyvemdmAgent();
-         $agentId = $agent ->add([
+         $agentId = $agent->add([
                'entities_id'        => $_SESSION['glpiactive_entity'],
                '_email'             => $email,
                '_invitation_token'  => $invitation->getField('invitation_token'),
                '_serial'            => 'AZERTY_' . $invitation->getID(),
                'csr'                => '',
                'firstname'          => 'John',
-               'lastname'           => 'Doe'
+               'lastname'           => 'Doe',
+               'version'            => '1.0.0',
          ]);
-         if ($i < self::$deviceLimit) {
-            // Agent creation should succeed
-            $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
-         } else {
-            // Device limit reached : agent creation should fail
-            $this->assertFalse($agentId);
-         }
+         // Agent creation should succeed
+         $this->assertGreaterThan(0, $agentId, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT']));
       }
 
+      // One nore ienrollment
+      $invitation = self::$invitationData[$i]['invitation'];
+      $email = self::$invitationData[$i]['email'];
+
+      // Login as guest user
+      $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
+      Session::destroy();
+      $this->assertTrue(self::login('', '', false));
+      unset($_REQUEST['user_token']);
+
+      $agent = new PluginFlyvemdmAgent();
+      $agentId = $agent->add([
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => $email,
+            '_invitation_token'  => $invitation->getField('invitation_token'),
+            '_serial'            => 'AZERTY_' . $invitation->getID(),
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
+      ]);
+      // Device limit reached : agent creation should fail
+      $this->assertFalse($agentId);
+
       return $agent;
-   }
-
-   public function testRegisteredUserCannotChangeLimit() {
-      $entityConfig = new PluginFlyvemdmEntityconfig();
-      $right = $entityConfig->canUpdate();
-      $right = ($right === null || $right === false);
-      $this->assertTrue($right);
-
    }
 }

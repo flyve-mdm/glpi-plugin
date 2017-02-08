@@ -29,6 +29,8 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
+use Glpi\Test\CommonDBTestCase;
+
 class SaveInstallTest extends CommonDBTestCase
 {
 

@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
-class CommonDBTestCase extends PHPUnit_Framework_TestCase {
+abstract class CommonDBTestCase extends PHPUnit_Framework_TestCase {
 
    protected static function drop_database($dbuser='', $dbhost='', $dbdefault='', $dbpassword='') {
 
@@ -157,9 +157,10 @@ class CommonDBTestCase extends PHPUnit_Framework_TestCase {
    }
 
    protected static function setupGLPIFramework() {
-      global $CFG_GLPI, $DB, $LOADED_PLUGINS;
+      global $CFG_GLPI, $DB, $LOADED_PLUGINS, $PLUGIN_HOOKS;
 
       $LOADED_PLUGINS = null;
+      $_SESSION = array();
       $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;       // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
       if (is_readable(GLPI_ROOT . "/config/config.php")) {
          // GLPI < 9.2

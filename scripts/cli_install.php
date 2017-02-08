@@ -39,11 +39,13 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [ --tests ]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ]
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
-   --api-user-token APITOKEN    APITOKEN
+   --api-user-token     APITOKEN    APITOKEN
+   --enable-api         Enable GLPI's API
+   --enable-email       Enable GLPI's email notification
    --tests              Use GLPi test database
 
 DOC;
@@ -63,6 +65,24 @@ if (isset($args['--tests']) && $args['--tests'] !== false ) {
 }
 
 include (__DIR__ . "/../../../inc/includes.php");
+
+if (isset($args['--enable-api']) && $args['--enable-api'] !== false ) {
+   $config = [
+         'enable_api'                        => '1',
+         'enable_api_login_credentials'      => '1',
+         'enable_api_login_external_token'   => '1',
+   ];
+   Config::setConfigurationValues('core', $config);
+   $CFG_GLPI = $config + $CFG_GLPI;
+}
+
+if (isset($args['--enable-email']) && $args['--enable-email'] !== false ) {
+   $config = [
+         'use_mailing'                        => '1',
+   ];
+   Config::setConfigurationValues('core', $config);
+   $CFG_GLPI = $config + $CFG_GLPI;
+}
 
 // Init debug variable
 $_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;

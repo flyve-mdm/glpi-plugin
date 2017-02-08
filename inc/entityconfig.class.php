@@ -136,7 +136,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * create folders and initial setup of the entity related to MDM
     * @param CommonDBTM $item
     */
-   public static function hook_entity_add(CommonDBTM $item) {
+   public function hook_entity_add(CommonDBTM $item) {
       // Determine if the entity has been created by FlyveMDM
       $managed = ( $item instanceof PluginFlyvemdmEntity ) ? '1' : '0';
 
@@ -173,21 +173,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * Cleanup MDM related data for the entity being deleted
     * @param CommonDBTM $item
     */
-   public static function hook_entity_purge(CommonDBTM $item) {
-
-      $itemtypes = array(
-            'PluginFlyvemdmEntityconfig',
-            'PluginFlyvemdmInvitation',
-            'PluginFlyvemdmAgent',
-            'PluginFlyvemdmFleet',
-            'PluginFlyvemdmPackage',
-            'PluginFlyvemdmFile',
-      );
-
-      foreach ($itemtypes as $itemtype) {
-         $itemToPurge = new $itemtype();
-         $itemToPurge->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
-      }
+   public function hook_entity_purge(CommonDBTM $item) {
+      $entityConfig = new static();
+      $entityConfig->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
 
       // Delete folders for the entity
       PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
@@ -201,23 +189,18 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return bin2hex(openssl_random_pseudo_bytes(32));
    }
 
-   /**
-    * Ensure the service account is not used to directly create entities
-    * @param CommonDBTM $item
-    */
-   public static function hook_pre_entity_add(CommonDBTM $item) {
-      $config = Config::getConfigurationValues('flyvemdm', array('service_profiles_id'));
-      $serviceProfileId = $config['service_profiles_id'];
-      if ($serviceProfileId === null) {
-         $item->input = null;
-         return false;
-      }
+   public function getFromDBOrCreate($ID) {
+      if (!$this->getFromDB($ID)) {
+         $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
 
-      if ($_SESSION['glpiactiveprofile']['id'] == $serviceProfileId) {
-         if (PluginFlyvemdmUser::getCreation() !== true) {
-            $item->input = null;
-            return false;
-         }
+         $this->add([
+               'id'              => $ID,
+               'enroll_token'    => '',
+               'device_limit' => $config['default_device_limit'],
+         ]);
+         return true;
+      } else {
+         return true;
       }
    }
 

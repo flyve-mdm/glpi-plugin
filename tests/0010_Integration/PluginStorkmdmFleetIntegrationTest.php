@@ -28,40 +28,49 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
+use Flyvemdm\Test\ApiRestTestCase;
 
-class PluginFlyvemdmFleetIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
 
    /**
-    * Create an invitation for enrollment tests
+    * The current session token
+    * @var string
     */
-   public function testInitInvitationCreation() {
-      self::$fixture['guestEmail'] = 'guestuser0001@localhost.local';
+   protected static $sessionToken;
+
+   /**
+    * Entity ID of the registered user
+    * @var integer
+    */
+   protected static $entityId;
+
+   /**
+    *
+    * @var string
+    */
+   protected static $guestEmail;
+
+   /**
+    * enrolled agent
+    * @var PluginFlyvemdmAgent
+    */
+   protected static $enrolledAgent;
+
+   public static function setUpBeforeClass() {
+      parent::setUpBeforeClass();
+
+      self::login('glpi', 'glpi', true);
 
       $invitation = new PluginFlyvemdmInvitation();
       $invitationId = $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => self::$fixture['guestEmail'],
+            'entities_id'  => self::$entityId,
+            '_useremails'  => self::$guestEmail,
       ]);
-      $this->assertGreaterThan(0, $invitationId);
 
-      return $invitation;
-   }
-
-   /**
-    * Enrolls an agent as guest user
-    * @depends testInitInvitationCreation
-    */
-   public function testInitEnrollAgent($invitation) {
-      // Login as guest user
-      $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
-      Session::destroy();
-      $this->assertTrue(self::login('', '', false));
-      unset($_REQUEST['user_token']);
-
-      $agent = new PluginFlyvemdmAgent();
-      $agentId = $agent ->add([
-            'entities_id'        => $_SESSION['glpiactive_entity'],
-            '_email'             => self::$fixture['guestEmail'],
+      self::$enrolledAgent = new PluginFlyvemdmAgent();
+      self::$enrolledAgent ->add([
+            'entities_id'        => 0,
+            '_email'             => self::$guestEmail,
             '_invitation_token'  => $invitation->getField('invitation_token'),
             '_serial'            => 'AZERTY',
             'csr'                => '',
@@ -69,60 +78,91 @@ class PluginFlyvemdmFleetIntegrationTest extends RegisteredUserTestCase {
             'lastname'           => 'user',
             'version'            => '1.0.0',
       ]);
-      $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
-
-      return $agent;
    }
 
+   /**
+    * login as a registered user
+    */
+   public function testInitGetSessionToken() {
+      $this->initSessionByCredentials('glpi', 'glpi');
+      $this->assertEquals(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      self::$sessionToken = $this->restResponse['session_token'];
+      self::$entityId = $_SESSION['glpiactive_entity'];
+   }
+
+
+   /**
+    * @depends testInitGetSessionToken
+    */
    public function testDeleteDefaultFleet() {
       $fleet = new PluginFlyvemdmFleet();
-      $entityId = $_SESSION['glpiactive_entity'];
+      $entityId = self::$entityId;
       $this->assertTrue($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId' LIMIT 1"));
+      $body = json_encode([
+            'input' => [
+                  'id'     => $fleet->getID(),
+            ]
+      ]);
+      $this->fleet('delete', self::$sessionToken, $body);
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
-      $this->assertFalse($fleet->delete(['id' => $fleet->getID()]));
    }
 
    public function testAddFleet() {
       // The API automatically sets entites_id
-      $input = [
-            'entities_id'     => $_SESSION['glpiactive_entity'],
-            'name'            => 'a fleet'
-      ];
+      $body = json_encode([
+            'input'  => [
+                  'entities_id'     => self::$entityId,
+                  'name'            => 'a fleet'
+            ]]);
+      $this->fleet('post', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       $fleet = new PluginFlyvemdmFleet();
-      $this->assertGreaterThan(0, $fleet->add($input));
+      $fleet->getFromDB($this->restResponse['id']);
       return $fleet;
    }
 
    /**
     * @depends testAddFleet
-    * @depends testInitEnrollAgent
     */
-   public function testAddAgentToFleet(PluginFlyvemdmFleet $fleet, PluginFlyvemdmAgent $agent) {
-      $updateSuccess = $agent->update([
-            'id'                          => $agent->getID(),
-            'plugin_flyvemdm_fleets_id'   => $fleet->getID()
-      ]);
-      $this->assertTrue($updateSuccess);
+   public function testAddAgentToFleet(PluginFlyvemdmFleet $fleet) {
+      $body = json_encode([
+            'input'  => [
+               'id'                          => self::$enrolledAgent->getID(),
+               'plugin_flyvemdm_fleets_id'   => $fleet->getID()
+            ]]);
+      $this->agent('update', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
 
       return $fleet;
    }
 
    /**
     * @depends testAddFleet
-    * @depends testInitEnrollAgent
+    * @depends testAddAgentToFleet
     */
    public function testApplyPolicyToFleet(PluginFlyvemdmFleet $fleet) {
       $policyData = new PluginFlyvemdmPolicy();
       $policyData->getFromDBBySymbol('disableGPS');
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->add([
-            'plugin_flyvemdm_policies_id'    => $policyData->getID(),
-            'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
-            'value'                          => '0'
-      ]);
 
-      $this->assertFalse($fleet_policy->isNewItem());
+      $body = json_encode([
+            'input'  => [
+                  'plugin_flyvemdm_policies_id' => $policyData->getID(),
+                  'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+                  'value'                       => '0',
+            ]]);
+
+      $this->fleet_policy('post', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
    }
 
    /**
@@ -130,26 +170,22 @@ class PluginFlyvemdmFleetIntegrationTest extends RegisteredUserTestCase {
     * @depends testApplyPolicyToFleet
     */
    public function testPurgeFleet(PluginFlyvemdmFleet $fleet) {
-      $deleteSuccess = $fleet->delete([
-            'id'     => $fleet->getID()
-      ]);
-      $this->assertTrue($deleteSuccess);
+      $fleetId = $fleet->getID();
+      $body = json_encode([
+            'input'  => [
+                  'id' => $fleetId,
+            ]]);
+      $this->fleet('delete', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      // Check there is no agent linked to the deleted fleet
+      $agent = new PluginFlyvemdmAgent();
+      $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
+      $this->assertEquals(0, count($rows));
 
       return $fleet;
-   }
-
-   /**
-    * @depends testPurgeFleet
-    */
-   public function testAgentUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
-      $entityId = $_SESSION['glpiactive_entity'];
-      $fleetId = $fleet->getID();
-
-      $agent = new PluginFlyvemdmAgent();
-      $rows = $agent->find("`entities_id`='$entityId' AND `plugin_flyvemdm_fleets_id`='$fleetId'");
-
-      // Should be no agent linked to the deleted fleet
-      $this->assertEquals(0, count($rows));
    }
 
    /**

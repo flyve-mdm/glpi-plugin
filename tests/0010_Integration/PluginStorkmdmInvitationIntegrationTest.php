@@ -28,30 +28,111 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
+use Flyvemdm\Test\ApiRestTestCase;
 
-class PluginFlyvemdmInvitationIntegrationTest extends RegisteredUserTestCase
-{
+class PluginFlyvemdmInvitationIntegrationTest extends ApiRestTestCase {
+   /**
+    * The current session token
+    * @var string
+    */
+   protected static $sessionToken;
+
+   /**
+    * Entity ID of the registered user
+    * @var integer
+    */
+   protected static $entityId;
+
+   /**
+    *
+    * @var string
+    */
+   protected static $guestEmail;
+
+   /**
+    * email of an administrator
+    * @var string
+    */
+   protected static $adminEmail;
+
+
    public static function setupBeforeClass() {
       parent::setupBeforeClass();
 
-      self::$fixture['userEmails'] = 'guest0001@localhost.local';
+      self::$adminEmail = 'glpi@localhost.local';
+      self::login('glpi', 'glpi', true);
+
+      $user = new User();
+      $user->getFromDBByName('glpi');
+      $user->update([
+            'id'           => $user->getID(),
+            'name'         => self::$adminEmail,
+            '_useremails'  => array(self::$adminEmail),
+      ]);
+
+      self::$guestEmail = 'guest0001@localhost.local';
+   }
+
+   public function SuccessfulInvitationsProvider() {
+      return [
+            "guest_user" => [
+                  "data" => [
+                        "_useremails" => "aguest@localhost.local",
+                  ],
+            ],
+            "admin_user_himself" => [
+                  "data" => [
+                        "_useremails" => 'glpi@localhost.local',
+                  ],
+            ]
+      ];
+   }
+
+   public function BadInvitationsProvider() {
+      return [
+            "invalid_email" => [
+                  "data" => [
+                        "_useremails" => "invalid"
+                  ],
+            ],
+      ];
+   }
+
+   /**
+    * login as a registered user
+    */
+   public function testInitGetSessionToken() {
+      $this->initSessionByCredentials('glpi@localhost.local', 'glpi');
+      $this->assertEquals(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      self::$sessionToken = $this->restResponse['session_token'];
+      self::$entityId = $_SESSION['glpiactive_entity'];
    }
 
    /**
     *
     */
    public function testCreateInvitation() {
-      $invitation = new PluginFlyvemdmInvitation();
-      $invitationId = $invitation->add([
-            'entities_id'  => $_SESSION['glpiactive_entity'],
-            '_useremails'  => self::$fixture['userEmails'],
+      $body = json_encode([
+            'input' => [
+                  'entities_id'  => self::$entityId,
+                  '_useremails'  => self::$guestEmail,
+            ]
       ]);
-      $this->assertFalse($invitation->isNewItem());
+
+      $this->invitation('post', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      $invitation = new PluginFlyvemdmInvitation();
+      $invitation->getFromDB($this->restResponse['id']);
       return $invitation;
    }
 
    /**
     * @depends testCreateInvitation
+    * @param PluginFlyvemdmInvitation $invitation
     */
    public function testUserCreated($invitation) {
       $user = new User();
@@ -65,28 +146,92 @@ class PluginFlyvemdmInvitationIntegrationTest extends RegisteredUserTestCase
     */
    public function testUserHasEmail($referenceUser) {
       $user = new User();
-      $user->getFromDBbyEmail(self::$fixture['userEmails'], '');
+      $user->getFromDBbyEmail(self::$guestEmail, '');
       $this->assertEquals($referenceUser->getID(), $user->getID());
    }
 
    /**
     * @depends testCreateInvitation
-    * @param User $user
+    * @param PluginFlyvemdmInvitation $firstInvitation
     */
    public function testCreateInvitationForTheSameUser($firstInvitation) {
-      $invitation = new PluginFlyvemdmInvitation();
-      $invitationId = $invitation->add([
-            'entities_id'  => $_SESSION['glpiactive_entity'],
-            '_useremails'  => self::$fixture['userEmails'],
+      $body = json_encode([
+            'input' => [
+                  'entities_id'  => self::$entityId,
+                  '_useremails'  => self::$guestEmail,
+            ]
       ]);
-      $this->assertFalse($invitation->isNewItem());
-      return array($firstInvitation, $invitation);
+
+      $this->invitation('post', self::$sessionToken, $body);
+
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      $invitation = new PluginFlyvemdmInvitation();
+      $invitation->getFromDB($this->restResponse['id']);
+      return $invitation;
    }
 
    /**
+    * @depends testCreateInvitation
     * @depends testCreateInvitationForTheSameUser
+    * @param PluginFlyvemdmInvitation $invitation
+    * @param PluginFlyvemdmInvitation $secondInvntation
     */
-   public function testSecondInvitationHasSameUserThanFirstOne($invitations) {
-      $this->assertEquals($invitations[0]->getField('users_id'), $invitations[1]->getField('users_id'));
+   public function testSecondInvitationHasSameUserThanFirstOne($invitation, $secondInvntation) {
+      $this->assertEquals($invitation->getField('users_id'), $secondInvntation->getField('users_id'));
    }
+
+   /**
+    * @dataProvider BadInvitationsProvider
+    * @param unknown $data
+    */
+   public function testFailingInvitation($data) {
+      $body = json_encode([
+            'input'  => $data
+      ]);
+
+      $this->invitation('post', self::$sessionToken, $body);
+      $this->assertGreaterThanOrEqual(400, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(500, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+   }
+
+   /**
+    * @dataProvider SuccessfulInvitationsProvider
+    */
+   public function testSuccessfulInvitation($data) {
+      $body = json_encode([
+            'input'  => $data
+      ]);
+
+      $this->invitation('post', self::$sessionToken, $body);
+      $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+      $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
+
+      $this->assertArrayHasKey('id', $this->restResponse);
+
+      // Check the invitation is actually created
+      $invitationId = $this->restResponse['id'];
+      $invitation = new PluginFlyvemdmInvitation();
+      $invitation->getFromDB($invitationId);
+      $this->assertFalse($invitation->isNewItem());
+
+      // Check the invitation is pending
+      $this->assertEquals('pending', $invitation->getField('status'));
+
+      // Check the invitation has an expriation date
+      // TODO
+
+      // Check the notifications email is queued
+      $queuedMail = new QueuedMail();
+      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'");
+      $this->assertFalse($queuedMail->isNewItem());
+
+      // Check a QR code document has been created
+      $document = new Document();
+      $document->getFromDB($invitation->getField('documents_id'));
+      $this->assertFalse($document->isNewItem());
+   }
+
 }

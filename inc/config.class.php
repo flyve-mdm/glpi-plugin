@@ -44,8 +44,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    const PLUGIN_FLYVEMDM_MQTT_CLIENT = "flyvemdm";
 
-   const SERVICE_ACCOUNT_NAME = 'flyvenologin';
-
    static $config = array();
 
    /**
@@ -59,11 +57,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       echo '<tr><th colspan="3">'.__('Flyve MDM settings', "flyvemdm").'</th></tr>';
 
       $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $apiKey = $user->getField('personal_token');
-      } else {
-         $apiKey = '';
-      }
 
       echo '<tr><th colspan="3">'.__("MQTT broker", "flyvemdm").'</th></tr>';
 
@@ -187,39 +180,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "flyvemdm").'</td>';
       echo '</tr>';
 
-      echo '<tr><th colspan="3">'.__('Demo mode', "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Demo mode", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('demo_mode', $config['demo_mode'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. __("Demo mode enables email validation step when self creating an entity", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Time limit", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('demo_time_limit', $config['demo_time_limit'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. __("Limit lifetime of a demo account", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Frontend setup', "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Webapp URL", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="webapp_url"' .
-            'value="'. $config['webapp_url'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("URL of the web interface used for management", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Service's User Token", "flyvemdm").'</td>';
-      echo '<td>' . $apiKey;
-      echo '</td>';
-      echo '<td>'. __("To be saved in frontend's app/config.js file", "flyvemdm").'</td>';
-      echo '</tr>';
-
       echo '<tr class="tab_bg_1"><td class="center" colspan="2">';
       echo '<input type="hidden" name="id" value="1" class="submit">';
       echo '<input type="hidden" name="config_context" value="flyvemdm">';
@@ -255,22 +215,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             }
          }
       }
-      if (isset($input['demo_mode'])) {
-         if ($input['demo_mode'] != '0'
-               && (!isset($input['webapp_url']) || empty($input['webapp_url']))) {
-            Session::addMessageAfterRedirect(__('To enable the demo mode, you must provide the webapp URL !', 'flyvemdm', false, ERROR));
-            unset($input['demo_mode']);
-         } else {
-            $config = new static();
-            if ($input['demo_mode'] == 0) {
-               $config->resetDemoNotificationSignature();
-               $config->disableDemoAccountService();
-            } else {
-               $config->setDemoNotificationSignature();
-               $config->enableDemoAccountService();
-            }
-         }
-      }
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
@@ -292,37 +236,4 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
       return $fields;
    }
-
-   protected function setDemoNotificationSignature() {
-      $config = Config::setConfigurationValues('core', [
-            'mailing_signature' => '',
-      ]);
-   }
-
-   protected function resetDemoNotificationSignature() {
-      $config = Config::setConfigurationValues('core', [
-            'mailing_signature' => 'SIGNATURE',
-      ]);
-   }
-
-   protected function enableDemoAccountService() {
-      $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $user->update(array(
-               'id'        => $user->getID(),
-               'is_active' => 1
-         ));
-      }
-   }
-
-   protected function disableDemoAccountService() {
-      $user = new User();
-      if ($user->getFromDBbyName(self::SERVICE_ACCOUNT_NAME)) {
-         $user->update(array(
-               'id'        => $user->getID(),
-               'is_active' => 1
-         ));
-      }
-   }
-
 }

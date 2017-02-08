@@ -208,7 +208,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
-      if (!$entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
+      if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
          $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'flyvemdm')));
          return false;
       }
@@ -1437,5 +1437,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
+
+   /**
+    * purge agents in the entity being purged
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
 }

@@ -181,7 +181,8 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
       // Switch back to registered user
       Session::destroy();
-      $this->assertTrue(self::login('registereduser@localhost.local', 'password'));
+      //$this->assertTrue(self::login('registereduser@localhost.local', 'password'));
+      $this->assertTrue(self::login('glpi', 'glpi', true));
 
       $computerId = $agent->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
@@ -234,7 +235,8 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
       // Switch back to registered user
       Session::destroy();
-      $this->assertTrue(self::login('registereduser@localhost.local', 'password'));
+      $this->assertTrue(self::login('glpi', 'glpi', true));
+      //$this->assertTrue(self::login('registereduser@localhost.local', 'password'));
 
       // Delete shall succeed
       $this->assertTrue($agent->delete(['id' => $agentId]));
@@ -456,158 +458,4 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
       $agent->getFromDB($agent->getID());
       $this->assertTrue($agent->getField('wipe') == '1' && $agent->getField('lock') == '1');
    }
-
-   // =====================================================
-
-   public function testRegisteredUserAddsOwnDevice() {
-      $invitation = new PluginFlyvemdmInvitation();
-      $invitationId = $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => self::$fixture['registeredUserEmail'],
-      ]);
-      $this->assertGreaterThan(0, $invitationId);
-
-      return $invitation;
-   }
-
-   /**
-    * @depends testRegisteredUserAddsOwnDevice
-    * @param array $invitation
-    */
-   public function testRegisteredUserHasGuestProfile($invitation) {
-      $config = Config::getConfigurationValues("flyvemdm", array('guest_profiles_id'));
-      $user = new User();
-      $user->getFromDBbyEmail(self::$fixture['registeredUserEmail'], '');
-      $profile = new Profile();
-      $profile->getFromDB($config['guest_profiles_id']);
-      $profile_User = new Profile_User();
-      $profile_UserId = $profile_User->getFromDBForItems($user, $profile);
-      $this->assertTrue($profile_UserId);
-
-      return $invitation;
-   }
-
-   /**
-    * @depends testRegisteredUserHasGuestProfile
-    */
-   public function testRegisteredUserMayHaveAnOtherDevice() {
-      // Simply replay test for first device
-      $invitation = new PluginFlyvemdmInvitation();
-      $invitationId = $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => self::$fixture['registeredUserEmail'],
-      ]);
-      $this->assertGreaterThan(0, $invitationId);
-
-      return $invitation;
-   }
-
-   /**
-    * @depends testRegisteredUserMayHaveAnOtherDevice
-    */
-   public function testRegisteredUserEnrollsFirstDevice($invitation) {
-      // Switch to guest profile
-      $config = Config::getConfigurationValues("flyvemdm", array('registered_profiles_id', 'guest_profiles_id'));
-      $guestProfileId  = $config['guest_profiles_id'];
-      $registeredProfileId = $config['registered_profiles_id'];
-
-      $this->assertTrue(isset($_SESSION['glpiprofiles'][$guestProfileId]));
-      if (isset($_SESSION['glpiprofiles'][$guestProfileId])) {
-         Session::changeProfile($guestProfileId);
-         $agent = new PluginFlyvemdmAgent();
-         $agentId = $agent->add([
-               'entities_id'        => $_SESSION['glpiactive_entity'],
-               '_email'             => self::$fixture['registeredUserEmail'],
-               '_invitation_token'  => $invitation->getField('invitation_token'),
-               '_serial'            => 'GHJK',
-               'csr'                => '',
-               'firstname'          => 'Registered',
-               'lastname'           => 'user',
-               'version'            => '1.0.0',
-         ]);
-      }
-      $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
-      $agent->getFromDB($agentId);
-
-      return $agent;
-   }
-
-   /**
-    * @depends testRegisteredUserAddsOwnDevice
-    * @depends testRegisteredUserMayHaveAnOtherDevice
-    * @param unknown $invitation
-    */
-   public function testRegisteredUserEnrollsSecondDevice($invitation) {
-      // Switch to guest profile
-      $config = Config::getConfigurationValues("flyvemdm", array('registered_profiles_id', 'guest_profiles_id'));
-      $guestProfileId  = $config['guest_profiles_id'];
-      $registeredProfileId = $config['registered_profiles_id'];
-
-      $this->assertTrue(isset($_SESSION['glpiprofiles'][$guestProfileId]));
-      if (isset($_SESSION['glpiprofiles'][$guestProfileId])) {
-         Session::changeProfile($guestProfileId);
-         $agent = new PluginFlyvemdmAgent();
-         $agentId = $agent->add([
-               'entities_id'        => $_SESSION['glpiactive_entity'],
-               '_email'             => self::$fixture['registeredUserEmail'],
-               '_invitation_token'  => $invitation->getField('invitation_token'),
-               '_serial'            => 'WXCV',
-               'csr'                => '',
-               'firstname'          => 'Registered',
-               'lastname'           => 'user',
-               'version'            => '1.0.0',
-         ]);
-      }
-      $this->assertGreaterThan(0, $agentId, $_SESSION['MESSAGE_AFTER_REDIRECT']);
-      $agent->getFromDB($agentId);
-
-      return $agent;
-   }
-
-   /**
-    * @depends testRegisteredUserEnrollsFirstDevice
-    * @depends testRegisteredUserEnrollsSecondDevice
-    * @param unknown $agent
-    */
-   public function testRegisteredUserDeletesOneOfHisDevices($agent) {
-      $this->assertTrue($agent->delete(['id' => $agent->getID()]));
-   }
-
-   /**
-    * @depends testRegisteredUserDeletesOneOfHisDevices
-    */
-   public function testRegisteredUserStillHaveGuestProfile() {
-      $config = Config::getConfigurationValues("flyvemdm", array('guest_profiles_id'));
-      $user = new User();
-      $user->getFromDBbyEmail(self::$fixture['registeredUserEmail'], '');
-      $profile = new Profile();
-      $profile->getFromDB($config['guest_profiles_id']);
-      $profile_User = new Profile_User();
-      $profile_UserId = $profile_User->getFromDBForItems($user, $profile);
-      $this->assertTrue($profile_UserId);
-   }
-
-   /**
-    * @depends testRegisteredUserEnrollsSecondDevice
-    * @depends testRegisteredUserStillHaveGuestProfile
-    * @param unknown $agent
-    */
-   public function testRegisteredUserDeletesHisLastDevice($agent) {
-      $this->assertTrue($agent->delete(['id' => $agent->getID()]));
-   }
-
-   /**
-    * @depends testRegisteredUserDeletesHisLastDevice
-    */
-   public function testRegisteredUserNoLongerHasGuestProfile() {
-      $config = Config::getConfigurationValues("flyvemdm", array('guest_profiles_id'));
-      $user = new User();
-      $user->getFromDBbyEmail(self::$fixture['registeredUserEmail'], '');
-      $profile = new Profile();
-      $profile->getFromDB($config['guest_profiles_id']);
-      $profile_User = new Profile_User();
-      $profile_UserId = $profile_User->getFromDBForItems($user, $profile);
-      $this->assertFalse($profile_UserId);
-   }
-
 }
