@@ -407,9 +407,10 @@ Regards,
       }
       if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
          if (is_readable(__DIR__ . "/update_dev.php") && is_file(__DIR__ . "/update_dev.php")) {
-            include __DIR__ . "/update_dev.php";
-            if (function_exists('update_dev')) {
-               update_dev($this->migration);
+            include_once __DIR__ . "/update_dev.php";
+            $updateDevFunction = 'plugin_flyvemdm_update_dev';
+            if (function_exists($updateDevFunction)) {
+               $updateDevFunction($this->migration);
             }
          }
       }
@@ -433,7 +434,7 @@ Regards,
     */
    protected function startsWith($haystack, $needle) {
       // search backwards starting from haystack length characters from the end
-      return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+      return $needle === '' || strrpos($haystack, $needle, -strlen($haystack)) !== false;
    }
 
    /**
@@ -443,7 +444,7 @@ Regards,
     */
    protected function endsWith($haystack, $needle) {
       // search forward starting from end minus needle length characters
-      return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
    }
 
    /**
