@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
-class CommonDBTestCase extends PHPUnit_Framework_TestCase {
+abstract class CommonDBTestCase extends PHPUnit_Framework_TestCase {
 
    protected static function drop_database($dbuser='', $dbhost='', $dbdefault='', $dbpassword='') {
 
