@@ -70,7 +70,7 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
     * @param array $rights
     */
    public function testSuperAdminProfileAgentRight($rights) {
-      $this->assertEquals(ALLSTANDARDRIGHT | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmAgent::$rightname]);
+      $this->assertEquals(READ | DELETE | PURGE | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmAgent::$rightname]);
    }
 
    /**
