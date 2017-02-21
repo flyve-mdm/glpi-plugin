@@ -32,9 +32,4 @@ script:
   - vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/
 
 notifications:
-  webhooks:
-    urls:
-      - https://integram.org/ckNa3mjYlqw
-    on_success: always
-    on_failure: always
-    on_start: always
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
