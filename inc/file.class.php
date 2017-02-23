@@ -91,6 +91,11 @@ class PluginFlyvemdmFile extends CommonDBTM {
          return false;
       }
 
+      if (!isset($_FILES['file']['name'])) {
+         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+         return false;
+      }
+
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
@@ -124,6 +129,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       unset($input['entities_id']);
 
       if (isset($_FILES['file'])) {
+         if (!isset($_FILES['file']['name'])) {
+            Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+            return false;
+         }
          // A file has been uploaded
          $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
          $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);

@@ -189,6 +189,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          }
          $input = false;
       } else {
+         if (!isset($_FILES['file']['name'])) {
+            Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+            return false;
+         }
          try {
             $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
             if ($this->saveUploadedFile($_FILES['file'], $destination)) {
@@ -249,6 +253,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $input['filename'] = $this->fields['filename'];
       } else {
          if (isset ($_FILES['file'])) {
+            if (!isset($_FILES['file']['name'])) {
+               Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+               return false;
+            }
             try {
                $destination = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
                if ($this->saveUploadedFile($_FILES['file'], $destination)) {
