@@ -28,7 +28,7 @@ function update_to_2_0_0(Migration $migration) {
          PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
          PluginFlyvemdmInvitationlog::$rightname   => READ,
          PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-
+         PluginFlyvemdmTask::$rightname            => READ,
    ));
    $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
