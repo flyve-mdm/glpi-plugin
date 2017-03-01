@@ -239,3 +239,25 @@ CREATE TABLE `glpi_plugin_flyvemdm_invitationlogs` (
   INDEX `status` (`date_creation`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_tasks
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_tasks`;
+CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL DEFAULT '',
+  `date_creation` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_agents_tasks
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_agents_tasks`;
+CREATE TABLE `glpi_plugin_flyvemdm_agents_tasks` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `plugin_flyvemdm_agents_id` INT(11) NOT NULL DEFAULT '0',
+  `itemtype` VARCHAR(255) NOT NULL DEFAULT '',
+  `items_id` INT(11) NOT NULL DEFAULT '0',
+  `status` VARCHAR(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
