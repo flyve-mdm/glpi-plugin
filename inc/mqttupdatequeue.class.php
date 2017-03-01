@@ -82,6 +82,8 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
    static function cronUpdateTopics($task) {
       global $DB;
 
+      $cronStatus = 0;
+
       $task->log("Refresh MQTT topics queued for update");
 
       // Select the queued items until 30 seconds ago
@@ -119,20 +121,18 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
             $fleet = new PluginFlyvemdmFleet();
             $fleet->getFromDB($row['plugin_flyvemdm_fleets_id']);
             $fleet_policy->publishPolicies($fleet, array($row['group']));
+            $updateQueue = new static();
+            $updateQueue->update([
+                  'id'     => $row['id'],
+                  'status' => 'done',
+            ]);
+            $task->addVolume(1);
          }
-
-         // update the status of the rows
-
-         $query = "UPDATE `" . self::getTable() . "`
-               SET `status` = 'done'
-               WHERE `id` IN ($idList)";
-         $result = $DB->query($query);
-
-         $task->setVolume($numRows);
+         $cronStatus = 1;
       } else {
          $task->setVolume(0);
       }
-      return 1;
+      return $cronStatus;
    }
 
 }
