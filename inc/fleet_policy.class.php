@@ -358,9 +358,9 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
             $policyTable = PluginFlyvemdmPolicy::getTable();
             $query = "SELECT DISTINCT `group`
-            FROM `$fleet_policyTable` `fp`
-            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-            WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
+                      FROM `$fleet_policyTable` `fp`
+                      LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
+                      WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
             $result = $DB->query($query);
 
             if ($result === false) {
@@ -399,8 +399,8 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
       $policyTable = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT * FROM `$fleet_policyTable` `fp`
-            LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-            WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
+                LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
+                WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $groupToEncode = array();
