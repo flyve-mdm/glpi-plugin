@@ -33,7 +33,7 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginFlyvemdmTask extends CommonCBTM
+class PluginFlyvemdmTask extends CommonDBTM
 {
    // name of the right in DB
    public static $rightname            = 'flyvemdm:task';
