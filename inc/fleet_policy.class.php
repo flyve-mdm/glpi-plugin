@@ -360,6 +360,9 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          $fleetId = $fleet->getID();
 
          if (count($groups) == 0) {
+            // publish policies of all groups where at least one policy applies
+
+            // find all groups of applied policies
             $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
             $policyTable = PluginFlyvemdmPolicy::getTable();
             $query = "SELECT DISTINCT `group`
@@ -368,20 +371,18 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                       WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
             $result = $DB->query($query);
 
+            // add groups
             if ($result === false) {
                while ($row = $DB->fetch_assoc($result)) {
-                  $groupName = $row['group'];
-                  $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
-                  $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
-                  $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
+                  $groups[] = $row['group'];
                }
             }
-         } else {
-            foreach ($groups as $groupName) {
-               $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
-               $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
-               $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
-            }
+         }
+         // publish policies of each group
+         foreach ($groups as $groupName) {
+            $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
+            $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
+            $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
          }
       }
    }
@@ -425,6 +426,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
       }
 
+      // get default values for not applied policies of the group
       $excludedPolicyIds = "'" . implode("', '", $excludedPolicyIds) . "'";
       $policy = new PluginFlyvemdmPolicy();
       $rows = $policy->find("`group` = '$group' AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN ('')");
