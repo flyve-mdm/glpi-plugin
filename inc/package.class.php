@@ -407,7 +407,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']                 = __s('Package ', "flyvemdm");
+      $tab['common']                 = __s('Package', "flyvemdm");
 
       $i = 1;
       $tab[$i]['table']               = self::getTable();

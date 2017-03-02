@@ -33,7 +33,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
-include (__DIR__ . "/docopt.php");
+include (__DIR__ . "/../vendor/docopt/docopt/src/docopt.php");
 
 $doc = <<<DOC
 cli_install.php
@@ -57,7 +57,7 @@ $asUser = 'glpi';
 if (!is_null($args['--as-user'])) {
    $asUser = $args['--as-user'];
 }
-if (isset($args['--tests']) && $args['--tests'] !== false ) {
+if (isset($args['--tests']) && $args['--tests'] !== false) {
    // Use test GLPi's database
    // Requires use of cliinstall of GLPI with --tests argument
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
@@ -66,7 +66,7 @@ if (isset($args['--tests']) && $args['--tests'] !== false ) {
 
 include (__DIR__ . "/../../../inc/includes.php");
 
-if (isset($args['--enable-api']) && $args['--enable-api'] !== false ) {
+if (isset($args['--enable-api']) && $args['--enable-api'] !== false) {
    $config = [
          'enable_api'                        => '1',
          'enable_api_login_credentials'      => '1',
@@ -76,7 +76,7 @@ if (isset($args['--enable-api']) && $args['--enable-api'] !== false ) {
    $CFG_GLPI = $config + $CFG_GLPI;
 }
 
-if (isset($args['--enable-email']) && $args['--enable-email'] !== false ) {
+if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    $config = [
          'use_mailing'                        => '1',
    ];
@@ -100,7 +100,7 @@ error_reporting(E_ALL | E_STRICT);
 // Prevent problem of execution time
 ini_set("max_execution_time", "0");
 ini_set("memory_limit", "-1");
-ini_set("session.use_cookies","0");
+ini_set("session.use_cookies", "0");
 
 $DB = new DB();
 if (!$DB->connected) {
@@ -132,7 +132,7 @@ ob_start(function($in) { return ''; });
 $plugin->install($plugin->fields['id']);
 ob_end_clean();
 print("Install Done\n");
-if($apiUserToken){
+if ($apiUserToken) {
    $serviceUser = PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME;
    $flyveUser = new User();
    $flyveUser->getFromDBbyName($serviceUser);

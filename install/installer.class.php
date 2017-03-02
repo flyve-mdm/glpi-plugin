@@ -256,7 +256,7 @@ class PluginFlyvemdmInstaller {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
             __("Flyve MDM guest users", "flyvemdm"),
-            __("guest FlyveMDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
+            __("guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
       );
       Config::setConfigurationValues('flyvemdm', array('guest_profiles_id' => $profileId));
       $profileRight = new ProfileRight();
@@ -637,7 +637,7 @@ Regards,
                   ],
                   'unicity'                              => 1,
                   'plugin_flyvemdm_policycategories_id'  => 3,
-                  'comment'                              => __('Password enabled description', 'flyvemdm'),
+                  'comment'                              => __('Enable the password', 'flyvemdm'),
                   'default_value'                        => 'PASSWORD_NONE',
                   'recommended_value'                    => 'PASSWORD_PIN',
             ],

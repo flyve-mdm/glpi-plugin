@@ -114,7 +114,7 @@ function plugin_init_flyvemdm() {
       if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
          // Display a menu entries
          $PLUGIN_HOOKS['menu_toadd']["flyvemdm"] = array(
-               'tools'  => 'PluginFlyvemdmMenu',
+               'plugins'  => 'PluginFlyvemdmMenu',
          );
          $PLUGIN_HOOKS['config_page']["flyvemdm"] = 'front/config.form.php';
       }

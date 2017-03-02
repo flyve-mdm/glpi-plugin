@@ -64,7 +64,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
    public function getTags() {
       $tagCollection = array(
          'flyvemdm.download_app'    => __('Link to download the FlyveMDM Android application', 'flyvemdm'),
-         'flyvemdm.qrcode'          => __('Enroll QRCode', 'flyvemdm'),
+         'flyvemdm.qrcode'          => __('Enrollment QR code', 'flyvemdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {

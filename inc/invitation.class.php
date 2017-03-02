@@ -314,7 +314,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $document = new Document();
       $input['entities_id']               = $this->input['entities_id'];
       $input['is_recursive']              = '0';
-      $input['name']                      = __('Enrollment QRcode', 'flyvemdm');
+      $input['name']                      = __('Enrollment QR code', 'flyvemdm');
       $input['_filename']                 = array($tmpFile);
       $input['_only_if_upload_succeed']   = true;
       $documentId = $document->add($input);

@@ -850,7 +850,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
          // Update the invitation
          if (!$invitation->update($invitationInput)) {
-            $event = __("Failed update the invitation", 'flyvemdm');
+            $event = __("Failed to update the invitation", 'flyvemdm');
             $this->filterMessages($event);
             $this->logInvitationEvent($invitation, $event);
             return false;
@@ -1323,6 +1323,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
                   $mqttUser = new PluginFlyvemdmMqttuser();
                   $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+                  Toolbox::LogInFile('mqttpass', "$serial $mqttClearPassword\n");
                   if (!$mqttUser->getByUser($serial)) {
                      // The user does not exists
                      $mqttUser->add([

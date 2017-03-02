@@ -1,4 +1,10 @@
+#Status
+
+## Code
 [![Build Status](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi.svg?branch=master)](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi)
+
+## Translation
+[![Translation Status](https://www.transifex.com/projects/p/flyve-mdm-glpi/resource/flyvemdmpot/chart/image_png)](https://www.transifex.com/flyve-mdm/flyve-mdm-glpi)
 
 # Abstract
 
@@ -273,7 +279,6 @@ auth_opt_port 3306
 auth_opt_user database-user
 auth_opt_dbname glpi
 auth_opt_pass StrongPassword
-#auth_opt_superquery
 auth_opt_userquery SELECT password FROM glpi_plugin_storkmdm_mqttusers WHERE user='%s' AND enabled='1'
 auth_opt_aclquery SELECT topic FROM glpi_plugin_storkmdm_mqttacls a LEFT JOIN glpi_plugin_storkmdm_mqttusers u ON (a.plugin_storkmdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
 auth_opt_cacheseconds 300
@@ -285,6 +290,8 @@ Adapt the server, port and credentials to your setup.
 * user and password should be a user able to read only your DB. No need to grant any write access. You created these credentials while setting up the DBMS.
 
 # Contributing
+
+You may contribute the project by translating it : https://www.transifex.com/flyve-mdm/
 
 ## Tests
 

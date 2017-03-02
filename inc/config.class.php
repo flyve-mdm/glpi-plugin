@@ -121,7 +121,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       echo '</tr>';
 
       echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Ssl certificate server for MQTT clients", "flyvemdm").'</td>';
+      echo '<td>'. __("SSL certificate server for MQTT clients", "flyvemdm").'</td>';
       echo '<td><input type="text" name="ssl_cert_url"' .
             'value="'. $config['ssl_cert_url'] .'" />';
       echo '</td>';

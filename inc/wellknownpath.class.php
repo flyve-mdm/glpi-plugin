@@ -77,7 +77,7 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
       global $CFG_GLPI;
 
       $tab = array();
-      $tab['common']             = __s('Wellknownpath', "flyvemdm");
+      $tab['common']             = __s('Well known path', "flyvemdm");
 
       $i = 1;
       $tab[$i]['table']           = self::getTable();
