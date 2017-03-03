@@ -162,7 +162,6 @@ function plugin_init_flyvemdm() {
          // GLPI 9.1.2-backport loads the needed CSS and JS files
          // GLPI 9.1.2 official will fail to show graphs
       }
-      Html::requireJs('charts');
       $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
