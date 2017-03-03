@@ -10,60 +10,60 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-03 22:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Thierry Bugier Pineau <tbugier@teclib.com>, 2017\n"
-"Language-Team: French (France) (https://www.transifex.com/flyve-mdm/teams/69665/fr_FR/)\n"
+"Last-Translator: Denis Belov <d@belov.net>, 2017\n"
+"Language-Team: Russian (https://www.transifex.com/flyve-mdm/teams/69665/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr_FR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: setup.php:169
 msgid "Flyve Mobile Device Management"
-msgstr "Gestion d'appareil mobile Flyve MDM"
+msgstr "Flyve Mobile Device Management"
 
 #: hook.php:75
 msgid "Invite to enroll a device"
-msgstr "Inviter à enrôler in appareil mobile"
+msgstr ""
 
 #: hook.php:106
 msgid "Well known Android's FS paths"
-msgstr "Dossiers du système de fichiers Android"
+msgstr ""
 
 #: hook.php:107
 msgid "Policy Categories"
-msgstr "Catégories de stratégie"
+msgstr "Категории Политики"
 
 #: ajax/mqtt_test.php:77
 msgid "Test message sent"
-msgstr "Message de test envoyé"
+msgstr "Тестовое сообщение отправлено"
 
 #: ajax/mqtt_test.php:79
 msgid "Test message not sent"
-msgstr "Message de test non envoyé"
+msgstr "Тестовое сообщение не отправлено"
 
 #: install/installer.class.php:256 inc/fleet.class.php:443
 msgid "not managed fleet"
-msgstr "Flotte non gérée"
+msgstr "Неуправляемая группа устройств"
 
 #: install/installer.class.php:267
 msgid "Flyve MDM guest users"
-msgstr "Utilsiateur invité Flyve MDM"
+msgstr "гостевые пользователи Flyve MDM"
 
 #: install/installer.class.php:268
 msgid ""
 "guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
 msgstr ""
-"Utilisateurs invités Flyve MDM. Créé par Flyve MDM - ne PAS modifier ce "
-"commentaire."
+"гостевые пользователи Flyve MDM. Создано Flyve MDM - НЕ изменяйте этот "
+"комментарий."
 
 #: install/installer.class.php:316
 msgid "User invitation"
-msgstr "Invitation d'utilsaiteur"
+msgstr "Приглашение пользователя"
 
 #: install/installer.class.php:317
 msgid "You have been invited to join Flyve MDM"
-msgstr "Vous avez été invité à rejoindre Flyve MDM"
+msgstr "Вы приглашены использовать Flyve MDM"
 
 #: install/installer.class.php:318
 msgid ""
@@ -85,22 +85,19 @@ msgid ""
 "Regards,\n"
 "\n"
 msgstr ""
-"Bonhjour,\n"
+"Здравствуйте.\n"
 "\n"
-"Veuillez rejoindre le système de gestion d'appareis mobiles Flyve en téléchargeant\n"
-"et isntallant l'application Flyve MDM pour Android à partir du lien suivant.\n"
+"Для начала использования программы Flyve Mobile Device Management  скачайте и установите приложение Flyve MDM для Android по следующей ссылке:\n"
 "\n"
 "##flyvemdm.download_app##\n"
 "\n"
-"Si vous consultez cet email à partir d'un ordinateur, flashez le  ode QR que vous voyez ci dessous\n"
-"avec l'application Flyve MDM.\n"
+"Если вы просматриваете это письмо с компютера, считайте QR ко с помощью приложения Flyve MDM.\n"
 "\n"
-"Si vous visualiser et email à partir de l'appareil à enrôler, veuillez ouvrir le\n"
-" lien suivant.\n"
+"Если вы просматриваете это письмо со своего устройства, готового к применению, нажмите на эту ссылку:\n"
 "\n"
 "##flyvemdm.enroll_url##\n"
 "\n"
-"Cordialement,\n"
+"С уважением,\n"
 "\n"
 
 #: install/installer.class.php:336
@@ -117,273 +114,272 @@ msgid ""
 "Regards,\n"
 "\n"
 msgstr ""
-"Bonjour,\n"
+"Здравствуйте.\n"
 "\n"
-"Veuillez rejoindre le système de gestion d'appareis mobiles Flyve en téléchargeant\n"
-"et isntallant l'application Flyve MDM pour Android à partir du lien suivant.\n"
+"Для начала использования программы Flyve Mobile Device Management  скачайте и установите приложение Flyve MDM для Android по следующей ссылке:\n"
 "\n"
 "##flyvemdm.download_app##\n"
 "\n"
-"<img src=\"cid:##flyvemdm.qrcode##\" alt=\"Code QR d'enrôlement\" title=\"Code QR d'enrôlement \" width=\"128\" height=\"128\">\n"
+"<img src=\"cid:##flyvemdm.qrcode##\" alt=\"Enroll QRCode\" title=\"Enroll QRCode\" width=\"128\" height=\"128\">\n"
 "\n"
-"Cordialement,\n"
+"С уважением,\n"
+"\n"
+"\n"
 "\n"
 
 #: install/installer.class.php:435
 msgid "Update retained MQTT topics for fleet policies"
-msgstr "Met à jour les canaux MQTT pour les stratégies de flottes"
+msgstr ""
 
 #: install/installer.class.php:605
 msgid "Security"
-msgstr "Sécurité"
+msgstr "Безопасность"
 
 #: install/installer.class.php:608
 msgid "Authentication"
-msgstr "Authentification"
+msgstr "Аутентификация"
 
 #: install/installer.class.php:611 install/installer.class.php:647
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Пароль"
 
 #: install/installer.class.php:614
 msgid "Encryption"
-msgstr "Chiffrement"
+msgstr "Шифрование"
 
 #: install/installer.class.php:617
 msgid "Peripherals"
-msgstr "Périphériques"
+msgstr "Периферия"
 
 #: install/installer.class.php:620
 msgid "Deployment"
-msgstr "Déploiement"
+msgstr "Внедрение"
 
 #: install/installer.class.php:640
 msgid "Password enabled"
-msgstr "Mot de passe activé"
+msgstr "Пароль включен"
 
 #: install/installer.class.php:645
 msgid "No"
-msgstr "Non"
+msgstr "Нет"
 
 #: install/installer.class.php:646
 msgid "Pin"
-msgstr "Pin"
+msgstr "Пин-код"
 
 #: install/installer.class.php:651
 msgid "Enable the password"
-msgstr "Active le mot de passe"
+msgstr "Включить пароль"
 
 #: install/installer.class.php:657
 msgid "Minimum password length"
-msgstr "Lonjgueur minimale de mot de passe"
+msgstr "Минимальная длина пароля"
 
 #: install/installer.class.php:666
 msgid ""
 "Set the required number of characters for the password. For example, you can"
 " require PIN or passwords to have at least six characters"
 msgstr ""
-"Définit le nomvre de caractères requis pour le mot de passe. Par exemple, "
-"vous pouvez exiger que le code PIN ou le mot de passe contiennt au moins six"
-" caractères"
+"Задайте требование к длине пароля. Например, вы можете создать правило, по "
+"которому ПИН-код или пароль будет обязан иметь как минимум шесть символов."
 
 #: install/installer.class.php:672
 msgid "Password quality"
-msgstr "Qualité de mot de passe"
+msgstr "Сложность пароля"
 
 #: install/installer.class.php:677
 msgid "Unspecified"
-msgstr "Non spécifié"
+msgstr "Не определен"
 
 #: install/installer.class.php:678
 msgid "Something"
-msgstr "Quelque chose"
+msgstr ""
 
 #: install/installer.class.php:679
 msgid "Numeric"
-msgstr "Numérique"
+msgstr "Числовой"
 
 #: install/installer.class.php:680
 msgid "Alphabetic"
-msgstr "Alphabétique"
+msgstr "Алфавитный"
 
 #: install/installer.class.php:681
 msgid "Alphanumeric"
-msgstr "Alphanumérique"
+msgstr "Алфавитно-цифровой"
 
 #: install/installer.class.php:682
 msgid "Complex"
-msgstr "Complexe"
+msgstr "Комплексный"
 
 #: install/installer.class.php:686
 msgid "Complexity of allowed password"
-msgstr "Complexité des mots de passe autorisés"
+msgstr "Сложность допустимого пароля"
 
 #: install/installer.class.php:692
 msgid "Minimum letters required in password"
-msgstr "Nombre minimum de lettres requis dans le mot de passe"
+msgstr "Минимальное количество букв в пароле"
 
 #: install/installer.class.php:701
 msgid ""
 "The minimum number of letters required in the password for all admins or a "
 "particular one"
 msgstr ""
-"Le nombre minimum de lettres requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
+"Минимальное количество букв в пароле всех администраторов или одного "
+"конкретного"
 
 #: install/installer.class.php:707
 msgid "Minimum lowercase letters required in password"
-msgstr "Nombre minimum de lettres minucsules dans le mot de passe"
+msgstr "Минимальное количество строчных букв в пароле"
 
 #: install/installer.class.php:716
 msgid ""
 "The minimum number of lowercase letters required in the password for all "
 "admins or a particular one"
 msgstr ""
-"Le nombre minimum de lettres minuscules requises dans le mot de passe pour "
-"tous administrateurs ou un administrateur particulier"
+"Минимальное количество строчных букв в пароле всех администраторов или "
+"одного конкретного"
 
 #: install/installer.class.php:722
 msgid "Minimum non-letter characters required in password"
-msgstr ""
-"Nombre minimum de caractères autres que des lettres requis dans le mot de "
-"passe"
+msgstr "Минимальное количество не-буквенных символов в пароле"
 
 #: install/installer.class.php:731
 msgid ""
 "The minimum number of non-letter characters required in the password for all"
 " admins or a particular one"
 msgstr ""
-"Le nombre minimum de caractères autres que des lettres requis dans le mot de"
-" passe pour tous les administrateurs ou un administrateur particulier"
+"Минимальное количество не-буквенных символов в пароле всех администраторов "
+"или одного конкретного."
 
 #: install/installer.class.php:737
 msgid "Minimum numerical digits required in password"
-msgstr "Nombre minimum de chiffres requis dans le mot de passe"
+msgstr "Минимальное количество цифр в пароле"
 
 #: install/installer.class.php:746
 msgid ""
 "The minimum number of numerical digits required in the password for all "
 "admins or a particular one"
 msgstr ""
-"Le nombre minimum de chiffres requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
+"Минимальное количество цифр в пароле всех администраторов или одного "
+"конкретного"
 
 #: install/installer.class.php:752
 msgid "Minimum symbols required in password"
-msgstr "Nombre minimum de symboles dans le mot de passe"
+msgstr "Минимальное количество символов в пароле"
 
 #: install/installer.class.php:761
 msgid ""
 "The minimum number of symbols required in the password for all admins or a "
 "particular one"
 msgstr ""
-"Le nombre minimum de symboiles requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
+"Минимальное количество символов в пароле всех администраторов или одного "
+"конкретного"
 
 #: install/installer.class.php:767
 msgid "Minimum uppercase letters required in password"
-msgstr "Nombre minimum de lettres majkuscules requises dans lde mot de passe"
+msgstr "Минимальное количество прописных букв в пароле"
 
 #: install/installer.class.php:776
 msgid ""
 "The minimum number of uppercase letters required in the password for all "
 "admins or a particular one"
 msgstr ""
-"Le nombrte minimum de lettres majuscules requises dans le mot de passe pour"
-"  tous les administrateurs ou un administrateur particulier"
+"Минимальное количество прописных букв в пароле всех администраторов или "
+"одного конкретного"
 
 #: install/installer.class.php:782
 msgid "Maximum failed password attemps for wipe"
-msgstr "Nombre de t entatives échouées d'authentification avant l'effacement"
+msgstr "Максимальное количество попыток ввода пароля перед стиранием"
 
 #: install/installer.class.php:791
 msgid "Number of consecutive failed attemps of unlock the device to wipe"
 msgstr ""
-"Nombre d'échecs successifs de déverrouillage de l'appareil avant effacement"
+"Максимальное количество последовательных попыток ввода пароля перед "
+"стиранием"
 
 #: install/installer.class.php:797
 msgid "Maximum time to lock (milliseconds)"
-msgstr "Temps maximum avant verrouillage (millisecondes)"
+msgstr "Максимальное время блокировки (милисекунды)"
 
 #: install/installer.class.php:806
 msgid "Maximum time to lock the device in milliseconds"
-msgstr "Temps maximum pour verrouiller l'appareil en millisecondes"
+msgstr "Максимальное время блокировки устройства в милисекундах"
 
 #: install/installer.class.php:812
 msgid "Internal Storage encryption"
-msgstr "Chiffrement du stockage interne"
+msgstr "Шифрование внутренней памяти"
 
 #: install/installer.class.php:819
 msgid "Force internal storage encryption"
-msgstr "Force le chiffrement du stockage interne"
+msgstr "Форсировать шифрование внутренней памяти"
 
 #: install/installer.class.php:825
 msgid "Disable Camera"
-msgstr "Désactiver la caméra"
+msgstr "Отключить камеру"
 
 #: install/installer.class.php:832
 msgid "Prevent usage of the Camera"
-msgstr "Empêche l'utilsiation de la caméra"
+msgstr "Предотвратить использование камеры"
 
 #: install/installer.class.php:838
 msgid "Deploy application"
-msgstr "Déployer une application"
+msgstr "Установить приложение"
 
 #: install/installer.class.php:845
 msgid "Deploy an application on the device"
-msgstr "Déploie une application sur l'appareil"
+msgstr "Установить приложение на устройство"
 
 #: install/installer.class.php:851
 msgid "Remove application"
-msgstr "Supprime l'application"
+msgstr "Удалить приложение"
 
 #: install/installer.class.php:858
 msgid "Uninstall an application on the device"
-msgstr "Désinstalle une application de l'appareil"
+msgstr "Удалить приложение с устройства"
 
 #: install/installer.class.php:864
 msgid "Deploy file"
-msgstr "Déployer un fichier"
+msgstr "Установить файл"
 
 #: install/installer.class.php:871
 msgid "Deploy a file on the device"
-msgstr "Déploie un fichier sur l'appareil"
+msgstr "Установить файл на устройство"
 
 #: install/installer.class.php:877
 msgid "Remove file"
-msgstr "Supprimer un fichier"
+msgstr "Удалить файл"
 
 #: install/installer.class.php:884
 msgid "Uninstall a file on the device"
-msgstr "Désinstalle un fichier de l'appareil"
+msgstr "Удалить файл с устройства"
 
 #: install/installer.class.php:890
 msgid "Disable Wifi"
-msgstr "Désactiver le wifi"
+msgstr "Выключить Wifi"
 
 #: install/installer.class.php:897
 msgid "Disable wifi connectivity"
-msgstr "Désactive la connectivité wifi"
+msgstr "Запретить подключение по Wifi"
 
 #: install/installer.class.php:903
 msgid "Disable Bluetooth"
-msgstr "Désactiver le bluetooth"
+msgstr "Выключить Bluetooth"
 
 #: install/installer.class.php:910
 msgid "Disable Bluetooth connectivity"
-msgstr "Désactiver la connectivité bluetooth"
+msgstr "Запретить подключение по Bluetooth"
 
 #: install/installer.class.php:916 install/installer.class.php:923
 msgid "Disable GPS"
-msgstr "Désactiver le GPS"
+msgstr "Выключить GPS"
 
 #: inc/menu.class.php:87
 msgid "General"
-msgstr "Général"
+msgstr ""
 
 #: inc/menu.class.php:104
 msgid "Board"
-msgstr "Tableau de bord"
+msgstr ""
 
 #: inc/profile.class.php:97
 msgid "Flyve MDM"
@@ -391,239 +387,246 @@ msgstr "Flyve MDM"
 
 #: inc/policycategory.class.php:60 inc/policy.class.php:106
 msgid "Policy category"
-msgstr "Catégorie de stratégie"
+msgstr "категория политики"
 
 #: inc/policycategory.class.php:76 inc/wellknownpath.class.php:98
 msgid "comment"
-msgstr "commentaire"
+msgstr "комментарий"
 
 #: inc/policydeployapplication.class.php:57
 msgid "The remove on delete flag is mandatory"
-msgstr "Le témoin de suppression est obligatoire"
+msgstr ""
 
 #: inc/policydeployapplication.class.php:63 inc/policydeployfile.class.php:63
 msgid "The remove on delete flag must be 0 or 1"
-msgstr "Le témoin de suppression doit être 0 ou 1"
+msgstr ""
 
 #: inc/policydeployapplication.class.php:69
 msgid "You must choose an application to apply this policy"
-msgstr "Vous devez choisir une application à appliquer à cette stratégie"
+msgstr "Выберите приложение чтобы применить эту политику"
 
 #: inc/policydeployapplication.class.php:76
 #: inc/policydeployapplication.class.php:126
 msgid "The application does not exists"
-msgstr "L'application n'existe pas"
+msgstr "Приложение не существует"
 
 #: inc/policydeployapplication.class.php:141
 msgid ""
 "A removal policy for this application is applied. Please, remove it first."
 msgstr ""
-"Une stratégie de suppression pour cette application est définie. Supprimez "
-"la d'abord."
 
 #: inc/policy.class.php:80 inc/policy.class.php:90
 msgid "Policy"
 msgid_plural "Policies"
-msgstr[0] "Stratégie"
-msgstr[1] "Stratégies"
+msgstr[0] "Политика"
+msgstr[1] "Политики"
+msgstr[2] "Политики"
+msgstr[3] "Политики"
 
 #: inc/policy.class.php:112
 msgid "Type"
-msgstr "Type"
+msgstr "Тип"
 
 #: inc/policy.class.php:117
 msgid "Enumeration data"
-msgstr "Donnée d'énumération"
+msgstr ""
 
 #: inc/policy.class.php:123
 msgid "Group"
-msgstr "Groupe"
+msgstr "Группа"
 
 #: inc/policy.class.php:129
 msgid "Default value"
-msgstr "Valeur par défaut"
+msgstr "Значение по умолчанию"
 
 #: inc/policy.class.php:135
 msgid "Recommended value"
-msgstr "Valeur recommandée"
+msgstr "Рекомендованое значение"
 
 #: inc/policyremoveapplication.class.php:55
 msgid "An application ID is required"
-msgstr "Un identifiant d'application est requis"
+msgstr "Необходим ID приложения"
 
 #: inc/wellknownpath.class.php:49 inc/wellknownpath.class.php:79
 msgid "Well known path"
-msgstr "Chemin connu"
+msgstr ""
 
 #: inc/wellknownpath.class.php:105
 msgid "default"
-msgstr "PAr défaut"
+msgstr "по умолчанию"
 
 #: inc/mqttlog.class.php:67
 msgid "MQTT subscriber"
 msgid_plural "MQTT subscribers"
-msgstr[0] "Souscripteur MQTT"
-msgstr[1] "Souscripteurs MQTT"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: inc/agent.class.php:75 inc/agent.class.php:626
 msgid "Agent"
 msgid_plural "Agents"
-msgstr[0] "Agent"
-msgstr[1] "Agents"
+msgstr[0] "Агент"
+msgstr[1] "Агенты"
+msgstr[2] "Агенты"
+msgstr[3] "Агенты"
 
 #: inc/agent.class.php:116
 msgid "Danger zone !"
-msgstr "Zone de danger !"
+msgstr ""
 
 #: inc/agent.class.php:220
 msgid "Lock the device as soon as possible"
-msgstr "Verrouiller l'appareil aussi vite que possible"
+msgstr ""
 
 #: inc/agent.class.php:227
 msgid "Wipe the device as soon as possible"
-msgstr "Effacer l'appareil aussi vite que possible"
+msgstr ""
 
 #: inc/agent.class.php:349
 msgid "Failed to read configuration of the entity"
-msgstr "La lecture de la configuration de l'entité a échoué"
+msgstr "Ошибка чтения конфигурации объединения"
 
 #: inc/agent.class.php:358
 msgid "Too many devices"
-msgstr "Trop d'appareils"
+msgstr "Слишком много устройств"
 
 #: inc/agent.class.php:366
 msgid "Unable to find a enrollment method"
-msgstr "Impossible de trouver une méthode d'enrôlement"
+msgstr "Не удалось найти метод применения"
 
 #: inc/agent.class.php:392
 msgid "The fleet of the device does not longer exists"
-msgstr "LA flotte de l'appareil n'existe plus"
+msgstr "Группа устройства больше не существует"
 
 #: inc/agent.class.php:399
 msgid "The target fleet does not exists"
-msgstr "LA flotte cible n'existe pas"
+msgstr "Целевая группа устройств не существует"
 
 #: inc/agent.class.php:424 inc/agent.class.php:436 inc/agent.class.php:449
 msgid "The device is not enrolled yet"
-msgstr "L'appareil n'est pas encore enrôlé"
+msgstr "Еще не применено к устройству"
 
 #: inc/agent.class.php:429
 msgid "Timeout querying the device"
-msgstr "Délai d'attente expiré lors de la requête vers l'appareil"
+msgstr "Таймаут опроса устройства"
 
 #: inc/agent.class.php:454
 msgid "Timeout querying the device inventory"
-msgstr "Délai d'attente expiré lors de la requête d'inventaire de l'appareil"
+msgstr "Таймаут запроса инвентаризации устройства"
 
 #: inc/agent.class.php:500
 msgid "Failed to find the guest user profile"
-msgstr "La recherche du pofile invité a échoué"
+msgstr "Не найден профиль гостевого пользователя"
 
 #: inc/agent.class.php:522
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr ""
-"La suppression du profil invité de l'utilsiateur de l' appareil a échoué"
 
 #: inc/agent.class.php:540
 msgid "Failed to delete MQTT user for the device"
-msgstr "La suppression de l'utilisateur MQTT pour l'appareil a échoué"
+msgstr ""
 
 #: inc/agent.class.php:548
 msgid "Failed to delete the device"
-msgstr "La suppression de l'appareil a échoué"
+msgstr "Не удалось удалить устройство"
 
 #: inc/agent.class.php:559
 msgid "Failed to delete documents attached to the device"
-msgstr "LA suppression des documents liés à l'appareil a échoué"
+msgstr ""
 
 #: inc/agent.class.php:645 inc/agent.class.php:677 inc/fleet.class.php:73
 #: inc/fleet.class.php:226
 msgid "Fleet"
 msgid_plural "Fleets"
-msgstr[0] "Flotte"
-msgstr[1] "Flottes"
+msgstr[0] "Группа устройств"
+msgstr[1] "Группы устройств"
+msgstr[2] "Группы устройств"
+msgstr[3] "Группы устройств"
 
 #: inc/agent.class.php:684
 msgid "last contact"
-msgstr "dernier contact"
+msgstr "последний контакт"
 
 #: inc/agent.class.php:703 inc/package.class.php:434
 msgid "version"
-msgstr "version"
+msgstr "Версия"
 
 #: inc/agent.class.php:891
 msgid "Invitation token invalid"
-msgstr "Jeton d'invitation invalide"
+msgstr "Неверный токен приглашения"
 
 #: inc/agent.class.php:896
 msgid "Serial missing"
-msgstr "Numéro de série manquant"
+msgstr "Отсутствует серийный номер"
 
 #: inc/agent.class.php:903
 msgid "Agent version missing"
-msgstr "Version de l'agent invalide"
+msgstr "Отсутствует версия агента"
 
 #: inc/agent.class.php:910
 msgid "Bad agent version"
-msgstr "Mauvaise version de l'agent"
+msgstr "Неподходящая версия агента"
 
 #: inc/agent.class.php:918
 msgid "Invitation is not pending"
-msgstr "L'invitation n'est pas en attente"
+msgstr "Приглашение не ожидается"
 
 #: inc/agent.class.php:926
 msgid "Expiration date of the invitation is not set"
-msgstr "La date d'expiration n'est pas définie"
+msgstr "Не задан срок действия приглашения"
 
 #: inc/agent.class.php:934
 msgid "Invitation token expired"
-msgstr "LE jeton d'invitation a expiré"
+msgstr "Токен приглашения истек"
 
 #: inc/agent.class.php:944
 msgid "wrong email address"
-msgstr "Mauvaise adresse email"
+msgstr "Неправильный адрес электронной почты"
 
 #: inc/agent.class.php:956
 msgid "The serial already exists"
-msgstr "Le numéro de s érie existe déjà"
+msgstr "Серийный номер уже существует"
 
 #: inc/agent.class.php:967
 msgid "Failed to sign the certificate"
-msgstr "La signature du certificat a échoué"
+msgstr "Ошибка подписи сертификата"
 
 #: inc/agent.class.php:990
 msgid "Failed to update the invitation"
-msgstr "Echec lors de la mise à jour de l'invitation"
+msgstr "Ошибка обновления приглашения"
 
 #: inc/agent.class.php:1015
 msgid "Cannot create the device"
-msgstr "Impossible de créer l'appareil"
+msgstr "Не удалось создать устройство"
 
 #: inc/agent.class.php:1029
 msgid "No default fleet available for the device"
-msgstr "PAs de flotte par défaut disponible pour l'appareil"
+msgstr "Нет группы по умолчанию для устройства"
 
 #: inc/agent.class.php:1200
 msgid "Timeout requesting position"
-msgstr "Délai d'attente expiré lors de la requête de géolocalisation"
+msgstr ""
 
 #: inc/agent.class.php:1227
 msgid "GPS is turned off or is not ready"
-msgstr "Le GPS est éteint ou n'est pas prêt"
+msgstr "GPS выключен или не готов"
 
 #: inc/agent.class.php:1502
 msgid "Enrollment failed"
-msgstr "Echec d'enrôlemnt"
+msgstr "Ошибка применения"
 
 #: inc/invitationlog.class.php:48 inc/invitationlog.class.php:70
 msgid "Invitation log"
 msgid_plural "Invitation logs"
-msgstr[0] "journal d'invitation"
-msgstr[1] "journal d'invitations"
+msgstr[0] "Лог приглашений"
+msgstr[1] "Логи приглашений"
+msgstr[2] "Логи приглашений"
+msgstr[3] "Логи приглашений"
 
 #: inc/invitationlog.class.php:96
 msgid "event"
-msgstr "évènement"
+msgstr "событие"
 
 #: inc/notificationtargetinvitation.class.php:49
 #: inc/notificationtargetinvitation.class.php:58
@@ -631,282 +634,288 @@ msgstr "évènement"
 #: inc/invitation.class.php:343
 msgid "Invitation"
 msgid_plural "Invitations"
-msgstr[0] "Invitation"
-msgstr[1] "Invitations"
+msgstr[0] "Приглашение"
+msgstr[1] "Приглашения"
+msgstr[2] "Приглашения"
+msgstr[3] "Приглашения"
 
 #: inc/notificationtargetinvitation.class.php:66
 msgid "Link to download the FlyveMDM Android application"
-msgstr "Lien de téléchargement de l'application Android Flyve MDM"
+msgstr ""
 
 #: inc/notificationtargetinvitation.class.php:67 inc/invitation.class.php:312
 msgid "Enrollment QR code"
-msgstr "Code QR d'enrôlement"
+msgstr "QR код для применения"
 
 #: inc/notificationtargetinvitation.class.php:112
 msgid "Guest user"
-msgstr "Utilsiateur invité"
+msgstr "Гостевой пользователь"
 
 #: inc/fleet_policy.class.php:130
 msgid "Fleet and policy must be specified"
-msgstr "Une flotte et une stratégie doivent être spécifiés"
+msgstr "Должны быть указаны группа устройств и политика"
 
 #: inc/fleet_policy.class.php:138 inc/fleet_policy.class.php:215
 #: inc/fleet_policy.class.php:299
 msgid "Policy not found"
-msgstr "Stratégie non trouvée"
+msgstr "Политика не найдена"
 
 #: inc/fleet_policy.class.php:146 inc/fleet_policy.class.php:251
 msgid "Incorrect value for this policy"
-msgstr "Valeur incorrecte pour cette stratégie"
+msgstr "Некорректное значение для этой политики"
 
 #: inc/fleet_policy.class.php:155 inc/fleet_policy.class.php:239
 msgid "Cannot find the target fleet"
-msgstr "Impossible de trouver la flotte cible"
+msgstr "Не удалось найти целевую группу устройств"
 
 #: inc/fleet_policy.class.php:161 inc/fleet_policy.class.php:245
 msgid "Cannot apply a policy on a not managed fleet"
-msgstr "Impossible d'appliquer une stratégie sur une flotte non gérée"
+msgstr "Нельзя применить политику к неуправляемой группе устройств"
 
 #: inc/fleet_policy.class.php:166 inc/fleet_policy.class.php:258
 msgid "Policy already applied"
-msgstr "Stratégie déjà appliquée"
+msgstr "Политика уже применена"
 
 #: inc/fleet_policy.class.php:177 inc/fleet_policy.class.php:264
 msgid "The requirements for this policy are not met"
-msgstr "Les prérequis pour cette stratégie ne sont pas remplis"
+msgstr "Требования этой политики не соблюдены"
 
 #: inc/fleet_policy.class.php:182 inc/fleet_policy.class.php:270
 msgid "Failed to apply the policy"
-msgstr "L'application de la stratégie a échoué"
+msgstr "Ошибка применения политики"
 
 #: inc/fleet_policy.class.php:304
 msgid "Fleet not found"
-msgstr "Flotte non trouvée"
+msgstr "Группа устройств не найдена"
 
 #: inc/geolocation.class.php:66 inc/geolocation.class.php:204
 msgid "Geolocation"
 msgid_plural "Geolocations"
-msgstr[0] "Géolocalisation"
-msgstr[1] "Géolocalisations"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: inc/geolocation.class.php:100
 msgid "associated device is mandatory"
-msgstr "L'appareil associé est obligatoire"
+msgstr "обязательно укажите связанное устройство"
 
 #: inc/geolocation.class.php:104 inc/geolocation.class.php:134
 msgid "latitude and longitude are mandatory"
-msgstr "la latitude et la longitude sont obligatoires"
+msgstr "обязательно укажите долготу и широту"
 
 #: inc/geolocation.class.php:114 inc/geolocation.class.php:151
 msgid "latitude is invalid"
-msgstr "La latitude est invalide"
+msgstr "некорректная долгота"
 
 #: inc/geolocation.class.php:118 inc/geolocation.class.php:158
 msgid "longitude is invalid"
-msgstr "La longitude est invalide"
+msgstr "некорректная широта"
 
 #: inc/geolocation.class.php:125 inc/geolocation.class.php:142
 msgid "Device not found"
-msgstr "Appareil non trouvé"
+msgstr "Устройство не найдено"
 
 #: inc/geolocation.class.php:223
 msgid "latitude"
-msgstr "latitude"
+msgstr "долгота"
 
 #: inc/geolocation.class.php:230
 msgid "longitude"
-msgstr "longitude"
+msgstr "широта"
 
 #: inc/entityconfig.class.php:126
 msgid "The agent token life invalid or too long"
-msgstr "La durée de vie du jeton de l'agent est trop grande"
+msgstr "Срок действия токена агента истек или слишком длинный  "
 
 #: inc/entityconfig.class.php:224
 msgid "Entity enroll token"
-msgstr "Jeton d'enrôlement de l'entité"
+msgstr "Токен применения к объединению"
 
 #: inc/entityconfig.class.php:231
 msgid "Invitation token lifetime"
-msgstr "Durée de vie du jeton d'invitation"
+msgstr "Срок действия ключа приглашения"
 
 #: inc/entityconfig.class.php:238
 msgid "dowlnoad URL"
-msgstr "URL de téléchargement"
+msgstr "Сохранить ссылку"
 
 #: inc/entityconfig.class.php:245
 msgid "Device limit"
-msgstr "Limite d'appareils"
+msgstr "Ограничение количества устройств"
 
 #: inc/file.class.php:59 inc/file.class.php:268
 msgid "File"
 msgid_plural "Files"
-msgstr[0] "Fichier"
-msgstr[1] "Fichiers"
+msgstr[0] "Файл"
+msgstr[1] "Файлы"
+msgstr[2] "Файлы"
+msgstr[3] "Файлы"
 
 #: inc/file.class.php:87 inc/package.class.php:181
 msgid "No file uploaded"
-msgstr "Aucun fichier téléversé"
+msgstr "Нет загруженных файлов"
 
 #: inc/file.class.php:93 inc/file.class.php:157 inc/package.class.php:187
 msgid "File upload failed"
-msgstr "Le télélversement du ficher a échoué"
+msgstr "Ошибка загрузки файла"
 
 #: inc/file.class.php:118 inc/file.class.php:183 inc/package.class.php:209
 #: inc/package.class.php:282
 msgid "File uploaded without name"
-msgstr "Le fichier a été téléversé sans nom"
+msgstr ""
 
 #: inc/file.class.php:225
 msgid "Could not save file"
-msgstr "Impossible d'enregistrer le fichier"
+msgstr "Не удается сохранить файл"
 
 #: inc/file.class.php:228
 msgid "File sucessfully uploaded"
-msgstr "Fichier correctement sauvegardé"
+msgstr "Файл успешно загружен"
 
 #: inc/file.class.php:284
 msgid "Source"
-msgstr "Source"
+msgstr "Источник"
 
 #: inc/policydeployfile.class.php:57
 msgid "A destination and the remove on delete flag are mandatory"
-msgstr "Une destination et in témoin de suppression sont obligatoires"
+msgstr ""
 
 #: inc/policydeployfile.class.php:69
 msgid "You must choose a file to apply this policy"
-msgstr "Vous devez choisir un fichier à appliquer à cette stratégie"
+msgstr "Выберите файл чтобы применить эту политику"
 
 #: inc/policydeployfile.class.php:76
 msgid "The file does not exists"
-msgstr "Le fichier n'existe pas"
+msgstr "Файл не существует"
 
 #: inc/policydeployfile.class.php:82 inc/policydeployfile.class.php:88
 #: inc/policydeployfile.class.php:115
 msgid "invalid base path"
-msgstr "Chemin de base non valide"
+msgstr "неверный путь к базе"
 
 #: inc/policydeployfile.class.php:180
 msgid ""
 "A removal policy is applied for this file destination. Please, remove it "
 "first."
 msgstr ""
-"Une stratégie de suppression est appliquée sur ce fichier. Supprimez la "
-"d'abord."
 
 #: inc/policydeployfile.class.php:229
 msgid "copy to"
-msgstr "copier vers"
+msgstr ""
 
 #: inc/fleet.class.php:177
 msgid "No default fleet found to move devices"
-msgstr "Pas de flotte par défaut pour déplacer les appareils"
+msgstr "Не найдена группа по умолчанию для перемещения устройств"
 
 #: inc/fleet.class.php:187
 msgid "Could not move all devices to the not managed fleet"
-msgstr "Impossible de déplacer tous les appareils vers la flotte non gérée"
+msgstr "Нельзя переместить все устройства в неуправляемую группу устройств"
 
 #: inc/fleet.class.php:205
 msgid "Could not delete policies on the fleet"
-msgstr "Impossible de suppriler les stratégies de la flotte"
+msgstr "Не удалось удалить политики для группы устройств"
 
 #: inc/fleet.class.php:211
 msgid "Could not delete message queue on the fleet"
-msgstr "Impossible de supprimer la file d'attente des messages de la flotte"
+msgstr "Не могу удалить очередь ожидания сообщений для группы устройств"
 
 #: inc/fleet.class.php:270
 msgid "Not managed"
-msgstr "Non géré"
+msgstr "Неуправляемый"
 
 #: inc/invitation.class.php:52 inc/graph.class.php:57 inc/graph.class.php:65
 msgid "Pending"
-msgstr "En attente"
+msgstr "Ожидание"
 
 #: inc/invitation.class.php:53 inc/graph.class.php:56 inc/graph.class.php:61
 msgid "Done"
-msgstr "Terminé"
+msgstr "Готово"
 
 #: inc/invitation.class.php:80 inc/invitation.class.php:86
 msgid "Email address is invalid"
-msgstr "L'adresse email est invalide"
+msgstr "Адрес email некорректен"
 
 #: inc/invitation.class.php:111
 msgid "Cannot create the user"
-msgstr "Impossible de créer l'utilsiateur"
+msgstr "Не удается создать пользователя"
 
 #: inc/invitation.class.php:118
 msgid ""
 "The user already exists and has been deleted. You must restore or purge him "
 "first."
 msgstr ""
-"L'utilsiateur existe déjà et a été supprimé. Vous devez le restaurer ou le "
-"purger d'abord."
+"Пользователь уже создан и был удален. Вы должны восстановить или "
+"окончательно удалить его для продолжения."
 
 #: inc/invitation.class.php:162
 msgid "Could not create enrollment QR code"
-msgstr "Impossible de créer un QR code d'enrôlement"
+msgstr "Не могу создать QR код для применения"
 
 #: inc/invitation.class.php:247
 msgid "Cannot delete the document. Delete the attached invitation first"
-msgstr ""
-"Impossible de créer le document. Supprimez d'abord les invitations "
-"rattachées"
+msgstr "Не могу удалить документ. Сначала удалите приложенное приглашение."
 
 #: inc/invitation.class.php:369
 msgid "Expiration date"
-msgstr "Date d'expiration"
+msgstr ""
 
 #: inc/package.class.php:61 inc/package.class.php:408
 msgid "Package"
 msgid_plural "Packages"
-msgstr[0] "Paquetage"
-msgstr[1] "Paquetages"
+msgstr[0] "Пакет"
+msgstr[1] "Пакеты"
+msgstr[2] "Пакеты"
+msgstr[3] "Пакеты"
 
 #: inc/package.class.php:88
 msgid "Package Flyve MDM"
 msgid_plural "Packages Flyve MDM"
-msgstr[0] "Paquetage Flyve MDM"
-msgstr[1] "PAquetages Flyve MDM"
+msgstr[0] "Пакет Flyve MDM"
+msgstr[1] "Пакеты Flyve MDM"
+msgstr[2] "Пакеты Flyve MDM"
+msgstr[3] "Пакеты Flyve MDM"
 
 #: inc/package.class.php:194
 msgid "Temp directory doesn't exist"
-msgstr "Le dossier temporaire n'existe pas"
+msgstr ""
 
 #: inc/package.class.php:200
 msgid "Failed to save the file"
-msgstr "Echec à la sauvegarde du fichier"
+msgstr ""
 
 #: inc/package.class.php:216
 msgid "Only APK and UPK files are allowed"
-msgstr "Seuls les fichiers APK et UPK sont autorisés"
+msgstr ""
 
 #: inc/package.class.php:236 inc/package.class.php:297
 msgid "Could not parse the UPK file"
-msgstr "Impossible d'analyser le fichier UPK"
+msgstr ""
 
 #: inc/package.class.php:259 inc/package.class.php:320
 msgid "Unable to save the file"
-msgstr "Impossible de sauvegarder le fichier"
+msgstr "Не удалось сохранить файл"
 
 #: inc/package.class.php:264
 msgid "Could not parse the APK file"
-msgstr "Could not parse the APK file"
+msgstr ""
 
 #: inc/package.class.php:427
 msgid "alias"
-msgstr "alias"
+msgstr "алиас"
 
 #: inc/package.class.php:441
 msgid "icon"
-msgstr "icône"
+msgstr "иконка"
 
 #: inc/package.class.php:448
 msgid "filesize"
-msgstr "taille du fichier"
+msgstr "размер файла"
 
 #: inc/graph.class.php:54
 msgid "Invitations"
-msgstr "Invitations"
+msgstr ""
 
 #: inc/graph.class.php:130
 msgid "Devices per operating system version"
-msgstr "Appareils par version de système d'exploitation"
+msgstr ""

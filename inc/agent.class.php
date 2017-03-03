@@ -128,7 +128,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
                break;
-          }
+         }
       }
    }
 

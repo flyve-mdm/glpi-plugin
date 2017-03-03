@@ -563,7 +563,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
 
       // add needed data for display
       $factory = new PluginFlyvemdmPolicyFactory();
-      foreach($appliedPolicies as $id => &$appliedPolicy) {
+      foreach ($appliedPolicies as $id => &$appliedPolicy) {
          $appliedPolicy['checkbox']   = Html::getMassiveActionCheckBox(__CLASS__, $id);
          $appliedPolicy['policyName'] = $policies[$appliedPolicy['plugin_flyvemdm_policies_id']]['name'];
          $policyItem = $factory->createFromDBByID($appliedPolicy['plugin_flyvemdm_policies_id']);

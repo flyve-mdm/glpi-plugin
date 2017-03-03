@@ -31,7 +31,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 include ('../../../inc/includes.php');
 $plugin = new Plugin();
-if(!$plugin->isActivated('flyvemdm')) {
+if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
@@ -51,7 +51,5 @@ if (isset($_POST['add'])) {
    $_POST = $fleet_policy->preprocessInput($_POST);
    $fleet_policy->add($_POST);
    Html::back();
-} else if (isset($_POST['delete_items'])) {
-
 }
 Html::back();
