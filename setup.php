@@ -158,9 +158,6 @@ function plugin_init_flyvemdm() {
 
       if (version_compare(GLPI_VERSION, '9.1.2') > 0) {
          Html::requireJs('charts');
-      } else {
-         // GLPI 9.1.2-backport loads the needed CSS and JS files
-         // GLPI 9.1.2 official will fail to show graphs
       }
       $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
@@ -294,7 +291,6 @@ function plugin_flyvemdm_getTemplateEngine() {
 }
 
 // center all columns of plugin
-function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num)
-{
+function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num) {
    return "align='center'";
 }
