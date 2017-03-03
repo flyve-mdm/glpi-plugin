@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -163,11 +163,6 @@ class DeleteEntityTest extends ApiRestTestCase {
 
       Session::destroy();
    }
-
-   //    public function setUp() {
-   //       parent::setUp();
-   //       Session::changeActiveEntities(self::$entity->getID(), 0);
-   //    }
 
    /**
     *

@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -48,7 +48,6 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -63,7 +62,6 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::apply()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
@@ -81,4 +79,15 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       return $array;
    }
 
+   public function showValueInput() {
+      return Dropdown::showYesNo('value', '0', -1, array('display' => false));
+   }
+
+   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+      $value = $fleet_policy->getField('value');
+      if ($value == '0') {
+         return __('No');
+      }
+      return __('Yes');
+   }
 }

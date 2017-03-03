@@ -1,0 +1,27 @@
+<center>
+   <ul id="plugin_flyvemdm_menu">
+      {% for menuName, menuItem in menu %}
+         <li><a href="#"><div>{{ menuName }}</div></a>
+            <ul>
+            {% for subMenuName, subMenu in menuItem %}
+               <li><a href="{{ subMenu.link }}"><div>{{ subMenuName }}</div></a></li>
+            {% endfor %}
+            </ul>
+         </li>
+      {% endfor %}
+   </ul>
+</center>
+<center>
+   <script type="text/javascript">
+      $(function() {
+         $('#plugin_flyvemdm_grapĥ_invitations').load('../ajax/getGraph.php', {'graph': 'invitations'})
+      });
+   </script>
+   <div id="plugin_flyvemdm_grapĥ_invitations"></div>
+   <script type="text/javascript">
+      $(function() {
+         $('#plugin_flyvemdm_grapĥ_devicesPerOSVersion').load('../ajax/getGraph.php', {'graph': 'devicesPerOSVersion'})
+      });
+   </script>
+   <div id="plugin_flyvemdm_grapĥ_devicesPerOSVersion"></div>
+</center>

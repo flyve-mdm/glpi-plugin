@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -56,14 +56,11 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @param integer $nb  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      global $LANG;
-
       return _n('File', 'Files', $nb, "flyvemdm");
    }
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
@@ -79,34 +76,62 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      if (!isset($_FILES['file'])) {
-         Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-         return false;
-      }
-
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+      // Find the added file
+      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+         // from GLPI UI
+         $actualFilename = $_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR."/".$_POST['_file'][0];
+      } else {
+         // from API
+         if (!isset($_FILES['file'])) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
          }
-         return false;
+
+         if (!$_FILES['file']['error'] == 0) {
+            if (!$_FILES['file']['error'] == 4) {
+               Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+            }
+            return false;
+         }
+
+         // Move the file to GLPI_TMP_DIR
+         if (!is_dir(GLPI_TMP_DIR)) {
+            Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
+            return false;
+         }
+
+         $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
+         if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+            return false;
+         }
+
+         $actualFilename = $_FILES['file']['name'];
+         $uploadedFile = $destination;
       }
 
-      if (!isset($_FILES['file']['name'])) {
+      if (!isset($input['entities_id'])) {
+         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+      }
+
+      if (!isset($actualFilename)) {
          Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
          return false;
       }
-
-      $input['entities_id'] = $_SESSION['glpiactive_entity'];
-
-      $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-      if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
+      $input['source'] = $input['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+      $destination = FLYVEMDM_FILE_PATH . "/" . $input['source'];
+      $this->createEntityDirectory(dirname($destination));
+      if (!rename($uploadedFile, $destination)) {
          if (!is_writable(dirname($destination))) {
             $destination = dirname($destination);
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
          }
          return false;
       }
-      $input['source'] = $input['entities_id'] . "/" . basename($destination);
+
+      if (!isset($input['name']) || empty($input['name'])) {
+         $input['name'] = $actualFilename;
+      }
 
       // File added, then this is the first version
       $input['version'] = '1';
@@ -119,32 +144,58 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+      // Find the added file
+      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+         // from GLPI UI
+         $actualFilename = $_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR."/".$_POST['_file'][0];
+      } else {
+         // from API
+         if (isset($_FILES['file']['error'])) {
+            if (!$_FILES['file']['error'] == 0) {
+               if (!$_FILES['file']['error'] == 4) {
+                  Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+               }
+               return false;
+            }
+
+            // Move the file to GLPI_TMP_DIR
+            if (!is_dir(GLPI_TMP_DIR)) {
+               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
+               return false;
+            }
+
+            $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
+            if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+               return false;
+            }
+
+            $actualFilename = $_FILES['file']['name'];
+            $uploadedFile = $destination;
          }
-         return false;
       }
 
       unset($input['entities_id']);
 
-      if (isset($_FILES['file'])) {
-         if (!isset($_FILES['file']['name'])) {
+      if (isset($uploadedFile)) {
+         // A file has been uploaded
+         if (!isset($actualFilename)) {
             Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
             return false;
          }
-         // A file has been uploaded
-         $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-         $destination = FLYVEMDM_FILE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-         if (!$this->saveUploadedFile($_FILES['file'], $destination)) {
+         $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+         $destination = FLYVEMDM_FILE_PATH . "/" . $input['source'];
+         $filename = pathinfo($actualFilename, PATHINFO_FILENAME);
+         if (!rename($uploadedFile, $destination)) {
             if (!is_writable(dirname($destination))) {
                $destination = dirname($destination);
                Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
             }
             return false;
          }
-         unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
-         $input['source']      = $input['entities_id'] . "/" . basename($destination);
+         if ($filename != $this->fields['source']) {
+            unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
+         }
       } else {
          // No file uploaded
          unset($input['source']);
@@ -203,12 +254,11 @@ class PluginFlyvemdmFile extends CommonDBTM {
     */
    protected function createEntityDirectory($dir) {
       if (!is_dir($dir)) {
-         @mkdir($dir, 0770, false);
+         @mkdir($dir, 0770, true);
       }
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
@@ -239,7 +289,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
@@ -253,7 +302,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
@@ -271,7 +319,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history = 1) {
@@ -300,7 +347,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
@@ -400,4 +446,37 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $file->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
 
+   /**
+    * Display a form to view, create or edit
+    * @param integer $ID ID of the item to show
+    * @param array $options
+    */
+   public function showForm($ID, $options = array()) {
+      global $CFG_GLPI, $DB;
+
+      $this->initForm($ID, $options);
+      $this->showFormHeader($options);
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $fields              = $this->fields;
+      $objectName          = autoName($this->fields["name"], "name",
+            (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+            $this->getType(), -1);
+      if ($this->isNewID($ID)) {
+         $fields['filesize'] = '';
+      } else {
+         $fields['filesize'] = fileSize(FLYVEMDM_FILE_PATH . '/' . $fields['source']);
+         $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      }
+      $data = [
+            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+            'isNewID'      => $this->isNewID($ID),
+            'file'         => $fields,
+            'upload'       => Html::file(['name' => 'file', 'display' => false]),
+      ];
+      echo $twig->render('file.html', $data);
+
+      $this->showFormButtons($options);
+   }
 }

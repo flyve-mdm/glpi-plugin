@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -108,4 +108,30 @@ interface PluginFlyvemdmPolicyInterface {
     * @param string $value
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
+
+   /**
+    * return HTML input to set policy value
+    */
+   public function showValueInput();
+
+
+   /**
+    * return policy value for display
+    */
+   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy);
+
+   /**
+    * Transforms form data to match the format expected by the API
+    *
+    * When using GLPI the form data send in a different structure comapred to the API
+    * This method converts it back to the format used in the API
+    *
+    * Does nothing by default, override if needed
+    *
+    * @param array $input
+    *
+    * @return array
+    */
+   public function preprocessFormData($input);
+
 }

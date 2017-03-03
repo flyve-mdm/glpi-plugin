@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -75,8 +75,17 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
     */
    protected $silent;
 
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      if (static::canView()) {
+         switch ($item->getType()) {
+            case PluginFlyvemdmFleet::class:
+               $tab = array(1 => __('Policies'));
+               return $tab;
+         }
+      }
+   }
+
    /**
-    * {@inheritDoc}
     * @see CommonDBRelation::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
@@ -100,7 +109,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBRelation::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -179,7 +187,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBRelation::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
@@ -268,7 +275,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /** $this->policy->field['group']
-    * {@inheritDoc}
     * @see CommonDBRelation::post_addItem()
     */
    public function post_addItem() {
@@ -276,7 +282,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBRelation::post_updateItem()
     */
    public function post_updateItem($history = 1) {
@@ -285,7 +290,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
@@ -304,7 +308,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_deleteItem()
     */
    public function post_purgeItem() {
@@ -454,7 +457,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
@@ -463,39 +465,184 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $tab = array();
       $tab['common']           = __('Characteristics');
 
-      $tab[2]['table']         = $this->getTable();
-      $tab[2]['field']         = 'id';
-      $tab[2]['name']          = __('ID');
-      $tab[2]['massiveaction'] = false;
-      $tab[2]['datatype']      = 'number';
+      $i = 2;
 
-      $tab[3]['table']         = PluginFlyvemdmFleet::getTable();
-      $tab[3]['field']         = 'id';
-      $tab[3]['name']          = __('Fleet ID');
-      $tab[3]['massiveaction'] = false;
-      $tab[3]['datatype']      = 'dropdown';
+      $tab[$i]['table']         = $this->getTable();
+      $tab[$i]['field']         = 'id';
+      $tab[$i]['name']          = __('ID');
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['datatype']      = 'number';
 
-      $tab[4]['table']         = PluginFlyvemdmPolicy::getTable();
-      $tab[4]['field']         = 'id';
-      $tab[4]['name']          = __('Policy ID');
-      $tab[4]['massiveaction'] = false;
-      $tab[4]['datatype']      = 'dropdown';
+      $i++;
+      $tab[$i]['table']         = PluginFlyvemdmFleet::getTable();
+      $tab[$i]['field']         = 'id';
+      $tab[$i]['name']          = __('Fleet ID');
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['datatype']      = 'dropdown';
 
-      $tab[5]['table']               = self::getTable();
-      $tab[5]['field']               = 'itemtype';
-      $tab[5]['name']                = 'itemtype';
-      $tab[5]['massiveaction']       = false;
-      $tab[5]['nodisplay']           = true;
-      $tab[5]['datatype']            = 'string';
+      $i++;
+      $tab[$i]['table']         = PluginFlyvemdmPolicy::getTable();
+      $tab[$i]['field']         = 'id';
+      $tab[$i]['name']          = __('Policy ID');
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['datatype']      = 'dropdown';
 
-      $tab[6]['table']               = self::getTable();
-      $tab[6]['field']               = 'items_id';
-      $tab[6]['name']                = 'item';
-      $tab[6]['massiveaction']       = false;
-      $tab[6]['nodisplay']           = true;
-      $tab[6]['datatype']            = 'integer';
+      $i++;
+      $tab[$i]['table']         = self::getTable();
+      $tab[$i]['field']         = 'itemtype';
+      $tab[$i]['name']          = 'itemtype';
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['nodisplay']     = true;
+      $tab[$i]['datatype']      = 'string';
+
+      $i++;
+      $tab[$i]['table']         = self::getTable();
+      $tab[$i]['field']         = 'items_id';
+      $tab[$i]['name']          = 'item';
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['nodisplay']     = true;
+      $tab[$i]['datatype']      = 'integer';
+
+      $i++;
+      $tab[$i]['table']         = PluginFlyvemdmPolicy::getTable();
+      $tab[$i]['field']         = 'name';
+      $tab[$i]['name']          = 'policy_name';
+      $tab[$i]['massiveaction'] = false;
+      $tab[$i]['nodisplay']     = true;
+      $tab[$i]['datatype']      = 'string';
 
       return $tab;
 
+   }
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      switch (get_class($item)) {
+         case PluginFlyvemdmFleet::class:
+            static::showForFleet($item, $withtemplate);
+      }
+   }
+
+   /**
+    *
+    * @param CommonDBTM $item
+    */
+   static function showForFleet(CommonDBTM $item, $withtemplate='') {
+      global $DB, $CFG_GLPI;
+
+      if (!$item->canView()) {
+         return false;
+      }
+
+      $itemId  = $item->getID();
+      $canedit = Session::haveRightsOr('flyvemdm:fleet', array(CREATE, UPDATE, DELETE, PURGE));
+      $rand    = mt_rand();
+
+      // Show apply policy form
+      if ((empty($withtemplate) || ($withtemplate != 2))
+          && $canedit) {
+         $policyDropdown = PluginFlyvemdmPolicy::dropdown([
+               'display'      => false,
+               'name'         => 'plugin_flyvemdm_policies_id',
+               'toupdate'     => [
+                     'value_fieldname' => 'value',
+                     'to_update'       => 'plugin_flyvemdm_policy_value',
+                     'url'             => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php"
+               ]
+         ]);
+      } else {
+         $policyDropdown = null;
+      }
+
+      // Get all policy names
+      $policy = new PluginFlyvemdmPolicy();
+      $policies = $policy->find();
+
+      // Get aplied policies
+      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $appliedPolicies = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
+
+      // add needed data for display
+      $factory = new PluginFlyvemdmPolicyFactory();
+      foreach($appliedPolicies as $id => &$appliedPolicy) {
+         $appliedPolicy['checkbox']   = Html::getMassiveActionCheckBox(__CLASS__, $id);
+         $appliedPolicy['policyName'] = $policies[$appliedPolicy['plugin_flyvemdm_policies_id']]['name'];
+         $policyItem = $factory->createFromDBByID($appliedPolicy['plugin_flyvemdm_policies_id']);
+         if ($policyItem !== null) {
+            $fleet_policy              = new PluginFlyvemdmFleet_Policy();
+            $fleet_policy->getFromDB($id);
+            $appliedPolicy['value']    = $policyItem->showValue($fleet_policy);
+         }
+      }
+
+      // Template data
+      $addFormBegin = "<form name='fleetpolicy_form$rand' id='fleetpolicy_form$rand' method='post'
+                       action='".Toolbox::getItemTypeFormURL(__CLASS__)."'>";
+      $addFormEnd = Html::closeForm(false);
+
+      $actions = ['purge' => _x('button', 'Delete permanently')];
+      $massiveactionparams = [
+                                    'num_displayed'    => count($appliedPolicies),
+                                    'container'        => 'mass'.__CLASS__.$rand,
+                                    'specific_actions' => $actions,
+                                    'display'          => false
+                              ];
+      $massiveActionTop    = Html::showMassiveActions($massiveactionparams);
+      $massiveactionparams['ontop'] = false;
+      $massiveActionBottom = Html::showMassiveActions($massiveactionparams);
+
+      $data = [
+            'canEdit'   => $canedit,
+            'addForm'   => [
+                  'begin'        => $addFormBegin,
+                  'end'          => $addFormEnd
+            ],
+            'massiveActionForm'  => [
+                  'begin'        => Html::getOpenMassiveActionsForm('mass'.__CLASS__.$rand)
+                                    . $massiveActionTop,
+                  'end'          => $massiveActionBottom
+                                    . Html::closeForm(false),
+            ],
+            'checkAll'  => Html::getCheckAllAsCheckbox('mass'.__CLASS__.$rand),
+            'fleet_policy' => [
+                  'policy'                      => $policyDropdown,
+                  'plugin_flyvemdm_fleets_id'   => $itemId
+            ],
+            'policies'  => $appliedPolicies
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('fleet_policy.html', $data);
+
+      Html::closeForm();
+   }
+
+   /**
+    * Processes
+    * @param unknown $post
+    */
+   public function preprocessInput($input) {
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy  = $policyFactory->createFromDBByID($input['plugin_flyvemdm_policies_id']);
+      if ($policy) {
+         $input = $policy->preprocessFormData($input);
+      }
+
+      return $input;
+   }
+
+   public function getAppliedPolicies(PluginFlyvemdmFleet $fleet) {
+      $appliedPolicies = array();
+      if (!$fleet->isNewItem()) {
+         $itemId = $fleet->getID();
+         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
+         foreach ($rows as $id => $row) {
+            $apliedPolicy = new PluginFlyvemdmFleet_Policy();
+            if ($apliedPolicy->getFromDB($id)) {
+               $appliedPolicies[] = $appliedPolicy;
+            }
+         }
+      }
+
+      return $appliedPolicies;
    }
 }

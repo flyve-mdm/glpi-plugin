@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -49,7 +49,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -121,7 +120,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
@@ -147,7 +145,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyBase::unicityCheck()
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -165,7 +162,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::conflictCheck()
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -190,7 +186,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
     /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyBase::unapply()
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
@@ -222,5 +217,49 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       }
 
       return true;
+   }
+
+   public function showValueInput() {
+      $out = PluginFlyvemdmFile::dropdown([
+            'display'      => false,
+            'name'         => 'items_id',
+      ]);
+      $out .= '<input type="hidden" name="itemtype" value="PluginFlyvemdmFile" />';
+      $out .= '<br>';
+      $out .= __('copy to', 'flyvemdm');
+      $out .= '<br>';
+      $out .= PluginFlyvemdmWellknownpath::dropdown([
+            'display'      => false,
+            'name'         => 'destination_base',
+      ]);
+      $out .= '<input type="text" name="value[destination]" value="" />';
+      $out .= '<input type="hidden" name="value[remove_on_delete]" value="1" />';
+
+      return $out;
+   }
+
+   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+      $file = new PluginFlyvemdmFile();
+      if ($file->getFromDB($fleet_policy->getField('items_id'))) {
+         $path = json_decode($fleet_policy->getField('value'), JSON_OBJECT_AS_ARRAY);
+         $path = $path['destination'];
+         $name  = $file->getField('name');
+         return "$path/$name";
+      }
+      return NOT_AVAILABLE;
+   }
+
+   /**
+    * @see PluginFlyvemdmPolicyInterface::preprocessFormData()
+    */
+   public function preprocessFormData($input) {
+      if (isset($input['destination_base']) && isset($input['value']['destination'])) {
+         $basePath = new PluginFlyvemdmWellknownpath();
+         if ($basePath->getFromDB(intval($input['destination_base']))) {
+            $input['value']['destination'] = $basePath->getField('name') . $input['value']['destination'];
+         }
+      }
+
+      return $input;
    }
 }

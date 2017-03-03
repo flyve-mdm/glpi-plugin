@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -48,6 +48,25 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
 
    public static function setDelay($delay) {
       self::$delay = $delay;
+   }
+
+   static function getTypeName($count = 0) {
+      return _n('Queued MQTT message', 'Queued MQTT messages', $count);
+   }
+
+   /**
+    * get Cron description parameter for this class
+    *
+    * @param $name string name of the task
+    *
+    * @return array of string
+    **/
+   static function cronInfo($name) {
+
+      switch ($name) {
+         case 'UpdateTopics' :
+            return array('description' => __('Sends queued MQTT messages'));
+      }
    }
 
    /**

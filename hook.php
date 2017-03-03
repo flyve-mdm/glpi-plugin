@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -65,6 +65,20 @@ function plugin_flyvemdm_postinit() {
 }
 
 /**
+ *
+ * @param string $type
+ */
+function plugin_flyvemdm_MassiveActions($type) {
+   switch ($type) {
+      case 'User':
+         return array('PluginFlyvemdmInvitation' . MassiveAction::CLASS_ACTION_SEPARATOR . 'InviteUser' =>
+               __("Invite to enroll a device", 'flyvemdm'));
+   }
+
+   return array();
+}
+
+/**
  * Actions done when a profile_user is being purged
  */
 function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
@@ -98,6 +112,12 @@ function plugin_flyvemdm_getDropdown() {
 
 }
 
+function plugin_flyvemdm_addDefaultSelect($itemtype) {
+   $selected = '';
+
+   return $selected;
+}
+
 /**
  * Add a default WHERE in SELECT queries on itemtypes
  * @param string $itemtype Itemtype
@@ -111,7 +131,6 @@ function plugin_Flyvemdm_addDefaultJoin($itemtype) {
       case 'PluginFlyvemdmAgent':
          return PluginFlyvemdmAgent::addDefaultJoin();
    }
-
 }
 
 /**

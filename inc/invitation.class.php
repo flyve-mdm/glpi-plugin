@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -59,7 +59,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      global $LANG;
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
@@ -169,7 +168,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
@@ -212,7 +210,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
@@ -221,7 +218,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
@@ -229,7 +225,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public static function hook_pre_self_purge(CommonDBTM $item) {
@@ -339,7 +334,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
@@ -348,17 +342,33 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $tab = array();
       $tab['common']                 = __s('Invitation', "flyvemdm");
 
-      $tab[2]['table']               = self::getTable();
-      $tab[2]['field']               = 'id';
-      $tab[2]['name']                = __('ID');
-      $tab[2]['massiveaction']       = false;
-      $tab[2]['datatype']            = 'number';
+      $i = 1;
+      $tab[$i]['table']               = User::getTable();
+      $tab[$i]['field']               = 'name';
+      $tab[$i]['name']                = __('Name');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['datatype']            = 'string';
 
-      $tab[3]['table']               = self::getTable();
-      $tab[3]['field']               = 'status';
-      $tab[3]['name']                = __('status');
-      $tab[3]['massiveaction']       = false;
-      $tab[3]['datatype']            = 'string';
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'id';
+      $tab[$i]['name']                = __('ID');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['datatype']            = 'number';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'status';
+      $tab[$i]['name']                = __('Status');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['datatype']            = 'string';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'expiration_date';
+      $tab[$i]['name']                = __('Expiration date', 'flyvemdm');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['datatype']            = 'string';
 
       return $tab;
    }
@@ -366,5 +376,96 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    public function hook_entity_purge(CommonDBTM $item) {
       $invitation = new static();
       $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+   }
+
+   /**
+    * Show form for edition
+    */
+   public function showForm($ID, $options = array()) {
+      global $CFG_GLPI, $DB;
+
+      $this->initForm($ID, $options);
+      $this->showFormHeader();
+
+
+   }
+
+   protected function showMassiveActionInviteUser() {
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $data = [
+            'inviteButton' => Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'))
+      ];
+      echo $twig->render('mass_invitation.html', $data);
+   }
+
+   /**
+    *
+    * @param MassiveAction $ma
+    */
+   static function showMassiveActionsSubForm(MassiveAction $ma) {
+      switch ($ma->getAction()) {
+         case 'InviteUser':
+            $invitation = new static();
+            $invitation->showMassiveActionInviteUser();
+            return true;
+
+      }
+   }
+
+   /**
+    *
+    * @see CommonDBTM::processMassiveActionsForOneItemtype()
+    */
+   public static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids) {
+      switch ($ma->getAction()) {
+         case 'InviteUser':
+            if ($item->getType() == User::class) {
+               // find the profile ID of the service account (demo plugin)
+               $config = Config::getConfigurationValues('flyvemdmdemo', ['service_profiles_id']);
+               if (isset($config['service_profiles_id'])) {
+                  $profile = new Profile();
+                  $profile->getFromDB($config['service_profiles_id']);
+                  $profile_user = new Profile_User();
+               }
+               foreach ($ids as $id) {
+                  $item->getFromDB($id);
+                  $reject = false;
+
+                  // Do not invite service account users (demo mode)
+                  if (isset($config['service_profiles_id'])) {
+                     if ($profile_user->getFromDBForItems($item, $profile) !== false) {
+
+                        $reject = true;
+                     }
+                  }
+
+                  // Do not invite users without a default email address
+                  $useremail = new UserEmail();
+                  $emailAddress = $useremail->getDefaultForUser($id);
+                  if (empty($emailAddress)) {
+                     $reject = true;
+                  }
+
+                  if ($reject) {
+                     $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                  } else {
+                     $invitation = new PluginFlyvemdmInvitation();
+                     $success = $invitation->add([
+                        '_useremails'  => $emailAddress,
+                        'entities_id'  => $_SESSION['glpiactive_entity'],
+                     ]);
+                     if (!$success) {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     } else {
+                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                     }
+                  }
+               }
+            } else {
+               $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
+            }
+      }
+
+      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
    }
 }

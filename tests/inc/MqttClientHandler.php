@@ -24,7 +24,7 @@
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -166,7 +166,6 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmMqttclient::subscribe()
     */
    public function subscribe($topic = "#", $qos = 0) {
@@ -233,7 +232,6 @@ class MqttClientHandler extends \sskaje\mqtt\MessageHandler
    }
 
    /**
-    * {@inheritDoc}
     * @see \sskaje\mqtt\MessageHandler::publish()
     */
    public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {

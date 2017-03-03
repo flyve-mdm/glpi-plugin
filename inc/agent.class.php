@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -72,7 +72,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      global $LANG;
       return _n('Agent', 'Agents', $nb, "flyvemdm");
    }
 
@@ -91,11 +90,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Define tabs available for this itemtype
     * @see CommonGLPI::defineTabs()
-    * @deprecated
     */
    public function defineTabs($options = array()) {
+      //  TODO : fluent interface in GLPI 9.2 +
       $tab = array();
       $this->addDefaultFormTab($tab);
+      $this->addStandardTab(__CLASS__, $tab, $options);
       $this->addStandardTab('PluginFlyvemdmAgent_Fleet', $tab, $options);
       $this->addStandardTab('Notepad', $tab, $options);
       $this->addStandardTab('Log', $tab, $options);
@@ -104,45 +104,183 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
+    * @see CommonGLPI::getTabNameForItem()
+    *
+    * @since version 9.1
+    **/
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+
+      if (static::canView()) {
+         switch ($item->getType()) {
+            case __CLASS__ :
+               $tab = array(1 => __('Danger zone !', 'flyvemdm'));
+               return $tab;
+               break;
+
+            case PluginFlyvemdmFleet::class:
+               if (!$withtemplate) {
+                  $nb = 0;
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     $nb = countElementsInTable(static::getTable(),
+                           ['itemtype' => $item->getType(),
+                                 'items_id' => $item->getID()]);
+                  }
+                  return self::createTabEntry(self::getTypeName(1), $nb);
+               }
+               break;
+          }
+      }
+   }
+
+   /**
+    * @param $item         CommonGLPI object
+    * @param $tabnum       (default 1)
+    * @param $withtemplate (default 0)
+    *
+    * @since version 9.1
+    **/
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+      switch (get_class($item)) {
+         case static::class:
+            self::showDangerZone($item);
+            return true;
+            break;
+
+         case PluginFlyvemdmFleet::class:
+            self::showForFleet($item);
+            return true;
+            break;
+      }
+   }
+
+   /**
     * Show form for edition
-    * @deprecated
     */
-   public function showForm($ID, $options=array()) {
+   public function showForm($ID, $options = array()) {
       global $CFG_GLPI, $DB;
 
       $this->initForm($ID, $options);
-      $this->showFormHeader();
+      $this->showFormHeader($options);
+      $canedit = static::canUpdate();
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __s('Name') .
-            (isset($options['withtemplate']) && $options['withtemplate']?"*":"") .
-            "</td>";
-      echo "<td>";
-      $objectName = autoName($this->fields["name"], "name",
-                             (isset($options['withtemplate']) && $options['withtemplate']==2),
+      $fields              = $this->fields;
+      $objectName          = autoName($this->fields["name"], "name",
+                             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
                              $this->getType(), -1);
-      Html::autocompletionTextField($this, 'name', array('value' => $objectName));
-      echo "</td>";
-      echo "</tr>";
+      $fields['name']      = Html::autocompletionTextField($this, 'name',
+                             array('value' => $objectName, 'display' => false));
+      $fields['computer']  = Computer::dropdown([
+                                 'display'      => false,
+                                 'name'         => 'computers_id',
+                                 'value'        => $this->fields['computers_id'],
+                                 'entity'       => $this->fields['entities_id']
+                             ]);
+      $fields['fleet']     = PluginFlyvemdmFleet::dropdown([
+                                    'display'      => false,
+                                    'name'         => 'plugin_flyvemdm_fleets_id',
+                                    'value'        => $this->fields['plugin_flyvemdm_fleets_id'],
+                                    'entity'       => $this->fields['entities_id']
+                             ]);
+      $data = [
+            'withTemplate'    => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
+            'isNewID'         => $this->isNewID($ID),
+            'canUpdate'       => (!$this->isNewID($ID)) && ($this->canUpdate() > 0),
+            'agent'           => $fields,
+            'pingButton'      => Html::submit(_x('button', 'Ping'), array('name' => 'ping')),
+            'geolocateButton' => Html::submit(_x('button', 'Geolocate'), array('name' => 'geolocate')),
+            'inventoryButton' => Html::submit(_x('button', 'Inventory'), array('name' => 'inventory')),
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>". __s('serial') . "</td><td>";
-      Html::autocompletionTextField($this, 'serial');
-      echo  "</td>";
-      echo '</tr>';
-
-      if ($this->canUpdate()) {
-         echo "<tr class='tab_bg_1'>";
-         echo "<td>Actions</td><td>";
-         echo "<td>" . Html::submit(_x('button', 'Wipe'), array('name' => 'wipe')) . "</td>";
-         echo '</tr>';
-      }
+      ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent.html', $data);
 
       $this->showFormButtons($options);
    }
 
    /**
-    * {@inheritDoc}
+    * Print the computer's operating system form
+    *
+    * @param $comp Computer object
+    *
+    * @since version 9.1
+    *
+    * @return Nothing (call to classes members)
+    */
+   public static function showDangerZone(PluginFlyvemdmAgent $item) {
+      global $CFG_GLPI, $DB;
+
+      $ID = $item->fields['id'];
+      $item->initForm($ID);
+      $item->showFormHeader(['formtitle' => false]);
+      $canedit = static::canUpdate();
+
+      $fields              = $item->fields;
+
+      $fields['lock']      = Html::getCheckbox([
+            'title'        => __('Lock the device as soon as possible', 'flyvemdm'),
+            'name'         => 'lock',
+            'checked'      => $item->fields['lock'],
+            'value'        => '1',
+            'readonly'     => ($canedit == '0' ? '1' : '0'),
+      ]);
+      $fields['wipe']      = Html::getCheckbox([
+            'title'        => __('Wipe the device as soon as possible', 'flyvemdm'),
+            'name'         => 'wipe',
+            'checked'      => $item->fields['wipe'],
+            'value'        => '1',
+            'readonly'     => ($canedit == '0' ? '1' : '0'),
+      ]);
+
+      $data = [
+            'withTemplate'    => '',
+            'isNewID'         => $item->isNewID($ID),
+            'canUpdate'       => (!$item->isNewID($ID)) && ($item->canUpdate() > 0),
+            'agent'           => $fields,
+
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent_dangerzone.html', $data);
+
+      $item->showFormButtons(array('candel' => false, 'formfooter' => false));
+   }
+
+   public static function showForFleet(PluginFlyvemdmFleet $item) {
+      $itemtype = $item->getType();
+      $items_id = $item->getField('id');
+
+      $SEARCHOPTION = Search::getOptions($itemtype);
+      if (isset($_GET["start"])) {
+         $start = intval($_GET["start"]);
+      } else {
+         $start = 0;
+      }
+
+      // Total Number of agents
+      $number = countElementsInTableForMyEntities(static::getTable(), ['plugin_flyvemdm_fleets_id' => $items_id ]);
+
+      // get the pager
+      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager = ''; // disabled because the results are not paged yet
+
+      // get items
+      $condition = "`plugin_flyvemdm_fleets_id` = '$items_id' " . getEntitiesRestrictRequest();
+      $limit = $_SESSION['glpilist_limit'];
+      $agent = new static();
+      $rows = $agent->find($condition, '', '');
+
+      $data = [
+            'number' => $number,
+            'pager'  => $pager,
+            'agents' => $rows,
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent_fleet.html', $data);
+
+   }
+
+   /**
     * @see CommonDBTM::canViewItem()
     */
    public function canViewItem() {
@@ -200,7 +338,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -244,13 +381,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
-         $computerId = $this->getField('computers_id');
          $oldFleet = new PluginFlyvemdmFleet();
          if (!$oldFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Unable to load fleet currently associated to  the agent
@@ -325,7 +460,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
@@ -334,7 +468,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_getFromDB()
     */
    public function post_getFromDB() {
@@ -484,7 +617,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
@@ -576,7 +708,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Limit search for agents if guest user
+    * Limit search for agents of guest user
     */
    public static function addDefaultJoin() {
       $join = '';
@@ -746,7 +878,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $input = array();
 
-      $config = Config::getConfigurationValues("flyvemdm", array('mqtt_broker_tls', 'mqtt_use_client_cert', 'debug_noexpire'));
+      $config = Config::getConfigurationValues("flyvemdm", [
+            'mqtt_broker_tls',
+            'mqtt_use_client_cert',
+            'debug_noexpire',
+            'computertypes_id',
+      ]);
 
       // Find the invitation
       $invitation = new PluginFlyvemdmInvitation();
@@ -861,7 +998,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Create a new computer for the device being enrolled
       // TODO : Enable localization of the type
       $computerType = new ComputerType();
-      $computerTypeId = $computerType->import(array('name' => 'Smartphone'));
+      $computerTypeId = $config['computertypes_id'];
       if ($computerTypeId == -1 || $computerTypeId === false) {
          $computerTypeId = 0;
       }
@@ -1181,7 +1318,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getAgents()
     */
    public function getAgents() {
@@ -1189,7 +1325,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getPackages()
     */
    public function getPackages() {
@@ -1205,7 +1340,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getFiles()
     */
    public function getFiles() {
@@ -1220,7 +1354,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getFleet()
     */
    public function getFleet() {
@@ -1432,7 +1565,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::notify()
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {

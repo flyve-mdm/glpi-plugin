@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -58,7 +58,6 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -66,7 +65,6 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::jsonEncode()
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
@@ -80,7 +78,6 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyBase::translateData()
     */
    public function translateData() {
@@ -92,4 +89,12 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
       return $translated;
    }
 
+   public function showValueInput() {
+      return Dropdown::showFromArray('value', $this->valueList, array('display' => false));
+   }
+
+   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+      $value = $fleet_policy->getField('value');
+      return $this->valueList[$value];
+   }
 }

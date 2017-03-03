@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+
+#plugin_flyvemdm_menu {
+   width: 95%;
+   list-style: none;
+}
+
+#plugin_flyvemdm_menu ul {
+   position: absolute;
+   display: none;
+   z-index: 10000;
+}
+
+#plugin_flyvemdm_menu li {
+   display: inline-block;
+   box-shadow: 0px 1px 2px 1px #999;
+   width: 180px;
+   background-color: #F1F1F1;
+}
+
+#plugin_flyvemdm_menu ul li {
+   display: inherit;
+}
+
+#plugin_flyvemdm_menu li:hover ul {
+   display:inherit;
+}
+
+#plugin_flyvemdm_menu a {
+   font-size: larger;
+   color: #000;
+}
+#plugin_flyvemdm_menu div {
+   padding: 8px 10px 8px 10px;
+}
+
+#plugin_flyvemdm_menu li div::before, #plugin_flyvemdm_menu li div::after {
+   content: url(../../../pics/deplier_down.png);
+   margin: 3px;
+}
+
+#plugin_flyvemdm_menu li li div::before, #plugin_flyvemdm_menu li li div::after {
+   content: none;
+   margin: inherit;
+}

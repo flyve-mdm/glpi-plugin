@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -70,20 +70,23 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param $nb integer number of item in the type (default 0)
     */
    public static function getTypeName($nb = 0) {
-      global $LANG;
       return _n('Fleet', 'Fleets', $nb, "flyvemdm");
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonGLPI::defineTabs()
     */
    public function defineTabs($options = array()) {
       $tab = array();
       $this->addDefaultFormTab($tab);
-      $this->addStandardTab('PluginFlyvemdmAgent_Fleet', $tab, $options);
-      $this->addStandardTab('Notepad', $tab, $options);
-      $this->addStandardTab('Log', $tab, $options);
+      if (!$this->isNewItem()) {
+         $this->addStandardTab(PluginFlyvemdmAgent::class, $tab, $options);
+         $this->addStandardTab('PluginFlyvemdmFleet_Policy', $tab, $options);
+         $this->addStandardTab('Notepad', $tab, $options);
+         $this->addStandardTab('Log', $tab, $options);
+      } else {
+         $tab[1]  = __s('Main');
+      }
 
       return $tab;
    }
@@ -95,34 +98,42 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $CFG_GLPI, $DB;
 
       $this->initForm($ID, $options);
-      $this->showFormHeader();
+      $this->showFormHeader($options);
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __s('Name') . (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : "") . "</td>";
-      echo "<td>";
-      $objectName = autoName($this->fields["name"], "name", (isset($options['withtemplate']) && $options['withtemplate'] == 2), $this->getType(), - 1);
-      Html::autocompletionTextField($this, 'name', array(
-            'value' => $objectName
-      ));
-      echo "</td>";
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $fields              = $this->fields;
+      $objectName          = autoName($this->fields["name"], "name",
+            (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+            $this->getType(), -1);
+      $fields['name']      = Html::autocompletionTextField($this, 'name',
+                             array('value' => $objectName, 'display' => false));
+      $data = [
+            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+            'fleet'        => $fields,
+      ];
+
+      echo $twig->render('fleet.html', $data);
 
       $this->showFormButtons($options);
 
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
       if (!isset($input['is_default'])) {
          $input['is_default'] = '0';
       }
+
+      if (!isset($input['entities_id'])) {
+         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+      }
+
       return $input;
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
@@ -206,7 +217,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
@@ -266,7 +276,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getTopic()
     */
    public function getTopic() {
@@ -289,7 +298,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::post_deleteItem()
     */
    public function post_deleteItem() {
@@ -299,7 +307,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
@@ -319,7 +326,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::cleanDBonPurge()
     */
    public function cleanDBonPurge() {
@@ -348,7 +354,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getAgents()
     */
    public function getAgents() {
@@ -371,7 +376,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getFleet()
     */
    public function getFleet() {
@@ -383,7 +387,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getPackages()
     */
    public function getPackages() {
@@ -404,7 +407,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::getFiles()
     */
    public function getFiles() {
@@ -467,7 +469,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * {@inheritDoc}
     * @see PluginFlyvemdmNotifiable::notify()
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {

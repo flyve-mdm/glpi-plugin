@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -35,46 +35,82 @@ if (!defined('GLPI_ROOT')) {
 
 /**
  * @since 0.1.0
- * @deprecated
  */
 class PluginFlyvemdmMenu extends CommonGLPI {
    static $rightname = 'plugin_flyve_config';
+
+   const TEMPLATE = 'menu.html';
 
    public static function getMenuName() {
       return __('Flyve MDM');
    }
 
    /**
-    * Localized name of the type
-    *
-    * @param $nb  integer  number of item in the type (default 0)
-   **/
-   public static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Menu', 'Menus', $nb, "flyvemdm");
+    * Can the user globally view an item ?
+    * @return boolean
+    */
+   static function canView()
+   {
+      $can_display = false;
+      $profile     = new PluginFlyvemdmProfile();
+
+      foreach ($profile->getAllRights() as $right) {
+         if (Session::haveRight($right['field'], READ)) {
+            $can_display = true;
+            break;
+         }
+      }
+
+      return $can_display;
    }
 
-   public static function displayMenu() {
-      global $CFG_GLPI;
+   /**
+    * Can the user globally create an item ?
+    * @return boolean
+    */
+   static function canCreate() {
+      return false;
+   }
 
-      $iconPath = $CFG_GLPI['root_doc']."/plugins/flyvemdm/pics";
+   /**
+    * Display the menu
+    */
+   public function displayMenu() {
+      $iconPath = __DIR__ . '/../pics';
 
-      echo "<ul class='flyvemdm_menu'>";
+      $pluralNumber = Session::getPluralNumber();
 
-      echo "<li><a href='agent.php'>";
-      //echo "<img src='$iconPath/agent.png'>";
-      echo "".__('Agent', 'flyvemdm')."</a></li>";
+      $graph = new PluginFlyvemdmGraph();
 
-      echo "<li><a href='fleet.php'>";
-      //echo "<img src='$iconPath/fleet.png'>";
-      echo "".__('Fleet', 'flyvemdm')."</a></li>";
 
-      echo "<li><a href='package.php'>";
-      //echo "<img src='$iconPath/package.png'>";
-      echo "".__('Package', 'flyvemdm')."</a></li>";
-
-      echo "</ul>";
-      echo "<span class='clear'></span>";
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $data = [
+            'menu'   => [
+                  __('General', 'flyvemdm') => [
+                        PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class)
+                        ],
+                        PluginFlyvemdmAgent::getTypeName($pluralNumber)       => [
+                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class)
+                        ],
+                        PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class)
+                        ],
+                        PluginFlyvemdmPackage::getTypeName($pluralNumber)     => [
+                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class)
+                        ],
+                        PluginFlyvemdmFile::getTypeName($pluralNumber)        => [
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class)
+                        ],
+                  ],
+                  __('Board', 'flyvemdm') => [
+                        PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
+                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class)
+                        ]
+                  ]
+            ],
+      ];
+      echo $twig->render('menu.html', $data);
    }
 
    /**
@@ -83,22 +119,19 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     *
     */
    public static function getMenuContent() {
-
       $front_flyvemdm = "/plugins/flyvemdm/front";
 
       $menu = array();
       $menu['title'] = self::getMenuName();
       $menu['page']  = "$front_flyvemdm/menu.php";
-      if (true /*| Session::haveRight('plugin_flyvemdm_config',
-                                   PluginflyvemdmConfig::RIGHT_EDIT_CONFIGURATION)*/) {
-         $menu['links']['config']  = "$front_flyvemdm/config.form.php";
-      }
 
       $itemtypes = array(
             'PluginFlyvemdmAgent'                  => 'agent',
             'PluginFlyvemdmPackage'                => 'package',
+            'PluginFlyvemdmFile'                   => 'file',
             'PluginFlyvemdmFleet'                  => 'fleet',
-            );
+            'PluginFlyvemdmInvitation'             => 'invitation',
+      );
 
       foreach ($itemtypes as $itemtype => $option) {
          $menu['options'][$option]['title']           = $itemtype::getTypeName(2);
@@ -106,11 +139,6 @@ class PluginFlyvemdmMenu extends CommonGLPI {
          $menu['options'][$option]['links']['search'] = $itemtype::getSearchURL(false);
          if ($itemtype::canCreate()) {
             $menu['options'][$option]['links']['add'] = $itemtype::getFormURL(false);
-
-            //if (Session::haveRight('plugin_flyvemdm_config',
-            //                       PluginFlyvemdmConfig::RIGHT_EDIT_CONFIGURATION)) {
-            //   $menu['options'][$option]['links']['config'] = "$front_flyvemdm/config.form.php";
-            //}
          }
       }
       return $menu;

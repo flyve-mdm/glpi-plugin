@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -165,6 +165,7 @@ class PluginFlyvemdmInstaller {
    }
 
    public function createDirectories() {
+      // Create directory for uploaded applications
       if (! file_exists(FLYVEMDM_PACKAGE_PATH)) {
          if (! mkdir(FLYVEMDM_PACKAGE_PATH, 0770, true)) {
             $this->migration->displayWarning("Cannot create " . FLYVEMDM_PACKAGE_PATH . " directory");
@@ -176,6 +177,7 @@ class PluginFlyvemdmInstaller {
          }
       }
 
+      // Create directory for uploaded files
       if (! file_exists(FLYVEMDM_FILE_PATH)) {
          if (! mkdir(FLYVEMDM_FILE_PATH, 0770, true)) {
             $this->migration->displayWarning("Cannot create " . FLYVEMDM_FILE_PATH . " directory");
@@ -184,6 +186,13 @@ class PluginFlyvemdmInstaller {
                fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
             }
+         }
+      }
+
+      // Create cache directory for the template engine
+      if (! file_exists(FLYVEMDM_TEMPLATE_CACHE_PATH)) {
+         if (! mkdir(FLYVEMDM_TEMPLATE_CACHE_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . FLYVEMDM_TEMPLATE_CACHE_PATH . " directory");
          }
       }
    }
@@ -220,7 +229,7 @@ class PluginFlyvemdmInstaller {
       $newRights = array(
             PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
             PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
-            PluginFlyvemdmAgent::$rightname           => READ | DELETE | PURGE | READNOTE | UPDATENOTE,
+            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | READNOTE | UPDATENOTE,
             PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
             PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
             PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
@@ -415,6 +424,7 @@ Regards,
          }
       }
 
+      $this->createDirectories();
       $this->createPolicies();
       $this->createJobs();
    }
@@ -526,6 +536,7 @@ Regards,
             'demo_mode'                      => '0',
             'demo_time_limit'                => '0',
             'inactive_registered_profiles_id'=> '',
+            'computertypes_id'               => '0',
       ];
       Config::setConfigurationValues("flyvemdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);

@@ -24,12 +24,17 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
 
 include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if(!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
+}
+
 Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
 if (!isset($_GET["id"])) {
@@ -53,27 +58,45 @@ if (isset($_POST["add"])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update($_POST);
    Html::back();
-} else if (isset($_POST["wipe"])) {
+} else if (isset($_POST["ping"])) {
    $agent->check($_POST['id'], UPDATE);
-   $agent->wipe($_POST);
+   $agent->update([
+         'id'        => $_POST['id'],
+         '_ping'     => '',
+   ]);
+   Html::back();
+} else if (isset($_POST["geolocate"])) {
+   $agent->check($_POST['id'], UPDATE);
+   $agent->update([
+         'id'           => $_POST['id'],
+         '_geolocate'   => '',
+   ]);
+   Html::back();
+} else if (isset($_POST["inventory"])) {
+   $agent->check($_POST['id'], UPDATE);
+   $agent->update([
+         'id'           => $_POST['id'],
+         '_inventory'   => '',
+   ]);
    Html::back();
 } else if (isset($_POST["purge"])) {
    $agent->check($_POST['id'], PURGE);
    $agent->delete($_POST, 1);
    $agent->redirectToList();
 } else {
+   $agent->check($_GET['id'], READ);
    Html::header(
          PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
-         "",
-         "tools",
-         "PluginFlyvemdmMenu",
-         "agent"
+         '',
+         'plugins',
+         'PluginFlyvemdmMenu',
+         'agent'
    );
-   $agent->display(array('id' => $_GET["id"],
-         'withtemplate' => $_GET["withtemplate"]));
+   $agent->display(array('id' => $_GET['id'],
+         'withtemplate' => $_GET['withtemplate']));
 
    // Footer
-   if (strstr($_SERVER['PHP_SELF'], "popup")) {
+   if (strstr($_SERVER['PHP_SELF'], 'popup')) {
       Html::popFooter();
    } else {
       Html::footer();

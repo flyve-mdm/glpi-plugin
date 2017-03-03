@@ -24,12 +24,16 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
- */
+*/
 
 include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if(!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
+}
 Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
 if (!isset($_GET["id"])) {
@@ -58,12 +62,13 @@ if (isset($_POST["add"])) {
    $fleet->delete($_POST, 1);
    $fleet->redirectToList();
 } else {
+   $fleet->check($_GET['id'], READ);
    Html::header(
          PluginFlyvemdmFleet::getTypeName(Session::getPluralNumber()),
-         "",
-         "tools",
-         "PluginFlyvemdmMenu",
-         "fleet"
+         '',
+         'plugins',
+         'PluginFlyvemdmMenu',
+         'fleet'
    );
    $fleet->display(array('id' => $_GET["id"],
          'withtemplate' => $_GET["withtemplate"]));

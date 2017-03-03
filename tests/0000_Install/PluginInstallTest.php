@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -127,9 +127,10 @@ class PluginInstallTest extends CommonTestCase
             'version',
             'default_device_limit',
             'default_agent_url',
+            'computertypes_id',
       ];
       $diff = array_diff_key(array_flip($expected), $config);
-      $this->assertEquals(0, count($diff));
+      $this->assertCount(0, $diff);
 
       return $config;
    }

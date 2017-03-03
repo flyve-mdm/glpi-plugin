@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -37,24 +37,28 @@ define ("PLUGIN_FLYVEMDM_GLPI_MAX_VERSION", "9.3");
 // Minimum PHP version inclusive
 define ("PLUGIN_FLYVEMDM_PHP_MIN_VERSION", "5.5");
 
-define ("PLUGIN_FLYVEMDM_ROOT", GLPI_ROOT . "/plugins/flyvemdm");
+define ("PLUGIN_FLYVEMDM_ROOT", GLPI_ROOT . '/plugins/flyvemdm');
 
 define ("PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL", 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
 
 if (!defined("FLYVEMDM_CONFIG_PATH")) {
-   define("FLYVEMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
+   define("FLYVEMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm');
 }
 
 if (!defined("FLYVEMDM_CONFIG_CACERTMQTT")) {
-   define("FLYVEMDM_CONFIG_CACERTMQTT", FLYVEMDM_CONFIG_PATH . "/CACert-mqtt.crt");
+   define("FLYVEMDM_CONFIG_CACERTMQTT", FLYVEMDM_CONFIG_PATH . '/CACert-mqtt.crt');
 }
 
 if (!defined("FLYVEMDM_PACKAGE_PATH")) {
-   define("FLYVEMDM_PACKAGE_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm/package");
+   define("FLYVEMDM_PACKAGE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/package');
 }
 
 if (!defined("FLYVEMDM_FILE_PATH")) {
-   define("FLYVEMDM_FILE_PATH", GLPI_PLUGIN_DOC_DIR . "/flyvemdm/file");
+   define("FLYVEMDM_FILE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/file');
+}
+
+if (!defined("FLYVEMDM_TEMPLATE_CACHE_PATH")) {
+   define("FLYVEMDM_TEMPLATE_CACHE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/cache');
 }
 
 // Init the hooks of the plugins -Needed
@@ -75,17 +79,23 @@ function plugin_init_flyvemdm() {
       ]);
    }
 
-   if ($plugin->isInstalled("flyvemdm") && $plugin->isActivated("flyvemdm")) {
+   if ($plugin->isInstalled('flyvemdm') && $plugin->isActivated('flyvemdm')) {
       require_once(__DIR__ . '/vendor/autoload.php');
+      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
 
       $PLUGIN_HOOKS['change_profile']['flyvemdm']   = array('PluginFlyvemdmProfile','changeProfile');
 
       Plugin::registerClass('PluginFlyvemdmMqttsubscriber');
       Plugin::registerClass('PluginFlyvemdmAgent');
+      Plugin::registerClass('PluginFlyvemdmFleet');
+      Plugin::registerClass('PluginFlyvemdmPolicy');
+      Plugin::registerClass('PluginFlyvemdmFleet_Policy');
       Plugin::registerClass('PluginFlyvemdmProfile',
-            array('addtabon' => 'Profile'));
+            array('addtabon' => Profile::class));
       Plugin::registerClass('PluginFlyvemdmPackage');
       Plugin::registerClass('PluginFlyvemdmFile');
+      Plugin::registerClass('PluginFlyvemdmInvitation',
+            array('notificationtemplates_types' => true, /* 'document_types' => true */));
 
       // Dropdowns
       Plugin::registerClass('PluginFlyvemdmWellknownpath');
@@ -107,12 +117,9 @@ function plugin_init_flyvemdm() {
       $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
             'PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'
       );
-      Plugin::registerClass('PluginFlyvemdmInvitation', array(
-            'notificationtemplates_types' => true, // 'document_types' => true
-      ));
 
       if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
-         // Display a menu entries
+         // Define menu entries
          $PLUGIN_HOOKS['menu_toadd']["flyvemdm"] = array(
                'plugins'  => 'PluginFlyvemdmMenu',
          );
@@ -134,19 +141,28 @@ function plugin_init_flyvemdm() {
             'Profile_User'             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
       );
 
+      $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
+
+      $PLUGIN_HOOKS['use_massive_action']['flyvemdm'] = 1;
+
+      $PLUGIN_HOOKS['import_item']['flyvemdm'] = array('Computer' => array('Plugin'));
+
       // Add css and js resources if the requested page needs them
-      if (strpos($_SERVER['REQUEST_URI'], "flyvemdm" . "/front/config.form.php") !== false) {
-         $PLUGIN_HOOKS['add_javascript']["flyvemdm"][] = 'config.js';
+      if (strpos($_SERVER['REQUEST_URI'], 'flyvemdm' . '/front/config.form.php') !== false) {
+         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'config.js';
       }
 
-      $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
+      if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm") !== false) {
+         $PLUGIN_HOOKS['add_css']['flyvemdm'] = 'css/style.css';
+      }
+
+      Html::requireJs('charts');
+      $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
 
 // Get the name and the version of the plugin - Needed
 function plugin_version_flyvemdm() {
-   global $LANG;
-
    $author = '<a href="http://www.teclib.com">Teclib</a>';
    return array ('name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
          'version'        => PLUGIN_FLYVEMDM_VERSION,
@@ -259,4 +275,21 @@ function plugin_flyvemdm_check_prerequisites() {
 // Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
 function plugin_flyvemdm_check_config() {
    return true;
+}
+
+
+function plugin_flyvemdm_getTemplateEngine() {
+   $loader = new Twig_Loader_Filesystem(__DIR__ . '/tpl');
+   $twig =  new Twig_Environment($loader, array(
+         'cache'        => FLYVEMDM_TEMPLATE_CACHE_PATH,
+         'auto_reload'  => ($_SESSION['glpi_use_mode'] == 2),
+   ));
+   $twig->addExtension(new GlpiLocalesExtension());
+   return $twig;
+}
+
+// center all columns of plugin
+function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num)
+{
+   return "align='center'";
 }

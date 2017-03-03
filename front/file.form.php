@@ -24,30 +24,15 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
  */
 
-// Most content of this file has been altered to make a temporary endpoint for package upload
-// TODO: urgent - handle file uploads from the rest api
-
-
 include ('../../../inc/includes.php');
-if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
-   header("OK", false, 200);
-   die();
-}
-
-// Get session from token (really ugly !) $_SESSION
-$api = new APIRest();
-$api->parseIncomingParams();
-$api->retrieveSession();
-
-//Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-if (! Session::haveRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
-   header("Not allowed", false, 401);
-   die();
+$plugin = new Plugin();
+if(!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
 }
 
 if (!isset($_GET["id"])) {
@@ -59,22 +44,25 @@ if (!isset($_GET["withtemplate"])) {
 }
 
 $file = new PluginFlyvemdmFile();
-$_POST['add'] = '';
 if (isset($_POST['add'])) {
-   //$file->check(-1, CREATE, $_POST);
-   $jsonAnswer = array();
-   if ($file->canCreate()) {
-      if ($newID = $file->add($_POST)) {
-         $jsonAnswer = [
-               'id'  => $newID,
-         ];
-      }
-   } else {
-      header("Not allowed", false, 401);
-   }
-   echo json_encode($jsonAnswer, JSON_UNESCAPED_SLASHES);
-   die();
-   //Html::back();
+   $file->check($_POST['id'], CREATE);
+   $file->add($_POST);
+   Html::back();
 } else {
-   die();
+   $file->check($_GET['id'], READ);
+   Html::header(
+         PluginFlyvemdmFile::getTypeName(Session::getPluralNumber()),
+         '',
+         'plugins',
+         'PluginFlyvemdmMenu',
+         'file'
+   );
+   $file->display(array('id' => $_GET["id"], 'withtemplate' => $_GET["withtemplate"]));
+
+   // Footer
+   if (strstr($_SERVER['PHP_SELF'], "popup")) {
+      Html::popFooter();
+   } else {
+      Html::footer();
+   }
 }

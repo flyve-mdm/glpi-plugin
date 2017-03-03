@@ -24,21 +24,26 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
 
 include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if(!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
+}
+
 Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 Session::checkRight("flyvemdm:agent", READ);
 
 Html::header(
       PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
-      "",
-      "tools",
-      "PluginFlyvemdmMenu",
-      "agent"
+      '',
+      'plugins',
+      'PluginFlyvemdmMenu',
+      'agent'
 );
 
 // Use later to disable GLPI header

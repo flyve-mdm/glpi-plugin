@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -63,12 +63,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @param $nb integer number of item in the type (default 0)
     */
    public static function getTypeName($nb = 0) {
-      global $LANG;
       return _n('Geolocation', 'Geolocations', $nb, "flyvemdm");
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getRights()
     */
    public function getRights($interface='central') {
@@ -95,7 +93,6 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -197,7 +194,6 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {

@@ -24,78 +24,49 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
 
-// Most content of this file has been altered to make a temporary endpoint for package upload
-// TODO: urgent - handle file uploads from the rest api
-
 include ('../../../inc/includes.php');
-if ($_SERVER['REQUEST_METHOD'] == "OPTIONS") {
-   header("OK", false, 200);
-   die();
+
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+
+if (!isset($_GET['id'])) {
+   $_GET['id'] = '';
 }
 
-// Get session from token (really ugly !) $_SESSION
-$api = new APIRest();
-$api->parseIncomingParams();
-$api->retrieveSession();
-
-//Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE); $_SESSION
-if (! Session::haveRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
-   header("Not allowed", false, 401);
-   die();
-}
-
-if (!isset($_GET["id"])) {
-   $_GET["id"] = "";
-}
-
-if (!isset($_GET["withtemplate"])) {
-   $_GET["withtemplate"] = "";
+if (!isset($_GET['withtemplate'])) {
+   $_GET['withtemplate'] = '';
 }
 
 $package = new PluginFlyvemdmPackage();
-$_POST['add'] = '';
 if (isset($_POST['add'])) {
-   //$package->check(-1, CREATE, $_POST);
-   $jsonAnswer = array();
-   if ($package->canCreate()) {
-      if ($newID = $package->add($_POST)) {
-         $jsonAnswer = [
-               'id'  => $newID,
-         ];
-      }
-   } else {
-      header("Not allowed", false, 401);
-   }
-   echo json_encode($jsonAnswer, JSON_UNESCAPED_SLASHES);
-   die();
-   //Html::back();
+   $package->check(-1, CREATE, $_POST);
+   $package->add($_POST);
+   Html::back();
 } else if (isset($_POST['update'])) {
    $package->check($_POST['id'], UPDATE, $_POST);
    $package->update($_POST);
    Html::back();
-} else if (isset($_POST["purge"])) {
+} else if (isset($_POST['purge'])) {
    $package->check($_POST['id'], PURGE);
    $package->delete($_POST, 1);
    $package->redirectToList();
 } else {
-   die();
    Html::header(
          PluginFlyvemdmPackage::getTypeName(Session::getPluralNumber()),
-         "",
-         "tools",
-         "PluginFlyvemdmMenu",
-         "package"
-   );
-   $package->display(array('id' => $_GET["id"],
+         '',
+         'plugins',
+         'PluginFlyvemdmMenu',
+         'package'
+         );
+   $package->display(array('id' => $_GET['id'],
          'withtemplate' => $_GET["withtemplate"]));
 
    // Footer
-   if (strstr($_SERVER['PHP_SELF'], "popup")) {
+   if (strstr($_SERVER['PHP_SELF'], 'popup')) {
       Html::popFooter();
    } else {
       Html::footer();

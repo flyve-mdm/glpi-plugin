@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -58,13 +58,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param $nb  integer  number of item in the type (default 0)
     */
    public static function getTypeName($nb=0) {
-      global $LANG;
       return _n('Package', 'Packages', $nb, "flyvemdm");
    }
 
    /**
-    * @deprecated
-    * {@inheritDoc}
     * @see CommonGLPI::defineTabs()
     */
    public function defineTabs($options = array()) {
@@ -96,7 +93,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     *  Display the content of the tab provided by this itemtype
-    * @deprecated
     * @param CommonGLPI $item
     * @param number $tabnum
     * @param number $withtemplate
@@ -112,32 +108,29 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     * Display a form to view, create or edit
-    * @deprecated
     * @param integer $ID ID of the item to show
-    * @param unknown $options
+    * @param array $options
     */
    public function showForm($ID, $options=array()) {
       global $CFG_GLPI, $DB;
 
       $this->initForm($ID, $options);
-      $this->showFormHeader();
+      $this->showFormHeader($options);
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __s('Name') .
-            (isset($options['withtemplate']) && $options['withtemplate']?"*":"") .
-            "</td>";
-      echo "<td>";
-      $objectName = autoName($this->fields["name"], "name",
-                             (isset($options['withtemplate']) && $options['withtemplate']==2),
-                             $this->getType(), -1);
-      Html::autocompletionTextField($this, 'name', array('value' => $objectName));
-      echo "</td>";
-
-      echo "<td>" . $this->fields["filename"] . " <br>". __s('Upload package', "flyvemdm") . "</td><td>" .
-            "<br><input type='file' name='filename' />" .
-            "</td>";
-
-      echo '</tr>';
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $fields              = $this->fields;
+      $objectName          = autoName($this->fields["name"], "name",
+            (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+            $this->getType(), -1);
+      $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $data = [
+            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+            'isNewID'      => $this->isNewID($ID),
+            'package'      => $fields,
+            'upload'       => Html::file(['name' => 'file', 'display' => false]),
+      ];
+      echo $twig->render('package.html', $data);
 
       $this->showFormButtons($options);
    }
@@ -163,7 +156,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
@@ -174,30 +166,128 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * (non-PHPdoc)
+    *
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      if (!isset($_FILES['file'])) {
-         Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+      // Find the added file
+      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+         // from GLPI UI
+         $actualFilename = $_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR . '/' . $_POST['_file'][0];
+      } else {
+         // from API
+         if (!isset($_FILES['file'])) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
+         }
+
+         if (!$_FILES['file']['error'] == 0) {
+            if (!$_FILES['file']['error'] == 4) {
+               Session::addMessageAfterRedirect(__('File upload failed', 'flyvemdm'));
+            }
+            return false;
+         }
+
+         // Move the file to GLPI_TMP_DIR
+         if (!is_dir(GLPI_TMP_DIR)) {
+            Session::addMessageAfterRedirect(__('Temp directory doesn\'t exist', 'flyvemdm'), false, ERROR);
+            return false;
+         }
+
+         $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
+         if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+            Session::addMessageAfterRedirect(__('Failed to save the file', 'flyvemdm'));
+            return false;
+         }
+
+         $actualFilename = $_FILES['file']['name'];
+         $uploadedFile = $destination;
+      }
+
+      if (!isset($actualFilename)) {
+         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
          return false;
       }
 
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+      // Check the extension of the uploaded file
+      $fileExtension = pathinfo($actualFilename, PATHINFO_EXTENSION);
+      if (!in_array($fileExtension, array('apk', 'upk'))) {
+         Session::addMessageAfterRedirect(__('Only APK and UPK files are allowed', 'flyvemdm'));
+         return false;
+      }
+
+      if (!isset($input['entities_id'])) {
+         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+      }
+      try {
+         $input['filename'] = $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $destination = FLYVEMDM_PACKAGE_PATH . '/' . $input['filename'];
+         $this->createEntityDirectory(dirname($destination));
+         if (rename($uploadedFile, $destination)) {
+            $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
+            $filename = pathinfo($destination, PATHINFO_FILENAME);
+            if ($fileExtension == 'apk') {
+               $apk = new \ApkParser\Parser($destination);
+            } else if ($fileExtension == 'upk') {
+               $upkParser = new PluginFlyvemdmUpkparser($destination);
+               $apk = $upkParser->getApkParser();
+               if (!($apk instanceof \ApkParser\Parser)) {
+                  Session::addMessageAfterRedirect(__('Could not parse the UPK file', 'flyvemdm'));
+                  return false;
+               }
+            }
+            $manifest               = $apk->getManifest();
+            $iconResourceId         = $manifest->getApplication()->getIcon();
+            $labelResourceId        = $manifest->getApplication()->getLabel();
+            $iconResources          = $apk->getResources($iconResourceId);
+            $apkLabel               = $apk->getResources($labelResourceId);
+            $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
+            $input['name']          = $manifest->getPackageName();
+            if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
+               $input['alias']         = $apkLabel[0]; // Get the first item
+            }
+            $input['version']       = $manifest->getVersionName();
+            $input['version_code']  = $manifest->getVersionCode();
+            $input['filesize']      = fileSize($destination);
+            $input['dl_filename']   = basename($uploadedFile);
+         } else {
+            if (!is_writable(dirname($destination))) {
+               $destination = dirname($destination);
+               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
+            }
+            Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
+            $input = false;
          }
+      } catch (Exception $e) {
+         // Ignore exceptions for now
+         Session::addMessageAfterRedirect(__('Could not parse the APK file', 'flyvemdm'));
          $input = false;
-      } else {
+      }
+
+      return $input;
+   }
+
+   /**
+    * (non-PHPdoc)
+    * @see CommonDBTM::prepareInputForUpdate()
+    */
+   public function prepareInputForUpdate($input) {
+      // Find the added file
+      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+         // from GLPI UI
+         $actualFilename = $_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR."/".$_POST['_file'][0];
          if (!isset($_FILES['file']['name'])) {
             Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
             return false;
          }
+      } else {
          try {
-            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-            if ($this->saveUploadedFile($_FILES['file'], $destination)) {
-               $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
-               $filename = pathinfo($destination, PATHINFO_FILENAME);
+            $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
+            $this->createEntityDirectory(dirname($destination));
+            if (rename($uploadedFile, $destination)) {
                if ($fileExtension == "apk") {
                   $apk = new \ApkParser\Parser($destination);
                } else if ($fileExtension == "upk") {
@@ -215,14 +305,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                $apkLabel               = $apk->getResources($labelResourceId);
                $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
                $input['name']          = $manifest->getPackageName();
-               if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
-                  $input['alias']         = $apkLabel[0]; // Get the first item
-               }
                $input['version']       = $manifest->getVersionName();
                $input['version_code']  = $manifest->getVersionCode();
-               $input['filename']      = $input['entities_id'] . "/" . basename($filename) . '.' . $fileExtension;
                $input['filesize']      = fileSize($destination);
-               $input['dl_filename']   = basename($_FILES['file']['name']);
+               $input['dl_filename']   = basename($uploadedFile);
+               if ($filename != $this->fields['filename']) {
+                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
+               }
             } else {
                if (!is_writable(dirname($destination))) {
                   $destination = dirname($destination);
@@ -233,70 +322,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             }
          } catch (Exception $e) {
             // Ignore exceptions for now
-            Session::addMessageAfterRedirect(__('Could not parse the APK file', "flyvemdm"));
             $input = false;
          }
       }
-
-      return $input;
-   }
-
-   /**
-    * (non-PHPdoc)
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
-   public function prepareInputForUpdate($input) {
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('Could not upload package file', "flyvemdm"));
-         }
-         $input['filename'] = $this->fields['filename'];
-      } else {
-         if (isset ($_FILES['file'])) {
-            if (!isset($_FILES['file']['name'])) {
-               Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
-               return false;
-            }
-            try {
-               $destination = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-               if ($this->saveUploadedFile($_FILES['file'], $destination)) {
-                  $apk = new \ApkParser\Parser($destination);
-                  $manifest = $apk->getManifest();
-                  $iconResourceId         = $manifest->getApplication()->getIcon();
-                  $labelResourceId        = $manifest->getApplication()->getLabel();
-                  $iconResource           = $apk->getResources($iconResourceId);
-                  $apkLabel               = $apk->getResources($labelResourceId);
-                  $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-                  $input['name']          = $manifest->getPackageName();
-                  $input['version']       = $manifest->getVersionName();
-                  $input['version_code']  = $manifest->getVersionCode();
-                  $input['filename']      = $this->fields['entities_id'] . "/" . basename($filename) . '.' . $fileExtension;
-                  $input['filesize']      = fileSize($destination);
-                  $input['dl_filename']   = basename($_FILES['file']['name']);
-
-                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
-               } else {
-                  if (!is_writable(dirname($destination))) {
-                     $destination = dirname($destination);
-                     Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
-                  }
-                  Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
-                  $input = false;
-               }
-            } catch (Exception $e) {
-               // Ignore exceptions for now
-               $input = false;
-            }
-         } else {
-            // No application has been uploaded
-            unset($input['icon']);
-            unset($input['version']);
-            unset($input['filesize']);
-            unset($input['filename']);
-            unset($input['dl_filename']);
-         }
-      }
-
       return $input;
    }
 
@@ -311,7 +339,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history = 1) {
@@ -339,7 +366,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
@@ -353,7 +379,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
@@ -364,43 +389,16 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * @brief move and rename the uploaded file
-    * Checks for file extension before moving the file
-    * @return canonical saved filename, '' if an error occured
-    */
-   public function saveUploadedFile($source, $destination) {
-      global $CFG_GLPI;
-      $success = false;
-
-      $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
-
-      if (! in_array($fileExtension, array("apk", "upk"))) {
-         $success = false;
-      } else {
-         $this->createEntityDirectory(dirname($destination));
-         if (!move_uploaded_file($source['tmp_name'], $destination)) {
-            $success = false;
-         } else {
-            $success = true;
-         }
-      }
-      return $success;
-   }
-
-   /**
     * Create a directory
     * @param unknown $dir
     */
    protected function createEntityDirectory($dir) {
-
       if (!is_dir($dir)) {
-         @mkdir($dir, 0770, false);
+         @mkdir($dir, 0770, true);
       }
-
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {

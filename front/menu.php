@@ -24,24 +24,22 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
 
 include ("../../../inc/includes.php");
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-
-if (true /*| Session::haveRight('plugin_flyve_config', PluginFlyvemdmConfig::RIGHT_VIEW_FLYVEMDM) */) {
-   Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), "", "tools", "PluginFlyvemdmMenu", "Menu");
-   // Use later to disable GLPI header
-   //Html::nullHeader("test header");
-
-   PluginFlyvemdmMenu::displayMenu();
-
-   Html::footer();
-
-} else {
-   Html::displayRightError();
+$plugin = new Plugin();
+if(!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
 }
+
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+
+Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), '', 'plugins', 'PluginFlyvemdmMenu', 'Menu');
+
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu();
+Html::footer();
 

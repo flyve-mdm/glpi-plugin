@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -84,7 +84,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     *
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::canApply()
     */
    public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
@@ -92,7 +91,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::unicityCheck()
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -110,7 +108,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::conflictCheck()
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -118,7 +115,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::integrityCheck()
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -126,7 +122,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::translateData()
     */
    public function translateData() {
@@ -138,7 +133,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::apply()
     */
    public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
@@ -146,7 +140,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * {@inheritDoc}
     * @see PluginFlyvemdmPolicyInterface::unapply()
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
@@ -155,4 +148,26 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       return true;
    }
 
+   /**
+    * @see PluginFlyvemdmPolicyInterface::showValueInput()
+    */
+   public function showValueInput() {
+      $html = '<input name="value" value="" >';
+
+      return $html;
+   }
+
+   /**
+    * @see PluginFlyvemdmPolicyInterface::showValue()
+    */
+   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+      return $fleet_policy->getField('value');
+   }
+
+   /**
+    * @see PluginFlyvemdmPolicyInterface::preprocessFormData()
+    */
+   public function preprocessFormData($input) {
+      return $input;
+   }
 }

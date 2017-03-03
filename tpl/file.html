@@ -1,0 +1,34 @@
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Name') }}{{ withTemplate }} 
+   </td>
+   <td>
+      <input type="text" name="name" value="{{ file.name }}">
+   </td>
+   <td></td>
+   <td></td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Version') }} 
+   </td>
+   <td>
+      {{ file.version }}
+   </td>
+   <td>
+      {{ __('file size', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ file.filesize }}
+   </td>
+</tr>
+{% if canUpdate == true %}
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Update the file', 'flyvemdm') }}
+   </td>
+   <td colspan="3">
+      {{ upload|raw }}
+   </td>
+</tr>
+{% endif %}

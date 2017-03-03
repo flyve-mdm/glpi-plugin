@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -39,7 +39,6 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -55,7 +54,6 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
@@ -71,7 +69,6 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
@@ -94,7 +91,6 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history=1) {
@@ -200,7 +196,6 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {

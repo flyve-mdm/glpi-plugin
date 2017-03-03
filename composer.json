@@ -11,13 +11,13 @@
         "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
         "tufanbarisyildirim/php-apk-parser": "dev-master",
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "twig/twig": "^2.1"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "~5",
         "squizlabs/php_codesniffer": "^2.7",
         "glpi-project/coding-standard": "^0.5.0",
-        "glpi-project/tools": "^0.1",
         "phpunit/phpunit": "^4.8 || ^5.7",
         "flyve-mdm/test": "dev-master",
         "consolidation/robo": "dev-master"

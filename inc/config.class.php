@@ -24,7 +24,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @author    Thierry Bugier Pineau
  @copyright Copyright (c) 2016 Flyve MDM plugin team
  @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
+ @link      https://github.com/flyve-mdm/flyve-mdm-glpi
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
@@ -47,153 +47,77 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    static $config = array();
 
    /**
+    * add document types needed by the plugin in GLPI configuration
+    */
+   public function addDocumentTypes() {
+      $extensions = [
+            'apk'    => 'Android application package',
+            'upk'    => 'Uhuru application package'
+      ];
+
+      foreach ($extensions as $extension => $name) {
+         $documentType = new DocumentType();
+         if (!$documentType->getFromDBByQuery("WHERE LOWER(`ext`)='$extension'")) {
+            $documentType->add([
+                  'name'            => $name,
+                  'ext'             => $extension,
+                  'is_uploadable'   => '1',
+            ]);
+         }
+      }
+   }
+
+   /**
     * Display the configuration form for the plugin.
     */
    public function showForm() {
-      $config = Config::getConfigurationValues('flyvemdm');
-
       echo '<form id="pluginFlyvemdm-config" method="post" action="./config.form.php">';
-      echo '<table class="tab_cadre" cellpadding="5">';
-      echo '<tr><th colspan="3">'.__('Flyve MDM settings', "flyvemdm").'</th></tr>';
 
-      $user = new User();
+      $fields = Config::getConfigurationValues('flyvemdm');
+      unset($fields['android_bugcollector_passwd']);
+      $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
+                                                          'mqtt_broker_tls', $fields['mqtt_broker_tls'],
+                                                          -1,
+                                                          array('display' => false)
+                                                       );
+      $fields['computertypes_id'] = ComputerType::dropdown([
+                                                            'display' => false,
+                                                            'name'   => 'computertypes_id',
+                                                            'value'  => $fields['computertypes_id'],
+                                                          ]);
+      $fields['mqtt_use_client_cert'] = Dropdown::showYesNo(
+                                                               'mqtt_use_client_cert',
+                                                               $fields['mqtt_use_client_cert'],
+                                                               -1,
+                                                               array('display' => false)
+                                                            );
+      $fields['debug_enrolment'] = Dropdown::showYesNo(
+                                                          'debug_enrolment',
+                                                          $fields['debug_enrolment'],
+                                                          -1,
+                                                          array('display' => false)
+                                                       );
+      $fields['debug_noexpire'] = Dropdown::showYesNo(
+                                                         'debug_noexpire',
+                                                         $fields['debug_noexpire'],
+                                                         -1,
+                                                         array('display' => false)
+                                                      );
+      $fields['CACertificateFile'] = Html::file(array(
+            'name'      => 'CACertificateFile',
+            'display'   => false,
+      ));
+      $data = [
+            'config' => $fields
+      ];
 
-      echo '<tr><th colspan="3">'.__("MQTT broker", "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker address", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="mqtt_broker_address"' .
-         'value="'. $config['mqtt_broker_address'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("mqtt broker address example", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker internal address", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="mqtt_broker_internal_address"' .
-         'value="'. $config['mqtt_broker_internal_address'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("mqtt broker address example", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("mqtt broker port", "flyvemdm").'</td>';
-      echo '<td><input type="number" name="mqtt_broker_port"' .
-            'value="'. $config['mqtt_broker_port'] .'" min="1" max="65535" />';
-      echo '</td>';
-      echo '<td>'. __("mqtt broker port example", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("use TLS", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('mqtt_broker_tls', $config['mqtt_broker_tls'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td></td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("CA certificate", "flyvemdm").'</td>';
-      echo '<td>' . Html::file(array('name' => 'CACertificateFile')) . '</td>';
-      echo '</td>';
-      echo '<td></td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Cipher suite (TLS enabled)", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="mqtt_broker_tls_ciphers"' .
-            'value="'. $config['mqtt_broker_tls_ciphers'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("mqtt broker cipher suite", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr><td>'.__('test', "flyvemdm").'</td>';
-      echo '<td><input type="button" id="pluginFlyvemdm-mqtt-test" name="mqtt-test" value="'.__('Test', "flyvemdm").'" class="submit">';
-      echo '<span id="pluginFlyvemdm-test-feedback"></span>';
-      echo '</td></tr>';
-
-      echo '<tr><th colspan="3">'.__("Client certificate server (Broker MQTT with TLS enabled)", "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("use client certificates", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('mqtt_use_client_cert', $config['mqtt_use_client_cert'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td></td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("SSL certificate server for MQTT clients", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="ssl_cert_url"' .
-            'value="'. $config['ssl_cert_url'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("https://cert.domain.com/path/to/service", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Debug mode', "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Enable explicit enrolment failures", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('debug_enrolment', $config['debug_enrolment'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. '' .'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Disable token expiration on successful enrolment", "flyvemdm").'</td>';
-      echo '<td>' . Dropdown::showYesNo('debug_noexpire', $config['debug_noexpire'], -1, array('display' => false));
-      echo '</td>';
-      echo '<td>'. '' .'</td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Bug collector', "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector URL", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="android_bugcollecctor_url"' .
-            'value="'. $config['android_bugcollecctor_url'] .'" />';
-      echo '</td>';
-      echo '<td>'. __("https://bugreport.flyvemdm.com/path/to/service", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector user", "flyvemdm").'</td>';
-      echo '<td><input type="text" name="android_bugcollector_login"' .
-            'value="'. $config['android_bugcollector_login'] .'" />';
-      echo '</td>';
-      echo '<td></td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Android bug collector password", "flyvemdm").'</td>';
-      echo '<td><input type="password" name="android_bugcollector_passwd"' .
-            'value="'. $config['android_bugcollector_passwd'] .'" />';
-      echo '</td>';
-      echo '<td></td>';
-      echo '</tr>';
-
-      echo '<tr><th colspan="3">'.__('Restrictions', "flyvemdm").'</th></tr>';
-
-      echo '<tr class="tab_bg_1">';
-      echo '<td>'. __("Default device limit per entity", "flyvemdm").'</td>';
-      echo '<td><input type="number" name="default_device_limit"' .
-            'value="'. $config['default_device_limit'] .'" min="0" />';
-      echo '</td>';
-      echo '<td>'. __("No more devices than this quantity are allowed per entity by default (0 = no limitation)", "flyvemdm").'</td>';
-      echo '</tr>';
-
-      echo '<tr class="tab_bg_1"><td class="center" colspan="2">';
-      echo '<input type="hidden" name="id" value="1" class="submit">';
-      echo '<input type="hidden" name="config_context" value="flyvemdm">';
-      echo '<input type="hidden" name="config_class" value="PluginFlyvemdmConfig">';
-      echo '<input type="submit" name="update" value="'.__('Save').'" class="submit">';
-      echo '</td></tr>';
-
-      echo '</table>';
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('config.html', $data);
 
       Html::closeForm();
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_getEmpty()
     */
    public function post_getEmpty() {
@@ -222,7 +146,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -230,8 +153,13 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    public static function undiscloseConfigValue($fields) {
+      $undisclosed = [
+            'mqtt_passwd',
+            'android_bugcollector_passwd',
+      ];
+
       if ($fields['context'] == 'flyvemdm'
-            && in_array($fields['name'], array('mqtt_passwd'))) {
+            && in_array($fields['name'], $undisclosed)) {
          unset($fields['value']);
       }
       return $fields;
