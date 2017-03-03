@@ -156,6 +156,12 @@ function plugin_init_flyvemdm() {
          $PLUGIN_HOOKS['add_css']['flyvemdm'] = 'css/style.css';
       }
 
+      if (version_compare(GLPI_VERSION, '9.1.2') > 0) {
+         Html::requireJs('charts');
+      } else {
+         // GLPI 9.1.2-backport loads the needed CSS and JS files
+         // GLPI 9.1.2 official will fail to show graphs
+      }
       Html::requireJs('charts');
       $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
