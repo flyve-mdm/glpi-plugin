@@ -5,6 +5,7 @@
     "licence": "AGPLv3+",
     "keywords": ["glpi", "flyve", "mdm"],
     "require": {
+        "php": ">= 5.6.0",
         "ext-gd": "*",
         "ext-zip": "*",
         "ext-openssl": "*",
