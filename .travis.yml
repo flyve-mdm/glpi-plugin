@@ -9,7 +9,6 @@ env:
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
   matrix:
     - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.2-backport"
-    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.1/bugfixes"
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master"
 
 before_script:
