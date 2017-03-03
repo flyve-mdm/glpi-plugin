@@ -106,11 +106,11 @@ class PluginFlyvemdmGraph extends CommonDBTM
          while ($row = $DB->fetch_assoc($result)) {
             $osNames[$row['operatingsystem']] = $row['operatingsystem'];
             $versionNames[$row['version']] = $row['version'];
-            $labels[] = $row['operatingsystem'] /*. ' ' . $row['version']*/;
+            $labels[] = $row['operatingsystem']; /*. ' ' . $row['version']*/
             $versionPerOS[$row['version']][$row['operatingsystem']] = $row['cpt'];
          }
-         foreach($osNames as $osName) {
-            foreach($versionNames as $versionName) {
+         foreach ($osNames as $osName) {
+            foreach ($versionNames as $versionName) {
                if (!isset($versionPerOS[$versionName][$osName])) {
                   $versionPerOS[$versionName][$osName] = '0';
                }
@@ -118,7 +118,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
          }
          ksort($versionPerOS);
          $series = [];
-         foreach($versionPerOS as $osName => $serie) {
+         foreach ($versionPerOS as $osName => $serie) {
             ksort($serie);
             $series[] = [
                   'name'   => $osName,

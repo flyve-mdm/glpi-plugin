@@ -49,8 +49,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     * Can the user globally view an item ?
     * @return boolean
     */
-   static function canView()
-   {
+   static function canView() {
       $can_display = false;
       $profile     = new PluginFlyvemdmProfile();
 
@@ -81,7 +80,6 @@ class PluginFlyvemdmMenu extends CommonGLPI {
       $pluralNumber = Session::getPluralNumber();
 
       $graph = new PluginFlyvemdmGraph();
-
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [

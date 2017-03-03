@@ -7,18 +7,17 @@ class GlpiLocalesExtension extends \Twig_Extension
     * @see Twig_Extension::getFunctions()
     * @return array
     */
-   public function getFunctions()
-   {
+   public function getFunctions() {
       return array(
-            new \Twig_SimpleFunction('__' , '__'),
+            new \Twig_SimpleFunction('__', '__'),
             new \Twig_SimpleFunction('__s', '__s'),
-            new \Twig_SimpleFunction('_e' , '_e'),
+            new \Twig_SimpleFunction('_e', '_e'),
             new \Twig_SimpleFunction('_ex', '_ex'),
-            new \Twig_SimpleFunction('_n' , '_n'),
+            new \Twig_SimpleFunction('_n', '_n'),
             new \Twig_SimpleFunction('_nx', '_nx'),
-            new \Twig_SimpleFunction('_sn' , '_sn'),
+            new \Twig_SimpleFunction('_sn', '_sn'),
             new \Twig_SimpleFunction('_sx', '_sx'),
-            new \Twig_SimpleFunction('_x' , '_x'),
+            new \Twig_SimpleFunction('_x', '_x'),
       );
    }
 
@@ -29,8 +28,7 @@ class GlpiLocalesExtension extends \Twig_Extension
     *
     * @see Twig_ExtensionInterface::getName()
     */
-   public function getName()
-   {
+   public function getName() {
       return 'glpi_locales_extension';
    }
 }

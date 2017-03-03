@@ -387,7 +387,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $this->initForm($ID, $options);
       $this->showFormHeader();
 
-
    }
 
    protected function showMassiveActionInviteUser() {

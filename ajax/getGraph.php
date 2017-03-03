@@ -31,7 +31,7 @@
 
 include ('../../../inc/includes.php');
 $plugin = new Plugin();
-if(!$plugin->isActivated('flyvemdm')) {
+if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
