@@ -12,7 +12,7 @@
         "sskaje/mqtt": "dev-master",
         "tufanbarisyildirim/php-apk-parser": "dev-master",
         "docopt/docopt": "^1.0",
-        "twig/twig": "^2.1"
+        "twig/twig": "^1.0"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "~5",
