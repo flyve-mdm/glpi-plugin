@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PluginDB extends PHPUnit_Framework_Assert{
+class PluginDB extends PHPUnit\Framework\Assert {
 
    public function checkInstall($pluginname='', $when='') {
       global $DB;
