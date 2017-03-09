@@ -29,6 +29,8 @@
  ------------------------------------------------------------------------------
 */
 
+use Glpi\test\CommonTestCase;
+
 class SelfRegistrationUserTestCase extends CommonTestCase {
 
 

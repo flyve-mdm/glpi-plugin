@@ -29,6 +29,8 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
+use Glpi\test\CommonTestCase;
+
 class PluginFlyvemdmPolicyFileDeploymentTest extends CommonTestCase {
 
    public function setUp() {

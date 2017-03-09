@@ -29,6 +29,8 @@
  ------------------------------------------------------------------------------
 */
 
+use Glpi\test\CommonTestCase;
+
 class RegisteredUserTestCase extends CommonTestCase
 {
    protected static $fixture;
