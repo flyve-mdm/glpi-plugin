@@ -378,6 +378,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                }
             }
          }
+
          // publish policies of each group
          foreach ($groups as $groupName) {
             $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
@@ -396,12 +397,8 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    protected function buildGroupOfPolicies($group, $fleet) {
       global $DB;
 
-      $policy = new PluginFlyvemdmPolicy();
-      $policiesByDefault = $policy->find("`group` = '$group'");
-
-      // Collect ids of applied policies and prepare applied data
+      // get applied policies and the data for the fleet
       $fleetId = $fleet->getID();
-      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
       $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
       $policyTable = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT * FROM `$fleet_policyTable` `fp`
@@ -409,39 +406,73 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                 WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
       $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $groupToEncode = array();
       $excludedPolicyIds = array();
+      $policiesToApply = array();
       while ($row = $DB->fetch_assoc($result)) {
-         $policy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
-         if ($policy === null) {
+         $appliedPolicy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
+         if ($appliedPolicy === null) {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
+            $policiesToApply[] = [
+                  'policy'    => $appliedPolicy,
+                  'value'     => $row['value'],
+                  'itemtype'  => $row['itemtype'],
+                  'items_id'  => $row['items_id'],
+            ];
+            /*
             $policyMessage = $policy->getMqttMessage($row['value'], $row['itemtype'], $row['items_id']);
             if ($policyMessage === false) {
                // There is an error while applying the policy
                continue;
             }
             $groupToEncode[] = $policyMessage;
+            */
          }
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
       }
 
-      // get default values for not applied policies of the group
+      // get policies and t heir default data
       $excludedPolicyIds = "'" . implode("', '", $excludedPolicyIds) . "'";
       $policy = new PluginFlyvemdmPolicy();
       $rows = $policy->find("`group` = '$group' AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN ('')");
       foreach ($rows as $policyId => $row) {
-         $policy = $policyFactory->createFromDBByID($row['id']);
-         if ($policy === null) {
+         $defaultPolicy = $policyFactory->createFromDBByID($policyId);
+         if ($defaultPolicy === null) {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
+            $policiesToApply[] = [
+                  'policy'    => $defaultPolicy,
+                  'value'     => $row['default_value'],
+                  'itemtype'  => '',
+                  'items_id'  => '',
+            ];
+            /*
             $policyMessage = $policy->getMqttMessage($row['default_value'], '', '');
             if ($policyMessage === false) {
                continue;
             } else {
                $groupToEncode[] = $policyMessage;
             }
+            */
          }
+      }
+
+      // generate message of all policies of the group
+      $groupToEncode = array();
+      foreach($policiesToApply as $policyToApply) {
+         $policy = $policyToApply['policy'];
+         $policyMessage = $policy->getMqttMessage(
+               $policyToApply['value'],
+               $policyToApply['itemtype'],
+               $policyToApply['items_id']
+         );
+         if ($policyMessage === false) {
+            // There is an error while applying the policy, continue with next one for minimal impact
+            // TODO: log something
+            continue;
+         }
+         $groupToEncode[] = $policyMessage;
+
       }
 
       return $groupToEncode;
