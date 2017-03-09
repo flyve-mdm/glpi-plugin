@@ -95,15 +95,18 @@ class PluginFlyvemdmFile extends CommonDBTM {
             return false;
          }
 
-         // Move the file to GLPI_TMP_DIR
-         if (!is_dir(GLPI_TMP_DIR)) {
-            Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
-            return false;
-         }
-
          $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
-         if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
-            return false;
+         if (is_readable($_FILES['file']['tmp_name']) && !is_readable($destination)) {
+            // Move the file to GLPI_TMP_DIR
+            if (!is_dir(GLPI_TMP_DIR)) {
+               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
+               return false;
+            }
+
+            // With GLPI < 9.2, the file was not moved by the API
+            if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+               return false;
+            }
          }
 
          $actualFilename = $_FILES['file']['name'];
@@ -159,15 +162,18 @@ class PluginFlyvemdmFile extends CommonDBTM {
                return false;
             }
 
-            // Move the file to GLPI_TMP_DIR
-            if (!is_dir(GLPI_TMP_DIR)) {
-               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
-               return false;
-            }
-
             $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
-            if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
-               return false;
+            if (is_readable($_FILES['file']['tmp_name']) && !is_readable($destination)) {
+               // Move the file to GLPI_TMP_DIR
+               if (!is_dir(GLPI_TMP_DIR)) {
+                  Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
+                  return false;
+               }
+
+               // With GLPI < 9.2, the file was not moved by the API
+               if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+                  return false;
+               }
             }
 
             $actualFilename = $_FILES['file']['name'];
