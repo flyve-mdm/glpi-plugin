@@ -10,14 +10,12 @@ env:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
 
 before_script:
-  - git clone --depth=50 $GLPI_SOURCE ../glpi && cd ../glpi
+  - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
   - composer install --no-dev
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
-  - mkdir plugins/fusioninventory && git clone --depth=50 $FUSION_SOURCE plugins/fusioninventory
+  - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi plugins/flyvemdm
-  - cd plugins/flyvemdm && composer install
-  - cd ../..
-  - cd plugins/flyvemdm
+  - cd plugins/flyvemdm && composer install -o
 
 script:
   - vendor/bin/phpunit --verbose

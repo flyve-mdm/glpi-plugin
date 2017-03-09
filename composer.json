@@ -1,4 +1,6 @@
 {
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "title": "Flyve MDM",
     "description": "Flyve MDM plugin for GLPI",
     "type": "project",
@@ -21,7 +23,7 @@
         "glpi-project/coding-standard": "^0.5.0",
         "phpunit/phpunit": "^4.8 || ^5.7 || ^6.0",
         "flyve-mdm/test": "dev-master",
-        "consolidation/robo": "dev-master",
+        "consolidation/robo": "^1.0",
         "glpi-project/tools": "^0.1.2"
     },
     "repositories": [

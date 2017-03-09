@@ -28,7 +28,9 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  @link      http://www.glpi-project.org/
  ------------------------------------------------------------------------------
 */
+
 use Glpi\Test\CommonTestCase;
+use Glpi\Test\PluginDB;
 
 class PluginInstallTest extends CommonTestCase
 {
