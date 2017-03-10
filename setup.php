@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-define ("PLUGIN_FLYVEMDM_VERSION", "2.0.0");
+define ("PLUGIN_FLYVEMDM_VERSION", "2.0.0-dev");
 // Minimal GLPI version, inclusive
 define ("PLUGIN_FLYVEMDM_GLPI_MIN_VERSION", "9.1.1");
 // Maximum GLPI version, exclusive

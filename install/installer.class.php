@@ -412,21 +412,38 @@ Regards,
       $toVersion   = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
 
       switch ($fromVersion) {
+         case '2.0.0':
+            // Example : upgrade to version 3.0.0
+            // $this->upgradeOneStep('3.0.0');
+         case '3.0.0':
+            // Example : upgrade to version 4.0.0
+            // $this->upgradeOneStep('4.0.0');
+
          default:
       }
       if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
-         if (is_readable(__DIR__ . "/update_dev.php") && is_file(__DIR__ . "/update_dev.php")) {
-            include_once __DIR__ . "/update_dev.php";
-            $updateDevFunction = 'plugin_flyvemdm_update_dev';
-            if (function_exists($updateDevFunction)) {
-               $updateDevFunction($this->migration);
-            }
-         }
+         $this->upgradeOneStep('dev');
       }
 
       $this->createDirectories();
       $this->createPolicies();
       $this->createJobs();
+   }
+
+   protected function upgradeOneStep($toVersion) {
+
+      $suffix = str_replace('.', '_', $toVersion);
+      $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
+      if (is_readable($includeFile) && is_file($includeFile)) {
+         include_once $includeFile;
+         $updateFunction = "plugin_flyvemdm_update_to_$suffix";
+         if (function_exists($updateFunction)) {
+            $updateFunction($this->migration);
+            $this->migration->addNewMessageArea("Upgrade to $toVersion");
+            $this->migration->executeMigration();
+            $this->migration->displayMessage('Done');
+         }
+      }
    }
 
    protected function createJobs() {

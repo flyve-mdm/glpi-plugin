@@ -26,6 +26,18 @@
       {{ agent.fleet|raw }}
    </td>
 </tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Last contact', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ agent.lastContact }}
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+</tr>
 {% if canUpdate == true %}
 <tr class='tab_bg_1'>
    <td>
