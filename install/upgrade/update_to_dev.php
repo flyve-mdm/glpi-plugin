@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  LICENSE
 
 This file is part of the flyvemdm plugin.

@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  LICENSE
 
 Copyright (C) 2016 Teclib'
