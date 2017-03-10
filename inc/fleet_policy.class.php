@@ -441,14 +441,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                   'itemtype'  => '',
                   'items_id'  => '',
             ];
-            /*
-            $policyMessage = $policy->getMqttMessage($row['default_value'], '', '');
-            if ($policyMessage === false) {
-               continue;
-            } else {
-               $groupToEncode[] = $policyMessage;
-            }
-            */
          }
       }
 
