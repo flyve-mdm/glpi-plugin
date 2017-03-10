@@ -144,7 +144,7 @@ class DeleteEntityTest extends ApiRestTestCase {
          '$entityId',
          'application_105.apk',
          ''
-         )";
+      )";
       $DB->query($query);
       self::$package->getFromDBByQuery("WHERE `name`='$packageName'");
 

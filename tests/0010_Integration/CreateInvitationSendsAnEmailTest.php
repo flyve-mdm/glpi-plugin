@@ -46,7 +46,7 @@ class CreateInvitationSendsAnEmailTest extends ApiRestTestCase {
    }
 
    /**
-    * session_status()
+    *
     */
    public function testInitGetSessionToken() {
       $this->initSessionByCredentials('glpi', 'glpi');
@@ -54,6 +54,8 @@ class CreateInvitationSendsAnEmailTest extends ApiRestTestCase {
 
       self::$sessionToken = $this->restResponse['session_token'];
       self::$entityId = $_SESSION['glpiactive_entity'];
+
+      //Session::destroy();
    }
 
    /**
