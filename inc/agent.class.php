@@ -181,6 +181,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                                     'value'        => $this->fields['plugin_flyvemdm_fleets_id'],
                                     'entity'       => $this->fields['entities_id']
                              ]);
+      if (empty($fields['last_contact'])) {
+         $fields['last_contact'] = __('Never seen online', 'flyvemdm');
+      }
       $data = [
             'withTemplate'    => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
             'isNewID'         => $this->isNewID($ID),
