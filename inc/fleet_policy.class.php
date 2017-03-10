@@ -417,15 +417,16 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $excludedPolicyIds = array();
       $policiesToApply = array();
       while ($row = $DB->fetch_assoc($result)) {
-         $appliedPolicy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
-         if ($appliedPolicy === null) {
+         $appliedPolicyData = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
+         if ($appliedPolicyData === null) {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'policy'    => $appliedPolicy,
-                  'value'     => $row['value'],
-                  'itemtype'  => $row['itemtype'],
-                  'items_id'  => $row['items_id'],
+                  'policyData'   => $appliedPolicyData,
+                  'policyId'     => $row['plugin_flyvemdm_policies_id'],
+                  'value'        => $row['value'],
+                  'itemtype'     => $row['itemtype'],
+                  'items_id'     => $row['items_id'],
             ];
          }
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
@@ -436,21 +437,21 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $policy = new PluginFlyvemdmPolicy();
       $rows = $policy->find("`group` = '$group' AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN ('')");
       foreach ($rows as $policyId => $row) {
-         $defaultPolicy = $policyFactory->createFromDBByID($policyId);
-         if ($defaultPolicy === null) {
+         $defaultPolicyData = $policyFactory->createFromDBByID($policyId);
+         if ($defaultPolicyData === null) {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'policy'    => $defaultPolicy,
-                  'value'     => $row['default_value'],
-                  'itemtype'  => '',
-                  'items_id'  => '',
+                  'policyData'   => $defaultPolicyData,
+                  'policyId'     => policyId,
+                  'value'        => $row['default_value'],
+                  'itemtype'     => '',
+                  'items_id'     => '',
             ];
          }
       }
 
       return $policiesToApply;
-
    }
 
    /**
@@ -463,7 +464,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       // generate message of all policies
       $groupToEncode = array();
       foreach($policiesToApply as $policyToApply) {
-         $policy = $policyToApply['policy'];
+         $policy = $policyToApply['policyData'];
          $policyMessage = $policy->getMqttMessage(
                $policyToApply['value'],
                $policyToApply['itemtype'],
@@ -489,7 +490,21 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
     * @return void
     */
    protected function createTasks(PluginFlyvemdmFleet $fleet, $policiesToApply) {
+      $fleetId = $fleet->getID();
 
+      $agent = new PluginFlyvemdmAgent();
+      $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+      foreach ($rows as $agentId => $row) {
+         foreach ($policiesToApply as $policyToApply) {
+            $policyData = $policyToApply['policyData'];
+            $task = new PluginFlyvemdmTask();
+            $task->add([
+                  'plugin_flyvemdm_agents_id'   => $agentId,
+                  'plugin_flyvemdm_policies_id' => $policyToApply['policyId'],
+                  'status'                      => 'pending',
+            ]);
+         }
+      }
    }
 
    /**
@@ -615,14 +630,14 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
 
       // add needed data for display
       $factory = new PluginFlyvemdmPolicyFactory();
-      foreach ($appliedPolicies as $id => &$appliedPolicy) {
-         $appliedPolicy['checkbox']   = Html::getMassiveActionCheckBox(__CLASS__, $id);
-         $appliedPolicy['policyName'] = $policies[$appliedPolicy['plugin_flyvemdm_policies_id']]['name'];
-         $policyItem = $factory->createFromDBByID($appliedPolicy['plugin_flyvemdm_policies_id']);
+      foreach ($appliedPolicies as $id => &$appliedPolicyData) {
+         $appliedPolicyData['checkbox']   = Html::getMassiveActionCheckBox(__CLASS__, $id);
+         $appliedPolicyData['policyName'] = $policies[$appliedPolicyData['plugin_flyvemdm_policies_id']]['name'];
+         $policyItem = $factory->createFromDBByID($appliedPolicyData['plugin_flyvemdm_policies_id']);
          if ($policyItem !== null) {
             $fleet_policy              = new PluginFlyvemdmFleet_Policy();
             $fleet_policy->getFromDB($id);
-            $appliedPolicy['value']    = $policyItem->showValue($fleet_policy);
+            $appliedPolicyData['value']    = $policyItem->showValue($fleet_policy);
          }
       }
 
@@ -690,7 +705,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          foreach ($rows as $id => $row) {
             $apliedPolicy = new PluginFlyvemdmFleet_Policy();
             if ($apliedPolicy->getFromDB($id)) {
-               $appliedPolicies[] = $appliedPolicy;
+               $appliedPolicies[] = $appliedPolicyData;
             }
          }
       }
