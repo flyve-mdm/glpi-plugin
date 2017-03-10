@@ -379,9 +379,17 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             }
          }
 
-         // publish policies of each group
          foreach ($groups as $groupName) {
-            $groupToEncode = $this->buildGroupOfPolicies($groupName, $fleet);
+            // get policies with data, including not applied policies having a default value
+            $policiesToApply = $this->getGroupOfPolicies($groupName, $fleet);
+
+            // create tasks for the agents of the fleet
+            $this->createTasks($fleet, $policiesToApply);
+
+            // Build MQTT message for the group
+            $groupToEncode = $this->buildMqttMessage($policiesToApply);
+
+            // convert message into JSON and send it
             $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
             $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
          }
@@ -394,7 +402,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
     * @param string $group name of a group of policies
     * @param PluginFlyvemdmFleet $fleet fleet the group will built for
     */
-   protected function buildGroupOfPolicies($group, $fleet) {
+   protected function getGroupOfPolicies($group, $fleet) {
       global $DB;
 
       // get applied policies and the data for the fleet
@@ -419,14 +427,6 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                   'itemtype'  => $row['itemtype'],
                   'items_id'  => $row['items_id'],
             ];
-            /*
-            $policyMessage = $policy->getMqttMessage($row['value'], $row['itemtype'], $row['items_id']);
-            if ($policyMessage === false) {
-               // There is an error while applying the policy
-               continue;
-            }
-            $groupToEncode[] = $policyMessage;
-            */
          }
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
       }
@@ -457,7 +457,18 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          }
       }
 
-      // generate message of all policies of the group
+      return $policiesToApply;
+
+   }
+
+   /**
+    *
+    * @param array $policiesToApply
+    *
+    * @return mixed[]
+    */
+   protected function buildMqttMessage($policiesToApply) {
+      // generate message of all policies
       $groupToEncode = array();
       foreach($policiesToApply as $policyToApply) {
          $policy = $policyToApply['policy'];
@@ -472,10 +483,21 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             continue;
          }
          $groupToEncode[] = $policyMessage;
-
       }
 
       return $groupToEncode;
+   }
+
+   /**
+    * generate tasks for each agent in the fleet
+    *
+    * @param PluginFlyvemdmFleet $fleet fleet of the applied policies
+    * @param array $plmoiciesToApply policies to apply to the agents via the fleet
+    *
+    * @return void
+    */
+   protected function createTasks(PluginFlyvemdmFleet $fleet, $policiesToApply) {
+
    }
 
    /**
