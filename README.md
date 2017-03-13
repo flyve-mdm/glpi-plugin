@@ -300,8 +300,8 @@ auth_opt_port 3306
 auth_opt_user database-user
 auth_opt_dbname glpi
 auth_opt_pass StrongPassword
-auth_opt_userquery SELECT password FROM glpi_plugin_storkmdm_mqttusers WHERE user='%s' AND enabled='1'
-auth_opt_aclquery SELECT topic FROM glpi_plugin_storkmdm_mqttacls a LEFT JOIN glpi_plugin_storkmdm_mqttusers u ON (a.plugin_storkmdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
+auth_opt_userquery SELECT password FROM glpi_plugin_flyvemdm_mqttusers WHERE user='%s' AND enabled='1'
+auth_opt_aclquery SELECT topic FROM glpi_plugin_flyvemdm_mqttacls a LEFT JOIN glpi_plugin_flyvemdm_mqttusers u ON (a.plugin_flyvemdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
 auth_opt_cacheseconds 300
 
 ```
