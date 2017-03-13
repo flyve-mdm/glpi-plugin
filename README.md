@@ -257,6 +257,12 @@ Note : **you should NOT use tls_version lower than tlsv1.2**. TLS version 1.0 an
 
 Restart Mosquitto
 
+Test you can successfully connect to mosquitto
+
+```
+mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 --cafile /tmp/mycert.pem --capath /etc/ssl/certs/
+```
+
 #### disable default unencrypted listener
 Assuming you successfully enabled TLS, remove the following settings :
 * bind_address
