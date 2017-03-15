@@ -438,7 +438,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          } else {
             $policiesToApply[] = [
                   'policyData'   => $defaultPolicyData,
-                  'policyId'     => policyId,
+                  'policyId'     => $policyId,
                   'value'        => $row['default_value'],
                   'itemtype'     => '',
                   'items_id'     => '',
