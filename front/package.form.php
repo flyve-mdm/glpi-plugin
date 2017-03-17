@@ -30,6 +30,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 
 include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if (!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
+}
 
 Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
