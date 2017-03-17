@@ -29,7 +29,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
  */
 
-class DeviceCountLimit extends RegisteredUserTestCase {
+class DeviceCountLimitTest extends RegisteredUserTestCase {
 
    protected static $deviceLimit = 5;
 

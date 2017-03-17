@@ -29,14 +29,14 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-class PolicyNotification extends RegisteredUserTestCase
+class PolicyNotificationTest extends RegisteredUserTestCase
 {
 
    public function testInitCreateFleet() {
       $fleet = new PluginFlyvemdmFleet();
       $fleet->add([
             'name'               => 'test fleet',
-            'entities_id'        => $entityId
+            'entities_id'        => $_SESSION['glpiactive_entity']
       ]);
       $this->assertFalse($fleet->isNewItem());
 
@@ -53,51 +53,21 @@ class PolicyNotification extends RegisteredUserTestCase
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
 
-      // Prepare subscriber
-      $mqttSubscriber = new MqttClientHandler();
-      $publishedMessage = null;
+      // Apply the policy to a fleet
+      $fleetPolicy = new PluginFlyvemdmFleet_Policy();
+      $fleetPolicyId = $fleetPolicy->add([
+            'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
+            'plugin_flyvemdm_policies_id'    => $policyData->getID(),
+            'value'                          => 'PASSWORD_NONE'
+      ]);
 
-      // Contains true if the ploicy successfully applied to the fleet
-      $fleetPolicyId = null;
-
-      // function to trigger the mqtt message
-      $sendMqttMessageCallback = function () use (&$fleetPolicy, &$fleetPolicyId, &$fleet, &$policyData) {
-         // Apply the policy to a fleet
-         $fleetPolicy = new PluginFlyvemdmFleet_Policy();
-         $fleetPolicyId = $fleetPolicy->add([
-               'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
-               'plugin_flyvemdm_policies_id'    => $policyData->getID(),
-               'value'                          => 'PASSWORD_NONE'
-         ]);
-      };
-
-      // Callback each time the mqtt broker sends a pingresp
-      $callback = function () use (&$publishedMessage, &$mqttSubscriber) {
-         $publishedMessage = $mqttSubscriber->getPublishedMessage();
-      };
-
-      $mqttSubscriber->setSendMqttMessageCallback($sendMqttMessageCallback);
-      $mqttSubscriber->setPingCallback($callback);
-      $topic = $fleet->getTopic();
-      $mqttSubscriber->subscribe("$topic/Command");
-
-      $this->assertGreaterThan(0, $fleetPolicyId, "Failed to apply the policy");
-      $this->assertInstanceOf('\sskaje\mqtt\Message\PUBLISH', $publishedMessage);
-
-      $data = array();
-      $data['publishedMessage'] = $publishedMessage;
-
-      return $data;
-   }
-
-   /**
-    * @depends testApplyPolicy
-    * @param array $data
-    */
-   public function testPolicyApplyMessageIsValid($data) {
-      $published = $data['publishedMessage'];
-      $json = $published->getMessage();
-      $this->assertJson($json);
+      $groupName = $policyData->getField('group');
+      $fleetId = $fleet->getID();
+      $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
+      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
+                                      AND `plugin_flyvemdm_fleets_id` = '$fleetId'
+                                      AND `status` = 'queued'");
+      $this->assertCount(1, $rows);
    }
 
 }

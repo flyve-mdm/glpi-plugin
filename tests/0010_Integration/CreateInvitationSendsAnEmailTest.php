@@ -31,7 +31,7 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 
 use Flyvemdm\Test\ApiRestTestCase;
 
-class CreateInvitationSendsAnEmail extends ApiRestTestCase {
+class CreateInvitationSendsAnEmailTest extends ApiRestTestCase {
 
    protected static $sessionToken;
 

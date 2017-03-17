@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
-use Glpi\test\CommonTestCase;
+use Glpi\Test\CommonTestCase;
 
 class GuestUserTestCase extends CommonTestCase
 {
