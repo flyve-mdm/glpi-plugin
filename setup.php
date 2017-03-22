@@ -306,6 +306,6 @@ function plugin_flyvemdm_upgrade_error(Migration $migration) {
    global $DB;
 
    $error = $DB->error();
-   $migration->log($error . "\n" . Toolbox::backtrace(false, '', array('Toolbox::backtrace()')));
+   $migration->log($error . "\n" . Toolbox::backtrace(false, '', array('Toolbox::backtrace()')), false);
    die($error . "<br><br> Please, check migration log");
 }
