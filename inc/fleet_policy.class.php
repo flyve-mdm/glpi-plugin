@@ -409,7 +409,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $fleetId = $fleet->getID();
       $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
       $policyTable = PluginFlyvemdmPolicy::getTable();
-      $query = "SELECT * FROM `$fleet_policyTable` `fp`
+      $query = "SELECT `fp`.* FROM `$fleet_policyTable` `fp`
                 LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
                 WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
@@ -422,17 +422,18 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'policyData'   => $appliedPolicyData,
-                  'policyId'     => $row['plugin_flyvemdm_policies_id'],
-                  'value'        => $row['value'],
-                  'itemtype'     => $row['itemtype'],
-                  'items_id'     => $row['items_id'],
+                  'fleets_policies_id' => $row['id'],
+                  'policyData'         => $appliedPolicyData,
+                  'policyId'           => $row['plugin_flyvemdm_policies_id'],
+                  'value'              => $row['value'],
+                  'itemtype'           => $row['itemtype'],
+                  'items_id'           => $row['items_id'],
             ];
          }
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
       }
 
-      // get policies and t heir default data
+      // get policies and their default data
       $excludedPolicyIds = "'" . implode("', '", $excludedPolicyIds) . "'";
       $policy = new PluginFlyvemdmPolicy();
       $rows = $policy->find("`group` = '$group' AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN ('')");
@@ -442,11 +443,12 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'policyData'   => $defaultPolicyData,
-                  'policyId'     => $policyId,
-                  'value'        => $row['default_value'],
-                  'itemtype'     => '',
-                  'items_id'     => '',
+                  'fleets_policies_id' => '0',
+                  'policyData'         => $defaultPolicyData,
+                  'policyId'           => $policyId,
+                  'value'              => $row['default_value'],
+                  'itemtype'           => '',
+                  'items_id'           => '',
             ];
          }
       }
@@ -499,9 +501,9 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             $policyData = $policyToApply['policyData'];
             $task = new PluginFlyvemdmTask();
             $task->add([
-                  'plugin_flyvemdm_agents_id'   => $agentId,
-                  'plugin_flyvemdm_policies_id' => $policyToApply['policyId'],
-                  'status'                      => 'pending',
+                  'plugin_flyvemdm_agents_id'            => $agentId,
+                  'plugin_flyvemdm_fleets_policies_id'   => $policyToApply['fleets_policies_id'],
+                  'status'                               => 'pending',
             ]);
          }
       }
