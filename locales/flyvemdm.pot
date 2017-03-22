@@ -426,7 +426,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: inc/agent.class.php:116
-msgid "Danger zone !"
+msgid "Danger zone!"
 msgstr ""
 
 #: inc/agent.class.php:220
