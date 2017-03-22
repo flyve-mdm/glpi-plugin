@@ -118,15 +118,23 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
 
          $fleet_policy = new PluginFlyvemdmFleet_Policy();
          while ($row = $DB->fetch_assoc($result)) {
+            // publish MQTT messages
+            $fleetId = $row['plugin_flyvemdm_fleets_id'];
+            $group = $row['group'];
             $fleet = new PluginFlyvemdmFleet();
-            $fleet->getFromDB($row['plugin_flyvemdm_fleets_id']);
-            $fleet_policy->publishPolicies($fleet, array($row['group']));
+            $fleet->getFromDB($fleetId);
+            $fleet_policy->publishPolicies($fleet, array($group));
+
+            // mark done more recent policies on the same group and fleet
             $updateQueue = new static();
-            $updateQueue->update([
-                  'id'     => $row['id'],
-                  'status' => 'done',
-            ]);
-            $task->addVolume(1);
+            $rows = $updateQueue->find("`group` = '$group' AND `plugin_flyvemdm_fleets_id` = '$fleetId' AND `status` = 'queued'");
+            foreach($rows as $updateQueueId => $updateQueueItem) {
+               $updateQueue->update([
+                     'id'     => $updateQueueId,
+                     'status' => 'done',
+               ]);
+            }
+            $task->addVolume(count($rows));
          }
          $cronStatus = 1;
       } else {
