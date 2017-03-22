@@ -49,7 +49,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
-   $query = "CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
+   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_tasks` (
                           `id`                                  int(11) NOT NULL AUTO_INCREMENT,
                           `name`                                varchar(255) NOT NULL DEFAULT '',
                           `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -62,5 +62,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (!$DB->query($query)) {
       plugin_flyvemdm_upgrade_error($migration);
    }
+
+   $migration->addField(PluginFlyvemdmAgent::getTable(), 'reported_fleets_id', 'integer', ['after' => 'plugin_flyvemdm_fleets_id']);
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'is_online', 'integer', ['after' => 'last_contact']);
 }

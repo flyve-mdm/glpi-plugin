@@ -492,8 +492,8 @@ Regards,
          include_once $includeFile;
          $updateFunction = "plugin_flyvemdm_update_to_$suffix";
          if (function_exists($updateFunction)) {
-            $updateFunction($this->migration);
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
+            $updateFunction($this->migration);
             $this->migration->executeMigration();
             $this->migration->displayMessage('Done');
          }
