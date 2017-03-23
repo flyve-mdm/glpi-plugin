@@ -36,7 +36,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
-   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_tasks` (
+   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_taskstatuses` (
                           `id`                                  int(11) NOT NULL AUTO_INCREMENT,
                           `name`                                varchar(255) NOT NULL DEFAULT '',
                           `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

@@ -379,7 +379,14 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             $policiesToApply = $this->getGroupOfPolicies($groupName, $fleet);
 
             // create tasks for the agents of the fleet
-            $this->createTasks($fleet, $policiesToApply);
+            $agent = new PluginFlyvemdmAgent();
+            $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+            foreach ($rows as $agentId => $row) {
+               $agent = new PluginFlyvemdmAgent();
+               if ($agent->getFromDB($agentId)) {
+                  $this->createTaskStatus($agent, $policiesToApply);
+               }
+            }
 
             // Build MQTT message for the group
             $groupToEncode = $this->buildMqttMessage($policiesToApply);
@@ -455,7 +462,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
     *
     * @param array $policiesToApply
     *
-    * @return mixed[]
+    * @return array(
     */
    protected function buildMqttMessage($policiesToApply) {
       // generate message of all policies
@@ -472,6 +479,10 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
             // TODO: log something
             continue;
          }
+         // Add a task ID to the message if esists
+         if ($policyToApply['fleets_policies_id'] != '0') {
+            $policyMessage['taskId'] = $policyToApply['fleets_policies_id'];
+         }
          $groupToEncode[] = $policyMessage;
       }
 
@@ -479,28 +490,23 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
-    * generate tasks for each agent in the fleet
+    * generate pending tasks statuses for each agent in the fleet
     *
-    * @param PluginFlyvemdmFleet $fleet fleet of the applied policies
+    * @param PluginFlyvemdmAgent $agent an agent
     * @param array $plmoiciesToApply policies to apply to the agents via the fleet
     *
     * @return void
     */
-   protected function createTasks(PluginFlyvemdmFleet $fleet, $policiesToApply) {
-      $fleetId = $fleet->getID();
-
-      $agent = new PluginFlyvemdmAgent();
-      $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
-      foreach ($rows as $agentId => $row) {
-         foreach ($policiesToApply as $policyToApply) {
-            $policyData = $policyToApply['policyData'];
-            $task = new PluginFlyvemdmTask();
-            $task->add([
-                  'plugin_flyvemdm_agents_id'            => $agentId,
-                  'plugin_flyvemdm_fleets_policies_id'   => $policyToApply['fleets_policies_id'],
-                  'status'                               => 'pending',
-            ]);
-         }
+   protected function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
+      $agentId = $agent->getID();
+      foreach ($policiesToApply as $policyToApply) {
+         $fleet_policyId = $policyToApply['fleets_policies_id'];
+         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $taskStatus->add([
+               'plugin_flyvemdm_agents_id'            => $agentId,
+               'plugin_flyvemdm_fleets_policies_id'   => $fleet_policyId,
+               'status'                               => 'pending',
+         ]);
       }
    }
 

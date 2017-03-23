@@ -242,7 +242,7 @@ class PluginFlyvemdmInstaller {
                                                          | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
                                                          | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
             PluginFlyvemdmInvitationLog::$rightname   => READ,
-            PluginFlyvemdmTask::$rightname            => READ,
+            PluginFlyvemdmTaskstatus::$rightname      => READ,
       );
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
