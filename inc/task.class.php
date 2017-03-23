@@ -45,4 +45,20 @@ class PluginFlyvemdmTask extends CommonDBTM
    public static function getTypeName($nb=0) {
       return __s('Task', 'flyvemdm');
    }
+
+   /**
+    * Update status of a task
+    *
+    * @param PluginFlyvemdmPolicyBase $policy
+    * @param string $status
+    * @param string $itemId ID of an item linked, if any
+    */
+   public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status, $itemId = '') {
+      $status = $policy->filterStatus($status);
+
+      $this->update([
+            'id'     => $this->getID(),
+            'status' => $status
+      ]);
+   }
 }
