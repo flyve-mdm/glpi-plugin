@@ -170,4 +170,13 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    public function preprocessFormData($input) {
       return $input;
    }
+
+   /**
+    * get a status from a device and filters it to update a task
+    *
+    * @param string $status
+    */
+   public function filterStatus($status) {
+      return $status;
+   }
 }

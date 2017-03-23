@@ -64,6 +64,11 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
       return self::$instance;
    }
 
+   /**
+    * Maintains a MQTT topic to publish the current version of the backend
+    *
+    * @param unknown $mqtt
+    */
    protected function publishManifest($mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
@@ -104,7 +109,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {
       $topic = $publish_object->getTopic();
       $message = $publish_object->getMessage();
-      $this->log->saveIngoingMqttMessage($topic, $publish_object->getMessage());
+      $this->log->saveIngoingMqttMessage($topic, $message);
 
       $mqttPath = explode('/', $topic, 5);
       if (isset($mqttPath[4])) {
@@ -118,6 +123,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
             $this->deleteAgent($topic, $message);
          } else if ($mqttPath[4] == "Status/Inventory") {
             $this->updateInventory($topic, $message);
+         } else if ($mqttPath[4] == "Status/Task") {
+            $this->updateTask($topic, $message);
          } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
@@ -256,6 +263,62 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
                      'latitude'           => 'na',
                      'longitude'          => 'na'
                ]);
+            }
+         }
+
+         $this->updateLastContact($topic, $message);
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $essage
+    */
+   protected function updateTask($topic, $essage) {
+      global $DB;
+
+      $agent = new PluginFlyvemdmAgent();
+      if ($agent->getByTopic($topic)) {
+         $feedback = json_decode($message, true);
+         if (isset($feedback['policy']) && isset($feedback['status'])) {
+            $policy = $feedback['policy'];
+            $status = $feedback['status'];
+            $agentId = $agent->getID();
+            if (isset($feedback['itemId'])) {
+               $itemId = intval($feedback['itemId']);
+            } else {
+               $itemId = '';
+            }
+
+            // Find the task the device wants to update
+            $taskTable = PluginFlyvemdmTask::getTable();
+            $fleetPolicyTable = pluginFlyvemdmFleet_Policy::getTable();
+            $policyTable = pluginFlyvemdmPolicy::getTable();
+            if (!empty($itemId)) {
+               $where = "AND `fp`.`items_id` = '$itemId'";
+            } else {
+               $where = '';
+            }
+            $query = "SELECT `t`.*, `p`.`id` AS `plugin_flyvemdm_policies_id`, `p`.`name` AS `policies_name`
+                      FROM `$taskTable` as `t`
+                      LEFT JOIN `$fleetPolicyTable` AS `fp` ON (`t`.`plugin_flyvemdm_fleets_policies_id` = `fp`.`id`)
+                      LEFT JOIN `$policyTable` as `p` ON (`fp`.`plugin_flyvemdm_policies_id` = `p`.`id`)
+                      WHERE `plugin_flyvemdm_agents_id` = '$agentId' AND `policies_name` = '$policy' $where";
+            $result = $DB->query($query);
+
+            if ($result && $DB->numrows($result) == 1) {
+               // Update the task
+               while ($row = $DB->fetch_assoc($result)) {
+                  $policyFactory = new PluginFlyvemdmPolicyFactory();
+                  $policy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
+                  $task = new PluginFlyvemdmTask();
+                  $task->getFromDB($row['id']);
+                  if (!$task->isNewItem() && $policy !== null) {
+                     $task->updateStatus($policy, $status, $itemId);
+                  }
+               }
             }
          }
 

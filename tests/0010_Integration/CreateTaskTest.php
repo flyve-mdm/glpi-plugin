@@ -187,8 +187,5 @@ class CreateTaskTest extends ApiRestTestCase
       $DB->query("UPDATE `$mqttUpdateQueueTable` SET `date` = DATE_SUB(`date`, INTERVAL 1 HOUR)");
       $task = new CronTask();
       PluginFlyvemdmMqttupdatequeue::cronUpdateTopics($task);
-
-      $a = '';
-
    }
 }
