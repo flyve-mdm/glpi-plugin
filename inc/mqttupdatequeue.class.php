@@ -107,7 +107,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
          while ($row = $DB->fetch_assoc($result)) {
             $idList[] = $row['id'];
          }
-         $numRows = $DB->numrows($result);
+
          $idList = "'" . implode("', '", $idList) . "'";
          $query = "SELECT *
             FROM `" . self::getTable() . "`
