@@ -29,7 +29,7 @@
  ------------------------------------------------------------------------------
 */
 
-use Glpi\test\CommonTestCase;
+use Glpi\Test\CommonTestCase;
 
 class SuperAdminTestCase extends CommonTestCase
 {
@@ -43,5 +43,4 @@ class SuperAdminTestCase extends CommonTestCase
       self::setupGLPIFramework();
       $this->assertTrue(self::login('glpi', 'glpi', true));
    }
-
 }
