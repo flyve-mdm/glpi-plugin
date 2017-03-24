@@ -163,9 +163,6 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
       $invitation = self::$fixture['invitation'];
       $agent = new PluginFlyvemdmAgent();
 
-      // Prepare subscriber
-      $mqttSubscriber = MqttHandlerForTests::getInstance();
-      $publishedMessages = array();
       $agentId = null;
 
       $agentId = $agent->add([
