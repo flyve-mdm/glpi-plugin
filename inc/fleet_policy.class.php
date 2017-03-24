@@ -467,7 +467,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    protected function buildMqttMessage($policiesToApply) {
       // generate message of all policies
       $groupToEncode = array();
-      foreach($policiesToApply as $policyToApply) {
+      foreach ($policiesToApply as $policyToApply) {
          $policy = $policyToApply['policyData'];
          $policyMessage = $policy->getMqttMessage(
                $policyToApply['value'],

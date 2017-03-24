@@ -128,7 +128,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
             // mark done more recent policies on the same group and fleet
             $updateQueue = new static();
             $rows = $updateQueue->find("`group` = '$group' AND `plugin_flyvemdm_fleets_id` = '$fleetId' AND `status` = 'queued'");
-            foreach($rows as $updateQueueId => $updateQueueItem) {
+            foreach ($rows as $updateQueueId => $updateQueueItem) {
                $updateQueue->update([
                      'id'     => $updateQueueId,
                      'status' => 'done',
