@@ -1061,7 +1061,7 @@ Regards,
             PluginFlyvemdmPolicyCategory::getTable(),
             PluginFlyvemdmWellknownpath::getTable(),
             PluginFlyvemdmAgent_Task::getTable(),
-            PluginFlyvemdmTask::getTable(),
+            PluginFlyvemdmTaskstatus::getTable(),
       );
 
       foreach ($tables as $table) {
