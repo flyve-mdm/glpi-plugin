@@ -1416,7 +1416,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return self::ENROLL_ENTITY_TOKEN;
       }
 
-      return self::ENROLL_DENY;;
+      return self::ENROLL_DENY;
    }
 
    /**
