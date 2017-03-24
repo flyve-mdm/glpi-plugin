@@ -1423,7 +1423,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Creates virtual fields with enrollment data
     */
    protected function setupMqttAccess() {
-      if ($user = $this->getOwner()) {
+      if (isset($_SESSION['glpiID']) && $user = $this->getOwner()) {
          $config = Config::getConfigurationValues('flyvemdm', array(
                'guest_profiles_id',
                'android_bugcollecctor_url',
