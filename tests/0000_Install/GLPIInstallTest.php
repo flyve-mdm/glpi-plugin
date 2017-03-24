@@ -52,7 +52,6 @@ class GLPIInstallTest extends CommonTestCase
       ob_end_clean();
       $plugin->activate($plugin->getID());
       $this->assertTrue($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory'));
-
    }
 
 }
