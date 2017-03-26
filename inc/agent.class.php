@@ -121,9 +121,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                if (!$withtemplate) {
                   $nb = 0;
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(),
-                           ['itemtype' => $item->getType(),
-                                 'items_id' => $item->getID()]);
+                     if (version_compare(GLPI_VERSION, '9.2') < 0) {
+                        $fleetId = $item->getID();
+                        $nb = countElementsInTable(static::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'");
+                     } else {
+                        $nb = countElementsInTable(static::getTable(),
+                              ['plugin_flyvemdm_fleets_id' => $item->getID()]);
+                     }
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
