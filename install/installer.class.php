@@ -1060,9 +1060,11 @@ Regards,
             'PluginFlyvemdmWellknownpath'
       );
       foreach ($pluginItemtypes as $pluginItemtype) {
-         foreach (array('Notepad', 'DisplayPreference', 'DropdownTranslation', 'Log', 'Bookmark') as $itemtype) {
-            $item = new $itemtype();
-            $item->deleteByCriteria(array('itemtype' => $pluginItemtype));
+         foreach (array('Notepad', 'DisplayPreference', 'DropdownTranslation', 'Log', 'Bookmark', 'SavedSearch') as $itemtype) {
+            if (class_exists($itemtype)) {
+               $item = new $itemtype();
+               $item->deleteByCriteria(array('itemtype' => $pluginItemtype));
+            }
          }
       }
    }
