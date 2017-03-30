@@ -49,9 +49,9 @@ The general steps to properly configure the whole infrastructure are :
 
 ## Dependencies
 
-This plugin is depends on GLPi, FusionInventory for GLPi and a some packages
+This plugin depends on GLPi, FusionInventory for GLPi and some packages
 
-* Download our specific version of GLPi 9.1.1 (please refer to its documentation to install)
+* Download our specific version of GLPi 9.1.2 (please refer to its documentation to install)
 * Download FusionInventory 9.1+1.0 for GLPi and put it in glpi/plugins/
 * Donwload Flyve MDM for GLPi and put it in glpi/plugins/
 
@@ -65,10 +65,10 @@ glpi
 + plugins
   |
   + fusioninventory
-  + storkmdm
+  + flyvemdm
 ```
 
-* Go in the directory  glpi/plugins/storkmdm
+* Go in the directory  glpi/plugins/flyvemdm
 * Run composer install --no-dev
 
 ## Configuration of GLPi
@@ -84,6 +84,10 @@ Ensure the system has PHP CLI, then setup a cron job similar to the example belo
 ```
 
 Adjust the **path to PHP** and the **path to cron.php**
+
+### Server configuration
+
+Flyve MDM allows uploading files, Android packages and Uhuru Mobile packages. You should ensure php.ini allows reasonable upload sizes.
 
 ### Notifications
 
@@ -150,7 +154,7 @@ Expose to the world only the API of GLPi, and keep inacessible GLPi's user inter
 
 Have a look into **glpi/.htaccess** if you can use  Apache's mod_rewrite.
 
-The directory **glpi/plugins/storkmdm/scripts** must be inaccessible from the webserver.
+The directory **glpi/plugins/flyvemdm/scripts** must be inaccessible from the webserver.
 
 * If running Apache, the .htaccess file in this directory will do the job.
 * If running an other server like Nginx, please configure the host properly.
@@ -325,7 +329,7 @@ If you are not a developer you may contribute the project by [translating it](ht
 * Go to the folder containing GLPi
 * Run composer install
 * Run php tools/cliinstall.php --tests --user=database-user --pass=database-pass --db=glpi-test
-* Go to plugins/storkmdm
+* Go to plugins/flyvemdm
 * Run php tools/cliinstall.php --tests
 * Run phpunit
 

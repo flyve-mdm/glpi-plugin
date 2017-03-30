@@ -39,7 +39,6 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable {
 
    const ENROLL_DENY             = 0;
-   //const ENROLL_AGENT_TOKEN      = 1;
    const ENROLL_INVITATION_TOKEN = 1;
    const ENROLL_ENTITY_TOKEN     = 2;
 
@@ -92,11 +91,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see CommonGLPI::defineTabs()
     */
    public function defineTabs($options = array()) {
-      //  TODO : fluent interface in GLPI 9.2 +
+      //  TODO : fluent interface in GLPI 9.2 + when GLPI 9.1 dropped
       $tab = array();
       $this->addDefaultFormTab($tab);
+      $this->addStandardTab('PluginFlyvemdmGeolocation', $tab, $options);
       $this->addStandardTab(__CLASS__, $tab, $options);
-      $this->addStandardTab('PluginFlyvemdmAgent_Fleet', $tab, $options);
       $this->addStandardTab('Notepad', $tab, $options);
       $this->addStandardTab('Log', $tab, $options);
 
@@ -120,13 +119,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             case PluginFlyvemdmFleet::class:
                if (!$withtemplate) {
                   $nb = 0;
+                  $fleetId = $item->getID();
                   if ($_SESSION['glpishow_count_on_tabs']) {
                      if (version_compare(GLPI_VERSION, '9.2') < 0) {
-                        $fleetId = $item->getID();
+
                         $nb = countElementsInTable(static::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'");
                      } else {
-                        $nb = countElementsInTable(static::getTable(),
-                              ['plugin_flyvemdm_fleets_id' => $item->getID()]);
+                        $nb = countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
                      }
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
@@ -243,7 +242,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'isNewID'         => $item->isNewID($ID),
             'canUpdate'       => (!$item->isNewID($ID)) && ($item->canUpdate() > 0),
             'agent'           => $fields,
-
+            'unenrollButton'  => Html::submit(_x('button', 'Unenroll'), array('name' => 'unenroll')),
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();

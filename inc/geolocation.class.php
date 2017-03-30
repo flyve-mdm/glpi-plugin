@@ -67,26 +67,74 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
+    * @see CommonGLPI::getTabNameForItem()
+    *
+    * @since version 9.1
+    **/
+   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+
+      if (static::canView()) {
+         switch ($item->getType()) {
+            case PluginFlyvemdmAgent::class:
+               if (!$withtemplate) {
+                  $nb = 0;
+                  $computerId = $item->getField('computers_id');
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     if (version_compare(GLPI_VERSION, '9.2') < 0) {
+                        $nb = countElementsInTable(static::getTable(), "`computers_id` = '$computerId'");
+                     } else {
+                        $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
+                     }
+                  }
+                  return self::createTabEntry(self::getTypeName(1), $nb);
+               }
+               break;
+
+            case Computer::class:
+               if (!$withtemplate) {
+                  $nb = 0;
+                  $computerId = $item->getField('id');
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     if (version_compare(GLPI_VERSION, '9.2') < 0) {
+                        $nb = countElementsInTable(static::getTable(), "`computers_id` = '$computerId'");
+                     } else {
+                        $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
+                     }
+                  }
+                  return self::createTabEntry(self::getTypeName(1), $nb);
+               }
+               break;
+         }
+      }
+   }
+
+   /**
+    * @param $item         CommonGLPI object
+    * @param $tabnum       (default 1)
+    * @param $withtemplate (default 0)
+    *
+    * @since version 9.1
+    **/
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+      switch (get_class($item)) {
+         case PluginFlyvemdmAgent::class:
+            self::showForAgent($item);
+            return true;
+            break;
+
+         case Computer::class:
+            self::showForComputer($item);
+            return true;
+            break;
+      }
+   }
+
+
+   /**
     * @see CommonDBTM::getRights()
     */
    public function getRights($interface='central') {
       $rights = parent::getRights();
-      //$values = array(READ    => __('Read'),
-      //                PURGE   => array('short' => __('Purge'),
-      //                                 'long'  => _x('button', 'Delete permanently')));
-
-      //$values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
-
-      //if ($this->maybeDeleted()) {
-      //   $values[DELETE] = array('short' => __('Delete'),
-      //                           'long'  => _x('button', 'Put in dustbin'));
-      //}
-      //if ($this->usenotepad) {
-      //   $values[READNOTE] = array('short' => __('Read notes'),
-      //                             'long' => __("Read the item's notes"));
-      //   $values[UPDATENOTE] = array('short' => __('Update notes'),
-      //                               'long' => __("Update the item's notes"));
-      //}
 
       return $rights;
    }
@@ -191,6 +239,31 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       }
 
       return $where;
+   }
+
+   public static function showForAgent(CommonDBTM $item) {
+      $computer = new Computer;
+      $computer->getFromDB($item->getField('computers_id'));
+
+      $randBegin = mt_rand();
+      $randEnd = mt_rand();
+      $data = [
+            'computerId'   => $computer->getID(),
+            'beginDate'    => Html::showDateTimeField('beginDate', [
+                  'rand'         => $randBegin,
+                  'value'        => '',
+                  'display'      => false,
+            ]),
+            'endDate'      => Html::showDateTimeField('endDate', [
+                  'rand'         => $randEnd,
+                  'value'        => date('Y-m-d H:i:s'),
+                  'display'      => false,
+            ]),
+            'randBegin'    => $randBegin,
+            'randEnd'      => $randEnd,
+      ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('computer_geolocation.html', $data);
    }
 
    /**

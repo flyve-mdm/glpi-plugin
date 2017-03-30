@@ -83,6 +83,13 @@ if (isset($_POST["add"])) {
    $agent->check($_POST['id'], PURGE);
    $agent->delete($_POST, 1);
    $agent->redirectToList();
+} else if (isset($_POST['unenroll'])) {
+   $agent->check($_POST['id'], UPDATE);
+   $agent->update([
+         'id'           => $_POST['id'],
+         '_unenroll'   => '',
+   ]);
+   Html::back();
 } else {
    $agent->check($_GET['id'], READ);
    Html::header(

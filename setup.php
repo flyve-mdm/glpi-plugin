@@ -29,36 +29,36 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  ------------------------------------------------------------------------------
 */
 
-define ("PLUGIN_FLYVEMDM_VERSION", "2.0.0-dev");
+define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-dev');
 // Minimal GLPI version, inclusive
-define ("PLUGIN_FLYVEMDM_GLPI_MIN_VERSION", "9.1.1");
+define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.1.1');
 // Maximum GLPI version, exclusive
-define ("PLUGIN_FLYVEMDM_GLPI_MAX_VERSION", "9.3");
+define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.3');
 // Minimum PHP version inclusive
-define ("PLUGIN_FLYVEMDM_PHP_MIN_VERSION", "5.5");
+define('PLUGIN_FLYVEMDM_PHP_MIN_VERSION', '5.5');
 
-define ("PLUGIN_FLYVEMDM_ROOT", GLPI_ROOT . '/plugins/flyvemdm');
+define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');
 
-define ("PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL", 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
+define('PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL', 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
 
-if (!defined("FLYVEMDM_CONFIG_PATH")) {
-   define("FLYVEMDM_CONFIG_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm');
+if (!defined('FLYVEMDM_CONFIG_PATH')) {
+   define('FLYVEMDM_CONFIG_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm');
 }
 
-if (!defined("FLYVEMDM_CONFIG_CACERTMQTT")) {
-   define("FLYVEMDM_CONFIG_CACERTMQTT", FLYVEMDM_CONFIG_PATH . '/CACert-mqtt.crt');
+if (!defined('FLYVEMDM_CONFIG_CACERTMQTT')) {
+   define('FLYVEMDM_CONFIG_CACERTMQTT', FLYVEMDM_CONFIG_PATH . '/CACert-mqtt.crt');
 }
 
-if (!defined("FLYVEMDM_PACKAGE_PATH")) {
-   define("FLYVEMDM_PACKAGE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/package');
+if (!defined('FLYVEMDM_PACKAGE_PATH')) {
+   define('FLYVEMDM_PACKAGE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/package');
 }
 
-if (!defined("FLYVEMDM_FILE_PATH")) {
-   define("FLYVEMDM_FILE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/file');
+if (!defined('FLYVEMDM_FILE_PATH')) {
+   define('FLYVEMDM_FILE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/file');
 }
 
-if (!defined("FLYVEMDM_TEMPLATE_CACHE_PATH")) {
-   define("FLYVEMDM_TEMPLATE_CACHE_PATH", GLPI_PLUGIN_DOC_DIR . '/flyvemdm/cache');
+if (!defined('FLYVEMDM_TEMPLATE_CACHE_PATH')) {
+   define('FLYVEMDM_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/cache');
 }
 
 // Init the hooks of the plugins -Needed
@@ -92,6 +92,7 @@ function plugin_init_flyvemdm() {
       Plugin::registerClass('PluginFlyvemdmFleet_Policy');
       Plugin::registerClass('PluginFlyvemdmProfile',
             array('addtabon' => Profile::class));
+      Plugin::registerClass('PluginFlyvemdmGeolocation');
       Plugin::registerClass('PluginFlyvemdmPackage');
       Plugin::registerClass('PluginFlyvemdmFile');
       Plugin::registerClass('PluginFlyvemdmInvitation',
@@ -153,7 +154,9 @@ function plugin_init_flyvemdm() {
       }
 
       if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm") !== false) {
-         $PLUGIN_HOOKS['add_css']['flyvemdm'] = 'css/style.css';
+         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'css/style.css';
+         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.css';
+         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
       }
 
       if (version_compare(GLPI_VERSION, '9.1.2') > 0) {

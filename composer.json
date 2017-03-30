@@ -3,9 +3,14 @@
     "prefer-stable": true,
     "title": "Flyve MDM",
     "description": "Flyve MDM plugin for GLPI",
+    "version": "2.0.0-dev",
     "type": "project",
     "licence": "AGPLv3+",
-    "keywords": ["glpi", "flyve", "mdm"],
+    "keywords": [
+        "glpi",
+        "flyve",
+        "mdm"
+    ],
     "require": {
         "php": ">= 5.6.0",
         "ext-gd": "*",
@@ -27,9 +32,9 @@
         "glpi-project/tools": "^0.1.2"
     },
     "repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test"
-    }
+        {
+            "type": "vcs",
+            "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test"
+        }
     ]
 }

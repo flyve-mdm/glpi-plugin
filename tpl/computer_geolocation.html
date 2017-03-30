@@ -1,0 +1,64 @@
+<div class="plugin_flyvemdm_clear">
+   <div id="plugin_flyvemdm_geolocationMap">
+   </div>
+   <div id="plugin_flyvemdm_geolocationList">
+      <div>{{ __('view from', 'flyvemdm') }}{{ beginDate|raw }}</div>
+      <div>{{ __('view until', 'flyvemdm') }}{{ endDate|raw }}</div>
+      <div><p><a href="#" class="vsubmit" onclick="loadMarkers()">{{ __('update', 'flyvemdm') }}</a></p></div>
+   </div>
+   <script  type="text/javascript">
+      var map;
+      var markers = [];
+
+      function showMap(position) {
+         map = L.map('plugin_flyvemdm_geolocationMap');
+         map.on('locationfound', onLocationFound);
+         map.on('locationerror', onLocationError);
+         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 20
+          }).addTo(map);
+         map.locate({"setview": true, "timeout": 1000});
+      }
+
+      function onLocationFound(e) {
+          map.setView(e.latlng, 13); 
+      }
+
+      function onLocationError(e) {
+          // See the Eiffel tower
+          map.setView(L.latLng(48.8583701, 2.2922926), 13);
+      }
+
+      function loadMarkers() {
+         var computerId = {{ computerId|raw }};
+         var randBegin = {{ randBegin|raw }};
+         var randEnd = {{ randEnd|raw }};
+         var beginDate = $('#showdate'  + randBegin)[0].value;
+         var endDate = $('#showdate' + randEnd)[0].value;
+         $.ajax({
+            url: '../ajax/geolocation.php',
+            data: {"computers_id": computerId, "beginDate": beginDate, "endDate": endDate},
+            dataType: 'json',
+            success: function(data) {
+                markers.forEach(function(element) {
+                   element.remove();
+                });
+                delete marker;
+                markers = [];
+                $.each(data, function(index, element) {
+                    marker = L.marker([element.latitude, element.longitude], {'title': element.date});
+                    markers.push(marker);
+                    marker.addTo(map);
+                 });
+                if (typeof(marker) !== 'undefined') {
+                   map.setView(marker.getLatLng(), 13)
+                }
+              }
+         })
+      }
+
+      showMap();
+      loadMarkers();
+   </script>
+</div>

@@ -37,17 +37,39 @@ if (!$plugin->isActivated('flyvemdm')) {
 
 Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
-if (!isset($_REQUEST['graph'])) {
+// a computer ID is mandatory
+if (!isset($_REQUEST['computers_id'])) {
    die();
 }
+$computerId = intval($_REQUEST['computers_id']);
 
-$graph = new PluginFlyvemdmGraph();
-
-switch ($_REQUEST['graph']) {
-   case 'invitations':
-      echo $graph->showInvitationsGraph();
-      break;
-   case 'devicesPerOSVersion':
-      echo $graph->showDevicesPerOSVersion();
-      break;
+if (!isset($_REQUEST['beginDate']) || empty(trim($_REQUEST['beginDate']))) {
+   $beginDate = '0000-00-00 00:00:00';
+} else {
+   $beginDate = new DateTime($_REQUEST['beginDate']);
+   $beginDate = $beginDate->format('Y-m-d H:i:s');
 }
+
+if (!isset($_REQUEST['endDate']) || empty(trim($_REQUEST['endDate']))) {
+   $endDate = date('Y-m-d H:i:s');
+} else {
+   $endDate = new DateTime($_REQUEST['endDate']);
+   $endDate = $endDate->format('Y-m-d H:i:s');
+}
+
+$geolocation = new PluginFlyvemdmGeolocation();
+if ($beginDate == '0000-00-00 00:00:00') {
+   $rows = $geolocation->find("`computers_id`='$computerId' AND `date` < '$endDate'", '`date`', '100');
+} else {
+   $rows = $geolocation->find("`computers_id`='$computerId' AND `date` BETWEEN '$beginDate' AND '$endDate'", '`date`');
+}
+
+$markers = [];
+foreach ($rows as $row) {
+   $markers[] = [
+         'date'      => $row['date'],
+         'latitude'  => $row['latitude'],
+         'longitude'  => $row['longitude'],
+   ];
+}
+echo json_encode($markers);
