@@ -125,6 +125,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
             $this->updateInventory($topic, $message);
          } else if ($mqttPath[4] == "Status/Task") {
             $this->updateTaskStatus($topic, $message);
+         } else if ($mqttPath[4] == "Status/Online") {
+            $this->updateOnlineStatus($topic, $message);
          } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
