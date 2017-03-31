@@ -113,6 +113,53 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
 
    }
 
+   /**
+    *
+    * Check the agent is marked online when the backend is notified about
+    *
+    * @return void
+    */
+   public function testDeviceGoesOnline() {
+      $this->DeviceOnlineStatus(self::$agent, 'yes', 1);
+   }
+
+   /**
+    * Check the device is marked offline when the backend is notified about
+    *
+    * @depends testDeviceGoesOnline
+    *
+    * @return void
+    */
+   public function testDeviceGoesOffline() {
+      $this->DeviceOnlineStatus(self::$agent, 'no', 0);
+   }
+
+   protected function DeviceOnlineStatus($agent, $mqttStatus, $expectedStatus) {
+      $topic = $agent->getTopic() . '/Status/Online';
+
+      // prepare mock
+      $message = ['online'   => $mqttStatus];
+      $messageEncoded = json_encode($message, JSON_OBJECT_AS_ARRAY);
+      $mqttStub = $this->getMockBuilder(sskaje\mqtt\MQTT::class)
+                       ->disableOriginalConstructor()
+                       ->getMock();
+      $publishStub = $this->getMockBuilder(sskaje\mqtt\Message\PUBLISH::class)
+                          ->disableOriginalConstructor()
+                          ->setMethods(['getTopic', 'getMessage'])
+                          ->getMock();
+      $publishStub->method('getTopic')
+                  ->willReturn($topic);
+      $publishStub->method('getMessage')
+                  ->willReturn($messageEncoded);
+
+      $mqttHandler = PluginFlyvemdmMqtthandler::getInstance();
+      $mqttHandler->publish($mqttStub, $publishStub);
+
+      // refresh the agent
+      $agent->getFromDB($agent->getID());
+      $this->assertEquals($expectedStatus, $agent->getField('online'));
+   }
+
    public function updateTaskDataProvider() {
       $a = '';
       return [
