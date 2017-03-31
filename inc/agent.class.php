@@ -1632,4 +1632,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agent = new static();
       $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
+
+   public function hook_computer_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(array('computers_id' => $item->getField('id')), 1);
+   }
 }
