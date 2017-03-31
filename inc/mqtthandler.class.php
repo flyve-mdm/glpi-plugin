@@ -64,6 +64,11 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
       return self::$instance;
    }
 
+   /**
+    * Maintains a MQTT topic to publish the current version of the backend
+    *
+    * @param unknown $mqtt
+    */
    protected function publishManifest($mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
@@ -104,7 +109,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {
       $topic = $publish_object->getTopic();
       $message = $publish_object->getMessage();
-      $this->log->saveIngoingMqttMessage($topic, $publish_object->getMessage());
+      $this->log->saveIngoingMqttMessage($topic, $message);
 
       $mqttPath = explode('/', $topic, 5);
       if (isset($mqttPath[4])) {
@@ -118,6 +123,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
             $this->deleteAgent($topic, $message);
          } else if ($mqttPath[4] == "Status/Inventory") {
             $this->updateInventory($topic, $message);
+         } else if ($mqttPath[4] == "Status/Online") {
+            $this->updateOnlineStatus($topic, $message);
          } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
@@ -258,6 +265,33 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
                ]);
             }
          }
+
+         $this->updateLastContact($topic, $message);
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $essage
+    */
+   protected function updateOnlineStatus($topic, $message) {
+      $agent = new PluginFlyvemdmAgent();
+      if ($agent->getByTopic($topic)) {
+         $feedback = json_decode($message, true);
+         if (!isset($feedback['online'])) {
+            return;
+         }
+         if ($feedback['online'] == 'no') {
+            $status = '0';
+         } else {
+            $status = '1';
+         }
+         $agent->update([
+               'id'        => $agent->getID(),
+               'is_online' => $status,
+         ]);
 
          $this->updateLastContact($topic, $message);
       }

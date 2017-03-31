@@ -387,6 +387,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             break;
       }
 
+      unset($input['is_online']);
+
       return $input;
    }
 
@@ -720,6 +722,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $tab[$i]['field']           = 'version';
       $tab[$i]['name']            = __('version', "flyvemdm");
       $tab[$i]['datatype']        = 'string';
+      $tab[$i]['massiveaction']   = false;
+
+      $i++;
+      $tab[$i]['table']           = self::getTable();
+      $tab[$i]['field']           = 'is_online';
+      $tab[$i]['name']            = __('online', "flyvemdm");
+      $tab[$i]['datatype']        = 'boolean';
       $tab[$i]['massiveaction']   = false;
 
       return $tab;
