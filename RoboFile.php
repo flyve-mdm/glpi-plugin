@@ -79,19 +79,40 @@ class RoboFile extends Glpi\Tools\RoboFile
       $this->updateJsonFile('composer.json');
    }
 
+   /**
+    * Run all tests over the project
+    *
+    * @return void
+    */
    public function test() {
       $this->testUnit();
       $this->testCS();
    }
 
+   /**
+    * Run phpunit over the project
+    *
+    * @return void
+    */
    public function testUnit() {
       $this->_exec(__DIR__ . '/vendor/bin/phpunit --verbose');
    }
 
+   /**
+    * run phpcs over the project
+    *
+    * @return void
+    */
    public function testCS() {
       $this->_exec(__DIR__ . '/vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/');
    }
 
+   /**
+    *
+    * Build an resistribuable archive
+    *
+    * @return void
+    */
    public function archiveBuild() {
        // update version in package.json
        $this->sourceUpdatePackageJson();
@@ -107,6 +128,53 @@ class RoboFile extends Glpi\Tools\RoboFile
        // each entry of banned path must match. If a path fails to match something, the archive will not build
        @mkdir($this->getPluginPath() . "/dist");
        $this->_exec("tar -cjf $targetFile.tar.bz2 --directory '$pluginPath' --transform='s/^\./$pluginName/' $exclude .");
+   }
+
+   /**
+    * Extract translatable strings
+    *
+    * @return void
+    */
+   public function localesExtract() {
+      // extract locales from twig templates
+      $tplDir = __DIR__ . "/tpl";
+      $tmpDir = '/tmp/twig-cache/';
+
+      $loader = new Twig_Loader_Filesystem($tplDir);
+
+      // force auto-reload to always have the latest version of the template
+      $twig = new Twig_Environment($loader, array(
+            'cache' => $tmpDir,
+            'auto_reload' => true
+      ));
+      include __DIR__ . '/lib/GlpiLocalesExtension.php';
+      $twig->addExtension(new GlpiLocalesExtension());
+      // configure Twig the way you want
+
+      // iterate over all templates
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+         // force compilation
+         if ($file->isFile()) {
+            $twig->loadTemplate(str_replace($tplDir.'/', '', $file));
+         }
+      }
+
+      // find compiled templates
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+         if ($file->isFile()) {
+            $compiledTemplates[] = $file;
+         }
+      }
+      $compiledTemplates = implode(' ', $compiledTemplates);
+
+      $potfile = strtolower($this->getPluginName()) . ".pot";
+      $phpSources = "*.php ajax/*.php front/*.php inc/*.php install/*.php";
+      // extract locales from source code
+      $command = "xgettext $phpSources $compiledTemplates -o locales/$potfile -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po";
+      $command.= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
+      $command.= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
+      $this->_exec($command);
+      return $this;
    }
 }
 
