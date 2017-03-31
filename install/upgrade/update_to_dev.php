@@ -49,4 +49,5 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
+   $migration->addField(PluginFlyvemdmAgent::getTable(), 'is_online', 'integer', ['after' => 'last_contact']);
 }

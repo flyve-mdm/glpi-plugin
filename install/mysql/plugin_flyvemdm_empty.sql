@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `plugin_flyvemdm_fleets_id` int(11)                                           DEFAULT NULL,
   `last_report`               datetime                                          DEFAULT NULL,
   `last_contact`              datetime                                          DEFAULT NULL,
+  `is_online`                 tinyint(1)                                        NOT NULL DEFAULT '0',
   `certificate`               text                                              NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
