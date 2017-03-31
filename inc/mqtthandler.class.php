@@ -125,6 +125,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
             $this->updateInventory($topic, $message);
          } else if ($mqttPath[4] == "Status/Task") {
             $this->updateTaskStatus($topic, $message);
+         } else if ($mqttPath[4] == "Status/Online") {
+            $this->updateOnlineStatus($topic, $message);
          } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
@@ -312,6 +314,33 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
             $this->updateLastContact($topic, $message);
          }
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $essage
+    */
+   protected function updateOnlineStatus($topic, $message) {
+      $agent = new PluginFlyvemdmAgent();
+      if ($agent->getByTopic($topic)) {
+         $feedback = json_decode($message, true);
+         if (!isset($feedback['online'])) {
+            return;
+         }
+         if ($feedback['online'] == 'no') {
+            $status = '0';
+         } else {
+            $status = '1';
+         }
+         $agent->update([
+               'id'     => $agent->getID(),
+               'online' => $status,
+         ]);
+
+         $this->updateLastContact($topic, $message);
       }
    }
 }

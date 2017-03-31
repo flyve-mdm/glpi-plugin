@@ -51,4 +51,5 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    }
 
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'reported_fleets_id', 'integer', ['after' => 'plugin_flyvemdm_fleets_id']);
+   $migration->addField(PluginFlyvemdmAgent::getTable(), 'online', 'integer', ['after' => 'last_contact']);
 }
