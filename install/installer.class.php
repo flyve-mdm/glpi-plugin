@@ -1016,7 +1016,6 @@ Regards,
             PluginFlyvemdmPolicy::getTable(),
             PluginFlyvemdmPolicyCategory::getTable(),
             PluginFlyvemdmWellknownpath::getTable(),
-            PluginFlyvemdmAgent_Task::getTable(),
             PluginFlyvemdmTaskstatus::getTable(),
       );
 
