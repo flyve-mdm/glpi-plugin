@@ -413,7 +413,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
 
-         $this->changeFleet($oldFleet, $newFleet);
+         $this->changeMqttAcl($oldFleet, $newFleet);
       }
 
       // send wipe to the agent
@@ -588,7 +588,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $history store changes history ? (default 1)
     * @return void
     */
-   public function post_updateItem($history=1) {
+   public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
 
          $this->updateSubscription();
@@ -1569,7 +1569,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param PluginFlyvemdmFleet $old old fleet
     * @param PluginFlyvemdmFleet $new new fleet
     */
-   protected function changeFleet(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
+   protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
