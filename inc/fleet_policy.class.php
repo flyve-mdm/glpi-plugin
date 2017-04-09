@@ -501,12 +501,14 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $agentId = $agent->getID();
       foreach ($policiesToApply as $policyToApply) {
          $fleet_policyId = $policyToApply['fleets_policies_id'];
-         $taskStatus = new PluginFlyvemdmTaskstatus();
-         $taskStatus->add([
-               'plugin_flyvemdm_agents_id'            => $agentId,
-               'plugin_flyvemdm_fleets_policies_id'   => $fleet_policyId,
-               'status'                               => 'pending',
-         ]);
+         if ($fleet_policyId > 0) {
+            $taskStatus = new PluginFlyvemdmTaskstatus();
+            $taskStatus->add([
+                  'plugin_flyvemdm_agents_id'            => $agentId,
+                  'plugin_flyvemdm_fleets_policies_id'   => $fleet_policyId,
+                  'status'                               => 'pending',
+            ]);
+         }
       }
    }
 
