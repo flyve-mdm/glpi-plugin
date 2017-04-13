@@ -351,29 +351,13 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $fleet = $item->getFleet();
 
       if ($fleet !== null && $fleet->getField('is_default') == '0') {
-         $topic = $item->getTopic();
          $fleetId = $fleet->getID();
 
          if (count($groups) == 0) {
-            // publish policies of all groups where at least one policy applies
-
-            // find all groups of applied policies
-            $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
-            $policyTable = PluginFlyvemdmPolicy::getTable();
-            $query = "SELECT DISTINCT `group`
-                      FROM `$fleet_policyTable` `fp`
-                      LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-                      WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
-            $result = $DB->query($query);
-
-            // add groups
-            if ($result === false) {
-               while ($row = $DB->fetch_assoc($result)) {
-                  $groups[] = $row['group'];
-               }
-            }
+            $groups = $this->getGroupsOfAppliedPolicies($fleet);
          }
 
+         $topic = $item->getTopic();
          foreach ($groups as $groupName) {
             // get policies with data, including not applied policies having a default value
             $policiesToApply = $this->getGroupOfPolicies($groupName, $fleet);
@@ -399,12 +383,47 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    }
 
    /**
+    * get the groups of policies where at least one policy applies to a fleet
+    *
+    * @param PluginFlyvemdmFieet $fleet
+    *
+    * @return string[] groups of policies
+    */
+   public function getGroupsOfAppliedPolicies(PluginFlyvemdmFleet $fleet) {
+      global $DB;
+
+      $groups = [];
+      if ($fleet !== null && $fleet->getField('is_default') == '0') {
+         $fleetId = $fleet->getID();
+         // publish policies of all groups where at least one policy applies
+
+         // find all groups of applied policies
+         $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
+         $policyTable = PluginFlyvemdmPolicy::getTable();
+         $query = "SELECT DISTINCT `group`
+                   FROM `$fleet_policyTable` `fp`
+                   LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
+                   WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
+         $result = $DB->query($query);
+
+         // add groups
+         if ($result === false) {
+            while ($row = $DB->fetch_assoc($result)) {
+               $groups[] = $row['group'];
+            }
+         }
+      }
+
+      return $groups;
+   }
+
+   /**
     * Builds a group of policies using the value of an applied policy for a fleet, and the default value of
     * non applied policies of the same group
     * @param string $group name of a group of policies
     * @param PluginFlyvemdmFleet $fleet fleet the group will built for
     */
-   protected function getGroupOfPolicies($group, $fleet) {
+   public function getGroupOfPolicies($group, $fleet) {
       global $DB;
 
       // get applied policies and the data for the fleet
@@ -497,7 +516,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
     *
     * @return void
     */
-   protected function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
+   public function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
       $agentId = $agent->getID();
       foreach ($policiesToApply as $policyToApply) {
          $fleet_policyId = $policyToApply['fleets_policies_id'];

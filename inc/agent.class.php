@@ -582,6 +582,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
+         // create tasks for the agent from already applied policies
+         $newFleet = new PluginFlyvemdmFleet();
+         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+            $fleet_policy = new PluginFlyvemdmFleet_Policy();
+
+            // get groups of policies where a policy applies
+            $groups = $fleet_policy->getGroupsOfAppliedPolicies($newFleet);
+            foreach ($groups as $groupName) {
+               // get policies per group
+               $policiesToApply = $fleet_policy->getGroupOfPolicies($groupName, $newFleet);
+               // create task statuses for a single agent
+               $fleet_policy->createTaskStatus($this, $policiesToApply);
+            }
+         }
 
          $this->updateSubscription();
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
