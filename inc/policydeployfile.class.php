@@ -206,6 +206,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          }
 
          $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         // Ensure there is a trailing slash
+         if (strrpos($decodedValue['destination'], '/') != strlen($decodedValue['destination']) - 1) {
+            $decodedValue['destination'] .= '/';
+         }
+
          if (!$fleet_policy->add([
                'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                'plugin_flyvemdm_policies_id' => $policyData->getID(),
