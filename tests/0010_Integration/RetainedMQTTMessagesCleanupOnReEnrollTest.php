@@ -53,7 +53,11 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
     */
    public function testEnrollAgent($invitation) {
       // Login as guest user
-      $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
+      if (version_compare(GLPI_VERSION, "9.2", "ge")) {
+         $_REQUEST['user_token'] = User::getToken($invitation->getField('users_id'), 'api_token');
+      } else {
+         $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
+      }
       Session::destroy();
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
@@ -129,7 +133,11 @@ class RetainedMQTTMessagesCleanupOnReEnrollTest extends RegisteredUserTestCase {
     */
    public function testSecondEnrollAgent($invitation) {
       // Login as guest user
-      $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
+      if (version_compare(GLPI_VERSION, "9.2", "ge")) {
+         $_REQUEST['user_token'] = User::getToken($invitation->getField('users_id'), 'api_token');
+      } else {
+         $_REQUEST['user_token'] = User::getPersonalToken($invitation->getField('users_id'));
+      }
       Session::destroy();
       $this->assertTrue(self::login('', '', false));
       unset($_REQUEST['user_token']);
