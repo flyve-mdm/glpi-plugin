@@ -39,6 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
    const EVENT_GUEST_INVITATION = 'plugin_flyvemdm_invitation';
+   const DEEPLINK = 'flyve://register?data=';
 
    /**
     * Define plugins notification events
@@ -80,6 +81,8 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @param array $options
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
+      global $CFG_GLPI;
+
       switch ($event->raiseevent) {
          case self::EVENT_GUEST_INVITATION:
             if (isset($event->obj)) {
@@ -89,9 +92,24 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $document = new Document();
                $document->getFromDB($invitation->getField('documents_id'));
 
+               // build the data of the deeplink
+               if (version_compare(GLPI_VERSION, "9.2", "ge")) {
+                  $personalToken = User::getToken($invitation->getField('users_id'), 'api_token');
+               } else {
+                  $personalToken = User::getPersonalToken($invitation->getField('users_id'));
+               }
+               $enrollRequest = [
+                     'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
+                     'user_token'         => $personalToken,
+                     'invitation_token'   => $invitation->getField('invitation_token')
+               ];
+
+               $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
+                                 . base64_encode(json_encode($enrollRequest, JSON_UNESCAPED_SLASHES));
+
                // Fill the template
                $event->datas['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->datas['##flyvemdm.enroll_url##'] = '(not implemented)';
+               $event->datas['##flyvemdm.enroll_url##'] = static::DEEPLINK . $encodedRequest;
                $event->obj->documents = array($document->getID());
                $entityConfig = new PluginFlyvemdmEntityconfig();
                $entityConfig->getFromDB($event->obj->getField('entities_id'));
