@@ -326,7 +326,7 @@ If you\'re viewing this email from a computer flash the QR code you see below
 with the Flyve MDM Application.
 
 If you\'re viewing this email from your device to enroll then tap the
-following link.
+following link or copy it to your browser.
 
 ##flyvemdm.enroll_url##
 
@@ -339,6 +339,14 @@ Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.
 
 ##flyvemdm.download_app##
+
+If you\'re viewing this email from a computer flash the QR code you see below
+with the Flyve MDM Application.
+
+If you\'re viewing this email from your device to enroll then tap the
+following link or copy it to your browser.
+
+<a href="##flyvemdm.enroll_url##">##flyvemdm.enroll_url##</a>
 
 <img src="cid:##flyvemdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">
 
@@ -382,7 +390,7 @@ Regards,
                   'language'                 => '',
                   'subject'                  => addcslashes($data['subject'], "'\""),
                   'content_text'             => addcslashes($data['content_text'], "'\""),
-                  'content_html'             => $contentHtml
+                  'content_html'             => addcslashes($contentHtml, "'\"")
             ]);
 
             // Create the notification

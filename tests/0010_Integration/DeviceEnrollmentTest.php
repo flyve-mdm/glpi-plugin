@@ -72,7 +72,7 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
       ]);
-      $this->assertFalse($agentId);
+      $this->assertFalse($agentId, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $rows = $invitationLog->find("1");
       $this->assertEquals($logCount, count($rows));
