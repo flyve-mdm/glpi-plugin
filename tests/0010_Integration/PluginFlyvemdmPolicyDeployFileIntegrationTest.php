@@ -87,8 +87,8 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitCreateFleet
     */
    public function testApplyPolicyWithoutValue(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'itemtype'                    => 'PluginFlyvemdmFile',
@@ -106,8 +106,8 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $value = new stdClass();
       $value->remove_on_delete = '1';
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'itemtype'                    => 'PluginFlyvemdmFile',
@@ -127,8 +127,8 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $value = new stdClass();
       $value->destination = $destination;
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'itemtype'                    => 'PluginFlyvemdmFile',
@@ -151,8 +151,8 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $value->remove_on_delete = '1';
       $value->destination = $destination;
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => json_encode($value, JSON_UNESCAPED_SLASHES),
@@ -172,8 +172,8 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $value->remove_on_delete = '1';
       $value->destination = $destination;
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => json_encode($value, JSON_UNESCAPED_SLASHES),
@@ -198,14 +198,14 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $groupName = $policyData->getField('group');
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $task = new PluginFlyvemdmTask();
       $fleetId = $fleet->getID();
 
       $value = new stdClass();
       $value->remove_on_delete = '1';
       $value->destination = $destination;
 
-      $addSuccess = $fleet_policy->add([
+      $addSuccess = $task->add([
          'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value,
@@ -230,12 +230,12 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
    public function testApplyAgainPolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet, $destination) {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($policyData->getID());
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $task = new PluginFlyvemdmTask();
       $value = new stdClass();
       $value->remove_on_delete = '1';
       $value->destination = $destination;
 
-      $addSuccess = $fleet_policy->add([
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $value,
@@ -256,13 +256,13 @@ class PluginFlyvemdmPolicyDeployfileIntegrationTest extends RegisteredUserTestCa
       $table = PluginFlyvemdmMqttupdatequeue::getTable();
       $this->assertTrue($DB->query("TRUNCATE TABLE `$table`"));
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->getFromDBForItems($fleet, $policyData);
+      $task = new PluginFlyvemdmTask();
+      $task->getFromDBForItems($fleet, $policyData);
       $fleetId = $fleet->getID();
       $groupName = $policyData->getField('group');
 
-      $deleteSuccess = $fleet_policy->delete([
-            'id'        => $fleet_policy->getID(),
+      $deleteSuccess = $task->delete([
+            'id'        => $task->getID(),
       ]);
 
       $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();

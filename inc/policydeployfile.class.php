@@ -149,8 +149,8 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '$itemtype'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
@@ -172,8 +172,8 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       } else {
          $fleetId = $fleet->getID();
          $policyId = $policyData->getID();
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
-         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $task = new PluginFlyvemdmTask();
+         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
                AND `plugin_flyvemdm_policies_id` = '$policyId'");
          foreach ($rows as $row) {
             if ($row['value'] == $value['destination']) {
@@ -205,13 +205,13 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
             return false;
          }
 
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $task = new PluginFlyvemdmTask();
          // Ensure there is a trailing slash
          if (strrpos($decodedValue['destination'], '/') != strlen($decodedValue['destination']) - 1) {
             $decodedValue['destination'] .= '/';
          }
 
-         if (!$fleet_policy->add([
+         if (!$task->add([
                'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                'plugin_flyvemdm_policies_id' => $policyData->getID(),
                'value'                       => $decodedValue['destination'] . $file->getField('name'),
@@ -243,10 +243,10 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       return $out;
    }
 
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function showValue(PluginFlyvemdmTask $task) {
       $file = new PluginFlyvemdmFile();
-      if ($file->getFromDB($fleet_policy->getField('items_id'))) {
-         $path = json_decode($fleet_policy->getField('value'), JSON_OBJECT_AS_ARRAY);
+      if ($file->getFromDB($task->getField('items_id'))) {
+         $path = json_decode($task->getField('value'), JSON_OBJECT_AS_ARRAY);
          $path = $path['destination'];
          $name  = $file->getField('name');
          return "$path/$name";

@@ -83,8 +83,8 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       return Dropdown::showYesNo('value', '0', -1, array('display' => false));
    }
 
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
-      $value = $fleet_policy->getField('value');
+   public function showValue(PluginFlyvemdmTask $task) {
+      $value = $task->getField('value');
       if ($value == '0') {
          return __('No');
       }

@@ -189,9 +189,9 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_fleets_policies
-DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fleets_policies`;
-CREATE TABLE `glpi_plugin_flyvemdm_fleets_policies` (
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_tasks
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_tasks`;
+CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
   `id`                                         int(11)      NOT NULL AUTO_INCREMENT,
   `plugin_flyvemdm_fleets_id`                  int(11)      NOT NULL DEFAULT '0',
   `plugin_flyvemdm_policies_id`                int(11)      NOT NULL DEFAULT '0',
@@ -249,7 +249,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_mod`                            datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
-  `plugin_flyvemdm_fleets_policies_id`  int(11) NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_tasks_id`  int(11) NOT NULL DEFAULT '0',
   `status`                              varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -107,10 +107,10 @@ class PluginFlyvemdmPackageIntegrationTest extends RegisteredUserTestCase
     * @depends testInitAddFleet
     */
    public function testApplyPolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package, PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = $this->applyAddPackagePolicy($policyData, $package, $fleet);
-      $this->assertFalse($fleet_policy->isNewItem());
+      $task = $this->applyAddPackagePolicy($policyData, $package, $fleet);
+      $this->assertFalse($task->isNewItem());
 
-      return $fleet_policy;
+      return $task;
    }
 
    /**
@@ -128,10 +128,10 @@ class PluginFlyvemdmPackageIntegrationTest extends RegisteredUserTestCase
     * @depends testDeleteApplication
     * @depends testApplyPolicy
     */
-   public function testAppliedPoliciesRemoved(PluginFlyvemdmPackage $package, PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function testAppliedPoliciesRemoved(PluginFlyvemdmPackage $package, PluginFlyvemdmTask $task) {
       $itemtype = $package->getType();
       $itemId = $package->getID();
-      $rows = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      $rows = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       $this->assertEquals(0, count($rows));
    }
 
@@ -141,12 +141,12 @@ class PluginFlyvemdmPackageIntegrationTest extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @param PluginFlyvemdmPolicy $policyData
     * @param PluginFlyvemdmPackage $package
-    * @param PluginFlyvemdmFleet_Policy $fleet_policy
+    * @param PluginFlyvemdmTask $task
     */
-   public function testRemovePolicyAdded(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package, PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function testRemovePolicyAdded(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package, PluginFlyvemdmTask $task) {
       $policyId = $policyData->getID();
       $packageName = $this->applicationName;
-      $rows = $fleet_policy->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$packageName'");
+      $rows = $task->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$packageName'");
       $this->assertEquals(1, count($rows));
    }
 
@@ -157,16 +157,16 @@ class PluginFlyvemdmPackageIntegrationTest extends RegisteredUserTestCase
     * @depends testRemovePolicyAdded
     */
    public function testAddAndRemoveConflict(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package, PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = $this->applyAddPackagePolicy($policyData, $package, $fleet);
-      $this->assertTrue($fleet_policy->isNewItem());
+      $task = $this->applyAddPackagePolicy($policyData, $package, $fleet);
+      $this->assertTrue($task->isNewItem());
    }
 
    protected function applyAddPackagePolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmPackage $package, PluginFlyvemdmFleet $fleet) {
       $value = new stdClass();
       $value->remove_on_delete = '1';
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $value,
@@ -174,7 +174,7 @@ class PluginFlyvemdmPackageIntegrationTest extends RegisteredUserTestCase
             'items_id'                    => $package->getID(),
       ]);
 
-      return $fleet_policy;
+      return $task;
    }
 
 }

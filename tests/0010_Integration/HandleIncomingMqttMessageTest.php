@@ -188,8 +188,8 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
       $policyData = new PluginFlyvemdmPolicy();
       $policyData->getFromDBBySymbol($symbol);
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => self::$fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'itemtype'                    => $itemtype,
@@ -206,16 +206,16 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
 
       // Find the task status isntance
       $agentId = self::$agent->getID();
-      $fleet_policyId = $fleet_policy->getID();
+      $taskId = $task->getID();
 
       $taskStatus = new PluginFlyvemdmTaskstatus();
       $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
-                               AND `plugin_flyvemdm_fleets_policies_id` = '$fleet_policyId'
+                               AND `plugin_flyvemdm_tasks_id` = '$taskId'
                                AND `status` = 'pending'");
       $this->assertFalse($taskStatus->isNewItem());
 
       // prepare mock
-      $message['taskId'] = $fleet_policy->getID();
+      $message['taskId'] = $task->getID();
       $message = ['updateStatus' => [$message]];
       $messageEncoded = json_encode($message, JSON_OBJECT_AS_ARRAY);
       $mqttStub = $this->getMockBuilder(sskaje\mqtt\MQTT::class)

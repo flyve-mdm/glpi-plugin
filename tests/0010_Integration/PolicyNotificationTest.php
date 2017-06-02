@@ -54,8 +54,8 @@ class PolicyNotificationTest extends RegisteredUserTestCase
       $policy = $policyFactory->createFromDBByID($policyData->getID());
 
       // Apply the policy to a fleet
-      $fleetPolicy = new PluginFlyvemdmFleet_Policy();
-      $fleetPolicyId = $fleetPolicy->add([
+      $task = new PluginFlyvemdmTask();
+      $taskId = $task->add([
             'plugin_flyvemdm_fleets_id'      => $fleet->getID(),
             'plugin_flyvemdm_policies_id'    => $policyData->getID(),
             'value'                          => 'PASSWORD_NONE'

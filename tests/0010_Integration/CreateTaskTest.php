@@ -177,8 +177,8 @@ class CreateTaskTest extends ApiRestTestCase
       $value = new stdClass();
       $value->remove_on_delete = '1';
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => self::$fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $value,

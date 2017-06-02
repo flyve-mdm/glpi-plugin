@@ -55,7 +55,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
                           `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
                           `date_mod`                            datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
                           `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
-                          `plugin_flyvemdm_fleets_policies_id`  int(11) NOT NULL DEFAULT '0',
+                          `plugin_flyvemdm_tasks_id`            int(11) NOT NULL DEFAULT '0',
                           `status`                              varchar(255) NOT NULL DEFAULT '',
                           PRIMARY KEY (`id`)
                         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
@@ -65,4 +65,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'reported_fleets_id', 'integer', ['after' => 'plugin_flyvemdm_fleets_id']);
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'is_online', 'integer', ['after' => 'last_contact']);
+
+   // Rename fleet_policy into task
+   $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', 'glpi_plugin_flyvemdm_tasks');
+   $migration->changeField('glpi_plugin_flyvemdm_tasks', 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id', 'integer');
 }
