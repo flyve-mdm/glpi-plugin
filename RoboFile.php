@@ -30,6 +30,10 @@ class RoboFile extends Glpi\Tools\RoboFile
          'save.sql',
    ];
 
+   public function __construct() {
+      $this->csignore = array_merge($this->csignore, ['/lib/']);
+   }
+
    protected function getPluginPath() {
       return __DIR__;
    }
