@@ -89,7 +89,7 @@ function plugin_init_flyvemdm() {
       Plugin::registerClass('PluginFlyvemdmAgent');
       Plugin::registerClass('PluginFlyvemdmFleet');
       Plugin::registerClass('PluginFlyvemdmPolicy');
-      Plugin::registerClass('PluginFlyvemdmFleet_Policy');
+      Plugin::registerClass('PluginFlyvemdmTask');
       Plugin::registerClass('PluginFlyvemdmProfile',
             array('addtabon' => Profile::class));
       Plugin::registerClass('PluginFlyvemdmGeolocation');

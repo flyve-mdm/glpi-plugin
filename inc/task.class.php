@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.32
  */
-class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
+class PluginFlyvemdmTask extends CommonDBRelation {
 
    // From CommonDBRelation
    /**
@@ -398,10 +398,10 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          // publish policies of all groups where at least one policy applies
 
          // find all groups of applied policies
-         $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
+         $taskTable = PluginFlyvemdmTask::getTable();
          $policyTable = PluginFlyvemdmPolicy::getTable();
          $query = "SELECT DISTINCT `group`
-                   FROM `$fleet_policyTable` `fp`
+                   FROM `$taskTable` `fp`
                    LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
                    WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
          $result = $DB->query($query);
@@ -428,9 +428,9 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
 
       // get applied policies and the data for the fleet
       $fleetId = $fleet->getID();
-      $fleet_policyTable = PluginFlyvemdmFleet_Policy::getTable();
+      $taskTable = PluginFlyvemdmTask::getTable();
       $policyTable = PluginFlyvemdmPolicy::getTable();
-      $query = "SELECT `fp`.* FROM `$fleet_policyTable` `fp`
+      $query = "SELECT `fp`.* FROM `$taskTable` `fp`
                 LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
                 WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
@@ -519,12 +519,12 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
    public function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
       $agentId = $agent->getID();
       foreach ($policiesToApply as $policyToApply) {
-         $fleet_policyId = $policyToApply['fleets_policies_id'];
-         if ($fleet_policyId > 0) {
+         $taskId = $policyToApply['fleets_policies_id'];
+         if ($taskId > 0) {
             $taskStatus = new PluginFlyvemdmTaskstatus();
             $taskStatus->add([
                   'plugin_flyvemdm_agents_id'            => $agentId,
-                  'plugin_flyvemdm_fleets_policies_id'   => $fleet_policyId,
+                  'plugin_flyvemdm_tasks_id'   => $taskId,
                   'status'                               => 'pending',
             ]);
          }
@@ -649,8 +649,8 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $policies = $policy->find();
 
       // Get aplied policies
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $appliedPolicies = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
+      $task = new PluginFlyvemdmTask();
+      $appliedPolicies = $task->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
 
       // add needed data for display
       $factory = new PluginFlyvemdmPolicyFactory();
@@ -659,14 +659,14 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
          $appliedPolicyData['policyName'] = $policies[$appliedPolicyData['plugin_flyvemdm_policies_id']]['name'];
          $policyItem = $factory->createFromDBByID($appliedPolicyData['plugin_flyvemdm_policies_id']);
          if ($policyItem !== null) {
-            $fleet_policy              = new PluginFlyvemdmFleet_Policy();
-            $fleet_policy->getFromDB($id);
-            $appliedPolicyData['value']    = $policyItem->showValue($fleet_policy);
+            $task              = new PluginFlyvemdmTask();
+            $task->getFromDB($id);
+            $appliedPolicyData['value']    = $policyItem->showValue($task);
          }
       }
 
       // Template data
-      $addFormBegin = "<form name='fleetpolicy_form$rand' id='fleetpolicy_form$rand' method='post'
+      $addFormBegin = "<form name='task_form$rand' id='task_form$rand' method='post'
                        action='".Toolbox::getItemTypeFormURL(__CLASS__)."'>";
       $addFormEnd = Html::closeForm(false);
 
@@ -725,9 +725,9 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
       $appliedPolicies = array();
       if (!$fleet->isNewItem()) {
          $itemId = $fleet->getID();
-         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
+         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
          foreach ($rows as $id => $row) {
-            $apliedPolicy = new PluginFlyvemdmFleet_Policy();
+            $apliedPolicy = new PluginFlyvemdmTask();
             if ($apliedPolicy->getFromDB($id)) {
                $appliedPolicies[] = $appliedPolicyData;
             }

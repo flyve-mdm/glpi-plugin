@@ -95,10 +95,10 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testInitAddFleet
     */
    public function testApplyPolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
-      $this->assertFalse($fleet_policy->isNewItem());
+      $task = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
+      $this->assertFalse($task->isNewItem());
 
-      return $fleet_policy;
+      return $task;
    }
 
    /**
@@ -117,10 +117,10 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @depends testDeleteFile
     */
-   public function testAppliedPoliciesRemoved(PluginFlyvemdmFile $file, PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function testAppliedPoliciesRemoved(PluginFlyvemdmFile $file, PluginFlyvemdmTask $task) {
       $itemtype = $file->getType();
       $itemId = $file->getID();
-      $rows = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      $rows = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       $this->assertEquals(0, count($rows));
    }
 
@@ -130,10 +130,10 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testApplyPolicy
     * @depends testDeleteFile
     */
-   public function testRemovePolicyAdded(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function testRemovePolicyAdded(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmTask $task) {
       $policyId = $policyData->getID();
       $filePath = $this->fileDestination . $file->getField('name');
-      $rows = $fleet_policy->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
+      $rows = $task->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
       $this->assertEquals(1, count($rows));
    }
 
@@ -145,8 +145,8 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
     * @depends testRemovePolicyAdded
     */
    public function testAddAndRemoveConflict(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
-      $this->assertTrue($fleet_policy->isNewItem());
+      $task = $this->ApplyAddFilePolicy($policyData, $file, $fleet);
+      $this->assertTrue($task->isNewItem());
    }
 
    protected function ApplyAddFilePolicy(PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, PluginFlyvemdmFleet $fleet) {
@@ -154,8 +154,8 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
       $value->remove_on_delete = '1';
       $value->destination = $this->fileDestination;
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $value,
@@ -163,6 +163,6 @@ class PluginFlyvemdmFileIntegrationTest extends RegisteredUserTestCase
             'items_id'                    => $file->getID()
       ]);
 
-      return $fleet_policy;
+      return $task;
    }
 }

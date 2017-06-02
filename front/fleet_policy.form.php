@@ -45,11 +45,11 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = '';
 }
 
-$fleet_policy = new PluginFlyvemdmFleet_Policy();
+$task = new PluginFlyvemdmTask();
 if (isset($_POST['add'])) {
-   $fleet_policy->check(-1, CREATE, $_POST);
-   $_POST = $fleet_policy->preprocessInput($_POST);
-   $fleet_policy->add($_POST);
+   $task->check(-1, CREATE, $_POST);
+   $_POST = $task->preprocessInput($_POST);
+   $task->add($_POST);
    Html::back();
 }
 Html::back();

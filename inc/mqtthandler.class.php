@@ -292,23 +292,23 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
                $agentId = $agent->getID();
 
                // Find the task the device wants to update
-               $fleet_policy = new PluginFlyvemdmFleet_Policy();
-               if (!$fleet_policy->getFromDB($taskId)) {
+               $task = new PluginFlyvemdmTask();
+               if (!$task->getFromDB($taskId)) {
                   return;
                }
-               if ($agent->getField('plugin_flyvemdm_fleets_id') != $fleet_policy->getField('plugin_flyvemdm_fleets_id')) {
+               if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
                   return;
                }
                $taskStatus = new PluginFlyvemdmTaskstatus();
                $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
-                                              AND `plugin_flyvemdm_fleets_policies_id` = '$taskId'");
+                                              AND `plugin_flyvemdm_tasks_id` = '$taskId'");
                if ($taskStatus->isNewItem()) {
                   return;
                }
 
                // Update the task
                $policyFactory = new PluginFlyvemdmPolicyFactory();
-               $policy = $policyFactory->createFromDBByID($fleet_policy->getField('plugin_flyvemdm_policies_id'));
+               $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
                $taskStatus->updateStatus($policy, $status);
             }
 

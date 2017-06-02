@@ -72,8 +72,8 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'", "", "1");
       return (count($rows) == 0);
    }

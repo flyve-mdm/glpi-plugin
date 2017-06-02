@@ -192,9 +192,9 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
     * @depends testPurgeFleet
     */
    public function testPolicyUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $task = new PluginFlyvemdmTask();
       $fleetId = $fleet->getID();
-      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
+      $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
       $this->assertEquals(0, count($rows));
    }
 

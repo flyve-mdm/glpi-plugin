@@ -106,8 +106,8 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Check the policy is already applied
       $fleetId = $fleet->getID();
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
             AND `itemtype` = '$itemtype' AND `items_id` = '$itemId'", '', '1');
       if (count($rows) > 0) {
          return false;
@@ -135,7 +135,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       } else {
          $policyId = $policyData->getID();
          $fleetId = $fleet->getID();
-         $count = countElementsInTable(PluginFlyvemdmFleet_Policy::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $count = countElementsInTable(PluginFlyvemdmTask::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'
                AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
          if ($count > 0) {
             Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'flyvemdm'), false, ERROR);
@@ -160,10 +160,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
             Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
             return false;
          }
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $task = new PluginFlyvemdmTask();
          $package = new PluginFlyvemdmPackage();
          if ($package->getFromDB($itemId)) {
-            if (!$fleet_policy->add([
+            if (!$task->add([
                   'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                   'plugin_flyvemdm_policies_id' => $policyData->getID(),
                   'value'                       => $package->getField('name'),
@@ -189,9 +189,9 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return $out;
    }
 
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
+   public function showValue(PluginFlyvemdmTask $task) {
       $package = new PluginFlyvemdmPackage();
-      if ($package->getFromDB($fleet_policy->getField('items_id'))) {
+      if ($package->getFromDB($task->getField('items_id'))) {
          $alias = $package->getField('alias');
          $name  = $package->getField('name');
          return "$alias ($name)";
