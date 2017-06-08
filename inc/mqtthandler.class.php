@@ -330,10 +330,13 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
          if (!isset($feedback['online'])) {
             return;
          }
-         if ($feedback['online'] == 'no') {
+         if ($feedback['online'] == 'false') {
             $status = '0';
-         } else {
+         } else if ($feedback['online'] == 'true') {
             $status = '1';
+         } else {
+            // Invalid value
+            return;
          }
          $agent->update([
                'id'     => $agent->getID(),

@@ -124,7 +124,7 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
     * @return void
     */
    public function testDeviceGoesOnline() {
-      $this->DeviceOnlineStatus(self::$agent, 'yes', 1);
+      $this->DeviceOnlineStatus(self::$agent, 'true', 1);
    }
 
    /**
@@ -135,7 +135,7 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
     * @return void
     */
    public function testDeviceGoesOffline() {
-      $this->DeviceOnlineStatus(self::$agent, 'no', 0);
+      $this->DeviceOnlineStatus(self::$agent, 'false', 0);
    }
 
    protected function DeviceOnlineStatus($agent, $mqttStatus, $expectedStatus) {
