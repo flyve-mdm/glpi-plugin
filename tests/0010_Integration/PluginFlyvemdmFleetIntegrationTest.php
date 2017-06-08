@@ -159,7 +159,7 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
                   'value'                       => '0',
             ]]);
 
-      $this->fleet_policy('post', self::$sessionToken, $body);
+      $this->task('post', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
