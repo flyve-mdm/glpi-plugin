@@ -48,10 +48,7 @@ if (!isset($_GET['withtemplate'])) {
 $invitation = new PluginFlyvemdmInvitation();
 if (isset($_POST['add'])) {
    $invitation->check(-1, CREATE, $_POST);
-   $user = new User();
-   $user->getFromDB(intval($_POST['users_id']));
-   $userEmail = $user->getDefaultEmail();
-   $invitation->add(["_useremails" => $userEmail]);
+   $invitation->add($_POST);
    Html::back();
 } else if (isset($_POST['resend'])) {
    $invitation->check($_GET['id'], READ);
