@@ -55,6 +55,7 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
                   PluginFlyvemdmPolicyCategory::$rightname,
                   PluginFlyvemdmProfile::$rightname,
                   PluginFlyvemdmEntityconfig::$rightname,
+                  PluginFlyvemdmInvitation::$rightname,
                   PluginFlyvemdmInvitationLog::$rightname,
                   User::$rightname,
                   Profile::$rightname,
@@ -70,7 +71,7 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
     * @param array $rights
     */
    public function testSuperAdminProfileAgentRight($rights) {
-      $this->assertEquals(READ | UPDATE | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmAgent::$rightname]);
+      $this->assertEquals(READ | UPDATE | PURGE | READNOTE | UPDATENOTE, $rights[PluginFlyvemdmAgent::$rightname]);
    }
 
    /**
@@ -148,6 +149,14 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
                   | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
                   | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
             $rights[PluginFlyvemdmEntityconfig::$rightname]);
+   }
+
+   /**
+    * @depends testGetRights
+    * @param array $rights
+    */
+   public function testSuperAdminProfilePluginProfileInvitationRight($rights) {
+      $this->assertEquals(CREATE | READ | DELETE | PURGE, $rights[PluginFlyvemdmInvitation::$rightname]);
    }
 
    /**

@@ -73,6 +73,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return _n('Fleet', 'Fleets', $nb, "flyvemdm");
    }
 
+   public static function getMenuPicture() {
+      return '../pics/picto-fleet.png';
+   }
+
    /**
     * @see CommonGLPI::defineTabs()
     */
@@ -115,7 +119,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       echo $twig->render('fleet.html', $data);
 
       $this->showFormButtons($options);
-
    }
 
    /**

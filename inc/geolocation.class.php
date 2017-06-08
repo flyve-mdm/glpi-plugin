@@ -135,6 +135,22 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     */
    public function getRights($interface='central') {
       $rights = parent::getRights();
+      //$values = array(READ    => __('Read'),
+      //                PURGE   => array('short' => __('Purge'),
+      //                                 'long'  => _x('button', 'Delete permanently')));
+
+      //$values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
+
+      //if ($this->maybeDeleted()) {
+      //   $values[DELETE] = array('short' => __('Delete'),
+      //                           'long'  => _x('button', 'Put in dustbin'));
+      //}
+      //if ($this->usenotepad) {
+      //   $values[READNOTE] = array('short' => __('Read notes'),
+      //                             'long' => __("Read the item's notes"));
+      //   $values[UPDATENOTE] = array('short' => __('Update notes'),
+      //                               'long' => __("Update the item's notes"));
+      //}
 
       return $rights;
    }

@@ -228,8 +228,8 @@ class PluginFlyvemdmInstaller {
 
       $newRights = array(
             PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-            PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
-            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | READNOTE | UPDATENOTE,
+            PluginFlyvemdmInvitation::$rightname      => CREATE | READ | DELETE | PURGE,
+            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
             PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
             PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
             PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,

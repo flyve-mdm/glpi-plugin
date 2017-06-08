@@ -62,6 +62,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
+   public static function getMenuPicture() {
+      return '../pics/picto-invitation.png';
+   }
+
    /**
     * @since version 0.1.0
     * @see commonDBTM::getRights()
@@ -191,7 +195,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                ]
          );
          if (count($forbidden)) {
-            // An attempt to edit te item by a registered use
+            // An attempt to edit the item by a registered use
             return false;
          }
       }
@@ -319,7 +323,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $document = new Document();
       $input['entities_id']               = $this->input['entities_id'];
       $input['is_recursive']              = '0';
-      $input['name']                      = __('Enrollment QR code', 'flyvemdm');
+      $input['name']                      = addslashes(__('Enrollment QR code', 'flyvemdm'));
       $input['_filename']                 = array($tmpFile);
       $input['_only_if_upload_succeed']   = true;
       $documentId = $document->add($input);
@@ -396,7 +400,24 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       $this->initForm($ID, $options);
       $this->showFormHeader();
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $fields                 = $this->fields;
+      $user = new User();
+      $user->getFromDB($fields['users_id']);
+      $fields['_useremails']  = $user->getDefaultEmail();
+      $data = [
+            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+            'isNewID'      => $this->isNewID($ID),
+            'invitation'   => $fields,
+            'resendButton' => Html::submit(_x('button', 'Re-send'), array('name' => 'resend')),
+      ];
+      echo $twig->render('invitation.html', $data);
 
+      if (!$this->isNewID($ID)) {
+         $options['canedit'] = false;
+      }
+      $this->showFormButtons($options);
    }
 
    protected function showMassiveActionInviteUser() {

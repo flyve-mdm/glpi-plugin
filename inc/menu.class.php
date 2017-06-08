@@ -79,33 +79,38 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
       $pluralNumber = Session::getPluralNumber();
 
-      $graph = new PluginFlyvemdmGraph();
-
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
             'menu'   => [
                   __('General', 'flyvemdm') => [
                         PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class)
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class),
+                              'pic'  => PluginFlyvemdmInvitation::getMenuPicture(),
                         ],
                         PluginFlyvemdmAgent::getTypeName($pluralNumber)       => [
-                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class)
+                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class),
+                              'pic'  => PluginFlyvemdmAgent::getMenuPicture(),
                         ],
                         PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class)
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class),
+                              'pic'  => PluginFlyvemdmFleet::getMenuPicture(),
                         ],
                         PluginFlyvemdmPackage::getTypeName($pluralNumber)     => [
-                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class)
+                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class),
+                              'pic'  => PluginFlyvemdmPackage::getMenuPicture(),
                         ],
                         PluginFlyvemdmFile::getTypeName($pluralNumber)        => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class)
+                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class),
+                              'pic'  => PluginFlyvemdmFile::getMenuPicture(),
                         ],
                   ],
+                  /*
                   __('Board', 'flyvemdm') => [
                         PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
                               'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class)
                         ]
                   ]
+                  */
             ],
       ];
       echo $twig->render('menu.html', $data);
@@ -131,8 +136,9 @@ class PluginFlyvemdmMenu extends CommonGLPI {
             'PluginFlyvemdmInvitation'             => 'invitation',
       );
 
+      $pluralNumber = Session::getPluralNumber();
       foreach ($itemtypes as $itemtype => $option) {
-         $menu['options'][$option]['title']           = $itemtype::getTypeName(2);
+         $menu['options'][$option]['title']           = $itemtype::getTypeName($pluralNumber);
          $menu['options'][$option]['page']            = $itemtype::getSearchURL(false);
          $menu['options'][$option]['links']['search'] = $itemtype::getSearchURL(false);
          if ($itemtype::canCreate()) {

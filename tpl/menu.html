@@ -4,7 +4,7 @@
          <li><a href="#"><div>{{ menuName }}</div></a>
             <ul>
             {% for subMenuName, subMenu in menuItem %}
-               <li><a href="{{ subMenu.link }}"><div>{{ subMenuName }}</div></a></li>
+               <li><a href="{{ subMenu.link }}"><div><img src="{{ subMenu.pic }}" /><span>{{ subMenuName }}</span></div></a></li>
             {% endfor %}
             </ul>
          </li>

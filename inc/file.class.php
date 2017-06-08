@@ -59,6 +59,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       return _n('File', 'Files', $nb, "flyvemdm");
    }
 
+   public static function getMenuPicture() {
+      return '../pics/picto-file.png';
+   }
+
    /**
     *
     * @see CommonDBTM::addNeededInfoToInput()

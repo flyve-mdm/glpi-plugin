@@ -61,6 +61,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return _n('Package', 'Packages', $nb, "flyvemdm");
    }
 
+   public static function getMenuPicture() {
+      return '../pics/picto-package.png';
+   }
+
    /**
     * @see CommonGLPI::defineTabs()
     */
