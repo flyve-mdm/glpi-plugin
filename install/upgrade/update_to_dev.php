@@ -68,5 +68,4 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    // Rename fleet_policy into task
    $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', 'glpi_plugin_flyvemdm_tasks');
-   $migration->changeField('glpi_plugin_flyvemdm_tasks', 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id', 'integer');
 }

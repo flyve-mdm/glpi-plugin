@@ -77,11 +77,7 @@ class CreateTaskTest extends ApiRestTestCase
       self::setupGLPIFramework();
 
       // Login as guest user
-      if (version_compare(GLPI_VERSION, "9.2", "ge")) {
-         $_REQUEST['user_token']= User::getToken(self::$invitation->getField('users_id'), 'api_token');
-      } else {
-         $_REQUEST['user_token']= User::getPersonalToken(self::$invitation->getField('users_id'));
-      }
+      $_REQUEST['user_token']= User::getToken(self::$invitation->getField('users_id'), 'api_token');
       self::login('', '', false);
       unset($_REQUEST['user_token']);
 
