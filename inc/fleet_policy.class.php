@@ -83,11 +83,7 @@ class PluginFlyvemdmFleet_Policy extends CommonDBRelation {
                   $nb = 0;
                   $fleetId = $item->getID();
                   $pluralNumber = Session::getPluralNumber();
-                  if (version_compare(GLPI_VERSION, '9.2') < 0) {
-                     $nb = countElementsInTable(static::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'");
-                  } else {
-                     $nb = countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
-                  }
+                  $nb = countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
                }
                return self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb);
          }

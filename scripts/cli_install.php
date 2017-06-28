@@ -78,7 +78,7 @@ if (isset($args['--enable-api']) && $args['--enable-api'] !== false) {
 
 if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    $config = [
-         'use_mailing'                        => '1',
+         'use_notifications' => '1',
    ];
    Config::setConfigurationValues('core', $config);
    $CFG_GLPI = $config + $CFG_GLPI;
@@ -141,8 +141,8 @@ if ($apiUserToken) {
    print("update $serviceUser user with provided api token " . $apiUserToken . "\n");
 }
 
-print("setting queuedmail to Queue mode\n");
-$cronQuery = "update glpi_crontasks set mode = 2 where name ='queuedmail'";
+print("setting queuednotification to Queue mode\n");
+$cronQuery = "update glpi_crontasks set mode = 2 where name ='queuednotification'";
 $DB->query($cronQuery);
 
 

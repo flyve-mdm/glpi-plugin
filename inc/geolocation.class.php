@@ -80,11 +80,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('computers_id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     if (version_compare(GLPI_VERSION, '9.2') < 0) {
-                        $nb = countElementsInTable(static::getTable(), "`computers_id` = '$computerId'");
-                     } else {
-                        $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
-                     }
+                     $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
@@ -95,11 +91,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     if (version_compare(GLPI_VERSION, '9.2') < 0) {
-                        $nb = countElementsInTable(static::getTable(), "`computers_id` = '$computerId'");
-                     } else {
-                        $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
-                     }
+                     $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }

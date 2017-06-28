@@ -224,9 +224,9 @@ class PluginFlyvemdmInvitationIntegrationTest extends ApiRestTestCase {
       // TODO
 
       // Check the notifications email is queued
-      $queuedMail = new QueuedMail();
-      $queuedMail->getFromDBByQuery("WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'");
-      $this->assertFalse($queuedMail->isNewItem());
+      $queuedNotification = new QueuedNotification();
+      $queuedNotification->getFromDBByQuery("WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'");
+      $this->assertFalse($queuedNotification->isNewItem());
 
       // Check a QR code document has been created
       $document = new Document();
@@ -234,7 +234,7 @@ class PluginFlyvemdmInvitationIntegrationTest extends ApiRestTestCase {
       $this->assertFalse($document->isNewItem());
 
       // Check the pending email has the qr code document
-      $this->assertJsonStringEqualsJsonString(json_encode(array($document->getID())), $queuedMail->getField('documents'));
+      $this->assertJsonStringEqualsJsonString(json_encode(array($document->getID())), $queuedNotification->getField('documents'));
    }
 
 }

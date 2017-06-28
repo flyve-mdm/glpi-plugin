@@ -368,6 +368,7 @@ Regards,
       $template = new NotificationTemplate();
       $translation = new NotificationTemplateTranslation();
       $notificationTarget = new PluginFlyvemdmNotificationTargetInvitation();
+      $notification_notificationTemplate = new Notification_NotificationTemplate();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
@@ -390,7 +391,7 @@ Regards,
                   'language'                 => '',
                   'subject'                  => addcslashes($data['subject'], "'\""),
                   'content_text'             => addcslashes($data['content_text'], "'\""),
-                  'content_html'             => addcslashes($contentHtml, "'\"")
+                  'content_html'             => addcslashes(htmlentities($contentHtml), "'\""),
             ]);
 
             // Create the notification
@@ -401,9 +402,13 @@ Regards,
                   'is_recursive'             => 1,
                   'is_active'                => 1,
                   'itemtype'                 => $itemtype,
-                  'notificationtemplates_id' => $templateId,
                   'event'                    => $event,
-                  'mode'                     => 'mail'
+            ]);
+
+            $notification_notificationTemplate->add([
+                  'notifications_id'         => $notificationId,
+                  'notificationtemplates_id' => $templateId,
+                  'mode'                     => Notification_NotificationTemplate::MODE_MAIL,
             ]);
 
             $notificationTarget->add([

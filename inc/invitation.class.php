@@ -139,11 +139,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['users_id'] = $userId;
 
       // Ensure the user has a token
-      if (version_compare(GLPI_VERSION, "9.2", "ge")) {
-         $personalToken = User::getToken($user->getID(), 'api_token');
-      } else {
-         $personalToken = User::getPersonalToken($user->getID());
-      }
+      $personalToken = User::getToken($user->getID(), 'api_token');
       if ($personalToken === false) {
          return false;
       }
@@ -280,11 +276,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function createQRCodeDocument(User $user, $învitationToken) {
       global $CFG_GLPI;
 
-      if (version_compare(GLPI_VERSION, "9.2", "ge")) {
-         $personalToken = User::getToken($user->getID(), 'api_token');
-      } else {
-         $personalToken = User::getPersonalToken($user->getID());
-      }
+      $personalToken = User::getToken($user->getID(), 'api_token');
       $enrollRequest = [
          'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
          'user_token'         => $personalToken,

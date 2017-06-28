@@ -30,8 +30,10 @@ along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
 */
 
 define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-dev');
+// is or is not an official release of the plugin
+define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive
-define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.1.1');
+define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.2');
 // Maximum GLPI version, exclusive
 define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.3');
 // Minimum PHP version inclusive
@@ -66,11 +68,12 @@ function plugin_init_flyvemdm() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
    $PLUGIN_HOOKS['csrf_compliant']['flyvemdm'] = true;
-   $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = array('PluginFlyvemdmConfig', 'undiscloseConfigValue');
+   $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = ['PluginFlyvemdmConfig',
+                                                         'undiscloseConfigValue'];
 
    $plugin = new Plugin();
 
-   $config = Config::getConfigurationValues('flyvemdm', array('version'));
+   $config = Config::getConfigurationValues('flyvemdm', ['version']);
    if (isset($config['version']) && $config['version'] != PLUGIN_FLYVEMDM_VERSION) {
       $plugin->getFromDBbyDir('flyvemdm');
       $plugin->update([
@@ -83,7 +86,7 @@ function plugin_init_flyvemdm() {
       require_once(__DIR__ . '/vendor/autoload.php');
       require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
 
-      $PLUGIN_HOOKS['change_profile']['flyvemdm']   = array('PluginFlyvemdmProfile','changeProfile');
+      $PLUGIN_HOOKS['change_profile']['flyvemdm'] = ['PluginFlyvemdmProfile','changeProfile'];
 
       Plugin::registerClass('PluginFlyvemdmMqttsubscriber');
       Plugin::registerClass('PluginFlyvemdmAgent');
@@ -91,12 +94,14 @@ function plugin_init_flyvemdm() {
       Plugin::registerClass('PluginFlyvemdmPolicy');
       Plugin::registerClass('PluginFlyvemdmFleet_Policy');
       Plugin::registerClass('PluginFlyvemdmProfile',
-            array('addtabon' => Profile::class));
+                            ['addtabon' => Profile::class]);
       Plugin::registerClass('PluginFlyvemdmGeolocation');
       Plugin::registerClass('PluginFlyvemdmPackage');
       Plugin::registerClass('PluginFlyvemdmFile');
       Plugin::registerClass('PluginFlyvemdmInvitation',
-            array('notificationtemplates_types' => true, /* 'document_types' => true */));
+                            ['notificationtemplates_types' => true, /* 'document_types' => true */]);
+      Plugin::registerClass('PluginFlyvemdmEntityConfig',
+                            ['addtabon' => Entity::class]);
 
       // Dropdowns
       Plugin::registerClass('PluginFlyvemdmWellknownpath');
@@ -104,20 +109,20 @@ function plugin_init_flyvemdm() {
 
       //if glpi is loaded
       if (Session::getLoginUserID()) {
-         $PLUGIN_HOOKS['menu']["flyvemdm"]                  = true;
+         $PLUGIN_HOOKS['menu']["flyvemdm"] = true;
       }
-      $PLUGIN_HOOKS['post_init']["flyvemdm"]                = 'plugin_flyvemdm_postinit';
+      $PLUGIN_HOOKS['post_init']["flyvemdm"] = 'plugin_flyvemdm_postinit';
 
       // Notifications
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = array();
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = array();
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = [];
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = [];
 
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = [
             'PluginFlyvemdmNotificationTargetInvitation', 'addEvents'
-      );
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = array(
+      ];
+      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = [
             'PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'
-      );
+      ];
 
       if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
          // Define menu entries
@@ -159,9 +164,7 @@ function plugin_init_flyvemdm() {
          $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
       }
 
-      if (version_compare(GLPI_VERSION, '9.1.2') > 0) {
-         Html::requireJs('charts');
-      }
+      Html::requireJs('charts');
       $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
@@ -187,7 +190,12 @@ function plugin_flyvemdm_check_prerequisites() {
    global $CFG_GLPI;
    $prerequisitesSuccess = true;
 
-   if (version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
+   $prever = true;
+   if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
+      $prever = version_compare(GLPI_PREVER, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt');
+   }
+   if ($prever && version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt')
+       || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
       if (method_exists('Plugin', 'messageIncompatible')) {
          echo Plugin::messageIncompatible('core', PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION) . '<br/>';
       } else {
@@ -270,7 +278,7 @@ function plugin_flyvemdm_check_prerequisites() {
       $prerequisitesSuccess = false;
    }
 
-   if ($CFG_GLPI['use_mailing'] == 0) {
+   if ($CFG_GLPI['use_notifications'] == 0) {
       echo "This plugin requires GLPI's email notifications enabled<br>";
       $prerequisitesSuccess = false;
    }

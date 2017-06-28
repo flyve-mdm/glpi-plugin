@@ -6,8 +6,8 @@ php:
 
 env:
   matrix:
-    - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.2-backport" FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
-    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
+    # - GLPI_SOURCE="https://github.com/flyve-mdm/glpi -b 9.1.2-backport" FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b glpi9.1+1.1"
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" FUSION_SOURCE="https://github.com/TECLIB/fusioninventory-for-glpi -b fix-glpiver-check"
 
 before_script:
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi

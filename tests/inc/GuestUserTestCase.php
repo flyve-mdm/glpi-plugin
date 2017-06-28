@@ -70,11 +70,7 @@ class GuestUserTestCase extends CommonTestCase
 
    public function setUp() {
       self::setupGLPIFramework();
-      if (version_compare(GLPI_VERSION, '9.2', 'ge')) {
-         $_REQUEST['user_token'] = User::getToken(self::$fixture['guestUser']->getID(), 'api_token');
-      } else {
-         $_REQUEST['user_token'] = User::getPersonalToken(self::$fixture['guestUser']->getID());
-      }
+      $_REQUEST['user_token'] = User::getToken(self::$fixture['guestUser']->getID(), 'api_token');
       $this->assertTrue(self::login('', '', false));
    }
 

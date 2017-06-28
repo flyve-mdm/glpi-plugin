@@ -81,8 +81,8 @@ class CreateInvitationSendsAnEmailTest extends ApiRestTestCase {
       $this->assertTrue($user->getFromDB($invitation->getField('users_id')));
 
       // check a email was queued
-      $queuedMail = new QueuedMail();
-      $this->assertTrue($queuedMail->getFromDBByQuery(" WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'" ));
+      $queuedNotification = new QueuedNotification();
+      $this->assertTrue($queuedNotification->getFromDBByQuery(" WHERE `itemtype`='PluginFlyvemdmInvitation' AND `items_id`='$invitationId'" ));
 
       return $invitation;
    }

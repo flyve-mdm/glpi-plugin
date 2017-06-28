@@ -34,6 +34,13 @@ if (!defined('GLPI_ROOT')) {
 function plugin_flyvemdm_update_to_dev(Migration $migration) {
    global $DB;
 
+   $table = PluginFlyvemdmEntityconfig::getTable();
+   $migration->addField($table, 'support_name', 'text', ['after' => 'agent_token_life']);
+   $migration->addField($table, 'support_phone', 'string', ['after' => 'support_name']);
+   $migration->addField($table, 'support_website', 'string', ['after' => 'support_phone']);
+   $migration->addField($table, 'support_email', 'string', ['after' => 'support_website']);
+   $migration->addField($table, 'support_address', 'text', ['after' => 'support_email']);
+
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
 }

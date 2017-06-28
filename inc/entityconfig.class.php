@@ -67,6 +67,26 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       }
    }
 
+   public function post_getFromDB() {
+      // find the parent entity
+      $entity = new Entity();
+      $entity->getFromDB($this->fields['entities_id']);
+      $parentEntityId = $entity->getField('entities_id');
+
+      $fieldsToRecurse = [
+            'support_name'    => '',
+            'support_phone'   => '',
+            'support_website' => '',
+            'support_email'   => '',
+            'support_address' => '',
+      ];
+      foreach ($fieldsToRecurse as $field => $default) {
+         if (empty($this->fields[$field])) {
+            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, $default);
+         }
+      }
+   }
+
    /**
     * @see CommonDBTM::prepareInputForAdd()
     */
@@ -202,12 +222,105 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       }
    }
 
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      $tabNames = array();
+      if (!$withtemplate) {
+         if ($item->getType() == 'Entity') {
+            $tabNames[1] = __('Flyve MDM supervision', 'flyvemdm');
+         }
+      }
+      return $tabNames;
+   }
+
+   /**
+    * Retrieve data of current entity or parent entity
+    *
+    * @since version 0.84 (before in entitydata.class)
+    *
+    * @param $fieldref        string   name of the referent field to know if we look at parent entity
+    * @param $entities_id
+    * @param $fieldval        string   name of the field that we want value (default '')
+    * @param $default_value            value to return (default -2)
+    **/
+   static function getUsedConfig($fieldref, $entities_id, $fieldval = '', $default_value = -2) {
+
+      // for calendar
+      if (empty($fieldval)) {
+         $fieldval = $fieldref;
+      }
+
+      $entity = new Entity();
+      $entityConfig = new self();
+      // Search in entity data of the current entity
+      if ($entity->getFromDB($entities_id)) {
+         // Value is defined : use it
+         if ($entityConfig->getFromDB($entities_id)) {
+            if (is_numeric($default_value)
+                && ($entityConfig->fields[$fieldref] != self::CONFIG_PARENT)) {
+               return $entityConfig->fields[$fieldval];
+            }
+            if (!is_numeric($default_value)) {
+               return $entityConfig->fields[$fieldval];
+            }
+         }
+      }
+
+      // Entity data not found or not defined : search in parent one
+      if ($entities_id > 0) {
+         if ($entity->getFromDB($entities_id)) {
+            $ret = self::getUsedConfig($fieldref, $entity->fields['entities_id'], $fieldval,
+                  $default_value);
+            return $ret;
+         }
+      }
+
+      return $default_value;
+   }
+
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+
+      if ($item->getType() == 'Entity') {
+         $config = new self();
+         $config->showFormForEntity($item);
+      }
+   }
+
+   /**
+    * is the parameter ID must be considered as new one ?
+    *
+    * @param integer $ID ID of the item (-1 if new item)
+    *
+    * @return boolean
+    **/
+   static function isNewID($ID) {
+      return (($ID < 0) || !strlen($ID));
+   }
+
+   public function showFormForEntity(Entity $item) {
+      $ID = $item->fields['id'];
+      $this->getFromDBByCrit(['entities_id' => $ID]);
+      $this->initForm($ID);
+      $this->showFormHeader(['formtitle' => __('Helpdesk information', 'flyvemdm')]);
+      $canedit = static::canUpdate();
+
+      $fields = $this->fields;
+
+      $data = [
+         'canEdit'      => $canedit,
+         'entityConfig' => $fields,
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('entity_entityconfig.html', $data);
+
+      $item->showFormButtons(array('candel' => false, 'formfooter' => false));
+   }
+
+
    /**
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']                 = __s('Invitation', "flyvemdm");
 
@@ -245,6 +358,38 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $tab[$i]['name']                = __('Device limit', 'flyvemdm');
       $tab[$i]['massiveaction']       = false;
       $tab[$i]['datatype']            = 'string';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'support_phone';
+      $tab[$i]['name']                = __('Support phone', 'flyvemdm');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['nosearch']            = true;
+      $tab[$i]['datatype']            = 'string';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'support_website';
+      $tab[$i]['name']                = __('Support website', 'flyvemdm');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['nosearch']            = true;
+      $tab[$i]['datatype']            = 'string';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'support_email';
+      $tab[$i]['name']                = __('Support email', 'flyvemdm');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['nosearch']            = true;
+      $tab[$i]['datatype']            = 'string';
+
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'support_address';
+      $tab[$i]['name']                = __('Support address', 'flyvemdm');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['nosearch']            = true;
+      $tab[$i]['datatype']            = 'text';
 
       return $tab;
    }

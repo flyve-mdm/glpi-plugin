@@ -93,11 +93,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $document->getFromDB($invitation->getField('documents_id'));
 
                // build the data of the deeplink
-               if (version_compare(GLPI_VERSION, "9.2", "ge")) {
-                  $personalToken = User::getToken($invitation->getField('users_id'), 'api_token');
-               } else {
-                  $personalToken = User::getPersonalToken($invitation->getField('users_id'));
-               }
+               $personalToken = User::getToken($invitation->getField('users_id'), 'api_token');
                $enrollRequest = [
                      'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
                      'user_token'         => $personalToken,
@@ -108,12 +104,12 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                                  . base64_encode(json_encode($enrollRequest, JSON_UNESCAPED_SLASHES));
 
                // Fill the template
-               $event->datas['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->datas['##flyvemdm.enroll_url##'] = static::DEEPLINK . $encodedRequest;
+               $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
+               $event->data['##flyvemdm.enroll_url##'] = static::DEEPLINK . $encodedRequest;
                $event->obj->documents = array($document->getID());
                $entityConfig = new PluginFlyvemdmEntityconfig();
                $entityConfig->getFromDB($event->obj->getField('entities_id'));
-               $event->datas['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
+               $event->data['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
             }
             break;
       }
@@ -126,7 +122,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * Can be overwitten (like dbconnection)
     * @param $entity the entity on which the event is raised
     */
-   public function getNotificationTargets($entity) {
+   public function addNotificationTargets($entity) {
       $this->addTarget(Notification::USER, __('Guest user', 'flyvemdm'));
    }
 
@@ -135,12 +131,12 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @param  array $data
     * @param  array $options
     */
-   public function getSpecificTargets($data, $options) {
+   public function addSpecificTargets($data, $options) {
       if ($data['type'] == Notification::USER_TYPE) {
          switch ($data['items_id']) {
             case Notification::USER :
                if ($this->obj->getType() == 'PluginFlyvemdmInvitation') {
-                  $this->addToAddressesList([
+                  $this->addToRecipientsList([
                         'users_id' => $this->obj->getField('users_id')
                   ]);
                }
