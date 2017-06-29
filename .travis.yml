@@ -14,7 +14,8 @@ before_script:
   - composer install --no-dev
   - php tools/cliinstall.php --db=glpi-test --user=travis --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
-  - mv ../flyve-mdm-glpi plugins/flyvemdm
+  - ls -l ../
+  - mv ../flyve-mdm-glpi-plugin plugins/flyvemdm
   - cd plugins/flyvemdm && composer install -o
 
 script:
