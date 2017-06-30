@@ -511,16 +511,16 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $computerId = $computer->getID();
       $serial = $computer->getField('serial');
       $entityId = $this->getField('entities_id');
-      $userId = $computer->getField('users_id');
+      $ownerUserId = $computer->getField('users_id');
 
       // Find other computers belong to the user in the current entity
       // TODO : maybe use getEntityRestrict for multientity support
-      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$userId' AND `id` <> '$computerId'", '', '1');
+      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$ownerUserId' AND `id` <> '$computerId'", '', '1');
       if (count($rows) == 0) {
          // Remove guest habilitation for the entity
          $profile_User = new Profile_User();
          $success = $profile_User->deleteByCriteria([
-               'users_id'        => $userId,
+               'users_id'        => $ownerUserId,
                'entities_id'     => $entityId,
                'profiles_id'     => $guestProfileId,
                'is_dynamic'      => 0
@@ -531,13 +531,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
 
          // Check the user still has one or several profiles
-         $rows = $profile_User->find("`users_id`='$userId'", '', '1');
+         $rows = $profile_User->find("`users_id`='$ownerUserId'", '', '1');
          if (count($rows) == 0) {
             // Delete the user
             $user = new User();
-            $user->delete(['id' => $userId], true);
+            $user->delete(['id' => $ownerUserId], true);
          }
       }
+
+      // Delete the user account of the agent
+      $agentUserId = $this->fields['users_id'];
+      $agentUser = new User();
+      $agentUser->delete([
+            'id'  => $this->fields['users_id'],
+      ], true);
 
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
@@ -878,6 +885,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
       $serial           = isset($input['_serial']) ? $input['_serial'] : null;
+      $uuid             = isset($input['_uuid']) ? $input['_uuid'] : null;
       $csr              = isset($input['csr']) ? $input['csr'] : null;
       $firstname        = isset($input['firstname']) ? $input['firstname'] : null;
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
@@ -901,8 +909,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      if (empty($serial)) {
-         $event = __('Serial missing', 'flyvemdm');
+      if (empty($serial) && empty($uuid)) {
+         $event = __('One of serial and uuid is mandatory', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -1042,7 +1050,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'name'         => $email,
             'users_id'     => $userId,
             'entities_id'  => $entityId,
-            'serial'       => $serial
+            'serial'       => $serial,
+            'uuid'         => $uuid,
       ));
       if ($computerId === false) {
          $event = __("Cannot create the device", 'flyvemdm');

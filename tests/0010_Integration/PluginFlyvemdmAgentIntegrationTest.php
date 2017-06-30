@@ -242,13 +242,11 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
       // Delete shall succeed
       $this->assertTrue($agent->delete(['id' => $agentId]));
 
-      return $userId;
-   }
+      // Test the agent user is deleted
+      $agentUser = new User();
+      $this->assertFalse($agentUser->getFromDB($agent->getField('users_id')));
 
-   /**
-    * @depends testPurgeAgent
-    */
-   public function testUserIsDeleted($userId) {
+      // Test the owner user is deleted
       $user = new User();
       $this->assertFalse($user->getFromDB($userId));
    }
