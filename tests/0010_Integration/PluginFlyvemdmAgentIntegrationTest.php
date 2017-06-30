@@ -72,7 +72,7 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $guestEmail,
             '_invitation_token'  => $invitation->getField('invitation_token'),
-            '_serial'            => 'AZERTY',
+            '_serial'            => $this->getUniqueString(),
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
@@ -163,11 +163,12 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
       // Enroll the agent
       $agent = new PluginFlyvemdmAgent();
+      $serial = $this->getUniqueString();
       $agentId = $agent->add([
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $name,
             '_invitation_token'  => $invitation->getField('invitation_token'),
-            '_serial'            => 'UIOP',
+            '_serial'            => $serial,
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
@@ -186,11 +187,11 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
       $computerId = $agent->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
-      $this->assertTrue($mqttUser->getByUser('UIOP'), "mqtt user has not been created");
+      $this->assertTrue($mqttUser->getByUser($serial), "mqtt user has not been created");
 
       $this->assertTrue($agent->delete(['id' => $agentId], 1));
 
-      $this->assertFalse($mqttUser->getByUser('UIOP'));
+      $this->assertFalse($mqttUser->getByUser($serial));
       $computer = new Computer();
       $this->assertFalse($computer->getFromDB($computerId));
    }
@@ -216,13 +217,13 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
             'entities_id'        => $_SESSION['glpiactive_entity'],
             '_email'             => $name,
             '_invitation_token'  => $invitation->getField('invitation_token'),
-            '_serial'            => 'UIOP',
+            '_serial'            => $this->getUniqueString(),
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
       ]);
-      $this->assertGreaterThan(0, $agentId, "Could not create an agent to enroll then purge");
+      $this->assertGreaterThan(0, $agentId, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT']));
 
       // Get enrolment data to enable the agent's MQTT account
       $agent = new PluginFlyvemdmAgent();

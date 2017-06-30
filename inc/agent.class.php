@@ -481,6 +481,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Useful for post_purgeItem
       $this->getTopic();
       $this->setupMqttAccess();
+      $this->fields['api_token'] = User::getToken($this->fields['users_id'], 'api_token');
    }
 
    /**
@@ -889,6 +890,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'mqtt_use_client_cert',
             'debug_noexpire',
             'computertypes_id',
+            'agentusercategories_id',
+            'agent_profiles_id',
       ]);
 
       // Find the invitation
@@ -965,6 +968,31 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
+      //create agent user account
+      $agentAccount = new User();
+      $agentAccount->add([
+         'usercategories_id' => $config['agentusercategories_id'],
+         'name'              => $serial,
+         '_profiles_id'      => $config['agent_profiles_id'],
+         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
+         '_entities_id'      => $entityId,
+         '_is_recursive'     => 0,
+      ]);
+
+      if ($agentAccount->isNewItem()) {
+         $event = __('Cannot create a user account for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+      $agentToken = User::getToken($agentAccount->getID(), 'api_token');
+      if ($agentToken === false) {
+         $event = __('Cannot create the API token for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
       //sign the agent's certificate (if TLS enabled)
       if ($config['mqtt_broker_tls'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
@@ -1003,7 +1031,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Update the computer's serial and type
       // Create a new computer for the device being enrolled
       // TODO : Enable localization of the type
-      $computerType = new ComputerType();
       $computerTypeId = $config['computertypes_id'];
       if ($computerTypeId == -1 || $computerTypeId === false) {
          $computerTypeId = 0;
@@ -1059,6 +1086,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['_invitations_id']           = $invitation->getID();
       $input['enroll_status']             = 'enrolled';
       $input['version']                   = $version;
+      $input['users_id']                  = $agentAccount->getID();
       return $input;
 
    }

@@ -85,6 +85,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                                                             'name'   => 'computertypes_id',
                                                             'value'  => $fields['computertypes_id'],
                                                           ]);
+      $fields['agentusercategories_id'] = UserCategory::dropdown([
+                                                            'display' => false,
+                                                            'name'   => 'agentusercategories_id',
+                                                            'value'  => $fields['agentusercategories_id'],
+                                                           ]);
       $fields['mqtt_use_client_cert'] = Dropdown::showYesNo(
                                                                'mqtt_use_client_cert',
                                                                $fields['mqtt_use_client_cert'],

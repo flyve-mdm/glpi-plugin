@@ -35,7 +35,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFlyvemdmCommon
 {
-   const SEMVER_VERSION_REGEX = '\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b';
+   const SEMVER_VERSION_REGEX = '#\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b#i';
 
    public static function convertToGiB($size) {
       $units = ['KiB', 'MiB', 'GiB', 'TiB'];

@@ -41,6 +41,10 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addField($table, 'support_email', 'string', ['after' => 'support_website']);
    $migration->addField($table, 'support_address', 'text', ['after' => 'support_email']);
 
+   // update schema
+   $table = PluginFlyvemdmAgent::getTable();
+   $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
+
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
 }

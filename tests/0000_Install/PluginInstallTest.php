@@ -95,6 +95,9 @@ class PluginInstallTest extends CommonTestCase
       $plugin->activate($plugin->fields['id']);
       $this->assertTrue($plugin->isActivated("flyvemdm"), "Cannot enable the plugin");
 
+      // Enable debug mode for enrollment messages
+      Config::setConfigurationValues('flyvemdm', ['debug_enrolment' => '1']);
+
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
       // and not force broker's reconfiguration when launching tests on the test-dedicates DB

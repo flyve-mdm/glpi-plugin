@@ -59,7 +59,7 @@ function update_to_2_0_0(Migration $migration) {
 
    $table = PluginFlyvemdmAgent::getTable();
    if (! FieldExists($table, 'enroll_status')) {
-      $query = "ALTER TABLE `glpi_plugin_flyvemdm_agents`
+      $query = "ALTER TABLE `$table`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
       $DB->query($query) or die("Could upgrade table $table" . $DB->error());
    }
@@ -70,7 +70,6 @@ function update_to_2_0_0(Migration $migration) {
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', array('deploy_base_url'));
 
-   // @since 0.6.0
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'version', 'string', array('after' => 'name'));
 
    Config::setConfigurationValues('flyvemdm', array(

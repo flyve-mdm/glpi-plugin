@@ -261,6 +261,9 @@ class PluginFlyvemdmInstaller {
       }
    }
 
+   /**
+    * Create a profile for guest users
+    */
    protected function createGuestProfileAccess() {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
@@ -271,6 +274,24 @@ class PluginFlyvemdmInstaller {
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, array(
             PluginFlyvemdmAgent::$rightname           => READ | CREATE,
+            PluginFlyvemdmFile::$rightname           => READ,
+            PluginFlyvemdmPackage::$rightname           => READ,
+      ));
+   }
+
+   /**
+    * Create a profile for agent user accounts
+    */
+   protected function createAgentProfileAccess() {
+      // create profile for guest users
+      $profileId = self::getOrCreateProfile(
+            __("Flyve MDM device agent users", "flyvemdm"),
+            __("device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
+            );
+      Config::setConfigurationValues('flyvemdm', array('agent_profiles_id' => $profileId));
+      $profileRight = new ProfileRight();
+      $profileRight->updateProfileRights($profileId, array(
+            PluginFlyvemdmAgent::$rightname           => READ,
             PluginFlyvemdmFile::$rightname           => READ,
             PluginFlyvemdmPackage::$rightname           => READ,
       ));
@@ -441,6 +462,8 @@ Regards,
       $this->createDirectories();
       $this->createPolicies();
       $this->createJobs();
+      $this->createAgentProfileAccess();
+      $this->createGuestProfileAccess();
    }
 
    protected function upgradeOneStep($toVersion) {
@@ -553,6 +576,7 @@ Regards,
             'instance_id'                    => $instanceId,
             'registered_profiles_id'         => '',
             'guest_profiles_id'              => '',
+            'agent_profiles_id'              => '',
             'service_profiles_id'            => '',
             'debug_enrolment'                => '0',
             'debug_noexpire'                 => '0',
@@ -567,6 +591,7 @@ Regards,
             'demo_time_limit'                => '0',
             'inactive_registered_profiles_id'=> '',
             'computertypes_id'               => '0',
+            'agentusercategories_id'         => '0',
       ];
       Config::setConfigurationValues("flyvemdm", $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);

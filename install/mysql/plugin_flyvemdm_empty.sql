@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `name`                      varchar(255)                                      NOT NULL DEFAULT '',
   `version`                   varchar(255)                                      NOT NULL DEFAULT '',
   `computers_id`              int(11)                                           NOT NULL DEFAULT '0',
+  `users_id`                  int(11)                                           NOT NULL DEFAULT '0',
   `wipe`                      int(1)                                            NOT NULL DEFAULT '0',
   `lock`                      int(1)                                            NOT NULL DEFAULT '0',
   `enroll_status`             enum('enrolled','unenrolling','unenrolled')       NOT NULL DEFAULT 'enrolled',
