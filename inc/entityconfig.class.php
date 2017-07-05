@@ -42,6 +42,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    const RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT      = 128;
    const RIGHT_FLYVEMDM_APP_DOWNLOAD_URL        = 256;
    const RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE   = 512;
+
+   const CONFIG_DEFINED                         = -3;
+   const CONFIG_PARENT                          = -2;
+
    /**
     * @var bool $dohistory maintain history
     */
@@ -83,6 +87,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       foreach ($fieldsToRecurse as $field => $default) {
          if (empty($this->fields[$field])) {
             $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, $default);
+            $this->fields["_$field"] = self::CONFIG_PARENT;
+         } else {
+            $this->fields["_$field"] = self::CONFIG_DEFINED;
          }
       }
    }
@@ -298,7 +305,18 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
-      $this->getFromDBByCrit(['entities_id' => $ID]);
+      if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
+         $this->add([
+               'id'                 => $ID,
+               'support_name'       => self::CONFIG_PARENT,
+               'support_phone'      => self::CONFIG_PARENT,
+               'support_website'    => self::CONFIG_PARENT,
+               'support_email'      => self::CONFIG_PARENT,
+               'support_address'    => self::CONFIG_PARENT,
+         ]);
+         // To set virtual fields about inheritance
+         $this->post_getFromDB();
+      }
       $this->initForm($ID);
       $this->showFormHeader(['formtitle' => __('Helpdesk information', 'flyvemdm')]);
       $canedit = static::canUpdate();
