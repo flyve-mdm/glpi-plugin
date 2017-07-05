@@ -172,12 +172,54 @@ function plugin_init_flyvemdm() {
 // Get the name and the version of the plugin - Needed
 function plugin_version_flyvemdm() {
    $author = '<a href="http://www.teclib.com">Teclib</a>';
-   return array ('name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
-         'version'        => PLUGIN_FLYVEMDM_VERSION,
-         'author'         => $author,
-         'license'        => 'AGPLv3+',
-         'homepage'       => '',
-         'minGlpiVersion' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION);
+   if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
+      $glpiVersion = version_compare(GLPI_PREVER, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt');
+   } else {
+      $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
+   }
+   return [
+            'name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
+            'version'        => PLUGIN_FLYVEMDM_VERSION,
+            'author'         => $author,
+            'license'        => 'AGPLv3+',
+            'homepage'       => '',
+            'minGlpiVersion' => $glpiVersion,
+            'requirements'   => [
+               'glpi' => [
+                  'min' => $glpiVersion,
+                  'max' => '9.3',
+                  'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
+                  'plugins'   => [
+                     'fusioninventory',
+                  ],
+                  'params' => [
+                     'url_base',
+                     'enable_api',
+                     'use_notifications',
+
+                  ],
+               ],
+               'php' => [
+                  'min'    => PLUGIN_FLYVEMDM_PHP_MIN_VERSION,
+                  'exts'   => [
+                     'OpenSSL'   => [
+                        'required'  => true,
+                     ],
+                     'sockets'   => [
+                        'required'  => true,
+                        'function'  => 'socket_create'
+                     ],
+                     'zip'       => [
+                        'required'  => true,
+                     ],
+                     'gd'        => [
+                        'required'  => true
+                     ]
+
+                  ]
+               ]
+            ]
+          ];
 }
 
 /**
@@ -187,102 +229,7 @@ function plugin_version_flyvemdm() {
  * @return boolean
  */
 function plugin_flyvemdm_check_prerequisites() {
-   global $CFG_GLPI;
-   $prerequisitesSuccess = true;
-
-   $prever = true;
-   if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
-      $prever = version_compare(GLPI_PREVER, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt');
-   }
-   if ($prever && version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt')
-       || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
-      if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION) . '<br/>';
-      } else {
-         echo "This plugin requires GLPi >= " . PLUGIN_FLYVEMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_FLYVEMDM_GLPI_MAX_VERSION . "<br/>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (version_compare(PHP_VERSION, PLUGIN_FLYVEMDM_PHP_MIN_VERSION, 'lt')) {
-      if (method_exists('Plugin', 'messageIncompatible')) {
-         echo Plugin::messageIncompatible('core', PLUGIN_FLYVEMDM_PHP_MIN_VERSION) . '<br/>';
-      } else {
-         echo "This plugin requires PHP >=" . PLUGIN_FLYVEMDM_PHP_MIN_VERSION . "<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (! function_exists("openssl_random_pseudo_bytes")) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('ext', 'OpenSSL') . '<br/>';
-      } else {
-         echo "This plugin requires PHP compiled with --with-openssl<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (! function_exists("socket_create")) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('compil', '--enable-sockets') . '<br/>';
-      } else {
-         echo "This plugin requires PHP compiled with --enable-sockets<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (!isset($CFG_GLPI["url_base"]) || strlen($CFG_GLPI["url_base"]) == 0) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('param', 'url_base') . '<br/>';
-      } else {
-         echo "This plugin requires GLPi url base set<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (! extension_loaded('zip')) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('ext', 'ZIP') . '<br/>';
-      } else {
-         echo "This plugin requires PHP ZIP extension<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (! extension_loaded('gd')) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('ext', 'GD') . '<br/>';
-      } else {
-         echo "This plugin requires PHP gd extension<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_file(__DIR__ . '/vendor/autoload.php')) {
-      echo "Run composer install --no-dev in the plugin directory<br>";
-      $prerequisitesSuccess = false;
-   }
-
-   $plugin = new Plugin();
-   if (!($plugin->isInstalled('fusioninventory') && $plugin->isActivated('fusioninventory'))) {
-      if (method_exists('Plugin', 'messageMissingRequirement')) {
-         echo Plugin::messageMissingRequirement('plugin', 'FusionInventory') . '<br/>';
-      } else {
-         echo "This plugin requires Fusioninventory for GLPi<br>";
-      }
-      $prerequisitesSuccess = false;
-   }
-
-   if ($CFG_GLPI['enable_api'] == 0) {
-      echo "This plugin requires GLPI's Rest API enabled<br>";
-      $prerequisitesSuccess = false;
-   }
-
-   if ($CFG_GLPI['use_notifications'] == 0) {
-      echo "This plugin requires GLPI's email notifications enabled<br>";
-      $prerequisitesSuccess = false;
-   }
-   return $prerequisitesSuccess;
+   return true;
 }
 
 // Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
