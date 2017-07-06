@@ -235,6 +235,7 @@ class PluginFlyvemdmInvitationIntegrationTest extends ApiRestTestCase {
 
       // Check the pending email has the qr code document
       $this->assertJsonStringEqualsJsonString(json_encode(array($document->getID())), $queuedNotification->getField('documents'));
+
    }
 
 }

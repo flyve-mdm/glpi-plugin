@@ -54,6 +54,11 @@ if (isset($_POST['add'])) {
       }
    }
    Html::back();
+} else if (isset($_POST['resend'])) {
+   $invitation->check($_GET['id'], READ);
+   $_POST['_notify'] = '';
+   $invitation->update($_POST);
+   Html::back();
 } else {
    $invitation->check($_GET['id'], READ);
    Html::header(

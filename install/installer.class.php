@@ -338,6 +338,12 @@ class PluginFlyvemdmInstaller {
                   'subject'         => __('You have been invited to join Flyve MDM', 'flyvemdm'),
                   'content_text'    => __('Hi,
 
+##user.firstname## ##user.realname## invited you to enroll your mobile device
+in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
+to easily manage and administrate mobile devices. For more information,
+please contact ##user.firstname## ##user.realname## to his email address
+##user.email##.
+
 Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.
 
@@ -355,6 +361,13 @@ Regards,
 
 ', 'flyvemdm'),
                   'content_html'    => __('Hi,
+
+##user.firstname## ##user.realname## invited you to enroll your mobile device
+in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
+to easily manage and administrate mobile devices. For more information,
+please contact ##user.firstname## ##user.realname## to his email address
+<a href="mailto:##user.email##?subject=Questions about Flyve MDM">
+##user.email##</a>.
 
 Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.

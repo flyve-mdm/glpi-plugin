@@ -164,7 +164,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
-      $canedit = static::canUpdate();
+      $canUpdate = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
 
       $fields              = $this->fields;
       $objectName          = autoName($this->fields["name"], "name",
@@ -190,7 +190,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $data = [
             'withTemplate'    => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
             'isNewID'         => $this->isNewID($ID),
-            'canUpdate'       => (!$this->isNewID($ID)) && ($this->canUpdate() > 0),
+            'canUpdate'       => $canUpdate,
             'agent'           => $fields,
             'pingButton'      => Html::submit(_x('button', 'Ping'), array('name' => 'ping')),
             'geolocateButton' => Html::submit(_x('button', 'Geolocate'), array('name' => 'geolocate')),

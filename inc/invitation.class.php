@@ -276,15 +276,23 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function createQRCodeDocument(User $user, $învitationToken) {
       global $CFG_GLPI;
 
+      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig->getFromDBByCrit(['entities_id' => $this->input['entities_id']]);
+
       $personalToken = User::getToken($user->getID(), 'api_token');
-      $enrollRequest = [
+      $enrollmentData = [
          'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
          'user_token'         => $personalToken,
-         'invitation_token'   => $învitationToken
+         'invitation_token'   => $învitationToken,
+         'support_name'       => $entityConfig->getField('support_name'),
+         'support_phone'      => $entityConfig->getField('support_phone'),
+         'support_website'    => $entityConfig->getField('support_website'),
+         'support_email'      => $entityConfig->getField('support_email'),
+         'support_address'    => $entityConfig->getField('support_address'),
       ];
 
       $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                        . base64_encode(json_encode($enrollRequest, JSON_UNESCAPED_SLASHES));
+                        . base64_encode(json_encode($enrollmentData, JSON_UNESCAPED_SLASHES));
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
@@ -392,22 +400,25 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       $this->initForm($ID, $options);
       $this->showFormHeader();
-      $twig = plugin_flyvemdm_getTemplateEngine();
-      $fields                 = $this->fields;
+      $canUpdate = (!$this->isNewID($ID)) && ($this->canView() > 0) || $this->isNewID($ID);
+
+      $fields = $this->fields;
       $user = new User();
       $user->getFromDB($fields['users_id']);
       $fields['_useremails']  = $user->getDefaultEmail();
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
-            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+            'canUpdate'    => $canUpdate,
             'isNewID'      => $this->isNewID($ID),
             'invitation'   => $fields,
             'resendButton' => Html::submit(_x('button', 'Re-send'), array('name' => 'resend')),
       ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('invitation.html', $data);
 
       if (!$this->isNewID($ID)) {
-         $options['canedit'] = false;
+         $options['canedit'] = true;
       }
       $this->showFormButtons($options);
    }

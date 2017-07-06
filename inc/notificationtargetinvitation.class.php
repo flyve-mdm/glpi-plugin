@@ -66,6 +66,14 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
       $tagCollection = array(
          'flyvemdm.download_app'    => __('Link to download the FlyveMDM Android application', 'flyvemdm'),
          'flyvemdm.qrcode'          => __('Enrollment QR code', 'flyvemdm'),
+         'flyvemdm.enroll_url'      => __('Enrollment URL', 'flyvemdm'),
+         'user.firstname'           => __('First name of the Flyve MDM fleets manager', 'flyvemdm'),
+         'user.realname'            => __('Last name of the Flyve MDM fleets manager', 'flyvemdm'),
+         'support.name'             => __('Name of the helpdesk', 'flyvemdm'),
+         'support.phone'            => __('Phone number of the helpdesk', 'flyvemdm'),
+         'support.website'          => __('Website if the helpdesk', 'flyvemdm'),
+         'support.email'            => __('Email address of the helpdesk', 'flyvemdm'),
+         'support.address'          => __('Address of the helpdesk', 'flyvemdm'),
       );
 
       foreach ($tagCollection as $tag => $label) {
@@ -92,24 +100,50 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $document = new Document();
                $document->getFromDB($invitation->getField('documents_id'));
 
+               // Get the entitiy configuration data
+               $entityConfig = new PluginFlyvemdmEntityconfig();
+               $entityConfig->getFromDBByCrit(['entities_id' => $event->obj->getField('entities_id')]);
+
                // build the data of the deeplink
                $personalToken = User::getToken($invitation->getField('users_id'), 'api_token');
-               $enrollRequest = [
+               $enrollmentData = [
                      'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
                      'user_token'         => $personalToken,
-                     'invitation_token'   => $invitation->getField('invitation_token')
+                     'invitation_token'   => $invitation->getField('invitation_token'),
+                     'support_name'       => $entityConfig->getField('support_name'),
+                     'support_phone'      => $entityConfig->getField('support_phone'),
+                     'support_website'    => $entityConfig->getField('support_website'),
+                     'support_email'      => $entityConfig->getField('support_email'),
+                     'support_address'    => $entityConfig->getField('support_address'),
                ];
 
                $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                                 . base64_encode(json_encode($enrollRequest, JSON_UNESCAPED_SLASHES));
+                                 . base64_encode(json_encode($enrollmentData, JSON_UNESCAPED_SLASHES));
 
                // Fill the template
                $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->data['##flyvemdm.enroll_url##'] = static::DEEPLINK . $encodedRequest;
+               $event->data['##flyvemdm.enroll_url##'] = $encodedRequest;
+
+               // fill the application download URL tag
                $event->obj->documents = array($document->getID());
-               $entityConfig = new PluginFlyvemdmEntityconfig();
-               $entityConfig->getFromDB($event->obj->getField('entities_id'));
                $event->data['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
+
+               // fill the helpdesk information tags
+               $event->data['##support.name##']    = $entityConfig->getField('support_name');
+               $event->data['##support.phone##']   = $entityConfig->getField('support_phone');
+               $event->data['##support.website##'] = $entityConfig->getField('support_website');
+               $event->data['##support.address##'] = $entityConfig->getField('support_address');
+               $event->data['##support.email##'] = $entityConfig->getField('support_email');
+
+               // fill tags for the Fmyve MDM fleets manager
+               if (isset($_SESSION['glpiID'])) {
+                  $user = new User();
+                  if ($user->getFromDB($_SESSION['glpiID'])) {
+                     $event->data['##user.realname##'] = $user->getField('realname');
+                     $event->data['##user.firstname##'] = $user->getField('firstname');
+                     $event->data['##user.email##'] = $user->getDefaultEmail();
+                  }
+               }
             }
             break;
       }
