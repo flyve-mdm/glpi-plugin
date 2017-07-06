@@ -29,7 +29,9 @@
         "phpunit/phpunit": "^4.8 || ^5.7 || ^6.0",
         "flyve-mdm/test": "dev-master",
         "consolidation/robo": "^1.0",
-        "glpi-project/tools": "^0.1.2"
+        "glpi-project/tools": "^0.1.2",
+        "evert/phpdoc-md": "^0.2.0",
+        "phpdocumentor/phpdocumentor": "2.*"
     },
     "repositories": [
         {
