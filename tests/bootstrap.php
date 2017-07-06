@@ -36,7 +36,6 @@ if (session_status() == PHP_SESSION_ACTIVE) {
    session_write_close();
 }
 ini_set('session.use_cookies', 0); //disable session cookies
-session_start();
 
 class UnitTestAutoload
 {
