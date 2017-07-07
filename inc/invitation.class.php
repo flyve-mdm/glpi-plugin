@@ -204,12 +204,15 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    public function getFromDBByToken($token) {
-      $entityRestriction = getEntitiesRestrictRequest('AND', self::getTable(), "entities_id", '', false, true);
-      return $this->getFromDBByQuery("WHERE `invitation_token`='$token' $entityRestriction");
+      return $this->getFromDBByQuery("WHERE `invitation_token`='$token'");
    }
 
    protected function setInvitationToken() {
-      return bin2hex(openssl_random_pseudo_bytes(32));
+      $invitation = new static();
+      do {
+         $token = bin2hex(openssl_random_pseudo_bytes(32));
+      } while ($invitation->getFromDBByToken($token));
+      return $token;
    }
 
    /**
