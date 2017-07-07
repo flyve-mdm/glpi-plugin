@@ -109,9 +109,9 @@ function plugin_init_flyvemdm() {
 
       //if glpi is loaded
       if (Session::getLoginUserID()) {
-         $PLUGIN_HOOKS['menu']["flyvemdm"] = true;
+         $PLUGIN_HOOKS['menu']['flyvemdm'] = true;
       }
-      $PLUGIN_HOOKS['post_init']["flyvemdm"] = 'plugin_flyvemdm_postinit';
+      $PLUGIN_HOOKS['post_init']['flyvemdm'] = 'plugin_flyvemdm_postinit';
 
       // Notifications
       $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = [];
@@ -126,10 +126,10 @@ function plugin_init_flyvemdm() {
 
       if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
          // Define menu entries
-         $PLUGIN_HOOKS['menu_toadd']["flyvemdm"] = array(
-               'plugins'  => 'PluginFlyvemdmMenu',
+         $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = array(
+               'admin'  => 'PluginFlyvemdmMenu',
          );
-         $PLUGIN_HOOKS['config_page']["flyvemdm"] = 'front/config.form.php';
+         $PLUGIN_HOOKS['config_page']['flyvemdm'] = 'front/config.form.php';
       }
 
       // Hooks for the plugin : objects inherited from GLPI or
