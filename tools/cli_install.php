@@ -78,7 +78,8 @@ if (isset($args['--enable-api']) && $args['--enable-api'] !== false) {
 
 if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    $config = [
-         'use_notifications' => '1',
+         'use_notifications'     => '1',
+         'notifications_mailing' => '1',
    ];
    Config::setConfigurationValues('core', $config);
    $CFG_GLPI = $config + $CFG_GLPI;
@@ -108,7 +109,9 @@ if (!$DB->connected) {
 }
 
 $user = new User();
-$user->getFromDBbyName($asUser);
+if (!$user->getFromDBbyName($asUser)) {
+   die("User $asUser not found in DB\n");
+}
 $auth = new Auth();
 $auth->auth_succeded = true;
 $auth->user = $user;
@@ -136,7 +139,7 @@ if ($apiUserToken) {
    $serviceUser = PluginFlyvemdmConfig::SERVICE_ACCOUNT_NAME;
    $flyveUser = new User();
    $flyveUser->getFromDBbyName($serviceUser);
-   $sqlUpdate = "update glpi_users set personal_token = '" . $apiUserToken . "' where id = ". $flyveUser->fields['id'];
+   $sqlUpdate = "UPDATE glpi_users set personal_token = '" . $apiUserToken . "' WHERE id = ". $flyveUser->fields['id'];
    $DB->query($sqlUpdate);
    print("update $serviceUser user with provided api token " . $apiUserToken . "\n");
 }
@@ -145,9 +148,12 @@ print("setting queuednotification to Queue mode\n");
 $cronQuery = "update glpi_crontasks set mode = 2 where name ='queuednotification'";
 $DB->query($cronQuery);
 
-
 print("opening glpi client api access\n");
-$apiClientQuery = "update glpi_apiclients set name = 'full access flyve', ipv4_range_start = null, ipv4_range_end = null  where name like 'full access from localhost'";
+$apiClientQuery = "UPDATE glpi_apiclients
+                   SET `name` = 'full access flyve',
+                       `ipv4_range_start` = null,
+                       `ipv4_range_end` = null
+                   WHERE `name` like 'full access from localhost'";
 $DB->query($apiClientQuery);
 
 // Enable the plugin
