@@ -58,6 +58,9 @@ class UnitTestAutoload
 
 UnitTestAutoload::register();
 
+/* To disable warning about mcrypt in Toolbox */
+define('TU_USER', '_test_user');
+
 define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
 define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
 define("GLPI_LOG_DIR", __DIR__ . '/logs');
