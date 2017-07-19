@@ -178,48 +178,47 @@ function plugin_version_flyvemdm() {
       $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    }
    return [
-            'name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
-            'version'        => PLUGIN_FLYVEMDM_VERSION,
-            'author'         => $author,
-            'license'        => 'AGPLv3+',
-            'homepage'       => '',
-            'minGlpiVersion' => $glpiVersion,
-            'requirements'   => [
-               'glpi' => [
-                  'min' => $glpiVersion,
-                  'max' => '9.3',
-                  'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
-                  'plugins'   => [
-                     'fusioninventory',
-                  ],
-                  'params' => [
-                     'url_base',
-                     'enable_api',
-                     'use_notifications',
-                     'notifications_mailing'
-                  ],
+      'name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
+      'version'        => PLUGIN_FLYVEMDM_VERSION,
+      'author'         => $author,
+      'license'        => 'AGPLv3+',
+      'homepage'       => '',
+      'minGlpiVersion' => $glpiVersion,
+      'requirements'   => [
+         'glpi' => [
+            'min' => $glpiVersion,
+            'max' => '9.3',
+            'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
+            'plugins'   => [
+               'fusioninventory',
+            ],
+            'params' => [
+               'url_base',
+               'enable_api',
+               'use_notifications',
+               'notifications_mailing'
+            ],
+         ],
+         'php' => [
+            'min'    => PLUGIN_FLYVEMDM_PHP_MIN_VERSION,
+            'exts'   => [
+               'OpenSSL'   => [
+                  'required'  => true,
                ],
-               'php' => [
-                  'min'    => PLUGIN_FLYVEMDM_PHP_MIN_VERSION,
-                  'exts'   => [
-                     'OpenSSL'   => [
-                        'required'  => true,
-                     ],
-                     'sockets'   => [
-                        'required'  => true,
-                        'function'  => 'socket_create'
-                     ],
-                     'zip'       => [
-                        'required'  => true,
-                     ],
-                     'gd'        => [
-                        'required'  => true
-                     ]
-
-                  ]
+               'sockets'   => [
+                  'required'  => true,
+                  'function'  => 'socket_create'
+               ],
+               'zip'       => [
+                  'required'  => true,
+               ],
+               'gd'        => [
+                  'required'  => true
                ]
             ]
-          ];
+         ]
+      ]
+    ];
 }
 
 /**
@@ -229,7 +228,13 @@ function plugin_version_flyvemdm() {
  * @return boolean
  */
 function plugin_flyvemdm_check_prerequisites() {
-   return true;
+   $prerequisitesSuccess = true;
+
+   if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_file(__DIR__ . '/vendor/autoload.php')) {
+      echo "Run composer install --no-dev in the plugin directory<br>";
+      $prerequisitesSuccess = false;
+   }
+   return $prerequisitesSuccess;
 }
 
 // Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect

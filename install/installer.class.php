@@ -455,6 +455,11 @@ Regards,
       }
    }
 
+   /**
+    * Upgrade the plugin to the current code version
+    *
+    * @param string $fromVersion
+    */
    protected function upgrade($fromVersion) {
       $toVersion   = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
 
@@ -479,6 +484,11 @@ Regards,
       $this->createGuestProfileAccess();
    }
 
+   /**
+    * Proceed to upgrade of the plugin to the given version
+    *
+    * @param string $toVersion
+    */
    protected function upgradeOneStep($toVersion) {
 
       $suffix = str_replace('.', '_', $toVersion);
