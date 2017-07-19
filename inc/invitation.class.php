@@ -291,11 +291,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
          'support_phone'      => $entityConfig->getField('support_phone'),
          'support_website'    => $entityConfig->getField('support_website'),
          'support_email'      => $entityConfig->getField('support_email'),
-         'support_address'    => $entityConfig->getField('support_address'),
+         //'support_address'    => $entityConfig->getField('support_address'),
       ];
 
       $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                        . base64_encode(json_encode($enrollmentData, JSON_UNESCAPED_SLASHES));
+                        . addcslashes(implode(';', $enrollmentData), '\;');
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
