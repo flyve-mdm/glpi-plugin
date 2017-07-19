@@ -196,7 +196,7 @@ function plugin_version_flyvemdm() {
                      'url_base',
                      'enable_api',
                      'use_notifications',
-
+                     'notifications_mailing'
                   ],
                ],
                'php' => [
