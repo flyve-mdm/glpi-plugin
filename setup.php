@@ -82,91 +82,93 @@ function plugin_init_flyvemdm() {
       ]);
    }
 
-   if ($plugin->isInstalled('flyvemdm') && $plugin->isActivated('flyvemdm')) {
+   if ($plugin->isActivated('flyvemdm')) {
       require_once(__DIR__ . '/vendor/autoload.php');
       require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
 
-      $PLUGIN_HOOKS['change_profile']['flyvemdm'] = ['PluginFlyvemdmProfile','changeProfile'];
-
-      Plugin::registerClass('PluginFlyvemdmMqttsubscriber');
-      Plugin::registerClass('PluginFlyvemdmAgent');
-      Plugin::registerClass('PluginFlyvemdmFleet');
-      Plugin::registerClass('PluginFlyvemdmPolicy');
-      Plugin::registerClass('PluginFlyvemdmFleet_Policy');
-      Plugin::registerClass('PluginFlyvemdmProfile',
-                            ['addtabon' => Profile::class]);
-      Plugin::registerClass('PluginFlyvemdmGeolocation');
-      Plugin::registerClass('PluginFlyvemdmPackage');
-      Plugin::registerClass('PluginFlyvemdmFile');
-      Plugin::registerClass('PluginFlyvemdmInvitation',
-                            ['notificationtemplates_types' => true, /* 'document_types' => true */]);
-      Plugin::registerClass('PluginFlyvemdmEntityConfig',
-                            ['addtabon' => Entity::class]);
-
-      // Dropdowns
-      Plugin::registerClass('PluginFlyvemdmWellknownpath');
-      Plugin::registerClass('PluginFlyvemdmWPolicyCategory');
-
-      //if glpi is loaded
-      if (Session::getLoginUserID()) {
-         $PLUGIN_HOOKS['menu']['flyvemdm'] = true;
-      }
-      $PLUGIN_HOOKS['post_init']['flyvemdm'] = 'plugin_flyvemdm_postinit';
-
-      // Notifications
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = [];
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = [];
-
-      $PLUGIN_HOOKS['item_get_events']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = [
-            'PluginFlyvemdmNotificationTargetInvitation', 'addEvents'
-      ];
-      $PLUGIN_HOOKS['item_get_datas']['flyvemdm']['PluginFlyvemdmNotificationTargetInvitation'] = [
-            'PluginFlyvemdmNotificationTargetInvitation', 'getAdditionalDatasForTemplate'
-      ];
-
-      if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
-         // Define menu entries
-         $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = array(
-               'admin'  => 'PluginFlyvemdmMenu',
-         );
-         $PLUGIN_HOOKS['config_page']['flyvemdm'] = 'front/config.form.php';
-      }
-
-      // Hooks for the plugin : objects inherited from GLPI or
-      $PLUGIN_HOOKS['item_add']['flyvemdm']     = array(
-            'Entity'                => 'plugin_flyvemdm_hook_entity_add',
-      );
-      $PLUGIN_HOOKS['item_purge']['flyvemdm']   = array(
-            'User'                  => array('PluginFlyvemdmUser', 'hook_pre_user_purge'),
-            'Entity'                => 'plugin_flyvemdm_hook_entity_purge',
-            'Computer'              => 'plugin_flyvemdm_computer_purge',
-      );
-      $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = array(
-            'PluginFlyvemdmInvitation' => array('PluginFlyvemdmInvitation', 'hook_pre_self_purge'),
-            'Document'                 => array('PluginFlyvemdmInvitation', 'hook_pre_document_purge'),
-            'Profile_User'             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
-      );
+      plugin_flyvemdm_registerClasses();
+      plugin_flyvemdm_addHooks();
 
       $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
 
-      $PLUGIN_HOOKS['use_massive_action']['flyvemdm'] = 1;
-
-      $PLUGIN_HOOKS['import_item']['flyvemdm'] = array('Computer' => array('Plugin'));
-
-      // Add css and js resources if the requested page needs them
-      if (strpos($_SERVER['REQUEST_URI'], 'flyvemdm' . '/front/config.form.php') !== false) {
-         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'config.js';
-      }
-
-      if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm") !== false) {
-         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'css/style.css';
-         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.css';
-         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
-      }
-
       Html::requireJs('charts');
-      $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
+      $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
+}
+
+/**
+ * Register classes
+ */
+function plugin_flyvemdm_registerClasses() {
+   Plugin::registerClass(PluginFlyvemdmAgent::class);
+   Plugin::registerClass(PluginFlyvemdmFleet::class);
+   Plugin::registerClass(PluginFlyvemdmPolicy::class);
+   Plugin::registerClass(PluginFlyvemdmFleet_Policy::class);
+   Plugin::registerClass(PluginFlyvemdmProfile::class,
+         ['addtabon' => Profile::class]);
+   Plugin::registerClass(PluginFlyvemdmGeolocation::class);
+   Plugin::registerClass(PluginFlyvemdmPackage::class);
+   Plugin::registerClass(PluginFlyvemdmFile::class);
+   Plugin::registerClass(PluginFlyvemdmInvitation::class,
+         ['notificationtemplates_types' => true, /* 'document_types' => true */]);
+   Plugin::registerClass(PluginFlyvemdmEntityConfig::class,
+         ['addtabon' => Entity::class]);
+
+   // Dropdowns
+   Plugin::registerClass(PluginFlyvemdmWellknownpath::class);
+   Plugin::registerClass(PluginFlyvemdmPolicyCategory::class);
+}
+
+/**
+ * Adds all hooks the plugin needs
+ */
+function plugin_flyvemdm_addHooks() {
+   global $PLUGIN_HOOKS;
+
+   $PLUGIN_HOOKS['change_profile']['flyvemdm'] = [PluginFlyvemdmProfile::class, 'changeProfile'];
+
+   //if glpi is loaded
+   if (Session::getLoginUserID()) {
+      $PLUGIN_HOOKS['menu']['flyvemdm'] = true;
+   }
+   $PLUGIN_HOOKS['post_init']['flyvemdm'] = 'plugin_flyvemdm_postinit';
+
+   if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
+      // Define menu entries
+      $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = array(
+         'admin'  => 'PluginFlyvemdmMenu',
+      );
+      $PLUGIN_HOOKS['config_page']['flyvemdm'] = 'front/config.form.php';
+   }
+
+   // Hooks for the plugin : objects inherited from GLPI or
+   $PLUGIN_HOOKS['item_add']['flyvemdm']     = [
+      Entity::class                    => 'plugin_flyvemdm_hook_entity_add',
+   ];
+   $PLUGIN_HOOKS['item_purge']['flyvemdm']   = [
+      Entity::class                    => 'plugin_flyvemdm_hook_entity_purge',
+      Computer::class                  => 'plugin_flyvemdm_computer_purge',
+   ];
+   $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = array(
+      PluginFlyvemdmInvitation::class => [PluginFlyvemdmInvitation::class, 'hook_pre_self_purge'],
+      Document::class                 => [PluginFlyvemdmInvitation::class, 'hook_pre_document_purge'],
+      Profile_User::class             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
+   );
+
+   // Notifications
+   $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = [];
+   $PLUGIN_HOOKS['item_get_datas']['flyvemdm'] = [];
+
+   $PLUGIN_HOOKS['item_get_events']['flyvemdm'][PluginFlyvemdmNotificationTargetInvitation::class] = [
+      PluginFlyvemdmNotificationTargetInvitation::class, 'addEvents'
+   ];
+   $PLUGIN_HOOKS['item_get_datas']['flyvemdm'][PluginFlyvemdmNotificationTargetInvitation::class] = [
+      PluginFlyvemdmNotificationTargetInvitation::class, 'getAdditionalDatasForTemplate'
+   ];
+
+   $PLUGIN_HOOKS['use_massive_action']['flyvemdm'] = 1;
+
+   $PLUGIN_HOOKS['import_item']['flyvemdm'] = array('Computer' => array('Plugin'));
 }
 
 // Get the name and the version of the plugin - Needed

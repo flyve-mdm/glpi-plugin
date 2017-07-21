@@ -35,20 +35,20 @@ if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-Session::checkRight("flyvemdm:agent", READ);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:agent', READ);
 
 Html::header(
       PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
       '',
       'admin',
-      'PluginFlyvemdmMenu',
+      PluginFlyvemdmMenu::class,
       'agent'
 );
 
 // Use later to disable GLPI header
 //Html::nullHeader("test header");
 
-Search::show('PluginFlyvemdmAgent');
+Search::show(PluginFlyvemdmAgent::class);
 
 Html::footer();
