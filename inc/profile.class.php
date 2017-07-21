@@ -60,11 +60,10 @@ class PluginFlyvemdmProfile extends Profile {
       $canedit = Profile::canUpdate();
       $profile    = new Profile();
       if ($ID) {
-         //$this->getFromDBByProfile($ID);
          $profile->getFromDB($ID);
       }
       if ($canedit) {
-         echo "<form action='".$profile->getFormURL()."' method='post'>";
+         echo "<form action='" . $profile->getFormURL() . "' method='post'>";
       }
 
       $rights = $this->getGeneralRights();
@@ -92,7 +91,7 @@ class PluginFlyvemdmProfile extends Profile {
    /**
     * @see Profile::getTabNameForItem()
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       if ($item->getType() == 'Profile') {
          return __('Flyve MDM', 'flyvemdm');
       }
@@ -100,7 +99,6 @@ class PluginFlyvemdmProfile extends Profile {
    }
 
    /**
-    * @deprecated
     * @param CommonGLPI $item
     * @param number $tabnum
     * @param number $withtemplate
@@ -153,7 +151,6 @@ class PluginFlyvemdmProfile extends Profile {
     */
    public function getAssetsRights() {
       $itemtypes = array(
-         //'PluginFlyvemdmEntityconfig',
          'PluginFlyvemdmAgent',
          'PluginFlyvemdmInvitation',
          'PluginFlyvemdmFleet',

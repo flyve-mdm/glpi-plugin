@@ -164,8 +164,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Show form for edition
     */
    public function showForm($ID, $options = array()) {
-      global $CFG_GLPI, $DB;
-
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
       $canUpdate = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
@@ -214,11 +212,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     * @since version 9.1
     *
-    * @return Nothing (call to classes members)
+    * @return void
     */
    public static function showDangerZone(PluginFlyvemdmAgent $item) {
-      global $CFG_GLPI, $DB;
-
       $ID = $item->fields['id'];
       $item->initForm($ID);
       $item->showFormHeader(['formtitle' => false]);
@@ -256,10 +252,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    public static function showForFleet(PluginFlyvemdmFleet $item) {
-      $itemtype = $item->getType();
       $items_id = $item->getField('id');
 
-      $SEARCHOPTION = Search::getOptions($itemtype);
       if (isset($_GET["start"])) {
          $start = intval($_GET["start"]);
       } else {
@@ -275,7 +269,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // get items
       $condition = "`plugin_flyvemdm_fleets_id` = '$items_id' " . getEntitiesRestrictRequest();
-      $limit = $_SESSION['glpilist_limit'];
       $agent = new static();
       $rows = $agent->find($condition, '', '');
 
@@ -287,7 +280,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('agent_fleet.html', $data);
-
    }
 
    /**
@@ -351,8 +343,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      $config        = Config::getConfigurationValues("flyvemdm", array('debug_enrolment', 'mqtt_broker_address', 'mqtt_broker_port', 'mqtt_broker_tls'));
-
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
       if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
@@ -546,7 +536,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Delete the user account of the agent
-      $agentUserId = $this->fields['users_id'];
       $agentUser = new User();
       $agentUser->delete([
             'id'  => $this->fields['users_id'],
@@ -585,8 +574,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Actions done after the UPDATE of the item in the database
-    * @param $history store changes history ? (default 1)
-    * @return nothing
+    * @param integer $history store changes history ? (default 1)
+    * @return void
     */
    public function post_updateItem($history=1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
@@ -616,7 +605,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Actions done after the restore of the item
-    * @return nothing
+    * @return void
     */
    public function post_restoreItem() {
 
@@ -640,8 +629,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']             = __s('Agent', "flyvemdm");
 
@@ -760,8 +747,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
-         $agentTable = self::getTable();
-
          $userId = $_SESSION['glpiID'];
          $where = " AND `c`.`users_id`='$userId'";
       }
@@ -1260,7 +1245,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Polls in the DB for a new geolocation entry with ID higher than the given one
     * Timeouts if no new entry after a few seconds
-    * @param unknown $lastPosition
+    * @param array $lastPosition
     * @param string $errorMessage the error message to return to the caller
     * @return boolean true if a new position found before timeout
     */
@@ -1554,7 +1539,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * If debug node is disabled, disable detailed error messages
-    * @param unknown $error
+    * @param string $error
     */
    protected function filterMessages($error) {
       $config = Config::getConfigurationValues('flyvemdm', array('debug_enrolment'));
