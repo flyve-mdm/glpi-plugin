@@ -41,7 +41,7 @@ Session::checkRight("flyvemdm:invitation", READ);
 Html::header(
       PluginFlyvemdmInvitation::getTypeName(Session::getPluralNumber()),
       '',
-      'plugins',
+      'admin',
       'PluginFlyvemdmMenu',
       'invitation'
       );
