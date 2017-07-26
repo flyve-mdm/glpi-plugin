@@ -165,7 +165,7 @@ function plugin_init_flyvemdm() {
       }
 
       Html::requireJs('charts');
-      $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
+      $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
 
