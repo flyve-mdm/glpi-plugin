@@ -66,9 +66,6 @@ class PluginFlyvemdmGraph extends CommonDBTM
                         'data'   => $pendingCount,
                   ],
             ],
-            [
-                  'width'     => '100%',
-            ],
             false
       );
 

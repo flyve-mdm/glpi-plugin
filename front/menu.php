@@ -37,7 +37,7 @@ if (!$plugin->isActivated('flyvemdm')) {
 
 Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
-Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), '', 'plugins', 'PluginFlyvemdmMenu', 'Menu');
+Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), '', 'admin', 'PluginFlyvemdmMenu', 'Menu');
 
 $menu = new PluginFlyvemdmMenu();
 $menu->displayMenu();

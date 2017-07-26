@@ -41,7 +41,7 @@ Session::checkRight("flyvemdm:fleet", READ);
 Html::header(
       PluginFlyvemdmFleet::getTypeName(Session::getPluralNumber()),
       '',
-      'plugins',
+      'admin',
       'PluginFlyvemdmMenu',
       'fleet'
 );

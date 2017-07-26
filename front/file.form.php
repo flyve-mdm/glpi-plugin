@@ -53,7 +53,7 @@ if (isset($_POST['add'])) {
    Html::header(
          PluginFlyvemdmFile::getTypeName(Session::getPluralNumber()),
          '',
-         'plugins',
+         'admin',
          'PluginFlyvemdmMenu',
          'file'
    );
