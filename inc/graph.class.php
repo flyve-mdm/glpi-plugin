@@ -80,6 +80,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $config = Config::getConfigurationValues('flyvemdm', ['computertypes_id']);
       $computerTypeId = $config['computertypes_id'];
       $computerTable = Computer::getTable();
+      $itemOperatingSystemTable = Item_OperatingSystem::getTable();
       $operatingSystemTable = OperatingSystem::getTable();
       $operatingSystemVersionTable = OperatingSystemVersion::getTable();
       $entityRestrict = getEntitiesRestrictRequest(" AND ", $computerTable);
@@ -88,10 +89,12 @@ class PluginFlyvemdmGraph extends CommonDBTM
                   `osv`.`name` AS `version`,
                   COUNT(*) AS `cpt`
                 FROM `$computerTable`
+                LEFT JOIN `$itemOperatingSystemTable` AS `i_os`
+                  ON (`i_os`.itemtype = 'Computer' AND `i_os`.`items_id` = `$computerTable`.`id`)
                 LEFT JOIN `$operatingSystemTable` AS `os`
-                  ON (`os`.`id` = `$computerTable`.`operatingsystems_id`)
+                  ON (`os`.`id` = `i_os`.`operatingsystems_id`)
                 LEFT JOIN `$operatingSystemVersionTable` AS `osv`
-                  ON (`osv`.`id` = `$computerTable`.`operatingsystemversions_id`)
+                  ON (`osv`.`id` = `i_os`.`operatingsystemversions_id`)
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
                 GROUP BY `operatingsystem`, `version`";
       $result = $DB->query($query);
@@ -154,7 +157,6 @@ class PluginFlyvemdmGraph extends CommonDBTM
     * @return void
     */
    public function displayStackedBarGraph($title, $labels, $series, $options = null, $display = true) {
-
       $param = [
          'width'   => 900,
          'height'  => 300,
