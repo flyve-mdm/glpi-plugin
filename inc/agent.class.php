@@ -1460,6 +1460,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Creates virtual fields with enrollment data
     */
    protected function setupMqttAccess() {
+      if (!isset($_SESSION['glpiID'])) {
+         return;
+      }
+
       if ($user = $this->getOwner()) {
          $config = Config::getConfigurationValues('flyvemdm', array(
                'guest_profiles_id',
@@ -1469,7 +1473,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                'mqtt_broker_address',
                'mqtt_broker_port',
                'mqtt_broker_tls',
-          ));
+         ));
          $guestProfileId = $config['guest_profiles_id'];
          if ($user->getID() == $_SESSION['glpiID'] && $_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
             $mqttClearPassword = '';
