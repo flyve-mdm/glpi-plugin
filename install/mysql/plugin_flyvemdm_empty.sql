@@ -183,6 +183,7 @@ INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (5, 'Peripherals', '1
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (6, 'Deployment', '0', 'Deployment', '', '1', NULL, NULL);
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (7, 'USB', '1', 'Security > USB', '', '2', NULL, NULL);
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (8, 'Phone', '0', 'Phone', '', '1', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (9, 'MDM', '0', 'MDM', '', '1', NULL, NULL);
 
 
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_policies
