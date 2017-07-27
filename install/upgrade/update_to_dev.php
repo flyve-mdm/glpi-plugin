@@ -134,6 +134,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (!$DB->query($query)) {
       plugin_flyvemdm_upgrade_error($migration);
    }
+   $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
 
@@ -209,5 +210,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    ]);
    $policyCategory->import([
       'completename'    => 'Phone'
+   ]);
+   $policyCategory->import([
+      'completename'    => 'MDM'
    ]);
 }
