@@ -367,8 +367,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         if (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-               || isset($_GET['alt']) && $_GET['alt'] == 'media') {
+         if (isAPI()
+             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+                 || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
       }
