@@ -157,11 +157,10 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
 
       // refresh the agent
       $agent->getFromDB($agent->getID());
-      $this->assertEquals($expectedStatus, $agent->getField('online'));
+      $this->assertEquals($expectedStatus, $agent->getField('is_online'));
    }
 
    public function updateTaskDataProvider() {
-      $a = '';
       return [
             [
                   'passwordEnabled',
