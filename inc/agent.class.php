@@ -329,6 +329,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
+    * Send a lock command to the agent
+    */
+   protected function sendUnlockQuery() {
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $mqttMessage = ['lock' => 'unlock'];
+         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+      }
+   }
+
+   /**
     * Send unenrollment command to  the agent
     */
    protected function sendUnenrollQuery() {
@@ -592,9 +603,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->sendWipeQuery();
       }
 
-      if (in_array('lock', $this->updates) && $this->fields['lock'] != '0') {
-         if ($this->fields['wipe'] == '0') {
+      if (in_array('lock', $this->updates) && $this->fields['wipe'] == '0') {
+         if ($this->fields['lock'] != '0') {
             $this->sendLockQuery();
+         } else {
+            $this->sendUnlockQuery();
          }
       }
 
