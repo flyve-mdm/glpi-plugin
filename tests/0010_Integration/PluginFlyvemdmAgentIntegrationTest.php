@@ -343,41 +343,18 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
 
    /**
     * @depends testEnrollAgent
-    * @testLockStatusUnset
+    * @depends testLockStatusUnset
     * @param PluginFlyvemdmAgent $agent
     */
    public function testLockRequest($agent) {
-      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
-
-      $mockAgent->expects($this->once())
-      ->method('notify')
-      ->with(
-            $this->equalTo($agent->getTopic() . "/Command/Lock"),
-            $this->equalTo(json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES)),
-            $this->equalTo(0),
-            $this->equalTo(1));
-
-      $mockAgent->update([
-            'id'        => $agent->getID(),
-            'lock'      => "1"
-      ]);
-   }
-
-   /**
-    * @depends testEnrollAgent
-    * @depends testLockRequest
-    */
-   public function testLockStateSaved(PluginFlyvemdmAgent $agent) {
-      // sync agent's state in memory against DB
-      $agent->getFromDB($agent->getID());
-      $this->assertEquals(1, $agent->getField('lock'));
+      $this->lockDevice($agent);
    }
 
    /**
     * Run wipe tests only after lock tests
     *
     * @depends testEnrollAgent
-    * @depends testLockStateSaved
+    * @depends testLockRequest
     * @param PluginFlyvemdmAgent $agent
     */
    public function testWipeStatusUnset(PluginFlyvemdmAgent $agent) {
@@ -405,13 +382,7 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
             'id'        => $agent->getID(),
             'wipe'      => "1"
       ]);
-   }
 
-   /**
-    * @depends testEnrollAgent
-    * @depends testWipeRequest
-    */
-   public function testWipeStateSaved(PluginFlyvemdmAgent $agent) {
       // sync agent's state in memory against DB
       $agent->getFromDB($agent->getID());
       $this->assertEquals(1, $agent->getField('wipe'));
@@ -420,8 +391,8 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
    /**
     * Test wipe overrides lock
     * @depends testEnrollAgent
-    * @depends testWipeStateSaved
-    * @depends testLockStateSaved
+    * @depends testWipeRequest
+    * @depends testLockRequest
     */
    public function testWipeOverridesLockResetLock(PluginFlyvemdmAgent $agent) {
       $this->assertTrue($agent->update([
@@ -456,5 +427,72 @@ class PluginFlyvemdmAgentIntegrationTest extends RegisteredUserTestCase {
       // Reload agent to sync with DB
       $agent->getFromDB($agent->getID());
       $this->assertTrue($agent->getField('wipe') == '1' && $agent->getField('lock') == '1');
+   }
+
+   /**
+    * @depends testEnrollAgent
+    * @depends testLockStatusUnset
+    * @param PluginFlyvemdmAgent $agent
+    */
+   public function testUnlockRequest(PluginFlyvemdmAgent $agent) {
+      global $DB;
+
+      // Force disable wipe
+      $agentTable = PluginFlyvemdmAgent::getTable();
+      $DB->query("UPDATE `$agentTable` SET `wipe` = '0' WHERE `id`=" . $agent->getID());
+      $agent->getFromDB($agent->getID());
+
+      // Lock the device
+      $agent->update([
+         'id'        => $agent->getID(),
+         'lock'      => "1"
+      ]);
+
+      // Unlock the device
+      $this->unlockDevice($agent);
+   }
+
+   private function lockDevice(PluginFlyvemdmAgent $agent) {
+      // Lock the device
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
+
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Lock"),
+            $this->equalTo(json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
+
+      $mockAgent->update([
+         'id'        => $agent->getID(),
+         'lock'      => "1"
+      ]);
+
+      // Check the lock status is saved
+      $agent->getFromDB($agent->getID());
+      $this->assertEquals(1, $agent->getField('lock'));
+   }
+
+   private function unlockDevice(PluginFlyvemdmAgent $agent) {
+      // Unlock the device
+      $mockAgent = $this->getMockForItemtype(PluginFlyvemdmAgent::class, ['notify']);
+
+      $mockAgent->expects($this->once())
+      ->method('notify')
+      ->with(
+            $this->equalTo($agent->getTopic() . "/Command/Lock"),
+            $this->equalTo(json_encode(['lock' => 'unlock'], JSON_UNESCAPED_SLASHES)),
+            $this->equalTo(0),
+            $this->equalTo(1));
+
+      $mockAgent->update([
+         'id'        => $agent->getID(),
+         'lock'      => "0"
+      ]);
+
+      // Check the lock status is saved
+      $agent->getFromDB($agent->getID());
+      $this->assertEquals(0, $agent->getField('lock'));
    }
 }
