@@ -409,6 +409,13 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $tab[$i]['nosearch']            = true;
       $tab[$i]['datatype']            = 'text';
 
+      $i++;
+      $tab[$i]['table']               = self::getTable();
+      $tab[$i]['field']               = 'entities_id';
+      $tab[$i]['name']                = __('Entity');
+      $tab[$i]['massiveaction']       = false;
+      $tab[$i]['datatype']            = 'dropdown';
+
       return $tab;
    }
 
