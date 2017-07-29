@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -83,8 +83,8 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       return Dropdown::showYesNo('value', '0', -1, array('display' => false));
    }
 
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
-      $value = $fleet_policy->getField('value');
+   public function showValue(PluginFlyvemdmTask $task) {
+      $value = $task->getField('value');
       if ($value == '0') {
          return __('No');
       }

@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -258,4 +258,16 @@ function plugin_flyvemdm_getTemplateEngine() {
 // center all columns of plugin
 function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num) {
    return "align='center'";
+}
+
+/**
+ * Show the last SQL error, logs its backtrace and dies
+ * @param Migration $migration
+ */
+function plugin_flyvemdm_upgrade_error(Migration $migration) {
+   global $DB;
+
+   $error = $DB->error();
+   $migration->log($error . "\n" . Toolbox::backtrace(false, '', array('Toolbox::backtrace()')), false);
+   die($error . "<br><br> Please, check migration log");
 }
