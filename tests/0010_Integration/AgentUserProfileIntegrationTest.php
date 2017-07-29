@@ -29,17 +29,20 @@
  * ------------------------------------------------------------------------------
  */
 
-class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
+class AgentUserProfileIntegrationTest extends RegisteredUserTestCase
 {
 
-   public function testInitGetGuestProfileIdFromConfig() {
-      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
-      $this->assertArrayHasKey('guest_profiles_id', $config);
-      return $config['guest_profiles_id'];
+
+   public function testGetAgentProfileIdFromConfig() {
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $this->assertArrayHasKey('agent_profiles_id', $config);
+      $this->assertGreaterThan(0, $config['agent_profiles_id']);
+
+      return $config['agent_profiles_id'];
    }
 
    /**
-    * @depends testInitGetGuestProfileId
+    * @depends testGetAgentProfileIdFromConfig
     * @return array Rights
     */
    public function testGetRights($profileId) {
@@ -49,25 +52,13 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
             PluginFlyvemdmAgent::$rightname,
             PluginFlyvemdmPackage::$rightname,
             PluginFlyvemdmFile::$rightname,
+            PluginFlyvemdmEntityConfig::$rightname,
          ]
       );
       $this->assertGreaterThan(0, count($rights));
-
-      $this->assertEquals(READ | CREATE, $rights[PluginFlyvemdmAgent::$rightname]);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmAgent::$rightname]);
       $this->assertEquals(READ, $rights[PluginFlyvemdmFile::$rightname]);
       $this->assertEquals(READ, $rights[PluginFlyvemdmPackage::$rightname]);
-      return $rights;
-   }
-
-   public function testSessionHasGuestProfileId() {
-      $this->assertTrue(isset($_SESSION['plugin_flyvemdm_guest_profiles_id']));
-   }
-
-   /**
-    * @@depends testInitGetGuestProfileId
-    * @depends testSessionHasGuestProfileId
-    */
-   public function testSessionGuestProfileIdValue($profileId) {
-      $this->assertEquals($profileId, $_SESSION['plugin_flyvemdm_guest_profiles_id']);
+      $this->assertEquals(READ, $rights[PluginFlyvemdmEntityConfig::$rightname]);
    }
 }
