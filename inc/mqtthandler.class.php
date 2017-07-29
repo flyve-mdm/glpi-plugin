@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
+class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * @var PluginFlyvemdmMqttlog $log mqtt messages logger
@@ -53,7 +53,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    protected static $instance = null;
 
    protected function __construct() {
-      $this->log = new PluginFlyvemdmMqttlog();
+      $this->log = new \PluginFlyvemdmMqttlog();
       $this->startTime = time();
    }
 
@@ -76,7 +76,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
       $version = $config['version'];
 
       if ($this->flyveManifestMissing) {
-         if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
+         if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
             $mqtt->publish_async("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
             $this->flyveManifestMissing = false;
          }
@@ -88,7 +88,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * @param sskaje\mqtt\MQTT $mqtt
     * @param sskaje\mqtt\Message\PINGRESP $pingresp_object
     */
-   public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
+   public function pingresp(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       global $DB;
 
       if (time() - $this->startTime > PluginFlyvemdmMqttclient::MQTT_MAXIMUM_DURATION) {
@@ -105,7 +105,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * Handle MQTT publish messages
     * @see \sskaje\mqtt\MessageHandler::publish()
     */
-   public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {
+   public function publish(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PUBLISH $publish_object) {
       $topic = $publish_object->getTopic();
       $message = $publish_object->getMessage();
       $this->log->saveIngoingMqttMessage($topic, $message);
@@ -140,7 +140,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateAgentVersion($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic) !== false) {
          preg_match("#^[\d.]+$#", $message, $sanitized);
          if (!empty($sanitized[0])) {
@@ -175,12 +175,12 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
       if ($computer->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `serial` = '$serial'")) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
-         $communication = new PluginFusioninventoryCommunication();
+         $communication = new \PluginFusioninventoryCommunication();
          $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
          if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
             foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
                $logMessage = "Serial $serial : $logMessage\n";
-               Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
+               \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
             }
          }
 
@@ -189,10 +189,10 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function updateLastContact($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
 
-         $date = new DateTime("now", new DateTimeZone("UTC"));
+         $date = new \DateTime("now", new \DateTimeZone("UTC"));
          $agent->update([
                'id'              => $agent->getID(),
                'last_contact'    => $date->format('Y-m-d H:i:s')
@@ -201,7 +201,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function deleteAgent($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       $agent->getByTopic($topic);
       $agent->delete([
             'id'  => $agent->getID(),
@@ -210,15 +210,15 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
    protected function saveInstallationFeedback($topic, $message) {
       if ($message = json_decode($message, true)) {
-         $agent = new PluginFlyvemdmAgent();
+         $agent = new \PluginFlyvemdmAgent();
          if ($agent->getByTopic($topic)
                && isset($message['ack'])) {
             $agentId = $agent->getID();
-            $package = new PluginFlyvemdmPackage();
+            $package = new \PluginFlyvemdmPackage();
             $name = $message['ack'];
             $package->getFromDBByQuery("WHERE `name`='$name'");
             $packageId = $package->getID();
-            $agent_Package = new PluginFlyvemdmAgent_Package();
+            $agent_Package = new \PluginFlyvemdmAgent_Package();
             $query = "WHERE `plugin_flyvemdm_packages_id`='$packageId'
             AND `plugin_flyvemdm_agents_id`='$agentId'";
             if ($agent_Package->getFromDBByQuery($query)) {
@@ -234,17 +234,17 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
    }
 
    protected function saveGeolocationPosition($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
          if (isset($position['datetime'])) {
-            $dateGeolocation = DateTime::createFromFormat('U', $position['datetime'], new DateTimeZone("UTC"));
+            $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
          } else {
             $dateGeolocation = false;
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginFlyvemdmGeolocation();
+               $geolocation = new \PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -255,7 +255,7 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
          } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
             // No GPS geolocation available at this time, log it anyway
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginFlyvemdmGeolocation();
+               $geolocation = new \PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
