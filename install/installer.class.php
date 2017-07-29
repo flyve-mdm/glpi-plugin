@@ -105,9 +105,6 @@ class PluginFlyvemdmInstaller {
       // TODO : migrate in-code DB model setup here
       if (self::getCurrentVersion() == '') {
          // Setup DB model
-         $version = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
-
-         $version = "";
          $dbFile = PLUGIN_FLYVEMDM_ROOT . "/install/mysql/plugin_flyvemdm_empty.sql";
          if (!$DB->runFile($dbFile)) {
             $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
@@ -272,11 +269,11 @@ class PluginFlyvemdmInstaller {
       );
       Config::setConfigurationValues('flyvemdm', array('guest_profiles_id' => $profileId));
       $profileRight = new ProfileRight();
-      $profileRight->updateProfileRights($profileId, array(
-            PluginFlyvemdmAgent::$rightname           => READ | CREATE,
-            PluginFlyvemdmFile::$rightname           => READ,
-            PluginFlyvemdmPackage::$rightname           => READ,
-      ));
+      $profileRight->updateProfileRights($profileId, [
+         PluginFlyvemdmAgent::$rightname        => READ | CREATE,
+         PluginFlyvemdmFile::$rightname         => READ,
+         PluginFlyvemdmPackage::$rightname      => READ,
+      ]);
    }
 
    /**
@@ -288,23 +285,21 @@ class PluginFlyvemdmInstaller {
             __("Flyve MDM device agent users", "flyvemdm"),
             __("device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
             );
-      Config::setConfigurationValues('flyvemdm', array('agent_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', ['agent_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
-      $profileRight->updateProfileRights($profileId, array(
-            PluginFlyvemdmAgent::$rightname           => READ,
-            PluginFlyvemdmFile::$rightname           => READ,
-            PluginFlyvemdmPackage::$rightname           => READ,
-      ));
+      $profileRight->updateProfileRights($profileId, [
+         PluginFlyvemdmAgent::$rightname        => READ,
+         PluginFlyvemdmFile::$rightname         => READ,
+         PluginFlyvemdmPackage::$rightname      => READ,
+         PluginFlyvemdmEntityconfig::$rightname => READ,
+      ]);
    }
 
    /**
     * Create policies in DB
     */
    protected function createPolicies() {
-      global $DB;
-
       $policy = new PluginFlyvemdmPolicy();
-      $policyTable = PluginFlyvemdmPolicy::getTable();
       foreach (self::getPolicies() as $policyData) {
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
@@ -461,8 +456,6 @@ Regards,
     * @param string $fromVersion
     */
    protected function upgrade($fromVersion) {
-      $toVersion   = str_replace('.', '-', PLUGIN_FLYVEMDM_VERSION);
-
       switch ($fromVersion) {
          case '2.0.0':
             // Example : upgrade to version 3.0.0
@@ -515,8 +508,8 @@ Regards,
 
    /**
     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-    * @param unknown $haystack
-    * @param unknown $needle
+    * @param string $haystack
+    * @param string $needle
     */
    protected function startsWith($haystack, $needle) {
       // search backwards starting from haystack length characters from the end
@@ -525,8 +518,8 @@ Regards,
 
    /**
     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-    * @param unknown $haystack
-    * @param unknown $needle
+    * @param string $haystack
+    * @param string $needle
     */
    protected function endsWith($haystack, $needle) {
       // search forward starting from end minus needle length characters
@@ -579,13 +572,10 @@ Regards,
     * Generate default configuration for the plugin
     */
    protected function createInitialConfig() {
-      global $CFG_GLPI;
-
-      $MdmMqttUser = 'flyvemdm-backend';
       $MdmMqttPassword = PluginFlyvemdmMqttuser::getRandomPassword();
 
       // New config management provided by GLPi
-
+      $crypto_strong = null;
       $instanceId = base64_encode(openssl_random_pseudo_bytes(64, $crypto_strong));
       $newConfig = [
             'mqtt_broker_address'            => '',
@@ -616,14 +606,14 @@ Regards,
             'computertypes_id'               => '0',
             'agentusercategories_id'         => '0',
       ];
-      Config::setConfigurationValues("flyvemdm", $newConfig);
+      Config::setConfigurationValues('flyvemdm', $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
    }
 
    /**
     * Create MQTT user for the backend and save credentials
-    * @param unknown $MdmMqttUser
-    * @param unknown $MdmMqttPassword
+    * @param string $MdmMqttUser
+    * @param string $MdmMqttPassword
     */
    protected function createBackendMqttUser($MdmMqttUser, $MdmMqttPassword) {
       global $DB;
