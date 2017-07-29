@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -48,11 +48,7 @@ if (!isset($_GET['withtemplate'])) {
 $invitation = new PluginFlyvemdmInvitation();
 if (isset($_POST['add'])) {
    $invitation->check(-1, CREATE, $_POST);
-   if ($newID = $invitation->add($_POST)) {
-      if ($_SESSION['glpibackcreated']) {
-         Html::redirect($invitation->getFormURL() . "?id=" . $newID);
-      }
-   }
+   $invitation->add($_POST);
    Html::back();
 } else if (isset($_POST['resend'])) {
    $invitation->check($_GET['id'], READ);

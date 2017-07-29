@@ -926,7 +926,7 @@ msgid "MQTT broker port"
 msgstr ""
 
 #: /tmp/twig-cache/d0/d0a98855d674bd40efba00c77ab6ea5a85c152688b5043e4ccfd2c5db4c198a1.php:108
-msgid "A port numlber between 1025 and 65535, usually 1883 or 8883"
+msgid "A port number between 1025 and 65535, usually 1883 or 8883"
 msgstr ""
 
 #: /tmp/twig-cache/d0/d0a98855d674bd40efba00c77ab6ea5a85c152688b5043e4ccfd2c5db4c198a1.php:114
