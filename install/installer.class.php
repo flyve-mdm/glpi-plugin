@@ -124,6 +124,7 @@ class PluginFlyvemdmInstaller {
       $this->createDirectories();
       $this->createFirstAccess();
       $this->createGuestProfileAccess();
+      $this->createAgentProfileAccess();
       $this->createDefaultFleet();
       $this->createPolicies();
       $this->createNotificationTargetInvitation();
