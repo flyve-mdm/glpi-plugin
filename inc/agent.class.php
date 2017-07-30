@@ -1448,11 +1448,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param array $input
     */
    protected function chooseEnrollMethod($input) {
-      // Serial is mandatory
-      if (!isset($input['_serial'])) {
-         return self::ENROLL_DENY;
-      }
-
       if (isset($input['_email'])
             && isset($input['_invitation_token'])) {
          return self::ENROLL_INVITATION_TOKEN;
