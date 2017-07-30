@@ -133,6 +133,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
             $destination = dirname($destination);
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
          }
+         Session::addMessageAfterRedirect(__('Failed to store the uploaded file', "flyvemdm"));
          return false;
       }
 
