@@ -76,9 +76,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
       $version = $config['version'];
 
       if ($this->flyveManifestMissing) {
-         preg_match('/^([\d\.]+)/', $version, $matches);
-         if (isset($matches[1])) {
-            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", $matches[1], 0, 1);
+         if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
+            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
             $this->flyveManifestMissing = false;
          }
       }
