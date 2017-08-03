@@ -1516,16 +1516,16 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                            'enabled'      => '1',
                            'password'     => $mqttClearPassword,
                            '_acl'         => $acls,
-                           '_reset_acls'  => true,
+                           '_reset_acl'   => true,
                      ]);
                   } else {
                      // The user exists
                      $mqttUser->update([
-                           'id'        => $mqttUser->getID(),
-                           'enabled'   => '1',
-                           'password'  => $mqttClearPassword,
-                           '_acl'      => $acls,
-                           '_reset_acls'  => true,
+                           'id'          => $mqttUser->getID(),
+                           'enabled'     => '1',
+                           'password'    => $mqttClearPassword,
+                           '_acl'        => $acls,
+                           '_reset_acl'  => true,
                       ]);
                   }
                }
