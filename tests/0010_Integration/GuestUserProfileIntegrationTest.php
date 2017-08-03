@@ -39,7 +39,7 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
    }
 
    /**
-    * @depends testInitGetGuestProfileId
+    * @depends testInitGetGuestProfileIdFromConfig
     * @return array Rights
     */
    public function testGetRights($profileId) {
@@ -64,7 +64,7 @@ class GuestUserProfileIntegrationTest extends RegisteredUserTestCase
    }
 
    /**
-    * @@depends testInitGetGuestProfileId
+    * @depends testInitGetGuestProfileIdFromConfig
     * @depends testSessionHasGuestProfileId
     */
    public function testSessionGuestProfileIdValue($profileId) {
