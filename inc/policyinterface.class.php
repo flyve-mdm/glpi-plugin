@@ -118,7 +118,7 @@ interface PluginFlyvemdmPolicyInterface {
    /**
     * return policy value for display
     */
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy);
+   public function showValue(PluginFlyvemdmTask $task);
 
    /**
     * Transforms form data to match the format expected by the API

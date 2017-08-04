@@ -413,7 +413,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
 
-         $this->changeFleet($oldFleet, $newFleet);
+         $this->changeMqttAcl($oldFleet, $newFleet);
       }
 
       // send wipe to the agent
@@ -588,8 +588,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $history store changes history ? (default 1)
     * @return void
     */
-   public function post_updateItem($history=1) {
+   public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
+         // create tasks for the agent from already applied policies
+         $newFleet = new PluginFlyvemdmFleet();
+         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+            $task = new PluginFlyvemdmTask();
+
+            // get groups of policies where a policy applies
+            $groups = $task->getGroupsOfAppliedPolicies($newFleet);
+            foreach ($groups as $groupName) {
+               // get policies per group
+               $policiesToApply = $task->getGroupOfPolicies($groupName, $newFleet);
+               // create task statuses for a single agent
+               $task->createTaskStatus($this, $policiesToApply);
+            }
+         }
 
          $this->updateSubscription();
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
@@ -1455,7 +1469,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return self::ENROLL_ENTITY_TOKEN;
       }
 
-      return self::ENROLL_DENY;;
+      return self::ENROLL_DENY;
    }
 
    /**
@@ -1569,7 +1583,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param PluginFlyvemdmFleet $old old fleet
     * @param PluginFlyvemdmFleet $new new fleet
     */
-   protected function changeFleet(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
+   protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
@@ -1631,5 +1645,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function hook_entity_purge(CommonDBTM $item) {
       $agent = new static();
       $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+   }
+
+   public function hook_computer_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(array('computers_id' => $item->getField('id')), 1);
    }
 }

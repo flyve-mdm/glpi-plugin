@@ -41,6 +41,7 @@ class PluginFlyvemdmPolicyFactory {
 
    /**
     * Create an empty policy by type
+    *
     * @param string $type
     */
    public function createFromPolicy(PluginFlyvemdmPolicy $policyData) {
@@ -86,6 +87,7 @@ class PluginFlyvemdmPolicyFactory {
 
    /**
     * Create and returns a policy from DB
+    *
     * @param integer $id
     * @return PluginFlyvemdmPolicyInterface
     */

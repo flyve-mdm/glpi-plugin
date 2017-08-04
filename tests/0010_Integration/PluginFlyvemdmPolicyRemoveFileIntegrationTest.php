@@ -98,12 +98,12 @@ class PluginFlyvemdmPolicyRemoveFileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitGetDestination
     */
    public function testApplyPolicyIncomplete(PluginFlyvemdmFleet $fleet, PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, $destination) {
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $task->add([
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $destination
       ]);
-      $this->assertTrue($fleet_policy->isNewItem());
+      $this->assertTrue($task->isNewItem());
    }
 
    /**
@@ -113,13 +113,13 @@ class PluginFlyvemdmPolicyRemoveFileIntegrationTest extends RegisteredUserTestCa
     * @depends testInitGetDestination
     */
    public function testApplyPolicyWithBadValue(PluginFlyvemdmFleet $fleet, PluginFlyvemdmPolicy $policyData, PluginFlyvemdmFile $file, $destination) {
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => '-1',
             'value'                       => $destination
       ]);
-      $this->assertTrue($fleet_policy->isNewItem());
+      $this->assertTrue($task->isNewItem());
    }
 
    /**
@@ -137,13 +137,13 @@ class PluginFlyvemdmPolicyRemoveFileIntegrationTest extends RegisteredUserTestCa
       $groupName = $policyData->getField('group');
       $fleetId = $fleet->getID();
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->add([
+      $task = new PluginFlyvemdmTask();
+      $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policyData->getID(),
             'value'                       => $destination
       ]);
-      $this->assertFalse($fleet_policy->isNewItem());
+      $this->assertFalse($task->isNewItem());
 
       $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
       $rows = $mqttUpdateQueue->find("`group` = '$groupName'

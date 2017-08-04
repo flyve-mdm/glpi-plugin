@@ -103,7 +103,7 @@ function plugin_flyvemdm_registerClasses() {
    Plugin::registerClass(PluginFlyvemdmAgent::class);
    Plugin::registerClass(PluginFlyvemdmFleet::class);
    Plugin::registerClass(PluginFlyvemdmPolicy::class);
-   Plugin::registerClass(PluginFlyvemdmFleet_Policy::class);
+   Plugin::registerClass(PluginFlyvemdmTask::class);
    Plugin::registerClass(PluginFlyvemdmProfile::class,
          ['addtabon' => Profile::class]);
    Plugin::registerClass(PluginFlyvemdmGeolocation::class);
@@ -258,4 +258,16 @@ function plugin_flyvemdm_getTemplateEngine() {
 // center all columns of plugin
 function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num) {
    return "align='center'";
+}
+
+/**
+ * Show the last SQL error, logs its backtrace and dies
+ * @param Migration $migration
+ */
+function plugin_flyvemdm_upgrade_error(Migration $migration) {
+   global $DB;
+
+   $error = $DB->error();
+   $migration->log($error . "\n" . Toolbox::backtrace(false, '', array('Toolbox::backtrace()')), false);
+   die($error . "<br><br> Please, check migration log");
 }

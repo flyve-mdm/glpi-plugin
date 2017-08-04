@@ -240,6 +240,7 @@ class PluginFlyvemdmInstaller {
                                                          | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
                                                          | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
             PluginFlyvemdmInvitationLog::$rightname   => READ,
+            PluginFlyvemdmTaskstatus::$rightname      => READ,
       );
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -491,8 +492,8 @@ Regards,
          include_once $includeFile;
          $updateFunction = "plugin_flyvemdm_update_to_$suffix";
          if (function_exists($updateFunction)) {
-            $updateFunction($this->migration);
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
+            $updateFunction($this->migration);
             $this->migration->executeMigration();
             $this->migration->displayMessage('Done');
          }
@@ -1048,7 +1049,7 @@ Regards,
             PluginFlyvemdmFile::getTable(),
             PluginFlyvemdmInvitationlog::getTable(),
             PluginFlyvemdmFleet::getTable(),
-            PluginFlyvemdmFleet_Policy::getTable(),
+            PluginFlyvemdmTask::getTable(),
             PluginFlyvemdmGeolocation::getTable(),
             PluginFlyvemdmInvitation::getTable(),
             PluginFlyvemdmMqttacl::getTable(),
@@ -1059,6 +1060,7 @@ Regards,
             PluginFlyvemdmPolicy::getTable(),
             PluginFlyvemdmPolicyCategory::getTable(),
             PluginFlyvemdmWellknownpath::getTable(),
+            PluginFlyvemdmTaskstatus::getTable(),
       );
 
       foreach ($tables as $table) {

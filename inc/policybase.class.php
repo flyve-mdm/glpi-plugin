@@ -97,8 +97,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       if ($this->unicityRequired) {
          $policyId            = $this->policyData->getID();
          $fleetId             = $fleet->getID();
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
-         $relationCollection  = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
+         $task = new PluginFlyvemdmTask();
+         $relationCollection  = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
          if (count($relationCollection) > 0) {
             // A relation already exists for this policy and this fleet
             return false;
@@ -160,8 +160,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    /**
     * @see PluginFlyvemdmPolicyInterface::showValue()
     */
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy) {
-      return $fleet_policy->getField('value');
+   public function showValue(PluginFlyvemdmTask $task) {
+      return $task->getField('value');
    }
 
    /**
@@ -169,5 +169,14 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     */
    public function preprocessFormData($input) {
       return $input;
+   }
+
+   /**
+    * get a status from a device and filters it to update a task
+    *
+    * @param string $status
+    */
+   public function filterStatus($status) {
+      return $status;
    }
 }

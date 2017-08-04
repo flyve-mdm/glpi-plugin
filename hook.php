@@ -182,7 +182,14 @@ function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
    }
 }
 
+/**
+ * hook when a computer is being purged
+ *
+ * @param CommonDBTM $item
+ */
 function plugin_flyvemdm_computer_purge(CommonDBTM $item) {
    $geolocation = new PluginFlyvemdmGeolocation();
    $geolocation->hook_computer_purge($item);
+   $agent = new PluginFlyvemdmAgent();
+   $agent->hook_computer_purge($item);
 }

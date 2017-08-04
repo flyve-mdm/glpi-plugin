@@ -85,7 +85,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addDefaultFormTab($tab);
       if (!$this->isNewItem()) {
          $this->addStandardTab(PluginFlyvemdmAgent::class, $tab, $options);
-         $this->addStandardTab('PluginFlyvemdmFleet_Policy', $tab, $options);
+         $this->addStandardTab('PluginFlyvemdmTask', $tab, $options);
          $this->addStandardTab('Notepad', $tab, $options);
          $this->addStandardTab('Log', $tab, $options);
       } else {
@@ -194,17 +194,17 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       //Delete policies on the fleet
       $fleetId = $this->getID();
-      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
-      $rows = $fleet_Policy->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], JSON_OBJECT_AS_ARRAY);
          if (isset($decodedValue['remove_on_delete']) && $decodedValue['remove_on_delete'] != '0') {
             $decodedValue['remove_on_delete'] = '0';
             $row['value'] = $decodedValue;
-            $fleet_Policy->update($row);
+            $task->update($row);
          }
       }
-      if (!$fleet_Policy->deleteByCriteria(array('plugin_flyvemdm_fleets_id' => $fleetId), true)) {
+      if (!$task->deleteByCriteria(array('plugin_flyvemdm_fleets_id' => $fleetId), true)) {
          Session::addMessageAfterRedirect(__('Could not delete policies on the fleet', 'flyvemdm'));
          return false;
       }
@@ -243,7 +243,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $tab[$i]['datatype']            = 'number';
 
       $i++;
-      $tab[$i]['table']               = PluginFlyvemdmFleet_Policy::getTable();
+      $tab[$i]['table']               = PluginFlyvemdmTask::getTable();
       $tab[$i]['field']               = 'items_id';
       $tab[$i]['name']                = _n('Associated element', 'Associated elements', Session::getPluralNumber());
       $tab[$i]['datatype']            = 'specific';
@@ -256,7 +256,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $tab[$i]['massiveaction']       = false;
 
       $i++;
-      $tab[$i]['table']               = PluginFlyvemdmFleet_Policy::getTable();
+      $tab[$i]['table']               = PluginFlyvemdmTask::getTable();
       $tab[$i]['field']               = 'itemtype';
       $tab[$i]['name']                = _n('Associated item type', 'Associated item types', Session::getPluralNumber());
       $tab[$i]['datatype']            = 'itemtypename';
@@ -295,8 +295,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      $fleet_policy->publishPolicies($this, array('camera', 'connectivity', 'encryption', 'policies'));
+      $task = new PluginFlyvemdmTask();
+      $task->publishPolicies($this, array('camera', 'connectivity', 'encryption', 'policies'));
    }
 
    /**
@@ -325,7 +325,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             $groups[] = $row['group'];
          }
       }
-      PluginFlyvemdmFleet_Policy::cleanupPolicies($this, $groups);
+      PluginFlyvemdmTask::cleanupPolicies($this, $groups);
    }
 
    /**
@@ -350,9 +350,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Force deletion regardless a file or application removal policy should take place
-      $fleet_policyTable = getTableForItemType('PluginFlyvemdmFleet_Policy');
+      $taskTable = getTableForItemType('PluginFlyvemdmTask');
       $itemId = $this->getID();
-      $query = "DELETE FROM `$fleet_policyTable` WHERE `plugin_flyvemdm_fleets_id`='$itemId'";
+      $query = "DELETE FROM `$taskTable` WHERE `plugin_flyvemdm_fleets_id`='$itemId'";
       $DB->query($query);
    }
 
@@ -397,8 +397,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $fleetId = $this->getID();
       if ($fleetId > 0) {
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
-         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmPackage'");
+         $task = new PluginFlyvemdmTask();
+         $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmPackage'");
          foreach ($rows as $id => $row) {
             $package = new PluginFlyvemdmPackage();
             $package->getFromDB($row['plugin_flyvemdm_packages_id']);
@@ -417,8 +417,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $fleetId = $this->getID();
       if ($fleetId > 0) {
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
-         $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmFile'");
+         $task = new PluginFlyvemdmTask();
+         $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmFile'");
          foreach ($rows as $id => $row) {
             $file = new PluginFlyvemdmPackage();
             $file->getFromDB($row['plugin_flyvemdm_packages_id']);

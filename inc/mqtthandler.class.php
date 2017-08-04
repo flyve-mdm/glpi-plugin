@@ -122,6 +122,8 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
             $this->deleteAgent($topic, $message);
          } else if ($mqttPath[4] == "Status/Inventory") {
             $this->updateInventory($topic, $message);
+         } else if ($mqttPath[4] == "Status/Task") {
+            $this->updateTaskStatus($topic, $message);
          } else if ($mqttPath[4] == "Status/Online") {
             $this->updateOnlineStatus($topic, $message);
          } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
@@ -275,6 +277,51 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * @param string $topic
     * @param string $essage
     */
+   protected function updateTaskStatus($topic, $message) {
+      $agent = new PluginFlyvemdmAgent();
+      if ($agent->getByTopic($topic)) {
+         $feedback = json_decode($message, true);
+         if (!isset($feedback['updateStatus'])) {
+            return;
+         }
+         foreach ($feedback['updateStatus'] as $statusData) {
+            if (isset($statusData['taskId']) && isset($statusData['status'])) {
+               $taskId = $statusData['taskId'];
+               $status = $statusData['status'];
+               $agentId = $agent->getID();
+
+               // Find the task the device wants to update
+               $task = new PluginFlyvemdmTask();
+               if (!$task->getFromDB($taskId)) {
+                  return;
+               }
+               if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
+                  return;
+               }
+               $taskStatus = new PluginFlyvemdmTaskstatus();
+               $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
+                                              AND `plugin_flyvemdm_tasks_id` = '$taskId'");
+               if ($taskStatus->isNewItem()) {
+                  return;
+               }
+
+               // Update the task
+               $policyFactory = new PluginFlyvemdmPolicyFactory();
+               $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
+               $taskStatus->updateStatus($policy, $status);
+            }
+
+            $this->updateLastContact($topic, $message);
+         }
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $essage
+    */
    protected function updateOnlineStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
@@ -282,10 +329,13 @@ class PluginFlyvemdmMqtthandler extends sskaje\mqtt\MessageHandler {
          if (!isset($feedback['online'])) {
             return;
          }
-         if ($feedback['online'] == 'no') {
+         if ($feedback['online'] == 'false') {
             $status = '0';
-         } else {
+         } else if ($feedback['online'] == 'true') {
             $status = '1';
+         } else {
+            // Invalid value
+            return;
          }
          $agent->update([
                'id'        => $agent->getID(),

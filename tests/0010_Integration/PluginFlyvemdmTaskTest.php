@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-class PluginFlyvemdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
+class PluginFlyvemdmTaskIntegrationTest extends RegisteredUserTestCase {
 
    public function testInitAddFleet() {
       $fleet = new PluginFlyvemdmFleet();
@@ -103,8 +103,8 @@ class PluginFlyvemdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
       $table = PluginFlyvemdmMqttupdatequeue::getTable();
       $this->assertTrue($DB->query("TRUNCATE TABLE `$table`"));
 
-      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
-      $addSuccess = $fleet_Policy->add([
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleetId,
             'plugin_flyvemdm_policies_id' => $policy->getID(),
             'value'                       => '0'
@@ -116,7 +116,7 @@ class PluginFlyvemdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
                                       AND `status` = 'queued'");
       $this->assertCount(1, $rows);
 
-      return $fleet_Policy;
+      return $task;
    }
 
    /**
@@ -124,25 +124,25 @@ class PluginFlyvemdmFleet_PolicyIntegrationTest extends RegisteredUserTestCase {
     * @depends testApplyPolicy
     */
    public function testApplyUniquePolicyTwice($fleet) {
-      $fleet_Policy = new PluginFlyvemdmFleet_Policy();
+      $task = new PluginFlyvemdmTask();
       $policy = new PluginFlyvemdmPolicy();
       $policy->getFromDBByQuery("WHERE `symbol`='storageEncryption'");
       $this->assertGreaterThan(0, $policy->getID(), "Could not find the test policy");
 
-      $fleet_PolicyId = $fleet_Policy->add([
+      $taskId = $task->add([
             'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
             'plugin_flyvemdm_policies_id' => $policy->getID(),
             'value'                       => '0'
       ]);
-      $this->assertFalse($fleet_PolicyId);
+      $this->assertFalse($taskId);
    }
 
    /**
     * @depends testApplyPolicy
     */
-   public function testChangePolicyProperty($fleet_Policy) {
-      $this->assertTrue($fleet_Policy->update([
-            'id'     => $fleet_Policy->getID(),
+   public function testChangePolicyProperty($task) {
+      $this->assertTrue($task->update([
+            'id'     => $task->getID(),
             'value'  => '1',
       ]), $_SESSION['MESSAGE_AFTER_REDIRECT']);
    }

@@ -47,9 +47,13 @@
                 delete marker;
                 markers = [];
                 $.each(data, function(index, element) {
-                    marker = L.marker([element.latitude, element.longitude], {'title': element.date});
-                    markers.push(marker);
-                    marker.addTo(map);
+                    if (isNaN(parseFloat(element.latitude)) || isNaN(parseFloat(element.longitude))) {
+                       // not a valid geolocation
+                    } else {
+                       marker = L.marker([element.latitude, element.longitude], {'title': element.date});
+                       markers.push(marker);
+                       marker.addTo(map);
+                    }
                  });
                 if (typeof(marker) !== 'undefined') {
                    map.setView(marker.getLatLng(), 13)

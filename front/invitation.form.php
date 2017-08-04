@@ -48,11 +48,7 @@ if (!isset($_GET['withtemplate'])) {
 $invitation = new PluginFlyvemdmInvitation();
 if (isset($_POST['add'])) {
    $invitation->check(-1, CREATE, $_POST);
-   if ($newID = $invitation->add($_POST)) {
-      if ($_SESSION['glpibackcreated']) {
-         Html::redirect($invitation->getFormURL() . "?id=" . $newID);
-      }
-   }
+   $invitation->add($_POST);
    Html::back();
 } else if (isset($_POST['resend'])) {
    $invitation->check($_GET['id'], READ);

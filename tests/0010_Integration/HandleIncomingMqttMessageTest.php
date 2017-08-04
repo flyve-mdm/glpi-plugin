@@ -120,7 +120,7 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
     * @return void
     */
    public function testDeviceGoesOnline() {
-      $this->DeviceOnlineStatus(self::$agent, 'yes', 1);
+      $this->DeviceOnlineStatus(self::$agent, 'true', 1);
    }
 
    /**
@@ -131,7 +131,7 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
     * @return void
     */
    public function testDeviceGoesOffline() {
-      $this->DeviceOnlineStatus(self::$agent, 'no', 0);
+      $this->DeviceOnlineStatus(self::$agent, 'false', 0);
    }
 
    protected function DeviceOnlineStatus($agent, $mqttStatus, $expectedStatus) {
@@ -158,6 +158,87 @@ class HandleIncomingMqttMessageTest extends RegisteredUserTestCase
       // refresh the agent
       $agent->getFromDB($agent->getID());
       $this->assertEquals($expectedStatus, $agent->getField('is_online'));
+   }
+
+   public function updateTaskDataProvider() {
+      return [
+            [
+                  'passwordEnabled',
+                  'PASSWORD_NONE',
+                  '',
+                  '0',
+                  [
+                        'status'    => 'done',
+                  ]
+            ]
+      ];
+   }
+
+   /**
+    *
+    * @dataProvider updateTaskDataProvider
+    * @param string $message
+    */
+   public function testUpdateTask($symbol, $value, $itemtype, $itemId, $message) {
+      global $DB;
+
+      $topic = self::$agent->getTopic() . '/Status/Task';
+
+      $policyData = new PluginFlyvemdmPolicy();
+      $policyData->getFromDBBySymbol($symbol);
+
+      $task = new PluginFlyvemdmTask();
+      $addSuccess = $task->add([
+            'plugin_flyvemdm_fleets_id'   => self::$fleet->getID(),
+            'plugin_flyvemdm_policies_id' => $policyData->getID(),
+            'itemtype'                    => $itemtype,
+            'items_id'                    => $itemId,
+            'value'                       => $value,
+      ]);
+      $this->assertNotFalse($addSuccess);
+
+      // update policies now
+      $mqttUpdateQueueTable = PluginFlyvemdmMqttupdatequeue::getTable();
+      $DB->query("UPDATE `$mqttUpdateQueueTable` SET `date` = DATE_SUB(`date`, INTERVAL 1 HOUR)");
+      $cronTask = new CronTask();
+      PluginFlyvemdmMqttupdatequeue::cronUpdateTopics($cronTask);
+
+      // Find the task status isntance
+      $agentId = self::$agent->getID();
+      $taskId = $task->getID();
+
+      $taskStatus = new PluginFlyvemdmTaskstatus();
+      $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
+                               AND `plugin_flyvemdm_tasks_id` = '$taskId'
+                               AND `status` = 'pending'");
+      $this->assertFalse($taskStatus->isNewItem());
+
+      // prepare mock
+      $message['taskId'] = $task->getID();
+      $message = ['updateStatus' => [$message]];
+      $messageEncoded = json_encode($message, JSON_OBJECT_AS_ARRAY);
+      $mqttStub = $this->getMockBuilder(sskaje\mqtt\MQTT::class)
+                       ->disableOriginalConstructor()
+                       ->getMock();
+      $publishStub = $this->getMockBuilder(sskaje\mqtt\Message\PUBLISH::class)
+                          ->disableOriginalConstructor()
+                          ->setMethods(['getTopic', 'getMessage'])
+                          ->getMock();
+      $publishStub->method('getTopic')
+                  ->willReturn($topic);
+      $publishStub->method('getMessage')
+                  ->willReturn($messageEncoded);
+
+      $mqttHandler = PluginFlyvemdmMqtthandler::getInstance();
+      $mqttHandler->publish($mqttStub, $publishStub);
+
+      // Check the task still exists
+      $taskStatus->getFromDB($taskStatus->getID());
+      $this->assertFalse($taskStatus->isNewItem());
+
+      // check the status is done
+      $status = $taskStatus->getField('status');
+      $this->assertEquals('done', $status);
    }
 
 }

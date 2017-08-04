@@ -57,6 +57,7 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
                   PluginFlyvemdmEntityconfig::$rightname,
                   PluginFlyvemdmInvitation::$rightname,
                   PluginFlyvemdmInvitationLog::$rightname,
+                  PluginFlyvemdmTaskstatus::$rightname,
                   User::$rightname,
                   Profile::$rightname,
                   Computer::$rightname,
@@ -165,5 +166,13 @@ class SuperAdminProfileIntegrationTest extends SuperAdminTestCase
     */
    public function testSuperAdminProfilePluginProfileInvitationLogRight($rights) {
       $this->assertEquals(READ, $rights[PluginFlyvemdmInvitationLog::$rightname]);
+   }
+
+   /**
+    * @depends testGetRights
+    * @param array $rights
+    */
+   public function testSuperAdminProfilePluginProfileTaskstatusRight($rights) {
+      $this->assertEquals(READ, $rights[PluginFlyvemdmTaskstatus::$rightname]);
    }
 }

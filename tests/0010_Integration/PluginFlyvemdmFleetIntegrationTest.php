@@ -159,7 +159,7 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
                   'value'                       => '0',
             ]]);
 
-      $this->fleet_policy('post', self::$sessionToken, $body);
+      $this->task('post', self::$sessionToken, $body);
 
       $this->assertGreaterThanOrEqual(200, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
       $this->assertLessThan(300, $this->restHttpCode, json_encode($this->restResponse, JSON_PRETTY_PRINT));
@@ -192,9 +192,9 @@ class PluginFlyvemdmFleetIntegrationTest extends ApiRestTestCase {
     * @depends testPurgeFleet
     */
    public function testPolicyUnlinkedAfterPurge(PluginFlyvemdmFleet $fleet) {
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
+      $task = new PluginFlyvemdmTask();
       $fleetId = $fleet->getID();
-      $rows = $fleet_policy->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
+      $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId'");
       $this->assertEquals(0, count($rows));
    }
 

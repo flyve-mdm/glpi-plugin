@@ -197,17 +197,6 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
       // Test the user of the computer is the user of the invitation
       $this->assertEquals($invitation->getField('users_id'), $computer->getField('users_id'));
 
-      // Test a new user for the agent exists
-      $agentUser = new User();
-      $agentUser->getFromDBbyName(self::$fixture['serial']);
-      $this->assertFalse($agentUser->isNewItem());
-
-      // Test the agent user does not have a password
-      $this->assertEmpty($agentUser->getField('password'));
-
-      // Test the agent user has an api token
-      $this->assertNotEmpty($agentUser->getField('api_token'));
-
       return $agent;
    }
 
@@ -228,7 +217,6 @@ class DeviceEnrollmentTest extends GuestUserTestCase {
       $this->assertTrue(isset($agent->fields['android_bugcollector_login']));
       $this->assertTrue(isset($agent->fields['android_bugcollector_passwd']));
       $this->assertTrue(isset($agent->fields['version']));
-      $this->assertTrue(isset($agent->fields['api_token']));
 
       return $agent;
    }

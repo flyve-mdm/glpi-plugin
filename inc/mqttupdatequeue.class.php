@@ -79,10 +79,12 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
     *    <0 : to be run again (not finished)
     *     0 : nothing to do
     */
-   static function cronUpdateTopics($task) {
+   static function cronUpdateTopics($cronTask) {
       global $DB;
 
-      $task->log("Refresh MQTT topics queued for update");
+      $cronStatus = 0;
+
+      $cronTask->log("Refresh MQTT topics queued for update");
 
       // Select the queued items until 30 seconds ago
       // To avoid time sync problems between the plugin and the DBMS
@@ -105,7 +107,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
          while ($row = $DB->fetch_assoc($result)) {
             $idList[] = $row['id'];
          }
-         $numRows = $DB->numrows($result);
+
          $idList = "'" . implode("', '", $idList) . "'";
          $query = "SELECT *
             FROM `" . self::getTable() . "`
@@ -114,25 +116,31 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
             ORDER BY `date` ASC";
          $result = $DB->query($query);
 
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
+         $task = new PluginFlyvemdmTask();
          while ($row = $DB->fetch_assoc($result)) {
+            // publish MQTT messages
+            $fleetId = $row['plugin_flyvemdm_fleets_id'];
+            $group = $row['group'];
             $fleet = new PluginFlyvemdmFleet();
-            $fleet->getFromDB($row['plugin_flyvemdm_fleets_id']);
-            $fleet_policy->publishPolicies($fleet, array($row['group']));
+            $fleet->getFromDB($fleetId);
+            $task->publishPolicies($fleet, array($group));
+
+            // mark done more recent policies on the same group and fleet
+            $updateQueue = new static();
+            $rows = $updateQueue->find("`group` = '$group' AND `plugin_flyvemdm_fleets_id` = '$fleetId' AND `status` = 'queued'");
+            foreach ($rows as $updateQueueId => $updateQueueItem) {
+               $updateQueue->update([
+                     'id'     => $updateQueueId,
+                     'status' => 'done',
+               ]);
+            }
+            $cronTask->addVolume(count($rows));
          }
-
-         // update the status of the rows
-
-         $query = "UPDATE `" . self::getTable() . "`
-               SET `status` = 'done'
-               WHERE `id` IN ($idList)";
-         $result = $DB->query($query);
-
-         $task->setVolume($numRows);
+         $cronStatus = 1;
       } else {
-         $task->setVolume(0);
+         $cronTask->setVolume(0);
       }
-      return 1;
+      return $cronStatus;
    }
 
 }
