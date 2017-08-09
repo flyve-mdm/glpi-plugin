@@ -538,12 +538,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
 
          // Check the user still has one or several profiles
-         $rows = $profile_User->find("`users_id`='$ownerUserId'", '', '1');
+         /*$rows = $profile_User->find("`users_id`='$ownerUserId'", '', '1');
          if (count($rows) == 0) {
             // Delete the user
             $user = new User();
             $user->delete(['id' => $ownerUserId], true);
-         }
+         }*/
       }
 
       // Delete the user account of the agent
