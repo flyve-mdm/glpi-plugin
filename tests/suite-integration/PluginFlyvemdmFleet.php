@@ -76,6 +76,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));

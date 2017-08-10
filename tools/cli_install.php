@@ -121,7 +121,7 @@ $apiUserToken = $args['--api-user-token'];
 
 /*---------------------------------------------------------------------*/
 
-if (!TableExists("glpi_configs")) {
+if (!$DB->tableExists("glpi_configs")) {
    echo "GLPI not installed\n";
    exit(1);
 }

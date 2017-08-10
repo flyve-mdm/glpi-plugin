@@ -210,12 +210,17 @@ class PluginFlyvemdmInstaller {
 
    protected function createRootEntityConfig() {
       $entityConfig = new PluginFlyvemdmEntityconfig();
-      $entityConfig->add([
-            'id'                 => '0',
-            'entities_id'        => '0',
-            'download_url'       => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
-            'agent_token_life'   => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
+      $entityConfig->getFromDBByCrit([
+         'entities_id' => '0'
       ]);
+      if ($entityConfig->isNewItem()) {
+         $entityConfig->add([
+               'id'                 => '0',
+               'entities_id'        => '0',
+               'download_url'       => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+               'agent_token_life'   => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
+         ]);
+      }
    }
 
    /**
