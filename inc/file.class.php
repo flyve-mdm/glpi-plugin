@@ -351,7 +351,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
             }
             $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
             if ($task->getFromDB($taskId)) {
-               //$task->publishPolicies($fleet, $policy->getGroup());
                $task->updateQueue($fleet, $policy->getGroup());
             }
          }

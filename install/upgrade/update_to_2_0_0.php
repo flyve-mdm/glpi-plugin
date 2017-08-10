@@ -33,7 +33,7 @@ function update_to_2_0_0(Migration $migration) {
    $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
    $table = PluginFlyvemdmAgent::getTable();
-   if (! FieldExists($table, 'enroll_status')) {
+   if (!$DB->fieldExists($table, 'enroll_status')) {
       $query = "ALTER TABLE `$table`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
       $DB->query($query) or die("Could upgrade table $table" . $DB->error());

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `last_contact`              datetime                                          DEFAULT NULL,
   `is_online`                 tinyint(1)                                        NOT NULL DEFAULT '0',
   `certificate`               text                                              NOT NULL,
+  `mdm_type`                  enum('android','apple')                           NOT NULL DEFAULT 'android',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -184,6 +185,8 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
   `comment`                                    text           DEFAULT NULL,
   `default_value`                              varchar(255)   NOT NULL DEFAULT '',
   `recommended_value`                          varchar(255)   NOT NULL DEFAULT '',
+  `is_android_policy`                          tinyint(1)     NOT NULL DEFAULT '0',
+  `is_apple_policy`                            tinyint(1)     NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -411,7 +411,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * get the groups of policies where at least one policy applies to a fleet
     *
-    * @param PluginFlyvemdmFieet $fleet
+    * @param PluginFlyvemdmFleet $fleet
     *
     * @return string[] groups of policies
     */
@@ -448,6 +448,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * non applied policies of the same group
     * @param string $group name of a group of policies
     * @param PluginFlyvemdmFleet $fleet fleet the group will built for
+    *
+    * @return array
     */
    public function getGroupOfPolicies($group, $fleet) {
       global $DB;
@@ -456,9 +458,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $fleetId = $fleet->getID();
       $taskTable = PluginFlyvemdmTask::getTable();
       $policyTable = PluginFlyvemdmPolicy::getTable();
-      $query = "SELECT `fp`.* FROM `$taskTable` `fp`
-                LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-                WHERE `fp`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
+      $query = "SELECT `t`.* FROM `$taskTable` `t`
+                LEFT JOIN `$policyTable` `p` ON `t`.`plugin_flyvemdm_policies_id` = `p`.`id`
+                WHERE `t`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $excludedPolicyIds = array();
@@ -469,12 +471,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'fleets_policies_id' => $row['id'],
-                  'policyData'         => $appliedPolicyData,
-                  'policyId'           => $row['plugin_flyvemdm_policies_id'],
-                  'value'              => $row['value'],
-                  'itemtype'           => $row['itemtype'],
-                  'items_id'           => $row['items_id'],
+                  'tasks_id'     => $row['id'],
+                  'policyData'   => $appliedPolicyData,
+                  'policyId'     => $row['plugin_flyvemdm_policies_id'],
+                  'value'        => $row['value'],
+                  'itemtype'     => $row['itemtype'],
+                  'items_id'     => $row['items_id'],
             ];
          }
          $excludedPolicyIds[] = $row['plugin_flyvemdm_policies_id'];
@@ -490,12 +492,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $row['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
          } else {
             $policiesToApply[] = [
-                  'fleets_policies_id' => '0',
-                  'policyData'         => $defaultPolicyData,
-                  'policyId'           => $policyId,
-                  'value'              => $row['default_value'],
-                  'itemtype'           => '',
-                  'items_id'           => '',
+                  'tasks_id'     => '0',
+                  'policyData'   => $defaultPolicyData,
+                  'policyId'     => $policyId,
+                  'value'        => $row['default_value'],
+                  'itemtype'     => '',
+                  'items_id'     => '',
             ];
          }
       }
@@ -525,8 +527,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             continue;
          }
          // Add a task ID to the message if esists
-         if ($policyToApply['fleets_policies_id'] != '0') {
-            $policyMessage['taskId'] = $policyToApply['fleets_policies_id'];
+         if ($policyToApply['tasks_id'] != '0') {
+            $policyMessage['taskId'] = $policyToApply['tasks_id'];
          }
          $groupToEncode[] = $policyMessage;
       }
@@ -545,13 +547,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    public function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
       $agentId = $agent->getID();
       foreach ($policiesToApply as $policyToApply) {
-         $taskId = $policyToApply['fleets_policies_id'];
+         $taskId = $policyToApply['tasks_id'];
          if ($taskId > 0) {
             $taskStatus = new PluginFlyvemdmTaskstatus();
             $taskStatus->add([
-                  'plugin_flyvemdm_agents_id'            => $agentId,
+                  'plugin_flyvemdm_agents_id'  => $agentId,
                   'plugin_flyvemdm_tasks_id'   => $taskId,
-                  'status'                               => 'pending',
+                  'status'                     => 'pending',
             ]);
          }
       }
