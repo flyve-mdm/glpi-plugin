@@ -295,7 +295,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       ];
 
       $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                        . addcslashes(implode(';', $enrollmentData), '\;');
+                        . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');

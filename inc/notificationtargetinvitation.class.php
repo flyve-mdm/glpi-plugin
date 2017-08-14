@@ -118,7 +118,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                ];
 
                $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                                 . addcslashes(implode(';', $enrollmentData), '\;');
+                                 . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
 
                // Fill the template
                $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
