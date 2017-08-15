@@ -24,7 +24,7 @@
  * @author    the flyvemdm plugin team
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -47,7 +47,25 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = PluginFlyvemdmAgent::getTable();
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
 
-   $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
+   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_taskstatuses` (
+               `id`                                  int(11) NOT NULL AUTO_INCREMENT,
+               `name`                                varchar(255) NOT NULL DEFAULT '',
+               `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+               `date_mod`                            datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+               `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
+               `plugin_flyvemdm_tasks_id`            int(11) NOT NULL DEFAULT '0',
+               `status`                              varchar(255) NOT NULL DEFAULT '',
+               PRIMARY KEY (`id`)
+             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+   if (!$DB->query($query)) {
+      plugin_flyvemdm_upgrade_error($migration);
+   }
 
    $migration->addField(PluginFlyvemdmAgent::getTable(), 'is_online', 'integer', ['after' => 'last_contact']);
+
+   // Rename fleet_policy into task
+   $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', 'glpi_plugin_flyvemdm_tasks');
+   $migration->changeField('glpi_plugin_flyvemdm_tasks', 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id', 'integer');
+
+   $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 }

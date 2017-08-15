@@ -1,22 +1,28 @@
 language: php
-
 env:
   global:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" 
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
+    - secure: Fd6/+6UwqrAxUmiNd3VrIJ32MvuAhBWXXjgmfVeosXIv8K9s8btPToCw2vNtekNWw4/+sn6opT7YkPr1gHBIUQZQvA3ro74kjFPUr+zAZc8+VRedm/NCQ4Qe8EeOBog8SIXkcKDT1/iAlszN+2CEP8g6oI+suNDxrLRe+b+ukdZGUcd//dkzKTkuIjKpzMeM35d7wiGXMtAp0JWAQ1SyoOhJoOpUwc0jch4cHaaiMfWmL2OP6f8WWy2C1vfm/mRpa6YAOXWc0eKQ7LmYOo3p9hJIi/y9cN6hVgszIg5MA97P7bcJnsDoTRGSRweIY6utPe0ZfJtlY/uhU5Vy3V1sAVtczQP7f3gfaeEyWOxeYCSDlKpBcPr7d6GdjscatepNg4ihrOyxuvQaWfbgZyz1icR7oCCnGMHlUnZak9M14D/Ik+kpfiqsoIJThkj57fAeCU7pO4dmkdoMMWIfdktGae2iUcqxxs6RjegXPR7gFurn5seRdl9z4tSXZwCXbatq3a5xXWOD+P9+rG9J7BNfV+0FidylyvDn+HhD8iaFbqR5VmySL/0/TE8BHil0CoKaUiQnorpjJmOQZwB0sg4kYnbSS7VtErewItVSbrlt180wTyIbijuk0pz9zajpNiSwiH0Ne/vXkDzqDxAzFY2y+gN//lYly4o/WfauKbt6P6w=
 
 before_script:
-  - if [[ "$HASXDBG" -ne "false" ]]; then phpenv config-rm xdebug.ini; fi
+  - mysql -u root -e 'create database glpitest;'
+  - phpenv config-rm xdebug.ini || true
+  - rm -f composer.lock
+  - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
   - composer install --no-dev
   - sed -e "s/return extension_loaded('mcrypt');/return false;/" -i vendor/ircmaxell/random-lib/lib/RandomLib/AbstractMcryptMixer.php
-  - php tools/cliinstall.php --db=glpi-test --user=travis --tests
+  - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi-plugin plugins/flyvemdm
   - cd plugins/flyvemdm && composer install -o
 
 script:
-  - vendor/bin/phpunit --verbose
+  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install
+  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-unit
+  - for f in `ls tests/suite-integration/`; do vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -f tests/suite-integration/$f; done;
+  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-uninstall
   - if [[ "$CS" == "true" ]]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
 
 matrix:
@@ -31,6 +37,9 @@ matrix:
     - php: 7.1
     - php: nightly
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+    
 notifications:
   webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
-

@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -41,6 +41,7 @@ class PluginFlyvemdmPolicyFactory {
 
    /**
     * Create an empty policy by type
+    *
     * @param string $type
     */
    public function createFromPolicy(PluginFlyvemdmPolicy $policyData) {
@@ -86,6 +87,7 @@ class PluginFlyvemdmPolicyFactory {
 
    /**
     * Create and returns a policy from DB
+    *
     * @param integer $id
     * @return PluginFlyvemdmPolicyInterface
     */

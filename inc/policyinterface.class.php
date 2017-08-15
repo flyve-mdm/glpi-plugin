@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -118,7 +118,7 @@ interface PluginFlyvemdmPolicyInterface {
    /**
     * return policy value for display
     */
-   public function showValue(PluginFlyvemdmFleet_Policy $fleet_policy);
+   public function showValue(PluginFlyvemdmTask $task);
 
    /**
     * Transforms form data to match the format expected by the API

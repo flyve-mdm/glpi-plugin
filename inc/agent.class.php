@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -413,7 +413,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
 
-         $this->changeFleet($oldFleet, $newFleet);
+         $this->changeMqttAcl($oldFleet, $newFleet);
       }
 
       // send wipe to the agent
@@ -424,6 +424,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // send lock to the agent
       if (isset($input['lock']) && $input['lock'] != '0') {
          $input['lock'] == '1';
+      }
+
+      if (array_key_exists('lock', $input)
+          && ($this->fields['wipe'] != '0'
+              || (isset($input['wipe']) && $input['wipe'] != '0') )) {
+         unset($input['lock']);
       }
 
       unset($input['enroll_status']);
@@ -588,8 +594,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $history store changes history ? (default 1)
     * @return void
     */
-   public function post_updateItem($history=1) {
+   public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
+         // create tasks for the agent from already applied policies
+         $newFleet = new PluginFlyvemdmFleet();
+         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+            $task = new PluginFlyvemdmTask();
+
+            // get groups of policies where a policy applies
+            $groups = $task->getGroupsOfAppliedPolicies($newFleet);
+            foreach ($groups as $groupName) {
+               // get policies per group
+               $policiesToApply = $task->getGroupOfPolicies($groupName, $newFleet);
+               // create task statuses for a single agent
+               $task->createTaskStatus($this, $policiesToApply);
+            }
+         }
 
          $this->updateSubscription();
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
@@ -1295,25 +1315,34 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function sendInventoryQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $computerId = $this->fields['computers_id'];
 
-         $inventory = new PluginFusioninventoryInventoryComputerComputer();
-         $inventoryRows = $inventory->find("`computers_id`='$computerId'", '', '1');
-         $lastInventory = array_pop($inventoryRows);
+         $message = [
+            'query'  => 'Inventory'
+         ];
+         $this->notify("$topic/Command/Inventory", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
+         return $this->pollInventoryAnswer();
+      }
 
-         $this->notify("$topic/Command/Inventory", '{"query":"Inventory"}', 0, 0);
+      return false;
+   }
 
-         // Wait for a reply within a short delay
-         $loopCount = 5 * 15; // 15 seconds
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $inventoryRows = $inventory->find("`computers_id`='$computerId'", '', '1');
-            $updatedInventory = array_pop($inventoryRows);
-            if ($lastInventory === null && $updatedInventory !== null
-                  || $lastInventory !== null && $lastInventory != $updatedInventory) {
-               return true;
-            }
+   protected function pollInventoryAnswer() {
+      // Wait for a reply within a short delay
+      $computerFk = Computer::getForeignKeyField();
+      $computerId = $this->fields[$computerFk];
+      $inventory = new PluginFusioninventoryInventoryComputerComputer();
+      $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+      $lastInventory = array_pop($inventoryRows);
+
+      $loopCount = 5 * 10; // 10 seconds
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+         $updatedInventory = array_pop($inventoryRows);
+         if ($lastInventory === null && $updatedInventory !== null
+             || $lastInventory !== null && $lastInventory != $updatedInventory) {
+            return true;
          }
       }
 
@@ -1331,17 +1360,21 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                'query'  => 'Ping'
          ];
          $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
+      }
 
-         // Wait for a reply within a short delay
-         $loopCount = 25;
-         $updatedAgent = new self();
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $updatedAgent->getFromDB($this->getID());
-            if ($updatedAgent->getField('last_contact') != $this->fields['last_contact']) {
-               return true;
-            }
+      return $this->pollPingAnswer();
+   }
+
+   protected function pollPingAnswer() {
+      // Wait for a reply within a short delay
+      $loopCount = 25;
+      $updatedAgent = new self();
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $updatedAgent->getFromDB($this->getID());
+         if ($updatedAgent->getField('last_contact') != $this->fields['last_contact']) {
+            return true;
          }
       }
 
@@ -1455,7 +1488,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return self::ENROLL_ENTITY_TOKEN;
       }
 
-      return self::ENROLL_DENY;;
+      return self::ENROLL_DENY;
    }
 
    /**
@@ -1569,7 +1602,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param PluginFlyvemdmFleet $old old fleet
     * @param PluginFlyvemdmFleet $new new fleet
     */
-   protected function changeFleet(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
+   protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
@@ -1631,5 +1664,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function hook_entity_purge(CommonDBTM $item) {
       $agent = new static();
       $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+   }
+
+   public function hook_computer_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(array('computers_id' => $item->getField('id')), 1);
    }
 }

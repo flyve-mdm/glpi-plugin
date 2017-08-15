@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -182,7 +182,14 @@ function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
    }
 }
 
+/**
+ * hook when a computer is being purged
+ *
+ * @param CommonDBTM $item
+ */
 function plugin_flyvemdm_computer_purge(CommonDBTM $item) {
    $geolocation = new PluginFlyvemdmGeolocation();
    $geolocation->hook_computer_purge($item);
+   $agent = new PluginFlyvemdmAgent();
+   $agent->hook_computer_purge($item);
 }

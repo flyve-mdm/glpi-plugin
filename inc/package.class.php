@@ -24,7 +24,7 @@
  * @author    Thierry Bugier Pineau
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- * @link      https://github.com/flyve-mdm/flyve-mdm-glpi
+ * @link      https://github.com/flyve-mdm/flyve-mdm-glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
@@ -383,20 +383,20 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $itemtype = $this->getType();
          $itemId = $this->getID();
 
-         $fleet_policy = new PluginFlyvemdmFleet_Policy();
-         $fleet_policyCol = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+         $task = new PluginFlyvemdmTask();
+         $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
          $fleet = new PluginFlyvemdmFleet();
          $policyFactory = new PluginFlyvemdmPolicyFactory();
-         foreach ($fleet_policyCol as $fleet_policyId => $fleet_policyRow) {
-            $fleetId = $fleet_policyRow['plugin_flyvemdm_fleets_id'];
+         foreach ($taskCol as $taskId => $taskRow) {
+            $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
                Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
-            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_flyvemdm_policies_id']);
-            if ($fleet_policy->getFromDB($fleet_policyId)) {
-               //$fleet_policy->publishPolicies($fleet, $policy->getGroup());
-               $fleet_policy->updateQueue($fleet, $policy->getGroup());
+            $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
+            if ($task->getFromDB($taskId)) {
+               //$task->publishPolicies($fleet, $policy->getGroup());
+               $task->updateQueue($fleet, $policy->getGroup());
             }
          }
       }
@@ -408,8 +408,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function pre_deleteItem() {
       global $DB;
 
-      $fleet_policy = new PluginFlyvemdmFleet_Policy();
-      return $fleet_policy->deleteByCriteria(array(
+      $task = new PluginFlyvemdmTask();
+      return $task->deleteByCriteria(array(
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
       ));
