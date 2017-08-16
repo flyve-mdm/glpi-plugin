@@ -98,8 +98,6 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      global $DB;
-
       if (!isset($input['id'])) {
          return false;
       }

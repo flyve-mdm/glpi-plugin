@@ -68,8 +68,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
-      global $DB;
-
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
@@ -223,8 +221,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @return canonical saved filename, '' if an error occured
     */
    public function saveUploadedFile($source, $destination) {
-      global $CFG_GLPI;
-
       $success = false;
 
       $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
@@ -273,8 +269,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']                 = __s('File', "flyvemdm");
 
@@ -303,20 +297,11 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      global $DB;
-
       $task = new PluginFlyvemdmTask();
       return $task->deleteByCriteria(array(
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
       ));
-   }
-
-   /**
-    * @see CommonDBTM::post_addItem()
-    */
-   public function post_addItem() {
-      global $DB;
    }
 
    public function post_getFromDB() {
@@ -393,6 +378,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
       // set range if specified by the client
       if (isset($_SERVER['HTTP_RANGE'])) {
+         $matches = null;
          if (preg_match('/bytes=\h*(\d+)?-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
             if (!empty($matches[1])) {
                $begin = intval($matches[1]);
@@ -463,8 +449,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @param array $options
     */
    public function showForm($ID, $options = array()) {
-      global $CFG_GLPI, $DB;
-
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 

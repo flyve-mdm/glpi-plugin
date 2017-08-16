@@ -114,7 +114,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
     * Hash a password
-    * @param unknown $clearPassword
+    * @param string $clearPassword
     * @return string PBKDF2 hashed password
     */
    protected function hashPassword($clearPassword) {
@@ -126,34 +126,11 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       $iterations = 901;
       $rawOutput = true;
 
-      if (function_exists('hash_pbkdf2')) {
-         if ($rawOutput) {
-            $keyLength *= 2;
-         }
-
-         $hashed = hash_pbkdf2('sha256', $clearPassword, $salt, $iterations, $keyLength, $rawOutput);
-      } else {
-         $hash_length = strlen(hash($algorithm, "", true));
-         $block_count = ceil(24 / $hash_length);
-         $output = "";
-         for ($i = 1; $i <= $block_count; $i++) {
-            // $i encoded as 4 bytes, big endian.
-            $last = $salt . pack("N", $i);
-            // first iteration
-            $last = $xorsum = hash_hmac($algorithm, $last, $clearPassword, true);
-            // perform the other $count - 1 iterations
-            for ($j = 1; $j < $count; $j++) {
-               $xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
-            }
-            $output .= $xorsum;
-         }
-
-         if ($rawOutput) {
-            $hashed = substr($output, 0, $keyLength);
-         } else {
-            $hashed = bin2hex(substr($output, 0, $keyLength));
-         }
+      if ($rawOutput) {
+         $keyLength *= 2;
       }
+
+      $hashed = hash_pbkdf2('sha256', $clearPassword, $salt, $iterations, $keyLength, $rawOutput);
 
       return 'PBKDF2$' . $algorithm . '$' . $iterations . '$' . $salt . '$' . base64_encode($hashed);
    }
@@ -207,7 +184,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
     * Retrieve a mqtt user by name
-    * @param unknown $user
+    * @param string $user
     */
    public function getByUser($user) {
       global $DB;
@@ -230,9 +207,9 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       $mqttAcl = new PluginFlyvemdmMqttacl();
       $userId = $this->fields['id'];
       $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
-      foreach ($rows as $rowId => $row) {
+      foreach ($rows as $row) {
          $mqttAcl = new PluginFlyvemdmMqttacl();
-         $mqttAcl->getFromDB($rowId);
+         $mqttAcl->getFromDB($row['id']);
          if (!$mqttAcl->isNewItem()) {
             $aclList[] = $mqttAcl;
          }
