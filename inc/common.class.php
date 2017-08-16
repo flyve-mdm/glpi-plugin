@@ -55,6 +55,11 @@ class PluginFlyvemdmCommon
       return "$size $unit";
    }
 
+   /**
+    * Display massive actions
+    * @param Object $massiveactionparams
+    * @return String $html
+    */
    public static function getMassiveActions($massiveactionparams) {
       ob_start();
       Html::showMassiveActions($massiveactionparams);
