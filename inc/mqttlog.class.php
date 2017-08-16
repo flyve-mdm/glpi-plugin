@@ -40,22 +40,8 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
 
    const MQTT_MAXIMUM_DURATION = 60;
 
-   /**
-    * @deprecated
-    * @var unknown $phpMqtt
-    */
-   protected $phpMqtt;
-
-   /**
-    * @deprecated
-    * @var unknown $beginTimestamp
-    */
-   protected $beginTimestamp;
-
    public function __construct() {
       parent::__construct();
-
-      $this->beginTimestamp = time();
 
    }
 

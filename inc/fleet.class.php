@@ -99,8 +99,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Show form for edition
     */
    public function showForm($ID, $options = array()) {
-      global $CFG_GLPI, $DB;
-
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
@@ -155,8 +153,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      global $DB;
-
       // check if fleet being deleted is the default one
       if ($this->fields['is_default'] == '1' && $this->deleteDefaultFleet !== true) {
 
@@ -223,8 +219,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']                 = __s('Fleet', "flyvemdm");
 
@@ -370,9 +364,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agent = new PluginFlyvemdmAgent();
       $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$id'");
 
-      foreach ($rows as $agentId => $row) {
+      foreach ($rows as $row) {
          $agent = new PluginFlyvemdmAgent();
-         if ($agent->getFromDB($agentId)) {
+         if ($agent->getFromDB($row['id'])) {
             $agents[] = $agent;
          }
       }
@@ -401,7 +395,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
          $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmPackage'");
-         foreach ($rows as $id => $row) {
+         foreach ($rows as $row) {
             $package = new PluginFlyvemdmPackage();
             $package->getFromDB($row['plugin_flyvemdm_packages_id']);
             $packages[] = $package;
@@ -421,7 +415,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
          $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='PluginFlyvemdmFile'");
-         foreach ($rows as $id => $row) {
+         foreach ($rows as $row) {
             $file = new PluginFlyvemdmPackage();
             $file->getFromDB($row['plugin_flyvemdm_packages_id']);
             $files[] = $file;

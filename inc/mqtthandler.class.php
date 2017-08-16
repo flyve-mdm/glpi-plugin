@@ -67,9 +67,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    /**
     * Maintains a MQTT topic to publish the current version of the backend
     *
-    * @param unknown $mqtt
+    * @param \sskaje\mqtt\MQTT $mqtt
     */
-   protected function publishManifest($mqtt) {
+   protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
       $config = Config::getConfigurationValues('flyvemdm', array('version'));
@@ -142,6 +142,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected function updateAgentVersion($topic, $message) {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic) !== false) {
+         $sanitized = null;
          preg_match("#^[\d.]+$#", $message, $sanitized);
          if (!empty($sanitized[0])) {
             $agent->update([
@@ -158,6 +159,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $config = Config::getConfigurationValues('flyvemdm', 'version');
       $version = $config['version'];
 
+      $matches = null;
       preg_match('/^([\d\.]+)/', $version, $matches);
       if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
          $this->flyveManifestMissing = true;

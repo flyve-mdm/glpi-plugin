@@ -51,9 +51,9 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Check the unicity of the policy
-    * @param unknown $value
-    * @param unknown $itemtype
-    * @param unknown $itemId
+    * @param string $value
+    * @param string $itemtype
+    * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
@@ -68,9 +68,9 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Check there is not a conflict with an already applied policy
-    * @param unknown $value
-    * @param unknown $itemtype
-    * @param unknown $itemId
+    * @param string $value
+    * @param string $itemtype
+    * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);

@@ -51,8 +51,8 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    /**
     * Prepare input datas for adding the item
-    * @param $input datas used to add the item
-    * @return the modified $input array
+    * @param array $input data used to add the item
+    * @return array the modified $input array
     */
    public function prepareInputForAdd($input) {
       // unset($input['is_default']);
@@ -61,8 +61,8 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    /**
     * Prepare input datas for updating the item
-    * @param $input datas used to update the item
-    * @return the modified $input array
+    * @param array $input data used to update the item
+    * @return array the modified $input array
     */
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
@@ -73,8 +73,6 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
     * @see CommonDropdown::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']             = __s('Well known path', "flyvemdm");
 
