@@ -157,6 +157,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Permits to hide fields
+    * @param array $fields
+    * @return array $fields
+    */
    public static function undiscloseConfigValue($fields) {
       $undisclosed = [
             'mqtt_passwd',
