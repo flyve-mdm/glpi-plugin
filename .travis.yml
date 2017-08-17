@@ -3,13 +3,12 @@ env:
   global:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" 
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
-    - secure: Fd6/+6UwqrAxUmiNd3VrIJ32MvuAhBWXXjgmfVeosXIv8K9s8btPToCw2vNtekNWw4/+sn6opT7YkPr1gHBIUQZQvA3ro74kjFPUr+zAZc8+VRedm/NCQ4Qe8EeOBog8SIXkcKDT1/iAlszN+2CEP8g6oI+suNDxrLRe+b+ukdZGUcd//dkzKTkuIjKpzMeM35d7wiGXMtAp0JWAQ1SyoOhJoOpUwc0jch4cHaaiMfWmL2OP6f8WWy2C1vfm/mRpa6YAOXWc0eKQ7LmYOo3p9hJIi/y9cN6hVgszIg5MA97P7bcJnsDoTRGSRweIY6utPe0ZfJtlY/uhU5Vy3V1sAVtczQP7f3gfaeEyWOxeYCSDlKpBcPr7d6GdjscatepNg4ihrOyxuvQaWfbgZyz1icR7oCCnGMHlUnZak9M14D/Ik+kpfiqsoIJThkj57fAeCU7pO4dmkdoMMWIfdktGae2iUcqxxs6RjegXPR7gFurn5seRdl9z4tSXZwCXbatq3a5xXWOD+P9+rG9J7BNfV+0FidylyvDn+HhD8iaFbqR5VmySL/0/TE8BHil0CoKaUiQnorpjJmOQZwB0sg4kYnbSS7VtErewItVSbrlt180wTyIbijuk0pz9zajpNiSwiH0Ne/vXkDzqDxAzFY2y+gN//lYly4o/WfauKbt6P6w=
+    - secure: PyxhETXm5M7Vj/3Y+tyKQCeiRQPhEG4M3AbbDPIR+R4SlwZsEejGSx1RjKsQBxTurC/SQbe13Z812YT4LabT/NxwumYqKD/EF6dfbmezeQWSrqcDGMmQgEgp49YjBqzNe1nC3D0rmwXGtH079i7QxMIA8DQToEWJdmKEQTem/9wy/qiIvNxCtSoq6ryBcR95zqRDjJsRRh2aD/wHivB4us4ghwsjsmjZ9hbiYftA7768tp1Qq4Gt4cOattxTK/UI21zQWf6B2iO25m0I3yjBT3v44jFKV0eSjE60u5yyZhxTCHN6gI0lW2D352j2Qb8OHgaYfbbYShy6qycPC087198dyVYV5q931fvXyLhQBYx2dCFrBd/HAZFHitOSb3TLC+HGkbTpODSuWsZzpQkIBtCmcA8q/OmxVlwQDg/DbjK83ta1Wpf5znu26gsbkjDDTYeXcj51ypIK+QQD0X5lVqxNiGuD1WdCprmMLMrRbo3HdMCFBr882t+3O0NRuDCDu7YPBLXTBoJEc/bE9ul+II8ZyLJF/Cy8VJDHHp0IO9PJsYIwdre82mKxy+OMBX+/0zQO/2naUAeSAmXJJCtMdpKcQeDD8BWpLC5EHzVHqBMB5oUW1NSjxziKhID95MhV/3VEvHQ6yI0TRwl020Tp7CyWX++QzllW/epbfn+GL4M=
 
 before_script:
   - mysql -u root -e 'create database glpitest;'
   - phpenv config-rm xdebug.ini || true
   - rm -f composer.lock
-  - composer config --global github-protocols https
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
   - composer install --no-dev
