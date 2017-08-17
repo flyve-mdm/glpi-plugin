@@ -204,7 +204,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * Finds the token
+    * Finds the invitation that matches the token given in argument
     * @param string $token
     * @return string $token
     */
