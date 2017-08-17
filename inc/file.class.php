@@ -453,6 +453,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       exit(0);
    }
 
+   /**
+    * Deletes files related with the entity
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $file = new static();
       $file->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
