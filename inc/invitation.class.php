@@ -206,6 +206,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Finds the token
+    * @param string $token
+    * @return string $token
+    */
    public function getFromDBByToken($token) {
       return $this->getFromDBByQuery("WHERE `invitation_token`='$token'");
    }
