@@ -78,6 +78,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $rights;
    }
 
+   /**
+    * Prepare input datas for adding the item
+    * @param $input
+    * @return array $input
+    */
    public function prepareInputForAdd($input) {
       // integrity checks
       if (!isset($input['_useremails'])) {
