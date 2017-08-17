@@ -41,7 +41,7 @@ class PluginFlyvemdmCommon
    /**
     * Convert int size to GiB
     * @param numeric $size 
-    * @return String format numeric
+    * @return string format numeric
     */
    public static function convertToGiB($size) {
       $units = ['KiB', 'MiB', 'GiB', 'TiB'];
@@ -58,7 +58,7 @@ class PluginFlyvemdmCommon
    /**
     * Display massive actions
     * @param Object $massiveactionparams
-    * @return String $html
+    * @return string $html
     */
    public static function getMassiveActions($massiveactionparams) {
       ob_start();
