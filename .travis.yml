@@ -9,6 +9,7 @@ before_script:
   - mysql -u root -e 'create database glpitest;'
   - phpenv config-rm xdebug.ini || true
   - rm -f composer.lock
+  - composer config --global github-protocols https
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
   - composer install --no-dev
