@@ -585,7 +585,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * Test the purge of an agent deletes the user if he no longer has any agent
+    * Test the purge of an agent the user must persist if he no longer has any agent
     *
     *
     */
@@ -630,9 +630,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $agentUser = new \User();
       $this->boolean($agentUser->getFromDB($agent->getField(\User::getForeignKeyField())))->isFalse();
 
-      // Test the owner user is deleted
+      // Test the owner user is NOT deleted
       $user = new \User();
-      $this->boolean($user->getFromDB($userId))->isFalse();
+      $this->boolean($user->getFromDB($userId))->isTrue();
    }
 
    /**
