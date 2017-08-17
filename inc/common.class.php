@@ -57,7 +57,7 @@ class PluginFlyvemdmCommon
 
    /**
     * Display massive actions
-    * @param Object $massiveactionparams
+    * @param array $massiveactionparams
     * @return string $html
     */
    public static function getMassiveActions($massiveactionparams) {
