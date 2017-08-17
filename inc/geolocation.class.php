@@ -185,6 +185,11 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Prepare data before update
+    * @param $input
+    * @return array $input
+    */
    public function prepareInputForUpdate($input) {
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
          Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'flyvemdm'));
