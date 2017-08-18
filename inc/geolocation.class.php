@@ -188,7 +188,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    /**
     * Prepare data before update
     * @param array $input
-    * @return array $input
+    * @return mixed $input
     */
    public function prepareInputForUpdate($input) {
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
