@@ -80,8 +80,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * Prepare input datas for adding the item
-    * @param $input
-    * @return array $input
+    * @param array $input
+    * @return mixed the modified input datas
     */
    public function prepareInputForAdd($input) {
       // integrity checks
