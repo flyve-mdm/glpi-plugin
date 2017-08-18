@@ -189,6 +189,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return $out;
    }
 
+   /**
+    * Shows the values searched
+    * @param numeric PluginFlyvemdmTask $task
+    * @return mixed the values of the search
+    */
    public function showValue(PluginFlyvemdmTask $task) {
       $package = new PluginFlyvemdmPackage();
       if ($package->getFromDB($task->getField('items_id'))) {
