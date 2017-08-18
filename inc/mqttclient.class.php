@@ -88,6 +88,10 @@ class PluginFlyvemdmMqttclient {
       self::$mqtt->setKeepalive($keepalive);
    }
 
+   /**
+    * Sets the maximun duration of the object
+    * @param numeric $duration
+    */
    public function setMaxDuration($duration) {
       $this->duration = $duration;
    }
