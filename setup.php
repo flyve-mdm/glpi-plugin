@@ -92,6 +92,7 @@ function plugin_init_flyvemdm() {
       $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
 
       Html::requireJs('charts');
+      $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
       $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
