@@ -103,7 +103,7 @@ function plugin_flyvemdm_registerClasses() {
    Plugin::registerClass(PluginFlyvemdmAgent::class);
    Plugin::registerClass(PluginFlyvemdmFleet::class);
    Plugin::registerClass(PluginFlyvemdmPolicy::class);
-   Plugin::registerClass(PluginFlyvemdmFleet_Policy::class);
+   Plugin::registerClass(PluginFlyvemdmTask::class);
    Plugin::registerClass(PluginFlyvemdmProfile::class,
          ['addtabon' => Profile::class]);
    Plugin::registerClass(PluginFlyvemdmGeolocation::class);
