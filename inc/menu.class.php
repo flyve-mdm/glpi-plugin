@@ -117,9 +117,8 @@ class PluginFlyvemdmMenu extends CommonGLPI {
    }
 
    /**
-    *
-    *
-    *
+    * Gets the menu content
+    * @return array the menu content
     */
    public static function getMenuContent() {
       $front_flyvemdm = "/plugins/flyvemdm/front";
