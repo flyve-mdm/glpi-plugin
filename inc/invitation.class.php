@@ -219,7 +219,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * Generates the Invitation Token
-    * @return string $token
+    * @return string the generated pseudo random bytes
     */
    protected function setInvitationToken() {
       $invitation = new static();
