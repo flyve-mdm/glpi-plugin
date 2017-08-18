@@ -188,6 +188,11 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
    }
 
+   /**
+    * Updates the last contact of the agent
+    * @param string $topic
+    * @param string $message
+    */
    protected function updateLastContact($topic, $message) {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
