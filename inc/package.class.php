@@ -572,7 +572,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * Deletes the packcages related to the entity
+    * Deletes the packages related to the entity
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
