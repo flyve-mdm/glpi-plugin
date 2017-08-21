@@ -327,6 +327,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $tab;
    }
 
+   /**
+    * Deletes the geolaction related with the computer
+    * @param CommonDBTM $item
+    */
    public function hook_computer_purge(CommonDBTM $item) {
       if ($item instanceof Computer) {
          $geolocation = new self();
