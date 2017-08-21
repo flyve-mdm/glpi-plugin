@@ -328,7 +328,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    * Deletes the geolaction related with the computer
+    * Deletes the geolocation related with the computer
     * @param CommonDBTM $item
     */
    public function hook_computer_purge(CommonDBTM $item) {
