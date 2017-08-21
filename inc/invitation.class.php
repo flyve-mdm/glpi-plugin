@@ -444,6 +444,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $this->showFormButtons($options);
    }
 
+   /**
+    * Display the massive actions related to the invitation of the user
+    */
    protected function showMassiveActionInviteUser() {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
