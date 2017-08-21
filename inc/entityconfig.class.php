@@ -313,6 +313,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return (($ID < 0) || !strlen($ID));
    }
 
+   /**
+    * Displays form
+    * @param Entity $item
+    */
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
       if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
