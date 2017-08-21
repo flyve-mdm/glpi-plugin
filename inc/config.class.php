@@ -158,9 +158,9 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * Permits to hide fields
+    * Remove the value from sensitive configuration entry
     * @param array $fields
-    * @return array the hidden fields
+    * @return array the filtered configuration entry
     */
    public static function undiscloseConfigValue($fields) {
       $undisclosed = [
