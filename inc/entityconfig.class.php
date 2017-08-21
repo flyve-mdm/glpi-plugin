@@ -290,6 +290,12 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return $default_value;
    }
 
+   /**
+    * Shows the tab content
+    * @param CommonGLPI $item
+    * @param integer $tabnum
+    * @param integer $withtemplate
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
 
       if ($item->getType() == 'Entity') {
