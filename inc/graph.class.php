@@ -36,6 +36,10 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmGraph extends CommonDBTM
 {
 
+   /**
+    * Displays the graphic of the invitations
+    * @return Pie graph
+    */   
    public function showInvitationsGraph() {
       $out = '';
 
