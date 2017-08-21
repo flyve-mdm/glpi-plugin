@@ -404,6 +404,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $tab;
    }
 
+   /**
+    * Deletes the invitation related to the entity
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $invitation = new static();
       $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
