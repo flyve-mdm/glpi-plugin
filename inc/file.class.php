@@ -454,7 +454,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * Deletes files related with the entity
+    * Deletes files related to the entity being purged
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
