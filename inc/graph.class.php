@@ -78,7 +78,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
 
    /**
     * Display the devices per operating system version
-    * @return mixed the devices according their operating system version
+    * @return string a HTML with the devices according their operating system version
     */
    public function showDevicesPerOSVersion() {
       global $DB;
