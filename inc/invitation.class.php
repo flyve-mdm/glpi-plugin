@@ -446,6 +446,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * Display the massive actions related to the invitation of the user
+    * @return string a HTML with the masssive actions
     */
    protected function showMassiveActionInviteUser() {
       $twig = plugin_flyvemdm_getTemplateEngine();
