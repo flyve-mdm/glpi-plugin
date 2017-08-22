@@ -251,6 +251,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $item->showFormButtons(array('candel' => false, 'formfooter' => false));
    }
 
+   /**
+    * Display the agents according the fleet
+    * @param PluginFlyvemdmFleet $item
+    * @return string an html with the agents
+    */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
       $items_id = $item->getField('id');
 
