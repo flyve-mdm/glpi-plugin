@@ -93,7 +93,7 @@ function plugin_init_flyvemdm() {
 
       Html::requireJs('charts');
       $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
-      $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
+      $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
 
