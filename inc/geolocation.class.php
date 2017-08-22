@@ -254,6 +254,11 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $where;
    }
 
+   /**
+    * Dislay the agents according the datetime
+    * @param CommonDBTM $item
+    * @return string an html with the geolocation of the agent
+    */
    public static function showForAgent(CommonDBTM $item) {
       $computer = new Computer;
       $computer->getFromDB($item->getField('computers_id'));
