@@ -208,6 +208,11 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
    }
 
+   /**
+    * Deletes the agent
+    * @param string $topic
+    * @param string $message
+    */
    protected function deleteAgent($topic, $message) {
       $agent = new \PluginFlyvemdmAgent();
       $agent->getByTopic($topic);
