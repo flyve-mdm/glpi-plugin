@@ -75,6 +75,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    protected $silent;
 
+   /**
+    * Gets the tab name for the item
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    * @return string the tab name
+    */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       if (static::canView()) {
          switch ($item->getType()) {
