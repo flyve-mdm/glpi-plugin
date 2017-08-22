@@ -471,7 +471,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
+    * Executes the code to process the massive actions
     *
+    * @param MassiveAction $ma
+    * @param CommonDBTM $item
+    * @param array $ids
     * @see CommonDBTM::processMassiveActionsForOneItemtype()
     */
    public static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids) {
