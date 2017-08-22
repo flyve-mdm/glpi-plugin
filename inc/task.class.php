@@ -356,6 +356,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
    }
 
+   /**
+    * Deletes the task statuses
+    * @param PluginFlyvemdmFleet $fleet
+    */
    private function deleteTaskStatuses(PluginFlyvemdmFleet $fleet) {
       $taskStatus = new PluginFlyvemdmTaskstatus();
       $taskStatus->deleteByCriteria([
