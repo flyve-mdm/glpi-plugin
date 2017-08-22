@@ -93,6 +93,11 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
       return Dropdown::showFromArray('value', $this->valueList, array('display' => false));
    }
 
+   /**
+    * Shows the values
+    * @param PluginFlyvemdmTask $task
+    * @return array a list of the values
+    */
    public function showValue(PluginFlyvemdmTask $task) {
       $value = $task->getField('value');
       return $this->valueList[$value];
