@@ -221,6 +221,11 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       ]);
    }
 
+   /**
+    * Saves geolocation position
+    * @param string $topic
+    * @param string $message
+    */
    protected function saveGeolocationPosition($topic, $message) {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
