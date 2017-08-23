@@ -3,7 +3,7 @@ env:
   global:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.2/bugfixes" 
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
-    - secure: PyxhETXm5M7Vj/3Y+tyKQCeiRQPhEG4M3AbbDPIR+R4SlwZsEejGSx1RjKsQBxTurC/SQbe13Z812YT4LabT/NxwumYqKD/EF6dfbmezeQWSrqcDGMmQgEgp49YjBqzNe1nC3D0rmwXGtH079i7QxMIA8DQToEWJdmKEQTem/9wy/qiIvNxCtSoq6ryBcR95zqRDjJsRRh2aD/wHivB4us4ghwsjsmjZ9hbiYftA7768tp1Qq4Gt4cOattxTK/UI21zQWf6B2iO25m0I3yjBT3v44jFKV0eSjE60u5yyZhxTCHN6gI0lW2D352j2Qb8OHgaYfbbYShy6qycPC087198dyVYV5q931fvXyLhQBYx2dCFrBd/HAZFHitOSb3TLC+HGkbTpODSuWsZzpQkIBtCmcA8q/OmxVlwQDg/DbjK83ta1Wpf5znu26gsbkjDDTYeXcj51ypIK+QQD0X5lVqxNiGuD1WdCprmMLMrRbo3HdMCFBr882t+3O0NRuDCDu7YPBLXTBoJEc/bE9ul+II8ZyLJF/Cy8VJDHHp0IO9PJsYIwdre82mKxy+OMBX+/0zQO/2naUAeSAmXJJCtMdpKcQeDD8BWpLC5EHzVHqBMB5oUW1NSjxziKhID95MhV/3VEvHQ6yI0TRwl020Tp7CyWX++QzllW/epbfn+GL4M=
+    - secure: Y9sG3lZ3Fn3t5BXvcMJQxWsdSUVQgF4M08E6oouYrRc95HEj3ZwZOqp6Df58u8CQFA0EKJyvCBLn8UicvHGMKAD0RwGLBdSP4Ji9gJRZkyMZi79awSshdva/c8dqVQrRd4asuTNQfcagVJpNDnY8sYusw504JUilK3vFVp+39nNZUkcvT69NGVIlXzgHTYinBkVuqDhf5eVtcLcaESLEshrg+5ZERdm+0KifdJVREzhicJxofnmTl/wBsIP7XiQqspljf2/SxLqreGmWXYXUfqIwIOVtsd9fkZChQCz8USC7P427tH6styRDYuMCtvA9b/T/XacSdKFbuDezff3NbIM3b5BebDyCrOK5MGSOdRUY5RuyZN4R5LjePUE++9QNCUPeDSkfb23v0VfuqXIRAxfdtik517GzFy6O7/e6FU1msVZlGQED7Uek9nqnupj+0lIq+99Jcm1UCNJu1NTL2Tv80XXqySaxyE4Sedq/FiYAsy1bo2cg2367I2b4FhFXaJCKkFHcdjHXAeurkRy/brSPhBNoOO5/GA3RepUErgly4P8TLZqHNZv8rgMUoQ88sdwDyXG7dY4UwWiTlCkxMBTqBqJanlTMA9zn2bYyMDioTGnA7+VYAA8cddjFOMVrmmuFJ+YV2x1+5B5qd+Wt8RPwcPQDyqaiN5amb1HGeMA=
 
 before_script:
   - mysql -u root -e 'create database glpitest;'
@@ -11,12 +11,12 @@ before_script:
   - rm -f composer.lock
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
-  - composer install --no-dev
+  - composer install --no-dev --no-interaction
   - sed -e "s/return extension_loaded('mcrypt');/return false;/" -i vendor/ircmaxell/random-lib/lib/RandomLib/AbstractMcryptMixer.php
   - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi-plugin plugins/flyvemdm
-  - cd plugins/flyvemdm && composer install -o
+  - cd plugins/flyvemdm && composer install --no-interaction
 
 script:
   - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install
