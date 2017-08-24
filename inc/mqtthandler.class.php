@@ -165,6 +165,11 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
    }
 
+   /**
+    * Updates the inventory
+    * @param string $topic
+    * @param string $message
+    */
    protected function updateInventory($topic, $message) {
       global $DB;
 
