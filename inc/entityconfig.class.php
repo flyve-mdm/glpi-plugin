@@ -71,6 +71,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       }
    }
 
+   /**
+    * Actions done after the getFromDB function
+    */
    public function post_getFromDB() {
       // find the parent entity
       $entity = new Entity();
