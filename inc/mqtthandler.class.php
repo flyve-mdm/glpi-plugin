@@ -57,6 +57,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $this->startTime = time();
    }
 
+   /**
+    * Get the instance of the PluginFlyvemdmMqtthandler
+    * @return the instance of this class
+    */
    public static function getInstance() {
       if (self::$instance === null) {
          self::$instance = new static();
