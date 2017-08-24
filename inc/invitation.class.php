@@ -66,6 +66,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
+   /**
+    * Returns the picture file for the menu
+    * @return string the menu picture
+    */
    public static function getMenuPicture() {
       return '../pics/picto-invitation.png';
    }
