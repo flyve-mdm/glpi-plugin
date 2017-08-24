@@ -494,6 +494,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return $URL;
    }
 
+   /**
+    * Sends a file
+    */
    protected function sendFile() {
       $streamSource = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
 
