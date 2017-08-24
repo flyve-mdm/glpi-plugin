@@ -45,6 +45,10 @@ class PluginFlyvemdmProfile extends Profile {
     */
    static $rightname = 'flyvemdm:flyvemdm';
 
+   /**
+    * Deletes the profiles
+    * @param Profile $prof
+    */
    public static function purgeProfiles(Profile $prof) {
       $plugprof = new self();
       $plugprof->deleteByCriteria(array('profiles_id' => $prof->getField("id")));
