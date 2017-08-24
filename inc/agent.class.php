@@ -1612,6 +1612,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          Session::addMessageAfterRedirect($error);
       }
    }
+   /**
+    * Logs the invitations and events
+    * @param PluginFlyvemdmInvitation $invitation
+    * @param string $event
+    */
    protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
       $invitationLog = new PluginFlyvemdmInvitationlog();
       $invitationLog->add([
