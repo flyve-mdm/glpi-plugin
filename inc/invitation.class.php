@@ -365,6 +365,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $documentId;
    }
 
+   /**
+    * Sends an invitation
+    */
    public function sendInvitation() {
       NotificationEvent::raiseEvent(
             PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
