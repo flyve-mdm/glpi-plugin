@@ -327,6 +327,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $this->deleteTaskStatuses($this->fleet);
    }
 
+   /**
+    * Updates the queue of the MQTT
+    * @param PluginFlyvemdmNotifiable $item
+    * @param array $groups
+    */
    public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = array()) {
       if (! $item instanceof PluginFlyvemdmFleet) {
          // Cannot queue MQTT messages for devices
