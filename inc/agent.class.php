@@ -1334,6 +1334,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return false;
    }
 
+   /**
+    * Polls in the DB for the inventory of the agent
+    * @return boolean true if succeed
+    */
    protected function pollInventoryAnswer() {
       // Wait for a reply within a short delay
       $computerFk = Computer::getForeignKeyField();
