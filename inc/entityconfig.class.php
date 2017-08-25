@@ -53,6 +53,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    public static $rightname            = 'flyvemdm:entity';
 
+   /**
+    * Returns the name of the type
+    * @param integer $nb
+    */
    static function getTypeName($nb=0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
    }
