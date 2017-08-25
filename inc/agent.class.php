@@ -1395,6 +1395,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $this->pollPingAnswer();
    }
 
+   /**
+    * Polls the ping answer 
+    * @return boolean true if succeed
+    */
    protected function pollPingAnswer() {
       // Wait for a reply within a short delay
       $loopCount = 25;
