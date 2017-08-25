@@ -164,6 +164,9 @@ class PluginFlyvemdmMqttclient {
       }
    }
 
+   /**
+    * Disconnects the MQTT client
+    */
    public function disconnect() {
       $this->disconnect = true;
    }
