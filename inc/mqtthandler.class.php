@@ -157,6 +157,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
    }
 
+   /**
+    * Publishes the current version of Flyve
+    * @return mixed $mqtt the current version
+    */
    protected function publishFlyveManifest() {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
