@@ -77,6 +77,10 @@ class PluginFlyvemdmMqttclient {
       return self::$instance;
    }
 
+   /**
+    * Sets the MQTT handler
+    * @param string $mqttHandler
+    */
    public function setHandler($mqttHandler) {
       self::$mqtt->setHandler($mqttHandler);
    }
