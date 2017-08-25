@@ -362,6 +362,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Actions done after the getFromDB function
+    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
