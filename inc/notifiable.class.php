@@ -38,6 +38,9 @@ if (! defined('GLPI_ROOT')) {
  */
 interface PluginFlyvemdmNotifiable {
 
+   /**
+    * Gets the topic related to the notifiable
+    */
    public function getTopic();
 
    /**
