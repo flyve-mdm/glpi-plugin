@@ -659,6 +659,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * Actions done after the purge of an item
+    */
    public function post_purgeItem() {
       $this->cleanupSubtopics();
    }
