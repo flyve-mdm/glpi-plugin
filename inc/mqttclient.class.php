@@ -158,6 +158,11 @@ class PluginFlyvemdmMqttclient {
       return false;
    }
 
+   /**
+    * Disconnects the MQTT client according to the ping response
+    * @param string $mqtt
+    * @param string $pingresp_object
+    */
    public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       if ($this->disconnect) {
          self::$mqtt->disconnect();
