@@ -51,6 +51,10 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Sets the delay
+    * @param mixed $delay
+    */
    public static function setDelay($delay) {
       self::$delay = $delay;
    }
