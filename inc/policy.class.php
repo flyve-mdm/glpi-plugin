@@ -53,6 +53,11 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     */
    protected $usenotepadRights         = false;
 
+   /**
+    * Finds the symbol that matches the argument
+    * @param $symbol
+    * @return boolean true if the symbol is found
+    */
    public function getFromDBBySymbol($symbol) {
       return $this->getFromDBByQuery("WHERE `symbol`='$symbol'");
    }
