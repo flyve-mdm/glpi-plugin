@@ -243,6 +243,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       return $out;
    }
 
+   /**
+    * Displays the values found in the search
+    * @param PluginFlyvemdmTask $task
+    * @return array|false the file found
+    */
    public function showValue(PluginFlyvemdmTask $task) {
       $file = new PluginFlyvemdmFile();
       if ($file->getFromDB($task->getField('items_id'))) {
