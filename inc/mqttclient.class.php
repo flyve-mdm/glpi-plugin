@@ -85,6 +85,10 @@ class PluginFlyvemdmMqttclient {
       self::$mqtt->setHandler($mqttHandler);
    }
 
+   /**
+    * Sets the keep alive of the mqtt
+    * @param integer $keepalive
+    */
    public function setKeepalive($keepalive = 60) {
       if ($keepalive < 2) {
          $keepalive = 2;
