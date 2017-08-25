@@ -171,6 +171,9 @@ class PluginFlyvemdmMqttclient {
       $this->disconnect = true;
    }
 
+   /**
+    * Sets when it must disconnect the MQTT client
+    */
    protected function mustDisconnect() {
       if ((time() - $this->beginTimestamp) > $this->duration) {
          return true;
