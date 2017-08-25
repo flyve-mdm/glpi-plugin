@@ -50,6 +50,10 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
       self::$delay = $delay;
    }
 
+   /**
+    * Returns the name of the type
+    * @param integer $count
+    */
    static function getTypeName($count = 0) {
       return _n('Queued MQTT message', 'Queued MQTT messages', $count);
    }
