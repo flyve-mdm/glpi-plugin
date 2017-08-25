@@ -128,6 +128,9 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       return '';
    }
 
+   /**
+    * Returns the name of the group this policy belongs to
+    */
    public function getGroup() {
       return $this->group;
    }
