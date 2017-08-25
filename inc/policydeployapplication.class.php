@@ -177,6 +177,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return true;
    }
 
+   /**
+    * Shows the input values
+    * @return an HTML input
+    */
    public function showValueInput() {
       $out = PluginFlyvemdmPackage::dropdown(array(
             'display'      => false,
