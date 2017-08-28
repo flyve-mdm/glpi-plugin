@@ -227,7 +227,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    /**
     * Retrieve the entity or create it
     * @param string $ID
-    * @return boolean true if succed
+    * @return boolean true if succeed
     */
    public function getFromDBOrCreate($ID) {
       if (!$this->getFromDB($ID)) {
