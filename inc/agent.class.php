@@ -1624,7 +1624,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
    /**
-    * Logs the invitations and events
+    * Logs invitation events
     * @param PluginFlyvemdmInvitation $invitation
     * @param string $event
     */
