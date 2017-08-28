@@ -58,7 +58,7 @@ class PluginFlyvemdmCommon
    /**
     * Display massive actions
     * @param array $massiveactionparams
-    * @return string the contents of the current buffer
+    * @return string an HTML
     */
    public static function getMassiveActions($massiveactionparams) {
       ob_start();
