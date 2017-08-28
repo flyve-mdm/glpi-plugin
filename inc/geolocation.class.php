@@ -255,7 +255,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    * Dislay the agents according the datetime
+    * Displays the agents according the datetime
     * @param CommonDBTM $item
     * @return string an html with the geolocation of the agent
     */
