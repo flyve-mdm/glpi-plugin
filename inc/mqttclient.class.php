@@ -116,7 +116,7 @@ class PluginFlyvemdmMqttclient {
          exit(1);
       }
       $log = new PluginFlyvemdmMqttlog();
-      $topics[$topic] = $qos;
+      $topics = [$topic => $qos];
       self::$mqtt->subscribe($topics);
 
       while (!$this->mustDisconnect()) {
@@ -188,8 +188,8 @@ class PluginFlyvemdmMqttclient {
 
    /**
     * Send a test message to the MQTT broker
-    * @param unknown $address
-    * @param unknown $port
+    * @param string $address
+    * @param integer $port
     * @return boolean test succeeded (true) or failed (false)
     */
    public function sendTestMessage($address, $port, $isTls, $sslCipher) {

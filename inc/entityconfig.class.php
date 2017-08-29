@@ -105,8 +105,6 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      global $DB;
-
       if (!isset($input['id'])) {
          return false;
       }
@@ -175,7 +173,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     */
    public function hook_entity_add(CommonDBTM $item) {
       // Determine if the entity has been created by FlyveMDM
-      $managed = ( $item instanceof PluginFlyvemdmEntity ) ? '1' : '0';
+      $managed = '0';
 
       $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
 

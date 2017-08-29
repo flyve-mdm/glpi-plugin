@@ -1,9 +1,9 @@
 language: php
 env:
   global:
-    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b master" 
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi -b 9.2/bugfixes" 
     - FUSION_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi -b master"
-    - secure: Fd6/+6UwqrAxUmiNd3VrIJ32MvuAhBWXXjgmfVeosXIv8K9s8btPToCw2vNtekNWw4/+sn6opT7YkPr1gHBIUQZQvA3ro74kjFPUr+zAZc8+VRedm/NCQ4Qe8EeOBog8SIXkcKDT1/iAlszN+2CEP8g6oI+suNDxrLRe+b+ukdZGUcd//dkzKTkuIjKpzMeM35d7wiGXMtAp0JWAQ1SyoOhJoOpUwc0jch4cHaaiMfWmL2OP6f8WWy2C1vfm/mRpa6YAOXWc0eKQ7LmYOo3p9hJIi/y9cN6hVgszIg5MA97P7bcJnsDoTRGSRweIY6utPe0ZfJtlY/uhU5Vy3V1sAVtczQP7f3gfaeEyWOxeYCSDlKpBcPr7d6GdjscatepNg4ihrOyxuvQaWfbgZyz1icR7oCCnGMHlUnZak9M14D/Ik+kpfiqsoIJThkj57fAeCU7pO4dmkdoMMWIfdktGae2iUcqxxs6RjegXPR7gFurn5seRdl9z4tSXZwCXbatq3a5xXWOD+P9+rG9J7BNfV+0FidylyvDn+HhD8iaFbqR5VmySL/0/TE8BHil0CoKaUiQnorpjJmOQZwB0sg4kYnbSS7VtErewItVSbrlt180wTyIbijuk0pz9zajpNiSwiH0Ne/vXkDzqDxAzFY2y+gN//lYly4o/WfauKbt6P6w=
+    - secure: Y9sG3lZ3Fn3t5BXvcMJQxWsdSUVQgF4M08E6oouYrRc95HEj3ZwZOqp6Df58u8CQFA0EKJyvCBLn8UicvHGMKAD0RwGLBdSP4Ji9gJRZkyMZi79awSshdva/c8dqVQrRd4asuTNQfcagVJpNDnY8sYusw504JUilK3vFVp+39nNZUkcvT69NGVIlXzgHTYinBkVuqDhf5eVtcLcaESLEshrg+5ZERdm+0KifdJVREzhicJxofnmTl/wBsIP7XiQqspljf2/SxLqreGmWXYXUfqIwIOVtsd9fkZChQCz8USC7P427tH6styRDYuMCtvA9b/T/XacSdKFbuDezff3NbIM3b5BebDyCrOK5MGSOdRUY5RuyZN4R5LjePUE++9QNCUPeDSkfb23v0VfuqXIRAxfdtik517GzFy6O7/e6FU1msVZlGQED7Uek9nqnupj+0lIq+99Jcm1UCNJu1NTL2Tv80XXqySaxyE4Sedq/FiYAsy1bo2cg2367I2b4FhFXaJCKkFHcdjHXAeurkRy/brSPhBNoOO5/GA3RepUErgly4P8TLZqHNZv8rgMUoQ88sdwDyXG7dY4UwWiTlCkxMBTqBqJanlTMA9zn2bYyMDioTGnA7+VYAA8cddjFOMVrmmuFJ+YV2x1+5B5qd+Wt8RPwcPQDyqaiN5amb1HGeMA=
 
 before_script:
   - mysql -u root -e 'create database glpitest;'
@@ -11,12 +11,12 @@ before_script:
   - rm -f composer.lock
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
-  - composer install --no-dev
+  - composer install --no-dev --no-interaction
   - sed -e "s/return extension_loaded('mcrypt');/return false;/" -i vendor/ircmaxell/random-lib/lib/RandomLib/AbstractMcryptMixer.php
   - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FUSION_SOURCE plugins/fusioninventory
   - mv ../flyve-mdm-glpi-plugin plugins/flyvemdm
-  - cd plugins/flyvemdm && composer install -o
+  - cd plugins/flyvemdm && composer install --no-interaction
 
 script:
   - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install

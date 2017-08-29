@@ -182,10 +182,6 @@ class PluginFlyvemdmProfile extends Profile {
     * Callback when a user logins or switch profile
     */
    public static function changeProfile() {
-      $rights = ProfileRight::getProfileRights($_SESSION['glpiactiveprofile']['id'], array(
-            self::$rightname
-      ));
-
       $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
       if (isset($config['guest_profiles_id'])) {
          $_SESSION['plugin_flyvemdm_guest_profiles_id'] = $config['guest_profiles_id'];

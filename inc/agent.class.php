@@ -67,6 +67,16 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected $topic = null;
 
    /**
+    * get mdm types availables
+    */
+   public static function getEnumMdmType() {
+      return array(
+         'android'   => __("Android", 'flyvemdm'),
+         'apple'     => __("Apple", 'flyvemdm'),
+      );
+   }
+
+   /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     */
@@ -929,6 +939,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $firstname        = isset($input['firstname']) ? $input['firstname'] : null;
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
+      $mdmType          = isset($input['type']) ? $input['type'] : null;
 
       $input = array();
 
@@ -957,6 +968,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if (empty($version)) {
          $event = __('Agent version missing', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (empty($mdmType)) {
+         $event = __('MDM type missing', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (!in_array($mdmType, array_keys($this::getEnumMdmType()))) {
+         $event = __('unknown MDM type', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -1135,6 +1160,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['enroll_status']             = 'enrolled';
       $input['version']                   = $version;
       $input['users_id']                  = $agentAccount->getID();
+      $input['mdm_type']                  = $mdmType;
       return $input;
 
    }

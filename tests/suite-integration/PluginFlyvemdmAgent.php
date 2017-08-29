@@ -85,6 +85,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'android',
          ]);
          // Agent creation should succeed
          $this->integer($agentId)->isGreaterThan(0, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -110,6 +111,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'firstname'          => 'John',
          'lastname'           => 'Doe',
          'version'            => '1.0.0',
+         'type'               => 'android',
       ]);
       // Device limit reached : agent creation should fail
       $this->boolean($agentId)->isFalse();
@@ -139,6 +141,52 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'android',
+         ]
+      );
+      $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
+
+      // Test the invitation log did not increased
+      // this happens because the enrollment failed without identifying the invitation
+      $invitationLog = new \PluginFlyvemdmInvitationlog();
+      $expectedLogCount = 0;
+      $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
+      $this->integer(count($rows))->isEqualTo($expectedLogCount);
+
+      // Test enrollment without MDM type
+      $agent = $this->enrollFromInvitation(
+         $user, [
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => $guestEmail,
+            '_invitation_token'  => 'bad token',
+            '_serial'            => $serial,
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
+         ]
+      );
+      $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
+
+      // Test the invitation log did not increased
+      // this happens because the enrollment failed without identifying the invitation
+      $invitationLog = new \PluginFlyvemdmInvitationlog();
+      $expectedLogCount = 0;
+      $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
+      $this->integer(count($rows))->isEqualTo($expectedLogCount);
+
+      // Test enrollment with bad MDM type
+      $agent = $this->enrollFromInvitation(
+         $user, [
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => $guestEmail,
+            '_invitation_token'  => 'bad token',
+            '_serial'            => $serial,
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => '1.0.0',
+            'type'               => 'alien MDM',
          ]
       );
       $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
@@ -160,6 +208,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
+            'type'               => 'android',
          ]
       );
       $this->boolean($agent->isNewItem())->isTrue();
@@ -182,6 +231,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => 'bad version',
+            'type'               => 'android',
          ]
       );
       $this->boolean($agent->isNewItem())->isTrue();
@@ -201,6 +251,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'android',
          ]
       );
       $this->boolean($agent->isNewItem())->isTrue();
@@ -221,6 +272,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'apple',
          ]
       );
 
@@ -307,13 +359,16 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->array($agent->fields)->hasKey('version');
       $this->array($agent->fields)->hasKey('api_token');
 
+      $this->array($agent->fields)->hasKey('mdm_type');
+      $this->string($agent->getField('mdm_type'))->isEqualTo('apple');
+
       // Check the invitation is expired
       $this->boolean($invitation->getFromDB($invitation->getID()))->isTrue();
 
       // Is the token expiry set ?
       $this->string($invitation->getField('expiration_date'))->isEqualTo('0000-00-00 00:00:00');
 
-      // Is the statis updated ?
+      // Is the status updated ?
       $this->string($invitation->getField('status'))->isEqualTo('done');
 
       // Check the invitation cannot be used again
@@ -327,6 +382,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'apple',
             ]
       );
 
@@ -356,6 +412,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'android',
          ]
       );
 
@@ -386,6 +443,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
 
@@ -435,6 +493,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'firstname'          => 'John',
             'lastname'           => 'Doe',
             'version'            => '1.0.0',
+            'type'               => 'android',
          ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -475,6 +534,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -507,6 +567,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -562,6 +623,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -608,6 +670,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -659,6 +722,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -710,6 +774,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -760,6 +825,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -814,6 +880,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -863,6 +930,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'firstname'          => 'John',
                'lastname'           => 'Doe',
                'version'            => '1.0.0',
+               'type'               => 'android',
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));

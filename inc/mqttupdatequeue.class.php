@@ -87,7 +87,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
     *
     * @param $task Object of CronTask class for log / stat
     *
-    * @return interger
+    * @return integer
     *    >0 : done
     *    <0 : to be run again (not finished)
     *     0 : nothing to do
