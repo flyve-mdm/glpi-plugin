@@ -46,7 +46,7 @@ class PluginFlyvemdmProfile extends Profile {
    static $rightname = 'flyvemdm:flyvemdm';
 
    /**
-    * Deletes the profiles
+    * Deletes the profiles related to the ones being purged
     * @param Profile $prof
     */
    public static function purgeProfiles(Profile $prof) {
