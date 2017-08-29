@@ -43,7 +43,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
    /**
     * Prepares data before adding the item
     * @param array $input
-    * @return array the modified datas
+    * @return array the modified data
     */
    public function prepareInputForAdd($input) {
       $input['date'] = (new DateTime("now", new DateTimeZone("UTC")))->format('Y-m-d H:i:s');
