@@ -55,7 +55,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    /**
     * Returns the name of the type
-    * @param integer $nb
+    * @param integer $nb number of item in the type
     */
    static function getTypeName($nb=0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
