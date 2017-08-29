@@ -80,7 +80,7 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * Shows the input values
+    * Shows the input value
     * @return mixed the values
     */
    public function showValueInput() {
