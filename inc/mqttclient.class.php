@@ -159,7 +159,7 @@ class PluginFlyvemdmMqttclient {
    }
 
    /**
-    * Disconnects the MQTT client according to the ping response
+    * Breaks the infinite loop implemented in the MQTT client library using the ping response event
     * @param string $mqtt
     * @param string $pingresp_object
     */
