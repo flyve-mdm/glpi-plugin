@@ -98,7 +98,7 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * Shows the values
+    * Shows the value
     * @param PluginFlyvemdmTask $task
     * @return array a list of the values
     */
