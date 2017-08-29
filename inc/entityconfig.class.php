@@ -331,7 +331,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    }
 
    /**
-    * Displays form
+    * Displays form when the item is displayed from a related entity
     * @param Entity $item
     */
    public function showFormForEntity(Entity $item) {
