@@ -1,0 +1,593 @@
+---
+layout: home
+---
+
+  <div class="container">
+    
+    <div class="col-md-12 col-md-push-12 text-center">
+      <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
+        alt="" src="images/logo2.png" data-source-index="2">
+    </div>
+    <div class="col-md-12 col-md-pull-12">
+      <div class="type-h2">
+        What is it?
+      </div>
+      <p>
+        This plugin for GLPI is a subproject of Flyve MDM.
+      </p>
+
+      <p>
+        It provides a stand alone web based administration and a interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
+      </p>
+    </div>
+    
+
+</div>
+  
+<section>
+
+  <!--<div class="jumbotron theme-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-24 text-center">
+          <h3>Features</h3>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <!--<div class="jumbotron theme-light">
+    <div class="container">
+      <h3>Versioning</h3>
+      <p>
+        In order to provide transparency on our release cycle and to maintain backward compatibility, Flyve MDM is maintained under 
+        <a href="http://semver.org/"> the Semantic Versioning</a>
+        guidelines. We are committed to following and complying with the rules, the best we can.
+      </p>
+      <p>
+        See <a href="http://github.com/flyve-mdm/flyve-mdm-glpi-plugin/tags">the tags section of our GitHub project</a> 
+        for changelogs for each release version of Flyve MDM. Release announcement posts on 
+        <a href="http://www.teclib-edition.com/en/communities/blog-posts/">the official Teclib' blog</a> 
+        contain summaries of the most noteworthy changes made in each release.
+      </p>
+    </div>
+  </div>
+
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Contribute</h3>
+      <p>
+        Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for contributing and then check out one of our issues in the Issues Dashboard.
+      </p>
+      <p>
+        If you are not a developer you may contribute the project by translating it, by submitting documentation or by testing the product.
+      </p>
+    </div>
+  </div>-->
+      
+    <!--
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Mobile equipment security</h3>
+      <p>
+        Flyve MDM secures all your devices, allowing you to manage your mobile fleet security policy with precision.
+      </p>
+      <p>
+        The solution offers a range of powerful security features to protect sensitive company data stored on mobile devices.
+      </p>
+      <p>
+        Keep control and protect yourself from cyber-attacks:
+      </p>
+      <ul>
+        <li>
+          Set the level of complexity of your passwords
+        </li>
+        <li>
+          Activate mobile device encryption
+        </li>
+        <li>
+          Lock the mobile device remotely
+        </li>
+        <li>
+          Control the authorisation for the use of the camera
+        </li>
+        <li>
+          Erase all data from the remote terminal (reset)
+        </li>
+      </ul>
+    </div>
+  </div>-->
+</section>
+
+<section id="instructions">
+  <div class="jumbotron theme-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-24 text-center">
+          <h3>Instructions for installation</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron theme-light">
+    <div class="container">
+      <h3>General view of the infrastructure</h3>
+      <p>
+        You need several servers to run Flyve MDM:
+      </p>
+      <ul>
+        <li>
+          A server running Linux, Apache, Mysql/MariaDB and PHP (a LAMP server) for the backend (GLPI and Flyve MDM for GLPI)
+        </li>
+        <li>
+          A server running Mosquitto
+        </li>
+        <li>
+          A server running the web interface. It may run on the same server as GLPI
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Installation overview</h3>
+      <p>
+        Flyve MDM runs on GLPI 9.1.1 and later. It depends on inventory features of FusionInventory for GLPI. You need FusionInventory 9.1+1.0 or later. The version depends on the version of GLPI you're planning to setup.
+      </p>
+      <p>
+        The general steps to properly configure the whole infrastructure are :
+      </p>
+      <ul>
+        <li>
+          Install GLPI
+        </li>
+        <li>
+          Install FusionInventory and Flyve MDM plugin for GLPI
+        </li>
+        <li>
+          Configure Flyve MDM plugin for GLPI
+        </li>
+        <li>
+          Configure your DBMS
+        </li>
+        <li>
+          Install and configure Mosquitto
+        </li>
+        <li>
+          Install and configure the web application
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="jumbotron theme-light">
+    <div class="container">
+      <h3>Dependencies</h3>
+      <p>
+        This plugin depends on GLPI, FusionInventory for GLPI and some packages
+      </p>
+      <ul>
+        <li>
+          Download our specific version of GLPI 9.1.2 (please refer to its documentation to install)
+        </li>
+        <li>
+          Download FusionInventory 9.1+1.0 for GLPI and put it in GLPI/plugins/
+        </li>
+        <li>
+          Donwload Flyve MDM for GLPI and put it in glpi/plugins/
+        </li>
+      </ul>
+      <p>
+        You will probably ask why you need a specific version of GLPI. Flyve MDM relies on a rest API GLPI developed recently. Flyve MDM requires some improvements which are not in the latest stable relase of GLPI. The specific version of GLPI we provide is the latest stable version, with a few backports from the development versions, to satisfy our needs.
+      </p>
+      <h4>
+        Compatibility matrix
+      </h4>
+      <div class="table-responsive">
+        <table class="table">
+            <thead>
+              <tr>
+                <th>GLPI</th>
+                <th>9.1.1</th>
+                <th>9.1.2</th>
+                <th>9.1.3</th>
+                <th>9.2.0</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Flyve MDM</td>
+                    <td>1.x.x</td>
+                    <td>1.x.x</td>
+                    <td>1.x.x</td>
+                    <td>2.0.0-dev</td>
+                </tr>
+                <tr>
+                    <td>FusionInventory</td>
+                    <td>9.1-1.1</td>
+                    <td>9.1-1.1</td>
+                    <td>9.1-1.1</td>
+                    <td>master branch</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <p>
+        You should have a directory structure like this :
+      </p>
+      <p>
+        GLPI tree structure
+      </p>
+      <ul>
+        <li>
+          Go in the directory glpi/plugins/flyvemdm
+        </li>
+        <li>
+          Run composer install --no-dev
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Configuration of GLPI</h3>
+      <p>
+        These steps are mandatory.
+      </p>
+      <h4>Cron</h4>
+      <p>
+        Ensure the system has PHP CLI, then setup a cron job similar to the example below.
+      </p>
+      <blockquote>
+        */1 * * * * /usr/bin/php5 /var/www/glpi/front/cron.php &>/dev/null
+      </blockquote>
+      <p>
+        Adjust the <strong>path to PHP</strong> and the <strong>path to cron.php</strong> 
+      </p>
+      <h4>Server configuration</h4>
+      <p>
+        Flyve MDM allows uploading files, Android packages and Uhuru Mobile packages. You should ensure php.ini allows reasonable upload sizes.
+      </p>
+      <p>
+        Here is an example of settings in php.ini
+      </p>
+      <blockquote>
+        ; Maximum size of POST data that PHP will accept.<br/>
+        ; Its value may be 0 to disable the limit. It is ignored if POST data reading<br/>
+        ; is disabled through enable_post_data_reading.<br/>
+        ; http://php.net/post-max-size<br/>
+        post_max_size = 8M<br/>
+        <br/>
+        ; Whether to allow HTTP file uploads.<br/>
+        ; http://php.net/file-uploads<br/>
+        file_uploads = On<br/>
+        <br/>
+        ; Maximum allowed size for uploaded files.<br/>
+        ; http://php.net/upload-max-filesize<br/>
+        upload_max_filesize = 8M
+      </blockquote>
+
+      <h4>Notifications</h4>
+      <p>
+        Login in GLPI with a super admin account In the menu <strong>Setup > Notifications</strong> click on Enable followup via email.
+      </p>
+      <p>
+        Enable email notification
+      </p>
+      <p>
+        The page refreshes itself to the email settings.
+      </p>
+      <p>
+        Click on <strong>Email followups configuration</strong> and setup the form depending on your requirements to send emails.
+      </p>
+      <p>
+        Email notification settings
+      </p>
+      <p>
+        In <strong>Setup > Automatic actions</strong> open queuedmail. Set Run mode to <strong>CLI</strong>. This action is now triggered by the cron job every minute.
+      </p>
+      <p>
+        To ensure the cronjob is properly configured, check the log <strong>glpi/files/_log/cron.log</strong>. If a log entry contains the word <strong>External</strong> then the job fired from cron. Jobs manually fired from the UI would show <strong>Internal</strong> instead.
+      </p>
+      <p>
+        Example of a log entry
+      </p>
+      <blockquote>
+        External #1: Launch queuedmail<br/>
+        2016-12-21 10:22:02 [@my-server]
+      </blockquote>
+      
+      <h4>Enabling the rest API</h4>
+      <ul>
+        <li>
+          Open the menu Setup > General and select the tab API
+        </li>
+        <li>
+          enable rest API
+        </li>
+        <li>
+          enable login with credentials
+        </li>
+        <li>
+          enable login with external tokens
+        </li>
+        <li>
+          Check there is a full access API client able to use the API from any IPv4 or IPv6 address (click it to read and/or edit)
+        </li>
+      </ul>
+      <p>
+        Enable rest API
+      </p>
+
+      <h4>Configuration of FusionIventory</h4>
+      <p>
+        <strong>Fusioninventory greater than 9.1+1.1</strong>
+      </p>
+      <ul>
+        <li>
+          Open Administration > Rules > FusionInventory - Equipment import and link rules
+        </li>
+        <li>
+          If a rule named Computer constraint (name) exists, then open it and disable it
+        </li>
+      </ul>
+      <p>
+        FusionInventory computer name constraint
+      </p>
+      <p>
+        Missing this will make FusionInventory reject inventories from devices.
+      </p>
+
+      <h4>Configuration of Flyve MDM for GLPI</h4>
+      <ul>
+        <li>
+          Open Configuration > Plugins
+        </li>
+        <li>
+          Click on Flyve Mobile Device Management
+        </li>
+      </ul>
+      <p>
+        Flyve MDM general settings
+      </p>
+      <ul>
+        <li>
+          <strong>mqtt broker address</strong> is the public hostname or IP address of Mosquitto. It is sent to devices to tell them where is your Mosquitto server on the Internet. (<em>mandatory</em>).</li>
+        <li>
+          <strong>mqtt broker internal address</strong> is the private hostname or IP address of Mosquitto. It is used to tell GLPI where is your Mosquitto server in your local network. (<em>mandatory</em>).</li>
+        <li>
+          <strong>mqtt broker port</strong> is the port used by your mobile devices <em>and</em> GLPI (<em>mandatory</em>).</li>
+        <li>
+          <strong>use TLS</strong> enables TLS communication for mobile devices <em>and</em> GLPI.</li>
+        <li>
+          <strong>CA certificate</strong> is the certificate of an authority to verify the Mosquitto server.</li>
+        <li>
+          <strong>Cipher suite</strong> is used to limit the ciphers used with TLS.</li>
+        <li>
+          <strong>Enable explicit enrolment failures</strong> sends to devices the exact reason of an enrollment failure. For debug purpose only.
+        </li>
+        <li>
+          <strong>Disable token expiration on successful enrolment</strong> is to prevent a token to expire when a device successfully enrolls. For debug purpose only.
+        </li>
+        <li>
+          <strong>Android bug collector URL</strong> is the URL of a ACRA server. This server collects crash reports sent by Flyve MDM for Android.
+        </li>
+        <li>
+          <strong>Android bug collector user</strong> is the username used by devices when they send a crash report.
+        </li>
+        <li>
+          <strong>Android bug collector password</strong> is the password used by devices when they send a ccrash report.
+        </li>
+        <li>
+          <strong>Default device limit per entity</strong> is the maximum uantity of devices allowed in an entity. Designed for the demo mode, but might be useful to enhance security.
+        </li>
+        <li>
+          <strong>Service's User Token</strong> is the token to put un config.js when setting up the web application.
+        </li>
+      </ul>
+
+      <h4>Security</h4>
+      <p>
+        FlyveMDM needs only the REST API feature of GLPI to work with devices and its web interface. Expose to the world only the API of GLPI, and keep inacessible GLPI's user interface.
+      </p>
+      <p>
+        Have a look into <strong>glpi/.htaccess</strong> if you can use  Apache's mod_rewrite.
+      </p>
+      <p>
+        The directory <strong>glpi/plugins/flyvemdm/scripts</strong> must be inaccessible from the webserver.
+      </p>
+      <ul>
+        <li>
+          If running Apache, the .htaccess file in this directory will do the job.
+        </li>
+        <li>
+          If running an other server like Nginx, please configure the host properly.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="jumbotron theme-light">
+    <div class="container">
+      <h3>Mysql / MariaDB</h3>
+      <p>
+        The DBMS must provide an access to the message queuing server for the authentication process of its clients. This server will be configured below; let's focus on the DBMS for now.
+      </p>
+      <p>
+        Assuming your DBMS server is not exposed to the world and the message queuing is on an other server, edit <strong>my.cnf</strong> to listen on <strong>0.0.0.0</strong> instead of 127.0.0.1.
+      </p>
+      <blockquote>
+        bind-address = 0.0.0.0
+      </blockquote>
+      <p>
+        Create a new user in the DBMS able to read only the GLPI's database, and restrict this user to the IP of the future message queuing server.
+      </p>
+    </div>
+  </div>
+
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Mosquitto</h3>
+      <h4>Configuration</h4>
+      <p>
+        If you installed Mosquitto from your distribution package, its settings may be located in several files. The main configuration file is <strong>/etc/mosquitto/mosquitto.conf</strong>
+      </p>
+      <p>
+        <a href="http://mosquitto.org/man/mosquitto-conf-5.html">Official documentation to configure Mosquitto</a>
+      </p>
+      <p>
+         We recomend you setup Mosquitto without encryption frist, validate its configuration, then enable encryption. Of course, don't expose your setup to the world without encryption !
+      </p>
+      <h5>default unencrypted listener</h5>
+      <p>
+        Check the following settings to setup an unencrypted communication :
+      </p>
+      <ul>
+        <li>
+          pid_file /var/run/mosquitto.pid
+        </li>
+        <li>
+          user mosquitto
+        </li>
+        <li>
+          persistent_client_expiration 2m
+        </li>
+        <li>
+          persistence true
+        </li>
+        <li>
+          persistence_file mosquitto.db
+        </li>
+        <li>
+          persistence_location /var/lib/mosquitto
+        </li>
+        <li>
+          port 1883
+        </li>
+        <li>
+          allow_anonymous false
+        </li>
+      </ul>
+      <h5>TLS listener</h5>
+      <p>
+        Assuming you successfully configured and tested Mosquitto without encryption, use the following :
+      </p>
+      <p>
+        This example assumes cachain.pem contains the CA chain and your certificate.
+      </p>
+      <p>
+        It is quite common to find certificate failes with the extension .crt. Mosquitto requires the filenames ends with <strong>.pem</strong> and use PEM format.
+      </p>
+      <ul>
+        <li>
+          Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and your private key.
+        </li>
+        <li>
+          Secure your private key
+        </li>
+        <blockquote>
+          chmod 600 /etc/mosquitto/certs/private-key.key<br/>
+          chown mosquitto:root /etc/mosquitto/certs/private-key.key
+        </blockquote>
+        <li>
+          refresh hash and symlinks to your certificates
+        </li>
+        <blockquote>
+          c_rehash /etc/mosquitto/certs
+        </blockquote>
+      </ul>
+      <p>
+        You should use a certificate signed by a certified authority or you may have trouble with the android devices. Using android devices with custom certification authorities might not work (not tested).
+      </p>
+      <blockquote>
+        listener 8883<br/>
+        <br/>
+        cafile /etc/mosquitto/certs/cachain.pem<br/>
+        certfile /etc/mosquitto/certs/cachain.pem<br/>
+        keyfile /etc/mosquitto/certs/private-key.key<br/>
+        tls_version tlsv1.2
+      </blockquote>
+      <p>
+         You should NOT use tls_version lower than tlsv1.2. TLS version 1.0 and 1.1 are no longer considered safe. Mosquitto does not supports SSLv2 or sslv3.
+      </p>
+      <p>
+        Restart Mosquitto
+      </p>
+      <p>
+        Test you can successfully connect to mosquitto
+      </p>
+      <blockquote>
+        mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 --cafile /tmp/mycert.pem --capath /etc/ssl/certs/
+      </blockquote>
+      <h5>disable default unencrypted listener</h5>
+      <p>
+        Assuming you successfully enabled and tested TLS, remove the following settings:
+      </p>
+      <ul>
+        <li>
+          bind_address
+        </li>
+        <li>
+          port
+        </li>
+      </ul>
+      <p>
+        Restart Mosquitto
+      </p>
+    </div>
+  </div>
+  <div class="jumbotron theme-light">
+    <div class="container">
+      <h3>Mosquitto authentication plugin</h3>
+      <h4>Configure the plugin</h4>
+      <p>
+        Edit <strong>/etc/mosquitto/conf.d/auth-plug.conf</strong>
+      </p>
+      <p>
+        Add or edit the following settings
+      </p>
+      <blockquote>
+        auth_plugin /usr/local/lib/libmosquitto-auth-plug.so <br/>
+        auth_opt_backends mysql<br/>
+        auth_opt_host backend-server-ip-or-fqdn<br/>
+        auth_opt_port 3306<br/>
+        auth_opt_user database-user<br/>
+        auth_opt_dbname glpi<br/>
+        auth_opt_pass StrongPassword<br/>
+        auth_opt_userquery SELECT password FROM glpi_plugin_flyvemdm_mqttusers WHERE user='%s' AND enabled='1'<br/>
+        auth_opt_aclquery SELECT topic FROM glpi_plugin_flyvemdm_mqttacls a LEFT JOIN glpi_plugin_flyvemdm_mqttusers u ON (a.plugin_flyvemdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)<br/>
+        auth_opt_cacheseconds 300
+      </blockquote>
+      <p>
+        Adapt the server, port and credentials to your setup.
+      </p>
+      <ul>
+        <li>
+          The server is your MySQL or MariaDB IP or hostname
+        </li>
+        <li>
+          the port is  the listening port of your DBMS
+        </li>
+        <li>
+          user and password should be a user able to read only your DB. No need to grant any write access. You created these credentials while setting up the DBMS.
+        </li>
+      </ul>      
+    </div>
+  </div>
+
+  <div class="jumbotron theme-default">
+    <div class="container">
+      <h3>Configure the MQTT client service</h3>
+      <p>
+        The backend needs to listen to MQTT messages sent by devices. It needs a daemon  acting as a MQTT client. a init.d script is provided in <code>glpi/plugins/flyvemdm/scripts/service.sh</code>. Create a symlink to /etc/init.d
+      </p>
+      <blockquote>
+        sudo cd /etc/init<br/>
+        sudo ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm<br/>
+        sudo update-rc.d flyvemdm defaults
+      </blockquote>
+    </div>
+  </div>
+</section>
+
