@@ -225,7 +225,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * Shows the input values
+    * Shows the input value
     * @return string an HTML
     */
    public function showValueInput() {
