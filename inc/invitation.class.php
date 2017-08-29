@@ -48,8 +48,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected $user;
 
    /**
-    * Gets the status of the invitations
-    * @return array with the invitations pending and done
+    * Gets the possibles statuses that an invitation can have
+    * @return array the possibles statuses of the invitation
     */
    public function getEnumInvitationStatus() {
       return array(
