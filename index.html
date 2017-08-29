@@ -20,85 +20,9 @@ layout: home
         It provides a stand alone web based administration and a interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
       </p>
     </div>
-    
-
+    <br/>
 </div>
   
-<section>
-
-  <!--<div class="jumbotron theme-dark">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-24 text-center">
-          <h3>Features</h3>
-        </div>
-      </div>
-    </div>
-  </div>-->
-
-  <!--<div class="jumbotron theme-light">
-    <div class="container">
-      <h3>Versioning</h3>
-      <p>
-        In order to provide transparency on our release cycle and to maintain backward compatibility, Flyve MDM is maintained under 
-        <a href="http://semver.org/"> the Semantic Versioning</a>
-        guidelines. We are committed to following and complying with the rules, the best we can.
-      </p>
-      <p>
-        See <a href="http://github.com/flyve-mdm/flyve-mdm-glpi-plugin/tags">the tags section of our GitHub project</a> 
-        for changelogs for each release version of Flyve MDM. Release announcement posts on 
-        <a href="http://www.teclib-edition.com/en/communities/blog-posts/">the official Teclib' blog</a> 
-        contain summaries of the most noteworthy changes made in each release.
-      </p>
-    </div>
-  </div>
-
-  <div class="jumbotron theme-default">
-    <div class="container">
-      <h3>Contribute</h3>
-      <p>
-        Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for contributing and then check out one of our issues in the Issues Dashboard.
-      </p>
-      <p>
-        If you are not a developer you may contribute the project by translating it, by submitting documentation or by testing the product.
-      </p>
-    </div>
-  </div>-->
-      
-    <!--
-  <div class="jumbotron theme-default">
-    <div class="container">
-      <h3>Mobile equipment security</h3>
-      <p>
-        Flyve MDM secures all your devices, allowing you to manage your mobile fleet security policy with precision.
-      </p>
-      <p>
-        The solution offers a range of powerful security features to protect sensitive company data stored on mobile devices.
-      </p>
-      <p>
-        Keep control and protect yourself from cyber-attacks:
-      </p>
-      <ul>
-        <li>
-          Set the level of complexity of your passwords
-        </li>
-        <li>
-          Activate mobile device encryption
-        </li>
-        <li>
-          Lock the mobile device remotely
-        </li>
-        <li>
-          Control the authorisation for the use of the camera
-        </li>
-        <li>
-          Erase all data from the remote terminal (reset)
-        </li>
-      </ul>
-    </div>
-  </div>-->
-</section>
-
 <section id="instructions">
   <div class="jumbotron theme-dark">
     <div class="container">
@@ -252,21 +176,23 @@ layout: home
       <p>
         Here is an example of settings in php.ini
       </p>
-      <blockquote>
-        ; Maximum size of POST data that PHP will accept.<br/>
-        ; Its value may be 0 to disable the limit. It is ignored if POST data reading<br/>
-        ; is disabled through enable_post_data_reading.<br/>
-        ; http://php.net/post-max-size<br/>
-        post_max_size = 8M<br/>
-        <br/>
-        ; Whether to allow HTTP file uploads.<br/>
-        ; http://php.net/file-uploads<br/>
-        file_uploads = On<br/>
-        <br/>
-        ; Maximum allowed size for uploaded files.<br/>
-        ; http://php.net/upload-max-filesize<br/>
-        upload_max_filesize = 8M
-      </blockquote>
+
+{% highlight none %}
+; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; http://php.net/post-max-size
+post_max_size = 8M
+
+; Whether to allow HTTP file uploads.
+; http://php.net/file-uploads
+file_uploads = On
+
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 8M
+{% endhighlight %}
+
 
       <h4>Notifications</h4>
       <p>
@@ -417,9 +343,9 @@ layout: home
       <p>
         Assuming your DBMS server is not exposed to the world and the message queuing is on an other server, edit <strong>my.cnf</strong> to listen on <strong>0.0.0.0</strong> instead of 127.0.0.1.
       </p>
-      <blockquote>
-        bind-address = 0.0.0.0
-      </blockquote>
+{% highlight none %}
+bind-address = 0.0.0.0
+{% endhighlight %}
       <p>
         Create a new user in the DBMS able to read only the GLPI's database, and restrict this user to the IP of the future message queuing server.
       </p>
@@ -486,28 +412,28 @@ layout: home
         <li>
           Secure your private key
         </li>
-        <blockquote>
-          chmod 600 /etc/mosquitto/certs/private-key.key<br/>
-          chown mosquitto:root /etc/mosquitto/certs/private-key.key
-        </blockquote>
+{% highlight none %}
+chmod 600 /etc/mosquitto/certs/private-key.key
+chown mosquitto:root /etc/mosquitto/certs/private-key.key
+{% endhighlight %}
         <li>
           refresh hash and symlinks to your certificates
         </li>
-        <blockquote>
-          c_rehash /etc/mosquitto/certs
-        </blockquote>
+{% highlight none %}
+c_rehash /etc/mosquitto/certs
+{% endhighlight %}
       </ul>
       <p>
         You should use a certificate signed by a certified authority or you may have trouble with the android devices. Using android devices with custom certification authorities might not work (not tested).
       </p>
-      <blockquote>
-        listener 8883<br/>
-        <br/>
-        cafile /etc/mosquitto/certs/cachain.pem<br/>
-        certfile /etc/mosquitto/certs/cachain.pem<br/>
-        keyfile /etc/mosquitto/certs/private-key.key<br/>
-        tls_version tlsv1.2
-      </blockquote>
+{% highlight none %}
+listener 8883
+
+cafile /etc/mosquitto/certs/cachain.pem
+certfile /etc/mosquitto/certs/cachain.pem
+keyfile /etc/mosquitto/certs/private-key.key
+tls_version tlsv1.2
+{% endhighlight %}
       <p>
          You should NOT use tls_version lower than tlsv1.2. TLS version 1.0 and 1.1 are no longer considered safe. Mosquitto does not supports SSLv2 or sslv3.
       </p>
@@ -517,9 +443,9 @@ layout: home
       <p>
         Test you can successfully connect to mosquitto
       </p>
-      <blockquote>
-        mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 --cafile /tmp/mycert.pem --capath /etc/ssl/certs/
-      </blockquote>
+{% highlight none %}
+mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 --cafile /tmp/mycert.pem --capath /etc/ssl/certs/
+{% endhighlight %}
       <h5>disable default unencrypted listener</h5>
       <p>
         Assuming you successfully enabled and tested TLS, remove the following settings:
@@ -547,18 +473,18 @@ layout: home
       <p>
         Add or edit the following settings
       </p>
-      <blockquote>
-        auth_plugin /usr/local/lib/libmosquitto-auth-plug.so <br/>
-        auth_opt_backends mysql<br/>
-        auth_opt_host backend-server-ip-or-fqdn<br/>
-        auth_opt_port 3306<br/>
-        auth_opt_user database-user<br/>
-        auth_opt_dbname glpi<br/>
-        auth_opt_pass StrongPassword<br/>
-        auth_opt_userquery SELECT password FROM glpi_plugin_flyvemdm_mqttusers WHERE user='%s' AND enabled='1'<br/>
-        auth_opt_aclquery SELECT topic FROM glpi_plugin_flyvemdm_mqttacls a LEFT JOIN glpi_plugin_flyvemdm_mqttusers u ON (a.plugin_flyvemdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)<br/>
-        auth_opt_cacheseconds 300
-      </blockquote>
+{% highlight none %}
+auth_plugin /usr/local/lib/libmosquitto-auth-plug.so 
+auth_opt_backends mysql
+auth_opt_host backend-server-ip-or-fqdn
+auth_opt_port 3306
+auth_opt_user database-user
+auth_opt_dbname glpi
+auth_opt_pass StrongPassword
+auth_opt_userquery SELECT password FROM glpi_plugin_flyvemdm_mqttusers WHERE user='%s' AND enabled='1'
+auth_opt_aclquery SELECT topic FROM glpi_plugin_flyvemdm_mqttacls a LEFT JOIN glpi_plugin_flyvemdm_mqttusers u ON (a.plugin_flyvemdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
+auth_opt_cacheseconds 300
+{% endhighlight %}
       <p>
         Adapt the server, port and credentials to your setup.
       </p>
@@ -582,11 +508,11 @@ layout: home
       <p>
         The backend needs to listen to MQTT messages sent by devices. It needs a daemon  acting as a MQTT client. a init.d script is provided in <code>glpi/plugins/flyvemdm/scripts/service.sh</code>. Create a symlink to /etc/init.d
       </p>
-      <blockquote>
-        sudo cd /etc/init<br/>
-        sudo ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm<br/>
-        sudo update-rc.d flyvemdm defaults
-      </blockquote>
+{% highlight none %}
+sudo cd /etc/init
+sudo ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm
+sudo update-rc.d flyvemdm defaults
+{% endhighlight %}
     </div>
   </div>
 </section>
