@@ -41,7 +41,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
    protected static $delay = 'PT30S';
 
    /**
-    * Prepares datas before adding the item
+    * Prepares data before adding the item
     * @param array $input
     * @return array the modified datas
     */
