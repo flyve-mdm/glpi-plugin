@@ -88,7 +88,7 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * Shows the values searched
+    * Shows the value
     * @param PluginFlyvemdmTask $task
     * @return string yes or no
     */
