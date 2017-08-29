@@ -265,7 +265,7 @@ class PluginFlyvemdmMqttclient {
    /**
     * Builds a MQTT
     * @param string $socketAddress
-    * @param string $port
+    * @param TCP $port
     * @param string $isTls
     * @param string $sslCipher
     * @return mixed the MQTT
