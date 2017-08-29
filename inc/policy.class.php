@@ -55,7 +55,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
 
    /**
     * Finds the symbol that matches the argument
-    * @param $symbol
+    * @param string $symbol
     * @return boolean true if the symbol is found
     */
    public function getFromDBBySymbol($symbol) {
