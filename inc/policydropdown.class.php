@@ -90,7 +90,7 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * Shows the input values
+    * Shows the input value
     * @return array a list of the values
     */
    public function showValueInput() {
