@@ -178,7 +178,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * Shows the input values
+    * Shows the HTML input tags to edit the value
     * @return an HTML input
     */
    public function showValueInput() {
