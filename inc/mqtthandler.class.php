@@ -58,7 +58,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    }
 
    /**
-    * Get the instance of the PluginFlyvemdmMqtthandler
+    * Gets the instance of the PluginFlyvemdmMqtthandler
     * @return the instance of this class
     */
    public static function getInstance() {
