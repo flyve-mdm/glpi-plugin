@@ -186,7 +186,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    * Prepare data before update
+    * Prepares data before update
     * @param array $input
     * @return array|false if the update fails
     */
