@@ -248,9 +248,9 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * Displays the values found in the search
+    * Displays the value
     * @param PluginFlyvemdmTask $task
-    * @return array|false the file found
+    * @return array|false the file
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $file = new PluginFlyvemdmFile();
