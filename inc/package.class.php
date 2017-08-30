@@ -82,11 +82,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * If the tab shall not display then returns an empty string
     * @param CommonGLPI $item on which the tab will show
     * @param number $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
-    * @return translated|string
+    *
+    * @return string
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
-      global $CFG_GLPI;
-
       switch ($item->getType()) {
          case 'Software' :
             return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(), "flyvemdm");
@@ -102,8 +101,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param number $withtemplate
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
-      global $CFG_GLPI;
-
       if ($item->getType() == 'Software') {
          self::showForSoftware($item);
          return true;
@@ -116,8 +113,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param array $options
     */
    public function showForm($ID, $options=array()) {
-      global $CFG_GLPI, $DB;
-
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
@@ -163,7 +158,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
-      global $DB;
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
@@ -395,7 +389,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             }
             $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
             if ($task->getFromDB($taskId)) {
-               //$task->publishPolicies($fleet, $policy->getGroup());
                $task->updateQueue($fleet, $policy->getGroup());
             }
          }
@@ -406,8 +399,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      global $DB;
-
       $task = new PluginFlyvemdmTask();
       return $task->deleteByCriteria(array(
             'itemtype'  => $this->getType(),
@@ -427,7 +418,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     * Create a directory
-    * @param unknown $dir
+    * @param string $dir
     */
    protected function createEntityDirectory($dir) {
       if (!is_dir($dir)) {
@@ -439,8 +430,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']                 = __s('Package', "flyvemdm");
 
@@ -526,6 +515,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       if (isset($_SERVER['HTTP_RANGE'])) {
+         $matches = null;
          if (preg_match('/bytes=\h*(\d+)?-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
             if (!empty($matches[1])) {
                $begin = intval($matches[1]);

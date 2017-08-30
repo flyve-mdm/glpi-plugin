@@ -92,7 +92,8 @@ function plugin_init_flyvemdm() {
       $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
 
       Html::requireJs('charts');
-      $CFG_GLPI['javascript']['plugins']['pluginflyvemdmmenu']['Menu'] = ['charts'];
+      $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
+      $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
 
@@ -103,7 +104,7 @@ function plugin_flyvemdm_registerClasses() {
    Plugin::registerClass(PluginFlyvemdmAgent::class);
    Plugin::registerClass(PluginFlyvemdmFleet::class);
    Plugin::registerClass(PluginFlyvemdmPolicy::class);
-   Plugin::registerClass(PluginFlyvemdmFleet_Policy::class);
+   Plugin::registerClass(PluginFlyvemdmTask::class);
    Plugin::registerClass(PluginFlyvemdmProfile::class,
          ['addtabon' => Profile::class]);
    Plugin::registerClass(PluginFlyvemdmGeolocation::class);

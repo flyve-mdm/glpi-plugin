@@ -278,9 +278,6 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @see CommonDBTM::getSearchOptions()
     */
    public function getSearchOptions() {
-
-      global $CFG_GLPI;
-
       $tab = array();
       $tab['common']             = __s('Geolocation', "flyvemdm");
 
