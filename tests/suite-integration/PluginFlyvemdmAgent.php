@@ -32,7 +32,6 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-/** @engine inline */
 class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function beforeTestMethod($method) {
