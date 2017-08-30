@@ -247,7 +247,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    /**
     * Gets the tabs name
     * @param CommonGLPI $item
-    * @param numeric $withtemplate
+    * @param integer $withtemplate if it is showed with a template (default 0)
     * @return array Containing the tabs name
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
