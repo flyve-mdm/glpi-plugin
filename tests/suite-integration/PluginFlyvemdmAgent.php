@@ -32,6 +32,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
+/** @engine inline */
 class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function beforeTestMethod($method) {
@@ -423,6 +424,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $invitation = $this->createInvitation($guestEmail);
       $user = new \User();
       $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
+       $testUserId = $user->getID();
 
       // Enroll
       $agent = $this->enrollFromInvitation(
@@ -450,6 +452,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // check the agent is deleted
       $this->boolean($deleteSuccess)->isTrue();
+
+       $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
    /**
@@ -549,6 +553,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $invitation = $this->createInvitation($guestEmail);
       $user = new \User();
       $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
+      $testUserId = $user->getID();
 
       // Enroll
       $serial = $this->getUniqueString();
@@ -582,12 +587,14 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($mqttUser->getByUser($serial))->isFalse();
       $computer = new \Computer();
       $this->boolean($computer->getFromDB($computerId))->isFalse();
+
+       $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
    /**
     * Test the purge of an agent the user must persist if he no longer has any agent
     *
-    *
+    * @tags thisIsOne
     */
    public function testPurgeAgent() {
       // Create an invitation
@@ -595,6 +602,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $invitation = $this->createInvitation($guestEmail);
       $user = new \User();
       $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
+       $testUserId = $user->getID();
 
       // Enroll
       $serial = $this->getUniqueString();
@@ -630,9 +638,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $agentUser = new \User();
       $this->boolean($agentUser->getFromDB($agent->getField(\User::getForeignKeyField())))->isFalse();
 
-      // Test the owner user is NOT deleted
+      // Test the owner user is deleted
       $user = new \User();
-      $this->boolean($user->getFromDB($userId))->isTrue();
+      $this->boolean($user->getFromDB($userId))->isFalse();
+
+       $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
    /**
