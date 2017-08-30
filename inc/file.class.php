@@ -316,7 +316,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    * Actions done after the getFromFB method
+    * Actions done after the getFromDB method
     */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
