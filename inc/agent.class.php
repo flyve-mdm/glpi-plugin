@@ -552,14 +552,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'flyvemdm'));
             return false;
          }
-
-         // Check the user still has one or several profiles
-         /*$rows = $profile_User->find("`users_id`='$ownerUserId'", '', '1');
-         if (count($rows) == 0) {
-            // Delete the user
-            $user = new User();
-            $user->delete(['id' => $ownerUserId], true);
-         }*/
       }
 
       // Delete the user account of the agent

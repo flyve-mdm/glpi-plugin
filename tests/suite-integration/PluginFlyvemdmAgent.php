@@ -511,6 +511,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // check the agent is deleted
       $this->boolean($deleteSuccess)->isTrue();
 
+       // Check if user has not been deleted
        $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
@@ -649,13 +650,14 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $computer = new \Computer();
       $this->boolean($computer->getFromDB($computerId))->isFalse();
 
+       // Check if user has not been deleted
        $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
    /**
     * Test the purge of an agent the user must persist if he no longer has any agent
     *
-    * @tags thisIsOne
+    * @tags purgeAgent
     */
    public function testPurgeAgent() {
       // Create an invitation
@@ -704,6 +706,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $user = new \User();
       $this->boolean($user->getFromDB($userId))->isFalse();
 
+      // Check if user has not been deleted
        $this->boolean($user->getFromDb($testUserId))->isTrue();
    }
 
