@@ -44,6 +44,10 @@ define('TU_PASS', 'PhpUnit_4');
 
 define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
 define('GLPI_CONFIG_DIR', GLPI_ROOT . '/tests');
+if (!file_exists(GLPI_CONFIG_DIR . '/config_db.php')) {
+   echo "config_db.php missing. Did GLPI successfully initialized ?\n";
+   exit(1);
+}
 define('GLPI_LOG_DIR', __DIR__ . '/logs');
 @mkdir(GLPI_LOG_DIR);
 
