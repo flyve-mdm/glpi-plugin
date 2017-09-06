@@ -40,7 +40,7 @@ class PluginFlyvemdmCommon
 
    /**
     * Convert int size to GiB
-    * @param numeric $size 
+    * @param numeric $size
     * @return string format numeric
     */
    public static function convertToGiB($size) {
