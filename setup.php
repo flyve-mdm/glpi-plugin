@@ -36,8 +36,6 @@ define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
 define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.2');
 // Maximum GLPI version, exclusive
 define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.3');
-// Minimum PHP version inclusive
-define('PLUGIN_FLYVEMDM_PHP_MIN_VERSION', '5.5');
 
 define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');
 
@@ -203,7 +201,6 @@ function plugin_version_flyvemdm() {
             ],
          ],
          'php' => [
-            'min'    => PLUGIN_FLYVEMDM_PHP_MIN_VERSION,
             'exts'   => [
                'OpenSSL'   => [
                   'required'  => true,
