@@ -204,7 +204,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    }
 
    /**
-    * Updates the last contact of the agent
+    * Updates the last contact date of the agent
     *
     * The data to update is a datetime
     *
