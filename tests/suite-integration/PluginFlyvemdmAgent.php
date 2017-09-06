@@ -34,6 +34,8 @@ use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
 
+   private $minAndroidVersion = '2.0.0';
+
    public function beforeTestMethod($method) {
       $this->resetState();
       parent::beforeTestMethod($method);
@@ -84,7 +86,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]);
          // Agent creation should succeed
@@ -110,7 +112,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'csr'                => '',
          'firstname'          => 'John',
          'lastname'           => 'Doe',
-         'version'            => '1.0.0',
+         'version'            => $this->minAndroidVersion,
          'type'               => 'android',
       ]);
       // Device limit reached : agent creation should fail
@@ -140,7 +142,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]
       );
@@ -163,7 +165,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
          ]
       );
       $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
@@ -185,7 +187,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'alien MDM',
          ]
       );
@@ -241,6 +243,29 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
+      // Test enrollment with a too low version
+      $rows = $invitationLog->find("1");
+
+      $agent = $this->enrollFromInvitation(
+         $user, [
+            'entities_id'        => $_SESSION['glpiactive_entity'],
+            '_email'             => $guestEmail,
+            '_invitation_token'  => $invitation->getField('invitation_token'),
+            '_serial'            => $serial,
+            'csr'                => '',
+            'firstname'          => 'John',
+            'lastname'           => 'Doe',
+            'version'            => '1.9',
+            'type'               => 'android',
+         ]
+      );
+      $this->boolean($agent->isNewItem())->isTrue();
+
+      $invitationLog = new \PluginFlyvemdmInvitationlog();
+      $expectedLogCount++;
+      $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
+      $this->integer(count($rows))->isEqualTo($expectedLogCount);
+
       // test enrollment without serial or uuid
       $agent = $this->enrollFromInvitation(
          $user, [
@@ -250,7 +275,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]
       );
@@ -271,7 +296,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'apple',
          ]
       );
@@ -381,7 +406,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'apple',
             ]
       );
@@ -411,7 +436,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]
       );
@@ -442,7 +467,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -493,7 +518,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]
       );
@@ -537,7 +562,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -570,7 +595,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -627,7 +652,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -678,7 +703,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -733,7 +758,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -785,7 +810,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -836,7 +861,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -891,7 +916,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );
@@ -941,7 +966,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'csr'                => '',
                'firstname'          => 'John',
                'lastname'           => 'Doe',
-               'version'            => '1.0.0',
+               'version'            => $this->minAndroidVersion,
                'type'               => 'android',
             ]
       );

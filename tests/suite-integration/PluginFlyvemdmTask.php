@@ -35,6 +35,8 @@ use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
 
+   private $minAndroidVersion = '2.0.0';
+
    public function beforeTestMethod($method) {
       $this->resetState();
       parent::beforeTestMethod($method);
@@ -64,7 +66,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
             'csr'                => '',
             'firstname'          => 'John',
             'lastname'           => 'Doe',
-            'version'            => '1.0.0',
+            'version'            => $this->minAndroidVersion,
             'type'               => 'android',
          ]
       );

@@ -67,6 +67,28 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected $topic = null;
 
    /**
+    *
+    * Returns the minimum version of the agent accepted by the backend
+    *
+    * @param string $mdmType the type of the agent.
+    *
+    * @return string the minimum version of the agent depending on its type
+    */
+   private function getMinVersioForType($mdmType) {
+      switch ($mdmType) {
+         case 'android':
+            return '2.0';
+            break;
+
+         case 'apple':
+            return '1.0';
+            break;
+      }
+
+      return '';
+   }
+
+   /**
     * get mdm types availables
     */
    public static function getEnumMdmType() {
@@ -973,6 +995,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) !== 1) {
          $event = __('Bad agent version', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Check the agent matches the minimum version requirement of the backend
+      $minVersion = $this->getMinVersioForType($mdmType);
+      if (version_compare($minVersion, $version) > 0) {
+         $event = __('The agent version is too low', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
