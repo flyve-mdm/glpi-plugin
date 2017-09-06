@@ -41,6 +41,10 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
    const TEMPLATE = 'menu.html';
 
+   /**
+    * Displays the menu name
+    * @return string the menu name
+    */
    public static function getMenuName() {
       return __('Flyve MDM');
    }
@@ -117,9 +121,8 @@ class PluginFlyvemdmMenu extends CommonGLPI {
    }
 
    /**
-    *
-    *
-    *
+    * Gets the menu content
+    * @return array the menu content
     */
    public static function getMenuContent() {
       $front_flyvemdm = "/plugins/flyvemdm/front";

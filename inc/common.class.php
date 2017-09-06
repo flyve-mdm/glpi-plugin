@@ -37,6 +37,12 @@ class PluginFlyvemdmCommon
 {
    const SEMVER_VERSION_REGEX = '#\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b#i';
 
+
+   /**
+    * Convert int size to GiB
+    * @param numeric $size 
+    * @return string format numeric
+    */
    public static function convertToGiB($size) {
       $units = ['KiB', 'MiB', 'GiB', 'TiB'];
       $unit = 'B';
@@ -49,6 +55,11 @@ class PluginFlyvemdmCommon
       return "$size $unit";
    }
 
+   /**
+    * Display massive actions
+    * @param array $massiveactionparams
+    * @return string an HTML
+    */
    public static function getMassiveActions($massiveactionparams) {
       ob_start();
       Html::showMassiveActions($massiveactionparams);

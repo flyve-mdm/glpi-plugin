@@ -185,6 +185,11 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Prepares data before update
+    * @param array $input
+    * @return array|false if the update fails
+    */
    public function prepareInputForUpdate($input) {
       if (!isset($input['latitude']) || !isset($input['longitude'])) {
          Session::addMessageAfterRedirect(__('latitude and longitude are mandatory', 'flyvemdm'));
@@ -249,6 +254,11 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $where;
    }
 
+   /**
+    * Displays the agents according the datetime
+    * @param CommonDBTM $item
+    * @return string an html with the geolocation of the agent
+    */
    public static function showForAgent(CommonDBTM $item) {
       $computer = new Computer;
       $computer->getFromDB($item->getField('computers_id'));
@@ -319,6 +329,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $tab;
    }
 
+   /**
+    * Deletes the geolocation related with the computer
+    * @param CommonDBTM $item
+    */
    public function hook_computer_purge(CommonDBTM $item) {
       if ($item instanceof Computer) {
          $geolocation = new self();

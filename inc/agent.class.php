@@ -261,6 +261,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $item->showFormButtons(array('candel' => false, 'formfooter' => false));
    }
 
+   /**
+    * Display the agents according the fleet
+    * @param PluginFlyvemdmFleet $item
+    * @return string an html with the agents
+    */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
       $items_id = $item->getField('id');
 
@@ -656,6 +661,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * Actions done after the purge of an item
+    */
    public function post_purgeItem() {
       $this->cleanupSubtopics();
    }
@@ -1344,6 +1352,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return false;
    }
 
+   /**
+    * Polls in the DB for the inventory of the agent
+    * @return boolean true if succeed
+    */
    protected function pollInventoryAnswer() {
       // Wait for a reply within a short delay
       $computerFk = Computer::getForeignKeyField();
@@ -1383,6 +1395,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $this->pollPingAnswer();
    }
 
+   /**
+    * Polls the ping answer 
+    * @return boolean true if succeed
+    */
    protected function pollPingAnswer() {
       // Wait for a reply within a short delay
       $loopCount = 25;
@@ -1607,6 +1623,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          Session::addMessageAfterRedirect($error);
       }
    }
+   /**
+    * Logs invitation events
+    * @param PluginFlyvemdmInvitation $invitation
+    * @param string $event
+    */
    protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
       $invitationLog = new PluginFlyvemdmInvitationlog();
       $invitationLog->add([
@@ -1684,6 +1705,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agent->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
    }
 
+   /**
+    * Deletes agents related to the computers id
+    * @param CommonDBTM $item
+    */
    public function hook_computer_purge(CommonDBTM $item) {
       $agent = new static();
       $agent->deleteByCriteria(array('computers_id' => $item->getField('id')), 1);

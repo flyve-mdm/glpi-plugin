@@ -59,6 +59,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       return _n('File', 'Files', $nb, "flyvemdm");
    }
 
+   /**
+    * Returns the URI to the picture file relative to the front/folder of the plugin
+    * @return string URI to the picture file
+    */
    public static function getMenuPicture() {
       return '../pics/picto-file.png';
    }
@@ -304,6 +308,16 @@ class PluginFlyvemdmFile extends CommonDBTM {
       ));
    }
 
+   /**
+    * @see CommonDBTM::post_addItem()
+    */
+   public function post_addItem() {
+      global $DB;
+   }
+
+   /**
+    * Actions done after the getFromDB method
+    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
@@ -352,6 +366,9 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
    }
 
+   /**
+    * Sends a file
+    */
    protected function sendFile() {
       $streamSource = FLYVEMDM_FILE_PATH . "/" . $this->fields['source'];
 
@@ -438,6 +455,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       exit(0);
    }
 
+   /**
+    * Deletes files related to the entity being purged
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $file = new static();
       $file->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);

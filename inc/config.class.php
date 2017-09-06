@@ -157,6 +157,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Remove the value from sensitive configuration entry
+    * @param array $fields
+    * @return array the filtered configuration entry
+    */
    public static function undiscloseConfigValue($fields) {
       $undisclosed = [
             'mqtt_passwd',

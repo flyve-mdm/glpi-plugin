@@ -47,6 +47,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     */
    protected $user;
 
+   /**
+    * Gets the possibles statuses that an invitation can have
+    * @return array the possibles statuses of the invitation
+    */
    public function getEnumInvitationStatus() {
       return array(
             'pending'         => __('Pending', 'flyvemdm'),
@@ -62,6 +66,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
+   /**
+    * Returns the URI to the picture file relative to the front/folder of the plugin
+    * @return string URI to the picture file
+    */
    public static function getMenuPicture() {
       return '../pics/picto-invitation.png';
    }
@@ -78,6 +86,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $rights;
    }
 
+   /**
+    * Prepares input to follow the most used description convention
+    * @param array $input the data to use when creating a new row in the DB
+    * @return array|false the modified input data
+    */
    public function prepareInputForAdd($input) {
       // integrity checks
       if (!isset($input['_useremails'])) {
@@ -203,10 +216,19 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Finds the invitation that matches the token given in argument
+    * @param string $token
+    * @return boolean true if the invitation token exist
+    */
    public function getFromDBByToken($token) {
       return $this->getFromDBByQuery("WHERE `invitation_token`='$token'");
    }
 
+   /**
+    * Generates the Invitation Token
+    * @return string the generated token
+    */
    protected function setInvitationToken() {
       $invitation = new static();
       do {
@@ -343,6 +365,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $documentId;
    }
 
+   /**
+    * Sends an invitation
+    */
    public function sendInvitation() {
       NotificationEvent::raiseEvent(
             PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
@@ -390,6 +415,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $tab;
    }
 
+   /**
+    * Deletes the invitation related to the entity being purged
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $invitation = new static();
       $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
@@ -426,6 +455,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $this->showFormButtons($options);
    }
 
+   /**
+    * Displays the massive actions related to the invitation of the user
+    * @return string a HTML with the masssive actions
+    */
    protected function showMassiveActionInviteUser() {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
@@ -449,8 +482,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
+    * Executes the code to process the massive actions
     *
-    * @see CommonDBTM::processMassiveActionsForOneItemtype()
+    * @param MassiveAction $ma
+    * @param CommonDBTM $item
+    * @param array $ids
     */
    public static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids) {
       switch ($ma->getAction()) {

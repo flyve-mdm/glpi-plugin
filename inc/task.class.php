@@ -75,6 +75,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    protected $silent;
 
+   /**
+    * Gets the tab name for the item
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    * @return string the tab name
+    */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       if (static::canView()) {
          switch ($item->getType()) {
@@ -321,6 +327,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $this->deleteTaskStatuses($this->fleet);
    }
 
+   /**
+    * Updates the queue of the MQTT
+    * @param PluginFlyvemdmNotifiable $item
+    * @param array $groups
+    */
    public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = array()) {
       if (! $item instanceof PluginFlyvemdmFleet) {
          // Cannot queue MQTT messages for devices
@@ -356,6 +367,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
    }
 
+   /**
+    * Deletes the task statuses
+    * @param PluginFlyvemdmFleet $fleet
+    */
    private function deleteTaskStatuses(PluginFlyvemdmFleet $fleet) {
       $taskStatus = new PluginFlyvemdmTaskstatus();
       $taskStatus->deleteByCriteria([

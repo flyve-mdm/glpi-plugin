@@ -177,6 +177,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return true;
    }
 
+   /**
+    * Shows the HTML input tags to edit the value
+    * @return an HTML input
+    */
    public function showValueInput() {
       $out = PluginFlyvemdmPackage::dropdown(array(
             'display'      => false,
@@ -189,6 +193,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return $out;
    }
 
+   /**
+    * Shows the value
+    * @param numeric PluginFlyvemdmTask $task
+    * @return mixed the value
+    */
    public function showValue(PluginFlyvemdmTask $task) {
       $package = new PluginFlyvemdmPackage();
       if ($package->getFromDB($task->getField('items_id'))) {

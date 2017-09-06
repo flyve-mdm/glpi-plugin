@@ -77,10 +77,18 @@ class PluginFlyvemdmMqttclient {
       return self::$instance;
    }
 
+   /**
+    * Sets the MQTT handler
+    * @param string $mqttHandler
+    */
    public function setHandler($mqttHandler) {
       self::$mqtt->setHandler($mqttHandler);
    }
 
+   /**
+    * Sets the keep alive of the mqtt
+    * @param integer $keepalive
+    */
    public function setKeepalive($keepalive = 60) {
       if ($keepalive < 2) {
          $keepalive = 2;
@@ -88,6 +96,10 @@ class PluginFlyvemdmMqttclient {
       self::$mqtt->setKeepalive($keepalive);
    }
 
+   /**
+    * Sets the maximun duration of the object
+    * @param numeric $duration
+    */
    public function setMaxDuration($duration) {
       $this->duration = $duration;
    }
@@ -146,16 +158,27 @@ class PluginFlyvemdmMqttclient {
       return false;
    }
 
+   /**
+    * Breaks the infinite loop implemented in the MQTT client library using the ping response event
+    * @param string $mqtt
+    * @param string $pingresp_object
+    */
    public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       if ($this->disconnect) {
          self::$mqtt->disconnect();
       }
    }
 
+   /**
+    * Disconnects the MQTT client
+    */
    public function disconnect() {
       $this->disconnect = true;
    }
 
+   /**
+    * Sets when it must disconnect the MQTT client
+    */
    protected function mustDisconnect() {
       if ((time() - $this->beginTimestamp) > $this->duration) {
          return true;
@@ -239,6 +262,14 @@ class PluginFlyvemdmMqttclient {
       return $mqtt;
    }
 
+   /**
+    * Builds a MQTT
+    * @param string $socketAddress
+    * @param TCP $port
+    * @param string $isTls
+    * @param string $sslCipher
+    * @return mixed the MQTT
+    */
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher) {
       $protocol = $isTls ? "ssl://" : "tcp://";
       $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");

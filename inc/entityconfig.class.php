@@ -53,6 +53,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    public static $rightname            = 'flyvemdm:entity';
 
+   /**
+    * Returns the name of the type
+    * @param integer $nb number of item in the type
+    */
    static function getTypeName($nb=0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
    }
@@ -71,6 +75,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       }
    }
 
+   /**
+    * Actions done after the getFromDB method
+    */
    public function post_getFromDB() {
       // find the parent entity
       $entity = new Entity();
@@ -135,6 +142,11 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Sanitizes the token life time of the agent
+    * @param string $input
+    * @return array|false the agent token life time
+    */
    protected function sanitizeTokenLifeTime($input) {
       if (isset($input['agent_token_life'])) {
          // Sanitize agent_token_life (see DataInterval)
@@ -212,6 +224,11 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return bin2hex(openssl_random_pseudo_bytes(32));
    }
 
+   /**
+    * Retrieve the entity or create it
+    * @param string $ID
+    * @return boolean true if succeed
+    */
    public function getFromDBOrCreate($ID) {
       if (!$this->getFromDB($ID)) {
          $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
@@ -227,6 +244,12 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       }
    }
 
+   /**
+    * Gets the tabs name
+    * @param CommonGLPI $item
+    * @param integer $withtemplate if it is showed with a template (default 0)
+    * @return array Containing the tabs name
+    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       $tabNames = array();
       if (!$withtemplate) {
@@ -282,6 +305,12 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return $default_value;
    }
 
+   /**
+    * Shows the tab content
+    * @param CommonGLPI $item
+    * @param integer $tabnum
+    * @param integer $withtemplate
+    */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
 
       if ($item->getType() == 'Entity') {
@@ -301,6 +330,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       return (($ID < 0) || !strlen($ID));
    }
 
+   /**
+    * Displays form when the item is displayed from a related entity
+    * @param Entity $item
+    */
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
       if (!$this->getFromDBByCrit(['entities_id' => $ID])) {

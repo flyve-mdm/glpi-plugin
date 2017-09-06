@@ -36,6 +36,10 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmGraph extends CommonDBTM
 {
 
+   /**
+    * Displays the graphic of the invitations
+    * @return string HTML snippet for Pie graph
+    */   
    public function showInvitationsGraph() {
       $out = '';
 
@@ -72,6 +76,10 @@ class PluginFlyvemdmGraph extends CommonDBTM
       return $out;
    }
 
+   /**
+    * Displays the devices per operating system version
+    * @return string a HTML with the devices according their operating system version
+    */
    public function showDevicesPerOSVersion() {
       global $DB;
 

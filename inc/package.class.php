@@ -61,6 +61,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return _n('Package', 'Packages', $nb, "flyvemdm");
    }
 
+   /**
+    * Returns the picture file for the menu
+    * @return string the menu picture
+    */
    public static function getMenuPicture() {
       return '../pics/picto-package.png';
    }
@@ -358,6 +362,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Actions done after the getFromDB method
+    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
@@ -494,6 +501,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return $URL;
    }
 
+   /**
+    * Sends a file
+    */
    protected function sendFile() {
       $streamSource = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
 
@@ -570,6 +580,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       exit(0);
    }
+
+   /**
+    * Deletes the packages related to the entity
+    * @param CommonDBTM $item
+    */
    public function hook_entity_purge(CommonDBTM $item) {
       $package = new static();
       $package->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
