@@ -1396,7 +1396,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Polls the ping answer 
+    * Polls the ping answer
     * @return boolean true if succeed
     */
    protected function pollPingAnswer() {

@@ -39,7 +39,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
    /**
     * Displays the graphic of the invitations
     * @return string HTML snippet for Pie graph
-    */   
+    */
    public function showInvitationsGraph() {
       $out = '';
 
