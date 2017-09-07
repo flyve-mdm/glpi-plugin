@@ -40,10 +40,10 @@ Features
          </en>
       </long>
    </description>
-   <homepage>https://github.com/flyve-mdm/flyve-mdm-glpi</homepage>
-   <download>https://github.com/flyve-mdm/flyve-mdm-glpi/releases</download>
-   <issues>https://github.com/flyve-mdm/flyve-mdm-glpi/issues</issues>
-   <readme>https://github.com/flyve-mdm/flyve-mdm-glpi/blob/master/README.md</readme>
+   <homepage>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin</homepage>
+   <download>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/releases</download>
+   <issues>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/issues</issues>
+   <readme>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/blob/master/README.md</readme>
    <authors>
       <author>TECLIB'</author>
    </authors>
