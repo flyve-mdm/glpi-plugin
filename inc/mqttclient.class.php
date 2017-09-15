@@ -196,7 +196,7 @@ class PluginFlyvemdmMqttclient {
       // Sanity check
       $port = intval($port);
 
-      $config = Config::getConfigurationValues('flyvemdm', array('mqtt_user', 'mqtt_passwd'));
+      $config = Config::getConfigurationValues('flyvemdm', ['mqtt_user', 'mqtt_passwd']);
       if (empty($config['mqtt_user']) || empty($config['mqtt_passwd'])) {
          return false;
       }
@@ -228,14 +228,14 @@ class PluginFlyvemdmMqttclient {
     * @return sskaje\mqtt\MQTT|false MQTT object
     */
    protected function getMQTTConnection() {
-      $config = Config::getConfigurationValues('flyvemdm', array(
+      $config = Config::getConfigurationValues('flyvemdm', [
             'mqtt_broker_internal_address',
             'mqtt_broker_port',
             'mqtt_broker_tls',
             'mqtt_broker_tls_ciphers',
             'mqtt_user',
             'mqtt_passwd'
-      ));
+      ]);
       if (empty($config['mqtt_broker_internal_address'])
             ||empty($config['mqtt_broker_port'])
             ||(!isset($config['mqtt_broker_tls']))) {

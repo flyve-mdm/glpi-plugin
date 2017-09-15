@@ -46,6 +46,6 @@ Html::header(
       'file'
 );
 
-Search::show('PluginFlyvemdmFile');
+Search::show(PluginFlyvemdmFile::class);
 
 Html::footer();

@@ -82,7 +82,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
       global $DB;
 
       if (! is_array($topicList)) {
-         $topicList = array($topicList);
+         $topicList = [$topicList];
       }
       $msg = $DB->escape($msg);
       foreach ($topicList as $topic) {

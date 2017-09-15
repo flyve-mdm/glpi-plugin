@@ -99,8 +99,10 @@ if (isset($_POST["add"])) {
          'PluginFlyvemdmMenu',
          'agent'
    );
-   $agent->display(array('id' => $_GET['id'],
-         'withtemplate' => $_GET['withtemplate']));
+   $agent->display([
+      'id' => $_GET['id'],
+      'withtemplate' => $_GET['withtemplate']
+   ]);
 
    // Footer
    if (strstr($_SERVER['PHP_SELF'], 'popup')) {

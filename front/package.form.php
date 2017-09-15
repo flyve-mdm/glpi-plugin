@@ -66,8 +66,10 @@ if (isset($_POST['add'])) {
          'PluginFlyvemdmMenu',
          'package'
          );
-   $package->display(array('id' => $_GET['id'],
-         'withtemplate' => $_GET["withtemplate"]));
+   $package->display([
+      'id' => $_GET['id'],
+      'withtemplate' => $_GET["withtemplate"]
+   ]);
 
    // Footer
    if (strstr($_SERVER['PHP_SELF'], 'popup')) {

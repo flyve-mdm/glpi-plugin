@@ -46,9 +46,9 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @return Array Events ids => names
     */
    public function getEvents() {
-      return array(
+      return [
             self::EVENT_GUEST_INVITATION => __('Invitation', 'flyvemdm')
-      );
+      ];
    }
 
    /**
@@ -63,7 +63,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * Get available tags for plugins notifications
     */
    public function getTags() {
-      $tagCollection = array(
+      $tagCollection = [
          'flyvemdm.download_app'    => __('Link to download the FlyveMDM Android application', 'flyvemdm'),
          'flyvemdm.qrcode'          => __('Enrollment QR code', 'flyvemdm'),
          'flyvemdm.enroll_url'      => __('Enrollment URL', 'flyvemdm'),
@@ -74,13 +74,14 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
          'support.website'          => __('Website if the helpdesk', 'flyvemdm'),
          'support.email'            => __('Email address of the helpdesk', 'flyvemdm'),
          'support.address'          => __('Address of the helpdesk', 'flyvemdm'),
-      );
+      ];
 
       foreach ($tagCollection as $tag => $label) {
-         $this->addTagToList(array('tag'    => $tag,
+         $this->addTagToList(['tag'    => $tag,
                'label'  => $label,
                'value'  => true,
-               'events' => NotificationTarget::TAG_FOR_ALL_EVENTS));
+               'events' => NotificationTarget::TAG_FOR_ALL_EVENTS
+         ]);
       }
    }
 
@@ -125,7 +126,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $event->data['##flyvemdm.enroll_url##'] = $encodedRequest;
 
                // fill the application download URL tag
-               $event->obj->documents = array($document->getID());
+               $event->obj->documents = [$document->getID()];
                $event->data['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
 
                // fill the helpdesk information tags
@@ -169,7 +170,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
       if ($data['type'] == Notification::USER_TYPE) {
          switch ($data['items_id']) {
             case Notification::USER :
-               if ($this->obj->getType() == 'PluginFlyvemdmInvitation') {
+               if ($this->obj->getType() == PluginFlyvemdmInvitation::class) {
                   $this->addToRecipientsList([
                         'users_id' => $this->obj->getField('users_id')
                   ]);

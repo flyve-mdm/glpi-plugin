@@ -24,12 +24,12 @@ function update_to_2_0_0(Migration $migration) {
 
    // Merge new rights into current profile
    $currentRights = ProfileRight::getProfileRights($_SESSION['glpiactiveprofile']['id']);
-   $newRights = array_merge($currentRights, array(
+   $newRights = array_merge($currentRights, [
          PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
          PluginFlyvemdmInvitationlog::$rightname   => READ,
          PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
          PluginFlyvemdmTask::$rightname            => READ,
-   ));
+   ]);
    $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
    $table = PluginFlyvemdmAgent::getTable();
@@ -40,18 +40,18 @@ function update_to_2_0_0(Migration $migration) {
    }
 
    $table = PluginFlyvemdmPolicy::getTable();
-   $migration->addField($table, 'recommended_value', 'string', array('after' => 'default_value'));
+   $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
 
    // remove download base URL setting
-   Config::deleteConfigurationValues('flyvemdm', array('deploy_base_url'));
+   Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
 
-   $migration->addField(PluginFlyvemdmAgent::getTable(), 'version', 'string', array('after' => 'name'));
+   $migration->addField(PluginFlyvemdmAgent::getTable(), 'version', 'string', ['after' => 'name']);
 
-   Config::setConfigurationValues('flyvemdm', array(
+   Config::setConfigurationValues('flyvemdm', [
          'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL
-   ));
+   ]);
 
-   $config = Config::getConfigurationValues('flyvemdm', array('android_bugcollecctor'));
+   $config = Config::getConfigurationValues('flyvemdm', ['android_bugcollecctor']);
    if (!isset($config['android_bugcollecctor_url'])) {
       $config = [
             'android_bugcollecctor_url'      => '',

@@ -127,17 +127,17 @@ class PluginFlyvemdmMenu extends CommonGLPI {
    public static function getMenuContent() {
       $front_flyvemdm = "/plugins/flyvemdm/front";
 
-      $menu = array();
+      $menu = [];
       $menu['title'] = self::getMenuName();
       $menu['page']  = "$front_flyvemdm/menu.php";
 
-      $itemtypes = array(
-            'PluginFlyvemdmAgent'                  => 'agent',
-            'PluginFlyvemdmPackage'                => 'package',
-            'PluginFlyvemdmFile'                   => 'file',
-            'PluginFlyvemdmFleet'                  => 'fleet',
-            'PluginFlyvemdmInvitation'             => 'invitation',
-      );
+      $itemtypes = [
+         PluginFlyvemdmAgent::class       => 'agent',
+         PluginFlyvemdmPackage::class     => 'package',
+         PluginFlyvemdmFile::class        => 'file',
+         PluginFlyvemdmFleet::class       => 'fleet',
+         PluginFlyvemdmInvitation::class  => 'invitation',
+      ];
 
       $pluralNumber = Session::getPluralNumber();
       foreach ($itemtypes as $itemtype => $option) {

@@ -52,10 +52,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return array the possibles statuses of the invitation
     */
    public function getEnumInvitationStatus() {
-      return array(
-            'pending'         => __('Pending', 'flyvemdm'),
-            'done'            => __('Done', 'flyvemdm'),
-      );
+      return [
+         'pending'         => __('Pending', 'flyvemdm'),
+         'done'            => __('Done', 'flyvemdm'),
+      ];
    }
 
    /**
@@ -116,7 +116,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       if (!$user->getFromDBbyName($input['_useremails'], '')) {
          // The user does not exists yet, create him
          $userId = $user->add([
-            '_useremails'     => array($input['_useremails']),
+            '_useremails'     => [$input['_useremails']],
             'name'            => $input['_useremails'],
             '_profiles_id'    => $guestProfileId,
             '_entities_id'    => $entityId,
@@ -188,11 +188,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      global $DB;
-
       // Registered users need right to send again an invitation
       // but shall not be able to edit anything
-      $config = Config::getConfigurationValues('flyvemdm', array('registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['registered_profiles_id']);
       $registeredProfileId = $config['registered_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $registeredProfileId) {
          $forbidden = array_diff_key(
@@ -243,7 +241,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     */
    public function pre_deleteItem() {
       $invitationLog = new PluginFlyvemdmInvitationlog();
-      return $invitationLog->deleteByCriteria(array('plugin_flyvemdm_invitations_id' => $this->getID()));
+      return $invitationLog->deleteByCriteria(['plugin_flyvemdm_invitations_id' => $this->getID()]);
    }
 
    /**
@@ -321,7 +319,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
-      $qrCode = $barcodeobj->getBarcodePngData(4, 4, array(0, 0, 0));
+      $qrCode = $barcodeobj->getBarcodePngData(4, 4, [0, 0, 0]);
 
       // Add border to the QR
       // TCPDF forgets the quiet zone
@@ -344,12 +342,12 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       imagepng($compliantQRcode, GLPI_TMP_DIR . "/" . $tmpFile, 9);
 
       // Generate a document with the QR code
-      $input = array();
+      $input = [];
       $document = new Document();
       $input['entities_id']               = $this->input['entities_id'];
       $input['is_recursive']              = '0';
       $input['name']                      = addslashes(__('Enrollment QR code', 'flyvemdm'));
-      $input['_filename']                 = array($tmpFile);
+      $input['_filename']                 = [$tmpFile];
       $input['_only_if_upload_succeed']   = true;
       $documentId = $document->add($input);
 
@@ -357,7 +355,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       //$document_Item = new Document_Item();
       //$document_Item->add([
       //      'documents_id' => $documentId,
-      //      'itemtype'     => 'PluginFlyvemdmInvitation',
+      //      'itemtype'     => PluginFlyvemdmInvitation::class,
       //      'items_id'     => $this->getID(),
       //      'entities_id'  => $this->fields['entities_id'],
       //      'is_recursive' => '0',
@@ -428,15 +426,13 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     */
    public function hook_entity_purge(CommonDBTM $item) {
       $invitation = new static();
-      $invitation->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      $invitation->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 
    /**
     * Show form for edition
     */
-   public function showForm($ID, $options = array()) {
-      global $CFG_GLPI, $DB;
-
+   public function showForm($ID, $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader();
       $canUpdate = (!$this->isNewID($ID)) && ($this->canView() > 0) || $this->isNewID($ID);
@@ -450,7 +446,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
             'canUpdate'    => $canUpdate,
             'isNewID'      => $this->isNewID($ID),
             'invitation'   => $fields,
-            'resendButton' => Html::submit(_x('button', 'Re-send'), array('name' => 'resend')),
+            'resendButton' => Html::submit(_x('button', 'Re-send'), ['name' => 'resend']),
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
@@ -469,7 +465,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function showMassiveActionInviteUser() {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
-            'inviteButton' => Html::submit(_x('button', 'Post'), array('name' => 'massiveaction'))
+            'inviteButton' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction'])
       ];
       echo $twig->render('mass_invitation.html', $data);
    }

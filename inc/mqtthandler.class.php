@@ -76,7 +76,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('flyvemdm', array('version'));
+      $config = Config::getConfigurationValues('flyvemdm', ['version']);
       $version = $config['version'];
 
       if ($this->flyveManifestMissing) {
@@ -96,7 +96,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       global $DB;
 
       if (time() - $this->startTime > PluginFlyvemdmMqttclient::MQTT_MAXIMUM_DURATION) {
-         $mqtt->unsubscribe(array('#'));
+         $mqtt->unsubscribe(['#']);
       } else {
          // Reconnect to DB to avoid timeouts
          $DB->connect();

@@ -78,7 +78,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
 
       switch ($name) {
          case 'UpdateTopics' :
-            return array('description' => __('Sends queued MQTT messages'));
+            return ['description' => __('Sends queued MQTT messages')];
       }
    }
 
@@ -136,7 +136,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
             $group = $row['group'];
             $fleet = new PluginFlyvemdmFleet();
             $fleet->getFromDB($fleetId);
-            $task->publishPolicies($fleet, array($group));
+            $task->publishPolicies($fleet, [$group]);
 
             // mark done more recent policies on the same group and fleet
             $updateQueue = new static();

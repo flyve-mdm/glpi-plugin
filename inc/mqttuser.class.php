@@ -200,10 +200,10 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
     */
    public function getACLs() {
       if ($this->isNewItem()) {
-         return array();
+         return [];
       }
 
-      $aclList = array();
+      $aclList = [];
       $mqttAcl = new PluginFlyvemdmMqttacl();
       $userId = $this->fields['id'];
       $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
