@@ -219,58 +219,77 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return true;
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']                 = __s('Fleet', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $i = 1;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'name';
-      $tab[$i]['name']                = __('Name');
-      $tab[$i]['datatype']            = 'itemlink';
-      $tab[$i]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('Fleet', 'flyvemdm')
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'id';
-      $tab[$i]['name']                = __('ID');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'number';
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']               = PluginFlyvemdmTask::getTable();
-      $tab[$i]['field']               = 'items_id';
-      $tab[$i]['name']                = _n('Associated element', 'Associated elements', Session::getPluralNumber());
-      $tab[$i]['datatype']            = 'specific';
-      $tab[$i]['comments']            = true;
-      $tab[$i]['nosort']              = true;
-      $tab[$i]['nosearch']            = true;
-      $tab[$i]['additionalfields']    = array('itemtype');
-      $tab[$i]['joinparams']          = array('jointype'   => 'child');
-      $tab[$i]['forcegroupby']        = true;
-      $tab[$i]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']               = PluginFlyvemdmTask::getTable();
-      $tab[$i]['field']               = 'itemtype';
-      $tab[$i]['name']                = _n('Associated item type', 'Associated item types', Session::getPluralNumber());
-      $tab[$i]['datatype']            = 'itemtypename';
-      $tab[$i]['itemtype_list']       = 'fleet_types';
-      $tab[$i]['nosort']              = true;
-      $tab[$i]['additionalfields']    = array('itemtype');
-      $tab[$i]['joinparams']          = array('jointype'   => 'child');
-      $tab[$i]['forcegroupby']        = true;
-      $tab[$i]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_plugin_flyvemdm_tasks',
+         'field'              => 'items_id',
+         'name'               => __('Associated elements'),
+         'datatype'           => 'specific',
+         'comments'           => '1',
+         'nosort'             => true,
+         'nosearch'           => true,
+         'additionalfields'   => [
+            '0'                  => 'itemtype'
+         ],
+         'joinparams'         => [
+            'jointype'           => 'child'
+         ],
+         'forcegroupby'       => true,
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'is_default';
-      $tab[$i]['name']            = __('Not managed', 'flyvemdm');
-      $tab[$i]['datatype']        = 'bool';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => 'glpi_plugin_flyvemdm_tasks',
+         'field'              => 'itemtype',
+         'name'               => __('Associated item types'),
+         'datatype'           => 'itemtypename',
+         'itemtype_list'      => 'fleet_types',
+         'nosort'             => true,
+         'additionalfields'   => [
+            '0'                  => 'itemtype'
+         ],
+         'joinparams'         => [
+            'jointype'           => 'child'
+         ],
+         'forcegroupby'       => true,
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'is_default',
+         'name'               => __('Not managed'),
+         'datatype'           => 'bool',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }

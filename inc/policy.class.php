@@ -85,62 +85,86 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       return _n('Policy', 'Policies', $nb, "flyvemdm");
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $tab = array();
-      $tab['common']                 = __s('Policy', "flyvemdm");
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __('Policy', 'flyvemdm')
+      ];
 
-      $tab[1]['table']               = self::getTable();
-      $tab[1]['field']               = 'name';
-      $tab[1]['name']                = __('Name');
-      $tab[1]['datatype']            = 'itemlink';
-      $tab[1]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $tab[2]['table']               = self::getTable();
-      $tab[2]['field']               = 'id';
-      $tab[2]['name']                = __('ID');
-      $tab[2]['massiveaction']       = false;
-      $tab[2]['datatype']            = 'number';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $tab[3]['table']               = PluginFlyvemdmPolicyCategory::getTable();
-      $tab[3]['field']               = 'completename';
-      $tab[3]['name']                = __('Policy category', 'flyvemdm');
-      $tab[3]['datatype']            = 'dropdown';
-      $tab[3]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_plugin_flyvemdm_policycategories',
+         'field'              => 'completename',
+         'name'               => __('Policy category'),
+         'datatype'           => 'dropdown',
+         'massiveaction'      => false
+      ];
 
-      $tab[4]['table']               = self::getTable();
-      $tab[4]['field']               = 'type';
-      $tab[4]['name']                = __('Type', 'flyvemdm');
-      $tab[4]['datatype']            = 'string';
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'type',
+         'name'               => __('Type'),
+         'datatype'           => 'string'
+      ];
 
-      $tab[5]['table']               = self::getTable();
-      $tab[5]['field']               = 'type_data';
-      $tab[5]['name']                = __('Enumeration data', 'flyvemdm');
-      $tab[5]['datatype']            = 'string';
-      $tab[5]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'type_data',
+         'name'               => __('Enumeration data'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
-      $tab[6]['table']               = self::getTable();
-      $tab[6]['field']               = 'group';
-      $tab[6]['name']                = __('Group', 'flyvemdm');
-      $tab[6]['datatype']            = 'string';
-      $tab[6]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => $this->getTable(),
+         'field'              => 'group',
+         'name'               => __('Group'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
-      $tab[7]['table']               = self::getTable();
-      $tab[7]['field']               = 'default_value';
-      $tab[7]['name']                = __('Default value', 'flyvemdm');
-      $tab[7]['datatype']            = 'string';
-      $tab[7]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => $this->getTable(),
+         'field'              => 'default_value',
+         'name'               => __('Default value'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
-      $tab[8]['table']               = self::getTable();
-      $tab[8]['field']               = 'recommended_value';
-      $tab[8]['name']                = __('Recommended value', 'flyvemdm');
-      $tab[8]['datatype']            = 'string';
-      $tab[8]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '8',
+         'table'              => $this->getTable(),
+         'field'              => 'recommended_value',
+         'name'               => __('Recommended value'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }
+
 }

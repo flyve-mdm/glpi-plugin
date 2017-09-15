@@ -269,30 +269,40 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']                 = __s('File', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $tab[1]['table']               = self::getTable();
-      $tab[1]['field']               = 'name';
-      $tab[1]['name']                = __('Name');
-      $tab[1]['datatype']            = 'itemlink';
-      $tab[1]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('File', 'flyvemdm')
+      ];
 
-      $tab[2]['table']               = self::getTable();
-      $tab[2]['field']               = 'id';
-      $tab[2]['name']                = __('ID');
-      $tab[2]['massiveaction']       = false;
-      $tab[2]['datatype']            = 'number';
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $tab[3]['table']               = self::getTable();
-      $tab[3]['field']               = 'source';
-      $tab[3]['name']                = __('Source', 'flyvemdm');
-      $tab[3]['datatype']            = 'string';
-      $tab[3]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
+
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'source',
+         'name'               => __('Source'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }

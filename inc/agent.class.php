@@ -690,98 +690,131 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->cleanupSubtopics();
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']             = __s('Agent', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $i = 1;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Name');
-      $tab[$i]['datatype']        = 'itemlink';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('Agent', 'flyvemdm')
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = PluginFlyvemdmFleet::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Fleet', 'flyvemdm');
-      $tab[$i]['datatype']        = 'dropdown';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = Computer::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Computer');
-      $tab[$i]['datatype']        = 'dropdown';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'field'              => 'name',
+         'name'               => __('Fleet'),
+         'datatype'           => 'dropdown'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = Computer::getTable();
-      $tab[$i]['field']           = 'serial';
-      $tab[$i]['name']          = __('Serial number');
-      $tab[$i]['datatype']        = 'dropdown';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => 'glpi_computers',
+         'field'              => 'id',
+         'name'               => __('Computer'),
+         'datatype'           => 'dropdown',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']         = User::getTable();
-      $tab[$i]['field']         = 'id';
-      $tab[$i]['name']          = __('User');
-      $tab[$i]['forcegroupby']  = false;
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
-      $tab[$i]['joinparams']    = array('beforejoin'
-                                          => array('table'      => Computer::getTable(),
-                                                   'joinparams' => array('jointype' => '',
-                                                         'condition' => '')));
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => 'glpi_computers',
+         'field'              => 'serial',
+         'name'               => __('Serial number'),
+         'datatype'           => 'dropdown',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = PluginFlyvemdmFleet::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Fleet', 'flyvemdm')." - ".__('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => 'glpi_users',
+         'field'              => 'id',
+         'name'               => __('User'),
+         'forcegroupby'       => false,
+         'massiveaction'      => false,
+         'datatype'           => 'dropdown',
+         'joinparams'         => [
+            'beforejoin'         => [
+               'table'              => 'glpi_computers',
+               'joinparams'         => [
+                  'jointype'           => '',
+                  'condition'          => ''
+               ]
+            ]
+         ]
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'last_contact';
-      $tab[$i]['name']            = __('last contact', "flyvemdm");
-      $tab[$i]['datatype']        = 'datetime';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'field'              => 'id',
+         'name'               => __('Fleet - ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']         = User::getTable();
-      $tab[$i]['field']         = 'realname';
-      $tab[$i]['name']          = __('User');
-      $tab[$i]['forcegroupby']  = false;
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
-      $tab[$i]['joinparams']    = array('beforejoin'
-            => array('table'      => Computer::getTable(),
-                  'joinparams' => array('jointype' => '',
-                        'condition' => '')));
+      $tab[] = [
+         'id'                 => '8',
+         'table'              => $this->getTable(),
+         'field'              => 'last_contact',
+         'name'               => __('last contact'),
+         'datatype'           => 'datetime',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'version';
-      $tab[$i]['name']            = __('version', "flyvemdm");
-      $tab[$i]['datatype']        = 'string';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '9',
+         'table'              => 'glpi_users',
+         'field'              => 'realname',
+         'name'               => __('User'),
+         'forcegroupby'       => false,
+         'massiveaction'      => false,
+         'datatype'           => 'dropdown',
+         'joinparams'         => [
+            'beforejoin'         => [
+               'table'              => 'glpi_computers',
+               'joinparams'         => [
+                  'jointype'           => '',
+                  'condition'          => ''
+               ]
+            ]
+         ]
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'is_online';
-      $tab[$i]['name']            = __('online', "flyvemdm");
-      $tab[$i]['datatype']        = 'boolean';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '10',
+         'table'              => $this->getTable(),
+         'field'              => 'version',
+         'name'               => __('version'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '11',
+         'table'              => $this->getTable(),
+         'field'              => 'is_online',
+         'name'               => __('online'),
+         'datatype'           => 'boolean',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }

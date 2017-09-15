@@ -50,32 +50,40 @@ class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
       return _n('Policy category', 'Policy categories', 2);
    }
 
-   /**
-    * @see CommonTreeDropdown::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $tab = array();
-      $tab['common']             = __s('Policy category', "flyvemdm");
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __('Policy category', 'flyvemdm')
+      ];
 
-      $tab[1]['table']           = self::getTable();
-      $tab[1]['field']           = 'completename';
-      $tab[1]['name']            = __('Name');
-      $tab[1]['datatype']        = 'itemlink';
-      $tab[1]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'completename',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $tab[2]['table']           = self::getTable();
-      $tab[2]['field']           = 'id';
-      $tab[2]['name']            = __('ID');
-      $tab[2]['massiveaction']   = false;
-      $tab[2]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $tab[3]['table']           = self::getTable();
-      $tab[3]['field']           = 'comment';
-      $tab[3]['name']            = __('comment', 'flyvemdm');
-      $tab[3]['massiveaction']   = false;
-      $tab[3]['datatype']        = 'text';
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('comment'),
+         'massiveaction'      => false,
+         'datatype'           => 'text'
+      ];
 
       return $tab;
    }

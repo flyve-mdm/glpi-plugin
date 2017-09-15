@@ -284,47 +284,58 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       echo $twig->render('computer_geolocation.html', $data);
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']             = __s('Geolocation', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $i = 2;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('Geolocation', 'flyvemdm')
+      ];
 
-      $i++;
-      $tab[$i]['table']           = Computer::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Computer');
-      $tab[$i]['datatype']        = 'dropdown';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'latitude';
-      $tab[$i]['name']            = __('latitude', 'flyvemdm');
-      $tab[$i]['datatype']        = 'string';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_computers',
+         'field'              => 'id',
+         'name'               => __('Computer'),
+         'datatype'           => 'dropdown',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'longitude';
-      $tab[$i]['name']            = __('longitude', 'flyvemdm');
-      $tab[$i]['datatype']        = 'string';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'latitude',
+         'name'               => __('latitude'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'date';
-      $tab[$i]['name']            = __('date');
-      $tab[$i]['datatype']        = 'string';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'longitude',
+         'name'               => __('longitude'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => $this->getTable(),
+         'field'              => 'date',
+         'name'               => __('date'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }

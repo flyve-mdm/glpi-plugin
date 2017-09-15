@@ -590,63 +590,72 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $tab = array();
-      $tab['common']           = __('Characteristics');
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __('Task', 'flyvemdm')
+      ];
 
-      $i = 2;
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $tab[$i]['table']         = $this->getTable();
-      $tab[$i]['field']         = 'id';
-      $tab[$i]['name']          = __('ID');
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'number';
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'field'              => 'id',
+         'name'               => __('Fleet ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'dropdown'
+      ];
 
-      $i++;
-      $tab[$i]['table']         = PluginFlyvemdmFleet::getTable();
-      $tab[$i]['field']         = 'id';
-      $tab[$i]['name']          = __('Fleet ID');
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'field'              => 'id',
+         'name'               => __('Policy ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'dropdown'
+      ];
 
-      $i++;
-      $tab[$i]['table']         = PluginFlyvemdmPolicy::getTable();
-      $tab[$i]['field']         = 'id';
-      $tab[$i]['name']          = __('Policy ID');
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'itemtype',
+         'name'               => __('itemtype'),
+         'massiveaction'      => false,
+         'nodisplay'          => '1',
+         'datatype'           => 'string'
+      ];
 
-      $i++;
-      $tab[$i]['table']         = self::getTable();
-      $tab[$i]['field']         = 'itemtype';
-      $tab[$i]['name']          = 'itemtype';
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['nodisplay']     = true;
-      $tab[$i]['datatype']      = 'string';
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => $this->getTable(),
+         'field'              => 'items_id',
+         'name'               => __('item'),
+         'massiveaction'      => false,
+         'nodisplay'          => '1',
+         'datatype'           => 'integer'
+      ];
 
-      $i++;
-      $tab[$i]['table']         = self::getTable();
-      $tab[$i]['field']         = 'items_id';
-      $tab[$i]['name']          = 'item';
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['nodisplay']     = true;
-      $tab[$i]['datatype']      = 'integer';
-
-      $i++;
-      $tab[$i]['table']         = PluginFlyvemdmPolicy::getTable();
-      $tab[$i]['field']         = 'name';
-      $tab[$i]['name']          = 'policy_name';
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['nodisplay']     = true;
-      $tab[$i]['datatype']      = 'string';
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'field'              => 'name',
+         'name'               => __('policy_name'),
+         'massiveaction'      => false,
+         'nodisplay'          => '1',
+         'datatype'           => 'string'
+      ];
 
       return $tab;
-
    }
 
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
