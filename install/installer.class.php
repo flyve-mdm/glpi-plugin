@@ -1012,10 +1012,10 @@ Regards,
       global $DB;
 
       // Define DB tables
-      $tableTargets      = getTableForItemType('NotificationTarget');
-      $tableNotification = getTableForItemType('Notification');
-      $tableTranslations = getTableForItemType('NotificationTemplateTranslation');
-      $tableTemplates    = getTableForItemType('NotificationTemplate');
+      $tableTargets        = NotificationTarget::getTable();
+      $tableNotification   = Notification::getTable();
+      $tableTranslations   = NotificationTemplateTranslation::getTable();
+      $tableTemplates      = NotificationTemplate::getTable();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
@@ -1028,9 +1028,8 @@ Regards,
          $DB->query($query);
 
          // Delete notification templates
-         $query = "DELETE FROM `$tableTemplates`
-                  WHERE `itemtype` = '$itemtype' AND `name`='" . $data['name'] . "'";
-         $DB->query($query);
+         $template = new NotificationTemplate();
+         $template->deleteByCriteria(['itemtype' => $itemtype, 'name' => $name]);
 
          // Delete notification targets
          $query = "DELETE FROM `$tableTargets`
@@ -1039,9 +1038,13 @@ Regards,
          $DB->query($query);
 
          // Delete notifications
-         $query = "DELETE FROM `$tableNotification`
-                   WHERE `itemtype` = '$itemtype' AND `event`='$event'";
-         $DB->query($query);
+         $notification = new Notification();
+         $notification_notificationTemplate = new Notification_NotificationTemplate();
+         $rows = $notification->find("`itemtype` = '$itemtype' AND `event` = '$event'");
+         foreach ($rows as $row) {
+            $notification_notificationTemplate->deleteByCriteria(['notifications_id' => $row['id']]);
+            $notification->delete($row);
+         }
       }
    }
 

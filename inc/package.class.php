@@ -433,54 +433,67 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']                 = __s('Package', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $i = 1;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'name';
-      $tab[$i]['name']                = __('Name');
-      $tab[$i]['datatype']            = 'itemlink';
-      $tab[$i]['massiveaction']       = false;
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('Package', 'flyvemdm')
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'id';
-      $tab[$i]['name']                = __('ID');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'number';
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'alias';
-      $tab[$i]['name']                = __('alias', 'flyvemdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'version';
-      $tab[$i]['name']                = __('version', 'flyvemdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'alias',
+         'name'               => __('alias'),
+         'massiveaction'      => false,
+         'datatype'           => 'string'
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'icon';
-      $tab[$i]['name']                = __('icon', 'flyvemdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'image';
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'version',
+         'name'               => __('version'),
+         'massiveaction'      => false,
+         'datatype'           => 'string'
+      ];
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'filesize';
-      $tab[$i]['name']                = __('filesize', 'flyvemdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'icon',
+         'name'               => __('icon'),
+         'massiveaction'      => false,
+         'datatype'           => 'image'
+      ];
+
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => $this->getTable(),
+         'field'              => 'filesize',
+         'name'               => __('filesize'),
+         'massiveaction'      => false,
+         'datatype'           => 'string'
+      ];
 
       return $tab;
    }

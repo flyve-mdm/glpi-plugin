@@ -69,40 +69,49 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
       return $input;
    }
 
-   /**
-    * @see CommonDropdown::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      $tab = array();
-      $tab['common']             = __s('Well known path', "flyvemdm");
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $i = 1;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Name');
-      $tab[$i]['datatype']        = 'itemlink';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __('Well known path', 'flyvemdm')
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '1',
+         'table'              => $this->getTable(),
+         'field'              => 'name',
+         'name'               => __('Name'),
+         'datatype'           => 'itemlink',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'comment';
-      $tab[$i]['name']            = __('comment', 'flyvemdm');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'text';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'is_default';
-      $tab[$i]['name']            = __('default', 'flyvemdm');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'bool';
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('comment'),
+         'massiveaction'      => false,
+         'datatype'           => 'text'
+      ];
+
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'is_default',
+         'name'               => __('default'),
+         'massiveaction'      => false,
+         'datatype'           => 'bool'
+      ];
 
       return $tab;
    }

@@ -69,6 +69,20 @@ class Config extends CommonTestCase
          $tables[] = array_pop($row);
       }
       $this->integer(count($tables))->isEqualTo(0, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
+
+      // Check the notifications of the plugin no longer exist
+      $notification = new \Notification();
+      $rows = $notification->find("`itemtype` = 'PluginFormcreatorForm_Answer'");
+      $this->integer(count($rows))->isEqualTo(0);
+
+      $template = new \NotificationTemplate();
+      $rows = $template->find("`itemtype` = 'PluginFormcreatorForm_Answer'");
+      $this->integer(count($rows))->isEqualTo(0);
+
+      // TODO: need to find a r eliable way to detect not clenaed
+      // - NotificationTemplateTranslation
+      // - Notification_NotificationTemplate
+
    }
 
 }

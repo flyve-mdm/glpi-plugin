@@ -60,44 +60,50 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
       return $rights;
    }
 
-   /**
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = [];
 
-      $tab = array();
-      $tab['common']             = __s('Invitation log', "flyvemdm");
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('Invitation log', 'flyvemdm')
+      ];
 
-      $i = 2;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'date_creation';
-      $tab[$i]['name']            = __('date');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'datetime';
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => $this->getTable(),
+         'field'              => 'date_creation',
+         'name'               => __('date'),
+         'massiveaction'      => false,
+         'datatype'           => 'datetime'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = PluginFlyvemdmInvitation::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'dropdown';
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => 'glpi_plugin_flyvemdm_invitations',
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'dropdown'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'event';
-      $tab[$i]['name']            = __('event', 'flyvemdm');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'string';
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => $this->getTable(),
+         'field'              => 'event',
+         'name'               => __('event'),
+         'massiveaction'      => false,
+         'datatype'           => 'string'
+      ];
 
       return $tab;
    }
-
 }
