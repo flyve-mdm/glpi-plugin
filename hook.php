@@ -71,23 +71,23 @@ function plugin_flyvemdm_postinit() {
 function plugin_flyvemdm_MassiveActions($type) {
    switch ($type) {
       case 'User':
-         return array('PluginFlyvemdmInvitation' . MassiveAction::CLASS_ACTION_SEPARATOR . 'InviteUser' =>
-               __("Invite to enroll a device", 'flyvemdm'));
+         return [PluginFlyvemdmInvitation::class . MassiveAction::CLASS_ACTION_SEPARATOR . 'InviteUser' =>
+               __("Invite to enroll a device", 'flyvemdm')];
    }
 
-   return array();
+   return [];
 }
 
 /**
  * Actions done when a profile_user is being purged
  */
 function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
-   $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id', 'registered_profiles_id'));
+   $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id', 'registered_profiles_id']);
    $guestProfileId = $config['guest_profiles_id'];
 
    if ($item->getField('profiles_id') == $guestProfileId) {
       $invitation = new PluginFlyvemdmInvitation();
-      if (!$invitation->deleteByCriteria(array('users_id' => $item->getField('users_id')))) {
+      if (!$invitation->deleteByCriteria(['users_id' => $item->getField('users_id')])) {
          $item->input = false;
       }
    }
@@ -100,14 +100,14 @@ function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
 function plugin_flyvemdm_getDropdown() {
 
    $plugin = new Plugin();
-   if ($plugin->isActivated("flyvemdm")) {
+   if ($plugin->isActivated('flyvemdm')) {
       // Table => Name
-      return array(
-            'PluginFlyvemdmWellknownpath'  => __("Well known Android's FS paths", 'flyvemdm'),
-            'PluginFlyvemdmPolicyCategory' => __("Policy Categories", 'flyvemdm')
-      );
+      return [
+         PluginFlyvemdmWellknownpath::class  => __('Well known Android\'s FS paths', 'flyvemdm'),
+         PluginFlyvemdmPolicyCategory::class => __('Policy Categories', 'flyvemdm')
+      ];
    } else {
-      return array();
+      return [];
    }
 
 }
@@ -125,10 +125,10 @@ function plugin_flyvemdm_addDefaultSelect($itemtype) {
 function plugin_Flyvemdm_addDefaultJoin($itemtype) {
 
    switch ($itemtype) {
-      case 'PluginFlyvemdmGeolocation':
+      case PluginFlyvemdmGeolocation::class:
          return PluginFlyvemdmGeolocation::addDefaultJoin();
 
-      case 'PluginFlyvemdmAgent':
+      case PluginFlyvemdmAgent::class:
          return PluginFlyvemdmAgent::addDefaultJoin();
    }
 }
@@ -140,10 +140,10 @@ function plugin_Flyvemdm_addDefaultJoin($itemtype) {
 function plugin_Flyvemdm_addDefaultWhere($itemtype) {
 
    switch ($itemtype) {
-      case 'PluginFlyvemdmGeolocation':
+      case PluginFlyvemdmGeolocation::class:
          return PluginFlyvemdmGeolocation::addDefaultWhere();
 
-      case 'PluginFlyvemdmAgent':
+      case PluginFlyvemdmAgent::class:
          return PluginFlyvemdmAgent::addDefaultWhere();
    }
 
@@ -166,14 +166,14 @@ function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
 
 function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
    if ($item instanceof Entity) {
-      $itemtypes = array(
-            'PluginFlyvemdmEntityconfig',
-            'PluginFlyvemdmInvitation',
-            'PluginFlyvemdmAgent',
-            'PluginFlyvemdmFleet',
-            'PluginFlyvemdmPackage',
-            'PluginFlyvemdmFile',
-      );
+      $itemtypes = [
+         PluginFlyvemdmEntityconfig::class,
+         PluginFlyvemdmInvitation::class,
+         PluginFlyvemdmAgent::class,
+         PluginFlyvemdmFleet::class,
+         PluginFlyvemdmPackage::class,
+         PluginFlyvemdmFile::class,
+      ];
 
       foreach ($itemtypes as $itemtype) {
          $itemToPurge = new $itemtype();

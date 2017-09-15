@@ -42,7 +42,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * @var string $itemtype_1 First itemtype of the relation
     */
-   public static $itemtype_1 = 'PluginFlyvemdmFleet';
+   public static $itemtype_1 = PluginFlyvemdmFleet::class;
 
    /**
     * @var string $items_id_1 DB's column name storing the ID of the first itemtype
@@ -52,7 +52,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * @var string $itemtype_2 Second itemtype of the relation
     */
-   public static $itemtype_2 = 'PluginFlyvemdmPolicy';
+   public static $itemtype_2 = PluginFlyvemdmPolicy::class;
 
    /**
     * @var string $items_id_2 DB's column name storing the ID of the second itemtype
@@ -290,14 +290,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    public function post_addItem() {
       $this->createTasksStatuses($this->fleet);
-      $this->updateQueue($this->fleet, array($this->policy->getGroup()));
+      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
    }
 
    /**
     * @see CommonDBRelation::post_updateItem()
     */
    public function post_updateItem($history = 1) {
-      $this->updateQueue($this->fleet, array($this->policy->getGroup()));
+      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
    }
 
    /**
@@ -323,7 +323,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @see CommonDBTM::post_deleteItem()
     */
    public function post_purgeItem() {
-      $this->updateQueue($this->fleet, array($this->policy->getGroup()));
+      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
       $this->deleteTaskStatuses($this->fleet);
    }
 
@@ -332,7 +332,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param PluginFlyvemdmNotifiable $item
     * @param array $groups
     */
-   public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = array()) {
+   public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = []) {
       if (! $item instanceof PluginFlyvemdmFleet) {
          // Cannot queue MQTT messages for devices
          // Then send them immediately
@@ -384,7 +384,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param PluginFlyvemdmNotifiable $item
     * @param array $groups the notifiable is updated only for the following policies groups
     */
-   public function publishPolicies(PluginFlyvemdmNotifiable $item, $groups = array()) {
+   public function publishPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {
       if ($this->silent) {
          return;
       }
@@ -417,7 +417,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             $groupToEncode = $this->buildMqttMessage($policiesToApply);
 
             // convert message into JSON and send it
-            $encodedGroup = json_encode(array($groupName => $groupToEncode), JSON_UNESCAPED_SLASHES);
+            $encodedGroup = json_encode([$groupName => $groupToEncode], JSON_UNESCAPED_SLASHES);
             $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
          }
       }
@@ -478,8 +478,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                 WHERE `t`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
       $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $excludedPolicyIds = array();
-      $policiesToApply = array();
+      $excludedPolicyIds = [];
+      $policiesToApply = [];
       while ($row = $DB->fetch_assoc($result)) {
          $appliedPolicyData = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
          if ($appliedPolicyData === null) {
@@ -524,11 +524,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     *
     * @param array $policiesToApply
     *
-    * @return array(
+    * @return array
     */
    protected function buildMqttMessage($policiesToApply) {
       // generate message of all policies
-      $groupToEncode = array();
+      $groupToEncode = [];
       foreach ($policiesToApply as $policyToApply) {
          $policy = $policyToApply['policyData'];
          $policyMessage = $policy->getMqttMessage(
@@ -580,9 +580,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param PluginFlyvemdmNotifiable $item a notifiable item
     * @param array $groups array of groups to delete
     */
-   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = array()) {
-      global $DB;
-
+   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {
@@ -677,7 +675,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       $itemId  = $item->getID();
-      $canedit = Session::haveRightsOr('flyvemdm:fleet', array(CREATE, UPDATE, DELETE, PURGE));
+      $canedit = Session::haveRightsOr('flyvemdm:fleet', [CREATE, UPDATE, DELETE, PURGE]);
       $rand    = mt_rand();
 
       // Show apply policy form
@@ -774,7 +772,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    public function getAppliedPolicies(PluginFlyvemdmFleet $fleet) {
-      $appliedPolicies = array();
+      $appliedPolicies = [];
       if (!$fleet->isNewItem()) {
          $itemId = $fleet->getID();
          $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$itemId'");

@@ -65,7 +65,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       }
 
       // Check the itemtype is a file
-      if ($itemtype != 'PluginFlyvemdmFile') {
+      if ($itemtype != PluginFlyvemdmFile::class) {
          Session::addMessageAfterRedirect(__('You must choose a file to apply this policy', 'flyvemdm'));
          return false;
       }

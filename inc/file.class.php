@@ -228,7 +228,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $success = false;
 
       $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
-      if (false && ! in_array($fileExtension, array("txt", "pdf"))) {
+      if (false && ! in_array($fileExtension, ["txt", "pdf"])) {
          $success = false;
       } else {
          $this->createEntityDirectory(dirname($destination));
@@ -249,7 +249,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @return string|boolean URL of the file
     */
    public function getFileURL() {
-      $config = Config::getConfigurationValues('flyvemdm', array('deploy_base_url'));
+      $config = Config::getConfigurationValues('flyvemdm', ['deploy_base_url']);
       $deployBaseURL = $config['deploy_base_url'];
       if ($deployBaseURL === null) {
          return false;
@@ -312,10 +312,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
     */
    public function pre_deleteItem() {
       $task = new PluginFlyvemdmTask();
-      return $task->deleteByCriteria(array(
+      return $task->deleteByCriteria([
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
-      ));
+      ]);
    }
 
    public function post_addItem() {
@@ -468,7 +468,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     */
    public function hook_entity_purge(CommonDBTM $item) {
       $file = new static();
-      $file->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      $file->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 
    /**
@@ -476,7 +476,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options = array()) {
+   public function showForm($ID, $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 

@@ -70,8 +70,10 @@ if (isset($_POST["add"])) {
          'PluginFlyvemdmMenu',
          'fleet'
    );
-   $fleet->display(array('id' => $_GET["id"],
-         'withtemplate' => $_GET["withtemplate"]));
+   $fleet->display([
+      'id' => $_GET["id"],
+      'withtemplate' => $_GET["withtemplate"]
+   ]);
 
    // Footer
    if (strstr($_SERVER['PHP_SELF'], "popup")) {

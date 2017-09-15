@@ -49,6 +49,6 @@ Html::header(
 // Use later to disable GLPI header
 //Html::nullHeader("test header");
 
-Search::show('PluginFlyvemdmFleet');
+Search::show(PluginFlyvemdmFleet::class);
 
 Html::footer();

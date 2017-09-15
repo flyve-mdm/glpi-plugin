@@ -46,6 +46,6 @@ Html::header(
       'invitation'
       );
 
-Search::show('PluginFlyvemdmInvitation');
+Search::show(PluginFlyvemdmInvitation::class);
 
 Html::footer();

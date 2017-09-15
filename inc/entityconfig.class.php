@@ -175,7 +175,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       // Determine if the entity has been created by FlyveMDM
       $managed = '0';
 
-      $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
       // Create entity configuration
       $entityconfig = new PluginFlyvemdmEntityconfig();
@@ -210,7 +210,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     */
    public function hook_entity_purge(CommonDBTM $item) {
       $entityConfig = new static();
-      $entityConfig->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      $entityConfig->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
 
       // Delete folders for the entity
       PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
@@ -231,7 +231,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     */
    public function getFromDBOrCreate($ID) {
       if (!$this->getFromDB($ID)) {
-         $config = Config::getConfigurationValues('flyvemdm', array('default_device_limit'));
+         $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
          $this->add([
                'id'              => $ID,
@@ -251,7 +251,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @return array Containing the tabs name
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      $tabNames = array();
+      $tabNames = [];
       if (!$withtemplate) {
          if ($item->getType() == 'Entity') {
             $tabNames[1] = __('Flyve MDM supervision', 'flyvemdm');
@@ -362,7 +362,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('entity_entityconfig.html', $data);
 
-      $item->showFormButtons(array('candel' => false, 'formfooter' => false));
+      $item->showFormButtons(['candel' => false, 'formfooter' => false]);
    }
 
    public function getSearchOptionsNew() {

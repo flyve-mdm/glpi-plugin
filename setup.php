@@ -66,7 +66,7 @@ function plugin_init_flyvemdm() {
    global $PLUGIN_HOOKS, $CFG_GLPI;
 
    $PLUGIN_HOOKS['csrf_compliant']['flyvemdm'] = true;
-   $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = ['PluginFlyvemdmConfig',
+   $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = [PluginFlyvemdmConfig::class,
                                                          'undiscloseConfigValue'];
 
    $plugin = new Plugin();
@@ -87,10 +87,11 @@ function plugin_init_flyvemdm() {
       plugin_flyvemdm_registerClasses();
       plugin_flyvemdm_addHooks();
 
-      $CFG_GLPI['fleet_types'] = array('PluginFlyvemdmFile', 'PluginFlyvemdmPackage');
+      $CFG_GLPI['fleet_types'] = [PluginFlyvemdmFile::class, PluginFlyvemdmPackage::class];
 
       Html::requireJs('charts');
       $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
+      // Warning 'pluginflyvemdmmenu' MUST be lower case
       $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
    }
 }
@@ -134,9 +135,9 @@ function plugin_flyvemdm_addHooks() {
 
    if (Session::haveRight(PluginFlyvemdmProfile::$rightname, PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE)) {
       // Define menu entries
-      $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = array(
+      $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = [
          'admin'  => 'PluginFlyvemdmMenu',
-      );
+      ];
       $PLUGIN_HOOKS['config_page']['flyvemdm'] = 'front/config.form.php';
    }
 
@@ -148,11 +149,11 @@ function plugin_flyvemdm_addHooks() {
       Entity::class                    => 'plugin_flyvemdm_hook_entity_purge',
       Computer::class                  => 'plugin_flyvemdm_computer_purge',
    ];
-   $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = array(
+   $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = [
       PluginFlyvemdmInvitation::class => [PluginFlyvemdmInvitation::class, 'hook_pre_self_purge'],
       Document::class                 => [PluginFlyvemdmInvitation::class, 'hook_pre_document_purge'],
       Profile_User::class             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
-   );
+   ];
 
    // Notifications
    $PLUGIN_HOOKS['item_get_events']['flyvemdm'] = [];
@@ -167,7 +168,7 @@ function plugin_flyvemdm_addHooks() {
 
    $PLUGIN_HOOKS['use_massive_action']['flyvemdm'] = 1;
 
-   $PLUGIN_HOOKS['import_item']['flyvemdm'] = array('Computer' => array('Plugin'));
+   $PLUGIN_HOOKS['import_item']['flyvemdm'] = [Computer::class => ['Plugin']];
 }
 
 // Get the name and the version of the plugin - Needed
@@ -245,10 +246,10 @@ function plugin_flyvemdm_check_config() {
 
 function plugin_flyvemdm_getTemplateEngine() {
    $loader = new Twig_Loader_Filesystem(__DIR__ . '/tpl');
-   $twig =  new Twig_Environment($loader, array(
+   $twig =  new Twig_Environment($loader, [
          'cache'        => FLYVEMDM_TEMPLATE_CACHE_PATH,
          'auto_reload'  => ($_SESSION['glpi_use_mode'] == 2),
-   ));
+   ]);
    $twig->addExtension(new GlpiLocalesExtension());
    return $twig;
 }
@@ -266,6 +267,6 @@ function plugin_flyvemdm_upgrade_error(Migration $migration) {
    global $DB;
 
    $error = $DB->error();
-   $migration->log($error . "\n" . Toolbox::backtrace(false, '', array('Toolbox::backtrace()')), false);
+   $migration->log($error . "\n" . Toolbox::backtrace(false, '', ['Toolbox::backtrace()']), false);
    die($error . "<br><br> Please, check migration log");
 }

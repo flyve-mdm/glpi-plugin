@@ -51,13 +51,13 @@ class PluginFlyvemdmProfile extends Profile {
     */
    public static function purgeProfiles(Profile $prof) {
       $plugprof = new self();
-      $plugprof->deleteByCriteria(array('profiles_id' => $prof->getField("id")));
+      $plugprof->deleteByCriteria(['profiles_id' => $prof->getField("id")]);
    }
 
    /**
     * @see Profile::showForm()
     */
-   public function showForm($ID, $options = array()) {
+   public function showForm($ID, $options = []) {
       if (!Profile::canView()) {
          return false;
       }
@@ -71,16 +71,16 @@ class PluginFlyvemdmProfile extends Profile {
       }
 
       $rights = $this->getGeneralRights();
-      $profile->displayRightsChoiceMatrix($rights, array('canedit'       => $canedit,
-                                                         'default_class' => 'tab_bg_2',
-                                                         'title' => __('General')
-      ));
+      $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                                                    'default_class' => 'tab_bg_2',
+                                                    'title' => __('General')
+      ]);
 
       $rights = $this->getAssetsRights();
-      $profile->displayRightsChoiceMatrix($rights, array('canedit'       => $canedit,
-                                                         'default_class' => 'tab_bg_2',
-                                                         'title' => __('Assets')
-       ));
+      $profile->displayRightsChoiceMatrix($rights, ['canedit'       => $canedit,
+                                                    'default_class' => 'tab_bg_2',
+                                                    'title' => __('Assets')
+       ]);
 
       if ($canedit) {
          echo "<div class='center'>";
@@ -121,31 +121,31 @@ class PluginFlyvemdmProfile extends Profile {
     * @return array:array:string rights matrix
     */
    public function getGeneralRights() {
-      $rights = array(
-         array('itemtype'  => 'PluginFlyvemdmProfile',
-             'label'       => parent::getTypeName(2),
-             'field'       => self::$rightname,
-             'rights'      => array(self::RIGHT_FLYVEMDM_USE => __('Use Flyve MDM'))
-         ),
-         array('itemtype'  => 'PluginFlyvemdmEntityconfig',
-             'label'       => PluginFlyvemdmEntityconfig::getTypeName(2),
-             'field'       => PluginFlyvemdmEntityconfig::$rightname,
-             'rights'      => array(
-                   READ                                                             => __('Read'),
-                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
-                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
-                   PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
-             )
-         ),
-         array('itemtype'  => 'PluginFlyvemdmInvitationLog',
-               'label'       => PluginFlyvemdmInvitationLog::getTypeName(2),
-               'field'       => PluginFlyvemdmInvitationLog::$rightname,
-               'rights'      => array(
-                     READ                                                          => __('Read'),
-               )
-         )
+      $rights = [
+         ['itemtype'  => PluginFlyvemdmProfile::class,
+            'label'       => parent::getTypeName(2),
+            'field'       => self::$rightname,
+            'rights'      => [self::RIGHT_FLYVEMDM_USE => __('Use Flyve MDM')]
+         ],
+         ['itemtype'  => PluginFlyvemdmEntityconfig::class,
+            'label'  => PluginFlyvemdmEntityconfig::getTypeName(2),
+            'field'  => PluginFlyvemdmEntityconfig::$rightname,
+            'rights' => [
+                READ                                                             => __('Read'),
+                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
+                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
+                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
+             ]
+         ],
+         ['itemtype'  => PluginFlyvemdmInvitationLog::class,
+            'label'       => PluginFlyvemdmInvitationLog::getTypeName(2),
+            'field'       => PluginFlyvemdmInvitationLog::$rightname,
+            'rights'      => [
+               READ                                                              => __('Read'),
+            ]
+         ]
+      ];
 
-      );
       return $rights;
    }
 
@@ -154,19 +154,19 @@ class PluginFlyvemdmProfile extends Profile {
     * @return array:array:string rights matrix
     */
    public function getAssetsRights() {
-      $itemtypes = array(
-         'PluginFlyvemdmAgent',
-         'PluginFlyvemdmInvitation',
-         'PluginFlyvemdmFleet',
-         'PluginFlyvemdmPackage',
-         'PluginFlyvemdmFile',
-         'PluginFlyvemdmGeolocation',
-         'PluginFlyvemdmPolicy',
-         'PluginFlyvemdmPolicyCategory',
-         'PluginFlyvemdmWellknownpath',
-      );
+      $itemtypes = [
+         PluginFlyvemdmAgent::class,
+         PluginFlyvemdmInvitation::class,
+         PluginFlyvemdmFleet::class,
+         PluginFlyvemdmPackage::class,
+         PluginFlyvemdmFile::class,
+         PluginFlyvemdmGeolocation::class,
+         PluginFlyvemdmPolicy::class,
+         PluginFlyvemdmPolicyCategory::class,
+         PluginFlyvemdmWellknownpath::class,
+      ];
 
-      $rights = array();
+      $rights = [];
       foreach ($itemtypes as $itemtype) {
          $rights[] = [
             'itemtype'  => $itemtype,
@@ -182,7 +182,7 @@ class PluginFlyvemdmProfile extends Profile {
     * Callback when a user logins or switch profile
     */
    public static function changeProfile() {
-      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       if (isset($config['guest_profiles_id'])) {
          $_SESSION['plugin_flyvemdm_guest_profiles_id'] = $config['guest_profiles_id'];
       } else {

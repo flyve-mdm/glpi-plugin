@@ -72,8 +72,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    /**
     * @see CommonGLPI::defineTabs()
     */
-   public function defineTabs($options = array()) {
-      $tab = array();
+   public function defineTabs($options = []) {
+      $tab = [];
       $this->addDefaultFormTab($tab);
       $this->addStandardTab('Notepad', $tab, $options);
       $this->addStandardTab('Log', $tab, $options);
@@ -116,7 +116,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options=array()) {
+   public function showForm($ID, $options=[]) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
@@ -407,10 +407,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function pre_deleteItem() {
       $task = new PluginFlyvemdmTask();
-      return $task->deleteByCriteria(array(
+      return $task->deleteByCriteria([
             'itemtype'  => $this->getType(),
             'items_id'  => $this->getID()
-      ));
+      ]);
    }
 
    /**
@@ -503,7 +503,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return boolean|string
     */
    public function getFileURL() {
-      $config = Config::getConfigurationValues('flyvemdm', array('deploy_base_url'));
+      $config = Config::getConfigurationValues('flyvemdm', ['deploy_base_url']);
       $deployBaseURL = $config['deploy_base_url'];
 
       if ($deployBaseURL === null) {
@@ -600,6 +600,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function hook_entity_purge(CommonDBTM $item) {
       $package = new static();
-      $package->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
+      $package->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 }

@@ -56,7 +56,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     */
    protected $usenotepadRights         = true;
 
-   public static $types                = array('Computer');
+   public static $types                = ['Computer'];
 
    /**
     * Localized name of the type
@@ -127,21 +127,21 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     */
    public function getRights($interface='central') {
       $rights = parent::getRights();
-      //$values = array(READ    => __('Read'),
-      //                PURGE   => array('short' => __('Purge'),
-      //                                 'long'  => _x('button', 'Delete permanently')));
+      //$values = [READ    => __('Read'),
+      //           PURGE   => ['short' => __('Purge'),
+      //                       'long'  => _x('button', 'Delete permanently')]];
 
       //$values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
 
       //if ($this->maybeDeleted()) {
-      //   $values[DELETE] = array('short' => __('Delete'),
-      //                           'long'  => _x('button', 'Put in dustbin'));
+      //   $values[DELETE] = ['short' => __('Delete'),
+      //                      'long'  => _x('button', 'Put in dustbin')];
       //}
       //if ($this->usenotepad) {
-      //   $values[READNOTE] = array('short' => __('Read notes'),
-      //                             'long' => __("Read the item's notes"));
-      //   $values[UPDATENOTE] = array('short' => __('Update notes'),
-      //                               'long' => __("Update the item's notes"));
+      //   $values[READNOTE] = ['short' => __('Read notes'),
+      //                        'long' => __("Read the item's notes")];
+      //   $values[UPDATENOTE] = ['short' => __('Update notes'),
+      //                          'long' => __("Update the item's notes")];
       //}
 
       return $rights;
@@ -347,7 +347,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    public function hook_computer_purge(CommonDBTM $item) {
       if ($item instanceof Computer) {
          $geolocation = new self();
-         $geolocation->deleteByCriteria(array('computers_id' => $item->getID()));
+         $geolocation->deleteByCriteria(['computers_id' => $item->getID()]);
       }
    }
 }

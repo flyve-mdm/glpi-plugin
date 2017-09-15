@@ -44,7 +44,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    const PLUGIN_FLYVEMDM_MQTT_CLIENT = "flyvemdm";
 
-   static $config = array();
+   static $config = [];
 
    /**
     * add document types needed by the plugin in GLPI configuration
@@ -78,7 +78,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
                                                           'mqtt_broker_tls', $fields['mqtt_broker_tls'],
                                                           -1,
-                                                          array('display' => false)
+                                                          ['display' => false]
                                                        );
       $fields['computertypes_id'] = ComputerType::dropdown([
                                                             'display' => false,
@@ -94,26 +94,26 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                                                                'mqtt_use_client_cert',
                                                                $fields['mqtt_use_client_cert'],
                                                                -1,
-                                                               array('display' => false)
+                                                               ['display' => false]
                                                             );
       $fields['debug_enrolment'] = Dropdown::showYesNo(
                                                           'debug_enrolment',
                                                           $fields['debug_enrolment'],
                                                           -1,
-                                                          array('display' => false)
+                                                          ['display' => false]
                                                        );
       $fields['debug_noexpire'] = Dropdown::showYesNo(
                                                          'debug_noexpire',
                                                          $fields['debug_noexpire'],
                                                          -1,
-                                                         array('display' => false)
+                                                         ['display' => false]
                                                       );
-      $fields['CACertificateFile'] = Html::file(array(
-            'name'      => 'CACertificateFile',
-            'display'   => false,
-      ));
+      $fields['CACertificateFile'] = Html::file([
+         'name'      => 'CACertificateFile',
+         'display'   => false,
+      ]);
       $data = [
-            'config' => $fields
+         'config' => $fields
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();

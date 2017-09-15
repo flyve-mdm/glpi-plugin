@@ -46,7 +46,7 @@ class PluginFlyvemdmInstaller {
    const BACKEND_MQTT_USER = 'flyvemdm-backend';
 
    // Order of this array is mandatory due tu dependancies on install and uninstall
-   protected static $itemtypesToInstall = array(
+   protected static $itemtypesToInstall = [
          'mqttuser',                      // Must be before config because config creates a mqtt user for the plugin
          'mqttacl',                       // Must be before config because config creates a mqtt ACL for the plugin
          'config',
@@ -65,7 +65,7 @@ class PluginFlyvemdmInstaller {
          'wellknownpath',
          'invitation',
          'invitationlog',
-   );
+   ];
 
    protected static $currentVersion = null;
 
@@ -75,7 +75,7 @@ class PluginFlyvemdmInstaller {
     * Autoloader for installation
     */
    public function autoload($classname) {
-      // useful only for installer GLPi autoloader already handles inc/ folder
+      // useful only for installer GLPI autoloader already handles inc/ folder
       $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '', $classname)). '.class.php';
       if (is_readable($filename) && is_file($filename)) {
          include_once($filename);
@@ -93,7 +93,7 @@ class PluginFlyvemdmInstaller {
    public function install() {
       global $DB;
 
-      spl_autoload_register(array(__CLASS__, 'autoload'));
+      spl_autoload_register([__CLASS__, 'autoload']);
 
       $this->migration = new Migration(PLUGIN_FLYVEMDM_VERSION);
       $this->migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
@@ -131,7 +131,7 @@ class PluginFlyvemdmInstaller {
       $this->createJobs();
       $this->createRootEntityConfig();
 
-      Config::setConfigurationValues('flyvemdm', array('version' => PLUGIN_FLYVEMDM_VERSION));
+      Config::setConfigurationValues('flyvemdm', ['version' => PLUGIN_FLYVEMDM_VERSION]);
 
       return true;
    }
@@ -197,7 +197,7 @@ class PluginFlyvemdmInstaller {
 
    public static function getCurrentVersion() {
       if (self::$currentVersion === NULL) {
-         $config = \Config::getConfigurationValues("flyvemdm", array('version'));
+         $config = \Config::getConfigurationValues("flyvemdm", ['version']);
          if (!isset($config['version'])) {
             self::$currentVersion = '';
          } else {
@@ -229,7 +229,7 @@ class PluginFlyvemdmInstaller {
    protected function createFirstAccess() {
       $profileRight = new ProfileRight();
 
-      $newRights = array(
+      $newRights = [
             PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
             PluginFlyvemdmInvitation::$rightname      => CREATE | READ | DELETE | PURGE,
             PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
@@ -246,7 +246,7 @@ class PluginFlyvemdmInstaller {
                                                          | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
             PluginFlyvemdmInvitationLog::$rightname   => READ,
             PluginFlyvemdmTaskstatus::$rightname      => READ,
-      );
+      ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
@@ -274,7 +274,7 @@ class PluginFlyvemdmInstaller {
             __("Flyve MDM guest users", "flyvemdm"),
             __("guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
       );
-      Config::setConfigurationValues('flyvemdm', array('guest_profiles_id' => $profileId));
+      Config::setConfigurationValues('flyvemdm', ['guest_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
          PluginFlyvemdmAgent::$rightname        => READ | CREATE,
@@ -319,11 +319,11 @@ class PluginFlyvemdmInstaller {
             // Update default value and recommended value for existing policy objects
             $policy2 = new PluginFlyvemdmPolicy();
             $policy2->getFromDBBySymbol($symbol);
-            $policy2->update(array(
+            $policy2->update([
                   'id'                 => $policy2->getID(),
                   'default_value'      => $policyData['default_value'],
                   'recommended_value'  => $policyData['recommended_value'],
-            ));
+            ]);
          }
       }
    }
@@ -333,8 +333,8 @@ class PluginFlyvemdmInstaller {
       $currentLocale = $_SESSION['glpilanguage'];
       Session::loadLanguage('en_GB');
 
-      $notifications = array(
-            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => array(
+      $notifications = [
+            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => [
                   'itemtype'        => PluginFlyvemdmInvitation::class,
                   'name'            => __('User invitation', "flyvemdm"),
                   'subject'         => __('You have been invited to join Flyve MDM', 'flyvemdm'),
@@ -389,8 +389,8 @@ following link or copy it to your browser.
 Regards,
 
 ', 'flyvemdm')
-            )
-      );
+            ]
+      ];
 
       // Restore user's locale
       Session::loadLanguage($currentLocale);
@@ -506,11 +506,11 @@ Regards,
    }
 
    protected function createJobs() {
-      CronTask::Register('PluginFlyvemdmMqttupdatequeue', 'UpdateTopics', MINUTE_TIMESTAMP,
-            array(
+      CronTask::Register(PluginFlyvemdmMqttupdatequeue::class, 'UpdateTopics', MINUTE_TIMESTAMP,
+            [
                   'comment'   => __('Update retained MQTT topics for fleet policies', 'flyvemdm'),
                   'mode'      => CronTask::MODE_EXTERNAL
-            ));
+            ]);
    }
 
    /**
@@ -549,7 +549,7 @@ Regards,
       // Cron jobs deletion handled by GLPI
 
       $config = new Config();
-      $config->deleteByCriteria(array('context' => 'flyvemdm'));
+      $config->deleteByCriteria(['context' => 'flyvemdm']);
 
       return true;
    }
@@ -651,7 +651,7 @@ Regards,
             }
 
             // Save MQTT credentials in configuration
-            Config::setConfigurationValues("flyvemdm", array('mqtt_user'       => $MdmMqttUser, 'mqtt_passwd'     => $MdmMqttPassword));
+            Config::setConfigurationValues("flyvemdm", ['mqtt_user'       => $MdmMqttUser, 'mqtt_passwd'     => $MdmMqttPassword]);
          }
       }
    }
@@ -1051,25 +1051,25 @@ Regards,
    protected function deleteTables() {
       global $DB;
 
-      $tables = array(
-            PluginFlyvemdmAgent::getTable(),
-            PluginFlyvemdmEntityconfig::getTable(),
-            PluginFlyvemdmFile::getTable(),
-            PluginFlyvemdmInvitationlog::getTable(),
-            PluginFlyvemdmFleet::getTable(),
-            PluginFlyvemdmTask::getTable(),
-            PluginFlyvemdmGeolocation::getTable(),
-            PluginFlyvemdmInvitation::getTable(),
-            PluginFlyvemdmMqttacl::getTable(),
-            PluginFlyvemdmMqttlog::getTable(),
-            PluginFlyvemdmMqttupdatequeue::getTable(),
-            PluginFlyvemdmMqttuser::getTable(),
-            PluginFlyvemdmPackage::getTable(),
-            PluginFlyvemdmPolicy::getTable(),
-            PluginFlyvemdmPolicyCategory::getTable(),
-            PluginFlyvemdmWellknownpath::getTable(),
-            PluginFlyvemdmTaskstatus::getTable(),
-      );
+      $tables = [
+         PluginFlyvemdmAgent::getTable(),
+         PluginFlyvemdmEntityconfig::getTable(),
+         PluginFlyvemdmFile::getTable(),
+         PluginFlyvemdmInvitationlog::getTable(),
+         PluginFlyvemdmFleet::getTable(),
+         PluginFlyvemdmTask::getTable(),
+         PluginFlyvemdmGeolocation::getTable(),
+         PluginFlyvemdmInvitation::getTable(),
+         PluginFlyvemdmMqttacl::getTable(),
+         PluginFlyvemdmMqttlog::getTable(),
+         PluginFlyvemdmMqttupdatequeue::getTable(),
+         PluginFlyvemdmMqttuser::getTable(),
+         PluginFlyvemdmPackage::getTable(),
+         PluginFlyvemdmPolicy::getTable(),
+         PluginFlyvemdmPolicyCategory::getTable(),
+         PluginFlyvemdmWellknownpath::getTable(),
+         PluginFlyvemdmTaskstatus::getTable(),
+      ];
 
       foreach ($tables as $table) {
          $DB->query("DROP TABLE IF EXISTS `$table`");
@@ -1077,55 +1077,65 @@ Regards,
    }
 
    protected  function deleteProfiles() {
-      $config = Config::getConfigurationValues('flyvemdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
 
       foreach ($config as $profileId) {
          $profile = new Profile();
          $profile->getFromDB($profileId);
          if ($profile->deleteFromDB()) {
             $profileUser= new Profile_User();
-            $profileUser->deleteByCriteria(array('profiles_id' => $profileId), true);
+            $profileUser->deleteByCriteria(['profiles_id' => $profileId], true);
          }
       }
    }
 
    protected function deleteProfileRights() {
-      $rights = array(
-            PluginFlyvemdmAgent::$rightname,
-            PluginFlyvemdmFile::$rightname,
-            PluginFlyvemdmFleet::$rightname,
-            PluginFlyvemdmGeolocation::$rightname,
-            PluginFlyvemdmInvitation::$rightname,
-            PluginFlyvemdmInvitationlog::$rightname,
-            PluginFlyvemdmPackage::$rightname,
-            PluginFlyvemdmPolicy::$rightname,
-            PluginFlyvemdmProfile::$rightname,
-            PluginFlyvemdmWellknownpath::$rightname,
-      );
+      $rights = [
+         PluginFlyvemdmAgent::$rightname,
+         PluginFlyvemdmFile::$rightname,
+         PluginFlyvemdmFleet::$rightname,
+         PluginFlyvemdmGeolocation::$rightname,
+         PluginFlyvemdmInvitation::$rightname,
+         PluginFlyvemdmInvitationlog::$rightname,
+         PluginFlyvemdmPackage::$rightname,
+         PluginFlyvemdmPolicy::$rightname,
+         PluginFlyvemdmProfile::$rightname,
+         PluginFlyvemdmWellknownpath::$rightname,
+      ];
       foreach ($rights as $right) {
-         ProfileRight::deleteProfileRights(array($right));
+         ProfileRight::deleteProfileRights([$right]);
          unset($_SESSION["glpiactiveprofile"][$right]);
       }
    }
 
    protected function deleteRelations() {
-      $pluginItemtypes = array(
-            'PluginFlyvemdmAgent',
-            'PluginFlyvemdmEntityconfig',
-            'PluginFlyvemdmFile',
-            'PluginFlyvemdmFleet',
-            'PluginFlyvemdmGeolocation',
-            'PluginFlyvemdmInvitation',
-            'PluginFlyvemdmPackage',
-            'PluginFlyvemdmPolicy',
-            'PluginFlyvemdmPolicyCategory',
-            'PluginFlyvemdmWellknownpath'
-      );
+      $pluginItemtypes = [
+         PluginFlyvemdmAgent::class,
+         PluginFlyvemdmEntityconfig::class,
+         PluginFlyvemdmFile::class,
+         PluginFlyvemdmFleet::class,
+         PluginFlyvemdmGeolocation::class,
+         PluginFlyvemdmInvitation::class,
+         PluginFlyvemdmPackage::class,
+         PluginFlyvemdmPolicy::class,
+         PluginFlyvemdmPolicyCategory::class,
+         PluginFlyvemdmWellknownpath::class
+      ];
+
+      // Itemtypes from the core having relations to itemtypes of the plugin
+      $itemtypes = [
+         Notepad::class,
+         DisplayPreference::class,
+         DropdownTranslation::class,
+         Log::class,
+         Bookmark::class,
+         SavedSearch::class
+      ];
       foreach ($pluginItemtypes as $pluginItemtype) {
-         foreach (array('Notepad', 'DisplayPreference', 'DropdownTranslation', 'Log', 'Bookmark', 'SavedSearch') as $itemtype) {
+         foreach ($itemtypes as $itemtype) {
             if (class_exists($itemtype)) {
                $item = new $itemtype();
-               $item->deleteByCriteria(array('itemtype' => $pluginItemtype));
+               $item->deleteByCriteria(['itemtype' => $pluginItemtype]);
             }
          }
       }
@@ -1134,7 +1144,7 @@ Regards,
    protected function deleteDisplayPreferences() {
       // To cleanup display preferences if any
       //$displayPreference = new DisplayPreference();
-      //$displayPreference->deleteByCriteria(array("`num` >= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MIN . "
-      //                                             AND `num` <= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MAX));
+      //$displayPreference->deleteByCriteria(["`num` >= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MIN . "
+      //                                             AND `num` <= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MAX]);
    }
 }
