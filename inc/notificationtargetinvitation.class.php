@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
    const EVENT_GUEST_INVITATION = 'plugin_flyvemdm_invitation';
-   const DEEPLINK = 'flyve://register?data=';
+   const DEEPLINK = 'http://flyve.org/flyve-mdm-deeplink/?data=';
 
    /**
     * Define plugins notification events
