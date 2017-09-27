@@ -259,6 +259,30 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
    }
 
+   public function post_addItem() {
+      $this->createOrionTask();
+   }
+
+   /**
+    * Create a file analysis task with the Orion plugin
+    */
+   private function createOrionTask() {
+      $plugin = new Plugin();
+      if ($plugin->isActivated('orion')) {
+         $filename = FLYVEMDM_PACKAGE_PATH . "/" . $this->getField('filename');
+
+         // Crop the GLPI_DOC_DIR prefix
+         if (substr($filename, 0, strlen(GLPI_DOC_DIR)) == GLPI_DOC_DIR) {
+            $filename = substr($filename, strlen(GLPI_DOC_DIR));
+         }
+
+         $orionTask = new PluginOrionTask();
+         $orionTask->add([
+            'filename' => $filename,
+         ]);
+      }
+   }
+
    /**
     * @see CommonDBTM::post_updateItem()
     */

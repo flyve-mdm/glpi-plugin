@@ -121,6 +121,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       ['after' => 'dl_filename', 'default' => 'pending']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
+   $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
 
    $table = 'glpi_plugin_flyvemdm_files';
    $migration->addKey($table, 'entities_id', 'entities_id');
