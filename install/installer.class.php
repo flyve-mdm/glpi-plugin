@@ -207,7 +207,6 @@ class PluginFlyvemdmInstaller {
       return self::$currentVersion;
    }
 
-
    protected function createRootEntityConfig() {
       $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->getFromDBByCrit([
