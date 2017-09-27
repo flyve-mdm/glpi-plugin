@@ -82,7 +82,9 @@ function plugin_init_flyvemdm() {
 
    if ($plugin->isActivated('flyvemdm')) {
       require_once(__DIR__ . '/vendor/autoload.php');
-      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+      if (!class_exists('GlpiLocalesExtension')) {
+         require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+      }
 
       plugin_flyvemdm_registerClasses();
       plugin_flyvemdm_addHooks();

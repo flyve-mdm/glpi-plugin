@@ -490,7 +490,6 @@ Regards,
     * @param string $toVersion
     */
    protected function upgradeOneStep($toVersion) {
-
       $suffix = str_replace('.', '_', $toVersion);
       $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
@@ -507,10 +506,16 @@ Regards,
 
    protected function createJobs() {
       CronTask::Register(PluginFlyvemdmMqttupdatequeue::class, 'UpdateTopics', MINUTE_TIMESTAMP,
-            [
-                  'comment'   => __('Update retained MQTT topics for fleet policies', 'flyvemdm'),
-                  'mode'      => CronTask::MODE_EXTERNAL
-            ]);
+         [
+               'comment'   => __('Update retained MQTT topics for fleet policies', 'flyvemdm'),
+               'mode'      => CronTask::MODE_EXTERNAL
+         ]);
+
+      CronTask::Register(PluginFlyvemdmPackage::class, 'ParseApplication', MINUTE_TIMESTAMP,
+         [
+            'comment'   => __('Parse uploaded applications', 'flyvemdm'),
+            'mode'      => CronTask::MODE_EXTERNAL
+         ]);
    }
 
    /**

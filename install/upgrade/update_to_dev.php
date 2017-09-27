@@ -102,4 +102,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    // All policies exist for Android
    $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
 
+   // update Applications table
+   $table = 'glpi_plugin_flyvemdm_packages';
+   $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed')", ['after' => 'dl_filename', 'default' => 'pending']);
+   $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
 }

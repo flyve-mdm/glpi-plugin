@@ -119,17 +119,17 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttusers` (
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_packages
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_packages`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
-  `version` varchar(255) NOT NULL DEFAULT '',
-  `version_code` varchar(255) NOT NULL DEFAULT '',
-  `icon` text COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) NOT NULL DEFAULT '',
-  `filesize` int(11) NOT NULL DEFAULT '0',
-  `entities_id` int(11) NOT NULL DEFAULT '0',
-  `dl_filename` varchar(255) NOT NULL DEFAULT '',
-  `is_parsed` tinyint(1) NOT NULL DEFAULT '0',
+  `id`             int(11)                                        NOT NULL AUTO_INCREMENT,
+  `name`           varchar(255)                                   NOT NULL DEFAULT '',
+  `alias`          varchar(255)                                   NOT NULL DEFAULT '',
+  `version`        varchar(255)                                   NOT NULL DEFAULT '',
+  `version_code`   varchar(255)                                   NOT NULL DEFAULT '',
+  `icon`           text COLLATE utf8_unicode_ci                   NOT NULL,
+  `filename`       varchar(255)                                   NOT NULL DEFAULT '',
+  `filesize`       int(11)                                        NOT NULL DEFAULT '0',
+  `entities_id`    int(11)                                        NOT NULL DEFAULT '0',
+  `dl_filename`    varchar(255)                                   NOT NULL DEFAULT '',
+  `parse_status`   enum('pending', 'parsed', 'failed')            NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
