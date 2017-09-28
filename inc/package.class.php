@@ -554,7 +554,23 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * Launch parsing of applciation files
+    * get Cron description parameter for this class
+    *
+    * @param $name string name of the task
+    *
+    * @return array of string
+    **/
+   static function cronInfo($name) {
+
+      switch ($name) {
+         case 'ParseApplication' :
+            return array('description' => __('Parse an application to find metadata', 'flyvemdm'));
+      }
+   }
+
+
+   /**
+    * Launches parsing of applciation files
     *
     * @see PluginFlyvemdmPackage::parseApplication()
     *
@@ -562,17 +578,17 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     *
     * @return integer >0 means done, < 0 means not finished, 0 means nothing to do
     */
-    public static function cronParseApplication(CronTask $crontask) {
+   public static function cronParseApplication(CronTask $crontask) {
       global $DB;
 
       $cronStatus = 0;
 
       $request = [
-         'FROM' => static::getTable(),
-         'WHERE' => ['AND' => [
-            'parse_status' => 'pending',
-         ]],
-         'LIMIT' => 10
+       'FROM' => static::getTable(),
+       'WHERE' => ['AND' => [
+          'parse_status' => 'pending',
+       ]],
+       'LIMIT' => 10
       ];
       foreach ($DB->request($request) as $data) {
          $package = new static();
