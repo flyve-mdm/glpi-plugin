@@ -511,9 +511,9 @@ Regards,
             'mode'      => CronTask::MODE_EXTERNAL
          ]);
 
-      CronTask::Register(PluginFlyvemdmPackage::class, 'AnalyzeApplication', MINUTE_TIMESTAMP,
+      CronTask::Register(PluginFlyvemdmPackage::class, 'ParseApplication', MINUTE_TIMESTAMP,
          [
-            'comment'   => __('Analyze uploaded applications', 'flyvemdm'),
+            'comment'   => __('Parse uploaded applications to collect metadata', 'flyvemdm'),
             'mode'      => CronTask::MODE_EXTERNAL
          ]);
    }
