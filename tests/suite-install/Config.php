@@ -38,7 +38,7 @@ class Config extends CommonTestCase
 {
 
    /**
-    *
+    * @engine inline
     */
    public function testInstallPlugin() {
       global $DB;

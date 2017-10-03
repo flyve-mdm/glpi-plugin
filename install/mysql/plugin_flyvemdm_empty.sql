@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_entityconfigs` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_files`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_files` (
   `id`                        int(11)      NOT NULL AUTO_INCREMENT,
-  `name`                      varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `source`                    varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `name`                      varchar(255) NOT NULL DEFAULT '',
+  `source`                    varchar(255) NOT NULL DEFAULT '',
   `entities_id`               int(11) NOT  NULL DEFAULT '0',
   `version`                   int(11) NOT  NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_files` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fleets`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_fleets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `entities_id` int(11) NOT NULL DEFAULT '0',
   `is_recursive` int(1) NOT NULL DEFAULT '0',
   `is_default` int(1) NOT NULL DEFAULT '0',
@@ -71,8 +71,8 @@ DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_geolocations`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_geolocations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `computers_id` int(11) NOT NULL DEFAULT '0',
-  `latitude` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `longitude` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `latitude` varchar(255) NOT NULL DEFAULT '',
+  `longitude` varchar(255) NOT NULL DEFAULT '',
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttacls`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttacls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `plugin_flyvemdm_mqttusers_id` int(11) NOT NULL DEFAULT '0',
-  `topic` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `topic` varchar(255) NOT NULL DEFAULT '',
   `access_level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicity` (`plugin_flyvemdm_mqttusers_id`,`topic`)
@@ -95,9 +95,9 @@ DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttlogs`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttlogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
-  `direction` varchar(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'I for received message, O for sent message',
-  `topic` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `message` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `direction` varchar(1) NOT NULL DEFAULT '' COMMENT 'I for received message, O for sent message',
+  `topic` varchar(255) NOT NULL DEFAULT '',
+  `message` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date` (`date`),
   KEY `topic` (`topic`)
@@ -108,8 +108,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttlogs` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttusers`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unicity` (`user`)
@@ -119,16 +119,17 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttusers` (
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_packages
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_packages`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `version_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `icon` text COLLATE utf8_unicode_ci NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `filesize` int(11) NOT NULL DEFAULT '0',
-  `entities_id` int(11) NOT NULL DEFAULT '0',
-  `dl_filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `id`             int(11)                                        NOT NULL AUTO_INCREMENT,
+  `name`           varchar(255)                                   NOT NULL DEFAULT '',
+  `alias`          varchar(255)                                   NOT NULL DEFAULT '',
+  `version`        varchar(255)                                   NOT NULL DEFAULT '',
+  `version_code`   varchar(255)                                   NOT NULL DEFAULT '',
+  `icon`           text COLLATE utf8_unicode_ci                   NOT NULL,
+  `filename`       varchar(255)                                   NOT NULL DEFAULT '',
+  `filesize`       int(11)                                        NOT NULL DEFAULT '0',
+  `entities_id`    int(11)                                        NOT NULL DEFAULT '0',
+  `dl_filename`    varchar(255)                                   NOT NULL DEFAULT '',
+  `parse_status`   enum('pending', 'parsed', 'failed')            NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -137,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_wellknownpaths`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_wellknownpaths` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `comment` text COLLATE utf8_unicode_ci NOT NULL,
   `is_default` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),

@@ -232,29 +232,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
             $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
-            $filename = pathinfo($destination, PATHINFO_FILENAME);
-            if ($fileExtension == 'apk') {
-               $apk = new \ApkParser\Parser($destination);
-            } else if ($fileExtension == 'upk') {
-               $upkParser = new PluginFlyvemdmUpkparser($destination);
-               $apk = $upkParser->getApkParser();
-               if (!($apk instanceof \ApkParser\Parser)) {
-                  Session::addMessageAfterRedirect(__('Could not parse the UPK file', 'flyvemdm'));
-                  return false;
-               }
-            }
-            $manifest               = $apk->getManifest();
-            $iconResourceId         = $manifest->getApplication()->getIcon();
-            $labelResourceId        = $manifest->getApplication()->getLabel();
-            $iconResources          = $apk->getResources($iconResourceId);
-            $apkLabel               = $apk->getResources($labelResourceId);
-            $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-            $input['name']          = $manifest->getPackageName();
-            if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
-               $input['alias']         = $apkLabel[0]; // Get the first item
-            }
-            $input['version']       = $manifest->getVersionName();
-            $input['version_code']  = $manifest->getVersionCode();
             $input['filesize']      = fileSize($destination);
             $input['dl_filename']   = basename($uploadedFile);
          } else {
@@ -317,48 +294,30 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          }
       }
 
-      try {
-         $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-         $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
-         $this->createEntityDirectory(dirname($destination));
-         if (rename($uploadedFile, $destination)) {
-            if ($fileExtension == "apk") {
-               $apk = new \ApkParser\Parser($destination);
-            } else if ($fileExtension == "upk") {
-               $upkParser = new PluginFlyvemdmUpkparser($destination);
-               $apk = $upkParser->getApkParser();
-               if (!($apk instanceof \ApkParser\Parser)) {
-                  Session::addMessageAfterRedirect(__('Could not parse the UPK file', "flyvemdm"));
-                  return false;
+      if (isset($uploadedFile)) {
+         try {
+            $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
+            $this->createEntityDirectory(dirname($destination));
+            if (rename($uploadedFile, $destination)) {
+               $input['filesize']      = fileSize($destination);
+               $input['dl_filename']   = basename($uploadedFile);
+               if ($filename != $this->fields['filename']) {
+                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
                }
+            } else {
+               if (!is_writable(dirname($destination))) {
+                  $destination = dirname($destination);
+                  Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
+               }
+               Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+               $input = false;
             }
-            $manifest               = $apk->getManifest();
-            $iconResourceId         = $manifest->getApplication()->getIcon();
-            $labelResourceId        = $manifest->getApplication()->getLabel();
-            $iconResources          = $apk->getResources($iconResourceId);
-            $apkLabel               = $apk->getResources($labelResourceId);
-            $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-            $input['name']          = $manifest->getPackageName();
-            $input['version']       = $manifest->getVersionName();
-            $input['version_code']  = $manifest->getVersionCode();
-            $input['filesize']      = fileSize($destination);
-            $input['dl_filename']   = basename($uploadedFile);
-            if ($filename != $this->fields['filename']) {
-               unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
-            }
-         } else {
-            if (!is_writable(dirname($destination))) {
-               $destination = dirname($destination);
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
-            }
-            Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+         } catch (Exception $e) {
+            // Ignore exceptions for now
             $input = false;
          }
-      } catch (Exception $e) {
-         // Ignore exceptions for now
-         $input = false;
       }
-
       return $input;
    }
 
@@ -592,6 +551,96 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       exit(0);
+   }
+
+   /**
+    * get Cron description parameter for this class
+    *
+    * @param $name string name of the task
+    *
+    * @return array of string
+    **/
+   static function cronInfo($name) {
+
+      switch ($name) {
+         case 'ParseApplication' :
+            return array('description' => __('Parse an application to find metadata', 'flyvemdm'));
+      }
+   }
+
+
+   /**
+    * Launches parsing of applciation files
+    *
+    * @see PluginFlyvemdmPackage::parseApplication()
+    *
+    * @param CronTask $crontask
+    *
+    * @return integer >0 means done, < 0 means not finished, 0 means nothing to do
+    */
+   public static function cronParseApplication(CronTask $crontask) {
+      global $DB;
+
+      $cronStatus = 0;
+
+      $request = [
+       'FROM' => static::getTable(),
+       'WHERE' => ['AND' => [
+          'parse_status' => 'pending',
+       ]],
+       'LIMIT' => 10
+      ];
+      foreach ($DB->request($request) as $data) {
+         $package = new static();
+         $package->getFromDB($data['id']);
+         if ($package->parseApplication()) {
+            $cronStatus++;
+         }
+      }
+
+      return $cronStatus;
+   }
+
+   /**
+    * Analyzes an application (APK or UPK) to collect metadata
+    *
+    * @return boolean true if success, false otherwise
+    */
+   private function parseApplication() {
+      $destination = FLYVEMDM_PACKAGE_PATH . '/' . $this->fields['filename'];
+      $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
+      if ($fileExtension == 'apk') {
+         $apk = new \ApkParser\Parser($destination);
+      } else if ($fileExtension == 'upk') {
+         $upkParser = new PluginFlyvemdmUpkparser($destination);
+         $apk = $upkParser->getApkParser();
+         if (!($apk instanceof \ApkParser\Parser)) {
+            $this->update([
+               'id'           => $this->fields['id'],
+               'parse_status' => 'failed'
+            ]);
+            return false;
+         }
+      }
+      $manifest               = $apk->getManifest();
+      $iconResourceId         = $manifest->getApplication()->getIcon();
+      $labelResourceId        = $manifest->getApplication()->getLabel();
+      $iconResources          = $apk->getResources($iconResourceId);
+      $apkLabel               = $apk->getResources($labelResourceId);
+
+      $input = [];
+      $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
+      $input['name']          = $manifest->getPackageName();
+      if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
+         $input['alias']         = $apkLabel[0]; // Get the first item
+      }
+      $input['version']       = $manifest->getVersionName();
+      $input['version_code']  = $manifest->getVersionCode();
+
+      $input['id'] = $this->fields['id'];
+      $input['parse_status'] = 'parsed';
+      $this->update($input);
+      return true;
    }
 
    /**
