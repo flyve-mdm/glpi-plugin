@@ -55,7 +55,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('Package', 'Packages', $nb, "flyvemdm");
@@ -85,8 +86,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * Returns the tab name of this itemtype, depending on the itemtype on which it will be displayed
     * If the tab shall not display then returns an empty string
     * @param CommonGLPI $item on which the tab will show
-    * @param number $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
-    *
+    * @param int $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
     * @return string
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
@@ -101,8 +101,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    /**
     *  Display the content of the tab provided by this itemtype
     * @param CommonGLPI $item
-    * @param number $tabnum
-    * @param number $withtemplate
+    * @param int $tabnum
+    * @param int $withtemplate
+    * @return bool
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
       if ($item->getType() == 'Software') {
