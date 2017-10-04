@@ -552,11 +552,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       header("Content-Transfer-Encoding: binary\n");
       header('Connection: close');
 
+      $httpStatus = 'HTTP/1.0 200 OK';
       if ($begin > 0 || $end < $size - 1) {
-         header('HTTP/1.0 206 Partial Content');
-      } else {
-         header('HTTP/1.0 200 OK');
+         $httpStatus = 'HTTP/1.0 206 Partial Content';
       }
+      header($httpStatus);
 
       // Sends bytes until the end of the range or connection closed
       while (!feof($fileHandle) && $currentPosition < $end && (connection_status() == 0)) {
@@ -566,9 +566,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          if ($content === false) {
             header("HTTP/1.0 500 Internal Server Error", true); // Replace previously sent headers
             exit(0);
-         } else {
-            print $content;
          }
+         print $content;
          flush();
          $currentPosition += 1024 * 16;
       }
