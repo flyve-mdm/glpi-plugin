@@ -148,13 +148,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       switch ($last) {
          case 'g':
             $val *= 1024;
-            break;
          case 'm':
             $val *= 1024;
-            break;
          case 'k':
             $val *= 1024;
-            break;
       }
 
       return $val;
@@ -176,9 +173,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       // Find the added file
-      $postFile = $_POST['_file'][0];
-      if (isset($postFile) && is_string($postFile)) {
+      if (!isAPI()) {
          // from GLPI UI
+         $postFile = $_POST['_file'][0];
+         if (!isset($postFile) || !is_string($postFile)) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
+         }
          $actualFilename = $postFile;
          $uploadedFile = GLPI_TMP_DIR . '/' . $postFile;
       } else {
@@ -217,15 +218,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $uploadedFile = $destination;
       }
 
-      if (!isset($actualFilename)) {
-         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
-         return false;
-      }
-
-      // Check the extension of the uploaded file
-      $fileExtension = pathinfo($actualFilename, PATHINFO_EXTENSION);
-      if (!in_array($fileExtension, array('apk', 'upk'))) {
-         Session::addMessageAfterRedirect(__('Only APK and UPK files are allowed', 'flyvemdm'));
+      if(!$this->isFileUploadValid($actualFilename)){
          return false;
       }
 
@@ -247,16 +240,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                   return false;
                }
             }
-            list($apkLabel, $input) = $this->setApkManifest($input, $apk, $destination,
+            list($apkLabel, $input) = $this->getApkMetadata($input, $apk, $destination,
                $uploadedFile);
             if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
-               $input['alias']         = $apkLabel[0]; // Get the first item
+               $input['alias'] = $apkLabel[0]; // Get the first item
             }
          } else {
-            if (!is_writable(dirname($destination))) {
-               $destination = dirname($destination);
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
-            }
+            $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
             $input = false;
          }
@@ -275,17 +265,15 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function prepareInputForUpdate($input) {
       // Find the added file
-      $postFile = $_POST['_file'][0];
-      $fileName = $_FILES['file']['name'];
-      $fileTpmName = $_FILES['file']['tmp_name'];
-      if (isset($postFile) && is_string($postFile)) {
+      if (!isAPI()) {
          // from GLPI UI
-         $actualFilename = $postFile;
-         $uploadedFile = GLPI_TMP_DIR."/". $postFile;
-         if (!isset($fileName)) {
-            Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+         $postFile = $_POST['_file'][0];
+         if (!isset($postFile) || !is_string($postFile)) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
             return false;
          }
+         $actualFilename = $postFile;
+         $uploadedFile = GLPI_TMP_DIR."/". $postFile;
       } else {
          // from API
          $fileError = $_FILES['file']['error'];
@@ -297,6 +285,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                return false;
             }
 
+            $fileName = $_FILES['file']['name'];
+            $fileTpmName = $_FILES['file']['tmp_name'];
             $destination = GLPI_TMP_DIR . '/' . $fileName;
             if (is_readable($fileTpmName) && !is_readable($destination)) {
                // Move the file to GLPI_TMP_DIR
@@ -316,15 +306,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          }
       }
 
-      if (!isset($actualFilename)) {
-         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
-         return false;
-      }
-
-      // Check the extension of the uploaded file
-      $fileExtension = pathinfo($actualFilename, PATHINFO_EXTENSION);
-      if (!in_array($fileExtension, array('apk', 'upk'))) {
-         Session::addMessageAfterRedirect(__('Only APK and UPK files are allowed', 'flyvemdm'));
+      if(!$this->isFileUploadValid($actualFilename)){
          return false;
       }
 
@@ -333,6 +315,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
+            $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
             $apk = new \ApkParser\Parser($destination);
             if ($fileExtension == "upk") {
                $upkParser = new PluginFlyvemdmUpkparser($destination);
@@ -342,17 +325,14 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                   return false;
                }
             }
-            list($apkLabel, $input) = $this->setApkManifest($input, $apk, $destination,
+            list($apkLabel, $input) = $this->getApkMetadata($input, $apk, $destination,
                $uploadedFile);
             $filename = pathinfo($destination, PATHINFO_FILENAME);
             if ($filename != $this->fields['filename']) {
                unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
             }
          } else {
-            if (!is_writable(dirname($destination))) {
-               $destination = dirname($destination);
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
-            }
+            $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
             $input = false;
          }
@@ -701,8 +681,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param string $uploadedFile
     * @return array
     */
-   protected function setApkManifest(array $input, \ApkParser\Parser $apk, $destination, $uploadedFile)
-   {
+   private function getApkMetadata(
+      array $input,
+      \ApkParser\Parser $apk,
+      $destination,
+      $uploadedFile
+   ) {
       $manifest = $apk->getManifest();
       $iconResourceId = $manifest->getApplication()->getIcon();
       $labelResourceId = $manifest->getApplication()->getLabel();
@@ -714,6 +698,36 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $input['version_code'] = $manifest->getVersionCode();
       $input['filesize'] = fileSize($destination);
       $input['dl_filename'] = basename($uploadedFile);
-      return array($apkLabel, $input);
+      return [$apkLabel, $input];
+   }
+
+   /**
+    * @param string $destination filename with full path to be written
+    */
+   private function logErrorIfDirNotWritable($destination) {
+      $dirname = dirname($destination);
+      if (!is_writable($dirname)) {
+         Toolbox::logInFile('php-errors',
+            "Plugin Flyvemdm : Directory '$dirname' is not writeable");
+      }
+   }
+
+   /**
+    * @param string $filename
+    * @return bool
+    */
+   private function isFileUploadValid($filename) {
+      if (!isset($filename) || !$filename) {
+         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+         return false;
+      }
+
+      $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
+      if (!in_array($fileExtension, ['apk', 'upk'])) {
+         Session::addMessageAfterRedirect(__('Only APK and UPK files are allowed', 'flyvemdm'));
+         return false;
+      }
+
+      return true;
    }
 }
