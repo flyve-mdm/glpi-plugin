@@ -219,7 +219,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $uploadedFile = $destination;
       }
 
-      if(!$this->isFileUploadValid($actualFilename)){
+      if (!$this->isFileUploadValid($actualFilename)) {
          return false;
       }
 
@@ -307,7 +307,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          }
       }
 
-      if(!$this->isFileUploadValid($actualFilename)){
+      if (!$this->isFileUploadValid($actualFilename)) {
          return false;
       }
 
