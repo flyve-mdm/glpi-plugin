@@ -241,8 +241,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                   return false;
                }
             }
-            list($apkLabel, $input) = $this->getApkMetadata($input, $apk, $destination,
-               $uploadedFile);
+            list($input, $apkLabel) = $this->getApkMetadata($input, $apk);
+            $input['filesize'] = fileSize($destination);
+            $input['dl_filename'] = basename($uploadedFile);
             if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
                $input['alias'] = $apkLabel[0]; // Get the first item
             }
@@ -326,9 +327,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                   return false;
                }
             }
-            list($apkLabel, $input) = $this->getApkMetadata($input, $apk, $destination,
-               $uploadedFile);
+            list($input) = $this->getApkMetadata($input, $apk);
             $filename = pathinfo($destination, PATHINFO_FILENAME);
+            $input['filesize'] = fileSize($destination);
+            $input['dl_filename'] = $filename;
             if ($filename != $this->fields['filename']) {
                unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
             }
@@ -644,20 +646,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             return false;
          }
       }
-      $manifest               = $apk->getManifest();
-      $iconResourceId         = $manifest->getApplication()->getIcon();
-      $labelResourceId        = $manifest->getApplication()->getLabel();
-      $iconResources          = $apk->getResources($iconResourceId);
-      $apkLabel               = $apk->getResources($labelResourceId);
-
       $input = [];
-      $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-      $input['name']          = $manifest->getPackageName();
+      list($input, $apkLabel) = $this->getApkMetadata($input, $apk);
       if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
          $input['alias']         = $apkLabel[0]; // Get the first item
       }
-      $input['version']       = $manifest->getVersionName();
-      $input['version_code']  = $manifest->getVersionCode();
 
       $input['id'] = $this->fields['id'];
       $input['parse_status'] = 'parsed';
@@ -675,30 +668,23 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
+    * Reads the metada from a APK/UPK and returns a array of data, its label and the manifest object
     * @param array $input
     * @param \ApkParser\Parser $apk
-    * @param string $destination
-    * @param string $uploadedFile
     * @return array
     */
    private function getApkMetadata(
       array $input,
-      \ApkParser\Parser $apk,
-      $destination,
-      $uploadedFile
+      \ApkParser\Parser $apk
    ) {
       $manifest = $apk->getManifest();
-      $iconResourceId = $manifest->getApplication()->getIcon();
-      $labelResourceId = $manifest->getApplication()->getLabel();
-      $iconResources = $apk->getResources($iconResourceId);
-      $apkLabel = $apk->getResources($labelResourceId);
+      $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
+      $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
       $input['icon'] = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
       $input['name'] = $manifest->getPackageName();
       $input['version'] = $manifest->getVersionName();
       $input['version_code'] = $manifest->getVersionCode();
-      $input['filesize'] = fileSize($destination);
-      $input['dl_filename'] = basename($uploadedFile);
-      return [$apkLabel, $input];
+      return [$input, $apkLabel, $manifest];
    }
 
    /**
