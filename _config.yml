@@ -1,6 +1,9 @@
+title: glpi plugin
 email: ml-flyvemdm@teclib.com
-baseurl: "/flyve-mdm-glpi-plugin" 
+twitter: flyvemdm
+baseurl: "/flyve-mdm-glpi-plugin"
 url: "http://flyve.org"   
+image: http://flyve.org/flyve-mdm-glpi-plugin/images/logo2.png
 
 # Build settings
 markdown: kramdown
