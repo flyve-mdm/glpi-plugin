@@ -231,22 +231,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $destination = FLYVEMDM_PACKAGE_PATH . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
-            $apk = new \ApkParser\Parser($destination);
-            if ($fileExtension == 'upk') {
-               $upkParser = new PluginFlyvemdmUpkparser($destination);
-               $apk = $upkParser->getApkParser();
-               if (!($apk instanceof \ApkParser\Parser)) {
-                  Session::addMessageAfterRedirect(__('Could not parse the UPK file', 'flyvemdm'));
-                  return false;
-               }
-            }
-            list($input, $apkLabel) = $this->getApkMetadata($input, $apk);
             $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = basename($uploadedFile);
-            if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
-               $input['alias'] = $apkLabel[0]; // Get the first item
-            }
          } else {
             $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
@@ -317,17 +303,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
-            $apk = new \ApkParser\Parser($destination);
-            if ($fileExtension == "upk") {
-               $upkParser = new PluginFlyvemdmUpkparser($destination);
-               $apk = $upkParser->getApkParser();
-               if (!($apk instanceof \ApkParser\Parser)) {
-                  Session::addMessageAfterRedirect(__('Could not parse the UPK file', "flyvemdm"));
-                  return false;
-               }
-            }
-            list($input) = $this->getApkMetadata($input, $apk);
             $filename = pathinfo($destination, PATHINFO_FILENAME);
             $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = $filename;
@@ -647,7 +622,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          }
       }
       $input = [];
-      list($input, $apkLabel) = $this->getApkMetadata($input, $apk);
+      $manifest = $apk->getManifest();
+      $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
+      $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
+      $input['icon'] = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
+      $input['name'] = $manifest->getPackageName();
+      $input['version'] = $manifest->getVersionName();
+      $input['version_code'] = $manifest->getVersionCode();
       if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
          $input['alias']         = $apkLabel[0]; // Get the first item
       }
@@ -665,26 +646,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function hook_entity_purge(CommonDBTM $item) {
       $package = new static();
       $package->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
-   }
-
-   /**
-    * Reads the metada from a APK/UPK and returns a array of data, its label and the manifest object
-    * @param array $input
-    * @param \ApkParser\Parser $apk
-    * @return array
-    */
-   private function getApkMetadata(
-      array $input,
-      \ApkParser\Parser $apk
-   ) {
-      $manifest = $apk->getManifest();
-      $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
-      $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
-      $input['icon'] = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-      $input['name'] = $manifest->getPackageName();
-      $input['version'] = $manifest->getVersionName();
-      $input['version_code'] = $manifest->getVersionCode();
-      return [$input, $apkLabel, $manifest];
    }
 
    /**
