@@ -152,7 +152,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @param array $input
     * @return array|false the agent token life time
     */
-   protected function sanitizeTokenLifeTime($input) {
+   protected function sanitizeTokenLifeTime(array $input) {
       if (isset($input['agent_token_life'])) {
          // Sanitize agent_token_life (see DataInterval)
          if (strlen($input['agent_token_life']) < 3) {
