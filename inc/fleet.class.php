@@ -67,7 +67,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Localized name of the type
-    * @param $nb integer number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb = 0) {
       return _n('Fleet', 'Fleets', $nb, "flyvemdm");
@@ -101,8 +102,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Show form for edition
+    * @param $ID
+    * @param array $options
     */
-   public function showForm($ID, $options = []) {
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
@@ -308,7 +311,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Actions done after the ADD of the item in the database
-    * @return nothing
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
@@ -376,7 +378,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Get all agents in the fleet
     *
-    * @return array isntances of agents belonging to the fleet
+    * @return array instances of agents belonging to the fleet
     */
    public function getAgents() {
       $id = $this->getID();
@@ -489,6 +491,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     *
     * @see PluginFlyvemdmNotifiable::notify()
+    * @param string $topic
+    * @param string $mqttMessage
+    * @param integer $qos
+    * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
