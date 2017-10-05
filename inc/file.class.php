@@ -227,7 +227,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @param string $destination
     * @return bool
     */
-   public function saveUploadedFile($source, $destination) {
+   public function saveUploadedFile(array $source, $destination) {
       $success = false;
 
       $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
@@ -480,7 +480,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options = []) {
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
