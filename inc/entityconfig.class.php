@@ -56,6 +56,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    /**
     * Returns the name of the type
     * @param integer $nb number of item in the type
+    * @return string
     */
    static function getTypeName($nb=0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
@@ -103,6 +104,8 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    /**
     * @see CommonDBTM::prepareInputForAdd()
+    * @param array $input
+    * @return array|bool
     */
    public function prepareInputForAdd($input) {
       if (!isset($input['id'])) {
@@ -119,6 +122,8 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    /**
     *
     * @see CommonDBTM::prepareInputForUpdate()
+    * @param array $input
+    * @return array|false
     */
    public function prepareInputForUpdate($input) {
       if (!Session::haveRight(static::$rightname, PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
@@ -144,7 +149,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
    /**
     * Sanitizes the token life time of the agent
-    * @param string $input
+    * @param array $input
     * @return array|false the agent token life time
     */
    protected function sanitizeTokenLifeTime($input) {
@@ -247,7 +252,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    /**
     * Gets the tabs name
     * @param CommonGLPI $item
-    * @param numeric $withtemplate
+    * @param integer $withtemplate
     * @return array Containing the tabs name
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
@@ -268,8 +273,10 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @param $fieldref        string   name of the referent field to know if we look at parent entity
     * @param $entities_id
     * @param $fieldval        string   name of the field that we want value (default '')
-    * @param $default_value            value to return (default -2)
-    **/
+    * @param integer $default_value value to return (default -2)
+    *
+    * @return integer
+    */
    static function getUsedConfig($fieldref, $entities_id, $fieldval = '', $default_value = -2) {
 
       // for calendar
@@ -310,6 +317,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     * @param CommonGLPI $item
     * @param integer $tabnum
     * @param integer $withtemplate
+    * @return bool|void
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
 
