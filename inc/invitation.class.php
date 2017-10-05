@@ -113,7 +113,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       // Find or create the user
       $userIsNew = false;
       $user = new User();
-      if (!$user->getFromDBbyName($input['_useremails'], '')) {
+      if (!$user->getFromDBbyName($input['_useremails'])) {
          // The user does not exists yet, create him
          $userId = $user->add([
             '_useremails'     => [$input['_useremails']],
