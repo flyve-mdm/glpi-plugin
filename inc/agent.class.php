@@ -100,7 +100,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('Agent', 'Agents', $nb, "flyvemdm");
@@ -146,7 +147,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see CommonGLPI::getTabNameForItem()
     *
     * @since version 9.1
-    **/
+    * @param CommonGLPI $item
+    * @param int $withtemplate
+    * @return array|string
+    */
    function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
 
       if (static::canView()) {
@@ -172,12 +176,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @param $item         CommonGLPI object
-    * @param $tabnum       (default 1)
-    * @param $withtemplate (default 0)
+    * @param CommonGLPI $item
+    * @param integer $tabnum (default 1)
+    * @param integer $withtemplate (default 0)
     *
     * @since version 9.1
-    **/
+    *
+    * @return bool
+    */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
       switch (get_class($item)) {
          case static::class:
@@ -240,11 +246,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Print the computer's operating system form
     *
-    * @param $comp Computer object
+    * @param PluginFlyvemdmAgent $item
     *
     * @since version 9.1
-    *
-    * @return void
     */
    public static function showDangerZone(PluginFlyvemdmAgent $item) {
       $ID = $item->fields['id'];
@@ -909,7 +913,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * get an agent from DB by topic
     *
-    * @param string|false
+    * @param string|false $topic
+    * @return bool
     */
    public function getByTopic($topic) {
       global $DB;
@@ -976,6 +981,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Attempt to enroll using an invitation token
     * @param array $input Enrollment data
+    * @return array|bool
     */
    protected function enrollByInvitationToken($input) {
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
@@ -1481,7 +1487,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Attempts to sign the certificate against the CA
-    * @param String $csr Certificate signing request
+    * @param string $csr Certificate signing request
+    * @return bool|mixed
     */
    protected static function signCertificate($csr) {
       $config = Config::getConfigurationValues('flyvemdm', ['ssl_cert_url']);
@@ -1577,6 +1584,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Determine the enrollment method depending on input data
     * @param array $input
+    * @return int
     */
    protected function chooseEnrollMethod($input) {
       if (isset($input['_email'])
