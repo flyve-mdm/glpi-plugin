@@ -53,7 +53,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
    /**
     * Localized name of the type
-    * @param integer $nb  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('File', 'Files', $nb, "flyvemdm");
@@ -222,7 +223,9 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
    /**
     * move and rename the uploaded file
-    * @return canonical saved filename, '' if an error occured
+    * @param array $source global $_FILES['userfile'] data
+    * @param string $destination
+    * @return bool
     */
    public function saveUploadedFile($source, $destination) {
       $success = false;
@@ -338,6 +341,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
    /**
     * @see CommonDBTM::post_updateItem()
+    * @param int $history
     */
    public function post_updateItem($history = 1) {
       // Check if the source changed
