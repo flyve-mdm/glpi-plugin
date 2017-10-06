@@ -46,7 +46,7 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
 
    /**
     * Constructor
-    * @param string $properties
+    * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
