@@ -42,6 +42,7 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
+      parent::__construct($policy);
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
       $this->group = $policy->getField('group');
