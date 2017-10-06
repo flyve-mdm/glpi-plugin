@@ -42,7 +42,8 @@ class PluginFlyvemdmPolicyFactory {
    /**
     * Create an empty policy by type
     *
-    * @param string $type
+    * @param PluginFlyvemdmPolicy $policyData
+    * @return null|PluginFlyvemdmPolicyBase depending on the field type.
     */
    public function createFromPolicy(PluginFlyvemdmPolicy $policyData) {
       switch ($policyData->getField('type')) {
@@ -89,7 +90,7 @@ class PluginFlyvemdmPolicyFactory {
     * Create and returns a policy from DB
     *
     * @param integer $id
-    * @return PluginFlyvemdmPolicyInterface
+    * @return PluginFlyvemdmPolicyBase
     */
    public function createFromDBByID($id) {
       $policyData = new PluginFlyvemdmPolicy();
