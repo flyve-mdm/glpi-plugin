@@ -43,7 +43,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
    /**
     * Define plugins notification events
-    * @return Array Events ids => names
+    * @return array Events ids => names
     */
    public function getEvents() {
       return [
@@ -87,7 +87,6 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
    /**
     * @param NotificationTarget $event
-    * @param array $options
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
       global $CFG_GLPI;
@@ -155,7 +154,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * Values returned by this method are the ones for the alerts
     * Can be updated by implementing the getAdditionnalTargets() method
     * Can be overwitten (like dbconnection)
-    * @param $entity the entity on which the event is raised
+    * @param integer $entity the entity on which the event is raised
     */
    public function addNotificationTargets($entity) {
       $this->addTarget(Notification::USER, __('Guest user', 'flyvemdm'));
