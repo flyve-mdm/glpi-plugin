@@ -47,6 +47,7 @@ class PluginFlyvemdmMqttacl extends CommonDBTM {
    /**
     * Delete all MQTT ACLs for the MQTT user
     * @param PluginFlyvemdmMQTTUser $mqttUser
+    * @return bool
     */
    public function removeAllForUser(PluginFlyvemdmMQTTUser $mqttUser) {
       return $this->deleteByCriteria([
