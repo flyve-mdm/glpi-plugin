@@ -58,11 +58,13 @@ if (!isset($_REQUEST['endDate']) || empty(trim($_REQUEST['endDate']))) {
 }
 
 $geolocation = new PluginFlyvemdmGeolocation();
+$condition = "`computers_id`='$computerId' AND `date` BETWEEN '$beginDate' AND '$endDate'";
+$limit = '';
 if ($beginDate == '0000-00-00 00:00:00') {
-   $rows = $geolocation->find("`computers_id`='$computerId' AND `date` < '$endDate'", '`date`', '100');
-} else {
-   $rows = $geolocation->find("`computers_id`='$computerId' AND `date` BETWEEN '$beginDate' AND '$endDate'", '`date`');
+   $condition = "`computers_id`='$computerId' AND `date` < '$endDate'";
+   $limit = '100';
 }
+$rows = $geolocation->find($condition, '`date`', $limit);
 
 $markers = [];
 foreach ($rows as $row) {
