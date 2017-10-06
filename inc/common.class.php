@@ -40,7 +40,7 @@ class PluginFlyvemdmCommon
 
    /**
     * Convert int size to GiB
-    * @param numeric $size
+    * @param float $size
     * @return string format numeric
     */
    public static function convertToGiB($size) {
@@ -68,6 +68,12 @@ class PluginFlyvemdmCommon
       return $html;
    }
 
+   /**
+    * Return an array of values from enum fields
+    * @param string $table name
+    * @param string $field name
+    * @return array
+    */
    static function getEnumValues($table, $field) {
       global $DB;
 
