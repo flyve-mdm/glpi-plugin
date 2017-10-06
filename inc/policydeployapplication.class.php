@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * @param string $properties
+    * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
@@ -179,7 +179,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
 
    /**
     * Shows the HTML input tags to edit the value
-    * @return an HTML input
+    * @return string an HTML input
     */
    public function showValueInput() {
       $out = PluginFlyvemdmPackage::dropdown([
