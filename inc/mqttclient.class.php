@@ -33,7 +33,6 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-use sskaje\mqtt;
 
 /**
  * @since 0.1.0
@@ -116,7 +115,6 @@ class PluginFlyvemdmMqttclient {
       if (self::$mqtt === false) {
          exit(1);
       }
-      $log = new PluginFlyvemdmMqttlog();
       $topics = [$topic => $qos];
       self::$mqtt->subscribe($topics);
 
@@ -164,7 +162,7 @@ class PluginFlyvemdmMqttclient {
    /**
     * Breaks the infinite loop implemented in the MQTT client library using the ping response event
     */
-   public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
+   public function pingresp() {
       if ($this->disconnect) {
          self::$mqtt->disconnect();
       }
