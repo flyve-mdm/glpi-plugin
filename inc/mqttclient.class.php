@@ -79,7 +79,7 @@ class PluginFlyvemdmMqttclient {
 
    /**
     * Sets the MQTT handler
-    * @param string $mqttHandler
+    * @param sskaje\mqtt\MessageHandler $mqttHandler
     */
    public function setHandler($mqttHandler) {
       self::$mqtt->setHandler($mqttHandler);
@@ -98,7 +98,7 @@ class PluginFlyvemdmMqttclient {
 
    /**
     * Sets the maximun duration of the object
-    * @param numeric $duration
+    * @param integer $duration
     */
    public function setMaxDuration($duration) {
       $this->duration = $duration;
@@ -106,7 +106,8 @@ class PluginFlyvemdmMqttclient {
 
    /**
     * This method is used as a service running PHP-CLI only
-    * @param number $qos
+    * @param string $topic
+    * @param integer $qos
     */
    public function subscribe($topic = "#", $qos = 0) {
       $this->disconnect = false;
@@ -134,8 +135,10 @@ class PluginFlyvemdmMqttclient {
    }
 
    /**
-    * @param number $qos
-    * @param number $retain
+    * @param array|string $topic
+    * @param string $message
+    * @param integer $qos
+    * @param integer $retain
     * @return true if success, false otherwise
     */
    public function publish($topic, $message, $qos = 0, $retain = 0) {
@@ -160,8 +163,6 @@ class PluginFlyvemdmMqttclient {
 
    /**
     * Breaks the infinite loop implemented in the MQTT client library using the ping response event
-    * @param string $mqtt
-    * @param string $pingresp_object
     */
    public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       if ($this->disconnect) {
@@ -190,7 +191,9 @@ class PluginFlyvemdmMqttclient {
     * Send a test message to the MQTT broker
     * @param string $address
     * @param integer $port
-    * @return boolean test succeeded (true) or failed (false)
+    * @param boolean $isTls
+    * @param string $sslCipher
+    * @return bool test succeeded (true) or failed (false)
     */
    public function sendTestMessage($address, $port, $isTls, $sslCipher) {
       // Sanity check
@@ -224,8 +227,8 @@ class PluginFlyvemdmMqttclient {
    }
 
    /**
-    * get an instance of sskaje/mqtt/MQTT
-    * @return sskaje\mqtt\MQTT|false MQTT object
+    * get an instance of sskaje/mqtt/MQTT or false on error
+    * @return sskaje\mqtt\MQTT|false MQTT object or false on error
     */
    protected function getMQTTConnection() {
       $config = Config::getConfigurationValues('flyvemdm', [
@@ -265,8 +268,8 @@ class PluginFlyvemdmMqttclient {
    /**
     * Builds a MQTT
     * @param string $socketAddress
-    * @param TCP $port
-    * @param string $isTls
+    * @param integer $port
+    * @param boolean $isTls
     * @param string $sslCipher
     * @return mixed the MQTT
     */
