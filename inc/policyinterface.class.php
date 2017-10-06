@@ -43,16 +43,16 @@ interface PluginFlyvemdmPolicyInterface {
    /**
     * Check the policy may apply with respect of unicity constraint
     * @param PluginFlyvemdmFleet $fleet
-    * @param string $value
-    * @param string $itemtype the itemtype of an item
+    * @param mixed $value
+    * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     */
    public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * Check the unicity of the policy
-    * @param string $value
-    * @param string $itemtype
+    * @param mixed $value
+    * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
     */
@@ -60,16 +60,16 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Check the value used to apply a policy is valid, and check the the item to link
-    * @param string $value
-    * @param string $itemtype the itemtype of an item
+    * @param mixed $value
+    * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     */
    public function integrityCheck($value, $itemtype, $itemId);
 
    /**
     * Check there is not a conflict with an already applied policy
-    * @param string $value
-    * @param string $itemtype
+    * @param mixed $value
+    * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
     */
@@ -77,8 +77,8 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Returns an array describing the policy applied vith the given value and item
-    * @param string $value
-    * @param string $itemtype the itemtype of an item
+    * @param mixed $value
+    * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     * @return array
     */
@@ -98,14 +98,18 @@ interface PluginFlyvemdmPolicyInterface {
    /**
     * Actions done before a policy is applied to a fleet
     * @param PluginFlyvemdmFleet $fleet
-    * @param string $value
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
     */
    public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * Actions done after a policy is unapplied to a fleet
     * @param PluginFlyvemdmFleet $fleet
-    * @param string $value
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
@@ -117,6 +121,7 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * return policy value for display
+    * @param PluginFlyvemdmTask $task
     */
    public function showValue(PluginFlyvemdmTask $task);
 
