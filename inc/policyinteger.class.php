@@ -47,8 +47,7 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    protected $maxValue = null;
 
    /**
-    * @param string $properties JSON encoded properties
-    * @param string $symbol name of the policy used for MQTT messages
+    * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
