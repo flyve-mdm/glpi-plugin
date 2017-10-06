@@ -62,6 +62,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
    /**
     * Returns the name of the type
     * @param integer $count
+    * @return string
     */
    static function getTypeName($count = 0) {
       return _n('Queued MQTT message', 'Queued MQTT messages', $count);
@@ -85,9 +86,8 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
    /**
     * Update MQTT topics in the update queue
     *
-    * @param $task Object of CronTask class for log / stat
-    *
-    * @return integer
+    * @param $cronTask
+    * @return int >0 : done
     *    >0 : done
     *    <0 : to be run again (not finished)
     *     0 : nothing to do
