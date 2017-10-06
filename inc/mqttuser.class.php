@@ -138,10 +138,10 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    /**
     * Generate a random password havind a determined set pf chars
     * http://stackoverflow.com/a/31284266
-    * @param number $length      password length to generate
-    * @param string $keyspace    characters available to build the pasword
+    * @param integer $length password length to generate
+    * @param string $keyspace characters available to build the password
+    * @return string
     * @throws Exception
-    * @return string             the generated password
     */
    public static function getRandomPassword($length = 0, $keyspace= '') {
       if ($length == 0) {
@@ -185,6 +185,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    /**
     * Retrieve a mqtt user by name
     * @param string $user
+    * @return bool
     */
    public function getByUser($user) {
       global $DB;
