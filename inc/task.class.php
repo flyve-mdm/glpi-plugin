@@ -202,6 +202,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    public function prepareInputForUpdate($input) {
       $input = parent::prepareInputForUpdate($input);
+      $value = $input['value'];
       if (is_object($input['value'])) {
          // If value contains multiple JSON encoded data the API provides it as an stdClass.
          $value = get_object_vars($input['value']);
@@ -210,15 +211,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          // Newer versions of GLPi 9.1 send an array instead if an object
          $value = $input['value'];
          $input['value'] = json_encode($input['value'], JSON_UNESCAPED_SLASHES);
-      } else {
-         $value = $input['value'];
       }
 
       // Take into account the policy being applied if its ID changes
+      $policyId = $this->fields['plugin_flyvemdm_policies_id'];
       if (isset($input['plugin_flyvemdm_policies_id'])) {
          $policyId = $input['plugin_flyvemdm_policies_id'];
-      } else {
-         $policyId = $this->fields['plugin_flyvemdm_policies_id'];
       }
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $this->policy = $policyFactory->createFromDBByID($policyId);
@@ -228,22 +226,19 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Take into account change of item
+      $itemtype = $this->fields['itemtype'];
       if (isset($input['itemtype'])) {
          $itemtype = $input['itemtype'];
-      } else {
-         $itemtype = $this->fields['itemtype'];
       }
+      $itemId = $this->fields['items_id'];
       if (isset($input['items_id'])) {
          $itemId = $input['items_id'];
-      } else {
-         $itemId = $this->fields['items_id'];
       }
 
       //Check the fleet exists
+      $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          $fleetId = $input['plugin_flyvemdm_fleets_id'];
-      } else {
-         $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
       }
       $this->fleet = new PluginFlyvemdmFleet();
       if (!$this->fleet->getFromDB($fleetId)) {
@@ -324,7 +319,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    public function post_purgeItem() {
       $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
-      $this->deleteTaskStatuses($this->fleet);
+      $this->deleteTaskStatuses();
    }
 
    /**
@@ -371,7 +366,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * Deletes the task statuses
     * @param PluginFlyvemdmFleet $fleet
     */
-   private function deleteTaskStatuses(PluginFlyvemdmFleet $fleet) {
+   private function deleteTaskStatuses() {
       $taskStatus = new PluginFlyvemdmTaskstatus();
       $taskStatus->deleteByCriteria([
          'plugin_flyvemdm_tasks_id' => $this->getID(),
@@ -538,7 +533,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          );
          if ($policyMessage === false) {
             // There is an error while applying the policy, continue with next one for minimal impact
-            // TODO: log something
+            Toolbox::logInFile('plugin_flyvemdm_inventory',
+               "Policy value '" . $policyToApply['value'] . "' not applied\n");
             continue;
          }
          // Add a task ID to the message if esists
@@ -679,6 +675,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $rand    = mt_rand();
 
       // Show apply policy form
+      $policyDropdown = null;
       if ((empty($withtemplate) || ($withtemplate != 2))
           && $canedit) {
          $policyDropdown = PluginFlyvemdmPolicy::dropdown([
@@ -690,8 +687,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                      'url'             => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php"
                ]
          ]);
-      } else {
-         $policyDropdown = null;
       }
 
       // Get all policy names
@@ -761,7 +756,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * Processes
     * @param unknown $post
     */
-   public function preprocessInput($input) {
+   public function preprocessInput(array $input) {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy  = $policyFactory->createFromDBByID($input['plugin_flyvemdm_policies_id']);
       if ($policy) {
