@@ -112,7 +112,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $entityId = $input['entities_id'];
 
       // Find or create the user
-      $userIsNew = false;
       $user = new User();
       if (!$user->getFromDBbyName($input['_useremails'])) {
          // The user does not exists yet, create him
@@ -124,7 +123,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
             '_is_recursive'   => 0,
             'authtype'        => Auth::DB_GLPI
          ]);
-         $userIsNew = true;
          if ($user->isNewItem()) {
             Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO, true);
             return false;
@@ -163,10 +161,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Get the default expiration delay
       $entityConfig = new PluginFlyvemdmEntityconfig();
+      $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       if ($entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
          $tokenExpire = $entityConfig->getField('agent_token_life');
-      } else {
-         $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       }
 
       // Compute the expiration date of the invitation
@@ -295,10 +292,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    /**
     * get the enrollment URL of the agent
     * @param User $user Recipient of the QR code
-    * @param string $învitationToken Invitation token
+    * @param string $invitationToken Invitation token
     * @return string URL to enroll a mobile Device
     */
-   protected function createQRCodeDocument(User $user, $învitationToken) {
+   protected function createQRCodeDocument(User $user, $invitationToken) {
       global $CFG_GLPI;
 
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -308,7 +305,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $enrollmentData = [
          'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
          'user_token'         => $personalToken,
-         'invitation_token'   => $învitationToken,
+         'invitation_token'   => $invitationToken,
          'support_name'       => $entityConfig->getField('support_name'),
          'support_phone'      => $entityConfig->getField('support_phone'),
          'support_website'    => $entityConfig->getField('support_website'),
@@ -353,15 +350,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['_only_if_upload_succeed']   = true;
       $documentId = $document->add($input);
 
-      // Build relation between the invitation and the document
-      //$document_Item = new Document_Item();
-      //$document_Item->add([
-      //      'documents_id' => $documentId,
-      //      'itemtype'     => PluginFlyvemdmInvitation::class,
-      //      'items_id'     => $this->getID(),
-      //      'entities_id'  => $this->fields['entities_id'],
-      //      'is_recursive' => '0',
-      //]);
       return $documentId;
    }
 
