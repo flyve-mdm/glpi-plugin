@@ -48,6 +48,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    /**
     * Name of the type
     * @param $nb  integer  number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('MQTT subscriber', 'MQTT subscribers', $nb, "flyvemdm");
@@ -65,7 +66,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
 
    /**
     * Save in the DB an outgoing MQTT message
-    * @param array $topicList array of topics. String allowed for a single topic
+    * @param array|string $topicList array of topics. String allowed for a single topic
     * @param String $msg Message
     */
    public function saveOutgoingMqttMessage($topicList, $msg) {
@@ -74,9 +75,9 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
 
    /**
     * Save MQTT messages sent or received
-    * @param String $direction I for input O for output
-    * @param array $topicList array of topics. String allowed for a single topic
-    * @param String $msg Message
+    * @param string $direction I for input O for output
+    * @param array|string $topicList array of topics. String allowed for a single topic
+    * @param string $msg Message
     */
    protected function saveMqttMessage($direction, $topicList, $msg) {
       global $DB;
