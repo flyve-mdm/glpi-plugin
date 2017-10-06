@@ -350,6 +350,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    /**
     * create tasks statuses for this  task
+    * @param PluginFlyvemdmFleet $fleet
     */
    private function createTasksStatuses(PluginFlyvemdmFleet $fleet) {
       foreach ($fleet->getAgents() as $agent) {
@@ -364,7 +365,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    /**
     * Deletes the task statuses
-    * @param PluginFlyvemdmFleet $fleet
     */
    private function deleteTaskStatuses() {
       $taskStatus = new PluginFlyvemdmTaskstatus();
@@ -551,8 +551,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * generate pending tasks statuses for each agent in the fleet
     *
     * @param PluginFlyvemdmAgent $agent an agent
-    * @param array $plmoiciesToApply policies to apply to the agents via the fleet
-    *
+    * @param array $policiesToApply policies to apply to the agents via the fleet
     * @return void
     */
    public function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
@@ -584,6 +583,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
    }
 
+   /**
+    * @see CommonDBTM::getSearchOptionsNew()
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
@@ -652,6 +655,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       return $tab;
    }
 
+   /**
+    * @param CommonGLPI $item
+    * @param integer $tabnum
+    * @param integer $withtemplate
+    * @return bool|void
+    */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       switch (get_class($item)) {
          case PluginFlyvemdmFleet::class:
@@ -662,6 +671,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     *
     * @param CommonDBTM $item
+    * @param string $withtemplate
+    * @return bool
     */
    static function showForFleet(CommonDBTM $item, $withtemplate='') {
       global $DB, $CFG_GLPI;
@@ -754,7 +765,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    /**
     * Processes
-    * @param unknown $post
+    * @param array $input
+    * @return array
     */
    public function preprocessInput(array $input) {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
@@ -766,6 +778,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       return $input;
    }
 
+   /**
+    * TODO: check use, $task and $appliedPolicyData are undefined
+    * @param PluginFlyvemdmFleet $fleet
+    * @return array
+    */
    public function getAppliedPolicies(PluginFlyvemdmFleet $fleet) {
       $appliedPolicies = [];
       if (!$fleet->isNewItem()) {
