@@ -60,7 +60,8 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
 
    /**
     * Localized name of the type
-    * @param $nb integer number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb = 0) {
       return _n('Geolocation', 'Geolocations', $nb, "flyvemdm");
@@ -101,12 +102,11 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    * @param $item         CommonGLPI object
-    * @param $tabnum       (default 1)
-    * @param $withtemplate (default 0)
-    *
-    * @since version 9.1
-    **/
+    * @param CommonGLPI $item object
+    * @param integer $tabnum (default 1)
+    * @param integer $withtemplate (default 0)
+    * @return bool
+    */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
       switch (get_class($item)) {
          case PluginFlyvemdmAgent::class:
