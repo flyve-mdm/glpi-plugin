@@ -60,7 +60,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
@@ -277,7 +278,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    /**
-    * @return the invited user
+    * Returns the invited user
+    * @return User
     */
    public function getUser() {
       if ($this->isNewItem()) {
@@ -373,6 +375,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       );
    }
 
+   /**
+    * @see CommonDBTM::getSearchOptionsNew()
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
@@ -431,6 +437,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * Show form for edition
+    * @param integer $ID
+    * @param array $options
     */
    public function showForm($ID, $options = []) {
       $this->initForm($ID, $options);
@@ -473,6 +481,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    /**
     *
     * @param MassiveAction $ma
+    * @return bool
     */
    static function showMassiveActionsSubForm(MassiveAction $ma) {
       switch ($ma->getAction()) {
