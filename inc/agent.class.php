@@ -956,7 +956,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Checks if the data provided for enrollment satisfy our requirements
-    * @param Array $authFactors
+    * @param array $authFactors
     * @return integer enroll method
     */
    protected static function checkChallengeCombinations($authFactors) {
@@ -1584,7 +1584,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Determine the enrollment method depending on input data
     * @param array $input
-    * @return int
+    * @return integer
     */
    protected function chooseEnrollMethod($input) {
       if (isset($input['_email'])
