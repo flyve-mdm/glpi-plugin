@@ -44,12 +44,17 @@ class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
    static function getTypeName($nb=0) {
       return _n('Policy category', 'Policy categories', 2);
    }
 
+   /**
+    * @see CommonDBTM::getSearchOptionsNew()
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
