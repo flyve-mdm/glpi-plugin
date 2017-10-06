@@ -38,7 +38,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * @param string $properties
+    * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
