@@ -409,7 +409,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             }
 
             // Build MQTT message for the group
-            $groupToEncode = $this->buildMqttMessage($policiesToApply);
+            try {
+               $groupToEncode = $this->buildMqttMessage($policiesToApply);
+            } catch (Exception $exception) {
+               Toolbox::logInFile('plugin_flyvemdm_inventory',
+                  'Fleet (' . $fleet->getField('name') . '): ' . $exception->getMessage());
+               continue;
+            }
 
             // convert message into JSON and send it
             $encodedGroup = json_encode([$groupName => $groupToEncode], JSON_UNESCAPED_SLASHES);
@@ -533,8 +539,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          );
          if ($policyMessage === false) {
             // There is an error while applying the policy, continue with next one for minimal impact
-            Toolbox::logInFile('plugin_flyvemdm_inventory',
-               "Policy value '" . $policyToApply['value'] . "' not applied\n");
+            throw new Exception("Policy '" . $policy->getPolicyData()->getField('name') . "' with value '" . $policyToApply['value'] . "' was not applied\n");
             continue;
          }
          // Add a task ID to the message if esists
