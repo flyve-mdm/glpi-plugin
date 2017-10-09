@@ -517,10 +517,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $package = new static();
          $package->getFromDB($data['id']);
          if ($package->parseApplication()) {
-            $cronStatus++;
+            $crontask->addVolume(1);
          }
       }
 
+      $cronStatus = 1;
       return $cronStatus;
    }
 
@@ -559,8 +560,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       $input['id'] = $this->fields['id'];
       $input['parse_status'] = 'parsed';
-      $this->update($input);
-      return true;
+      return $this->update($input);
    }
 
    /**
