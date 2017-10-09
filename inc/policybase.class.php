@@ -182,4 +182,11 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    public function filterStatus($status) {
       return $status;
    }
+
+   /**
+    * @return PluginFlyvemdmPolicy
+    */
+   public function getPolicyData() {
+      return $this->policyData;
+   }
 }
