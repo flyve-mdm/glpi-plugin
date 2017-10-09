@@ -174,52 +174,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       // Find the added file
-      if (!isAPI()) {
-         // from GLPI UI
-         $postFile = $_POST['_file'][0];
-         if (!isset($postFile) || !is_string($postFile)) {
-            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-            return false;
-         }
-         $actualFilename = $postFile;
-         $uploadedFile = GLPI_TMP_DIR . '/' . $postFile;
-      } else {
-         // from API
-         if (!isset($_FILES['file'])) {
-            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-            return false;
-         }
-
-         if (!$_FILES['file']['error'] == 0) {
-            if (!$_FILES['file']['error'] == 4) {
-               Session::addMessageAfterRedirect(__('File upload failed', 'flyvemdm'));
-            }
-            return false;
-         }
-
-         $fileName = $_FILES['file']['name'];
-         $fileTmpName = $_FILES['file']['tmp_name'];
-         $destination = GLPI_TMP_DIR . '/' . $fileName;
-         if (is_readable($fileTmpName) && !is_readable($destination)) {
-            // With GLPI < 9.2, the file was not moved by the API
-
-            // Move the file to GLPI_TMP_DIR
-            if (!is_dir(GLPI_TMP_DIR)) {
-               Session::addMessageAfterRedirect(__('Temp directory doesn\'t exist', 'flyvemdm'), false, ERROR);
-               return false;
-            }
-
-            if (!move_uploaded_file($fileTmpName, $destination)) {
-               Session::addMessageAfterRedirect(__('Failed to save the file', 'flyvemdm'));
-               return false;
-            }
-         }
-
-         $actualFilename = $fileName;
-         $uploadedFile = $destination;
+      $preparedFile = $this->prepareFileUpload();
+      if (!$preparedFile) {
+         return false;
       }
 
-      if (!$this->isFileUploadValid($actualFilename)) {
+      if (!$this->isFileUploadValid($preparedFile['filename'])) {
          return false;
       }
 
@@ -227,6 +187,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $input['entities_id'] = $_SESSION['glpiactive_entity'];
       }
       try {
+         $uploadedFile = $preparedFile['uploadedFile'];
          $input['filename'] = $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
          $destination = FLYVEMDM_PACKAGE_PATH . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
@@ -253,70 +214,33 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function prepareInputForUpdate($input) {
       // Find the added file
-      if (!isAPI()) {
-         // from GLPI UI
-         $postFile = $_POST['_file'][0];
-         if (!isset($postFile) || !is_string($postFile)) {
-            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-            return false;
-         }
-         $actualFilename = $postFile;
-         $uploadedFile = GLPI_TMP_DIR."/". $postFile;
-      } else {
-         // from API
-         $fileError = $_FILES['file']['error'];
-         if (isset($fileError)) {
-            if (!$fileError == 0) {
-               if (!$fileError == 4) {
-                  Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
-               }
+      $preparedFile = $this->prepareFileUpload();
+
+      if ($preparedFile && is_array($preparedFile)) {
+         try {
+            if (!$this->isFileUploadValid($preparedFile['filename'])) {
                return false;
             }
-
-            $fileName = $_FILES['file']['name'];
-            $fileTpmName = $_FILES['file']['tmp_name'];
-            $destination = GLPI_TMP_DIR . '/' . $fileName;
-            if (is_readable($fileTpmName) && !is_readable($destination)) {
-               // Move the file to GLPI_TMP_DIR
-               if (!is_dir(GLPI_TMP_DIR)) {
-                  Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
-                  return false;
+            $uploadedFile = $preparedFile['uploadedFile'];
+            $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
+            $this->createEntityDirectory(dirname($destination));
+            if (rename($uploadedFile, $destination)) {
+               $filename = pathinfo($destination, PATHINFO_FILENAME);
+               $input['filesize'] = fileSize($destination);
+               $input['dl_filename'] = $filename;
+               if ($filename != $this->fields['filename']) {
+                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
                }
-
-               // With GLPI < 9.2, the file was not moved by the API
-               if (!move_uploaded_file($fileTpmName, $destination)) {
-                  return false;
-               }
+            } else {
+               $this->logErrorIfDirNotWritable($destination);
+               Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+               $input = false;
             }
-
-            $actualFilename = $fileName;
-            $uploadedFile = $destination;
-         }
-      }
-
-      if (!$this->isFileUploadValid($actualFilename)) {
-         return false;
-      }
-
-      try {
-         $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-         $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
-         $this->createEntityDirectory(dirname($destination));
-         if (rename($uploadedFile, $destination)) {
-            $filename = pathinfo($destination, PATHINFO_FILENAME);
-            $input['filesize'] = fileSize($destination);
-            $input['dl_filename'] = $filename;
-            if ($filename != $this->fields['filename']) {
-               unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
-            }
-         } else {
-            $this->logErrorIfDirNotWritable($destination);
-            Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+         } catch (Exception $e) {
+            // Ignore exceptions for now
             $input = false;
          }
-      } catch (Exception $e) {
-         // Ignore exceptions for now
-         $input = false;
       }
       return $input;
    }
@@ -676,5 +600,59 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return true;
+   }
+
+   /**
+    * Find the added file
+    * @return array|bool
+    */
+   private function prepareFileUpload() {
+      if (!isAPI()) {
+         // from GLPI UI
+         $postFile = $_POST['_file'][0];
+         if (!isset($postFile) || !is_string($postFile)) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
+         }
+         $actualFilename = $postFile;
+         $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
+      } else {
+         // from API
+         if (!isset($_FILES['file'])) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
+         }
+
+         $fileError = $_FILES['file']['error'];
+         if (!$fileError == 0) {
+            if (!$fileError == 4) {
+               Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+            }
+            return false;
+         }
+
+         $fileName = $_FILES['file']['name'];
+         $fileTmpName = $_FILES['file']['tmp_name'];
+         $destination = GLPI_TMP_DIR . '/' . $fileName;
+         if (is_readable($fileTmpName) && !is_readable($destination)) {
+            // Move the file to GLPI_TMP_DIR
+            if (!is_dir(GLPI_TMP_DIR)) {
+               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false,
+                  ERROR);
+               return false;
+            }
+
+            // With GLPI < 9.2, the file was not moved by the API
+            if (!move_uploaded_file($fileTmpName, $destination)) {
+               Session::addMessageAfterRedirect(__('Failed to save the file', 'flyvemdm'));
+               return false;
+            }
+         }
+
+         $actualFilename = $fileName;
+         $uploadedFile = $destination;
+      }
+
+      return ['uploadedFile' => $uploadedFile, 'filename' => $actualFilename];
    }
 }
