@@ -121,6 +121,9 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
 
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};

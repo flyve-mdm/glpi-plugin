@@ -108,6 +108,9 @@ class PluginFlyvemdmPackage  extends CommonTestCase {
       $this->boolean($task->isNewItem())->isTrue();
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};
@@ -120,6 +123,12 @@ class PluginFlyvemdmPackage  extends CommonTestCase {
       return $fleet;
    }
 
+   /**
+    * @param \PluginFlyvemdmPolicy $policyData
+    * @param \PluginFlyvemdmPackage $package
+    * @param \PluginFlyvemdmFleet $fleet
+    * @return \PluginFlyvemdmTask
+    */
    private function applyAddPackagePolicy(\PluginFlyvemdmPolicy $policyData, \PluginFlyvemdmPackage $package, \PluginFlyvemdmFleet $fleet) {
       $value = new stdClass();
       $value->remove_on_delete = '1';

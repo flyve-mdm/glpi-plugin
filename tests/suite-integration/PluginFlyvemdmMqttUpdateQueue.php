@@ -71,6 +71,9 @@ class PluginFlyvemdmMqttUpdateQueue extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo(1);
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};
