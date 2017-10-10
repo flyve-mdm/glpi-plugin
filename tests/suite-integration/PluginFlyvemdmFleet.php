@@ -35,6 +35,9 @@ use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmFleet extends CommonTestCase {
 
+   /**
+    * @var string
+    */
    private $minAndroidVersion = '2.0.0';
 
    public function beforeTestMethod($method) {
@@ -128,7 +131,8 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    /**
     * Create a new invitation
     *
-    * @param array $input invitation data
+    * @param $guestEmail
+    * @return \PluginFlyvemdmInvitation
     */
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();
@@ -147,7 +151,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * the agent returned will not contain an ID. To ensore the enrollment succeeded
     * use isNewItem() method on the returned object.
     *
-    * @param User $user
+    * @param \User $user
     * @param array $input enrollment data for agent creation
     *
     * @return \PluginFlyvemdmAgent The agent instance

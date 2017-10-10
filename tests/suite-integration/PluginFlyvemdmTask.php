@@ -141,6 +141,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
     * Create a new invitation
     *
     * @param array $input invitation data
+    * @return \PluginFlyvemdmInvitation
     */
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();
@@ -159,9 +160,8 @@ class PluginFlyvemdmTask extends CommonTestCase {
     * the agent returned will not contain an ID. To ensore the enrollment succeeded
     * use isNewItem() method on the returned object.
     *
-    * @param User $user
+    * @param \User $user
     * @param array $input enrollment data for agent creation
-    *
     * @return \PluginFlyvemdmAgent The agent instance
     */
    private function enrollFromInvitation(\User $user, array $input) {
@@ -181,6 +181,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
       return $agent;
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};

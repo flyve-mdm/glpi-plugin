@@ -50,6 +50,7 @@ class PluginFlyvemdmMqttuser  extends CommonTestCase {
 
    /**
     * @dataProvider mqttuserProvider
+    * @param array $input
     */
    public function testAddAndDeleteMqttuser($input) {
       // Create user

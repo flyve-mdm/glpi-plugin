@@ -34,6 +34,9 @@ use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
 
+   /**
+    * @var string
+    */
    private $minAndroidVersion = '2.0.0';
 
    public function beforeTestMethod($method) {
@@ -416,8 +419,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test enrollment with a UUID instead of a serial
-    *
-    *
     */
    public function testEnrollWithUuid() {
       // Create invitation
@@ -447,8 +448,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test agent unenrollment
-    *
-    *
     */
    public function testUnenrollAgent() {
       // Create invitation
@@ -497,8 +496,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test deletion of an agent
-    *
-    *
     */
    public function testDelete() {
       // Create an invitation
@@ -542,8 +539,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test online status change on MQTT message
-    *
-    *
     */
    public function testDeviceOnlineChange() {
       // Create an invitation
@@ -575,8 +570,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test online status change on MQTT message
-    *
-    *
     */
    public function testChangeFleet() {
       // Create an invitation
@@ -630,8 +623,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test the purge of an agent
-    *
-    *
     */
    public function testPurgeEnroledAgent() {
       // Create an invitation
@@ -737,8 +728,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test ping message
-    *
-    *
     */
    public function testPingRequest() {
       // Create an invitation
@@ -789,8 +778,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test geolocate message
-    *
-    *
     */
    public function testGeolocateRequest() {
       // Create an invitation
@@ -840,8 +827,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test inventory message
-    *
-    *
     */
    public function testInventoryRequest() {
       // Create an invitation
@@ -893,8 +878,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test lock / unlock
-    *
-    *
     */
    public function testLockAndWipe() {
       global $DB;
@@ -945,9 +928,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test geolocate message
-    *
-    *
-   */
+    */
    public function testMoveBetweenFleets() {
       // Create an invitation
       $guestEmail = $this->getUniqueEmail();
@@ -998,6 +979,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};
@@ -1010,8 +994,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       return $fleet;
    }
 
-   /*
+   /**
     * Lock or unlock device and check the expected status
+    * @param \PluginFlyvemdmAgent $agent
+    * @param bool $lock
+    * @param bool $expected
     */
    private function lockDevice(\PluginFlyvemdmAgent $agent, $lock = true, $expected = true) {
       $tester = $this;
@@ -1039,6 +1026,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer((int) $agent->getField('lock'))->isEqualTo($expected ? 1 : 0);
    }
 
+   /**
+    * @param \PluginFlyvemdmAgent $agent
+    * @param bool $wipe
+    * @param bool $expected
+    */
    private function wipeDevice(\PluginFlyvemdmAgent $agent, $wipe = true, $expected = true) {
       $tester = $this;
       $mockedAgent = $this->newMockInstance($this->testedClass());
@@ -1068,7 +1060,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Create a new invitation
     *
-    * @param array $input invitation data
+    * @param string $guestEmail
+    * @return \PluginFlyvemdmInvitation
     */
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();
@@ -1087,10 +1080,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * the agent returned will not contain an ID. To ensore the enrollment succeeded
     * use isNewItem() method on the returned object.
     *
-    * @param User $user
+    * @param \User $user
     * @param array $input enrollment data for agent creation
-    *
-    * @return \PluginFlyvemdmAgent The agent instance
+    * @return object
     */
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
@@ -1109,6 +1101,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       return $agent;
    }
 
+   /**
+    * @param $agent
+    * @param $mqttStatus
+    * @param $expectedStatus
+    */
    private function deviceOnlineStatus($agent, $mqttStatus, $expectedStatus) {
       $topic = $agent->getTopic() . '/Status/Online';
 

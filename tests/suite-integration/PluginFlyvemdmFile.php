@@ -117,6 +117,9 @@ class PluginFlyvemdmFile extends CommonTestCase {
       return $policyData;
    }
 
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function() {};
@@ -129,6 +132,13 @@ class PluginFlyvemdmFile extends CommonTestCase {
       return $fleet;
    }
 
+   /**
+    * @param \PluginFlyvemdmPolicy $policyData
+    * @param \PluginFlyvemdmFile $file
+    * @param \PluginFlyvemdmFleet $fleet
+    * @param $filedestination
+    * @return \PluginFlyvemdmTask
+    */
    private function ApplyAddFilePolicy(\PluginFlyvemdmPolicy $policyData, \PluginFlyvemdmFile $file, \PluginFlyvemdmFleet $fleet, $filedestination) {
       $value = new \stdClass();
       $value->remove_on_delete = '1';
