@@ -149,7 +149,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'type'               => 'android',
          ]
       );
-      $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
+      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -171,7 +171,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'version'            => $this->minAndroidVersion,
          ]
       );
-      $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
+      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -194,7 +194,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'type'               => 'alien MDM',
          ]
       );
-      $this->boolean($agent->isNewItem(), json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT))->isTrue();
+      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
