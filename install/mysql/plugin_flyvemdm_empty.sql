@@ -19,7 +19,10 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `is_online`                 tinyint(1)                                        NOT NULL DEFAULT '0',
   `certificate`               text                                              NOT NULL,
   `mdm_type`                  enum('android','apple')                           NOT NULL DEFAULT 'android',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `computers_id` (`computers_id`),
+  KEY `users_id` (`users_id`),
+  KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -38,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_entityconfigs` (
   `managed`                   int(1)                                            NOT NULL DEFAULT '0',
   `download_url`              varchar(255)                                      NOT NULL DEFAULT '',
   `device_limit`              int(11)                                           NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -50,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_files` (
   `source`                    varchar(255) NOT NULL DEFAULT '',
   `entities_id`               int(11) NOT  NULL DEFAULT '0',
   `version`                   int(11) NOT  NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -62,7 +67,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_fleets` (
   `entities_id` int(11) NOT NULL DEFAULT '0',
   `is_recursive` int(1) NOT NULL DEFAULT '0',
   `is_default` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -74,7 +80,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_geolocations` (
   `latitude` varchar(255) NOT NULL DEFAULT '',
   `longitude` varchar(255) NOT NULL DEFAULT '',
   `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `computers_id` (`computers_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -86,7 +93,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttacls` (
   `topic` varchar(255) NOT NULL DEFAULT '',
   `access_level` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unicity` (`plugin_flyvemdm_mqttusers_id`,`topic`)
+  UNIQUE KEY `unicity` (`plugin_flyvemdm_mqttusers_id`,`topic`),
+  KEY `plugin_flyvemdm_mqttusers_id` (`plugin_flyvemdm_mqttusers_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -130,7 +138,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `entities_id`    int(11)                                        NOT NULL DEFAULT '0',
   `dl_filename`    varchar(255)                                   NOT NULL DEFAULT '',
   `parse_status`   enum('pending', 'parsed', 'failed')            NOT NULL DEFAULT 'pending',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -162,7 +171,8 @@ CREATE TABLE `glpi_plugin_flyvemdm_policycategories` (
   `sons_cache`                                 longtext       DEFAULT NULL,
   `ancestors_cache`                            longtext       DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `unicity` (`plugin_flyvemdm_policycategories_id`, `name`)
+  UNIQUE INDEX `unicity` (`plugin_flyvemdm_policycategories_id`, `name`),
+  KEY `plugin_flyvemdm_policycategories_id` (`plugin_flyvemdm_policycategories_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (1, 'Security', '0', 'Security', '', 1, NULL, NULL);
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (2, 'Authentication', '1', 'Security > Authentication', '', '2', NULL, NULL);
@@ -188,7 +198,9 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
   `recommended_value`                          varchar(255)   NOT NULL DEFAULT '',
   `is_android_policy`                          tinyint(1)     NOT NULL DEFAULT '0',
   `is_apple_policy`                            tinyint(1)     NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `group` (`group`),
+  KEY `plugin_flyvemdm_policycategories_id` (`plugin_flyvemdm_policycategories_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -201,7 +213,9 @@ CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
   `value`                                      varchar(255) NOT NULL DEFAULT '',
   `itemtype`                                   varchar(255) DEFAULT NULL,
   `items_id`                                   int(11)      NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `plugin_flyvemdm_fleets_id` (`plugin_flyvemdm_fleets_id`),
+  KEY `plugin_flyvemdm_policies_id` (`plugin_flyvemdm_policies_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -215,7 +229,10 @@ CREATE TABLE `glpi_plugin_flyvemdm_invitations` (
   `documents_id`                     int(11)                   NOT NULL DEFAULT '0',
   `status`                           enum('pending','done')    NOT NULL DEFAULT 'pending',
   `expiration_date`                  datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `users_id` (`users_id`),
+  KEY `entities_id` (`entities_id`),
+  KEY `documents_id` (`documents_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -240,6 +257,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_invitationlogs` (
   `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
   `event`                            varchar(255)              NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
+  INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`),
   INDEX `status` (`date_creation`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -254,6 +272,8 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
   `plugin_flyvemdm_tasks_id`  int(11) NOT NULL DEFAULT '0',
   `status`                              varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),
+  INDEX `plugin_flyvemdm_tasks_id` (`plugin_flyvemdm_tasks_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
