@@ -43,7 +43,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
    /**
     *
     */
-   public function testApplyPolicy(\PluginFlyvemdmPolicy $deployPolicyData, \PluginFlyvemdmFile $file, \PluginFlyvemdmFleet $fleet) {
+   public function testApplyPolicy() {
       $file = $this->createFile();
       $fileDestination = '%SDCARD%/path/to/';
 
