@@ -543,7 +543,7 @@ Regards,
     * @return boolean true (assume success, needs enhancement)
     */
    public function uninstall() {
-      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
+      Toolbox::deleteDir(GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
@@ -557,27 +557,6 @@ Regards,
       $config->deleteByCriteria(['context' => 'flyvemdm']);
 
       return true;
-   }
-
-   /**
-    * Cannot use the method from PluginFlyvemdmToolbox if the plugin is being uninstalled
-    * @param string $dir
-    */
-   protected function rrmdir($dir) {
-      if (file_exists($dir) && is_dir($dir)) {
-         $objects = scandir($dir);
-         foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-               if (filetype($dir . "/" . $object) == "dir") {
-                  $this->rrmdir($dir . "/" . $object);
-               } else {
-                  unlink($dir . "/" . $object);
-               }
-            }
-         }
-         reset($objects);
-         rmdir($dir);
-      }
    }
 
    /**
