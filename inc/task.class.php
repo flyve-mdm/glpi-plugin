@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -411,8 +413,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             // Build MQTT message for the group
             try {
                $groupToEncode = $this->buildMqttMessage($policiesToApply);
-            } catch (Exception $exception) {
-               Toolbox::logInFile('plugin_flyvemdm_inventory',
+            } catch (PolicyApplicationException $exception) {
+               Toolbox::logInFile('plugin_flyvemdm_communication',
                   'Fleet (' . $fleet->getField('name') . '): ' . $exception->getMessage());
                continue;
             }
@@ -539,7 +541,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          );
          if ($policyMessage === false) {
             // There is an error while applying the policy, continue with next one for minimal impact
-            throw new Exception("Policy '" . $policy->getPolicyData()->getField('name') . "' with value '" . $policyToApply['value'] . "' was not applied\n");
+            throw new PolicyApplicationException("Policy '" . $policy->getPolicyData()->getField('name') . "' with value '" . $policyToApply['value'] . "' was not applied\n");
             continue;
          }
          // Add a task ID to the message if esists
