@@ -257,8 +257,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_invitationlogs` (
   `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
   `event`                            varchar(255)              NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`),
-  INDEX `status` (`date_creation`)
+  INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
