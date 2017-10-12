@@ -8,8 +8,9 @@ function update_to_2_0_0(Migration $migration) {
    ini_set("max_execution_time", "0");
    ini_set("memory_limit", "-1");
 
-   // Create invitations table
-   $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_invitationlogs` (
+   // Create invitation log table
+   $table = 'glpi_plugin_flyvemdm_invitationlogs';
+   $query = "CREATE TABLE IF NOT EXISTS `$table` (
               `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
               `plugin_flyvemdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
               `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -20,6 +21,7 @@ function update_to_2_0_0(Migration $migration) {
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
    $DB->query($query) or die("Could not create invitation logs table " . $DB->error());
+   $migration->addKey($table, 'plugin_flyvemdm_invitations_id', 'invitations_id');
 
    $profileRight = new ProfileRight();
 
@@ -33,25 +35,24 @@ function update_to_2_0_0(Migration $migration) {
    ]);
    $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
 
-   $table = PluginFlyvemdmAgent::getTable();
+   $table = 'glpi_plugin_flyvemdm_agents';
    if (!$DB->fieldExists($table, 'enroll_status')) {
       $query = "ALTER TABLE `$table`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
       $DB->query($query) or die("Could upgrade table $table" . $DB->error());
    }
+   $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
 
-   $table = PluginFlyvemdmPolicy::getTable();
+   $table = 'glpi_plugin_flyvemdm_policies';
    $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
    $migration->addKey($table, 'group', 'group');
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
 
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
-
-   $migration->addField(PluginFlyvemdmAgent::getTable(), 'version', 'string', ['after' => 'name']);
 
    Config::setConfigurationValues('flyvemdm', [
       'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
@@ -67,34 +68,39 @@ function update_to_2_0_0(Migration $migration) {
       Config::setConfigurationValues('flyvemdm', $config);
    }
 
-   $migration->addKey(PluginFlyvemdmEntityconfig::getTable(), 'entities_id', 'entities_id');
-   $migration->addKey(PluginFlyvemdmFile::getTable(), 'entities_id', 'entities_id');
+   $table = 'glpi_plugin_flyvemdm_entityconfigs';
+   $migration->addKey($table, 'entities_id', 'entities_id');
 
-   $table = PluginFlyvemdmFleet::getTable();
+   $table = 'glpi_plugin_flyvemdm_files';
+   $migration->addKey($table, 'entities_id', 'entities_id');
+
+   $table = 'glpi_plugin_flyvemdm_fleets';
    $migration->addField($table, 'is_recursive', 'bool');
    $migration->addKey($table, 'entities_id', 'entities_id');
 
-   $migration->addKey(PluginFlyvemdmGeolocation::getTable(), 'computers_id', 'computers_id');
-   $migration->addKey(PluginFlyvemdmMqttacl::getTable(), 'plugin_flyvemdm_mqttusers_id',
+   $table = 'glpi_plugin_flyvemdm_geolocations';
+   $migration->addKey($table, 'computers_id', 'computers_id');
+
+   $table = 'glpi_plugin_flyvemdm_mqttacls';
+   $migration->addKey($table, 'plugin_flyvemdm_mqttusers_id',
       'plugin_flyvemdm_mqttusers_id');
 
-   $migration->addKey(PluginFlyvemdmPackage::getTable(), 'entities_id', 'entities_id');
-   $migration->addKey(PluginFlyvemdmPolicyCategory::getTable(),
-      'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
+   $table = 'glpi_plugin_flyvemdm_packages';
+   $migration->addKey($table, 'entities_id', 'entities_id');
 
-   $table = PluginFlyvemdmTask::getTable();
+   $table = 'glpi_plugin_flyvemdm_policycategories';
+   $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
+
+   $table = 'glpi_plugin_flyvemdm_tasks';
    $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
    $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
 
-   $table = PluginFlyvemdmInvitation::getTable();
+   $table = 'glpi_plugin_flyvemdm_invitations';
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addKey($table, 'documents_id', 'documents_id');
 
-   $migration->addKey(PluginFlyvemdmInvitationlog::getTable(), 'plugin_flyvemdm_invitations_id',
-      'invitations_id');
-
-   $table = PluginFlyvemdmTaskstatus::getTable();
+   $table = 'glpi_plugin_flyvemdm_taskstatuses';
    $migration->addKey($table, 'agents_id', 'agents_id');
    $migration->addKey($table, 'tasks_id', 'tasks_id');
 }
