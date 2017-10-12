@@ -137,4 +137,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_taskstatuses';
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
+
+   $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
+   $migration->dropKey($table, 'status');
 }
