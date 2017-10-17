@@ -276,7 +276,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             $filename = substr($filename, strlen(GLPI_DOC_DIR));
          }
 
-         $orionTask = new PluginOrionTask();
+         $orionTask = new PluginOrionReport();
          $orionTask->add([
             'filename' => $filename,
          ]);

@@ -61,7 +61,10 @@ function plugin_flyvemdm_uninstall() {
  * Also force inclusion of this file
  */
 function plugin_flyvemdm_postinit() {
-
+   $plugin = new Plugin();
+   if ($plugin->isActivated('orion')) {
+      PluginOrionItem_Report::registerItemtype(PluginFlyvemdmPackage::class);
+   }
 }
 
 /**
