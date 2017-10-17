@@ -89,10 +89,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param int $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
     * @return string
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       switch ($item->getType()) {
          case 'Software' :
-            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(), "flyvemdm");
+            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(), 'flyvemdm');
 
       }
       return '';
@@ -105,7 +105,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param int $withtemplate
     * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if ($item->getType() == 'Software') {
          self::showForSoftware($item);
          return true;
@@ -117,18 +117,18 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options=[]) {
+   public function showForm($ID, $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
+      $objectName          = autoName($this->fields['name'], 'name',
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
             $this->getType(), -1);
       $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
       $data = [
-            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
             'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
             'isNewID'      => $this->isNewID($ID),
             'package'      => $fields,

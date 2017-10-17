@@ -71,7 +71,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string
     */
    public static function getTypeName($nb = 0) {
-      return _n('Fleet', 'Fleets', $nb, "flyvemdm");
+      return _n('Fleet', 'Fleets', $nb, 'flyvemdm');
    }
 
    /**

@@ -103,8 +103,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
-      return _n('Agent', 'Agents', $nb, "flyvemdm");
+   public static function getTypeName($nb = 0) {
+      return _n('Agent', 'Agents', $nb, 'flyvemdm');
    }
 
    /**
@@ -391,9 +391,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
-   /**
-    * @see CommonDBTM::prepareInputForAdd()
-    */
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -434,9 +431,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
-   /**
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
