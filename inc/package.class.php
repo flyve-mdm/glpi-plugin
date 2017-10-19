@@ -76,8 +76,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function defineTabs($options = []) {
       $tab = [];
       $this->addDefaultFormTab($tab);
-      $this->addStandardTab('Notepad', $tab, $options);
-      $this->addStandardTab('Log', $tab, $options);
+      $plugin = new Plugin();
+      if ($plugin->isActivated('orion')) {
+         $this->addStandardTab(PluginOrionReport::class, $tab, $options);
+      }
+      $this->addStandardTab(Notepad::class, $tab, $options);
+      $this->addStandardTab(Log::class, $tab, $options);
 
       return $tab;
    }
@@ -117,7 +121,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options = []) {
+   public function showForm($ID, $options=[]) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
@@ -188,8 +192,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
       try {
          $uploadedFile = $preparedFile['uploadedFile'];
-         $input['filename'] = $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
-         $destination = FLYVEMDM_PACKAGE_PATH . '/' . $input['filename'];
+         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $destination = GLPI_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
             $input['filesize'] = fileSize($destination);
@@ -222,15 +226,15 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                return false;
             }
             $uploadedFile = $preparedFile['uploadedFile'];
-            $input['filename'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-            $destination = FLYVEMDM_PACKAGE_PATH . "/" . $input['filename'];
+            $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+            $destination = GLPI_DOC_DIR . '/' . $input['filename'];
             $this->createEntityDirectory(dirname($destination));
             if (rename($uploadedFile, $destination)) {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                $input['filesize'] = fileSize($destination);
-               $input['dl_filename'] = $filename;
+               $input['dl_filename'] = basename($destination);
                if ($filename != $this->fields['filename']) {
-                  unlink(FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
+                  unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
                }
             } else {
                $this->logErrorIfDirNotWritable($destination);
@@ -260,25 +264,19 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    public function post_addItem() {
-      $this->createOrionTask();
+      $this->createOrionReport();
    }
 
    /**
     * Create a file analysis task with the Orion plugin
     */
-   private function createOrionTask() {
+   private function createOrionReport() {
       $plugin = new Plugin();
       if ($plugin->isActivated('orion')) {
-         $filename = FLYVEMDM_PACKAGE_PATH . "/" . $this->getField('filename');
-
-         // Crop the GLPI_DOC_DIR prefix
-         if (substr($filename, 0, strlen(GLPI_DOC_DIR)) == GLPI_DOC_DIR) {
-            $filename = substr($filename, strlen(GLPI_DOC_DIR));
-         }
-
-         $orionTask = new PluginOrionReport();
-         $orionTask->add([
-            'filename' => $filename,
+         $orionReport = new PluginOrionReport();
+         $orionReport->add([
+            'itemtype' => $this->getType(),
+            'items_id' => $this->getID(),
          ]);
       }
    }
@@ -307,6 +305,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             }
          }
       }
+
+      $this->createOrionReport();
    }
 
    /**
@@ -425,7 +425,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * Sends a file
     */
    protected function sendFile() {
-      $streamSource = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
+      $streamSource = GLPI_DOC_DIR . "/" . $this->fields['filename'];
 
       if (!file_exists($streamSource) || !is_file($streamSource)) {
          header("HTTP/1.0 404 Not Found");
@@ -665,12 +665,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                   ERROR);
                return false;
             }
-
-            // With GLPI < 9.2, the file was not moved by the API
-            if (!move_uploaded_file($fileTmpName, $destination)) {
-               Session::addMessageAfterRedirect(__('Failed to save the file', 'flyvemdm'));
-               return false;
-            }
          }
 
          $actualFilename = $fileName;
@@ -678,5 +672,17 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return ['uploadedFile' => $uploadedFile, 'filename' => $actualFilename];
+   }
+
+   /**
+    * Gets the filename of a package
+    * @return string|NULL the path to tie file relative to the DOC ROOT àf GLPI
+    */
+   public function getFilename() {
+      if (!$this->isNewItem()) {
+         return $this->fields['filename'];
+      }
+
+      return null;
    }
 }

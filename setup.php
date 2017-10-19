@@ -149,7 +149,7 @@ function plugin_flyvemdm_addHooks() {
    ];
    $PLUGIN_HOOKS['item_purge']['flyvemdm']   = [
       Entity::class                    => 'plugin_flyvemdm_hook_entity_purge',
-      Computer::class                  => 'plugin_flyvemdm_computer_purge',
+      Computer::class                  => 'plugin_flyvemdm_hook_computer_purge',
    ];
    $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = [
       PluginFlyvemdmInvitation::class => [PluginFlyvemdmInvitation::class, 'hook_pre_self_purge'],

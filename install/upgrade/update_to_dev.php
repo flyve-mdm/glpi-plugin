@@ -39,7 +39,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
    // update Entity config table
-   $table = PluginFlyvemdmEntityconfig::getTable();
+   $table = 'glpi_plugin_flyvemdm_entityconfigs';
    $migration->addField($table, 'support_name', 'text', ['after' => 'agent_token_life']);
    $migration->addField($table, 'support_phone', 'string', ['after' => 'support_name']);
    $migration->addField($table, 'support_website', 'string', ['after' => 'support_phone']);
@@ -121,6 +121,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       ['after' => 'dl_filename', 'default' => 'pending']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
+   $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('" . addslashes(GLPI_DOC_DIR) . "', `filename`)");
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
 
    $table = 'glpi_plugin_flyvemdm_files';

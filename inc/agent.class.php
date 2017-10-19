@@ -293,24 +293,29 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string an html with the agents
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
-      $items_id = $item->getField('id');
-
       if (isset($_GET["start"])) {
          $start = intval($_GET["start"]);
       } else {
          $start = 0;
       }
 
+      $dbUtils = new DbUtils();
+
       // Total Number of agents
-      $number = countElementsInTableForMyEntities(static::getTable(), ['plugin_flyvemdm_fleets_id' => $items_id ]);
+      $items_id = $item->getField('id');
+      $itemFk = $item::getForeignKeyField();
+      $number = $dbUtils->countElementsInTableForMyEntities(
+         static::getTable(),
+         [$itemFk => $items_id]
+      );
 
       // get the pager
       $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
       $pager = ''; // disabled because the results are not paged yet
 
       // get items
-      $condition = "`plugin_flyvemdm_fleets_id` = '$items_id' " . getEntitiesRestrictRequest();
       $agent = new static();
+      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
       $rows = $agent->find($condition, '', '');
 
       $data = [

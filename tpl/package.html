@@ -1,7 +1,10 @@
 {% if not isNewID %}
 <tr class='tab_bg_1'>
    <td colspan="4">
-       <img width="64px" height="64px" src="data:image/png;base64,{{ package.icon }}" />
+      {% if not package.icon %}
+      {% else %}
+         <img width="64px" height="64px" src="data:image/png;base64,{{ package.icon }}" />
+      {% endif %}
    </td>
 </tr>
 {% endif %}
