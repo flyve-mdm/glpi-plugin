@@ -63,7 +63,11 @@ function plugin_flyvemdm_uninstall() {
 function plugin_flyvemdm_postinit() {
    $plugin = new Plugin();
    if ($plugin->isActivated('orion')) {
-      PluginOrionItem_Report::registerItemtype(PluginFlyvemdmPackage::class);
+      try {
+         PluginOrionReport::registerItemtype(PluginFlyvemdmPackage::class);
+      } catch (Exception $e) {
+         Toolbox::logInFile('php-errors', $e->getMessage());
+      }
    }
 }
 
@@ -190,7 +194,7 @@ function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
  *
  * @param CommonDBTM $item
  */
-function plugin_flyvemdm_computer_purge(CommonDBTM $item) {
+function plugin_flyvemdm_hook_computer_purge(CommonDBTM $item) {
    $geolocation = new PluginFlyvemdmGeolocation();
    $geolocation->hook_computer_purge($item);
    $agent = new PluginFlyvemdmAgent();

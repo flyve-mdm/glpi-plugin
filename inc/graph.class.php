@@ -43,12 +43,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
    public function showInvitationsGraph() {
       $out = '';
 
-      $pendingCount = countElementsInTableForMyEntities(
+      $dbUtils = new DbUtils();
+
+      $pendingCount = $dbUtils->countElementsInTableForMyEntities(
             PluginFlyvemdmInvitation::getTable(),
             "`status` = 'pending'"
       );
 
-      $doneCount = countElementsInTableForMyEntities(
+      $doneCount = $dbUtils->countElementsInTableForMyEntities(
             PluginFlyvemdmInvitation::getTable(),
             "`status` = 'done'"
       );

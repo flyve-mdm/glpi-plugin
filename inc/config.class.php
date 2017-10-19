@@ -42,7 +42,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    const RESERVED_TYPE_RANGE_MIN = 11000;
    const RESERVED_TYPE_RANGE_MAX = 11049;
 
-   const PLUGIN_FLYVEMDM_MQTT_CLIENT = "flyvemdm";
+   const PLUGIN_FLYVEMDM_MQTT_CLIENT = 'flyvemdm';
 
    static $config = [];
 

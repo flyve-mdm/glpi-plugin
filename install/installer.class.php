@@ -229,22 +229,22 @@ class PluginFlyvemdmInstaller {
       $profileRight = new ProfileRight();
 
       $newRights = [
-            PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-            PluginFlyvemdmInvitation::$rightname      => CREATE | READ | DELETE | PURGE,
-            PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
-            PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-            PluginFlyvemdmPolicy::$rightname          => READ,
-            PluginFlyvemdmPolicyCategory::$rightname  => READ,
-            PluginFlyvemdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
-            PluginFlyvemdmEntityconfig::$rightname    => READ
-                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-                                                         | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-            PluginFlyvemdmInvitationLog::$rightname   => READ,
-            PluginFlyvemdmTaskstatus::$rightname      => READ,
+         PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+         PluginFlyvemdmInvitation::$rightname      => CREATE | READ | DELETE | PURGE,
+         PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmPolicy::$rightname          => READ,
+         PluginFlyvemdmPolicyCategory::$rightname  => READ,
+         PluginFlyvemdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
+         PluginFlyvemdmEntityconfig::$rightname    => READ
+                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         PluginFlyvemdmInvitationLog::$rightname   => READ,
+         PluginFlyvemdmTaskstatus::$rightname      => READ,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
