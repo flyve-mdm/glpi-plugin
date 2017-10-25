@@ -1,5 +1,7 @@
 # Plugin for GLPI
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://greenkeeper.io/)
+
 ![Flyve MDM banner](https://user-images.githubusercontent.com/663460/26935464-54267e9c-4c6c-11e7-86df-8cfa6658133e.png)
 
 [![License](https://img.shields.io/github/license/flyve-mdm/flyve-mdm-glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/blob/develop/LICENSE.md)
