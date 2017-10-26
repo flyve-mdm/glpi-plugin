@@ -38,6 +38,35 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
+   $profileRight = new ProfileRight();
+
+   // Merge new rights into current profile
+   $currentRights = ProfileRight::getProfileRights($_SESSION['glpiactiveprofile']['id']);
+   $newRights = array_merge($currentRights, [
+      PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
+      PluginFlyvemdmInvitationlog::$rightname   => READ,
+      PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+      PluginFlyvemdmTask::$rightname            => READ,
+   ]);
+   $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
+
+   // remove download base URL setting
+   Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
+
+   Config::setConfigurationValues('flyvemdm', [
+      'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+   ]);
+
+   $config = Config::getConfigurationValues('flyvemdm', ['android_bugcollecctor']);
+   if (!isset($config['android_bugcollecctor_url'])) {
+      $config = [
+         'android_bugcollecctor_url' => '',
+         'android_bugcollector_login' => '',
+         'android_bugcollector_passwd' => '',
+      ];
+      Config::setConfigurationValues('flyvemdm', $config);
+   }
+
    // update Entity config table
    $table = 'glpi_plugin_flyvemdm_entityconfigs';
    $migration->addField($table, 'support_name', 'text', ['after' => 'agent_token_life']);
@@ -49,9 +78,18 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    // update Agent table
    $table = 'glpi_plugin_flyvemdm_agents';
+   if (!$DB->fieldExists($table, 'enroll_status')) {
+      $query = "ALTER TABLE `$table`
+                ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
+      $DB->query($query) or die("Could upgrade table $table" . $DB->error());
+   }
+   $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
    $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
+   $migration->addKey($table, 'computers_id', 'computers_id');
+   $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
+
    $enumMdmType = PluginFlyvemdmAgent::getEnumMdmType();
    $currentEnumMdmType = PluginFlyvemdmCommon::getEnumValues($table, 'mdm_type');
    if (count($currentEnumMdmType) > 0) {
@@ -108,6 +146,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    // update Policy table
    $table = 'glpi_plugin_flyvemdm_policies';
+   $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
    $migration->addField($table, 'is_android_policy', 'bool', ['after' => 'recommended_value']);
    $migration->addField($table, 'is_apple_policy', 'bool', ['after' => 'is_android_policy']);
    $migration->addKey($table, 'group', 'group');
@@ -119,15 +158,16 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_packages';
    $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed')",
       ['after' => 'dl_filename', 'default' => 'pending']);
+   $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
    $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('" . addslashes(GLPI_DOC_DIR) . "', `filename`)");
-   $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
 
    $table = 'glpi_plugin_flyvemdm_files';
    $migration->addKey($table, 'entities_id', 'entities_id');
 
    $table = 'glpi_plugin_flyvemdm_fleets';
+   $migration->addField($table, 'is_recursive', 'bool');
    $migration->addKey($table, 'entities_id', 'entities_id');
 
    $table = 'glpi_plugin_flyvemdm_geolocations';
@@ -139,8 +179,18 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_policycategories';
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
 
+   // Create invitation log table
    $table = 'glpi_plugin_flyvemdm_invitationlogs';
-   $migration->addKey($table, 'glpi_plugin_flyvemdm_invitationlogs', 'invitations_id');
+   $query = "CREATE TABLE IF NOT EXISTS `$table` (
+              `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
+              `plugin_flyvemdm_invitations_id`   int(11)                   NOT NULL DEFAULT '0',
+              `date_creation`                    datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
+              `event`                            varchar(255)              NOT NULL DEFAULT '',
+              PRIMARY KEY (`id`),
+              INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`),
+              INDEX `date_creation` (`date_creation`)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+   $DB->query($query) or die("Could not create invitation logs table " . $DB->error());
 
    $table = 'glpi_plugin_flyvemdm_invitations';
    $migration->addKey($table, 'users_id', 'users_id');

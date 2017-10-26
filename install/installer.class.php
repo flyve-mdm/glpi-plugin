@@ -489,6 +489,10 @@ Regards,
     * @param string $toVersion
     */
    protected function upgradeOneStep($toVersion) {
+
+      ini_set("max_execution_time", "0");
+      ini_set("memory_limit", "-1");
+
       $suffix = str_replace('.', '_', $toVersion);
       $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
