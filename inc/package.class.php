@@ -555,10 +555,15 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return boolean true if success, false otherwise
     */
    private function parseApplication() {
-      $destination = FLYVEMDM_PACKAGE_PATH . '/' . $this->fields['filename'];
+      $destination = GLPI_DOC_DIR . '/' . $this->fields['filename'];
       $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
       if ($fileExtension == 'apk') {
-         $apk = new \ApkParser\Parser($destination);
+         try {
+            $apk = new \ApkParser\Parser($destination);
+         } catch (Exception $e) {
+            Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
+            return false;
+         }
       } else if ($fileExtension == 'upk') {
          $upkParser = new PluginFlyvemdmUpkparser($destination);
          $apk = $upkParser->getApkParser();
@@ -569,6 +574,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             ]);
             return false;
          }
+      } else {
+         return false;
       }
       $input = [];
       $manifest = $apk->getManifest();

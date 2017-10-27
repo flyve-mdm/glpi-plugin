@@ -156,7 +156,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    // update Applications table
    $table = 'glpi_plugin_flyvemdm_packages';
-   $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed')",
+   $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed') NOT NULL DEFAULT 'pending'",
       ['after' => 'dl_filename', 'default' => 'pending']);
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
    $migration->addKey($table, 'entities_id', 'entities_id');
@@ -191,6 +191,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
               INDEX `date_creation` (`date_creation`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
    $DB->query($query) or die("Could not create invitation logs table " . $DB->error());
+   $migration->addKey($table, 'plugin_flyvemdm_invitations_id', 'plugin_flyvemdm_invitations_id');
 
    $table = 'glpi_plugin_flyvemdm_invitations';
    $migration->addKey($table, 'users_id', 'users_id');
