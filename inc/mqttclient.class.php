@@ -269,7 +269,7 @@ class PluginFlyvemdmMqttclient {
     * @param integer $port
     * @param boolean $isTls
     * @param string $sslCipher
-    * @return mixed the MQTT
+    * @return sskaje\mqtt\MQTT an instance of a MQTT client
     */
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher) {
       $protocol = $isTls ? "ssl://" : "tcp://";
