@@ -138,7 +138,6 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `entities_id`           int(11)                              NOT NULL DEFAULT '0',
   `dl_filename`           varchar(255)                         NOT NULL DEFAULT '',
   `parse_status`          enum('pending', 'parsed', 'failed')  NOT NULL DEFAULT 'pending',
-  `plugin_orion_tasks_id` int(11)                              NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `entities_id` (`entities_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
