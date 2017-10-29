@@ -38,6 +38,15 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmConfig extends CommonDBTM {
 
+   // From CommonGLPI
+   protected $displaylist         = false;
+
+   // From CommonDBTM
+   public $auto_message_on_action = false;
+   public $showdebug              = true;
+
+   static $rightname              = 'config';
+
    // Type reservation : https://forge.indepnet.net/projects/plugins/wiki/PluginTypesReservation
    const RESERVED_TYPE_RANGE_MIN = 11000;
    const RESERVED_TYPE_RANGE_MAX = 11049;
@@ -46,8 +55,106 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    static $config = [];
 
+   public static function getTable($classname = null) {
+      return Config::getTable();
+   }
+
    /**
-    * add document types needed by the plugin in GLPI configuration
+    * Gets permission to create an instance of the itemtype
+    * @return boolean true if permission granted, false otherwise
+    */
+   public static function canCreate() {
+      return (!isAPI() && parent::canCreate());
+   }
+
+   /**
+    * Gets permission to view an instance of the itemtype
+    * @return boolean true if permission granted, false otherwise
+    */
+   public static function canView() {
+      return (!isAPI() && parent::canView());
+   }
+
+   /**
+    * Gets permission to update an instance of the itemtype
+    * @return boolean true if permission granted, false otherwise
+    */
+   public static function canUpdate() {
+      return (!isAPI() && parent::canUpdate());
+   }
+
+   /**
+    * Gets permission to delete an instance of the itemtype
+    * @return boolean true if permission granted, false otherwise
+    */
+   public static function canDelete() {
+      return (!isAPI() && parent::canDelete());
+   }
+
+   /**
+    * Gets permission to purge an instance of the itemtype
+    * @return boolean true if permission granted, false otherwise
+    */
+   public static function canPurge() {
+      return (!isAPI() && parent::canPurge());
+   }
+
+   /**
+    * Define tabs available for this itemtype
+    * @return array
+    */
+   public function defineTabs($options = []) {
+      $tab = [];
+      $this->addStandardTab(__CLASS__, $tab, $options);
+
+      return $tab;
+   }
+
+   /**
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    * @return string
+    */
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      switch ($item->getType()) {
+         case __CLASS__:
+            $tabs = [];
+            $tabs[1] = __('General configuration', 'flyvemdm');
+            $tabs[2] = __('Messge queue', 'flyvemdm');
+            $tabs[3] = __('Debug', 'flyvemdm');
+            return $tabs;
+            break;
+      }
+
+      return '';
+   }
+
+   /**
+    * @param $item         CommonGLPI object
+    * @param $tabnum       (default 1)
+    * @param $withtemplate (default 0)
+    */
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      if ($item->getType() == __CLASS__) {
+         switch ($tabnum) {
+            case 1:
+               $item->showFormGeneral();
+               break;
+
+            case 2:
+               $item->showFormMessageQueue();
+               break;
+
+            case 3:
+               $item->showFormDebug();
+               break;
+         }
+      }
+
+   }
+
+   /**
+    * adds document types needed by the plugin in GLPI configuration
     */
    public function addDocumentTypes() {
       $extensions = [
@@ -68,10 +175,13 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * Display the configuration form for the plugin.
+    * Displays the general configuration form for the plugin.
     */
-   public function showForm() {
-      echo '<form id="pluginFlyvemdm-config" method="post" action="./config.form.php">';
+   public function showFormGeneral() {
+      $canedit = PluginFlyvemdmConfig::canUpdate();
+      if ($canedit) {
+         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+      }
 
       $fields = Config::getConfigurationValues('flyvemdm');
       $fields['android_bugcollector_passwd_placeholder'] = __('Bugcollector password', 'flyvemdm');
@@ -95,24 +205,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                                                             'name'   => 'agentusercategories_id',
                                                             'value'  => $fields['agentusercategories_id'],
                                                            ]);
-      $fields['mqtt_use_client_cert'] = Dropdown::showYesNo(
-                                                               'mqtt_use_client_cert',
-                                                               $fields['mqtt_use_client_cert'],
-                                                               -1,
-                                                               ['display' => false]
-                                                            );
-      $fields['debug_enrolment'] = Dropdown::showYesNo(
-                                                          'debug_enrolment',
-                                                          $fields['debug_enrolment'],
-                                                          -1,
-                                                          ['display' => false]
-                                                       );
-      $fields['debug_noexpire'] = Dropdown::showYesNo(
-                                                         'debug_noexpire',
-                                                         $fields['debug_noexpire'],
-                                                         -1,
-                                                         ['display' => false]
-                                                      );
       $fields['CACertificateFile'] = Html::file([
          'name'      => 'CACertificateFile',
          'display'   => false,
@@ -128,7 +220,77 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * @see CommonDBTM::post_getEmpty()
+    * Displays the message queue configuration form for the plugin.
+    */
+   public function showFormMessageQueue() {
+      $canedit = PluginFlyvemdmConfig::canUpdate();
+      if ($canedit) {
+         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+      }
+
+      $fields = Config::getConfigurationValues('flyvemdm');
+      unset($fields['android_bugcollector_passwd']);
+
+      $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
+         'mqtt_broker_tls', $fields['mqtt_broker_tls'],
+         -1,
+         ['display' => false]
+      );
+
+      $fields['mqtt_use_client_cert'] = Dropdown::showYesNo(
+         'mqtt_use_client_cert',
+         $fields['mqtt_use_client_cert'],
+         -1,
+         ['display' => false]
+      );
+
+      $data = [
+         'config' => $fields
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('config-messagequeue.html', $data);
+
+      Html::closeForm();
+   }
+
+   /**
+    * Displays the message queue configuration form for the plugin.
+    */
+   public function showFormDebug() {
+      $canedit = PluginFlyvemdmConfig::canUpdate();
+      if ($canedit) {
+         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+      }
+
+      $fields = Config::getConfigurationValues('flyvemdm');
+      unset($fields['android_bugcollector_passwd']);
+
+      $fields['debug_enrolment'] = Dropdown::showYesNo(
+         'debug_enrolment',
+         $fields['debug_enrolment'],
+         -1,
+         ['display' => false]
+      );
+      $fields['debug_noexpire'] = Dropdown::showYesNo(
+         'debug_noexpire',
+         $fields['debug_noexpire'],
+         -1,
+         ['display' => false]
+      );
+
+      $data = [
+         'config' => $fields
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('config-debug.html', $data);
+
+      Html::closeForm();
+   }
+
+   /**
+    * Initializes the instance if the item with default values
     */
    public function post_getEmpty() {
       $this->fields['id'] = 1;
@@ -138,7 +300,8 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    /**
     * Hook for config validation before update
-    * @param array $input
+    * @param array $input configuration settings
+    * @return array
     */
    public static function configUpdate($input) {
       // process certificates update
@@ -153,13 +316,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
-      return $input;
-   }
-
-   /**
-    * @see CommonDBTM::prepareInputForAdd()
-    */
-   public function prepareInputForAdd($input) {
       return $input;
    }
 

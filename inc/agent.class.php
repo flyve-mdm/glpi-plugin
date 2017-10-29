@@ -129,10 +129,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Define tabs available for this itemtype
-    * @see CommonGLPI::defineTabs()
     */
    public function defineTabs($options = []) {
-      //  TODO : fluent interface in GLPI 9.2 + when GLPI 9.1 dropped
       $tab = [];
       $this->addDefaultFormTab($tab);
       $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
@@ -151,7 +149,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param int $withtemplate
     * @return array|string
     */
-   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (static::canView()) {
          switch ($item->getType()) {
@@ -184,7 +182,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     * @return bool
     */
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       switch (get_class($item)) {
          case static::class:
             self::showDangerZone($item);
