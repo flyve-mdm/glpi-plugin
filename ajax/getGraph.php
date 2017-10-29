@@ -35,7 +35,7 @@ if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
 if (!isset($_REQUEST['graph'])) {
    die();

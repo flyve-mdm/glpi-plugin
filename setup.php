@@ -182,7 +182,7 @@ function plugin_version_flyvemdm() {
       $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    }
    return [
-      'name'           => __s('Flyve Mobile Device Management', "flyvemdm"),
+      'name'           => __s('Flyve Mobile Device Management', 'flyvemdm'),
       'version'        => PLUGIN_FLYVEMDM_VERSION,
       'author'         => $author,
       'license'        => 'AGPLv3+',
