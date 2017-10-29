@@ -85,37 +85,41 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
-            'menu'   => [
-                  __('General', 'flyvemdm') => [
-                        PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class),
-                              'pic'  => PluginFlyvemdmInvitation::getMenuPicture(),
-                        ],
-                        PluginFlyvemdmAgent::getTypeName($pluralNumber)       => [
-                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class),
-                              'pic'  => PluginFlyvemdmAgent::getMenuPicture(),
-                        ],
-                        PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class),
-                              'pic'  => PluginFlyvemdmFleet::getMenuPicture(),
-                        ],
-                        PluginFlyvemdmPackage::getTypeName($pluralNumber)     => [
-                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class),
-                              'pic'  => PluginFlyvemdmPackage::getMenuPicture(),
-                        ],
-                        PluginFlyvemdmFile::getTypeName($pluralNumber)        => [
-                              'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class),
-                              'pic'  => PluginFlyvemdmFile::getMenuPicture(),
-                        ],
+         'menu'   => [
+            __('General', 'flyvemdm') => [
+                  PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class),
+                        'pic'  => PluginFlyvemdmInvitation::getMenuPicture(),
                   ],
-                  /*
-                  __('Board', 'flyvemdm') => [
-                        PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
-                              'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class)
-                        ]
-                  ]
-                  */
+                  PluginFlyvemdmAgent::getTypeName($pluralNumber)       => [
+                        'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class),
+                        'pic'  => PluginFlyvemdmAgent::getMenuPicture(),
+                  ],
+                  PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class),
+                        'pic'  => PluginFlyvemdmFleet::getMenuPicture(),
+                  ],
+                  PluginFlyvemdmPackage::getTypeName($pluralNumber)     => [
+                        'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class),
+                        'pic'  => PluginFlyvemdmPackage::getMenuPicture(),
+                  ],
+                  PluginFlyvemdmFile::getTypeName($pluralNumber)        => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class),
+                        'pic'  => PluginFlyvemdmFile::getMenuPicture(),
+                  ],
             ],
+            __('Configuration', 'flyvemdm') => [
+               __('General')       => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$1',
+               ],
+               __('Message queue', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$2',
+               ],
+               __('Debug', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$3',
+               ]
+            ]
+         ],
       ];
       echo $twig->render('menu.html', $data);
    }

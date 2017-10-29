@@ -35,32 +35,32 @@ if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-Session::checkRight("config", UPDATE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('config', UPDATE);
 
-$plugin = new Plugin();
 $config = new Config();
 $pluginConfig = new PluginFlyvemdmConfig();
 if (isset($_POST["update"])) {
    $config->update($_POST);
-   Html::back();
+   //Html::back();
+   Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class));
 } else if (isset($_POST['addDocTypes'])) {
    $pluginConfig->addDocumentTypes();
-   Html::back();
+   Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class));
 } else {
    // Header
 
    Html::header(
       __('Configuration'),
       '',
-      'config',
-      'plugin',
-      "flyvemdm"
+      'admin',
+      'PluginFlyvemdmMenu',
+      'config'
    );
-   $pluginConfig->showForm();
+   $pluginConfig->display(['id' => 1]);
    // Footer
 
-   if (strstr($_SERVER['PHP_SELF'], "popup")) {
+   if (strstr($_SERVER['PHP_SELF'], 'popup')) {
       Html::popFooter();
    } else {
       Html::footer();
