@@ -74,7 +74,12 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       echo '<form id="pluginFlyvemdm-config" method="post" action="./config.form.php">';
 
       $fields = Config::getConfigurationValues('flyvemdm');
+      $fields['android_bugcollector_passwd_placeholder'] = __('Bugcollector password', 'flyvemdm');
+      if (strlen($fields['android_bugcollector_passwd']) > 0) {
+         $fields['android_bugcollector_passwd_placeholder'] = '******';
+      }
       unset($fields['android_bugcollector_passwd']);
+
       $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
                                                           'mqtt_broker_tls', $fields['mqtt_broker_tls'],
                                                           -1,
@@ -136,6 +141,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * @param array $input
     */
    public static function configUpdate($input) {
+      // process certificates update
       if (isset($input['_CACertificateFile'])) {
          if (isset($input['_CACertificateFile'][0])) {
             $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
