@@ -53,7 +53,11 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $doneCount = $dbUtils->countElementsInTableForMyEntities(
             PluginFlyvemdmInvitation::getTable(),
             "`status` = 'done'"
-      );
+            );
+
+      if (($pendingCount + $doneCount) == 0) {
+         return '';
+      }
 
       $stat = new Stat();
       $out = $stat->displayPieGraph(
