@@ -205,10 +205,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                                                             'name'   => 'agentusercategories_id',
                                                             'value'  => $fields['agentusercategories_id'],
                                                            ]);
-      $fields['CACertificateFile'] = Html::file([
-         'name'      => 'CACertificateFile',
-         'display'   => false,
-      ]);
       $data = [
          'config' => $fields
       ];
@@ -243,6 +239,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          -1,
          ['display' => false]
       );
+
+      $fields['CACertificateFile'] = Html::file([
+         'name'      => 'CACertificateFile',
+         'display'   => false,
+      ]);
 
       $data = [
          'config' => $fields
