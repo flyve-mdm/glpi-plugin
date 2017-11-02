@@ -784,25 +784,4 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       return $input;
    }
-
-   /**
-    * TODO: check use, $task and $appliedPolicyData are undefined
-    * @param PluginFlyvemdmFleet $fleet
-    * @return array
-    */
-   public function getAppliedPolicies(PluginFlyvemdmFleet $fleet) {
-      $appliedPolicies = [];
-      if (!$fleet->isNewItem()) {
-         $itemId = $fleet->getID();
-         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
-         foreach ($rows as $id => $row) {
-            $apliedPolicy = new PluginFlyvemdmTask();
-            if ($apliedPolicy->getFromDB($id)) {
-               $appliedPolicies[] = $appliedPolicyData;
-            }
-         }
-      }
-
-      return $appliedPolicies;
-   }
 }
