@@ -237,6 +237,12 @@ function plugin_flyvemdm_check_prerequisites() {
       echo "Run composer install --no-dev in the plugin directory<br>";
       $prerequisitesSuccess = false;
    }
+
+   if (version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
+      echo "This plugin requires GLPi >= " . PLUGIN_FLYVEMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_FLYVEMDM_GLPI_MAX_VERSION . "<br>";
+      $prerequisitesSuccess = false;
+   }
+
    return $prerequisitesSuccess;
 }
 
