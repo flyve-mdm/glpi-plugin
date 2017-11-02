@@ -6,7 +6,7 @@
       <div>{{ __('view until', 'flyvemdm') }}{{ endDate|raw }}</div>
       <div><p><a href="#" class="vsubmit" onclick="loadMarkers()">{{ __('update', 'flyvemdm') }}</a></p></div>
    </div>
-   <script  type="text/javascript">
+   <script  type="text/javascript">$(function() {
       var map;
       var markers = [];
 
@@ -64,5 +64,6 @@
 
       showMap();
       loadMarkers();
+   })
    </script>
 </div>

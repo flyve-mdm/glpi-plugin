@@ -95,6 +95,11 @@ function plugin_init_flyvemdm() {
       $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
       // Warning 'pluginflyvemdmmenu' MUST be lower case
       $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
+
+      if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm/front/agent.form.php") !== false) {
+         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.css';
+         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
+      }
    }
 }
 
