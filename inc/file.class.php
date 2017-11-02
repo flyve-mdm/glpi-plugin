@@ -348,7 +348,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $task = new PluginFlyvemdmTask();
          $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
          $fleet = new PluginFlyvemdmFleet();
-         $policyFactory = new PluginFlyvemdmPolicyFactory();
          foreach ($taskCol as $taskId => $taskRow) {
             $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
@@ -356,9 +355,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
                   "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
-            $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
             if ($task->getFromDB($taskId)) {
-               $task->updateQueue($fleet, $policy->getGroup());
+               $task->publishPolicy($fleet);
             }
          }
       }

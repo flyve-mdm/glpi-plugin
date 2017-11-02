@@ -214,13 +214,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      $mqttQueue = new PluginFlyvemdmMqttupdatequeue();
-      if (!$mqttQueue->deleteByCriteria(['plugin_flyvemdm_fleets_id' => $fleetId])) {
-         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet', 'flyvemdm'));
-         // Do not fail yet. We need a CRON purge feature on this itemtype
-         //return false;
-      }
-
       return true;
    }
 
@@ -310,8 +303,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
-      $task = new PluginFlyvemdmTask();
-      $task->publishPolicies($this, ['camera', 'connectivity', 'encryption', 'policies']);
+      $policy = new PluginFlyvemdmPolicy();
+      foreach ($policy->find() as $row) {
+         $policyName = $row['symbol'];
+         $topic = $this->getTopic();
+         $this->notify("$topic/Policy/$policyName", null, 0, 1);
+      }
    }
 
    /**
@@ -499,6 +496,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
+
    /**
     * create folders and initial setup of the entity related to MDM
     * @param CommonDBTM $item

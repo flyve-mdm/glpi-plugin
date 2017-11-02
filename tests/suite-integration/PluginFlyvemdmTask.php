@@ -51,10 +51,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @tags testApplyPolicy
+    * @engine inline
     */
    public function testApplyPolicy() {
-      global $DB;
-
       // Create an agent
       $guestEmail = $this->getUniqueEmail();
       $invitation = $this->createInvitation($guestEmail);
@@ -92,11 +91,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByQuery("WHERE `symbol` = 'storageEncryption'");
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-      $groupName = $policy->getField('group');
       $fleetId = $fleet->getID();
-
-      $table = \PluginFlyvemdmMqttupdatequeue::getTable();
-      $this->boolean($DB->query("TRUNCATE TABLE `$table`"))->isTrue();
 
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
@@ -109,20 +104,13 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      // Check a MQTT message is queued
-      $mqttUpdateQueue = new \PluginFlyvemdmMqttupdatequeue();
-      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-                                      AND `$fleetFk` = '$fleetId'
-                                      AND `status` = 'queued'");
-      $this->integer(count($rows))->isEqualTo(1);
-
       // Check a task status is created for the agent
       $taskStatus = new \PluginFlyvemdmTaskstatus();
       $taskFk = $task::getForeignKeyField();
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
-         $this->string($row['status'])->isEqualTo('queued');
+         $this->string($row['status'])->isEqualTo('pending');
       }
 
       // Test apply a policy twice fails

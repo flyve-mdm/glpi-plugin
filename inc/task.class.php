@@ -211,9 +211,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       return $input;
    }
 
-   /**
-    * @see CommonDBRelation::prepareInputForUpdate()
-    */
    public function prepareInputForUpdate($input) {
       $input = parent::prepareInputForUpdate($input);
       $value = $input['value'];
@@ -300,25 +297,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       return $input;
    }
 
-   /** $this->policy->field['group']
-    * @see CommonDBRelation::post_addItem()
-    */
    public function post_addItem() {
-      $this->createTasksStatuses($this->fleet);
-      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
+      $this->publishPolicy($this->fleet);
    }
 
-   /**
-    * @see CommonDBRelation::post_updateItem()
-    */
    public function post_updateItem($history = 1) {
-      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
+      $this->publishPolicy($this->fleet);
    }
 
-   /**
-    *
-    * @see CommonDBTM::pre_deleteItem()
-    */
    public function pre_deleteItem() {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $this->policy = $policyFactory->createFromDBByID($this->fields['plugin_flyvemdm_policies_id']);
@@ -339,34 +325,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @see CommonDBTM::post_deleteItem()
     */
    public function post_purgeItem() {
-      $this->updateQueue($this->fleet, [$this->policy->getGroup()]);
+      //$this->updateQueue($this->fleet, [$this->policy->getGroup()]);
+      $this->unpublishPolicy($this->fleet);
       $this->deleteTaskStatuses();
-   }
-
-   /**
-    * Updates the queue of the MQTT
-    * @param PluginFlyvemdmNotifiable $item
-    * @param array $groups
-    */
-   public function updateQueue(PluginFlyvemdmNotifiable $item, $groups = []) {
-      if (!$item instanceof PluginFlyvemdmFleet) {
-         // Cannot queue MQTT messages for devices
-         // Then send them immediately
-         $this->publishPolicies($item, $groups);
-      } else {
-         if ($this->silent) {
-            return;
-         }
-
-         // Queue an update for each group
-         foreach ($groups as $group) {
-            $mqttUpdateQueue = new PluginFlyvemdmMqttupdatequeue();
-            $mqttUpdateQueue->add([
-               'plugin_flyvemdm_fleets_id' => $item->getID(),
-               'group'                     => $group,
-            ]);
-         }
-      }
    }
 
    /**
@@ -392,6 +353,78 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $taskStatus->deleteByCriteria([
          'plugin_flyvemdm_tasks_id' => $this->getID(),
       ], 1);
+   }
+
+   /**
+    * MQTT publish all policies applying to the fleet
+    *
+    * @param PluginFlyvemdmNotifiable $item
+    */
+   public function publishPolicy(PluginFlyvemdmNotifiable $item) {
+      if ($this->silent) {
+         return;
+      }
+
+      $fleet = $item->getFleet();
+      if ($fleet !== null && $fleet->getField('is_default') == '0') {
+         $fleetId = $fleet->getID();
+         $topic = $item->getTopic();
+
+         $agent = new PluginFlyvemdmAgent();
+         $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+         foreach ($rows as $row) {
+            $agent = new PluginFlyvemdmAgent();
+            if ($agent->getFromDB($row['id'])) {
+               $taskStatus = new PluginFlyvemdmTaskstatus();
+               $taskStatus->add([
+                  'plugin_flyvemdm_agents_id'  => $row['id'],
+                  'plugin_flyvemdm_tasks_id'   => $this->getID(),
+                  'status'                     => 'pending',
+               ]);
+            }
+         }
+
+         $policyFactory = new PluginFlyvemdmPolicyFactory();
+         $appliedPolicy = $policyFactory->createFromDBByID($this->fields['plugin_flyvemdm_policies_id']);
+         if ($appliedPolicy === null) {
+            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $this->fields['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
+            return;
+         }
+
+         $policy = new PluginFlyvemdmPolicy();
+         $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
+         $policyName = $policy->getField('symbol');
+         $policyMessage = $appliedPolicy->getMqttMessage(
+            $this->fields['value'],
+            $this->fields['itemtype'],
+            $this->fields['items_id']
+         );
+         $policyMessage['taskId'] = $this->getID();
+         $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+         $fleet->notify("$topic/Policy/$policyName", $encodedMessage, 0, 1);
+      }
+   }
+
+   /**
+    * MQTT unpublish a policy from the fleet
+    *
+    * @param PluginFlyvemdmNotifiable $item
+    */
+   public function unpublishPolicy(PluginFlyvemdmNotifiable $item) {
+      if ($this->silent) {
+         return;
+      }
+
+      $fleet = $item->getFleet();
+      if ($fleet !== null && $fleet->getField('is_default') == '0') {
+         $topic = $item->getTopic();
+
+         $policy = new PluginFlyvemdmPolicy();
+         $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
+         $policyName = $policy->getField('symbol');
+         $fleet->notify("$topic/Policy/$policyName", null, 0, 1);
+
+      }
    }
 
    /**
@@ -583,7 +616,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param array $policiesToApply policies to apply to the agents via the fleet
     * @return void
     */
-   public function createTaskStatus(PluginFlyvemdmAgent $agent, $policiesToApply) {
+   public function createTaskStatus(PluginFlyvemdmAgent $agent, array $policiesToApply) {
       $agentId = $agent->getID();
       foreach ($policiesToApply as $policyToApply) {
          $taskId = $policyToApply['tasks_id'];
@@ -704,7 +737,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @return bool
     */
    static function showForFleet(CommonDBTM $item, $withtemplate = '') {
-      global $DB, $CFG_GLPI;
+      global $CFG_GLPI;
 
       if (!$item->canView()) {
          return false;
