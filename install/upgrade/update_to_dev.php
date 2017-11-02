@@ -50,6 +50,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
       PluginFlyvemdmInvitationlog::$rightname   => READ,
       PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+      PluginFlyvemdmTask::$rightname            => READ,
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
@@ -237,6 +238,9 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addKey($table, 'documents_id', 'documents_id');
 
+   // drop Mqtt Update queue
+   $cronTask = new CronTask();
+   $cronTask->deleteByCriteria(['itemtype' => 'PluginFlyvemdmMqttupdatequeue']);
    $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
-   $migration->dropKey($table, 'status');
+   $migration->dropTable($table);
 }

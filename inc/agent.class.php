@@ -69,9 +69,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     *
     * Returns the minimum version of the agent accepted by the backend
-    *
     * @param string $mdmType the type of the agent.
-    *
     * @return string the minimum version of the agent depending on its type
     */
    private function getMinVersioForType($mdmType) {
@@ -201,8 +199,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Show form for edition
-    * @param integer $ID
+    * Shows form for edition
+    * @param integer $ID Id of the agent
     * @param array $options
     */
    public function showForm($ID, array $options = []) {
@@ -248,7 +246,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Print the computer's operating system form
+    * Prints the computer's operating system form
     *
     * @param PluginFlyvemdmAgent $item
     *
@@ -292,7 +290,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Display the agents according the fleet
+    * Displays the agents according the fleet
     * @param PluginFlyvemdmFleet $item
     * @return string an html with the agents
     */
@@ -354,9 +352,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ]);
    }
 
-   /**
-    * @see CommonDBTM::canViewItem()
-    */
    public function canViewItem() {
       // Check the active profile
       $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
@@ -379,7 +374,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a wipe command to the agent
+    * Sends a wipe command to the agent
     */
    protected function sendWipeQuery() {
       $topic = $this->getTopic();
@@ -390,7 +385,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a lock command to the agent
+    * Sends a lock command to the agent
     */
    protected function sendLockQuery() {
       $topic = $this->getTopic();
@@ -401,7 +396,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a lock command to the agent
+    * Sends a lock command to the agent
     */
    protected function sendUnlockQuery() {
       $topic = $this->getTopic();
@@ -412,7 +407,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send unenrollment command to  the agent
+    * Sends unenrollment command to the agent
     */
    protected function sendUnenrollQuery() {
       $topic = $this->getTopic();
@@ -422,10 +417,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
-   /**
-    * @param array $input
-    * @return array|bool
-    */
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -466,10 +457,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
-   /**
-    * @param array $input
-    * @return array|bool
-    */
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
@@ -552,17 +539,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
-   /**
-    * @see CommonDBTM::post_addItem()
-    */
    public function post_addItem() {
       // Notify the agent about its fleets
       $this->updateSubscription();
    }
 
-   /**
-    * @see CommonDBTM::post_getFromDB()
-    */
    public function post_getFromDB() {
       // set Topic after getting an item
       // Useful for post_purgeItem
@@ -662,17 +643,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          // create tasks for the agent from already applied policies
+         $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
          $newFleet = new PluginFlyvemdmFleet();
-         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         if ($newFleet->getFromDB($fleetId)) {
+            // Create task status for the agent and the applied policies
             $task = new PluginFlyvemdmTask();
-
-            // get groups of policies where a policy applies
-            $groups = $task->getGroupsOfAppliedPolicies($newFleet);
-            foreach ($groups as $groupName) {
-               // get policies per group
-               $policiesToApply = $task->getGroupOfPolicies($groupName, $newFleet);
-               // create task statuses for a single agent
-               $task->createTaskStatus($this, $policiesToApply);
+            $tasks = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+            foreach($tasks as $row) {
+               $taskStatus = new PluginFlyvemdmTaskstatus();
+               $taskStatus->add([
+                  'plugin_flyvemdm_agents_id' => $this->getID(),
+                  'plugin_flyvemdm_tasks_id'  => $row['id'],
+                  'status'                    => 'pending',
+               ]);
             }
          }
 
@@ -726,9 +709,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->cleanupSubtopics();
    }
 
-   /**
-    * @return array
-    */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
@@ -848,7 +828,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Limit search for agents of guest user
+    * Limits search for agents of guest user
     */
    public static function addDefaultJoin() {
       $join = '';
@@ -1132,7 +1112,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $user = new User();
       $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
       if ($user->getFromDBbyEmail($email, $condition) === false) {
-         $event = __('wrong email address', 'flyvemdm');
+         $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -1404,21 +1384,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string[]
     */
    public static function getTopicsToCleanup() {
-      return [
-         "Command/Subscribe",
-         "Command/Ping",
-         "Command/Geolocate",
-         "Command/Inventory",
-         "Command/Lock",
-         "Command/Wipe",
-         "Command/Unenroll",
-         "Configuration",
-         "application",
-         "file",
-         "policies",
-         "encryption",
-         "camera",
-         "connectivity",
+      $policy = new PluginFlyvemdmPolicy();
+      $rows = $policy->find();
+
+      // get all policies sub topics
+      $topics = [];
+      foreach ($rows as $row) {
+         $topics[] = 'Policy/' . $row['symbol'];
+      }
+      return $topics + [
+         'Command/Subscribe',
+         'Command/Ping',
+         'Command/Geolocate',
+         'Command/Inventory',
+         'Command/Lock',
+         'Command/Wipe',
+         'Command/Unenroll',
       ];
    }
 

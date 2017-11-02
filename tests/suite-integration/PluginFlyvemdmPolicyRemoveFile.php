@@ -92,10 +92,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
-      // Clean the Mqtt messages queu table
-      $table = \PluginFlyvemdmMqttupdatequeue::getTable();
-      $this->boolean($DB->query("TRUNCATE TABLE `$table`"))->isTrue();
-
       $groupName = $policyData->getField('group');
       $fleetId = $fleet->getID();
 
@@ -107,13 +103,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
          'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isFalse();
-
-      // Check there is a MQTT message queued
-      $mqttUpdateQueue = new \PluginFlyvemdmMqttupdatequeue();
-      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-                                       AND `plugin_flyvemdm_fleets_id` = '$fleetId'
-                                       AND `status` = 'queued'");
-      $this->integer(count($rows))->isEqualTo(1);
 
    }
 

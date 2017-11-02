@@ -149,7 +149,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @tags testGetMqttMessage
-    * @engine inline
     */
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();

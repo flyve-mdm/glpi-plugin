@@ -204,6 +204,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testShowForFleet
+    * @engine inline
     */
    public function testShowForFleet() {
       $class = $this->testedClass->getClass();
