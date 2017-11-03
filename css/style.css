@@ -1,5 +1,7 @@
 @CHARSET "UTF-8";
 
+/*---------------- MENU ----------------*/
+
 #plugin_flyvemdm_menu {
    width: 95%;
    list-style: none;
@@ -57,13 +59,11 @@
    margin: inherit;
 }
 
-#plugin_flyvemdm_geolocationMap {
-   height: 480px;
-}
-
 ul#menu ul.ssmenu {
    z-index: 10000;
 }
+
+/*---------------- GEOLOCATION TAB ----------------*/
 
 .plugin_flyvemdm_clear::after {
    content: "";
@@ -74,6 +74,7 @@ ul#menu ul.ssmenu {
 #plugin_flyvemdm_geolocationMap {
    float:left;
    width: calc(100% - 200px);
+   height: 480px;
 }
 
 #plugin_flyvemdm_geolocationList {
