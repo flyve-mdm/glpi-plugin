@@ -67,7 +67,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return string the menu picture
     */
    public static function getMenuPicture() {
-      return '../pics/picto-package.png';
+      return 'fa-gear';
    }
 
    /**

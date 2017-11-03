@@ -79,7 +79,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string the menu picture
     */
    public static function getMenuPicture() {
-      return '../pics/picto-fleet.png';
+      return 'fa-group';
    }
 
    /**

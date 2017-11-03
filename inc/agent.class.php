@@ -112,7 +112,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string
     */
    public static function getMenuPicture() {
-      return '../pics/picto-agent.png';
+      return 'fa-tablet';
    }
 
    /**
