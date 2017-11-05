@@ -1068,8 +1068,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
-      $currentDatetime = new DateTime("now", new DateTimeZone("UTC"));
-      $expirationDatetime = new DateTime($invitation->getField('expiration_date'), new DateTimeZone("UTC"));
+      $currentDatetime = new DateTime("now");
+      $expirationDatetime = new DateTime($invitation->getField('expiration_date'));
       if ($currentDatetime >= $expirationDatetime) {
          $event = __('Invitation token expired', 'flyvemdm');
          $this->filterMessages($event);
