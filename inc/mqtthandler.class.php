@@ -215,7 +215,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
 
-         $date = new \DateTime("now", new \DateTimeZone("UTC"));
+         $date = new \DateTime("now");
          $agent->update([
                'id'              => $agent->getID(),
                'last_contact'    => $date->format('Y-m-d H:i:s')
@@ -246,7 +246,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
          if (isset($position['datetime'])) {
-            $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
+            $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime']);
          } else {
             $dateGeolocation = false;
          }

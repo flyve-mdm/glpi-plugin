@@ -167,7 +167,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       }
 
       // Compute the expiration date of the invitation
-      $expirationDate = new DateTime("now", new DateTimeZone("UTC"));
+      $expirationDate = new DateTime("now");
       $expirationDate->add(new DateInterval($tokenExpire));
       $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 

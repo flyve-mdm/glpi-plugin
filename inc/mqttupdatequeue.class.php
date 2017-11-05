@@ -46,7 +46,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
     * @return array the modified datas
     */
    public function prepareInputForAdd($input) {
-      $input['date'] = (new DateTime("now", new DateTimeZone("UTC")))->format('Y-m-d H:i:s');
+      $input['date'] = (new DateTime("now"))->format('Y-m-d H:i:s');
 
       return $input;
    }
@@ -102,7 +102,7 @@ class PluginFlyvemdmMqttupdatequeue extends CommonDBTM {
       // Select the queued items until 30 seconds ago
       // To avoid time sync problems between the plugin and the DBMS
       // the date computation is handled here rather than in SQL
-      $lastDate = new DateTime("now", new DateTimeZone("UTC"));
+      $lastDate = new DateTime("now");
       $lastDate->sub(new DateInterval(self::$delay));
       $mostRecent = $lastDate->format('Y-m-d H:i:s');
 
