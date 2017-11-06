@@ -624,6 +624,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'id'  => $this->fields['users_id'],
       ], true);
 
+      // Send unrolling message to reset agent status
+      if ($this->fields['enroll_status'] == 'enrolled') {
+         $this->sendUnenrollQuery();
+      }
+
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
          $mqttUser = new PluginFlyvemdmMqttuser();
