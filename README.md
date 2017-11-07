@@ -1,13 +1,12 @@
 # Plugin for GLPI
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://greenkeeper.io/)
-
 ![Flyve MDM banner](https://user-images.githubusercontent.com/663460/26935464-54267e9c-4c6c-11e7-86df-8cfa6658133e.png)
 
 [![License](https://img.shields.io/github/license/flyve-mdm/flyve-mdm-glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/FlyveMDM.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/FlyveMDM)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/flyvemdm)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://greenkeeper.io/)
 [![GitHub release](https://img.shields.io/github/release/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/releases)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
