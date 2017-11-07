@@ -84,6 +84,9 @@ class ProfileRight extends CommonTestCase
       }
    }
 
+   /**
+    * @tags testSuperAdminProfileRights
+    */
    public function testSuperAdminProfileRights() {
       $profileId = 4;      // Super admin profile ID
 
@@ -102,7 +105,7 @@ class ProfileRight extends CommonTestCase
                                                       | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
                                                       | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
                                                       | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-         PluginFlyvemdmInvitation::$rightname     => CREATE | READ | DELETE | PURGE,
+         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          PluginFlyvemdmInvitationLog::$rightname  => READ,
       ];
 
