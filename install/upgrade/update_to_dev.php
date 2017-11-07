@@ -41,14 +41,15 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $profileRight = new ProfileRight();
 
    // Merge new rights into current profile
-   $currentRights = ProfileRight::getProfileRights($_SESSION['glpiactiveprofile']['id']);
+   $profiles_id = $_SESSION['glpiactiveprofile']['id'];
+   $currentRights = ProfileRight::getProfileRights($profiles_id);
    $newRights = array_merge($currentRights, [
-      PluginFlyvemdmInvitation::$rightname      => CREATE | READ | UPDATE | DELETE | PURGE,
+      PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
       PluginFlyvemdmInvitationlog::$rightname   => READ,
       PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
       PluginFlyvemdmTask::$rightname            => READ,
    ]);
-   $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
+   $profileRight->updateProfileRights($profiles_id, $newRights);
 
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
