@@ -990,6 +990,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
       $mdmType          = isset($input['type']) ? $input['type'] : null;
+      $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
+      // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
 
       $input = [];
 
@@ -1051,6 +1053,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
+      }
+
+      // Check the agent shall provide or not the system permissions flag
+      switch ($mdmType) {
+         case 'android':
+            if ($systemPermission === null) {
+               $event = __('The agent does not advertise its system permissions', 'flyvemdm');
+               $this->filterMessages($event);
+               $this->logInvitationEvent($invitation, $event);
+               return false;
+            }
       }
 
       // Check the invitation is pending
@@ -1220,6 +1233,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['version']                   = $version;
       $input['users_id']                  = $agentAccount->getID();
       $input['mdm_type']                  = $mdmType;
+      $input['$systemPermission']         = $systemPermission;
       return $input;
 
    }
