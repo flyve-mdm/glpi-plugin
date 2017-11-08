@@ -150,7 +150,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_policies';
    $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
    $migration->addField($table, 'is_android_policy', 'bool', ['after' => 'recommended_value']);
-   $migration->addField($table, 'is_apple_policy', 'bool', ['after' => 'is_android_policy']);
+   $migration->addField($table, 'is_android_system', 'bool', ['after' => 'is_android_policy']);
+   $migration->addField($table, 'is_apple_policy', 'bool', ['after' => 'is_android_system']);
    $migration->addKey($table, 'group', 'group');
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
    // All policies exist for Android
