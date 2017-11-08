@@ -201,4 +201,20 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
    $migration->dropKey($table, 'status');
+
+   $policyCategory = new PluginFlyvemdmPolicyCategory();
+   $policyCategory->add([
+      'id'  => 7,
+      'name' => 'USB',
+      'plugin_flyvemdm_policycategories_id' => 1,
+      'completename' => 'Security > USB',
+      'level' => 2
+   ]);
+   $policyCategory->add([
+      'id'  => 8,
+      'name' => 'Phone',
+      'plugin_flyvemdm_policycategories_id' => 1,
+      'completename' => 'Phone',
+      'level' => 1
+   ]);
 }
