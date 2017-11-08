@@ -1213,22 +1213,6 @@ Regards,
          ],
 
          [
-            'name'                                 => __('Disable new VPN profiles', 'flyvemdm'),
-            'symbol'                               => 'disableHostpotTethering',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 5,
-            'comment'                              => __('Disable hotspot and tethering', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
-         ],
-
-         [
             'name'                                 => __('Disable USB On-The-Go', 'flyvemdm'),
             'symbol'                               => 'disableUsbOnTheGo',
             'group'                                => 'connectivity',
