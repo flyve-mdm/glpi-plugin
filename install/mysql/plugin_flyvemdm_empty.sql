@@ -180,6 +180,8 @@ INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (3, 'Password', '2', 
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (4, 'Encryption', '1', 'Security > Encryption', '', '2', NULL, NULL);
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (5, 'Peripherals', '1', 'Security > Peripherals', '', '2', NULL, NULL);
 INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (6, 'Deployment', '0', 'Deployment', '', '1', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (7, 'USB', '1', 'Security > USB', '', '2', NULL, NULL);
+INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (8, 'Phone', '0', 'Phone', '', '1', NULL, NULL);
 
 
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_policies
