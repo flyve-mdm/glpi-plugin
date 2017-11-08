@@ -87,6 +87,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
    $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
+   $migration->addField($table, 'has_system_permission', 'bool', ['after' => 'mdm_type']);
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
