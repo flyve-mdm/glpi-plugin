@@ -115,6 +115,7 @@ class PluginFlyvemdmInstaller {
             $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
             return false;
          }
+
          $this->createInitialConfig();
       } else {
          if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION,
@@ -524,6 +525,7 @@ Regards,
          if (function_exists($updateFunction)) {
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
             $updateFunction($this->migration);
+            $this->migration->executeMigration();
             $this->migration->displayMessage('Done');
          }
       }
@@ -648,6 +650,7 @@ Regards,
          'computertypes_id'                => '0',
          'agentusercategories_id'          => '0',
          'invitation_deeplink'             => PLUGIN_FLYVEMDM_DEEPLINK,
+         'show_wizard'                     => PluginFlyvemdmConfig::WIZARD_WELCOME_BEGIN,
       ];
       Config::setConfigurationValues('flyvemdm', $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
@@ -1437,7 +1440,7 @@ Regards,
             'type_data'                           => '',
             'unicity'                             => 1,
             'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
-            'comment'                             => __('', 'flyvemdm'),
+            'comment'                             => __('Disable the speakerphone', 'flyvemdm'),
             'default_value'                       => '0',
             'recommended_value'                   => '0',
             'is_android_policy'                   => '1',
@@ -1453,7 +1456,7 @@ Regards,
             'type_data'                           => '',
             'unicity'                             => 1,
             'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
-            'comment'                             => __('', 'flyvemdm'),
+            'comment'                             => __('Disable creation of VPN profiles', 'flyvemdm'),
             'default_value'                       => '0',
             'recommended_value'                   => '0',
             'is_android_policy'                   => '1',
