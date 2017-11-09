@@ -55,6 +55,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    Config::setConfigurationValues('flyvemdm', [
       'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+      'show_wizard'       => '0',
    ]);
 
    // Update configuration

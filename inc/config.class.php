@@ -37,7 +37,6 @@ if (!defined('GLPI_ROOT')) {
  * @since 0.1.0
  */
 class PluginFlyvemdmConfig extends CommonDBTM {
-
    // From CommonGLPI
    protected $displaylist         = false;
 
@@ -53,6 +52,15 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    const PLUGIN_FLYVEMDM_MQTT_CLIENT = 'flyvemdm';
 
+   // first and last steps of the welcome pages of wizard
+   const WIZARD_WELCOME_BEGIN = 1;
+   const WIZARD_WELCOME_END = 1;
+
+   // first and last steps of the MQTT pages of wizard
+   const WIZARD_MQTT_BEGIN = 100;
+   const WIZARD_MQTT_END = 105;
+
+   const WIZARD_FINISH = -1;
    static $config = [];
 
    /**
@@ -123,9 +131,13 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       switch ($item->getType()) {
          case __CLASS__:
             $tabs = [];
-            $tabs[1] = __('General configuration', 'flyvemdm');
-            $tabs[2] = __('Message queue', 'flyvemdm');
-            $tabs[3] = __('Debug', 'flyvemdm');
+            $config = Config::getConfigurationValues('flyvemdm', ['show_wizard']);
+            if ($config['show_wizard'] !== '0') {
+               $tabs[1] = __('Installation wizard', 'flyvemdm');
+            }
+            $tabs[2] = __('General configuration', 'flyvemdm');
+            $tabs[3] = __('Message queue', 'flyvemdm');
+            $tabs[4] = __('Debug', 'flyvemdm');
             return $tabs;
             break;
       }
@@ -134,23 +146,26 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * @param $item CommonGLPI object
-    * @param $tabnum (default 1)
-    * @param $withtemplate (default 0)
-    * @return bool|void
+    * @param CommonGLPI $item object
+    * @param integer $tabnum (default 1)
+    * @param integer $withtemplate (default 0)
     */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if ($item->getType() == __CLASS__) {
          switch ($tabnum) {
             case 1:
-               $item->showFormGeneral();
+               $item->showFormWizard();
                break;
 
             case 2:
-               $item->showFormMessageQueue();
+               $item->showFormGeneral();
                break;
 
             case 3:
+               $item->showFormMessageQueue();
+               break;
+
+            case 4:
                $item->showFormDebug();
                break;
          }
@@ -285,6 +300,12 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          -1,
          ['display' => false]
       );
+      $fields['show_wizard'] = Dropdown::showYesNo(
+         'show_wizard',
+         $fields['show_wizard'],
+         -1,
+         ['display' => false]
+      );
 
       $data = [
          'config' => $fields
@@ -294,6 +315,37 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       echo $twig->render('config-debug.html', $data);
 
       Html::closeForm();
+   }
+
+   /**
+    * Displays the message queue configuration form for the plugin.
+    */
+   public function showFormWizard() {
+      $canedit = PluginFlyvemdmConfig::canUpdate();
+      if ($canedit) {
+         if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
+         }
+         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+
+         $texts = [];
+         $data = [];
+         $paragraph = 1;
+         switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+            default:
+               // Nothing here for now
+         }
+
+         $data = $data + [
+            'texts'  => $texts,
+            'update' => $_SESSION['plugin_flyvemdm_wizard_step'] === static::WIZARD_FINISH ? __('Finish', 'flyvemdm') : __('Next', 'flyvemdm'),
+            'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
+         ];
+         $twig = plugin_flyvemdm_getTemplateEngine();
+         echo $twig->render('config-wizard.html', $data);
+
+         Html::closeForm();
+      }
    }
 
    /**
@@ -312,6 +364,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * @return array
     */
    public static function configUpdate($input) {
+      if (isset($input['back'])) {
+         // Going one step backwards in wizard
+         return static::backwardStep();
+      }
+
       // process certificates update
       if (isset($input['_CACertificateFile'])) {
          if (isset($input['_CACertificateFile'][0])) {
@@ -329,10 +386,73 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          }
       }
 
+      if (isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
+         $input = static::processStep($input);
+         if (count($input) > 0 && $input !== false) {
+            static::forwardStep($input);
+         } else {
+            $input = [];
+         }
+      }
+
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);
       return $input;
+   }
+
+   /**
+    * Does an action for the step saved in session, and defines the next step to run
+    * @param array $input the data send in the submitted step
+    * @return array modified input
+    */
+   protected static function processStep($input) {
+      switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+         case static::WIZARD_FINISH:
+            Config::setConfigurationValues('flyvemdm', ['show_wizard' => '0']);
+            break;
+      }
+      return $input;
+   }
+
+   /**
+    * Goes one step forward in the wizard
+    * @param array $input the data send in the submitted step
+    */
+   protected static function forwardStep($input) {
+      // Choose next step depending on current step and form data
+      switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+         case static::WIZARD_WELCOME_END:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_MQTT_BEGIN;
+            break;
+
+         case static::WIZARD_MQTT_END:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_FINISH;
+            break;
+
+         default:
+            $_SESSION['plugin_flyvemdm_wizard_step']++;
+      }
+   }
+
+   /**
+    * Goes one step backward in the wizard
+    */
+   protected static function backwardStep() {
+      switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+         case static::WIZARD_MQTT_BEGIN:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_END;
+            break;
+
+         case static::WIZARD_FINISH:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_MQTT_END;
+            break;
+
+         default:
+            $_SESSION['plugin_flyvemdm_wizard_step']--;
+      }
+
+      return [];
    }
 
    /**

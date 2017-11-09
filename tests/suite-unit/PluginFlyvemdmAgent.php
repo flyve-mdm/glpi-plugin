@@ -213,4 +213,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       ob_end_clean();
       $this->string($result)->contains('There is no agent yet');
    }
+
+   public function testCanViewItem() {
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $_SESSION['glpiactiveprofile']['id'] = $config['guest_profiles_id'] + 1;
+
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->canViewItem())->isFalse();
+
+      $_SESSION['glpiactiveprofile']['id'] = $config['guest_profiles_id'];
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->canViewItem())->isFalse();
+
+   }
+
 }
