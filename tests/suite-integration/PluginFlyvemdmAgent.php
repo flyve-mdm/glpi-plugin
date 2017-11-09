@@ -387,6 +387,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Check if user has not been deleted
       $this->boolean($user->getFromDb($user->getID()))->isTrue();
+
+      // Check if computer has not been deleted
+      $computer = new \Computer();
+      $this->boolean($computer->getFromDBByCrit(['serial' => $serial]))->isTrue();
    }
 
    /**
