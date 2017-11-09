@@ -641,10 +641,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Delete the computer associated to the agent
-      if (!$computer->delete(['id' => $computerId], true)) {
+      /*if (!$computer->delete(['id' => $computerId], true)) {
          Session::addMessageAfterRedirect(__('Failed to delete the device', 'flyvemdm'));
          return false;
-      }
+      }*/
 
       // Delete documents associated to the agent
       $document_Item = new Document_Item();
