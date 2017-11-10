@@ -80,3 +80,16 @@ ul#menu ul.ssmenu {
    float: right;
    width: 200px;
 }
+
+/* ################--------------- Responsive  ---------------#################### */
+@media screen and (max-width: 700px) {
+   #plugin_flyvemdm_geolocationMap {
+      float: none;
+      width: 100%;
+   }
+
+   #plugin_flyvemdm_geolocationList {
+      float: none;
+      width: 100%;
+   }
+}
