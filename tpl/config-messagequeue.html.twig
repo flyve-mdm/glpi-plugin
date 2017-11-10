@@ -51,8 +51,8 @@
       </tr>
       <tr class="">
          <td>test</td>
-         <td><input type="button" id="pluginFlyvemdm-mqtt-test"
-            name="mqtt-test" value="{{ __('test', 'flyvemdm') }}" class="submit"><span
+         <td><input type="submit" id="pluginFlyvemdm-mqtt-test"
+            name="mqtt-test" value="{{ __('test', 'flyvemdm') }}" class="submit" onclick="return plugin_flyvemdm_mqttTest()"><span
             id="pluginFlyvemdm-test-feedback"></span></td>
       </tr>
       <tr>
@@ -78,3 +78,18 @@
       </tr>
    </tbody>
 </table>
+<script type="text/javascript">
+//<![CDATA[
+function plugin_flyvemdm_mqttTest () {
+   data = $("#pluginFlyvemdm-config input,#pluginFlyvemdm-config select").serialize();
+   posting = jQuery.post('../ajax/mqtt_test.php', data, 'json');
+   posting.done(function(data) {
+      var successIcon = '&nbsp;Test message successfully sent';
+      var failIcon = '&nbsp;Failed to send the test message';
+      var feedback = $.parseJSON(data);
+      $('#pluginFlyvemdm-test-feedback').empty().append(feedback.status);
+   });
+   return false;
+}
+//]]>
+</script>

@@ -30,10 +30,7 @@
  */
 
 // Needs to be removed if this entry point needs to autoload a class from the plugin.
-//$AJAX_INCLUDE = 1;
 include '../../../inc/includes.php';
-
-//define("PLUGIN_FLYVEMDM_ROOT", $CFG_GLPI['root_doc'] . "/plugins/flyvemdm");
 
 header("Content-Type: text/html; charset=UTF-8");
 Html::header_nocache();
@@ -77,7 +74,6 @@ if ($address === false || $port === false) {
    echo '{"status" : "ko"}';
    exit();
 }
-$clientid = "flyvemdm-test";
 $mqttClient = PluginFlyvemdmMqttclient::getInstance();
 $statusMessage = 'Test message not sent';
 if ($mqttClient->sendTestMessage($address, $port, $isTls, $sslCiphers)) {
