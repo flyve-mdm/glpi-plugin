@@ -796,25 +796,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $tab[] = [
-         'id'                 => '9',
-         'table'              => 'glpi_users',
-         'field'              => 'realname',
-         'name'               => __('User'),
-         'forcegroupby'       => false,
-         'massiveaction'      => false,
-         'datatype'           => 'dropdown',
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_computers',
-               'joinparams'         => [
-                  'jointype'           => '',
-                  'condition'          => ''
-               ]
-            ]
-         ]
-      ];
-
-      $tab[] = [
          'id'                 => '10',
          'table'              => $this->getTable(),
          'field'              => 'version',
@@ -855,6 +836,24 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'enroll_status',
          'name'               => __('Enroll status', 'flyvemdm'),
+         'datatype'           => 'boolean',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '12',
+         'table'              => $this->getTable(),
+         'field'              => 'mdm_type',
+         'name'               => __('Type of MDM'),
+         'datatype'           => 'boolean',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '13',
+         'table'              => $this->getTable(),
+         'field'              => 'has_system_permission',
+         'name'               => __('Has system permission'),
          'datatype'           => 'boolean',
          'massiveaction'      => false
       ];
