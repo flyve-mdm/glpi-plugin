@@ -304,9 +304,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                $task->updateQueue($fleet, $policy->getGroup());
             }
          }
-      }
 
-      $this->createOrionReport();
+         // File updated, then scan it again
+         $this->createOrionReport();
+      }
    }
 
    /**
