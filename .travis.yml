@@ -7,7 +7,6 @@ env:
 
 before_script:
   - mysql -u root -e 'create database glpitest;'
-  - phpenv config-rm xdebug.ini || true
   - rm -f composer.lock
   - tests/config-composer.sh
   - git clone --depth=1 $GLPI_SOURCE ../glpi && cd ../glpi
@@ -18,10 +17,10 @@ before_script:
   - cd plugins/flyvemdm && composer install --no-interaction
 
 script:
-  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-install
-  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-unit
-  - for f in `ls tests/suite-integration/`; do vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -f tests/suite-integration/$f; done;
-  - vendor/bin/atoum --debug -bf tests/bootstrap.php -no-cc --max-children-number 1 -d tests/suite-uninstall
+  - vendor/bin/atoum -ft -bf tests/bootstrap.php --max-children-number 1 -d tests/suite-install -ncc
+  - vendor/bin/atoum -ft -bf tests/bootstrap.php --max-children-number 1 -d tests/suite-unit
+  - for f in `ls tests/suite-integration/`; do vendor/bin/atoum -ft -bf tests/bootstrap.php --max-children-number 1 --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI CommonDBRelation CommonDBConnexity ProfileRight -f tests/suite-integration/$f; done;
+  - vendor/bin/atoum -ft -bf tests/bootstrap.php --max-children-number 1 -d tests/suite-uninstall --ncc
   - if [[ "$CS" == "true" ]]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
 
 matrix:
