@@ -191,7 +191,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Test a new user for the agent exists
       $agentUser = new \User();
-      $agentUser->getFromDBbyName($serial);
+      $agentUser->getFromDBByCrit(['realname' => $serial]);
       $this->boolean($agentUser->isNewItem())->isFalse();
 
       // Test the agent user does not have a password
