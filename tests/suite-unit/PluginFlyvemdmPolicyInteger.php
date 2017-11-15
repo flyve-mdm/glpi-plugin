@@ -28,45 +28,55 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmPolicyInteger extends CommonTestCase {
+class PluginFlyvemdmPolicyInteger extends CommonTestCase
+{
+
+   private $dataFields = [
+      'group' => 'testGroup',
+      'symbol' => 'integerPolicy',
+      'type_data' => '',
+      'unicity' => '1',
+   ];
 
    public function setUp() {
       parent::setUp();
       self::setupGLPIFramework();
    }
 
-   public function testCreatePolicy() {
+   /**
+    * @return array
+    */
+   private function createNewPolicyInstance() {
       $policyData = new PluginFlyvemdmPolicy();
-      $policyData->fields = [
-            'group'     => 'testGroup',
-            'symbol'    => 'integerPolicy',
-            'type_data' => '',
-            'unicity'   => '1',
-      ];
+      $policyData->fields = $this->dataFields;
       $policy = $this->newTestedInstance($policyData);
+      return [$policy, $policyData];
+   }
+
+   /**
+    * @tags testCreatePolicy
+    */
+   public function testCreatePolicy() {
+      list($policy) = $this->createNewPolicyInstance();
 
       $this->boolean($policy->integrityCheck('a string', null, '0'))->isFalse();
 
       $this->boolean($policy->integrityCheck('42', null, '0'))->isTrue();
 
-      $array = $policy->getMqttMessage('6', null, '0');
-      $this->array($array)->hasKey($policyData->fields['symbol']);
    }
 
+   /**
+    * @tags testCreatePolicyWithConstraints
+    */
    public function testCreatePolicyWithConstraints() {
-      $policyData = new PluginFlyvemdmPolicy();
-      $policyData->fields = [
-            'group'     => 'testGroup',
-            'symbol'    => 'integerPolicy',
-            'type_data' => '{"min":"-5", "max":"5"}',
-            'unicity'   => '1'
-      ];
-      $policy = $this->newTestedInstance($policyData);
+      $this->dataFields['type_data'] = '{"min":"-5", "max":"5"}';
+      list($policy) = $this->createNewPolicyInstance();
 
       $this->boolean($policy->integrityCheck('-10', null, '0'))->isFalse();
 
@@ -74,6 +84,18 @@ class PluginFlyvemdmPolicyInteger extends CommonTestCase {
 
       $this->boolean($policy->integrityCheck('3', null, '0'))->isTrue();
 
-      $this->boolean($policy->integrityCheck('a string', null, '0'))->isFalse();
+   }
+
+   /**
+    * @tags testGetMqttMessage
+    */
+   public function testGetMqttMessage() {
+      list($policy, $policyData) = $this->createNewPolicyInstance();
+      // Test the mqtt message if the policy
+      $array = $policy->getMqttMessage('6', null, '0');
+      $symbol = $policyData->fields['symbol'];
+      $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('6');
+
+      $this->boolean($policy->getMqttMessage(null, null, '1'))->isFalse();
    }
 }

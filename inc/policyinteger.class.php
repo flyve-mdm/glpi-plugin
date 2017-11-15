@@ -32,10 +32,12 @@
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
+
 /**
  * @since 0.1.0.33
  */
-class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
+class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
+{
 
    /**
     * @var integer|null $minValue Minimum value allowed for the policy
@@ -52,10 +54,11 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $defaultProperties = [
-            'min' => null,
-            'max' => null
+         'min' => null,
+         'max' => null,
       ];
-      $propertyCollection = $this->jsonDecodeProperties($policy->getField('type_data'), $defaultProperties);
+      $propertyCollection = $this->jsonDecodeProperties($policy->getField('type_data'),
+         $defaultProperties);
       $this->minValue = $propertyCollection['min'];
       $this->maxValue = $propertyCollection['max'];
 
@@ -91,7 +94,7 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
          return false;
       }
       $array = [
-            $this->symbol => $value
+         $this->symbol => $value,
       ];
       return $array;
    }
