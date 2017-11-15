@@ -28,31 +28,56 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmPolicyString extends CommonTestCase {
+class PluginFlyvemdmPolicyString extends CommonTestCase
+{
+
+   private $dataField = [
+      'group' => 'testGroup',
+      'symbol' => 'stringPolicy',
+      'type_data' => '',
+      'unicity' => '1',
+   ];
 
    public function setUp() {
       parent::setUp();
       self::setupGLPIFramework();
    }
 
+   /**
+    * @return array
+    */
+   private function createNewPolicyInstance() {
+      $policyData = new \PluginFlyvemdmPolicy();
+      $policyData->fields = $this->dataField;
+      $policy = $this->newTestedInstance($policyData);
+      return [$policy, $policyData];
+   }
+
+   /**
+    * @tags testCreatePolicy
+    */
    public function testCreatePolicy() {
       $policyData = new PluginFlyvemdmPolicy();
-      $policyData->fields = [
-            'group'     => 'testGroup',
-            'symbol'    => 'stringPolicy',
-            'type_data' => '',
-            'unicity'   => '1',
-      ];
+      $policyData->fields = $this->dataField;
       $policy = $this->newTestedInstance($policyData);
 
       $this->boolean($policy->integrityCheck('a little string', null, '0'))->isTrue();
+   }
 
+   /**
+    * @tags testGetMqttMessage
+    */
+   public function testGetMqttMessage() {
+      list($policy, $policyData) = $this->createNewPolicyInstance();
+      // Test the mqtt message if the policy
       $array = $policy->getMqttMessage('a little string', null, '0');
-      $this->array($array)->hasKey($policyData->fields['symbol']);
+      $symbol = $policyData->fields['symbol'];
+      $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('a little string');
    }
 }
