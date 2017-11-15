@@ -28,34 +28,97 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmPolicyDropdown extends CommonTestCase {
+class PluginFlyvemdmPolicyDropdown extends CommonTestCase
+{
+
+   private $dataField = [
+      'group' => 'testGroup',
+      'symbol' => 'dropdownPolicy',
+      'type_data' => '{"VAL_1":"value 1", "VAL_2":"value 2"}',
+      'unicity' => '1',
+   ];
 
    public function setUp() {
       parent::setUp();
       self::setupGLPIFramework();
    }
 
-
-   public function testCreatePolicy() {
-      $policyData = new PluginFlyvemdmPolicy();
-      $policyData->fields = [
-            'group'     => 'testGroup',
-            'symbol'    => 'dropdownPolicy',
-            'type_data' => '{"VAL_1":"value 1", "VAL_2":"value 2"}',
-            'unicity'   => '1',
-      ];
+   /**
+    * @return array
+    */
+   private function createNewPolicyInstance() {
+      $policyData = new \PluginFlyvemdmPolicy();
+      $policyData->fields = $this->dataField;
       $policy = $this->newTestedInstance($policyData);
+      return [$policy, $policyData];
+   }
 
+   /**
+    * @return array
+    */
+   private function getTypeData() {
+      $dataArray = json_decode($this->dataField['type_data'], true);
+      $keys = array_keys($dataArray);
+      return [$dataArray, $keys];
+   }
+
+   /**
+    * @tags testCreatePolicy
+    */
+   public function testCreatePolicy() {
+      list($policy) = $this->createNewPolicyInstance();
       $this->boolean($policy->integrityCheck("VAL_1", null, '0'))->isTrue();
 
       $this->boolean($policy->integrityCheck("VAL_INVALID", null, '0'))->isFalse();
+   }
 
+   /**
+    * @tags testGetMqttMessage
+    */
+   public function testGetMqttMessage() {
+      list($policy, $policyData) = $this->createNewPolicyInstance();
+      // Test the mqtt message if the policy
       $array = $policy->getMqttMessage('VAL_1', null, '0');
-      $this->array($array)->hasKey($policyData->fields['symbol']);
+      $symbol = $policyData->fields['symbol'];
+      $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('VAL_1');
+
+      $this->boolean($policy->getMqttMessage(null, null, '1'))->isFalse();
+   }
+
+   /**
+    * @tags testShowValue
+    */
+   public function testShowValue() {
+      list($policy) = $this->createNewPolicyInstance();
+      list($data, $keys) = $this->getTypeData();
+      $mockedClass = $this->newMockInstance('\PluginFlyvemdmTask');
+      $mockedClass->getMockController()->getField = $keys[0];
+
+      $this->string($policy->showValue($mockedClass))->isEqualTo($data[$keys[0]]);
+   }
+
+   /**
+    * @tags testShowValueInput
+    */
+   public function testShowValueInput() {
+      list($policy) = $this->createNewPolicyInstance();
+      list($data, $keys) = $this->getTypeData();
+      $this->string($policy->showValueInput())
+         ->contains("<option value='" . $keys[0] . "'>" . $data[$keys[0]] . "</option><option value='" . $keys[1] . "'>" . $data[$keys[1]] . "</option>");
+   }
+
+   /**
+    * @tags testTranslateData
+    */
+   public function testTranslateData() {
+      list($policy) = $this->createNewPolicyInstance();
+      $this->array($policy->translateData())->isEqualTo(json_decode($this->dataField['type_data'],
+         true));
    }
 }
