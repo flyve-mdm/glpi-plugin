@@ -28,119 +28,191 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 use PluginFlyvemdmFile;
 
-class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
+class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
+{
+
+   private $dataField = [
+      'group' => 'file',
+      'symbol' => 'deployFile',
+      'type_data' => '',
+      'unicity' => '0',
+   ];
 
    public function setUp() {
       parent::setUp();
       self::setupGLPIFramework();
    }
 
-   protected function pathProvider() {
+   protected function validationProvider() {
       return [
-         [
-            'data'      => [
-               '%SDCARD%/'
-            ],
-            'expected'  => true,
+         'Check values exist' => [
+            'data' => [null, null, null],
+            'expected' => [false, 'A destination and the remove on delete flag are mandatory'],
          ],
-         [
-            'data'      => [
-               '%SDCARD%/../'
-            ],
-            'expected'  => false,
+         'Check remove_on_delete is boolean' => [
+            'data' => [['destination' => 'target', 'remove_on_delete' => ''], null, null],
+            'expected' => [false, 'The remove on delete flag must be 0 or 1'],
          ],
-         [
-            'data'      => [
-               '%SDCARD%'
-            ],
-            'expected'  => true,
+         'Check the itemtype is a file' => [
+            'data' => [['destination' => 'target', 'remove_on_delete' => 0], null, null],
+            'expected' => [false, 'You must choose a file to apply this policy'],
          ],
-         [
-            'data'      => [
-               '%SDCARD%/file.ext'
+         'Check the file exists' => [
+            'data' => [
+               ['destination' => 'target', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               '-1',
             ],
-            'expected'  => true,
+            'expected' => [false, 'The file does not exists'],
          ],
-         [
-            'data'      => [
-               '%SDCARD%/../file.ext'
+         'Check relative directory expression 1' => [
+            'data' => [
+               ['destination' => 'target/../file.txt', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               true,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               '/file.ext'
+         'Check relative directory expression 2' => [
+            'data' => [
+               ['destination' => 'target/./file.txt', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               'file.ext'
+         'Check relative directory expression 3' => [
+            'data' => [
+               ['destination' => 'target/../', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               ''
+         'Check relative directory expression 4' => [
+            'data' => [
+               ['destination' => 'target/./', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               '/folder/file.ext'
+         'Check relative directory expression 5' => [
+            'data' => [
+               ['destination' => '/../file.txt', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               '/%SDCARD%//file.ext'
+         'Check relative directory expression 6' => [
+            'data' => [
+               ['destination' => '/./file.txt', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
          ],
-         [
-            'data'      => [
-               '/../file.ext'
+         'Check double directory separator' => [
+            'data' => [
+               ['destination' => 'target//file.txt', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
             ],
-            'expected'  => false,
+            'expected' => [false, 'invalid base path'],
+         ],
+         'Check base path against well known paths 1' => [
+            'data' => [
+               ['destination' => '/file.ext', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [false, 'invalid base path'],
+         ],
+         'Check base path against well known paths 2' => [
+            'data' => [
+               ['destination' => 'file.ext', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [false, 'invalid base path'],
+         ],
+         'Check base path against well known paths 3' => [
+            'data' => [
+               ['destination' => '', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [false, 'invalid base path'],
+         ],
+         'Check base path against well known paths 4' => [
+            'data' => [
+               ['destination' => '/folder/file.ext', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [false, 'invalid base path'],
+         ],
+         'Valid check 1' => [
+            'data' => [
+               ['destination' => '%SDCARD%/', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [true],
+         ],
+         'Valid check 2' => [
+            'data' => [
+               ['destination' => '%SDCARD%', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [true],
+         ],
+         'Valid check 3' => [
+            'data' => [
+               ['destination' => '%SDCARD%/file.ext', 'remove_on_delete' => 0],
+               PluginFlyvemdmFile::class,
+               1,
+            ],
+            'expected' => [true],
          ],
       ];
    }
 
    /**
-    * @dataProvider pathProvider
+    * @dataProvider validationProvider
+    * @tags testCreatePolicy
     */
-   public function testPathIntegrity($data, $expected) {
-      $policy = $this->createPolicy();
-      $item = $this->createFile($policy);
-
-      $value = [
-         'destination'        => $data[0],
-         'remove_on_delete'   => 0,
-      ];
-      $success = $policy->integrityCheck($value, $item->getType(), $item->getId());
-      $this->boolean($success)->isEqualTo($expected);
+   public function testCreatePolicy($data, $expected) {
+      list($policy) = $this->createNewPolicyInstance();
+      if ($data[2] === true) {
+         $item = $this->createFile();
+         $data[2] = $item->getID();
+      }
+      $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
+      $this->boolean($success)->isEqualTo($expected[0]);
+      if (!$expected[0]) {
+         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected[1]);
+         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+      }
    }
 
-   private function createPolicy() {
+   private function createNewPolicyInstance() {
       $policyData = new PluginFlyvemdmPolicy();
-      $policyData->fields = [
-         'group'     => 'file',
-         'symbol'    => 'deployFile',
-         'type_data' => '',
-         'unicity'   => '0',
-      ];
+      $policyData->fields = $this->dataField;
       $policy = $this->newTestedInstance($policyData);
-
-      return $policy;
+      return [$policy, $policyData];
    }
 
-   private function createFile($policy) {
+   private function createFile() {
       global $DB;
 
       $table_file = PluginFlyvemdmFile::getTable();
@@ -153,5 +225,107 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       $this->boolean($file->isNewItem())->isFalse();
 
       return $file;
+   }
+
+   /**
+    * @tags testGetMqttMessage
+    */
+   public function testGetMqttMessage() {
+      list($policy) = $this->createNewPolicyInstance();
+
+      $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
+      $item = $this->createFile();
+      $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
+      $result = $policy->getMqttMessage($value, $item->getType(), $item->getID());
+      $this->array($result)->hasKeys(['id', 'version', $this->dataField['symbol']])
+         ->string($result['id'])->isEqualTo($item->getID())
+         ->string($result['version'])->isEqualTo("0")
+         ->string($result[$this->dataField['symbol']])->isEqualTo('%SDCARD%/filename.ext/');
+   }
+
+   /**
+    * @tags testUnicityCheck
+    */
+   public function testUnicityCheck() {
+      list($policy) = $this->createNewPolicyInstance();
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance->getMockController()->getID = 1;
+      $this->boolean($policy->unicityCheck(['destination' => 'filename.ext'],
+         PluginFlyvemdmFile::class, 1, $mockInstance))->isTrue();
+      // TODO: finish this test
+   }
+
+   /**
+    * @tags testConflictCheck
+    */
+   public function testConflictCheck() {
+      list($policy) = $this->createNewPolicyInstance();
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance->getMockController()->getID = 1;
+      $this->boolean($policy->conflictCheck(['destination' => 'filename.ext'],
+         PluginFlyvemdmFile::class, 1, $mockInstance))->isTrue();
+      // TODO: finish this test
+   }
+
+   /**
+    * @tags testUnApply
+    */
+   public function testUnApply() {
+      list($policy) = $this->createNewPolicyInstance();
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance->getMockController()->getID = 1;
+
+      $this->boolean($policy->unapply($mockInstance, null, null, null))->isFalse();
+
+      $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
+      $this->boolean($policy->unapply($mockInstance, $value, null, null))->isFalse();
+      $this->boolean($policy->unapply($mockInstance, $value, PluginFlyvemdmFile::class,
+         1))->isTrue();
+
+      $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":1}';
+      $this->boolean($policy->unapply($mockInstance, $value, PluginFlyvemdmFile::class,
+         -1))->isFalse();
+      // TODO: finish this test
+   }
+
+   /**
+    * @tags testShowValueInput
+    */
+   public function testShowValueInput() {
+      list($policy) = $this->createNewPolicyInstance();
+      $value = $policy->showValueInput();
+      $this->string($value)
+         ->contains('input type="hidden" name="items_id" value="0"')
+         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmFile"')
+         ->contains('input type="text" name="value[destination]" value=""')
+         ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
+   }
+
+   /**
+    * @tags testShowValue
+    */
+   public function testShowValue() {
+      list($policy) = $this->createNewPolicyInstance();
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmTask');
+      $mockInstance->getMockController()->getField = 0;
+      $mockInstance->getMockController()->getField[2] = 1;
+      $mockInstance->getMockController()->getField[3] = '{"destination":"path"}';
+      $this->string($policy->showValue($mockInstance))->isEqualTo(NOT_AVAILABLE);
+      // TODO: make this test work directly by @tags with a clean DB.
+      // $this->string($policy->showValue($mockInstance))->isEqualTo('path/filename.ext');
+   }
+
+   /**
+    * @tags testPreprocessFormData
+    */
+   public function testPreprocessFormData() {
+      list($policy) = $this->createNewPolicyInstance();
+      $this->array($policy->preprocessFormData($input = ['invalidKey' => 'invalidValue']))->isEqualTo($input);
+      $this->array($output = $policy->preprocessFormData([
+         'destination_base' => 1,
+         'value' => [
+            'destination' => 'targetString',
+         ],
+      ]))->string($output['value']['destination'])->isEqualTo('%SDCARD%targetString');
    }
 }
