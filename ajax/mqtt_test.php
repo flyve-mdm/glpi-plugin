@@ -56,12 +56,21 @@ if (isset($_POST['mqtt_broker_port']) && is_numeric($_POST['mqtt_broker_port']))
    $port = 0;
 }
 
-if (isset($_POST['mqtt_broker_tls']) && $_POST['mqtt_broker_tls'] != '0') {
+if (isset($_POST['mqtt_broker_tls_port']) && is_numeric($_POST['mqtt_broker_tls_port'])) {
+   $portTls = $_POST['mqtt_broker_tls_port'];
+} else {
+   $portTls = 0;
+}
+
+if (isset($_POST['mqtt_tls_for_backend']) && $_POST['mqtt_tls_for_backend'] != '0') {
    $isTls = true;
 } else {
    $isTls = false;
 }
 
+if ($isTls) {
+   $port = $portTls;
+}
 
 if ($port < 1 || $port > 65535) {
    $port = false;

@@ -996,7 +996,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input = [];
 
       $config = Config::getConfigurationValues("flyvemdm", [
-            'mqtt_broker_tls',
+            'mqtt_tls_for_clients',
             'mqtt_use_client_cert',
             'debug_noexpire',
             'computertypes_id',
@@ -1139,7 +1139,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       //sign the agent's certificate (if TLS enabled)
-      if ($config['mqtt_broker_tls'] != '0' && $config['mqtt_use_client_cert'] != '0') {
+      if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
          if ($crt === false) {
@@ -1619,13 +1619,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if ($user = $this->getOwner()) {
          $config = Config::getConfigurationValues('flyvemdm', [
-               'guest_profiles_id',
-               'android_bugcollecctor_url',
-               'android_bugcollector_login',
-               'android_bugcollector_passwd',
-               'mqtt_broker_address',
-               'mqtt_broker_port',
-               'mqtt_broker_tls',
+            'guest_profiles_id',
+            'android_bugcollecctor_url',
+            'android_bugcollector_login',
+            'android_bugcollector_passwd',
+            'mqtt_broker_address',
+            'mqtt_broker_port',
+            'mqtt_broker_tls_port',
+            'mqtt_tls_for_clients',
          ]);
          $guestProfileId = $config['guest_profiles_id'];
          if ($user->getID() == $_SESSION['glpiID'] && $_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
@@ -1640,22 +1641,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                $serial = $computer->getField('serial');
                if (!empty($serial)) {
                   $acls = [
-                        [
-                              'topic'        => $this->getTopic() . '/Status/#',
-                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                        ],
-                        [
-                              'topic'        => $this->getTopic() . '/Command/#',
-                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                        ],
-                        [
-                              'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                        ],
-                        [
-                              'topic'        => '/FlyvemdmManifest/#',
-                              'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                        ],
+                     [
+                        'topic'        => $this->getTopic() . '/Status/#',
+                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                     ],
+                     [
+                        'topic'        => $this->getTopic() . '/Command/#',
+                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                     ],
+                     [
+                        'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
+                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                     ],
+                     [
+                        'topic'        => '/FlyvemdmManifest/#',
+                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                     ],
                   ];
 
                   $mqttUser = new PluginFlyvemdmMqttuser();
@@ -1663,21 +1664,21 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                   if (!$mqttUser->getByUser($serial)) {
                      // The user does not exists
                      $mqttUser->add([
-                           'user'         => $serial,
-                           'enabled'      => '1',
-                           'password'     => $mqttClearPassword,
-                           '_acl'         => $acls,
-                           '_reset_acl'   => true,
+                        'user'         => $serial,
+                        'enabled'      => '1',
+                        'password'     => $mqttClearPassword,
+                        '_acl'         => $acls,
+                        '_reset_acl'   => true,
                      ]);
                   } else {
                      // The user exists
                      $mqttUser->update([
-                           'id'          => $mqttUser->getID(),
-                           'enabled'     => '1',
-                           'password'    => $mqttClearPassword,
-                           '_acl'        => $acls,
-                           '_reset_acl'  => true,
-                      ]);
+                        'id'          => $mqttUser->getID(),
+                        'enabled'     => '1',
+                        'password'    => $mqttClearPassword,
+                        '_acl'        => $acls,
+                        '_reset_acl'  => true,
+                     ]);
                   }
                }
             }
@@ -1686,8 +1687,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             $this->fields['topic']                       = $this->getTopic();
             $this->fields['mqttpasswd']                  = $mqttClearPassword;
             $this->fields['broker']                      = $config['mqtt_broker_address'];
-            $this->fields['port']                        = $config['mqtt_broker_port'];
-            $this->fields['tls']                         = $config['mqtt_broker_tls'];
+            $this->fields['port']                        = $config['mqtt_tls_for_clients'] !== '0'
+                                                           ? $config['mqtt_broker_tls_port']
+                                                           : $config['mqtt_broker_port'];
+            $this->fields['tls']                         = $config['mqtt_tls_for_clients'];
             $this->fields['android_bugcollecctor_url']   = $config['android_bugcollecctor_url'];
             $this->fields['android_bugcollector_login']  = $config['android_bugcollector_login'];
             $this->fields['android_bugcollector_passwd'] = $config['android_bugcollector_passwd'];
