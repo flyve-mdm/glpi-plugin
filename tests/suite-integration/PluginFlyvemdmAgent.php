@@ -47,7 +47,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    *
+    * @tags testDeviceCountLimit
     */
    public function testDeviceCountLimit() {
       $this->given(
@@ -235,19 +235,20 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Test getting the agent returns extra data for the device
       $agent->getFromDB($agent->getID());
-      $this->array($agent->fields)->hasKey('certificate');
-      $this->array($agent->fields)->hasKey('mqttpasswd');
-      $this->array($agent->fields)->hasKey('topic');
-      $this->array($agent->fields)->hasKey('broker');
-      $this->array($agent->fields)->hasKey('port');
-      $this->array($agent->fields)->hasKey('tls');
-      $this->array($agent->fields)->hasKey('android_bugcollecctor_url');
-      $this->array($agent->fields)->hasKey('android_bugcollector_login');
-      $this->array($agent->fields)->hasKey('android_bugcollector_passwd');
-      $this->array($agent->fields)->hasKey('version');
-      $this->array($agent->fields)->hasKey('api_token');
-
-      $this->array($agent->fields)->hasKey('mdm_type');
+      $this->array($agent->fields)->hasKeys([
+         'certificate',
+         'mqttpasswd',
+         'topic',
+         'broker',
+         'port',
+         'tls',
+         'android_bugcollecctor_url',
+         'android_bugcollector_login',
+         'android_bugcollector_passwd',
+         'version',
+         'api_token',
+         'mdm_type',
+      ]);
       $this->string($agent->getField('mdm_type'))->isEqualTo('apple');
 
       // Check the invitation is expired
@@ -267,6 +268,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test enrollment with a UUID instead of a serial
+    * @tags testEnrollWithUuid
     */
    public function testEnrollWithUuid() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -278,6 +280,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test agent unenrollment
+    * @tags testUnenrollAgent
     */
    public function testUnenrollAgent() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -308,6 +311,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test deletion of an agent
+    * @tags testDelete
     */
    public function testDelete() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -333,6 +337,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test online status change on MQTT message
+    * @tags testDeviceOnlineChange
     */
    public function testDeviceOnlineChange() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -347,6 +352,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test online status change on MQTT message
+    * @tags testChangeFleet
     */
    public function testChangeFleet() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
@@ -383,6 +389,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test the purge of an agent
+    * @tags testPurgeEnroledAgent
     */
    public function testPurgeEnroledAgent() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -451,6 +458,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test ping message
+    * @tags testPingRequest
     */
    public function testPingRequest() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
@@ -483,6 +491,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test geolocate message
+    * @tags testGeolocateRequest
     */
    public function testGeolocateRequest() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
@@ -513,6 +522,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test inventory message
+    * @tagsa testInventoryRequest
     */
    public function testInventoryRequest() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
@@ -546,6 +556,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * Test lock / unlock
+    * @tags testLockAndWipe
     */
    public function testLockAndWipe() {
       global $DB;
@@ -577,6 +588,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test geolocate message
+    * @tags testMoveBetweenFleets
     */
    public function testMoveBetweenFleets() {
       // Create an invitation
@@ -612,6 +624,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @return object PluginFlyvemdmFleet mocked
+    * @tags createFleet
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
