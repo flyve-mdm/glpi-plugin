@@ -175,16 +175,6 @@ CREATE TABLE `glpi_plugin_flyvemdm_policycategories` (
   UNIQUE INDEX `unicity` (`plugin_flyvemdm_policycategories_id`, `name`),
   KEY `plugin_flyvemdm_policycategories_id` (`plugin_flyvemdm_policycategories_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (1, 'Security', '0', 'Security', '', 1, NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (2, 'Authentication', '1', 'Security > Authentication', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (3, 'Password', '2', 'Security > Authentication > Password', '', '3', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (4, 'Encryption', '1', 'Security > Encryption', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (5, 'Peripherals', '1', 'Security > Peripherals', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (6, 'Deployment', '0', 'Deployment', '', '1', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (7, 'USB', '1', 'Security > USB', '', '2', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (8, 'Phone', '0', 'Phone', '', '1', NULL, NULL);
-INSERT INTO `glpi_plugin_flyvemdm_policycategories` VALUES (9, 'MDM', '0', 'MDM', '', '1', NULL, NULL);
-
 
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_policies
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_policies`;
