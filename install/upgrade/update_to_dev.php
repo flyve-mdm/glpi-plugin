@@ -47,7 +47,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
       PluginFlyvemdmInvitationlog::$rightname   => READ,
       PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-      PluginFlyvemdmTask::$rightname            => READ,
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
@@ -205,18 +204,10 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->dropKey($table, 'status');
 
    $policyCategory = new PluginFlyvemdmPolicyCategory();
-   $policyCategory->add([
-      'id'  => 7,
-      'name' => 'USB',
-      'plugin_flyvemdm_policycategories_id' => 1,
-      'completename' => 'Security > USB',
-      'level' => 2
+   $policyCategory->import([
+      'completename'    => 'Security > USB'
    ]);
-   $policyCategory->add([
-      'id'  => 8,
-      'name' => 'Phone',
-      'plugin_flyvemdm_policycategories_id' => 1,
-      'completename' => 'Phone',
-      'level' => 1
+   $policyCategory->import([
+      'completename'    => 'Phone'
    ]);
 }
