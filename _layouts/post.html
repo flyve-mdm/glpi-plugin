@@ -16,6 +16,8 @@ layout: default
 <p class="goHome container">
   {% if page.wiki %}
     <a href="{{ "wiki" | absolute_url }}">
+  {% elsif page.code %}
+    <a href="{{ "development/devdocs" | absolute_url }}">
   {% else %}
     <a href="{{ "news" | absolute_url }}">
   {% endif %}

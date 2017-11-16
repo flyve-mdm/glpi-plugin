@@ -70,6 +70,11 @@ prose:
           element: "text"
           label: "Permalink"
           value: ""
+      - name: "code"
+        field:
+          element: "checkbox"
+          label: "Code Documentation"
+          value: false
       - name: "wiki"
         field:
           element: "checkbox"
