@@ -85,7 +85,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    }
    $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
-   $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
    $migration->addField($table, 'has_system_permission', 'bool', ['after' => 'mdm_type']);
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
@@ -203,15 +202,4 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
    $migration->dropKey($table, 'status');
-
-   $policyCategory = new PluginFlyvemdmPolicyCategory();
-   $policyCategory->import([
-      'completename'    => 'Security > USB'
-   ]);
-   $policyCategory->import([
-      'completename'    => 'Phone'
-   ]);
-   $policyCategory->import([
-      'completename'    => 'MDM'
-   ]);
 }
