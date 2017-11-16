@@ -120,7 +120,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          case __CLASS__:
             $tabs = [];
             $tabs[1] = __('General configuration', 'flyvemdm');
-            $tabs[2] = __('Messge queue', 'flyvemdm');
+            $tabs[2] = __('Message queue', 'flyvemdm');
             $tabs[3] = __('Debug', 'flyvemdm');
             return $tabs;
             break;
@@ -190,11 +190,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
       unset($fields['android_bugcollector_passwd']);
 
-      $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
-                                                          'mqtt_broker_tls', $fields['mqtt_broker_tls'],
-                                                          -1,
-                                                          ['display' => false]
-                                                       );
       $fields['computertypes_id'] = ComputerType::dropdown([
                                                             'display' => false,
                                                             'name'   => 'computertypes_id',
@@ -227,8 +222,14 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       $fields = Config::getConfigurationValues('flyvemdm');
       unset($fields['android_bugcollector_passwd']);
 
-      $fields['mqtt_broker_tls'] = Dropdown::showYesNo(
-         'mqtt_broker_tls', $fields['mqtt_broker_tls'],
+      $fields['mqtt_tls_for_clients'] = Dropdown::showYesNo(
+         'mqtt_tls_for_clients', $fields['mqtt_tls_for_clients'],
+         -1,
+         ['display' => false]
+      );
+
+      $fields['mqtt_tls_for_backend'] = Dropdown::showYesNo(
+         'mqtt_tls_for_backend', $fields['mqtt_tls_for_backend'],
          -1,
          ['display' => false]
       );
@@ -291,12 +292,13 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * Initializes the instance if the item with default values
+    * Initializes the instance of the item with default values
     */
    public function post_getEmpty() {
       $this->fields['id'] = 1;
       $this->fields['mqtt_broker_address'] = '127.0.0.1';
       $this->fields['mqtt_broker_port'] = '1883';
+      $this->fields['mqtt_broker_tls_port'] = '8883';
    }
 
    /**

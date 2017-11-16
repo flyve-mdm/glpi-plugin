@@ -50,13 +50,11 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
-   // remove download base URL setting
-   Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
-
    Config::setConfigurationValues('flyvemdm', [
       'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
    ]);
 
+   // Update configuration
    $config = Config::getConfigurationValues('flyvemdm', ['android_bugcollecctor']);
    if (!isset($config['android_bugcollecctor_url'])) {
       $config = [
@@ -66,6 +64,23 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       ];
       Config::setConfigurationValues('flyvemdm', $config);
    }
+   $config = Config::getConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
+   if (isset($config['mqtt_broker_tls'])) {
+      if ($config['mqtt_broker_tls'] !== '0') {
+         $config['mqtt_broker_tls_port'] = $config['mqtt_broker_port'];
+         $config['mqtt_broker_port'] = '1883';
+      } else {
+         $config['mqtt_broker_tls_port'] = '8883';
+      }
+      // Split TLS setting for client in one hand and backend in the other hand
+      $config['mqtt_tls_for_clients'] = $config['mqtt_broker_tls'];
+      $config['mqtt_tls_for_backend'] = $config['mqtt_broker_tls'];
+      Config::setConfigurationValues('flyvemdm', $config);
+      Config::deleteConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
+   }
+
+   // remove download base URL setting
+   Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
 
    // update Entity config table
    $table = 'glpi_plugin_flyvemdm_entityconfigs';
@@ -85,6 +100,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    }
    $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
+   $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
    $migration->addField($table, 'has_system_permission', 'bool', ['after' => 'mdm_type']);
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
@@ -133,7 +149,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (!$DB->query($query)) {
       plugin_flyvemdm_upgrade_error($migration);
    }
-   $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
 

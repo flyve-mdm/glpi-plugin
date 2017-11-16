@@ -230,21 +230,25 @@ class PluginFlyvemdmMqttclient {
     */
    protected function getMQTTConnection() {
       $config = Config::getConfigurationValues('flyvemdm', [
-            'mqtt_broker_internal_address',
-            'mqtt_broker_port',
-            'mqtt_broker_tls',
-            'mqtt_broker_tls_ciphers',
-            'mqtt_user',
-            'mqtt_passwd'
+         'mqtt_broker_internal_address',
+         'mqtt_broker_port',
+         'mqtt_broker_tls_port',
+         'mqtt_broker_tls',
+         'mqtt_broker_tls_ciphers',
+         'mqtt_user',
+         'mqtt_passwd'
       ]);
       if (empty($config['mqtt_broker_internal_address'])
-            ||empty($config['mqtt_broker_port'])
-            ||(!isset($config['mqtt_broker_tls']))) {
+          || empty($config['mqtt_broker_port']) || empty($config['mqtt_broker_tls_port'])
+          || (!isset($config['mqtt_broker_tls']))) {
          return false;
       } else {
          $mqttBrokerAddress = $config['mqtt_broker_internal_address'];
          $mqttBrokerPort = $config['mqtt_broker_port'];
          $isTls = $config['mqtt_broker_tls'] != '0';
+         if ($isTls) {
+            $mqttBrokerPort = $config['mqtt_broker_tls_port'];
+         }
          $sslCiphers = $config['mqtt_broker_tls_ciphers'];
          $mqtt = $this->buildMqtt($mqttBrokerAddress, $mqttBrokerPort, $isTls, $sslCiphers);
          $mqtt->setAuth($config['mqtt_user'], $config['mqtt_passwd']);
