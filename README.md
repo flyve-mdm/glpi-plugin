@@ -12,7 +12,7 @@
 
 Flyve MDM is a mobile device management software that enables you to secure and manage all the mobile devices of your business via a unique web-based console (MDM).
 
-To get started, check out <https://flyve-mdm.com/>!
+To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
 ## Table of contents
 
@@ -39,11 +39,11 @@ It provides a stand alone web based administration and a interface integrated in
 
 ## Installation
 
-Installation instructions are available in the [wiki](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/wiki/Installation).
+Installation instructions are available in the [wiki](http://flyve.org/flyve-mdm-glpi-plugin/wiki/).
 
 ## Documentation
 
-We share long-form content about the project in the [wiki](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/wiki).
+We share long-form content about the project on the website, see the [Development section](http://flyve.org/flyve-mdm-glpi-plugin/).
 
 ## Versioning
 
