@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Entity Config
-permalink: development/devdocs/pluginflyvemdmentityconfig
+permalink: development/devdocs/PluginFlyvemdmEntityconfig
 ---
 
 * Class name: PluginFlyvemdmEntityconfig
@@ -96,7 +96,7 @@ Returns the name of the type
 
 
 #### Arguments
-* $nb **integer** - &lt;p&gt;number of item in the type&lt;/p&gt;
+* $nb **integer** - number of item in the type
 
 
 
@@ -249,7 +249,7 @@ Gets the tabs name
 
 #### Arguments
 * $item **CommonGLPI**
-* $withtemplate **integer** - &lt;p&gt;if it is showed with a template (default 0)&lt;/p&gt;
+* $withtemplate **integer** - if it is showed with a template (default 0)
 
 
 
@@ -266,10 +266,10 @@ Retrieve data of current entity or parent entity
 
 
 #### Arguments
-* $fieldref **mixed** - &lt;p&gt;string   name of the referent field to know if we look at parent entity&lt;/p&gt;
+* $fieldref **mixed** - string   name of the referent field to know if we look at parent entity
 * $entities_id **mixed**
-* $fieldval **mixed** - &lt;p&gt;string   name of the field that we want value (default &#039;&#039;)&lt;/p&gt;
-* $default_value **mixed** - &lt;p&gt;value to return (default -2)&lt;/p&gt;
+* $fieldval **mixed** - string   name of the field that we want value (default &#039;&#039;)
+* $default_value **mixed** - value to return (default -2)
 
 
 
@@ -305,7 +305,7 @@ is the parameter ID must be considered as new one ?
 
 
 #### Arguments
-* $ID **integer** - &lt;p&gt;ID of the item (-1 if new item)&lt;/p&gt;
+* $ID **integer** - ID of the item (-1 if new item)
 
 
 

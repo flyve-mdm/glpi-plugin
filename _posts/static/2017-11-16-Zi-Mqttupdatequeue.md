@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Update Queue
-permalink: development/devdocs/pluginflyvemdmmqttupdatequeue
+permalink: development/devdocs/PluginFlyvemdmMqttupdatequeue
 ---
 
 * Class name: PluginFlyvemdmMqttupdatequeue
@@ -98,7 +98,7 @@ get Cron description parameter for this class
 
 
 #### Arguments
-* $name **mixed** - &lt;p&gt;string name of the task&lt;/p&gt;
+* $name **mixed** - string name of the task
 
 
 

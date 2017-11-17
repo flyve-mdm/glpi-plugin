@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Mqtt Log
-permalink: development/devdocs/pluginflyvemdmmqttlog
+permalink: development/devdocs/PluginFlyvemdmMqttlog
 ---
 
 * Class name: PluginFlyvemdmMqttlog
@@ -57,7 +57,7 @@ Name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 
@@ -73,8 +73,8 @@ Save in DB an incoming MQTT message
 
 
 #### Arguments
-* $topic **String** - &lt;p&gt;topic&lt;/p&gt;
-* $msg **String** - &lt;p&gt;Message&lt;/p&gt;
+* $topic **String** - topic
+* $msg **String** - Message
 
 
 
@@ -90,8 +90,8 @@ Save in the DB an outgoing MQTT message
 
 
 #### Arguments
-* $topicList **array** - &lt;p&gt;array of topics. String allowed for a single topic&lt;/p&gt;
-* $msg **String** - &lt;p&gt;Message&lt;/p&gt;
+* $topicList **array** - array of topics. String allowed for a single topic
+* $msg **String** - Message
 
 
 
@@ -107,8 +107,6 @@ Save MQTT messages sent or received
 
 
 #### Arguments
-* $direction **String** - &lt;p&gt;I for input O for output&lt;/p&gt;
-* $topicList **array** - &lt;p&gt;array of topics. String allowed for a single topic&lt;/p&gt;
-* $msg **String** - &lt;p&gt;Message&lt;/p&gt;
-
-
+* $direction **String** - I for input O for output
+* $topicList **array** - array of topics. String allowed for a single topic
+* $msg **String** - Message

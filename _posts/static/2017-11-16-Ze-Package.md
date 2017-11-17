@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Package
-permalink: development/devdocs/pluginflyvemdmpackage
+permalink: development/devdocs/PluginFlyvemdmPackage
 ---
 
 * Class name: PluginFlyvemdmPackage
@@ -70,7 +70,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 
@@ -117,8 +117,8 @@ If the tab shall not display then returns an empty string
 
 
 #### Arguments
-* $item **CommonGLPI** - &lt;p&gt;on which the tab will show&lt;/p&gt;
-* $withtemplate **number** - &lt;p&gt;template mode for $item : 0 = no template - 1 = edit template - 2 = from template&lt;/p&gt;
+* $item **CommonGLPI** - on which the tab will show
+* $withtemplate **number** - template mode for $item : 0 = no template - 1 = edit template - 2 = from template
 
 
 
@@ -153,7 +153,7 @@ Display a form to view, create or edit
 
 
 #### Arguments
-* $ID **integer** - &lt;p&gt;ID of the item to show&lt;/p&gt;
+* $ID **integer** - ID of the item to show
 * $options **array**
 
 

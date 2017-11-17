@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Invitation Log
-permalink: development/devdocs/pluginflyvemdminvitationlog
+permalink: development/devdocs/PluginFlyvemdmInvitationlog
 ---
 
 * Class name: PluginFlyvemdmInvitationlog
@@ -48,7 +48,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 

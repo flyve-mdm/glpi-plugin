@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Policy Category
-permalink: development/devdocs/pluginflyvemdmpolicycategory
+permalink: development/devdocs/PluginFlyvemdmPolicyCategory
 ---
 
 * Class name: PluginFlyvemdmPolicyCategory
@@ -59,7 +59,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 

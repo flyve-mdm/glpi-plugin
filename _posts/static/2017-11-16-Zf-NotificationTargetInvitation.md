@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Notification Target Invitation
-permalink: development/devdocs/pluginflyvemdmnotificationtargetinvitation
+permalink: development/devdocs/PluginFlyvemdmNotificationTargetInvitation
 ---
 
 * Class name: PluginFlyvemdmNotificationTargetInvitation
@@ -114,7 +114,7 @@ Can be overwitten (like dbconnection)
 
 
 #### Arguments
-* $entity **mixed** - &lt;p&gt;the entity on which the event is raised&lt;/p&gt;
+* $entity **mixed** - the entity on which the event is raised
 
 
 

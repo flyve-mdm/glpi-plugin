@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Mqtt User
-permalink: development/devdocs/pluginflyvemdmmqttuser
+permalink: development/devdocs/PluginFlyvemdmMqttuser
 ---
 
 * Class name: PluginFlyvemdmMqttuser
@@ -112,8 +112,8 @@ http://stackoverflow.com/a/31284266
 
 
 #### Arguments
-* $length **number** - &lt;p&gt;password length to generate&lt;/p&gt;
-* $keyspace **string** - &lt;p&gt;characters available to build the pasword&lt;/p&gt;
+* $length **number** - password length to generate
+* $keyspace **string** - characters available to build the pasword
 
 
 

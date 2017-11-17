@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Installer
-permalink: development/devdocs/pluginflyvemdminstaller
+permalink: development/devdocs/PluginFlyvemdmInstaller
 ---
 
 * Class name: PluginFlyvemdmInstaller
@@ -111,8 +111,8 @@ Find a profile having the given comment, or create it
 
 
 #### Arguments
-* $name **string** - &lt;p&gt;Name of the profile&lt;/p&gt;
-* $comment **string** - &lt;p&gt;Comment of the profile&lt;/p&gt;
+* $name **string** - Name of the profile
+* $comment **string** - Comment of the profile
 
 
 

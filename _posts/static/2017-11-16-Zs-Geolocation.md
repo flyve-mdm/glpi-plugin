@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Geolocation
-permalink: development/devdocs/pluginflyvemdmgeolocation
+permalink: development/devdocs/PluginFlyvemdmGeolocation
 ---
 
 * Class name: PluginFlyvemdmGeolocation
@@ -92,7 +92,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer number of item in the type (default 0)
 
 
 
@@ -126,9 +126,9 @@ Localized name of the type
 
 
 #### Arguments
-* $item **mixed** - &lt;p&gt;CommonGLPI object&lt;/p&gt;
-* $tabnum **mixed** - &lt;p&gt;(default 1)&lt;/p&gt;
-* $withtemplate **mixed** - &lt;p&gt;(default 0)&lt;/p&gt;
+* $item **mixed** - CommonGLPI object
+* $tabnum **mixed** - (default 1)
+* $withtemplate **mixed** - (default 0)
 
 
 

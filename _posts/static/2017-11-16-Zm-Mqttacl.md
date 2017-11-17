@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Mqttacl
-permalink: development/devdocs/pluginflyvemdmmqttacl
+permalink: development/devdocs/PluginFlyvemdmMqttacl
 ---
 
 * Class name: PluginFlyvemdmMqttacl

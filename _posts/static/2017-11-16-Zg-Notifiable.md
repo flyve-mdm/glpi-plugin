@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Notifiable
-permalink: development/devdocs/pluginflyvemdmnotifiable
+permalink: development/devdocs/PluginFlyvemdmNotifiable
 ---
 
 * Interface name: PluginFlyvemdmNotifiable

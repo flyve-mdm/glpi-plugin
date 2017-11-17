@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Mqtt Client
-permalink: development/devdocs/pluginflyvemdmmqttclient
+permalink: development/devdocs/PluginFlyvemdmMqttclient
 ---
 
 * Class name: PluginFlyvemdmMqttclient

@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: GLPI Locales Extension
-permalink: development/devdocs/glpilocalesextension
+permalink: development/devdocs/GlpiLocalesExtension
 ---
 LICENSE
 

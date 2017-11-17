@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Policy Interface
-permalink: development/devdocs/pluginflyvemdmpolicyinterface
+permalink: development/devdocs/PluginFlyvemdmPolicyInterface
 ---
 
 * Interface name: PluginFlyvemdmPolicyInterface
@@ -50,8 +50,8 @@ Check the policy may apply with respect of unicity constraint
 #### Arguments
 * $fleet **[PluginFlyvemdmFleet](PluginFlyvemdmFleet)**
 * $value **string**
-* $itemtype **string** - &lt;p&gt;the itemtype of an item&lt;/p&gt;
-* $itemId **integer** - &lt;p&gt;the id of an item&lt;/p&gt;
+* $itemtype **string** - the itemtype of an item
+* $itemId **integer** - the id of an item
 
 
 
@@ -87,8 +87,8 @@ Check the value used to apply a policy is valid, and check the the item to link
 
 #### Arguments
 * $value **string**
-* $itemtype **string** - &lt;p&gt;the itemtype of an item&lt;/p&gt;
-* $itemId **integer** - &lt;p&gt;the id of an item&lt;/p&gt;
+* $itemtype **string** - the itemtype of an item
+* $itemId **integer** - the id of an item
 
 
 
@@ -124,8 +124,8 @@ Returns an array describing the policy applied vith the given value and item
 
 #### Arguments
 * $value **string**
-* $itemtype **string** - &lt;p&gt;the itemtype of an item&lt;/p&gt;
-* $itemId **integer** - &lt;p&gt;the id of an item&lt;/p&gt;
+* $itemtype **string** - the itemtype of an item
+* $itemId **integer** - the id of an item
 
 
 

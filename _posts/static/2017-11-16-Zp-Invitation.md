@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Invitation
-permalink: development/devdocs/pluginflyvemdminvitation
+permalink: development/devdocs/PluginFlyvemdmInvitation
 ---
 
 * Class name: PluginFlyvemdmInvitation
@@ -82,7 +82,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 
@@ -128,7 +128,7 @@ Prepares input to follow the most used description convention
 
 
 #### Arguments
-* $input **array** - &lt;p&gt;the data to use when creating a new row in the DB&lt;/p&gt;
+* $input **array** - the data to use when creating a new row in the DB
 
 
 
@@ -233,8 +233,7 @@ Actions done when a document is being purged
 
 
 #### Arguments
-* $item **CommonDBTM** - &lt;p&gt;Document&lt;/p&gt;
-
+* $item **CommonDBTM** - Document
 
 
 ### getUser
@@ -262,8 +261,8 @@ get the enrollment URL of the agent
 
 
 #### Arguments
-* $user **User** - &lt;p&gt;Recipient of the QR code&lt;/p&gt;
-* $învitationToken **string** - &lt;p&gt;Invitation token&lt;/p&gt;
+* $user **User** - Recipient of the QR code
+* $învitationToken **string** - Invitation token
 
 
 

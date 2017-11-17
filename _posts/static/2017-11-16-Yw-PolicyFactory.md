@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Policy Factory
-permalink: development/devdocs/pluginflyvemdmpolicyfactory
+permalink: development/devdocs/PluginFlyvemdmPolicyFactory
 ---
 
 * Class name: PluginFlyvemdmPolicyFactory

@@ -4,16 +4,8 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Profile
-permalink: development/devdocs/pluginflyvemdmprofile
+permalink: development/devdocs/PluginFlyvemdmProfile
 ---
-
-PluginFlyvemdmProfile
-===============
-
-
-
-
-
 
 * Class name: PluginFlyvemdmProfile
 * Namespace: 

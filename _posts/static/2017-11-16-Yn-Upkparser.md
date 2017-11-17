@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM UPK parser
-permalink: development/devdocs/pluginflyvemdmupkparser
+permalink: development/devdocs/PluginFlyvemdmUpkparser
 ---
 
 * Class name: PluginFlyvemdmUpkparser

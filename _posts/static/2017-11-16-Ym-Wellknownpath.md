@@ -4,7 +4,7 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Wellknownpath
-permalink: development/devdocs/pluginflyvemdmwellknownpath
+permalink: development/devdocs/PluginFlyvemdmWellknownpath
 ---
 
 * Class name: PluginFlyvemdmWellknownpath
@@ -48,7 +48,7 @@ Localized name of the type
 
 
 #### Arguments
-* $nb **mixed** - &lt;p&gt;integer  number of item in the type (default 0)&lt;/p&gt;
+* $nb **mixed** - integer  number of item in the type (default 0)
 
 
 
@@ -64,7 +64,7 @@ Prepare input datas for adding the item
 
 
 #### Arguments
-* $input **array** - &lt;p&gt;data used to add the item&lt;/p&gt;
+* $input **array** - data used to add the item
 
 
 
@@ -80,7 +80,7 @@ Prepare input datas for updating the item
 
 
 #### Arguments
-* $input **array** - &lt;p&gt;data used to update the item&lt;/p&gt;
+* $input **array** - data used to update the item
 
 
 

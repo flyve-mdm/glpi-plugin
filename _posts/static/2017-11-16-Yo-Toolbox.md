@@ -4,16 +4,8 @@ code: true
 wiki: false
 published: true
 title: Plugin Flyve MDM Toolbox
-permalink: development/devdocs/pluginflyvemdmtoolbox
+permalink: development/devdocs/PluginFlyvemdmToolbox
 ---
-
-PluginFlyvemdmToolbox
-===============
-
-
-
-
-
 
 * Class name: PluginFlyvemdmToolbox
 * Namespace: 
