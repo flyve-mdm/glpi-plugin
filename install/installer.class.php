@@ -373,7 +373,7 @@ please contact ##user.firstname## ##user.realname## to his email address
 Please join the Flyve Mobile Device Management system by downloading
 and installing the Flyve MDM application for Android from the following link.
 
-##flyvemdm.download_app##
+<a href="##flyvemdm.download_app##">##flyvemdm.download_app##</a>
 
 If you\'re viewing this email from a computer flash the QR code you see below
 with the Flyve MDM Application.
