@@ -86,7 +86,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testEnrollAgent
     */
    public function testEnrollAgent() {
-      list($user, $guestEmail, $invitation, $serial) = $this->createUserInvitation(\User::getForeignKeyField());
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
 
       $invitationToken = $invitation->getField('invitation_token');
       $inviationId = $invitation->getID();
