@@ -90,7 +90,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addDefaultFormTab($tab);
       if (!$this->isNewItem()) {
          $this->addStandardTab(PluginFlyvemdmAgent::class, $tab, $options);
-         $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
+         if ($this->fields['is_default'] == '0') {
+            $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
+         }
          $this->addStandardTab(Notepad::class, $tab, $options);
          $this->addStandardTab(Log::class, $tab, $options);
       } else {
