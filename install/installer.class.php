@@ -1404,6 +1404,38 @@ Regards,
             'is_android_system'                    => '1',
             'is_apple_policy'                      => '0',
          ],
+
+         [
+            'name'                                 => __('Lock screen background color', 'flyvemdm'),
+            'symbol'                               => 'lockBackgroundColor',
+            'group'                                => 'connectivity',
+            'type'                                 => 'string',
+            'type_data'                            => '',
+            'unicity'                              => 1,
+            'plugin_flyvemdm_policycategories_id'  => 'Security',
+            'comment'                              => __('Sets a color used as background when the device is locked', 'flyvemdm'),
+            'default_value'                        => '0',
+            'recommended_value'                    => '0',
+            'is_android_policy'                    => '1',
+            'is_android_system'                    => '1',
+            'is_apple_policy'                      => '0',
+         ],
+
+         [
+            'name'                                 => __('Lock screen background image', 'flyvemdm'),
+            'symbol'                               => 'lockBackgroundImage',
+            'group'                                => 'connectivity',
+            'type'                                 => 'string',
+            'type_data'                            => '',
+            'unicity'                              => 1,
+            'plugin_flyvemdm_policycategories_id'  => 'Security',
+            'comment'                              => __('Sets a image used as background when the device is locked', 'flyvemdm'),
+            'default_value'                        => '0',
+            'recommended_value'                    => '0',
+            'is_android_policy'                    => '1',
+            'is_android_system'                    => '1',
+            'is_apple_policy'                      => '0',
+         ],
       ];
 
       // Restore user's locale
