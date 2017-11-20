@@ -43,7 +43,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->resetState();
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
+      $this->boolean($this->login('glpi', 'glpi'))->isTrue();
    }
 
    /**
