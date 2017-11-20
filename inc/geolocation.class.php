@@ -260,25 +260,25 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @return string an html with the geolocation of the agent
     */
    public static function showForAgent(CommonDBTM $item) {
-      $computer = new Computer;
-      $computer->getFromDB($item->getField('computers_id'));
+      $beginDate = $endDate = date('Y-m-d');
+      $computerId = $item->getField('computers_id');
+
+      $geolocation = new PluginFlyvemdmGeolocation();
+      if ($rows = $geolocation->find('computers_id = ' . $computerId, 'date ASC')) {
+         $beginDate = date('Y-m-d H:i:s', strtotime(reset($rows)['date']));
+         if (count($rows) > 1) {
+            $endDate = date('Y-m-d H:i:s', strtotime(end($rows)['date']));
+         }
+      }
 
       $randBegin = mt_rand();
       $randEnd = mt_rand();
       $data = [
-            'computerId'   => $computer->getID(),
-            'beginDate'    => Html::showDateTimeField('beginDate', [
-                  'rand'         => $randBegin,
-                  'value'        => '',
-                  'display'      => false,
-            ]),
-            'endDate'      => Html::showDateTimeField('endDate', [
-                  'rand'         => $randEnd,
-                  'value'        => date('Y-m-d H:i:s'),
-                  'display'      => false,
-            ]),
-            'randBegin'    => $randBegin,
-            'randEnd'      => $randEnd,
+         'computerId' => $computerId,
+         'beginDate' => $beginDate,
+         'endDate' => $endDate,
+         'randBegin' => $randBegin,
+         'randEnd' => $randEnd,
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('computer_geolocation.html', $data);

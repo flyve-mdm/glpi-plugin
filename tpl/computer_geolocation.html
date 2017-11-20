@@ -1,14 +1,20 @@
 <div class="plugin_flyvemdm_clear">
    <div id="plugin_flyvemdm_geolocationList">
-      <div>{{ __('view from', 'flyvemdm') }}{{ beginDate|raw }}</div>
-      <div>{{ __('view until', 'flyvemdm') }}{{ endDate|raw }}</div>
-      <div><p><a href="#" class="vsubmit" onclick="loadMarkers()">{{ __('update', 'flyvemdm') }}</a></p></div>
+      {% if beginDate is not empty and endDate is not empty %}
+         <div><label for="fromDateRange">From date:</label> <span id="fromDateRange"></span>
+         <input type="hidden" id="showdate{{ randBegin }}" value="{{ beginDate|raw }}"/></div>
+         <div><label for="toDateRange">To date:</label> <span id="toDateRange"></span>
+         <input type="hidden" id="showdate{{ randEnd }}" value="{{ endDate|raw }}"/></div>
+         <div id="slider-range"></div>
+      {% endif %}
    </div>
    <div id="plugin_flyvemdm_geolocationMap">
    </div>
    <script  type="text/javascript">$(function() {
       var map;
       var markers = [];
+      var randBegin = '{{ randBegin }}';
+      var randEnd = '{{ randEnd }}';
 
       function showMap(position) {
          map = L.map('plugin_flyvemdm_geolocationMap');
@@ -32,8 +38,6 @@
 
       function loadMarkers() {
          var computerId = {{ computerId|raw }};
-         var randBegin = {{ randBegin|raw }};
-         var randEnd = {{ randEnd|raw }};
          var beginDate = $('#showdate'  + randBegin)[0].value;
          var endDate = $('#showdate' + randEnd)[0].value;
          $.ajax({
@@ -62,8 +66,37 @@
          })
       }
 
+      function initSlider(){
+          var sliderRange = $("#slider-range");
+          var minDate = new Date('{{ beginDate }}').getTime() / 1000;
+          var maxDate = new Date('{{ endDate }}').getTime() / 1000;
+          sliderRange.slider({
+              range: true,
+              min: minDate,
+              max: maxDate,
+              step: 86400,
+              values: [minDate, maxDate],
+              slide: function (event, ui) {
+                  var fromDate = new Date(ui.values[0] * 1000);
+                  var toDate = new Date(ui.values[1] * 1000);
+                  $('#fromDateRange').html(fromDate.toDateString());
+                  $('#showdate'  + randBegin).val(fromDate.toString());
+                  $('#toDateRange').html(toDate.toDateString());
+                  $('#showdate' + randEnd).val(toDate.toString());
+                  loadMarkers();
+              }
+          });
+          var fromDate = new Date(sliderRange.slider("values", 0) * 1000);
+          var toDate = new Date(sliderRange.slider("values", 1) * 1000);
+          $('#fromDateRange').html(fromDate.toDateString());
+          $('#showdate'  + randBegin).val(fromDate.toString());
+          $('#toDateRange').html(toDate.toDateString());
+          $('#showdate' + randEnd).val(toDate.toString());
+          loadMarkers();
+      }
+
+      initSlider();
       showMap();
-      loadMarkers();
    })
    </script>
 </div>
