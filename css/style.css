@@ -71,25 +71,18 @@ ul#menu ul.ssmenu {
 }
 
 #plugin_flyvemdm_geolocationMap {
-   float:left;
-   width: calc(100% - 200px);
    height: 480px;
 }
 
-#plugin_flyvemdm_geolocationList {
-   float: right;
-   width: 200px;
+#plugin_flyvemdm_geolocationList label {
+   font-weight: bold;
 }
 
-/* ################--------------- Responsive  ---------------#################### */
-@media screen and (max-width: 700px) {
-   #plugin_flyvemdm_geolocationMap {
-      float: none;
-      width: 100%;
-   }
+.ui-slider {
+   margin: 1em;
+}
 
-   #plugin_flyvemdm_geolocationList {
-      float: none;
-      width: 100%;
-   }
+.ui-slider .ui-widget-header {
+   background: #FEC95C;
+   cursor: pointer;
 }
