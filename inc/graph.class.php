@@ -46,14 +46,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $dbUtils = new DbUtils();
 
       $pendingCount = $dbUtils->countElementsInTableForMyEntities(
-            PluginFlyvemdmInvitation::getTable(),
-            "`status` = 'pending'"
+         PluginFlyvemdmInvitation::getTable(),
+         "`status` = 'pending'"
       );
 
       $doneCount = $dbUtils->countElementsInTableForMyEntities(
-            PluginFlyvemdmInvitation::getTable(),
-            "`status` = 'done'"
-            );
+         PluginFlyvemdmInvitation::getTable(),
+         "`status` = 'done'"
+      );
 
       if (($pendingCount + $doneCount) == 0) {
          return '';
@@ -63,18 +63,18 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $out = $stat->displayPieGraph(
             __('Invitations', 'flyvemdm'),
             [
-                  __('Done', 'flyvemdm'),
-                  __('Pending', 'flyvemdm')
+               __('Done', 'flyvemdm'),
+               __('Pending', 'flyvemdm')
             ],
             [
-                  [
-                        'name'   => __('Done', 'flyvemdm'),
-                        'data'   => $doneCount,
-                  ],
-                  [
-                        'name'   => __('Pending', 'flyvemdm'),
-                        'data'   => $pendingCount,
-                  ],
+               [
+                  'name'   => __('Done', 'flyvemdm'),
+                  'data'   => $doneCount,
+               ],
+               [
+                  'name'   => __('Pending', 'flyvemdm'),
+                  'data'   => $pendingCount,
+               ],
             ],
             false
       );
@@ -112,15 +112,13 @@ class PluginFlyvemdmGraph extends CommonDBTM
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
                 GROUP BY `operatingsystem`, `version`";
       $result = $DB->query($query);
-      if ($result) {
-         $labels = [];
+      if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
          $versionNames = [];
          $versionPerOS = [];
          while ($row = $DB->fetch_assoc($result)) {
             $osNames[$row['operatingsystem']] = $row['operatingsystem'];
             $versionNames[$row['version']] = $row['version'];
-            $labels[] = $row['operatingsystem']; /*. ' ' . $row['version']*/
             $versionPerOS[$row['version']][$row['operatingsystem']] = $row['cpt'];
          }
          foreach ($osNames as $osName) {
@@ -135,21 +133,19 @@ class PluginFlyvemdmGraph extends CommonDBTM
          foreach ($versionPerOS as $osName => $serie) {
             ksort($serie);
             $series[] = [
-                  'name'   => $osName,
-                  'data'   => array_values($serie),
+               'name'   => $osName,
+               'data'   => array_values($serie),
             ];
          }
-         $stat = new Stat();
          $out = $this->displayStackedBarGraph(
-               __('Devices per operating system version', 'flyvemdm'),
-               array_values($osNames),
-               $series,
-               [
-                     'width'     => '100%',
-               ],
-               false
+            __('Devices per operating system version', 'flyvemdm'),
+            array_values($osNames),
+            $series,
+            [
+               'width'     => '100%',
+            ],
+            false
          );
-
       }
 
       return $out;
@@ -185,7 +181,6 @@ class PluginFlyvemdmGraph extends CommonDBTM
          }
       }
 
-      $stat = new Stat();
       $slug = str_replace('-', '_', Toolbox::slugify($title));
       $this->checkEmptyLabels($labels);
       $out = "<h2 class='center'>$title</h2>";
@@ -243,7 +238,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $out .= "});";
 
       if ($param['animate'] === true) {
-                  $out .= "
+         $out .= "
                      chart_$slug.on('draw', function(data) {
                         if(data.type === 'bar') {
                            data.element.animate({
@@ -259,7 +254,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
                      });
                   });";
       }
-      $out .="</script>";
+      $out .= "</script>";
 
       if ($display) {
          echo $out;
@@ -282,5 +277,4 @@ class PluginFlyvemdmGraph extends CommonDBTM
          }
       }
    }
-
 }
