@@ -11,7 +11,7 @@ In order for us to help you please check that you've completed the following ste
 * Used the search feature to ensure that the bug hasn't been reported before
 * Included as much information about the bug as possible, including any output you've received, what OS and version you're on, etc.
 
-[Submit your issue](https://github.com/flyve-mdm/flyve-mdm-glpi/issues/new)
+[Submit your issue](https://github.com/flyve-mdm/glpi-plugin/issues/new)
 
 ## Style Guide
 
