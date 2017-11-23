@@ -1342,7 +1342,7 @@ Regards,
 
          [
             'name'                                 => __('Disable screen capture', 'flyvemdm'),
-            'symbol'                               => 'disableSreenCapture',
+            'symbol'                               => 'disableScreenCapture',
             'group'                                => 'ui',
             'type'                                 => 'bool',
             'type_data'                            => '',
