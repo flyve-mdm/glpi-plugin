@@ -240,7 +240,7 @@ class PluginFlyvemdmMqttclient {
       ]);
       if (empty($config['mqtt_broker_internal_address'])
           || empty($config['mqtt_broker_port']) || empty($config['mqtt_broker_tls_port'])
-          || (isset($config['mqtt_tls_for_backend']))) {
+          || (empty($config['mqtt_tls_for_backend']))) {
           Toolbox::logInFile('mqtt', 'at least one MQTT configuration setting is missing');
          return false;
       } else {
