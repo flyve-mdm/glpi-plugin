@@ -25,6 +25,15 @@
          <td></td>
       </tr>
       <tr>
+         <th colspan="3" class="">{{ __('Invitation deeplink', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Invitation deeplink URL', 'flyvemdm') }}</td>
+         <td><input name="invitation_deeplink" value="{{ config.invitation_deeplink }}"
+            min="0"></td>
+         <td>{{ __('Base URL of the deeplink micro service', 'flyvemdm') }}</td>
+      </tr>
+      <tr>
          <th colspan="3" class="">{{ __('Restrictions', 'flyvemdm') }}</th>
       </tr>
       <tr class="tab_bg_1">

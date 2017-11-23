@@ -630,6 +630,7 @@ Regards,
          'inactive_registered_profiles_id'=> '',
          'computertypes_id'               => '0',
          'agentusercategories_id'         => '0',
+         'invitation_deeplink'            => PLUGIN_FLYVEMDM_DEEPLINK
       ];
       Config::setConfigurationValues('flyvemdm', $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);

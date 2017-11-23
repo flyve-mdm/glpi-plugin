@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
    const EVENT_GUEST_INVITATION = 'plugin_flyvemdm_invitation';
-   const DEEPLINK = 'http://flyve.org/flyve-mdm-deeplink/?data=';
+   const DEEPLINK = '?data=';
 
    /**
     * Define plugins notification events
@@ -100,14 +100,17 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $document = new Document();
                $document->getFromDB($invitation->getField('documents_id'));
 
+               // Get the general config of Flyve MDM
+               $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
+
                // Get the entitiy configuration data
                $entityConfig = new PluginFlyvemdmEntityconfig();
                $entityConfig->getFromDBByCrit(['entities_id' => $event->obj->getField('entities_id')]);
 
-               // build the data of the deeplink
+               // Build the data of the deeplink
                $personalToken = User::getToken($invitation->getField('users_id'), 'api_token');
                $enrollmentData = [
-                     'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
+                     'url'                => rtrim($CFG_GLPI['url_base_api'], '/'),
                      'user_token'         => $personalToken,
                      'invitation_token'   => $invitation->getField('invitation_token'),
                      'support_name'       => $entityConfig->getField('support_name'),
@@ -117,7 +120,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                      //'support_address'    => $entityConfig->getField('support_address'),
                ];
 
-               $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
+               $encodedRequest = $config['invitation_deeplink'] . PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
                                  . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
 
                // Fill the template
