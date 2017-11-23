@@ -110,7 +110,6 @@ class PluginFlyvemdmInstaller {
             $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
             return false;
          }
-
          $this->createInitialConfig();
       } else {
          if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_FLYVEMDM_VERSION) != 0)) {
@@ -509,7 +508,6 @@ Regards,
          if (function_exists($updateFunction)) {
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
             $updateFunction($this->migration);
-            $this->migration->executeMigration();
             $this->migration->displayMessage('Done');
          }
       }
