@@ -1373,8 +1373,8 @@ Regards,
          ],
 
          [
-            'name'                                 => __('Allow speakerphone', 'flyvemdm'),
-            'symbol'                               => 'allowSpeakerphone',
+            'name'                                 => __('Disable speakerphone', 'flyvemdm'),
+            'symbol'                               => 'disableSpeakerphone',
             'group'                                => 'connectivity',
             'type'                                 => 'bool',
             'type_data'                            => '',
@@ -1389,8 +1389,8 @@ Regards,
          ],
 
          [
-            'name'                                 => __('Allow create VPN profiles', 'flyvemdm'),
-            'symbol'                               => 'allowCreateVpnProfiles',
+            'name'                                 => __('Disable create VPN profiles', 'flyvemdm'),
+            'symbol'                               => 'disableCreateVpnProfiles',
             'group'                                => 'connectivity',
             'type'                                 => 'bool',
             'type_data'                            => '',
