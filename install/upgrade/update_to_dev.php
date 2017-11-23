@@ -181,7 +181,16 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
-   $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('" . addslashes(GLPI_DOC_DIR) . "', `filename`)");
+
+   $result = $DB->request(['FROM' => $table, 'LIMIT' => '1']);
+   if ($result->count() > 0) {
+      $result->rewind();
+      $row = $result->current();
+      if (strpos($row['filename'], 'flyvemdm/package/') !== 0) {
+         // It there is at least one package and the path does st arts with the new prefix, then update all the table
+         $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('flyvemdm/package/', `filename`)");
+      }
+   }
 
    $table = 'glpi_plugin_flyvemdm_files';
    $migration->addKey($table, 'entities_id', 'entities_id');
