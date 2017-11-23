@@ -86,6 +86,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testEnrollAgent
     */
    public function testEnrollAgent() {
+      // Set a computer type
+      $computerTypeId = 3;
+      \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $computerTypeId]);
+
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
 
       $invitationToken = $invitation->getField('invitation_token');
@@ -182,6 +186,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test a computer is associated to the agent
       $computer = new \Computer();
       $this->boolean($computer->getFromDB($agent->getField(\Computer::getForeignKeyField())))->isTrue();
+
+      // Test the computer has the expected type
+      $this->string($computer->getField('computertypes_id'))->isEqualTo($computerTypeId);
 
       // Test the serial is saved
       $this->string($computer->getField('serial'))->isEqualTo($serial);

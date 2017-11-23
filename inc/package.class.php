@@ -121,7 +121,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param integer $ID ID of the item to show
     * @param array $options
     */
-   public function showForm($ID, $options=[]) {
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 

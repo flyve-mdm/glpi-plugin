@@ -1000,12 +1000,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input = [];
 
       $config = Config::getConfigurationValues("flyvemdm", [
-            'mqtt_tls_for_clients',
-            'mqtt_use_client_cert',
-            'debug_noexpire',
-            'computertypes_id',
-            'agentusercategories_id',
-            'agent_profiles_id',
+         'mqtt_tls_for_clients',
+         'mqtt_use_client_cert',
+         'debug_noexpire',
+         'computertypes_id',
+         'agentusercategories_id',
+         'agent_profiles_id',
       ]);
 
       // Find the invitation
@@ -1188,11 +1188,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Create the device
       $computer = new Computer();
       $computerId = $computer->add([
-         'name'         => $email,
-         'users_id'     => $userId,
-         'entities_id'  => $entityId,
-         'serial'       => $serial,
-         'uuid'         => $uuid,
+         'name'               => $email,
+         'users_id'           => $userId,
+         'entities_id'        => $entityId,
+         'serial'             => $serial,
+         'uuid'               => $uuid,
+         'computertypes_id'   => $computerTypeId,
       ]);
       if ($computerId === false) {
          $event = __("Cannot create the device", 'flyvemdm');
