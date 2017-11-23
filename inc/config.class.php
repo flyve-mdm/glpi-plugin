@@ -316,6 +316,14 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             }
          }
       }
+
+      if (isset($input['invitation_deeplink'])) {
+         // Ensure there is a trailing slash
+         if (strrpos($input['invitation_deeplink'], '/') != strlen($input['invitation_deeplink']) - 1) {
+            $input['invitation_deeplink'] .= '/';
+         }
+      }
+
       unset($input['_CACertificateFile']);
       unset($input['_tag_CACertificateFile']);
       unset($input['CACertificateFile']);

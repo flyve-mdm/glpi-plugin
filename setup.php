@@ -41,6 +41,8 @@ define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');
 
 define('PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL', 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
 
+define('PLUGIN_FLYVEMDM_DEEPLINK', 'http://flyve.org/deeplink/');
+
 if (!defined('FLYVEMDM_CONFIG_PATH')) {
    define('FLYVEMDM_CONFIG_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm');
 }

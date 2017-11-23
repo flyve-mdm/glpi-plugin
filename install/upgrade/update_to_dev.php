@@ -79,6 +79,9 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       Config::deleteConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    }
 
+   // Add parameter for deeplink
+   Config::setConfigurationValues('flyvemdm', ['invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK]);
+
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
 
