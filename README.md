@@ -2,12 +2,12 @@
 
 ![Flyve MDM banner](https://user-images.githubusercontent.com/663460/26935464-54267e9c-4c6c-11e7-86df-8cfa6658133e.png)
 
-[![License](https://img.shields.io/github/license/flyve-mdm/flyve-mdm-glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/blob/develop/LICENSE.md)
+[![License](https://img.shields.io/github/license/flyve-mdm/glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/glpi-plugin/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/FlyveMDM.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/FlyveMDM)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/flyvemdm)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
-[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://greenkeeper.io/)
-[![GitHub release](https://img.shields.io/github/release/flyve-mdm/flyve-mdm-glpi-plugin.svg)](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/releases)
+[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/glpi-plugin.svg)](https://greenkeeper.io/)
+[![GitHub release](https://img.shields.io/github/release/flyve-mdm/glpi-plugin.svg)](https://github.com/flyve-mdm/glpi-plugin/releases)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 Flyve MDM is a mobile device management software that enables you to secure and manage all the mobile devices of your business via a unique web-based console (MDM).
@@ -35,28 +35,28 @@ It provides a stand alone web based administration and a interface integrated in
 
 | **Release channel** | **Beta channel** |
 |:---:|:---:|
-| [![Build Status](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi-plugin) |
+| [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/glpi-plugin) |
 
 ## Installation
 
-Installation instructions are available in the [wiki](http://flyve.org/flyve-mdm-glpi-plugin/wiki/).
+Installation instructions are available on the website, see the [How-tos section](http://flyve.org/glpi-plugin/howtos/).
 
 ## Documentation
 
-We share long-form content about the project on the website, see the [Development section](http://flyve.org/flyve-mdm-glpi-plugin/).
+We share long-form content about the project on the website, see the [Development section](http://flyve.org/glpi-plugin/).
 
 ## Versioning
 
 In order to provide transparency on our release cycle and to maintain backward compatibility, Flyve MDM is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
 
-See [the tags section of our GitHub project](http://github.com/flyve-mdm/flyve-mdm-glpi-plugin/tags) for changelogs for each release version of Flyve MDM. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
+See [the tags section of our GitHub project](http://github.com/flyve-mdm/glpi-plugin/tags) for changelogs for each release version of Flyve MDM. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
 
 ## Contribute
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
-guidelines for [contributing](./CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/issues).
+guidelines for [contributing](https://github.com/flyve-mdm/glpi-plugin/blob/develop/.github/CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues).
 
-If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/wiki) or by testing the product.
+If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/glpi-plugin/) or by testing the product.
 
 ## Contact
 
