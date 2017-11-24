@@ -44,7 +44,7 @@ class Config extends CommonTestCase
    }
 
    /**
-    *
+    * @engine inline
     */
    public function testUninstallPlugin() {
       global $DB;
@@ -55,9 +55,14 @@ class Config extends CommonTestCase
       $plugin->getFromDBbyDir($pluginName);
 
       // Uninstall the plugin
-      ob_start(function($in) { return ''; });
+      $log = '';
+      ob_start(function($in) use ($log) {
+         $log .= $in;
+         return '';
+      });
       $plugin->uninstall($plugin->getID());
       ob_end_clean();
+      $this->boolean($plugin->isInstalled($pluginName))->isFalse($log);
 
       // Check the plugin is not installed
       $this->boolean($plugin->isInstalled($pluginName))->isFalse();

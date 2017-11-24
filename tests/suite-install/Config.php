@@ -43,7 +43,7 @@ class Config extends CommonTestCase
    public function testInstallPlugin() {
       global $DB;
 
-      $pluginname = TEST_PLUGIN_NAME;
+      $pluginName = TEST_PLUGIN_NAME;
 
       $this->given(self::setupGLPIFramework())
            ->and($this->boolean($DB->connected)->isTrue())
@@ -52,13 +52,13 @@ class Config extends CommonTestCase
 
       //Drop plugin configuration if exists
       $config = $this->newTestedInstance();
-      $config->deleteByCriteria(array('context' => $pluginname));
+      $config->deleteByCriteria(array('context' => $pluginName));
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
       $result = $DB->query($query);
       while ($data = $DB->fetch_array($result)) {
-         if (strstr($data[0], "glpi_plugin_$pluginname") !== false) {
+         if (strstr($data[0], "glpi_plugin_$pluginName") !== false) {
             $DB->query("DROP TABLE ".$data[0]);
          }
       }
@@ -67,23 +67,28 @@ class Config extends CommonTestCase
       $this->resetGLPILogs();
 
       $plugin = new Plugin();
-      $plugin->getFromDBbyDir($pluginname);
+      $plugin->getFromDBbyDir($pluginName);
 
       // Install the plugin
-      ob_start(function($in) { return ''; });
+      $log = '';
+      ob_start(function($in) use ($log) {
+         $log .= $in;
+         return '';
+      });
       $plugin->install($plugin->fields['id']);
       ob_end_clean();
+      $this->boolean($plugin->isInstalled($pluginName))->isTrue($log);
 
       // Assert the database matches the schema
-      $filename = GLPI_ROOT."/plugins/$pluginname/install/mysql/plugin_" . $pluginname . "_empty.sql";
-      $this->checkInstall($filename, 'glpi_plugin_' . $pluginname . '_', 'install');
+      $filename = GLPI_ROOT."/plugins/$pluginName/install/mysql/plugin_" . $pluginName . "_empty.sql";
+      $this->checkInstall($filename, 'glpi_plugin_' . $pluginName . '_', 'install');
 
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
-      $this->boolean($plugin->isActivated($pluginname))->isTrue('Cannot enable the plugin');
+      $this->boolean($plugin->isActivated($pluginName))->isTrue('Cannot enable the plugin');
 
       // Enable debug mode for enrollment messages
-      \Config::setConfigurationValues($pluginname, ['debug_enrolment' => '1']);
+      \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
 
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
