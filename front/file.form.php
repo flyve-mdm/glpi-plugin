@@ -43,13 +43,13 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$file = new PluginFlyvemdmFile();
+$flyveFile = new PluginFlyvemdmFile();
 if (isset($_POST['add'])) {
-   $file->check($_POST['id'], CREATE);
-   $file->add($_POST);
+   $flyveFile->check(-1, CREATE, $_POST);
+   $flyveFile->add($_POST);
    Html::back();
 } else {
-   $file->check($_GET['id'], READ);
+   $flyveFile->check($_GET['id'], READ);
    Html::header(
          PluginFlyvemdmFile::getTypeName(Session::getPluralNumber()),
          '',
@@ -57,7 +57,7 @@ if (isset($_POST['add'])) {
          'PluginFlyvemdmMenu',
          'file'
    );
-   $file->display([
+   $flyveFile->display([
       'id' => $_GET["id"], 'withtemplate' => $_GET["withtemplate"]
    ]);
 
