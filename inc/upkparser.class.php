@@ -44,6 +44,10 @@ class PluginFlyvemdmUpkparser {
    protected $apkParser;
    protected $apkFilename;
 
+   /**
+    * PluginFlyvemdmUpkparser constructor.
+    * @param string $upkFile
+    */
    public function __construct($upkFile) {
       $zip = new ZipArchive();
       $this->apkFilename = tempnam(GLPI_TMP_DIR, 'upk_');

@@ -55,6 +55,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    static $config = [];
 
+   /**
+    * @param string|null $classname
+    * @return string
+    */
    public static function getTable($classname = null) {
       return Config::getTable();
    }
@@ -130,9 +134,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
-    * @param $item         CommonGLPI object
-    * @param $tabnum       (default 1)
+    * @param $item CommonGLPI object
+    * @param $tabnum (default 1)
     * @param $withtemplate (default 0)
+    * @return bool|void
     */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if ($item->getType() == __CLASS__) {

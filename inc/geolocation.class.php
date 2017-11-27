@@ -148,7 +148,6 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
-    *
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -225,8 +224,9 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $input;
    }
 
-   /*
+   /**
     * Add default join for search on Geolocation
+    * @return string
     */
    public static function addDefaultJoin() {
       $geolocationTable = self::getTable();
@@ -236,8 +236,9 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $join;
    }
 
-   /*
+   /**
     * Add default where for search on Geolocation
+    * @return string
     */
    public static function addDefaultWhere() {
 
@@ -284,6 +285,9 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       echo $twig->render('computer_geolocation.html', $data);
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 

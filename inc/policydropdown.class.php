@@ -45,7 +45,7 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    protected $valueList;
 
    /**
-    * Constructor
+    * PluginFlyvemdmPolicyDropdown constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -58,14 +58,20 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       return array_key_exists($value, $this->valueList);
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {
@@ -78,7 +84,7 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * @see PluginFlyvemdmPolicyBase::translateData()
+    * @return array
     */
    public function translateData() {
       $translated = [];
@@ -90,17 +96,15 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
    }
 
    /**
-    * Shows the input value
-    * @return array a list of the values
+    * @return int|string
     */
    public function showValueInput() {
       return Dropdown::showFromArray('value', $this->valueList, ['display' => false]);
    }
 
    /**
-    * Shows the value
     * @param PluginFlyvemdmTask $task
-    * @return array a list of the values
+    * @return mixed
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $value = $task->getField('value');

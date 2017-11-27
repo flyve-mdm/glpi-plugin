@@ -72,8 +72,8 @@ function plugin_flyvemdm_postinit() {
 }
 
 /**
- *
  * @param string $type
+ * @return array
  */
 function plugin_flyvemdm_MassiveActions($type) {
    switch ($type) {
@@ -87,6 +87,7 @@ function plugin_flyvemdm_MassiveActions($type) {
 
 /**
  * Actions done when a profile_user is being purged
+ * @param CommonDBTM $item
  */
 function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
    $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id', 'registered_profiles_id']);
@@ -119,6 +120,10 @@ function plugin_flyvemdm_getDropdown() {
 
 }
 
+/**
+ * @param string $itemtype
+ * @return string
+ */
 function plugin_flyvemdm_addDefaultSelect($itemtype) {
    $selected = '';
 
@@ -128,6 +133,7 @@ function plugin_flyvemdm_addDefaultSelect($itemtype) {
 /**
  * Add a default WHERE in SELECT queries on itemtypes
  * @param string $itemtype Itemtype
+ * @return string
  */
 function plugin_Flyvemdm_addDefaultJoin($itemtype) {
 
@@ -143,6 +149,7 @@ function plugin_Flyvemdm_addDefaultJoin($itemtype) {
 /**
  * Add a default WHERE in SELECT queries on itemtypes
  * @param string $itemtype Itemtype
+ * @return string
  */
 function plugin_Flyvemdm_addDefaultWhere($itemtype) {
 
@@ -156,11 +163,17 @@ function plugin_Flyvemdm_addDefaultWhere($itemtype) {
 
 }
 
+/**
+ * @return array
+ */
 function plugin_flyvemdm_getDatabaseRelations() {
    return [
    ];
 }
 
+/**
+ * @param CommonDBTM $item
+ */
 function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
    if ($item instanceof Entity) {
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -171,6 +184,9 @@ function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
    }
 }
 
+/**
+ * @param CommonDBTM $item
+ */
 function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
    if ($item instanceof Entity) {
       $itemtypes = [

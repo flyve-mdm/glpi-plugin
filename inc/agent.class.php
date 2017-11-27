@@ -146,7 +146,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     * @since version 9.1
     * @param CommonGLPI $item
-    * @param int $withtemplate
+    * @param integer $withtemplate
     * @return array|string
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
@@ -198,8 +198,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Show form for edition
+    * @param integer $ID
+    * @param array $options
     */
-   public function showForm($ID, $options = []) {
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
       $canUpdate = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
@@ -394,6 +396,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * @param array $input
+    * @return array|bool
+    */
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -434,6 +440,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
+   /**
+    * @param array $input
+    * @return array|bool
+    */
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
@@ -691,6 +701,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->cleanupSubtopics();
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
@@ -1369,7 +1382,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Send an geolocation request to the agent
-    * @return boolean
+    * @param $errorMessage
+    * @return bool
     */
    protected function sendGeolocationQuery(&$errorMessage) {
       $topic = $this->getTopic();
@@ -1779,6 +1793,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $computer;
    }
 
+   /**
+    * @param string $topic
+    * @param string $mqttMessage
+    * @param integer $qos
+    * @param integer $retain
+    */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);

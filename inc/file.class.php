@@ -69,7 +69,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
    }
 
    /**
-    *
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
@@ -272,6 +271,9 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
@@ -341,7 +343,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
    /**
     * @see CommonDBTM::post_updateItem()
-    * @param int $history
+    * @param integer $history
     */
    public function post_updateItem($history = 1) {
       // Check if the source changed

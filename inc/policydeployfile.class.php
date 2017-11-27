@@ -50,7 +50,10 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check values exist
@@ -121,7 +124,10 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -146,7 +152,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyBase::unicityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
@@ -163,7 +173,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $policyData = new PluginFlyvemdmPolicy();
@@ -186,8 +200,12 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       return true;
    }
 
-    /**
-    * @see PluginFlyvemdmPolicyBase::unapply()
+   /**
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -226,8 +244,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * Shows the input value
-    * @return string an HTML
+    * @return string|void
     */
    public function showValueInput() {
       $out = PluginFlyvemdmFile::dropdown([
@@ -249,9 +266,8 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * Displays the value
     * @param PluginFlyvemdmTask $task
-    * @return array|false the file
+    * @return string
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $file = new PluginFlyvemdmFile();
@@ -265,7 +281,8 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::preprocessFormData()
+    * @param array $input
+    * @return array
     */
    public function preprocessFormData($input) {
       if (isset($input['destination_base']) && isset($input['value']['destination'])) {

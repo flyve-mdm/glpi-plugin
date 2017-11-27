@@ -71,8 +71,8 @@ interface PluginFlyvemdmNotifiable {
     * Send a MQTT message
     * @param string $topic
     * @param string $mqttMessage
-    * @param number $qos
-    * @param number $retain
+    * @param integer $qos
+    * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0);
 }

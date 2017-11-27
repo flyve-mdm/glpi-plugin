@@ -190,6 +190,8 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
    /**
     * @dataProvider validationProvider
     * @tags testCreatePolicy
+    * @param array $data
+    * @param array $expected
     */
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();

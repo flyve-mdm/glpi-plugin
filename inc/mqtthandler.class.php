@@ -52,6 +52,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected $publishedVersion = null;
    protected static $instance = null;
 
+   /**
+    * PluginFlyvemdmMqtthandler constructor.
+    */
    protected function __construct() {
       $this->log = new \PluginFlyvemdmMqttlog();
       $this->startTime = time();
@@ -167,6 +170,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $config = Config::getConfigurationValues('flyvemdm', 'version');
       $version = $config['version'];
 
+      // TODO: check for $message & $mqtt values, both are undefined.
       $matches = null;
       preg_match('/^([\d\.]+)/', $version, $matches);
       if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
@@ -284,7 +288,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Update the status of a task from a notification sent by a device
     *
     * @param string $topic
-    * @param string $essage
+    * @param string $message
     */
    protected function updateTaskStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
@@ -329,7 +333,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Update the status of a task from a notification sent by a device
     *
     * @param string $topic
-    * @param string $essage
+    * @param string $message
     */
    protected function updateOnlineStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
