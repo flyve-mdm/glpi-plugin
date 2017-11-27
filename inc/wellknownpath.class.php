@@ -44,6 +44,7 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return __s('Well known path', 'flyvemdm');
@@ -69,6 +70,9 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
       return $input;
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 

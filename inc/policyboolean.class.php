@@ -38,6 +38,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
+    * PluginFlyvemdmPolicyBoolean constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -48,7 +49,10 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // no item link allowed
@@ -62,7 +66,10 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::apply()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {
@@ -80,17 +87,15 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * Shows the input value
-    * @return mixed the values
+    * @return int|string
     */
    public function showValueInput() {
       return Dropdown::showYesNo('value', '0', -1, ['display' => false]);
    }
 
    /**
-    * Shows the value
     * @param PluginFlyvemdmTask $task
-    * @return string yes or no
+    * @return string
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $value = $task->getField('value');

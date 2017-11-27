@@ -43,6 +43,7 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
+    * @return string
     */
    public static function getTypeName($nb=0) {
       return _n('Invitation log', 'Invitation logs', $nb, "flyvemdm");
@@ -60,6 +61,9 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
       return $rights;
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 

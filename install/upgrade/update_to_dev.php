@@ -33,6 +33,9 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
+/**
+ * @param Migration $migration
+ */
 function plugin_flyvemdm_update_to_dev(Migration $migration) {
    global $DB;
 

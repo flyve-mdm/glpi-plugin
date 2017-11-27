@@ -52,6 +52,8 @@ class PluginFlyvemdmCommon extends atoum
    /**
     * @dataProvider providerConvertToGib
     * @tags testConvertToGiB
+    * @param integer $data
+    * @param string $expected
     */
    public function testConvertToGiB($data, $expected) {
       $this->given($this->newTestedInstance)

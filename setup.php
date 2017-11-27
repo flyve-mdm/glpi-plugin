@@ -180,7 +180,10 @@ function plugin_flyvemdm_addHooks() {
    $PLUGIN_HOOKS['import_item']['flyvemdm'] = [Computer::class => ['Plugin']];
 }
 
-// Get the name and the version of the plugin - Needed
+/**
+ * Get the name and the version of the plugin - Needed
+ * @return array
+ */
 function plugin_version_flyvemdm() {
    $author = '<a href="http://www.teclib.com">Teclib</a>';
    if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
@@ -253,12 +256,17 @@ function plugin_flyvemdm_check_prerequisites() {
    return $prerequisitesSuccess;
 }
 
-// Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+/**
+ * Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+ * @return bool
+ */
 function plugin_flyvemdm_check_config() {
    return true;
 }
 
-
+/**
+ * @return Twig_Environment
+ */
 function plugin_flyvemdm_getTemplateEngine() {
    $loader = new Twig_Loader_Filesystem(__DIR__ . '/tpl');
    $twig =  new Twig_Environment($loader, [
@@ -269,7 +277,14 @@ function plugin_flyvemdm_getTemplateEngine() {
    return $twig;
 }
 
-// center all columns of plugin
+/**
+ * center all columns of plugin
+ * @param string $itemtype
+ * @param integer $ID
+ * @param mixed $data
+ * @param integer $num
+ * @return string
+ */
 function plugin_flyvemdm_displayConfigItem($itemtype, $ID, $data, $num) {
    return "align='center'";
 }

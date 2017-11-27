@@ -373,6 +373,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $item->showFormButtons(['candel' => false, 'formfooter' => false]);
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 

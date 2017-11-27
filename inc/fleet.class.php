@@ -224,6 +224,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return true;
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
@@ -412,6 +415,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $this;
    }
 
+   /**
+    * @return array
+    */
    public function getPackages() {
       $packages = [];
 

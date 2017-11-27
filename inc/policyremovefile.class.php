@@ -39,6 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
+    * PluginFlyvemdmPolicyRemovefile constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -49,7 +50,10 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       if ($value == '') {
@@ -66,8 +70,11 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    *
-    * @see PluginFlyvemdmPolicyBase::unicityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $fleetId = $fleet->getID();
@@ -78,7 +85,10 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (! $this->integrityCheck($value, $itemtype, $itemId)) {

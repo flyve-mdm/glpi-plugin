@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * @var bool $unicityRequired if true The posicy cannot be applied more than once to a fleet
+    * @var bool $unicityRequired if true The policy cannot be applied more than once to a fleet
     */
    protected $unicityRequired = true;
 
@@ -58,6 +58,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     */
    protected $policyData;
 
+   /**
+    * PluginFlyvemdmPolicyBase constructor.
+    * @param PluginFlyvemdmPolicy $policy
+    */
    public function __construct(PluginFlyvemdmPolicy $policy) {
       $this->policyData = $policy;
    }
@@ -83,15 +87,22 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    *
-    * @see PluginFlyvemdmPolicyInterface::canApply()
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       return true;
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::unicityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       if ($this->unicityRequired) {
@@ -108,42 +119,57 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       return true;
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       return true;
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::translateData()
+    * @return string
     */
    public function translateData() {
       return '';
    }
 
    /**
-    * Returns the name of the group this policy belongs to
+    * @return string
     */
    public function getGroup() {
       return $this->group;
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::apply()
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       return true;
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::unapply()
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       // Do nothing by default
@@ -152,7 +178,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::showValueInput()
+    * @return string
     */
    public function showValueInput() {
       $html = '<input name="value" value="" >';
@@ -161,23 +187,24 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::showValue()
+    * @param PluginFlyvemdmTask $task
+    * @return mixed
     */
    public function showValue(PluginFlyvemdmTask $task) {
       return $task->getField('value');
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::preprocessFormData()
+    * @param array $input
+    * @return array
     */
    public function preprocessFormData($input) {
       return $input;
    }
 
    /**
-    * get a status from a device and filters it to update a task
-    *
-    * @param string $status
+    * @param $status
+    * @return mixed
     */
    public function filterStatus($status) {
       return $status;

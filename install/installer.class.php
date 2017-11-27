@@ -73,6 +73,8 @@ class PluginFlyvemdmInstaller {
 
    /**
     * Autoloader for installation
+    * @param string $classname
+    * @return bool
     */
    public function autoload($classname) {
       // useful only for installer GLPI autoloader already handles inc/ folder
@@ -193,6 +195,9 @@ class PluginFlyvemdmInstaller {
       }
    }
 
+   /**
+    * @return null|string
+    */
    public static function getCurrentVersion() {
       if (self::$currentVersion === NULL) {
          $config = \Config::getConfigurationValues("flyvemdm", ['version']);
@@ -333,6 +338,9 @@ class PluginFlyvemdmInstaller {
       }
    }
 
+   /**
+    * @return array
+    */
    protected function getNotificationTargetInvitationEvents() {
       // Force locale for localized strings
       $currentLocale = $_SESSION['glpilanguage'];
@@ -530,6 +538,7 @@ Regards,
     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
     * @param string $haystack
     * @param string $needle
+    * @return bool
     */
    protected function startsWith($haystack, $needle) {
       // search backwards starting from haystack length characters from the end
@@ -540,6 +549,7 @@ Regards,
     * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
     * @param string $haystack
     * @param string $needle
+    * @return bool
     */
    protected function endsWith($haystack, $needle) {
       // search forward starting from end minus needle length characters
@@ -679,6 +689,7 @@ Regards,
     * Encloses the text un <p>...</p>
     * Add anchor to URLs
     * @param string $text
+    * @return string
     */
    protected static function convertTextToHtml($text) {
       $text = '<p>' . str_replace("\n\n", '</p><p>', $text) . '</p>';
@@ -686,6 +697,9 @@ Regards,
       return $text;
    }
 
+   /**
+    * @return array
+    */
    static public function getPolicyCategories() {
       // Force locale for localized strings
       $currentLocale = $_SESSION['glpilanguage'];

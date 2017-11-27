@@ -40,6 +40,9 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
 
    const MQTT_MAXIMUM_DURATION = 60;
 
+   /**
+    * PluginFlyvemdmMqttlog constructor.
+    */
    public function __construct() {
       parent::__construct();
 

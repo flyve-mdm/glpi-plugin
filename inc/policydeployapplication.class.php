@@ -39,6 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
+    * PluginFlyvemdmPolicyDeployapplication constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -49,7 +50,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check the value exists
@@ -81,7 +85,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -100,8 +107,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    *
-    * @see PluginFlyvemdmPolicyBase::unicityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Check the policy is already applied
@@ -116,7 +126,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::conflictCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
+    * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Check there is not already a removal policy (to avoind opposite policy)
@@ -146,8 +160,12 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return true;
    }
 
-    /**
-    * @see PluginFlyvemdmPolicyBase::unapply()
+   /**
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -178,8 +196,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * Shows the HTML input tags to edit the value
-    * @return string an HTML input
+    * @return string
     */
    public function showValueInput() {
       $out = PluginFlyvemdmPackage::dropdown([
@@ -194,9 +211,8 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * Shows the value
-    * @param numeric PluginFlyvemdmTask $task
-    * @return mixed the value
+    * @param PluginFlyvemdmTask $task
+    * @return string
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $package = new PluginFlyvemdmPackage();

@@ -62,14 +62,24 @@ class RoboFile extends Glpi\Tools\RoboFile
 
    protected $headerTemplate = '';
 
+   /**
+    * @return string
+    */
    protected function getPluginPath() {
       return __DIR__;
    }
 
+   /**
+    * @return string
+    */
    protected function getPluginName() {
       return basename($this->getPluginPath());
    }
 
+   /**
+    * @return mixed
+    * @throws Exception
+    */
    protected function getVersion() {
       $currentRev = $this->getCurrentCommitHash();
       $setupContent = $this->getFileFromGit('setup.php', $currentRev);
@@ -93,6 +103,10 @@ class RoboFile extends Glpi\Tools\RoboFile
       //TODO: find the latest version in tags
    }
 
+   /**
+    * @return mixed
+    * @throws Exception
+    */
    protected function getGLPIMinVersion() {
       $currentRev = $this->getCurrentCommitHash();
       $setupContent = $this->getFileFromGit('setup.php', $currentRev);
@@ -115,6 +129,12 @@ class RoboFile extends Glpi\Tools\RoboFile
       return static::$banned;
    }
 
+   /**
+    * @param string $filename
+    * @param string $version
+    * @return bool
+    * @throws Exception
+    */
    protected function checkJsonFile($filename, $version) {
       $currentRev = $this->getCurrentCommitHash();
       $fileContent = $this->getFileFromGit($filename, $currentRev);
@@ -130,7 +150,8 @@ class RoboFile extends Glpi\Tools\RoboFile
 
    /**
     *
-    * @param unknown $filename
+    * @param string $filename
+    * @param string $version
     */
    protected function updateJsonFile($filename, $version) {
       // get Package JSON
@@ -147,10 +168,16 @@ class RoboFile extends Glpi\Tools\RoboFile
       file_put_contents($filename, json_encode($jsonContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
    }
 
+   /**
+    * @param $version
+    */
    protected function sourceUpdatePackageJson($version) {
       $this->updateJsonFile('package.json', $version);
    }
 
+   /**
+    * @param string $version
+    */
    protected function sourceUpdateComposerJson($version) {
       $this->updateJsonFile('composer.json', $version);
    }
@@ -327,8 +354,9 @@ class RoboFile extends Glpi\Tools\RoboFile
    }
 
    /**
-    * Enumerates all files to save in  the dsitribution archive
+    * Enumerates all files to save in  the distribution archive
     *
+    * @param $version
     * @return array
     */
    protected function getFileToArchive($version) {
@@ -521,6 +549,7 @@ class RoboFile extends Glpi\Tools\RoboFile
     * Format header template for a file type based on extension
     *
     * @param string $extension
+    * @param string $template
     * @return string
     */
    protected function getFormatedHeaderTemplate($extension, $template) {

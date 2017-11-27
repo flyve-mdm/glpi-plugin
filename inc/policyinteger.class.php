@@ -49,6 +49,7 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    protected $maxValue = null;
 
    /**
+    * PluginFlyvemdmPolicyInteger constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -68,7 +69,10 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::integrityCheck()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       if ($value === null || (!strval(intval($value)) == strval($value))) {
@@ -87,7 +91,10 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {

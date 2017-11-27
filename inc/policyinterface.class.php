@@ -38,6 +38,10 @@ if (!defined('GLPI_ROOT')) {
  */
 interface PluginFlyvemdmPolicyInterface {
 
+   /**
+    * PluginFlyvemdmPolicyInterface constructor.
+    * @param PluginFlyvemdmPolicy $policy
+    */
    public function __construct(PluginFlyvemdmPolicy $policy);
 
    /**

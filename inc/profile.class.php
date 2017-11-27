@@ -103,10 +103,7 @@ class PluginFlyvemdmProfile extends Profile {
    }
 
    /**
-    * @param CommonGLPI $item
-    * @param number $tabnum
-    * @param number $withtemplate
-    * @return boolean
+    * @see Profile::displayTabContentForItem
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if ($item->getType() == 'Profile') {

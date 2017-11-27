@@ -251,6 +251,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * @see CommonDBTM::pre_deleteItem()
+    * @param CommonDBTM $item
+    * @return bool
     */
    public static function hook_pre_self_purge(CommonDBTM $item) {
       $document = new Document();

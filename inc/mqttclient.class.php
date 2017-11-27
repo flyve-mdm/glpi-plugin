@@ -60,6 +60,9 @@ class PluginFlyvemdmMqttclient {
     */
    private static $instance = null;
 
+   /**
+    * PluginFlyvemdmMqttclient constructor.
+    */
    private function __construct() {
       self::$mqtt = $this->getMQTTConnection();
    }

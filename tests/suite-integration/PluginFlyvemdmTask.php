@@ -140,8 +140,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
    /**
     * Create a new invitation
     *
-    * @param array $input invitation data
+    * @param string $guestEmail
     * @return \PluginFlyvemdmInvitation
+    * @internal param array $input invitation data
     */
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();

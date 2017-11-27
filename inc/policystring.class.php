@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyString extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * Constructor
+    * PluginFlyvemdmPolicyString constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
@@ -50,7 +50,10 @@ class PluginFlyvemdmPolicyString extends PluginFlyvemdmPolicyBase implements Plu
    }
 
    /**
-    * @see PluginFlyvemdmPolicyInterface::jsonEncode()
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {

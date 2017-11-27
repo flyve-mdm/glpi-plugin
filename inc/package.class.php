@@ -90,7 +90,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * Returns the tab name of this itemtype, depending on the itemtype on which it will be displayed
     * If the tab shall not display then returns an empty string
     * @param CommonGLPI $item on which the tab will show
-    * @param int $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
+    * @param integer $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
     * @return string
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
@@ -105,8 +105,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    /**
     *  Display the content of the tab provided by this itemtype
     * @param CommonGLPI $item
-    * @param int $tabnum
-    * @param int $withtemplate
+    * @param integer $tabnum
+    * @param integer $withtemplate
     * @return bool
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
@@ -163,7 +163,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    *
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
@@ -173,7 +172,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    *
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -341,6 +339,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
    }
 
+   /**
+    * @return array
+    */
    public function getSearchOptionsNew() {
       $tab = [];
 
