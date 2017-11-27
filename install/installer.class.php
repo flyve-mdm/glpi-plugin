@@ -187,11 +187,33 @@ class PluginFlyvemdmInstaller {
       }
 
       // Create cache directory for the template engine
-      if (! file_exists(FLYVEMDM_TEMPLATE_CACHE_PATH)) {
-         if (! mkdir(FLYVEMDM_TEMPLATE_CACHE_PATH, 0770, true)) {
-            $this->migration->displayWarning("Cannot create " . FLYVEMDM_TEMPLATE_CACHE_PATH . " directory");
+      self::deleteDirectory(FLYVEMDM_TEMPLATE_CACHE_PATH);
+      if (!mkdir(FLYVEMDM_TEMPLATE_CACHE_PATH, 0770, true)) {
+         $this->migration->displayWarning("Cannot create " . FLYVEMDM_TEMPLATE_CACHE_PATH . " directory");
+      }
+   }
+
+   /**
+    * delete a directory recursive
+    * @param string $dir
+    * @return bool
+    */
+   public static function deleteDirectory($dir) {
+      if (!file_exists($dir)) {
+         return true;
+      }
+      if (!is_dir($dir)) {
+         return unlink($dir);
+      }
+      foreach (scandir($dir) as $item) {
+         if ($item == '.' || $item == '..') {
+            continue;
+         }
+         if (!self::deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
          }
       }
+      return rmdir($dir);
    }
 
    public static function getCurrentVersion() {
