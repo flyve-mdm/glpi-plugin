@@ -172,7 +172,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 
       // Generate the QR code
-      $documentId = $this->createQRCodeDocument($user, $input['invitation_token']);
+      $documentId = $this->createQRCodeDocument($user, $input['invitation_token'], $entityId);
       if ($documentId === false) {
          Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'flyvemdm'), false, INFO, true);
          return false;
@@ -293,13 +293,14 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * get the enrollment URL of the agent
     * @param User $user Recipient of the QR code
     * @param string $invitationToken Invitation token
+    * @param $entities_id
     * @return string URL to enroll a mobile Device
     */
-   protected function createQRCodeDocument(User $user, $invitationToken) {
+   protected function createQRCodeDocument(User $user, $invitationToken, $entities_id) {
       global $CFG_GLPI;
 
       $entityConfig = new PluginFlyvemdmEntityconfig();
-      $entityConfig->getFromDBByCrit(['entities_id' => $this->input['entities_id']]);
+      $entityConfig->getFromDBByCrit(['entities_id' => $entities_id]);
 
       $personalToken = User::getToken($user->getID(), 'api_token');
       $enrollmentData = [
@@ -343,7 +344,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       // Generate a document with the QR code
       $input = [];
       $document = new Document();
-      $input['entities_id']               = $this->input['entities_id'];
+      $input['entities_id']               = $entities_id;
       $input['is_recursive']              = '0';
       $input['name']                      = addslashes(__('Enrollment QR code', 'flyvemdm'));
       $input['_filename']                 = [$tmpFile];
