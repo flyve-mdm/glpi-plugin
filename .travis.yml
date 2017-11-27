@@ -30,7 +30,8 @@ before_script:
   - composer install --no-dev --no-interaction
   - php tools/cliinstall.php --db=glpitest --user=root --tests
   - mkdir plugins/fusioninventory && git clone --depth=1 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
-  - mv ../glpi-plugin plugins/flyvemdm
+  - IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
+  - mv ../${repo[1]} plugins/flyvemdm
   - cd plugins/flyvemdm && composer install --no-interaction
 
 script:
