@@ -50,11 +50,6 @@ class PluginFlyvemdmInvitation extends CommonTestCase
             $this->setupGLPIFramework();
             $this->login('glpi', 'glpi');
             break;
-         case 'testCreateInvitationWithInvalidEmail':
-            $this->resetState();
-            $this->setupGLPIFramework();
-            $this->login('glpi', 'glpi');
-            break;
       }
    }
 
@@ -122,20 +117,38 @@ class PluginFlyvemdmInvitation extends CommonTestCase
     * @tags testPrepareInputForAdd
     */
    public function testPrepareInputForAdd() {
+      $this->login('glpi', 'glpi');
+      $uniqueEmail = $this->getUniqueEmail();
+      $sessionMessages = [
+         'Email address is invalid',
+         'Cannot create the user',
+         'Document move succeeded.',
+         'The user already exists and has been deleted. You must restore or purge him first.',
+      ];
       $instance = $this->createNewInstance();
 
       // empty array
       $this->boolean($instance->prepareInputForAdd([]))->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[0]);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
+
       // invalid email
       $this->boolean($instance->prepareInputForAdd(['_useremails' => '']))->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[0]);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
-      // TODO fix this test, it throws an exception on prepareInputForAdd call.
-      // success
-      /*$uniqueEmail = $this->getUniqueEmail();
-      $result = $instance->prepareInputForAdd([
+      $input = [
          '_useremails' => $uniqueEmail,
          'entities_id' => $_SESSION['glpiactive_entity'],
-      ]);
+      ];
+
+      // TODO: error adding user
+      /*$this->boolean($instance->prepareInputForAdd($input))->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[1]);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);*/
+
+      // success
+      $result = $instance->prepareInputForAdd($input);
       $this->boolean($instance->isNewItem())->isTrue()->array($result)->hasKeys([
          '_useremails',
          'entities_id',
@@ -145,13 +158,86 @@ class PluginFlyvemdmInvitation extends CommonTestCase
          'documents_id',
       ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
          ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[2]);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
       // check if expiration date is valid
       $this->if($expiration = new \DateTime($expiration))
          ->dateTime($expiration->sub(new \DateInterval(\PluginFlyvemdmInvitation::DEFAULT_TOKEN_LIFETIME)))
-         ->hasDate(date('Y'), date('m'), date('d'));*/
+         ->hasDate(date('Y'), date('m'), date('d'));
 
-      // TODO: Do not handle deleted users
+      // Do not handle deleted users
+      $user = new \User();
+      $user->deleteByCriteria(['name' => $uniqueEmail]);
+      $this->boolean($instance->prepareInputForAdd($input))->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[3]);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
+   }
+
+   /**
+    * @tags testPrepareInputForUpdate
+    */
+   public function testPrepareInputForUpdate() {
+      $this->login('glpi', 'glpi');
+      $instance = $this->createNewInstance();
+      $this->array($instance->prepareInputForUpdate([]));
+   }
+
+   /**
+    * @tags testGetFromDBByToken
+    */
+   public function testGetFromDBByToken() {
+      $instance = $this->createNewInstance();
+      $this->boolean($instance->getFromDBByToken('invalidToken'))->isFalse();
+   }
+
+   /**
+    * @tags testGetSearchOptionsNew
+    */
+   public function testGetSearchOptionsNew() {
+      $this->given($this->newTestedInstance)
+         ->array($result = $this->testedInstance->getSearchOptionsNew())
+         ->child[0](function ($child) {
+            $child->hasKeys(['id', 'name'])->values
+               ->string[0]->isEqualTo('common')
+               ->string[1]->isEqualTo('Invitation');
+         })
+         ->child[1](function ($child) {
+            $child->hasKeys(['table', 'name'])->values
+               ->string[1]->isEqualTo('glpi_users')
+               ->string[2]->isEqualTo('name');
+         })
+         ->child[2](function ($child) {
+            $child->hasKeys(['table', 'name'])->values
+               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
+               ->string[2]->isEqualTo('id');
+         })
+         ->child[3](function ($child) {
+            $child->hasKeys(['table', 'name'])->values
+               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
+               ->string[2]->isEqualTo('status');
+         })
+         ->child[4](function ($child) {
+            $child->hasKeys(['table', 'name'])->values
+               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
+               ->string[2]->isEqualTo('expiration_date');
+         });
+   }
+
+   /**
+    * @tags testShowForm
+    */
+   public function testShowForm() {
+      $this->login('glpi', 'glpi');
+      $instance = $this->createNewInstance();
+      ob_start();
+      $instance->showForm(0);
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)->contains("method='post' action='-/plugins/flyvemdm/front/invitation.form.php'")
+         ->contains("<input type='hidden' name='entities_id' value='0'>")
+         ->contains('<input name="_useremails" value="">')
+         ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
 
    /**
@@ -177,7 +263,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase
       $invitationId = $invitation->getID();
       $queuedNotification = new QueuedNotification();
       $this->boolean($queuedNotification->getFromDBByQuery(
-            "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
+         "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
       )->isTrue();
 
       // Check a QR code is created
