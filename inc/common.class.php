@@ -116,4 +116,28 @@ class PluginFlyvemdmCommon
          mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
       );
    }
+
+   /**
+    * delete a directory and its content recursive
+    * @param string $dir
+    * @return bool
+    */
+   public static function recursiveRmdir($dir) {
+      if (!file_exists($dir)) {
+         return true;
+      }
+      if (!is_dir($dir)) {
+         return unlink($dir);
+      }
+      $dirContent = scandir($dir);
+      foreach ($dirContent as $item) {
+         if ($item == '.' || $item == '..') {
+            continue;
+         }
+         if (!self::recursiveRmdir($dir . DIRECTORY_SEPARATOR . $item)) {
+            return false;
+         }
+      }
+      return rmdir($dir);
+   }
 }
