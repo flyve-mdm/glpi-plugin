@@ -218,8 +218,8 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $entityConfig->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
 
       // Delete folders for the entity
-      PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
-      PluginFlyvemdmToolbox::recursiveRmdir(FLYVEMDM_FILE_PATH . "/" . $item->getID());
+      PluginFlyvemdmCommon::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
+      PluginFlyvemdmCommon::recursiveRmdir(FLYVEMDM_FILE_PATH . "/" . $item->getID());
    }
 
    /**
