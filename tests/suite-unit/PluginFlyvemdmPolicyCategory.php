@@ -58,19 +58,25 @@ class PluginFlyvemdmPolicyCategory extends CommonTestCase
                ->string[1]->isEqualTo('Policy category');
          })
          ->child[1](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
+            $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
-               ->string[3]->isEqualTo('Name');
+               ->string[2]->isEqualTo('completename')
+               ->string[4]->isEqualTo('itemlink')
+            ;
          })
          ->child[2](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
+            $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
-               ->string[3]->isEqualTo('ID');
+               ->string[2]->isEqualTo('id')
+               ->string[5]->isEqualTo('number')
+            ;
          })
          ->child[3](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
+            $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
-               ->string[3]->isEqualTo('comment');
+               ->string[2]->isEqualTo('comment')
+               ->string[5]->isEqualTo('text')
+            ;
          });
    }
 
