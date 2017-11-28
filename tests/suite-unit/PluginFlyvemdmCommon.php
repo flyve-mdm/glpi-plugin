@@ -61,6 +61,17 @@ class PluginFlyvemdmCommon extends atoum
    }
 
    /**
+    * @tags testGetMassiveActions
+    */
+   public function testGetMassiveActions() {
+      $class = $this->testedClass->getClass();
+      $result = $class::getMassiveActions([]);
+      $this->given($class)->string($result)->contains("autoOpen: false")
+         ->contains("modal: true")->contains('title: "Actions"')
+         ->contains("-/ajax/massiveaction.php");
+   }
+
+   /**
     * @tags testGetEnumValues
     */
    public function testGetEnumValues() {
@@ -69,6 +80,15 @@ class PluginFlyvemdmCommon extends atoum
       $this->given($class)->array($result)->isEmpty();
       $result = $class::getEnumValues('glpi_plugin_flyvemdm_agents', 'mdm_type');
       $this->given($class)->array($result)->isNotEmpty()->containsValues(['android', 'apple']);
+   }
+
+   /**
+    * @tags testGenerateUUID
+    */
+   public function testGenerateUUID() {
+      $this->given($this->newTestedInstance)
+         ->string($this->testedInstance->generateUUID())
+         ->matches('/\w{8}-\w{4}-4\w{3}-[8,9,A,B]\w{3}-\w{12}/i');
    }
 
 }
