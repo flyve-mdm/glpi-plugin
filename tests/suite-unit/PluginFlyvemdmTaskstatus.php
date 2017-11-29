@@ -3,7 +3,7 @@
  * LICENSE
  *
  * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2010-2016 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
+ * @author    Domingo Oropeza
  * @copyright Copyright © 2017 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -32,34 +32,32 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmPolicy;
-use PluginFlyvemdmPolicyFactory;
 
 
-class PluginFlyvemdmPolicyInteger  extends CommonTestCase {
-   public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
+class PluginFlyvemdmTaskstatus extends CommonTestCase
+{
+
+   /**
+    * @return object
+    */
+   private function createInstance() {
+      $this->newTestedInstance();
+      return $this->testedInstance;
    }
 
    /**
-    *
+    * @tags testClass
     */
-   public function testGetBooleanPolicy() {
-      $policyData = new PluginFlyvemdmPolicy();
-      $policyData->add([
-         'name'      => 'integer policy',
-         'symbol'    => 'integerTest',
-         'type'      => 'int',
-         'group'     => 'testGroup'
-      ]);
-      $this->boolean($policyData->isNewItem())->isFalse();
+   public function testClass() {
+      $class = $this->testedClass->getClass();
+      $this->given($class)->string($class::$rightname)->isEqualTo('flyvemdm:taskstatus');
+   }
 
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $policy = $policyFactory->createFromDBByID($policyData->getID());
-      $this->object($policy)->isInstanceOf(\PluginFlyvemdmPolicyInteger::class);
-      return $policy;
+   /**
+    * @tags testGetTypeName
+    */
+   public function testGetTypeName() {
+      $instance = $this->createInstance();
+      $this->string($instance->getTypeName())->isEqualTo('Task status');
    }
 }
