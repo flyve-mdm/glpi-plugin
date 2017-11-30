@@ -83,7 +83,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase
             'data' => [
                ['remove_on_delete' => 0],
                PluginFlyvemdmPackage::class,
-               1,
+               true,
             ],
             'expected' => [true],
          ],
