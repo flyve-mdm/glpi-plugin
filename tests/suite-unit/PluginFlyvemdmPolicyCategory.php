@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyCategory extends CommonTestCase
-{
+class PluginFlyvemdmPolicyCategory extends CommonTestCase {
 
    /**
     * @tags testGetTypeName
@@ -61,22 +60,19 @@ class PluginFlyvemdmPolicyCategory extends CommonTestCase
             $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
                ->string[2]->isEqualTo('completename')
-               ->string[4]->isEqualTo('itemlink')
-            ;
+               ->string[4]->isEqualTo('itemlink');
          })
          ->child[2](function ($child) {
             $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
                ->string[2]->isEqualTo('id')
-               ->string[5]->isEqualTo('number')
-            ;
+               ->string[5]->isEqualTo('number');
          })
          ->child[3](function ($child) {
             $child->hasKeys(['table', 'field', 'datatype'])->values
                ->string[1]->isEqualTo('glpi_plugin_flyvemdm_policycategories')
                ->string[2]->isEqualTo('comment')
-               ->string[5]->isEqualTo('text')
-            ;
+               ->string[5]->isEqualTo('text');
          });
    }
 
