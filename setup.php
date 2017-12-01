@@ -109,7 +109,7 @@ function plugin_init_flyvemdm() {
  * Register classes
  */
 function plugin_flyvemdm_registerClasses() {
-   Plugin::registerClass(PluginFlyvemdmAgent::class);
+   Plugin::registerClass(PluginFlyvemdmAgent::class, ['addtabon' => Computer::class]);
    Plugin::registerClass(PluginFlyvemdmFleet::class);
    Plugin::registerClass(PluginFlyvemdmPolicy::class);
    Plugin::registerClass(PluginFlyvemdmTask::class);
