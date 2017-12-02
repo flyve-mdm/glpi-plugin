@@ -4,13 +4,13 @@
     </tr>
     <tr class="tab_bg_1">
         <td>{{ __('Name') }}{{ withTemplate }}</td>
-        <td><a href="{{ glpi_root_doc }}/plugins/flyvemdm/front/agent.form.php?id={{ agent.id }}">{{ agent.name }}</a></td>
+        <td><a href="{{ agentUrl }}?id={{ agent.id }}">{{ agent.name }}</a></td>
         <td>{{ __('Version') }}</td>
         <td>{{ agent.version }}</td>
     </tr>
     <tr class="tab_bg_1">
         <td>{{ __('Fleet', 'flyvemdm') }}</td>
-        <td><a href="{{ glpi_root_doc }}/plugins/flyvemdm/front/fleet.form.php?id={{ agent.plugin_flyvemdm_fleets_id }}">{{ agent.fleet.name }}</a>
+        <td><a href="{{ fleetUrl }}?id={{ agent.plugin_flyvemdm_fleets_id }}">{{ agent.fleet.name }}</a>
         </td>
         <td>{{ __('Last contact', 'flyvemdm') }}</td>
         <td>{{ agent.last_contact }}</td>
