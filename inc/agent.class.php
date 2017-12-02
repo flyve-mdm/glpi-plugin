@@ -171,7 +171,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                break;
 
             case Computer::class:
-               return __('FlyveMDM Agent', 'flyvemdm');
+               return __('Flyve MDM Agent', 'flyvemdm');
                break;
          }
       }
@@ -340,7 +340,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param PluginFlyvemdmAgent $item
     */
    public static function displayTabContentForComputer($item) {
-      global $CFG_GLPI;
 
       $agent = new static();
       $agent->getFromDBByCrit(['computers_id' => $item->getID()]);
@@ -350,7 +349,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $fields['last_contact'] = __('Never seen online', 'flyvemdm');
       }
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('agentComputerTab.html', ['agent' => $fields, 'glpi_root_doc' => $CFG_GLPI['root_doc']]);
+      echo $twig->render('agentComputerTab.html', [
+         'agent' => $fields,
+         'agentUrl' => Toolbox::getItemTypeFormURL(self::class),
+         'fleetUrl' => Toolbox::getItemTypeFormURL(PluginFlyvemdmFleet::class)
+      ]);
    }
 
    /**
