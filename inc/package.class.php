@@ -181,7 +181,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          return false;
       }
 
-      if (!$this->isFileUploadValid($preparedFile['filename'])) {
+      $localFilename = $preparedFile['filename'];
+      if (!$this->isFileUploadValid($localFilename)) {
          return false;
       }
 
@@ -196,6 +197,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          if (rename($uploadedFile, $destination)) {
             $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = basename($uploadedFile);
+            $input['name'] = $localFilename;
          } else {
             $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
@@ -220,7 +222,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       if ($preparedFile && is_array($preparedFile)) {
          try {
-            if (!$this->isFileUploadValid($preparedFile['filename'])) {
+            $localFilename = $preparedFile['filename'];
+            if (!$this->isFileUploadValid($localFilename)) {
                return false;
             }
             $uploadedFile = $preparedFile['uploadedFile'];
@@ -231,6 +234,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                $input['filesize'] = fileSize($destination);
                $input['dl_filename'] = basename($destination);
+               $input['name'] = $localFilename;
                if ($filename != $this->fields['filename']) {
                   unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
                }
