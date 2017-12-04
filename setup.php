@@ -147,6 +147,9 @@ function plugin_flyvemdm_addHooks() {
       $PLUGIN_HOOKS['menu_toadd']['flyvemdm'] = [
          'admin'  => 'PluginFlyvemdmMenu',
       ];
+      $PLUGIN_HOOKS['autoinventory_information']['flyvemdm'] = [
+         'Computer' => ['PluginFlyvemdmAgent', 'displayTabContentForComputer'],
+      ];
       $PLUGIN_HOOKS['config_page']['flyvemdm'] = 'front/config.form.php';
    }
 
