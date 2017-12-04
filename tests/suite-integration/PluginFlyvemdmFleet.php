@@ -40,19 +40,42 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     */
    private $minAndroidVersion = '2.0.0';
 
+   /**
+    * @param $method
+    */
    public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
+      switch ($method) {
+         case 'testDeleteDefaultFleet':
+         case 'testAddAgentToFleet':
+            $this->login('glpi', 'glpi');
+            break;
+      }
    }
 
    /**
-    *
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testDeleteDefaultFleet':
+         case 'testAddAgentToFleet':
+            \Session::destroy();
+            parent::afterTestMethod($method);
+            break;
+      }
+   }
+
+   /**
+    * @tags testDeleteDefaultFleet
     */
    public function testDeleteDefaultFleet() {
       $fleet = $this->newTestedInstance();
-      $entityId = $_SESSION['glpiactive_entity'];
+      $entityId = 1;
+      $fleet->add([
+         'name' => 'fleet for delete',
+         'entities_id' => $entityId,
+         'is_default' => 1,
+      ]);
       $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))->isTrue();
 
       $result = $fleet->delete(['id' => $fleet->getID()]);
@@ -60,7 +83,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    }
 
    /**
-    *
+    * @tags testAddAgentToFleet
     */
    public function testAddAgentToFleet() {
       // Create an invitation
