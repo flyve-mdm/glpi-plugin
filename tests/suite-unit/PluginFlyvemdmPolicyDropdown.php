@@ -44,11 +44,6 @@ class PluginFlyvemdmPolicyDropdown extends CommonTestCase
       'unicity' => '1',
    ];
 
-   public function setUp() {
-      parent::setUp();
-      self::setupGLPIFramework();
-   }
-
    /**
     * @return array
     */

@@ -45,11 +45,6 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
       'unicity' => '0',
    ];
 
-   public function setUp() {
-      parent::setUp();
-      self::setupGLPIFramework();
-   }
-
    protected function validationProvider() {
       return [
          'Check values exist' => [
@@ -280,7 +275,6 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
       $this->boolean($policy->unapply($mockInstance, null, null, null))->isFalse();
 
       $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
-      $this->boolean($policy->unapply($mockInstance, $value, null, null))->isFalse();
       $this->boolean($policy->unapply($mockInstance, $value, PluginFlyvemdmFile::class,
          1))->isTrue();
 
