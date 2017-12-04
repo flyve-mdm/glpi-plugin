@@ -44,11 +44,6 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase
       'value' => '0',
    ];
 
-   public function setUp() {
-      parent::setUp();
-      self::setupGLPIFramework();
-   }
-
    /**
     * @return array
     */
