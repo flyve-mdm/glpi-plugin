@@ -33,16 +33,12 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
-   public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
-   }
+class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase
+{
+   private $defaultEntity = 0;
 
    /**
-    *
+    * @tags testDeployRemoveFilePolicy
     */
    public function testDeployRemoveFilePolicy() {
       global $DB;
@@ -50,9 +46,9 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       $destination = '%SDCARD%/path/to/file.pdf';
 
       // Create a file (directly in DB)
-      $fileName = 'flyve-user-manual.pdf';
+      $fileName = 'flyve-user-manual' . uniqid() . '.pdf';
       $fileTable = \PluginFlyvemdmFile::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
+      $entityId = $this->defaultEntity;
       $query = "INSERT INTO $fileTable (
          `name`,
          `source`,
@@ -83,16 +79,16 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       $task = new \PluginFlyvemdmTask();
       $task->add([
          $policyFk => $policyData->getID(),
-         'value'   => $destination
+         'value' => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
       // Apply the policy with bad data
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk    => $fleet->getID(),
-         $policyFk   => '-1',
-         'value'     => $destination
+         $fleetFk => $fleet->getID(),
+         $policyFk => '-1',
+         'value' => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
@@ -106,9 +102,9 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       // Apply the policy to the fleet
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyData->getID(),
-         'value'    => $destination
+         $fleetFk => $fleet->getID(),
+         $policyFk => $policyData->getID(),
+         'value' => $destination,
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -126,10 +122,11 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function() {};
+      $fleet->getMockController()->post_addItem = function () {
+      };
       $fleet->add([
-         'entities_id'     => $_SESSION['glpiactive_entity'],
-         'name'            => 'a fleet'
+         'entities_id' => $this->defaultEntity,
+         'name' => 'a fleet',
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
