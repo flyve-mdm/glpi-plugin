@@ -33,14 +33,34 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmMqttUpdateQueue extends CommonTestCase {
+class PluginFlyvemdmMqttUpdateQueue extends CommonTestCase
+{
+   /**
+    * @param $method
+    */
    public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
+      switch ($method) {
+         case 'testApplyPolicy':
+            $this->login('glpi', 'glpi');
+            break;
+      }
    }
 
+   /**
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testApplyPolicy':
+            \Session::destroy();
+            parent::afterTestMethod($method);
+            break;
+      }
+   }
+
+   /**
+    * @tags testApplyPolicy
+    */
    public function testApplyPolicy() {
       $fleet = $this->createFleet();
 
@@ -56,9 +76,9 @@ class PluginFlyvemdmMqttUpdateQueue extends CommonTestCase {
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk    => $fleet->getID(),
-         $policyFk   => $policyData->getID(),
-         'value'     => 'PASSWORD_NONE'
+         $fleetFk => $fleet->getID(),
+         $policyFk => $policyData->getID(),
+         'value' => 'PASSWORD_NONE',
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -76,10 +96,11 @@ class PluginFlyvemdmMqttUpdateQueue extends CommonTestCase {
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function() {};
+      $fleet->getMockController()->post_addItem = function () {
+      };
       $fleet->add([
-         'entities_id'     => $_SESSION['glpiactive_entity'],
-         'name'            => 'a fleet'
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name' => 'a fleet',
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
