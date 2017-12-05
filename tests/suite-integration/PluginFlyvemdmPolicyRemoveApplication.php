@@ -33,23 +33,21 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
+class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
+{
+   private $defaultEntity = 0;
 
-   public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
-   }
-
+   /**
+    * @tags testDeployRemoveApplicationPolicy
+    */
    public function testDeployRemoveApplicationPolicy() {
       global $DB;
 
-      $packageName = 'com.domain.author.application';
+      $packageName = 'com.domain.author.application' . uniqid();
 
       // Create an application (directly in DB) because we are not uploading any file
       $packageTable = \PluginFlyvemdmPackage::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
+      $entityId = $this->defaultEntity;
       $query = "INSERT INTO $packageTable (
                   `name`,
                   `alias`,
@@ -90,9 +88,9 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $policyFk   => $policyData->getID(),
-         $fleetFk    => $fleet->getID(),
-         'value'     => '',
+         $policyFk => $policyData->getID(),
+         $fleetFk => $fleet->getID(),
+         'value' => '',
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
@@ -105,9 +103,9 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
       $fleetId = $fleet->getID();
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $policyFk   => $policyData->getID(),
-         $fleetFk    => $fleet->getID(),
-         'value'     => $package->getField('name'),
+         $policyFk => $policyData->getID(),
+         $fleetFk => $fleet->getID(),
+         'value' => $package->getField('name'),
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -124,10 +122,11 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function() {};
+      $fleet->getMockController()->post_addItem = function () {
+      };
       $fleet->add([
-         'entities_id'     => $_SESSION['glpiactive_entity'],
-         'name'            => $this->getUniqueString()
+         'entities_id' => $this->defaultEntity,
+         'name' => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
