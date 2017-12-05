@@ -33,15 +33,13 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmMqttuser  extends CommonTestCase {
-   public function beforeTestMethod($method) {
-      $this->resetState();
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
-   }
+class PluginFlyvemdmMqttuser extends CommonTestCase
+{
 
-   public function mqttuserProvider() {
+   /**
+    * @return array
+    */
+   protected function mqttuserProvider() {
       return [
          [['user' => 'ted']],
          [['user' => 'jack', 'enabled' => '1']],
@@ -51,6 +49,7 @@ class PluginFlyvemdmMqttuser  extends CommonTestCase {
    /**
     * @dataProvider mqttuserProvider
     * @param array $input
+    * @tags testAddAndDeleteMqttuser
     */
    public function testAddAndDeleteMqttuser($input) {
       // Create user
