@@ -37,8 +37,11 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    private $minAndroidVersion = '2.0.0';
 
-   public function beforeTestMethod($method) {
+   public function setUp() {
       $this->resetState();
+   }
+
+   public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
       $this->login('glpi', 'glpi');
