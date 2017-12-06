@@ -76,9 +76,10 @@ class PluginFlyvemdmCommon extends atoum
     */
    public function testGetEnumValues() {
       $class = $this->testedClass->getClass();
-      $result = $class::getEnumValues('wrongTable', 'wrongField');
+      $table = \PluginFlyvemdmAgent::getTable();
+      $result = $class::getEnumValues($table, 'id');
       $this->given($class)->array($result)->isEmpty();
-      $result = $class::getEnumValues('glpi_plugin_flyvemdm_agents', 'mdm_type');
+      $result = $class::getEnumValues($table, 'mdm_type');
       $this->given($class)->array($result)->isNotEmpty()->containsValues(['android', 'apple']);
    }
 
