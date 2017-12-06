@@ -44,6 +44,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
          case 'testDefaultFleet':
          case 'testShowForm':
          case 'testPrepareInputForAdd':
+         case 'testFromDBByDefaultForEntity':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -57,6 +58,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
          case 'testDefaultFleet':
          case 'testShowForm':
          case 'testPrepareInputForAdd':
+         case 'testFromDBByDefaultForEntity':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -280,7 +282,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
     */
    public function testFromDBByDefaultForEntity() {
       $instance = $this->createInstance();
-      $this->integer($instance->getFromDBByDefaultForEntity())->isEqualTo(1);
+      $this->string($instance->getFromDBByDefaultForEntity())->isEqualTo('1');
    }
 
    /**
