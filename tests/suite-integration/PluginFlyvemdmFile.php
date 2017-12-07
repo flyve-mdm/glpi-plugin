@@ -38,27 +38,16 @@ use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmFile extends CommonTestCase
 {
-   /**
-    * @param $method
-    */
+
    public function beforeTestMethod($method) {
-      switch ($method) {
-         case 'testApplyPolicy':
-            $this->login('glpi', 'glpi');
-            break;
-      }
+      parent::beforeTestMethod($method);
+      $this->setupGLPIFramework();
+      $this->login('glpi', 'glpi');
    }
 
-   /**
-    * @param $method
-    */
    public function afterTestMethod($method) {
-      switch ($method) {
-         case 'testApplyPolicy':
-            parent::afterTestMethod($method);
-            \Session::destroy();
-            break;
-      }
+      parent::afterTestMethod($method);
+      \Session::destroy();
    }
 
    /**

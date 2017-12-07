@@ -39,27 +39,15 @@ use stdClass;
 
 class PluginFlyvemdmPackage extends CommonTestCase
 {
-   /**
-    * @param $method
-    */
    public function beforeTestMethod($method) {
-      switch ($method) {
-         case 'testCreateApplication':
-            $this->login('glpi', 'glpi');
-            break;
-      }
+      parent::beforeTestMethod($method);
+      $this->setupGLPIFramework();
+      $this->login('glpi', 'glpi');
    }
 
-   /**
-    * @param $method
-    */
    public function afterTestMethod($method) {
-      switch ($method) {
-         case 'testCreateApplication':
-            \Session::destroy();
-            parent::afterTestMethod($method);
-            break;
-      }
+      parent::afterTestMethod($method);
+      \Session::destroy();
    }
 
    /**
