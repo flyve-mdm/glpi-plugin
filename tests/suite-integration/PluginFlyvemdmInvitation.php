@@ -38,19 +38,16 @@ use QueuedNotification;
 
 class PluginFlyvemdmInvitation extends CommonTestCase
 {
-   public function setUp() {
-      parent::setUp();
-      $this->setupGLPIFramework();
-   }
 
    public function beforeTestMethod($method) {
-      switch ($method) {
-         case 'testInvitationCreation':
-            $this->resetState();
-            $this->setupGLPIFramework();
-            $this->login('glpi', 'glpi');
-            break;
-      }
+      parent::beforeTestMethod($method);
+      $this->setupGLPIFramework();
+      $this->login('glpi', 'glpi');
+   }
+
+   public function afterTestMethod($method) {
+      parent::afterTestMethod($method);
+      \Session::destroy();
    }
 
    /**

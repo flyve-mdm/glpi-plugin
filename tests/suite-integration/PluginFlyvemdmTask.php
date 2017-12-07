@@ -33,13 +33,10 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmTask extends CommonTestCase {
+class PluginFlyvemdmTask extends CommonTestCase
+{
 
    private $minAndroidVersion = '2.0.0';
-
-   public function setUp() {
-      $this->resetState();
-   }
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -47,8 +44,13 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $this->login('glpi', 'glpi');
    }
 
+   public function afterTestMethod($method) {
+      parent::afterTestMethod($method);
+      \Session::destroy();
+   }
+
    /**
-    * @engine inline
+    * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
       global $DB;
@@ -62,26 +64,27 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $serial = $this->getUniqueString();
       $agent = $this->enrollFromInvitation(
          $user, [
-            'entities_id'        => $_SESSION['glpiactive_entity'],
-            '_email'             => $guestEmail,
-            '_invitation_token'  => $invitation->getField('invitation_token'),
-            '_serial'            => $serial,
-            'csr'                => '',
-            'firstname'          => 'John',
-            'lastname'           => 'Doe',
-            'version'            => $this->minAndroidVersion,
-            'type'               => 'android',
+            'entities_id' => $_SESSION['glpiactive_entity'],
+            '_email' => $guestEmail,
+            '_invitation_token' => $invitation->getField('invitation_token'),
+            '_serial' => $serial,
+            'csr' => '',
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'version' => $this->minAndroidVersion,
+            'type' => 'android',
          ]
       );
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
+         JSON_PRETTY_PRINT));
 
       // Create a fleet
       $fleet = $this->createFleet();
 
       // Move the agent to the fleet
       $this->boolean($agent->update([
-         'id'                        => $agent->getID(),
-         'plugin_flyvemdm_fleets_id' => $fleet->getID()
+         'id' => $agent->getID(),
+         'plugin_flyvemdm_fleets_id' => $fleet->getID(),
       ]))->isTrue();
 
       // Test apply policy
@@ -98,11 +101,12 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task = $this->newTestedInstance();
       $taskId = $task->add([
-         $fleetFk  => $fleetId,
+         $fleetFk => $fleetId,
          $policyFk => $policy->getID(),
-         'value'   => '0'
+         'value' => '0',
       ]);
-      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
+         JSON_PRETTY_PRINT));
 
       // Check a MQTT message is queued
       $mqttUpdateQueue = new \PluginFlyvemdmMqttupdatequeue();
@@ -124,15 +128,15 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $task = $this->newTestedInstance();
 
       $task->add([
-         $fleetFk  => $fleet->getID(),
+         $fleetFk => $fleet->getID(),
          $policyFk => $policy->getID(),
-         'value'   => '0'
+         'value' => '0',
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
       // Test purge task
       $task->delete([
-         'id'=> $taskId
+         'id' => $taskId,
       ], 1);
 
       // Check task statuses are deleted
@@ -150,8 +154,8 @@ class PluginFlyvemdmTask extends CommonTestCase {
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => $guestEmail,
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         '_useremails' => $guestEmail,
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
 
@@ -190,10 +194,11 @@ class PluginFlyvemdmTask extends CommonTestCase {
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function() {};
+      $fleet->getMockController()->post_addItem = function () {
+      };
       $fleet->add([
-         'entities_id'     => $_SESSION['glpiactive_entity'],
-         'name'            => $this->getUniqueString(),
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name' => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 

@@ -51,6 +51,11 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $this->login('glpi', 'glpi');
    }
 
+   public function afterTestMethod($method) {
+      parent::afterTestMethod($method);
+      \Session::destroy();
+   }
+
    /**
     * @tags testDeviceCountLimit
     */
@@ -89,6 +94,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
       // Device limit reached : agent creation should fail
       $this->boolean($agentId)->isFalse();
 
+      // reset config for other tests
       $this->login('glpi', 'glpi');
       $entityConfig->update(['id' => $activeEntity, 'device_limit' => '0']);
       \Session::destroy();

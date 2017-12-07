@@ -40,29 +40,15 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     */
    private $minAndroidVersion = '2.0.0';
 
-   /**
-    * @param $method
-    */
    public function beforeTestMethod($method) {
-      switch ($method) {
-         case 'testDeleteDefaultFleet':
-         case 'testAddAgentToFleet':
-            $this->login('glpi', 'glpi');
-            break;
-      }
+      parent::beforeTestMethod($method);
+      $this->setupGLPIFramework();
+      $this->login('glpi', 'glpi');
    }
 
-   /**
-    * @param $method
-    */
    public function afterTestMethod($method) {
-      switch ($method) {
-         case 'testDeleteDefaultFleet':
-         case 'testAddAgentToFleet':
-            \Session::destroy();
-            parent::afterTestMethod($method);
-            break;
-      }
+      parent::afterTestMethod($method);
+      \Session::destroy();
    }
 
    /**
@@ -108,7 +94,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
             ]
       );
       $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
-      $this->login('glpi', 'glpi');
+//      $this->login('glpi', 'glpi');
 
       // Create fleet
       $fleet = $this->newTestedInstance();
