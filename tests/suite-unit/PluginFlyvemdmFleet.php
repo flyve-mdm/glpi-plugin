@@ -108,7 +108,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
       $result = ob_get_contents();
       ob_end_clean();
       $this->string($result)
-         ->contains("method='post' action='-/plugins/flyvemdm/front/fleet.form.php'")
+         ->matches("#method='post' action='.+?\/plugins\/flyvemdm\/front\/fleet\.form\.php'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains("input type='hidden' name='is_recursive' value='0'")
          ->contains("type='text' name='name'")
