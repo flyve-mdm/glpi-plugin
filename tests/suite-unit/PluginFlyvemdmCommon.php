@@ -68,7 +68,7 @@ class PluginFlyvemdmCommon extends atoum
       $result = $class::getMassiveActions([]);
       $this->given($class)->string($result)->contains("autoOpen: false")
          ->contains("modal: true")->contains('title: "Actions"')
-         ->contains("-/ajax/massiveaction.php");
+         ->contains("ajax/massiveaction.php");
    }
 
    /**
