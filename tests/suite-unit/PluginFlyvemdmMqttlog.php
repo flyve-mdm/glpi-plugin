@@ -57,8 +57,7 @@ class PluginFlyvemdmMqttlog extends CommonTestCase
     */
    public function testGetTypeName() {
       $instance = $this->createInstance();
-      $this
-         //->string($instance->getTypeName())->isEqualTo('MQTT subscriber')
+      $this->string($instance->getTypeName(1))->isEqualTo('MQTT subscriber')
          ->string($instance->getTypeName(3))->isEqualTo('MQTT subscribers');
    }
 

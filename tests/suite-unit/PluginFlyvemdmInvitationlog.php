@@ -58,8 +58,7 @@ class PluginFlyvemdmInvitationlog extends CommonTestCase
     */
    public function testGetTypeName() {
       $instance = $this->createInstance();
-      $this
-         //->string($instance->getTypeName())->isEqualTo('Invitation log')
+      $this->string($instance->getTypeName(1))->isEqualTo('Invitation log')
          ->string($instance->getTypeName(3))->isEqualTo('Invitation logs');
    }
 

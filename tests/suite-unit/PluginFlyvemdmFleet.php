@@ -86,8 +86,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
     */
    public function testGetTypeName() {
       $instance = $this->createInstance();
-      $this
-         //->string($instance->getTypeName())->isEqualTo('Fleet')
+      $this->string($instance->getTypeName(1))->isEqualTo('Fleet')
          ->string($instance->getTypeName(3))->isEqualTo('Fleets');
    }
 

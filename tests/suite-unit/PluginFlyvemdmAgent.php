@@ -107,7 +107,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
     */
    public function testGetTypeName() {
       $instance = $this->createInstance();
-      $this->string($instance->getTypeName(3))->isEqualTo('Agents');
+      $this->string($instance->getTypeName(1))->isEqualTo('Agent')
+         ->string($instance->getTypeName(3))->isEqualTo('Agents');
    }
 
    /**

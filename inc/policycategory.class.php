@@ -48,7 +48,7 @@ class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
     * @return string
     */
    static function getTypeName($nb=0) {
-      return _n('Policy category', 'Policy categories', 2);
+      return _n('Policy category', 'Policy categories', $nb, "flyvemdm");
    }
 
    /**

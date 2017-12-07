@@ -40,8 +40,7 @@ class PluginFlyvemdmPolicyCategory extends CommonTestCase {
     */
    public function testGetTypeName() {
       $class = $this->testedClass->getClass();
-      $this->given($class)
-         //->string($class::getTypeName())->isEqualTo('Policy category') // TODO: check why this is failing
+      $this->given($class)->string($class::getTypeName(1))->isEqualTo('Policy category')
          ->string($class::getTypeName(3))->isEqualTo('Policy categories');
    }
 
