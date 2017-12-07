@@ -196,6 +196,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test the user of the computer is the user of the invitation
       $this->integer((int) $computer->getField(\User::getForeignKeyField()))->isEqualTo($invitation->getField('users_id'));
 
+      // Test the computer is dynamic
+      $this->integer((int) $computer->getField('is_dynamic'))->isEqualTo(1);
+
       // Test a new user for the agent exists
       $agentUser = new \User();
       $agentUser->getFromDBByCrit(['realname' => $serial]);
