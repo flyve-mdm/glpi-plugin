@@ -1233,6 +1233,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'serial'             => $serial,
          'uuid'               => $uuid,
          'computertypes_id'   => $computerTypeId,
+         'is_dynamic'   => 1,
       ]);
       if ($computerId === false) {
          $event = __("Cannot create the device", 'flyvemdm');
