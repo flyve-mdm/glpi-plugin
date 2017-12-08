@@ -37,8 +37,8 @@ use PluginFlyvemdmPackage as FlyvemdmPackage;
 use PluginFlyvemdmPolicy;
 use stdClass;
 
-class PluginFlyvemdmPackage extends CommonTestCase
-{
+class PluginFlyvemdmPackage extends CommonTestCase {
+
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
@@ -83,7 +83,8 @@ class PluginFlyvemdmPackage extends CommonTestCase
       $DB->query($query);
       $mysqlError = $DB->error();
       $package = $this->newTestedinstance();
-      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))->isTrue($mysqlError);
+      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))
+         ->isTrue($mysqlError);
 
       $policyDataDeploy = new PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();
@@ -121,11 +122,10 @@ class PluginFlyvemdmPackage extends CommonTestCase
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         'name' => 'a fleet',
+         'name'        => 'a fleet',
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
@@ -148,11 +148,11 @@ class PluginFlyvemdmPackage extends CommonTestCase
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         'plugin_flyvemdm_fleets_id' => $fleet->getID(),
+         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
-         'value' => $value,
-         'itemtype' => get_class($package),
-         'items_id' => $package->getID(),
+         'value'                       => $value,
+         'itemtype'                    => get_class($package),
+         'items_id'                    => $package->getID(),
       ]);
 
       return $task;

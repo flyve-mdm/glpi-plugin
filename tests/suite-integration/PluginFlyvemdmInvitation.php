@@ -36,8 +36,7 @@ use Document;
 use User;
 use QueuedNotification;
 
-class PluginFlyvemdmInvitation extends CommonTestCase
-{
+class PluginFlyvemdmInvitation extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -83,7 +82,8 @@ class PluginFlyvemdmInvitation extends CommonTestCase
       $this->boolean($document->isNewItem())->isFalse();
 
       // Check the pending email has the QR code as attachment
-      $this->string(json_encode([$document->getID()]))->isEqualTo($queuedNotification->getField('documents'));
+      $this->string(json_encode([$document->getID()]))
+         ->isEqualTo($queuedNotification->getField('documents'));
 
       // Send an invitation to the same user
       $secondInvitation = $this->newTestedInstance();
@@ -95,6 +95,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase
 
       // Check both invitations have the same user
       $userFk = User::getForeignKeyField();
-      $this->integer((int)$invitation->getField($userFk))->isEqualTo($secondInvitation->getField($userFk));
+      $this->integer((int) $invitation->getField($userFk))
+         ->isEqualTo($secondInvitation->getField($userFk));
    }
 }

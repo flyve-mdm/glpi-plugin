@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyBase extends CommonTestCase
-{
+class PluginFlyvemdmPolicyBase extends CommonTestCase {
 
    private $dataField = [];
 

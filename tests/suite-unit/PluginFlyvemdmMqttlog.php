@@ -31,11 +31,9 @@
 
 namespace tests\units;
 
-
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmMqttlog extends CommonTestCase
-{
+class PluginFlyvemdmMqttlog extends CommonTestCase {
 
    /**
     * @return object

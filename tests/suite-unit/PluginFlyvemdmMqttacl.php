@@ -31,11 +31,9 @@
 
 namespace tests\units;
 
-
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmMqttacl extends CommonTestCase
-{
+class PluginFlyvemdmMqttacl extends CommonTestCase {
 
    /**
     * @return object
@@ -63,7 +61,8 @@ class PluginFlyvemdmMqttacl extends CommonTestCase
       $instance = $this->createInstance();
       $mockedClass = $this->newMockInstance('\PluginFlyvemdmMQTTUser');
       $mockedClass->getMockController()->getID = 2;
-      $this->boolean($instance->removeAllForUser($mockedClass))->isTrue(); // probably a bug? the user doesn't exist
+      $this->boolean($instance->removeAllForUser($mockedClass))
+         ->isTrue(); // probably a bug? the user doesn't exist
    }
 
    /**

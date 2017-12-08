@@ -58,11 +58,12 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $fleet = $this->newTestedInstance();
       $entityId = 1;
       $fleet->add([
-         'name' => 'fleet for delete',
+         'name'        => 'fleet for delete',
          'entities_id' => $entityId,
-         'is_default' => 1,
+         'is_default'  => 1,
       ]);
-      $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))->isTrue();
+      $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))
+         ->isTrue();
 
       $result = $fleet->delete(['id' => $fleet->getID()]);
       $this->boolean($result)->isTrue();
@@ -81,25 +82,26 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       // Enroll
       $serial = $this->getUniqueString();
       $agent = $this->enrollFromInvitation(
-            $user, [
-               'entities_id'        => $_SESSION['glpiactive_entity'],
-               '_email'             => $guestEmail,
-               '_invitation_token'  => $invitation->getField('invitation_token'),
-               '_serial'            => $serial,
-               'csr'                => '',
-               'firstname'          => 'John',
-               'lastname'           => 'Doe',
-               'version'            => $this->minAndroidVersion,
-               'type'               => 'android',
-            ]
+         $user, [
+            'entities_id'       => $_SESSION['glpiactive_entity'],
+            '_email'            => $guestEmail,
+            '_invitation_token' => $invitation->getField('invitation_token'),
+            '_serial'           => $serial,
+            'csr'               => '',
+            'firstname'         => 'John',
+            'lastname'          => 'Doe',
+            'version'           => $this->minAndroidVersion,
+            'type'              => 'android',
+         ]
       );
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 //      $this->login('glpi', 'glpi');
 
       // Create fleet
       $fleet = $this->newTestedInstance();
       $fleet->add([
-         'name' => $this->getUniqueString()
+         'name' => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
@@ -119,12 +121,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $Task = new \PluginFlyvemdmTask();
       $Task->add([
          $policyFk => $policyData->getID(),
-         $fleetFk   => $fleet->getID(),
+         $fleetFk  => $fleet->getID(),
          'value'   => '0',
       ]);
 
       // Check the policy is applied
-      $this->boolean($Task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->boolean($Task->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Purge the fleet
       $this->boolean($fleet->delete(['id' => $fleet->getID()], 1))->isTrue();
@@ -146,8 +149,8 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    private function createInvitation($guestEmail) {
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
-         'entities_id'  => $_SESSION['glpiactive_entity'],
-         '_useremails'  => $guestEmail,
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         '_useremails' => $guestEmail,
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
 

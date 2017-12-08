@@ -33,9 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-
-class PluginFlyvemdmTaskstatus extends CommonTestCase
-{
+class PluginFlyvemdmTaskstatus extends CommonTestCase {
 
    /**
     * @return object

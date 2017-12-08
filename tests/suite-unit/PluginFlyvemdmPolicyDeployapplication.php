@@ -34,14 +34,13 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPackage;
 
+class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
-class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase
-{
    private $dataField = [
-      'group' => 'application',
-      'symbol' => 'deployApp',
+      'group'     => 'application',
+      'symbol'    => 'deployApp',
       'type_data' => '',
-      'unicity' => 0,
+      'unicity'   => 0,
    ];
 
    private $packageName = 'com.domain.author.application.apk';
@@ -59,28 +58,28 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase
 
    protected function validationProvider() {
       return [
-         'Check values exist' => [
-            'data' => [null, null, null],
+         'Check values exist'                  => [
+            'data'     => [null, null, null],
             'expected' => [false, 'The remove on delete flag is mandatory'],
          ],
-         'Check remove_on_delete is boolean' => [
-            'data' => [['remove_on_delete' => ''], null, null],
+         'Check remove_on_delete is boolean'   => [
+            'data'     => [['remove_on_delete' => ''], null, null],
             'expected' => [false, 'The remove on delete flag must be 0 or 1'],
          ],
          'Check the itemtype is a application' => [
-            'data' => [['remove_on_delete' => 0], null, null],
+            'data'     => [['remove_on_delete' => 0], null, null],
             'expected' => [false, 'You must choose an application to apply this policy'],
          ],
-         'Check the app exists' => [
-            'data' => [
+         'Check the app exists'                => [
+            'data'     => [
                ['remove_on_delete' => 0],
                PluginFlyvemdmPackage::class,
                '-1',
             ],
             'expected' => [false, 'The application does not exists'],
          ],
-         'Valid check 1' => [
-            'data' => [
+         'Valid check 1'                       => [
+            'data'     => [
                ['remove_on_delete' => 0],
                PluginFlyvemdmPackage::class,
                true,
@@ -185,7 +184,8 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase
       $mockInstance->getMockController()->getID = 1;
       $this->boolean($policy->conflictCheck(null, PluginFlyvemdmPackage::class, -1,
          $mockInstance))->isFalse();
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])->isEqualTo('The application does not exists');
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])
+         ->isEqualTo('The application does not exists');
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
       $this->boolean($policy->conflictCheck(null, PluginFlyvemdmPackage::class, 1,
          $mockInstance))->isTrue();

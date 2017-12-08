@@ -31,11 +31,10 @@
 
 namespace tests\units;
 
-
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmWellknownpath extends CommonTestCase
-{
+class PluginFlyvemdmWellknownpath extends CommonTestCase {
+
    /**
     * @param $method
     */

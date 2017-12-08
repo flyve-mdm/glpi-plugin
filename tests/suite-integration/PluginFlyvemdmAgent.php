@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmAgent extends CommonTestCase
-{
+class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @var string
@@ -66,7 +65,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
          $deviceLimit = 5,
          $entityConfig,
          $entityConfig->update([
-            'id' => $activeEntity,
+            'id'           => $activeEntity,
             'device_limit' => $deviceLimit,
          ]),
          $invitationData = []
@@ -85,8 +84,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       for ($i = 0, $max = (count($invitationData) - 1); $i < $max; $i++) {
          $agentId = $this->loginAndAddAgent($invitationData[$i]);
          // Agent creation should succeed
-         $this->integer($agentId)->isGreaterThan(0,
-            json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->integer($agentId)
+            ->isGreaterThan(0, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       }
 
       // One nore ienrollment
@@ -115,8 +114,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test enrollment with bad token
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token');
-      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -127,8 +126,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test enrollment without MDM type
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token');
-      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -139,8 +138,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test enrollment with bad MDM type
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token', 'alien MDM');
-      $this->boolean($agent->isNewItem())->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -192,8 +191,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test successful enrollment
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test there is no new entry in the invitation log
       $invitationLog = new \PluginFlyvemdmInvitationlog();
@@ -210,7 +209,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test a computer is associated to the agent
       $computer = new \Computer();
-      $this->boolean($computer->getFromDB($agent->getField(\Computer::getForeignKeyField())))->isTrue();
+      $this->boolean($computer->getFromDB($agent->getField(\Computer::getForeignKeyField())))
+         ->isTrue();
 
       // Test the computer has the expected type
       $this->string($computer->getField('computertypes_id'))->isEqualTo($computerTypeId);
@@ -219,7 +219,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $this->string($computer->getField('serial'))->isEqualTo($serial);
 
       // Test the user of the computer is the user of the invitation
-      $this->integer((int)$computer->getField(\User::getForeignKeyField()))->isEqualTo($invitation->getField('users_id'));
+      $this->integer((int) $computer->getField(\User::getForeignKeyField()))
+         ->isEqualTo($invitation->getField('users_id'));
 
       // Test a new user for the agent exists
       $agentUser = new \User();
@@ -240,7 +241,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $this->boolean($mqttUser->getByUser($serial))->isTrue();
 
       // Check the MQTT user is enabled
-      $this->integer((int)$mqttUser->getField('enabled'))->isEqualTo('1');
+      $this->integer((int) $mqttUser->getField('enabled'))->isEqualTo('1');
 
       // Check the user has ACLs
       $mqttACLs = $mqttUser->getACLs();
@@ -250,24 +251,22 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $validated = 0;
       foreach ($mqttACLs as $acl) {
          if (preg_match("~/agent/$serial/Command/#$~", $acl->getField('topic')) == 1) {
-            $this->integer((int)$acl->getField('access_level'))->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
+            $this->integer((int) $acl->getField('access_level'))
+               ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
             $validated++;
-         } else {
-            if (preg_match("~/agent/$serial/Status/#$~", $acl->getField('topic')) == 1) {
-               $this->integer((int)$acl->getField('access_level'))->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_WRITE);
-               $validated++;
-            } else {
-               if (preg_match("~^/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
-                  $this->integer((int)$acl->getField('access_level'))->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
-                  $validated++;
-               } else {
-                  if (preg_match("~/agent/$serial/FlyvemdmManifest/#$~",
-                        $acl->getField('topic')) == 1) {
-                     $this->integer((int)$acl->getField('access_level'))->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_WRITE);
-                     $validated++;
-                  }
-               }
-            }
+         } else if (preg_match("~/agent/$serial/Status/#$~", $acl->getField('topic')) == 1) {
+            $this->integer((int) $acl->getField('access_level'))
+               ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_WRITE);
+            $validated++;
+         } else if (preg_match("~^/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
+            $this->integer((int) $acl->getField('access_level'))
+               ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
+            $validated++;
+         } else if (preg_match("~/agent/$serial/FlyvemdmManifest/#$~",
+               $acl->getField('topic')) == 1) {
+            $this->integer((int) $acl->getField('access_level'))
+               ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_WRITE);
+            $validated++;
          }
       }
       $this->integer($validated)->isEqualTo(count($mqttACLs));
@@ -328,8 +327,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
          $invitation->getField('invitation_token'));
 
       // Test the agent is created
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $tester = $this;
       $mockedAgent = $this->newMockInstance($this->testedClass());
@@ -350,7 +349,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
       };
 
       $mockedAgent->update([
-         'id' => $mockedAgent->getID(),
+         'id'        => $mockedAgent->getID(),
          '_unenroll' => '',
       ]);
 
@@ -366,14 +365,13 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
 
-      $mockedAgent->getMockController()->cleanupSubtopics = function () {
-      };
+      $mockedAgent->getMockController()->cleanupSubtopics = function () {};
 
       $deleteSuccess = $mockedAgent->delete(['id' => $mockedAgent->getID()]);
 
@@ -395,8 +393,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $this->deviceOnlineStatus($agent, 'true', 1);
 
@@ -412,14 +410,14 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Create a fleet
       $fleet = new \PluginFlyvemdmFleet();
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         'name' => 'fleet A',
+         'name'        => 'fleet A',
       ]);
       $this->boolean($fleet->isNewItem())->isFalse("Could not create a fleet");
 
@@ -435,14 +433,15 @@ class PluginFlyvemdmAgent extends CommonTestCase
       )
       use ($tester, &$mockedAgent, $fleet) {
          $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Subscribe");
-         $tester->string($mqttMessage)->isEqualTo(json_encode(['subscribe' => [['topic' => $fleet->getTopic()]]],
-            JSON_UNESCAPED_SLASHES));
+         $tester->string($mqttMessage)
+            ->isEqualTo(json_encode(['subscribe' => [['topic' => $fleet->getTopic()]]],
+               JSON_UNESCAPED_SLASHES));
          $tester->integer($qos)->isEqualTo(0);
          $tester->integer($retain)->isEqualTo(1);
       };
 
       $updateSuccess = $mockedAgent->update([
-         'id' => $agent->getID(),
+         'id'                        => $agent->getID(),
          'plugin_flyvemdm_fleets_id' => $fleet->getID(),
       ]);
       $this->boolean($updateSuccess)->isTrue("Failed to update the agent");
@@ -457,8 +456,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -492,8 +491,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
          $invitation->getField('invitation_token'));
       $testUserId = $user->getID();
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -511,7 +510,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       // Test the agent user is deleted
       $agentUser = new \User();
-      $this->boolean($agentUser->getFromDB($agent->getField(\User::getForeignKeyField())))->isFalse();
+      $this->boolean($agentUser->getFromDB($agent->getField(\User::getForeignKeyField())))
+         ->isFalse();
 
       // Test the owner user is deleted
       $user = new \User();
@@ -530,8 +530,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -548,14 +548,14 @@ class PluginFlyvemdmAgent extends CommonTestCase
       )
       use ($tester, &$mockedAgent) {
          $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Ping");
-         $tester->string($mqttMessage)->isEqualTo(json_encode(['query' => 'Ping'],
-            JSON_UNESCAPED_SLASHES));
+         $tester->string($mqttMessage)
+            ->isEqualTo(json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES));
          $tester->integer($qos)->isEqualTo(0);
          $tester->integer($retain)->isEqualTo(0);
       };
 
       $updateSuccess = $mockedAgent->update([
-         'id' => $mockedAgent->getID(),
+         'id'    => $mockedAgent->getID(),
          '_ping' => '',
       ]);
       // Update shall fail because the ping answer will not occur
@@ -570,8 +570,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -588,14 +588,14 @@ class PluginFlyvemdmAgent extends CommonTestCase
       )
       use ($tester, &$mockedAgent) {
          $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Geolocate");
-         $tester->string($mqttMessage)->isEqualTo(json_encode(['query' => 'Geolocate'],
-            JSON_UNESCAPED_SLASHES));
+         $tester->string($mqttMessage)
+            ->isEqualTo(json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES));
          $tester->integer($qos)->isEqualTo(0);
          $tester->integer($retain)->isEqualTo(0);
       };
 
       $updateSuccess = $mockedAgent->update([
-         'id' => $mockedAgent->getID(),
+         'id'         => $mockedAgent->getID(),
          '_geolocate' => '',
       ]);
       $this->boolean($updateSuccess)->isFalse("Failed to update the agent");
@@ -610,8 +610,8 @@ class PluginFlyvemdmAgent extends CommonTestCase
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
 
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -635,7 +635,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
       };
 
       $updateSuccess = $mockedAgent->update([
-         'id' => $agent->getID(),
+         'id'         => $agent->getID(),
          '_inventory' => '',
       ]);
 
@@ -653,12 +653,12 @@ class PluginFlyvemdmAgent extends CommonTestCase
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Test lock and wipe are unset after enrollment
-      $this->integer((int)$agent->getField('lock'))->isEqualTo(0);
-      $this->integer((int)$agent->getField('wipe'))->isEqualTo(0);
+      $this->integer((int) $agent->getField('lock'))->isEqualTo(0);
+      $this->integer((int) $agent->getField('wipe'))->isEqualTo(0);
 
       // Test lock
       $this->lockDevice($agent, true, true);
@@ -686,22 +686,23 @@ class PluginFlyvemdmAgent extends CommonTestCase
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation('users_id');
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
          $invitation->getField('invitation_token'));
-      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $fleet = $this->createFleet();
       $fleetFk = $fleet::getForeignKeyField();
 
       // add the agent in the fleet
       $this->boolean($agent->update([
-         'id' => $agent->getID(),
+         'id'     => $agent->getID(),
          $fleetFk => $fleet->getID(),
       ]))->isTrue();
 
       // Move the agent to the default fleet
       $entityId = $_SESSION['glpiactive_entity'];
       $defaultFleet = new \PluginFlyvemdmFleet();
-      $this->boolean($defaultFleet->getFromDBByQuery(" WHERE `is_default`='1' AND `entities_id`='$entityId'"))->isTrue();
+      $this->boolean($defaultFleet->getFromDBByQuery(" WHERE `is_default`='1' AND `entities_id`='$entityId'"))
+         ->isTrue();
 
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
@@ -714,7 +715,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
       ) {
       };
       $mockedAgent->update([
-         'id' => $agent->getID(),
+         'id'     => $agent->getID(),
          $fleetFk => $defaultFleet->getID(),
       ]);
       $this->mock($mockedAgent)->call('notify')->never();
@@ -727,11 +728,10 @@ class PluginFlyvemdmAgent extends CommonTestCase
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         'name' => $this->getUniqueString(),
+         'name'        => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
@@ -766,13 +766,13 @@ class PluginFlyvemdmAgent extends CommonTestCase
       };
 
       $mockedAgent->update([
-         'id' => $agent->getID(),
+         'id'   => $agent->getID(),
          'lock' => $lock ? '1' : '0',
       ]);
 
       // Check the lock status is saved
       $agent->getFromDB($agent->getID());
-      $this->integer((int)$agent->getField('lock'))->isEqualTo($expected ? 1 : 0);
+      $this->integer((int) $agent->getField('lock'))->isEqualTo($expected ? 1 : 0);
    }
 
    /**
@@ -803,13 +803,13 @@ class PluginFlyvemdmAgent extends CommonTestCase
       };
 
       $mockedAgent->update([
-         'id' => $agent->getID(),
+         'id'   => $agent->getID(),
          'wipe' => $wipe ? '1' : '0',
       ]);
 
       // Check the lock status is saved
       $agent->getFromDB($agent->getID());
-      $this->integer((int)$agent->getField('wipe'))->isEqualTo($expected ? 1 : 0);
+      $this->integer((int) $agent->getField('wipe'))->isEqualTo($expected ? 1 : 0);
    }
 
    /**
@@ -870,8 +870,7 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       $this->mockGenerator->orphanize('__construct');
       $mqttStub = $this->newMockInstance(\sskaje\mqtt\MQTT::class);
-      $mqttStub->getMockController()->__construct = function () {
-      };
+      $mqttStub->getMockController()->__construct = function () {};
 
       $this->mockGenerator->orphanize('__construct');
       $publishStub = $this->newMockInstance(\sskaje\mqtt\Message\PUBLISH::class);
@@ -902,15 +901,15 @@ class PluginFlyvemdmAgent extends CommonTestCase
 
       $agent = $this->newTestedInstance();
       $agentId = $agent->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_email' => $email,
+         'entities_id'       => $_SESSION['glpiactive_entity'],
+         '_email'            => $email,
          '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial' => $this->getUniqueString(),
-         'csr' => '',
-         'firstname' => 'John',
-         'lastname' => 'Doe',
-         'version' => $this->minAndroidVersion,
-         'type' => 'android',
+         '_serial'           => $this->getUniqueString(),
+         'csr'               => '',
+         'firstname'         => 'John',
+         'lastname'          => 'Doe',
+         'version'           => $this->minAndroidVersion,
+         'type'              => 'android',
       ]);
       return $agentId;
    }
@@ -959,13 +958,13 @@ class PluginFlyvemdmAgent extends CommonTestCase
       //$finalVersion = (null === $version) ? null : ((!empty($version)) ? $version : $this->minAndroidVersion);
       //$invitationToken = ($badToken) ? 'bad token' : $invitation->getField('invitation_token');
       $input = [
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_email' => $guestEmail,
+         'entities_id'       => $_SESSION['glpiactive_entity'],
+         '_email'            => $guestEmail,
          '_invitation_token' => $invitationToken,
-         'csr' => '',
-         'firstname' => 'John',
-         'lastname' => 'Doe',
-         'type' => $mdmType,
+         'csr'               => '',
+         'firstname'         => 'John',
+         'lastname'          => 'Doe',
+         'type'              => $mdmType,
       ];
 
       if ($serial) {

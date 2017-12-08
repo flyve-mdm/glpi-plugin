@@ -34,14 +34,13 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmPolicyString extends CommonTestCase
-{
+class PluginFlyvemdmPolicyString extends CommonTestCase {
 
    private $dataField = [
-      'group' => 'testGroup',
-      'symbol' => 'stringPolicy',
+      'group'     => 'testGroup',
+      'symbol'    => 'stringPolicy',
       'type_data' => '',
-      'unicity' => '1',
+      'unicity'   => '1',
    ];
 
    /**

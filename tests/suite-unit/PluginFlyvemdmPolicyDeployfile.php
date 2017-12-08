@@ -35,88 +35,87 @@ use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 use PluginFlyvemdmFile;
 
-class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
-{
+class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
 
    private $dataField = [
-      'group' => 'file',
-      'symbol' => 'deployFile',
+      'group'     => 'file',
+      'symbol'    => 'deployFile',
       'type_data' => '',
-      'unicity' => '0',
+      'unicity'   => '0',
    ];
 
    protected function validationProvider() {
       return [
-         'Check values exist' => [
-            'data' => [null, null, null],
+         'Check values exist'                         => [
+            'data'     => [null, null, null],
             'expected' => [false, 'A destination and the remove on delete flag are mandatory'],
          ],
-         'Check remove_on_delete is boolean' => [
-            'data' => [['destination' => 'target', 'remove_on_delete' => ''], null, null],
+         'Check remove_on_delete is boolean'          => [
+            'data'     => [['destination' => 'target', 'remove_on_delete' => ''], null, null],
             'expected' => [false, 'The remove on delete flag must be 0 or 1'],
          ],
-         'Check the itemtype is a file' => [
-            'data' => [['destination' => 'target', 'remove_on_delete' => 0], null, null],
+         'Check the itemtype is a file'               => [
+            'data'     => [['destination' => 'target', 'remove_on_delete' => 0], null, null],
             'expected' => [false, 'You must choose a file to apply this policy'],
          ],
-         'Check the file exists' => [
-            'data' => [
+         'Check the file exists'                      => [
+            'data'     => [
                ['destination' => 'target', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                '-1',
             ],
             'expected' => [false, 'The file does not exists'],
          ],
-         'Check relative directory expression 1' => [
-            'data' => [
+         'Check relative directory expression 1'      => [
+            'data'     => [
                ['destination' => 'target/../file.txt', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                true,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check relative directory expression 2' => [
-            'data' => [
+         'Check relative directory expression 2'      => [
+            'data'     => [
                ['destination' => 'target/./file.txt', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check relative directory expression 3' => [
-            'data' => [
+         'Check relative directory expression 3'      => [
+            'data'     => [
                ['destination' => 'target/../', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check relative directory expression 4' => [
-            'data' => [
+         'Check relative directory expression 4'      => [
+            'data'     => [
                ['destination' => 'target/./', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check relative directory expression 5' => [
-            'data' => [
+         'Check relative directory expression 5'      => [
+            'data'     => [
                ['destination' => '/../file.txt', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check relative directory expression 6' => [
-            'data' => [
+         'Check relative directory expression 6'      => [
+            'data'     => [
                ['destination' => '/./file.txt', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Check double directory separator' => [
-            'data' => [
+         'Check double directory separator'           => [
+            'data'     => [
                ['destination' => 'target//file.txt', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
@@ -124,7 +123,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
             'expected' => [false, 'invalid base path'],
          ],
          'Check base path against well known paths 1' => [
-            'data' => [
+            'data'     => [
                ['destination' => '/file.ext', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
@@ -132,7 +131,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
             'expected' => [false, 'invalid base path'],
          ],
          'Check base path against well known paths 2' => [
-            'data' => [
+            'data'     => [
                ['destination' => 'file.ext', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
@@ -140,7 +139,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
             'expected' => [false, 'invalid base path'],
          ],
          'Check base path against well known paths 3' => [
-            'data' => [
+            'data'     => [
                ['destination' => '', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
@@ -148,31 +147,31 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
             'expected' => [false, 'invalid base path'],
          ],
          'Check base path against well known paths 4' => [
-            'data' => [
+            'data'     => [
                ['destination' => '/folder/file.ext', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [false, 'invalid base path'],
          ],
-         'Valid check 1' => [
-            'data' => [
+         'Valid check 1'                              => [
+            'data'     => [
                ['destination' => '%SDCARD%/', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [true],
          ],
-         'Valid check 2' => [
-            'data' => [
+         'Valid check 2'                              => [
+            'data'     => [
                ['destination' => '%SDCARD%', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
             ],
             'expected' => [true],
          ],
-         'Valid check 3' => [
-            'data' => [
+         'Valid check 3'                              => [
+            'data'     => [
                ['destination' => '%SDCARD%/file.ext', 'remove_on_delete' => 0],
                PluginFlyvemdmFile::class,
                1,
@@ -316,12 +315,11 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase
     */
    public function testPreprocessFormData() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->array($policy->preprocessFormData($input = ['invalidKey' => 'invalidValue']))->isEqualTo($input);
+      $this->array($policy->preprocessFormData($input = ['invalidKey' => 'invalidValue']))
+         ->isEqualTo($input);
       $this->array($output = $policy->preprocessFormData([
          'destination_base' => 1,
-         'value' => [
-            'destination' => 'targetString',
-         ],
+         'value'            => ['destination' => 'targetString'],
       ]))->string($output['value']['destination'])->isEqualTo('%SDCARD%targetString');
    }
 }

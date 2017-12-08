@@ -33,8 +33,8 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
-{
+class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
+
    private $defaultEntity = 0;
 
    /**
@@ -71,7 +71,8 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
       $DB->query($query);
       $mysqlError = $DB->error();
       $package = new \PluginFlyvemdmPackage();
-      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))->isTrue($mysqlError);
+      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))
+         ->isTrue($mysqlError);
 
       // Create a fleet
       $fleet = $this->createFleet();
@@ -89,8 +90,8 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
       $task = new \PluginFlyvemdmTask();
       $task->add([
          $policyFk => $policyData->getID(),
-         $fleetFk => $fleet->getID(),
-         'value' => '',
+         $fleetFk  => $fleet->getID(),
+         'value'   => '',
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
@@ -104,8 +105,8 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
       $task = new \PluginFlyvemdmTask();
       $task->add([
          $policyFk => $policyData->getID(),
-         $fleetFk => $fleet->getID(),
-         'value' => $package->getField('name'),
+         $fleetFk  => $fleet->getID(),
+         'value'   => $package->getField('name'),
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -122,11 +123,10 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $this->defaultEntity,
-         'name' => $this->getUniqueString(),
+         'name'        => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 

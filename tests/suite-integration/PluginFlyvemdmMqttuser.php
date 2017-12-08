@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmMqttuser extends CommonTestCase
-{
+class PluginFlyvemdmMqttuser extends CommonTestCase {
 
    /**
     * @return array
@@ -63,7 +62,8 @@ class PluginFlyvemdmMqttuser extends CommonTestCase
       $mqttuser->getFromDBByQuery("WHERE `user`='$name'");
       $this->boolean($mqttuser->isNewItem())->isFalse();
 
-      $this->boolean($mqttuser->delete(['id' => $mqttuser->getID()]))->isTrue("failed to delete a mqtt user");
+      $this->boolean($mqttuser->delete(['id' => $mqttuser->getID()]))
+         ->isTrue("failed to delete a mqtt user");
    }
 
 }
