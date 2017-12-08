@@ -240,7 +240,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $result = ob_get_contents();
       ob_end_clean();
       $this->string($result)
-         ->contains("method='post' action='-/plugins/flyvemdm/front/invitation.form.php'")
+         ->matches("#method='post' action='.+?\/plugins\/flyvemdm\/front\/invitation\.form\.php'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains('input name="_useremails" value=""')
          ->contains('input type="hidden" name="_glpi_csrf_token"');

@@ -290,7 +290,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $value = $policy->showValueInput();
       $this->string($value)
-         ->contains('input type="hidden" name="items_id" value="0"')
+         ->contains('dropdown_items_id')->contains('ajax/getDropdownValue.php')
          ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmFile"')
          ->contains('input type="text" name="value[destination]" value=""')
          ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
