@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmFleet extends CommonTestCase
-{
+class PluginFlyvemdmFleet extends CommonTestCase {
 
    /**
     * @param $method
@@ -117,7 +116,7 @@ class PluginFlyvemdmFleet extends CommonTestCase
 
    protected function inputAddProvider() {
       return [
-         'empty' => [
+         'empty'          => [
             [],
             ['is_default' => 0, 'entities_id' => 0],
          ],

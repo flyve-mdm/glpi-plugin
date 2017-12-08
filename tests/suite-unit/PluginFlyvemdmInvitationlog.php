@@ -31,11 +31,9 @@
 
 namespace tests\units;
 
-
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmInvitationlog extends CommonTestCase
-{
+class PluginFlyvemdmInvitationlog extends CommonTestCase {
 
    /**
     * @return object

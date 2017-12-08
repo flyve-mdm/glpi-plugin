@@ -33,8 +33,8 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase
-{
+class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
+
    private $defaultEntity = 0;
 
    /**
@@ -79,16 +79,16 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase
       $task = new \PluginFlyvemdmTask();
       $task->add([
          $policyFk => $policyData->getID(),
-         'value' => $destination,
+         'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
       // Apply the policy with bad data
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk => $fleet->getID(),
+         $fleetFk  => $fleet->getID(),
          $policyFk => '-1',
-         'value' => $destination,
+         'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
@@ -102,9 +102,9 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase
       // Apply the policy to the fleet
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk => $fleet->getID(),
+         $fleetFk  => $fleet->getID(),
          $policyFk => $policyData->getID(),
-         'value' => $destination,
+         'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -122,11 +122,10 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $this->defaultEntity,
-         'name' => 'a fleet',
+         'name'        => 'a fleet',
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 

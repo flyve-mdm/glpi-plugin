@@ -34,8 +34,7 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmAgent as FlyvemdmAgent;
 
-class PluginFlyvemdmAgent extends CommonTestCase
-{
+class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @param $method
@@ -144,64 +143,64 @@ class PluginFlyvemdmAgent extends CommonTestCase
          ->string[1]->isEqualTo('Historical');
    }
 
-//   /**
-//    * @tags testGetTabNameForItem
-//    */
-//   public function testGetTabNameForItem() {
-//      $instance = $this->createInstance();
-//      $result = $instance->getTabNameForItem();
-//   }
+   /**
+    * @tags testGetTabNameForItem
+    */
+   /*public function testGetTabNameForItem() {
+      $instance = $this->createInstance();
+      $result = $instance->getTabNameForItem();
+   }*/
 
-//   /**
-//    * @tags testDisplayTabContentForItem
-//    */
-//   public function testDisplayTabContentForItem() {
-//      $class = $this->testedClass->getClass();
-//      $mockInstance = $this->newMockInstance('\PluginFlyvemdmAgent');
-//      $mockInstance->getMockController()->showDangerZone = function() {};
-//      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
-//
-//      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
-//      $mockInstance->getMockController()->showForFleet = function() {};
-//      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
-//   }
+   /**
+    * @tags testDisplayTabContentForItem
+    */
+   /*public function testDisplayTabContentForItem() {
+      $class = $this->testedClass->getClass();
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmAgent');
+      $mockInstance->getMockController()->showDangerZone = function() {};
+      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
 
-//   /**
-//    * @tags testShowForm
-//    */
-//   public function testShowForm() {
-//      $instance = $this->createInstance();
-//      ob_start();
-//      // TODO: have a fake agent registered in DB before this.
-//      $instance->showForm(1);
-//      $result = ob_get_contents();
-//      ob_end_clean();
-//      $this->string($result)
-//         ->contains("method='post' action='-/plugins/flyvemdm/front/agent.form.php'")
-//         ->contains("input type='hidden' name='entities_id' value='0'")
-//         ->contains("type='text' name='name'")
-//         ->contains('input type="hidden" name="computers_id"')
-//         ->contains('input type="hidden" name="plugin_flyvemdm_fleets_id"')
-//         ->contains('input type="hidden" name="_glpi_csrf_token"');
-//   }
+      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance->getMockController()->showForFleet = function() {};
+      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
+   }*/
 
-//   /**
-//    * @tags testShowDangerZone
-//    */
-//   public function testShowDangerZone() {
-//      $instance = $this->createInstance();
-//      ob_start();
-//      // TODO: have a fake agent registered in DB before this.
-//      $instance->showDangerZone(1);
-//      $result = ob_get_contents();
-//      ob_end_clean();
-//      $this->string($result)
-//         ->contains("method='post' action='/plugins/flyvemdm/front/agent.form.php'")
-//         ->contains("input type='checkbox' class='new_checkbox' name='lock'")
-//         ->contains("input type='checkbox' class='new_checkbox' name='wipe'")
-//         ->contains('iinput type="submit" value="Unenroll" name="unenroll"')
-//         ->contains('input type="hidden" name="_glpi_csrf_token"');
-//   }
+   /**
+    * @tags testShowForm
+    */
+   /*public function testShowForm() {
+      $instance = $this->createInstance();
+      ob_start();
+      // TODO: have a fake agent registered in DB before this.
+      $instance->showForm(1);
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)
+         ->contains("method='post' action='-/plugins/flyvemdm/front/agent.form.php'")
+         ->contains("input type='hidden' name='entities_id' value='0'")
+         ->contains("type='text' name='name'")
+         ->contains('input type="hidden" name="computers_id"')
+         ->contains('input type="hidden" name="plugin_flyvemdm_fleets_id"')
+         ->contains('input type="hidden" name="_glpi_csrf_token"');
+   }*/
+
+   /**
+    * @tags testShowDangerZone
+    */
+   /*public function testShowDangerZone() {
+      $instance = $this->createInstance();
+      ob_start();
+      // TODO: have a fake agent registered in DB before this.
+      $instance->showDangerZone(1);
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)
+         ->contains("method='post' action='/plugins/flyvemdm/front/agent.form.php'")
+         ->contains("input type='checkbox' class='new_checkbox' name='lock'")
+         ->contains("input type='checkbox' class='new_checkbox' name='wipe'")
+         ->contains('iinput type="submit" value="Unenroll" name="unenroll"')
+         ->contains('input type="hidden" name="_glpi_csrf_token"');
+   }*/
 
    /**
     * @tags testShowForFleet
@@ -214,54 +213,6 @@ class PluginFlyvemdmAgent extends CommonTestCase
       ob_end_clean();
       $this->string($result)->contains('There is no agent yet');
    }
-
-//   /**
-//    * @tags testCanViewItem
-//    */
-//   public function testCanViewItem() {
-//   }
-//
-//   /**
-//    * @tags testPrepareInputForAdd
-//    */
-//   public function testPrepareInputForAdd() {
-//   }
-//
-//   /**
-//    * @tags testPrepareInputForUpdate
-//    */
-//   public function testPrepareInputForUpdate() {
-//   }
-//
-//   /**
-//    * @tags testPost_getFromDB
-//    */
-//   public function testPost_getFromDB() {
-//   }
-//
-//   /**
-//    * @tags testPre_deleteItem
-//    */
-//   public function testPre_deleteItem() {
-//   }
-//
-//   /**
-//    * @tags testPost_updateItem
-//    */
-//   public function testPost_updateItem() {
-//   }
-//
-//   /**
-//    * @tags testPost_restoreItem
-//    */
-//   public function testPost_restoreItem() {
-//   }
-//
-//   /**
-//    * @tags testPost_purgeItem
-//    */
-//   public function testPost_purgeItem() {
-//   }
 
    /**
     * @tags testGetSearchOptionsNew
@@ -342,83 +293,5 @@ class PluginFlyvemdmAgent extends CommonTestCase
                ->string[4]->isEqualTo('boolean');
          });
    }
-
-//   /**
-//    * @tags testAddDefaultJoin
-//    */
-//   public function testAddDefaultJoin() {
-//   }
-//
-//   /**
-//    * @tags testAddDefaultWhere
-//    */
-//   public function testAddDefaultWhere() {
-//   }
-//
-//   /**
-//    * @tags testGetSubscribedTopic
-//    */
-//   public function testGetSubscribedTopic() {
-//   }
-//
-//   /**
-//    * @tags testUpdateSubscription
-//    */
-//   public function testUpdateSubscription() {
-//   }
-//
-//   /**
-//    * @tags testGetByTopic
-//    */
-//   public function testGetByTopic() {
-//   }
-//
-//   /**
-//    * @tags testUnsubscribe
-//    */
-//   public function testUnsubscribe() {
-//   }
-//
-//   /**
-//    * @tags testGetTopicsToCleanup
-//    */
-//   public function testGetTopicsToCleanup() {
-//   }
-//
-//   /**
-//    * @tags testGetAgents
-//    */
-//   public function testGetAgents() {
-//   }
-//
-//   /**
-//    * @tags testGetPackages
-//    */
-//   public function testGetPackages() {
-//   }
-//
-//   /**
-//    * @tags testGetFiles
-//    */
-//   public function testGetFiles() {
-//   }
-//
-//   /**
-//    * @tags testGetFleet
-//    */
-//   public function testGetFleet() {
-//   }
-//
-//   /**
-//    * @tags testGetOwner
-//    */
-//   public function testGetOwner() {
-//   }
-//
-//   /**
-//    * @tags testGetComputer
-//    */
-//   public function testGetComputer() {
-//   }
 
 }

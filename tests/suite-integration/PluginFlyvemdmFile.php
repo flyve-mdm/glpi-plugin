@@ -36,8 +36,7 @@ use PluginFlyvemdmFile as FlyvemdmFile;
 use PluginFlyvemdmFleet;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmFile extends CommonTestCase
-{
+class PluginFlyvemdmFile extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -62,8 +61,8 @@ class PluginFlyvemdmFile extends CommonTestCase
       $fleet = $this->createFleet();
 
       $fleet_policy = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
-      $this->boolean($fleet_policy->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'],
-         JSON_PRETTY_PRINT));
+      $this->boolean($fleet_policy->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // delete the file
       $this->boolean($file->delete([
@@ -142,11 +141,10 @@ class PluginFlyvemdmFile extends CommonTestCase
     */
    private function createFleet() {
       $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         'name' => $this->getUniqueString(),
+         'name'        => $this->getUniqueString(),
       ]);
       $this->boolean($fleet->isNewItem())->isFalse();
 
@@ -174,9 +172,9 @@ class PluginFlyvemdmFile extends CommonTestCase
       $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = PluginFlyvemdmPolicy::getForeignKeyField();
       $task->add([
-         $fleetFk => $fleet->getID(),
-         $policyFk => $policyData->getID(),
-         'value' => $value,
+         $fleetFk   => $fleet->getID(),
+         $policyFk  => $policyData->getID(),
+         'value'    => $value,
          'itemtype' => FlyvemdmFile::class,
          'items_id' => $file->getID(),
       ]);

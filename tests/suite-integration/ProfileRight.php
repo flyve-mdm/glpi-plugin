@@ -49,8 +49,8 @@ use Profile;
 use Computer;
 use Config;
 
-class ProfileRight extends CommonTestCase
-{
+class ProfileRight extends CommonTestCase {
+
    public function testAgentProfileRights() {
       $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
       $this->array($config)->hasKey('agent_profiles_id');
@@ -60,10 +60,10 @@ class ProfileRight extends CommonTestCase
 
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname           => READ,
-         PluginFlyvemdmPackage::$rightname         => READ,
-         PluginFlyvemdmFile::$rightname            => READ,
-         PluginFlyvemdmEntityConfig::$rightname    => READ,
+         PluginFlyvemdmAgent::$rightname        => READ,
+         PluginFlyvemdmPackage::$rightname      => READ,
+         PluginFlyvemdmFile::$rightname         => READ,
+         PluginFlyvemdmEntityConfig::$rightname => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
@@ -92,19 +92,19 @@ class ProfileRight extends CommonTestCase
 
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
-         PluginFlyvemdmPolicy::$rightname          => READ,
-         PluginFlyvemdmPolicyCategory::$rightname  => READ,
-         PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-         PluginFlyvemdmEntityconfig::$rightname    => READ
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         PluginFlyvemdmAgent::$rightname          => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFleet::$rightname          => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFile::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmGeolocation::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
+         PluginFlyvemdmPolicy::$rightname         => READ,
+         PluginFlyvemdmPolicyCategory::$rightname => READ,
+         PluginFlyvemdmProfile::$rightname        => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+         PluginFlyvemdmEntityconfig::$rightname   => READ
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
          PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          PluginFlyvemdmInvitationLog::$rightname  => READ,
       ];
@@ -129,9 +129,9 @@ class ProfileRight extends CommonTestCase
       $profileId = $config['guest_profiles_id'];
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname           => READ | CREATE,
-         PluginFlyvemdmPackage::$rightname         => READ,
-         PluginFlyvemdmFile::$rightname            => READ,
+         PluginFlyvemdmAgent::$rightname   => READ | CREATE,
+         PluginFlyvemdmPackage::$rightname => READ,
+         PluginFlyvemdmFile::$rightname    => READ,
       ];
 
       $profileRight = $this->newTestedInstance();

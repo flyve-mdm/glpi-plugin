@@ -33,8 +33,7 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-class Entity extends CommonTestCase
-{
+class Entity extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -67,14 +66,14 @@ class Entity extends CommonTestCase
       $agent = $this->newMockInstance(\PluginFlyvemdmAgent::class);
       $this->calling($agent)->notify->doesNothing;
       $agent->add([
-         'entities_id' => $entityId,
-         '_email' => $guestEmail,
+         'entities_id'       => $entityId,
+         '_email'            => $guestEmail,
          '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial' => 'AZERTY',
-         'csr' => '',
-         'firstname' => 'John',
-         'lastname' => 'Doe',
-         'version' => '1.0.0',
+         '_serial'           => 'AZERTY',
+         'csr'               => '',
+         'firstname'         => 'John',
+         'lastname'          => 'Doe',
+         'version'           => '1.0.0',
       ]);
       \Session::destroy();
       $this->setupGLPIFramework();
@@ -82,11 +81,10 @@ class Entity extends CommonTestCase
       $defaultFleet = new \PluginFlyvemdmFleet();
       $defaultFleet->getDefaultFleet($entityId);
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {
-      };
+      $fleet->getMockController()->post_addItem = function () {};
       $this->calling($fleet)->notify->doesNothing;
       $fleet->add([
-         'name' => 'a fleet',
+         'name'        => 'a fleet',
          'entities_id' => $entityId,
       ]);
       $package = new \PluginFlyvemdmPackage();

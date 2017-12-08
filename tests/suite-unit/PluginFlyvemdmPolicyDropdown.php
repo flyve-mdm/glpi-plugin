@@ -34,14 +34,13 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
-class PluginFlyvemdmPolicyDropdown extends CommonTestCase
-{
+class PluginFlyvemdmPolicyDropdown extends CommonTestCase {
 
    private $dataField = [
-      'group' => 'testGroup',
-      'symbol' => 'dropdownPolicy',
+      'group'     => 'testGroup',
+      'symbol'    => 'dropdownPolicy',
       'type_data' => '{"VAL_1":"value 1", "VAL_2":"value 2"}',
-      'unicity' => '1',
+      'unicity'   => '1',
    ];
 
    /**
