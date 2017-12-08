@@ -96,7 +96,6 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       );
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
-//      $this->login('glpi', 'glpi');
 
       // Create fleet
       $fleet = $this->newTestedInstance();

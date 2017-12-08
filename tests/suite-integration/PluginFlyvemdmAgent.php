@@ -61,8 +61,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    public function testDeviceCountLimit() {
       $entityConfig = new \PluginFlyvemdmEntityConfig();
       $activeEntity = $_SESSION['glpiactive_entity'];
+      $agents = countElementsInTable(\PluginFlyvemdmAgent::getTable());
       $this->given(
-         $deviceLimit = 5,
+         $deviceLimit = ($agents + 5),
          $entityConfig,
          $entityConfig->update([
             'id'           => $activeEntity,
@@ -106,6 +107,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Set a computer type
       $computerTypeId = 3;
       \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $computerTypeId]);
+      $expectedLogCount = countElementsInTable(\PluginFlyvemdmInvitationlog::getTable());
 
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
 
@@ -120,7 +122,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
       $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $expectedLogCount = 0;
       $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
@@ -132,7 +133,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
       $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $expectedLogCount = 0;
       $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
@@ -144,7 +144,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
       $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $expectedLogCount = 0;
       $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
