@@ -33,6 +33,10 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
+/**
+ * TODO: testDeviceCountLimit should go to Entity unit test, remove inline engine when change that.
+ * @engine inline
+ */
 class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
@@ -47,7 +51,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
-      $this->login('glpi', 'glpi');
+      $this->boolean($this->login('glpi', 'glpi'))->isTrue();
    }
 
    public function afterTestMethod($method) {
@@ -72,7 +76,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $invitationData = []
       );
 
-      for ($i = 0; $i <= $deviceLimit; $i++) {
+      for ($i = $agents; $i <= $deviceLimit; $i++) {
          $email = $this->getUniqueEmail();
          $invitation = new \PluginFlyvemdmInvitation();
          $invitation->add([
@@ -338,11 +342,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $mqttMessage,
          $qos = 0,
          $retain = 0
-      )
-      use ($tester, &$mockedAgent) {
+      ) use ($tester, &$mockedAgent) {
          $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Unenroll");
-         $tester->string($mqttMessage)->isEqualTo(json_encode(['unenroll' => 'now'],
-            JSON_UNESCAPED_SLASHES));
+         $tester->string($mqttMessage)
+            ->isEqualTo(json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES));
          $tester->integer($qos)->isEqualTo(0);
          $tester->integer($retain)->isEqualTo(1);
       };
