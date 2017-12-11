@@ -170,7 +170,8 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $this->boolean($policy->unicityCheck(null, PluginFlyvemdmPackage::class, 1,
+      $application = $this->createAppInDB();
+      $this->boolean($policy->unicityCheck(null, PluginFlyvemdmPackage::class, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
    }
@@ -182,12 +183,13 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $this->boolean($policy->conflictCheck(null, PluginFlyvemdmPackage::class, -1,
-         $mockInstance))->isFalse();
+      $packageClass = PluginFlyvemdmPackage::class;
+      $this->boolean($policy->conflictCheck(null, $packageClass, -1, $mockInstance))->isFalse();
       $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])
          ->isEqualTo('The application does not exists');
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
-      $this->boolean($policy->conflictCheck(null, PluginFlyvemdmPackage::class, 1,
+      $application = $this->createAppInDB();
+      $this->boolean($policy->conflictCheck(null, $packageClass, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
    }
@@ -199,17 +201,23 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
+      $appInDB = $this->createAppInDB();
 
+      // check integrity
       $this->boolean($policy->unapply($mockInstance, null, null, null))->isFalse();
 
+      // check for task to delete
       $value = '{"remove_on_delete":0}';
-      $this->boolean($policy->unapply($mockInstance, $value, PluginFlyvemdmPackage::class,
-         1))->isTrue();
+      $packageClass = PluginFlyvemdmPackage::class;
+      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+         ->isTrue();
 
-      // TODO: fix the following test, it fails with an empty db.
-      /*$value = '{"remove_on_delete":1}';
-      $this->boolean($policy->unapply($mockInstance, $value, PluginFlyvemdmPackage::class,
-         1))->isFalse();*/
+      $value = '{"remove_on_delete":1}';
+      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, -1))->isFalse();
+      /*
+      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+         ->isTrue(); // TODO: fix this, Cannot apply a policy on a not managed fleet
+      */
    }
 
    /**
