@@ -338,7 +338,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public static function displayTabContentForComputer(CommonDBTM $item) {
 
       $agent = new static();
-      if(!$agent->getFromDBByCrit(['computers_id' => $item->getID()])){
+      if (!$agent->getFromDBByCrit(['computers_id' => $item->getID()])) {
          return;
       }
       $fields = $agent->fields;
