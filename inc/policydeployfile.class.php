@@ -165,7 +165,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
             AND `itemtype` = '$itemtype'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
-         if ($decodedValue['destination'] == $value['destination']) {
+         if ($decodedValue['destination'] == $value['destination'] && $itemId == $row['items_id']) {
             return false;
          }
       }
