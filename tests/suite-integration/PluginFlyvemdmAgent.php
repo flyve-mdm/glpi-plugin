@@ -52,6 +52,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
+      $this->setupGLPIFramework();
    }
 
    public function afterTestMethod($method) {
@@ -863,6 +864,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
+      $this->setupGLPIFramework();
       unset($_REQUEST['user_token']);
 
       // Try to enroll
