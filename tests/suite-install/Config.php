@@ -157,5 +157,12 @@ class Config extends CommonTestCase
       // Check the plugin is installed
       $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
       $this->boolean($plugin->isActivated($pluginName))->isTrue("Failed to install FusionInventory\n$installOutput\n");
+
+      $rule = new \Rule();
+      $this->boolean($rule->getFromDBByCrit([
+         'sub_type' => 'PluginFusioninventoryInventoryRuleImport',
+         'name'     => 'Computer constraint (name)',
+      ]))->isTrue();
+      $this->boolean($rule->update(['id' => $rule->getID(), 'is_active' => 0]))->isTrue();
    }
 }
