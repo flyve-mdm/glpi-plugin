@@ -52,7 +52,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
-      $this->setupGLPIFramework();
    }
 
    public function afterTestMethod($method) {
@@ -976,7 +975,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $finalVersion = null;
       }
 
-      $finalInventory = (null !== $inventory)? $inventory : $this->xmlInventory();
+      $finalInventory = (null !== $inventory) ? $inventory : $this->xmlInventory($serial);
 
       //$finalVersion = (null === $version) ? null : ((!empty($version)) ? $version : $this->minAndroidVersion);
       //$invitationToken = ($badToken) ? 'bad token' : $invitation->getField('invitation_token');
@@ -1002,16 +1001,17 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
+    * @param $serial
+    * @param string $macAddress
     * @param string $deviceId
     * @param string $uuid
-    * @param string $macAddress
     * @return string
     */
-   public function xmlInventory($deviceId = '', $uuid='', $macAddress='') {
+   public function xmlInventory($serial, $macAddress = '', $deviceId = '', $uuid = '') {
       $uuid = ($uuid)? $uuid : '1d24931052f35d92';
       $macAddress = ($macAddress)? $macAddress : '02:00:00:00:00:00';
-      $deviceId = ($deviceId) ? $deviceId : $uuid . "_" . $macAddress;
-      return "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>
+      $deviceId = ($deviceId) ? $deviceId : $serial . "_" . $macAddress;
+      $xml = "<?xml version='1.0' encoding='utf-8' standalone='yes'?>
             <REQUEST>
               <QUERY>INVENTORY</QUERY>
               <VERSIONCLIENT>FlyveMDM-Agent_v1.0</VERSIONCLIENT>
@@ -1040,7 +1040,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                   <BMANUFACTURER>bq</BMANUFACTURER>
                   <MMANUFACTURER>bq</MMANUFACTURER>
                   <SMODEL>Aquaris M10 FHD</SMODEL>
-                  <SSN>FG022930</SSN>
+                  <SSN>" . $serial . "</SSN>
                 </BIOS>
                 <MEMORIES>
                   <DESCRIPTION>Memory</DESCRIPTION>
@@ -1197,5 +1197,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                 </BATTERIES>
               </CONTENT>
             </REQUEST>";
+      return $xml;
    }
 }

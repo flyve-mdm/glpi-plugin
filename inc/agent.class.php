@@ -1249,6 +1249,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
+      $computer = new Computer();
+      $computer->update([
+         'id'               => $computerId,
+         'computertypes_id' => $computerTypeId,
+         'users_id'         => $userId,
+      ]);
+
       // Lock the name field of the device
       $fiLock = new PluginFusioninventoryLock();
       $fiLock->addLocks('Computer', $computerId, ['name', 'users_id']);
