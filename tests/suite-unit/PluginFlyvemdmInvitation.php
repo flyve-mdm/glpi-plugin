@@ -165,7 +165,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          'documents_id',
       ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
          ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[2]);
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])->isEqualTo($sessionMessages[2]);
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
       // check if expiration date is valid
