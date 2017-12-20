@@ -31,6 +31,7 @@
 
 namespace tests\units;
 
+use Flyvemdm\Tests\Src\TestingCommonTools;
 use Glpi\Test\CommonTestCase;
 
 /**
