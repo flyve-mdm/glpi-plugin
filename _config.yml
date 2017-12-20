@@ -75,10 +75,10 @@ prose:
           element: "checkbox"
           label: "Code Documentation"
           value: false
-      - name: "wiki"
+      - name: "howtos"
         field:
           element: "checkbox"
-          label: "wiki"
+          label: "howtos"
           value: false
       - name: "published"
         field:
