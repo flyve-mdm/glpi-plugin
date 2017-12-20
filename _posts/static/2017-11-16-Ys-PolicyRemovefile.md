@@ -1,7 +1,7 @@
 ---
 layout: post
 code: true
-wiki: false
+howtos: false
 published: true
 title: Plugin Flyve MDM Policy Remove File
 permalink: development/devdocs/PluginFlyvemdmPolicyRemovefile

@@ -1,9 +1,9 @@
 ---
 layout: post
-wiki: true
+howtos: true
 published: true
 title: How it works
-permalink: wiki/how-it-works
+permalink: howtos/how-it-works
 description: What you should know
 ---
 
