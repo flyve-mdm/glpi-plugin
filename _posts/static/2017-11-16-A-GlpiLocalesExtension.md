@@ -1,7 +1,7 @@
 ---
 layout: post
 code: true
-wiki: false
+howtos: false
 published: true
 title: GLPI Locales Extension
 permalink: development/devdocs/GlpiLocalesExtension

@@ -1,9 +1,9 @@
 ---
 layout: post
-wiki: true
+howtos: true
 published: true
 title: Installation
-permalink: wiki/installation
+permalink: howtos/installation
 description: Step by step
 ---
 
@@ -185,7 +185,7 @@ Expose to the world only the API of GLPI, and keep inacessible GLPI's user inter
 
 Have a look into **glpi/.htaccess** if you can use Apache's mod_rewrite.
 
-<img src="{{ '/images/picto-warning.png' | absolute_url }}" height="16px"> The directory **glpi/plugins/flyvemdm/scripts** must be inaccessible from the webserver.
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Beware!" height="16px"> The directory **glpi/plugins/flyvemdm/scripts** must be inaccessible from the webserver.
 
 * If running Apache, the .htaccess file in this directory will do the job.
 * If running in another server like Nginx, please configure the host properly.
@@ -245,9 +245,9 @@ adduser mosquitto --home /var/lib/mosquitto --shell /usr/sbin/nologin --no-creat
 If you installed Mosquitto from your distribution package, its settings may be located in several files.
 The main configuration file is **/etc/mosquitto/mosquitto.conf**
 
-<img src="{{ '/images/picto-information.png' | absolute_url }}" height="16px"> [Official documentation to configure Mosquitto](http://mosquitto.org/man/mosquitto-conf-5.html)
+<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px"> [Official documentation to configure Mosquitto](http://mosquitto.org/man/mosquitto-conf-5.html)
 
-<img src="{{ '/images/picto-warning.png' | absolute_url }}" height="16px"> We recomend you setup Mosquitto without encryption first, validate its configuration, then enable encryption. Of course, don't expose your setup to the world without encryption!
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Beware!" height="16px"> We recomend you setup Mosquitto without encryption first, validate its configuration, then enable encryption. Of course, don't expose your setup to the world without encryption!
 
 #### default unencrypted listener
 
@@ -268,7 +268,7 @@ Assuming you successfully configured and tested Mosquitto without encryption, us
 
 This example assumes cachain.pem contains the CA chain and your certificate.
 
-<img src="{{ '/images/picto-warning.png' | absolute_url }}" height="16px"> It is quite common to find certificate failes with the extension .crt. Mosquitto requires the filenames ends with **.pem** and use PEM format.
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Beware!" height="16px"> It is quite common to find certificate failes with the extension .crt. Mosquitto requires the filenames ends with **.pem** and use PEM format.
 
 * Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and your private key.
 * Secure your private key
@@ -296,7 +296,7 @@ tls_version tlsv1.2
 ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:AES128:AES256:HIGH:!RC4:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK
 ```
 
-<img src="{{ '/images/picto-information.png' | absolute_url }}" height="16px"> You should NOT use tls_version lower than tlsv1.2. TLS version 1.0 and 1.1 are no longer considered safe. Mosquitto does not supports SSLv2 or sslv3.
+<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px"> You should NOT use tls_version lower than tlsv1.2. TLS version 1.0 and 1.1 are no longer considered safe. Mosquitto does not supports SSLv2 or sslv3.
 
 Restart Mosquitto
 

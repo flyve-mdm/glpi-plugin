@@ -1,9 +1,9 @@
 ---
 layout: post
-wiki: true
+howtos: true
 published: true
 title: MQTT Messages Specifications
-permalink: wiki/mqtt-messages-specifications
+permalink: howtos/mqtt-messages-specifications
 description: MQ Telemetry Transport
 ---
 # Index

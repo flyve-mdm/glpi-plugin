@@ -1,7 +1,7 @@
 ---
 layout: post
 code: true
-wiki: false
+howtos: false
 published: true
 title: Plugin Flyve MDM Entity Config
 permalink: development/devdocs/PluginFlyvemdmEntityconfig
