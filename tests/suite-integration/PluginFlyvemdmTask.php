@@ -31,6 +31,7 @@
 
 namespace tests\units;
 
+use Flyvemdm\Tests\Src\TestingCommonTools;
 use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
@@ -175,11 +176,11 @@ class PluginFlyvemdmTask extends CommonTestCase {
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
       \Session::destroy();
-      $this->setupGLPIFramework();
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
+      $this->setupGLPIFramework();
       unset($_REQUEST['user_token']);
 
       // Try to enroll

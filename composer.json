@@ -37,5 +37,10 @@
             "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
             "no-api": true
         }
-    ]
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Flyvemdm\\Tests\\Src\\": "tests/src/"
+        }
+    }
 }
