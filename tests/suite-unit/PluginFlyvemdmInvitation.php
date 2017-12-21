@@ -155,6 +155,10 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);*/
 
       // success
+      if (is_dir($destination = GLPI_DOC_DIR . '/PNG/')) {
+         // this folder should no exist on test environment for asserting the test
+         \PluginFlyvemdmCommon::recursiveRmdir($destination);
+      }
       $result = $instance->prepareInputForAdd($input);
       $this->boolean($instance->isNewItem())->isTrue()->array($result)->hasKeys([
          '_useremails',
@@ -165,7 +169,8 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          'documents_id',
       ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
          ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])->isEqualTo($sessionMessages[2]);
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])
+         ->isEqualTo($sessionMessages[2], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], 128));
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
       // check if expiration date is valid
