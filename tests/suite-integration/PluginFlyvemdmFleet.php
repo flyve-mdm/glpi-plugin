@@ -171,12 +171,12 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     */
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
+      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       \Session::destroy();
+      $this->setupGLPIFramework();
 
       // login as invited user
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
-      $this->setupGLPIFramework();
       unset($_REQUEST['user_token']);
 
       // Try to enroll
