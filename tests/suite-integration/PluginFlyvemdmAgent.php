@@ -918,17 +918,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       unset($_REQUEST['user_token']);
 
       $agent = $this->newTestedInstance();
+      $serial = $this->getUniqueString();
       $agentId = $agent->add([
          'entities_id'       => $_SESSION['glpiactive_entity'],
          '_email'            => $email,
          '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial'           => $this->getUniqueString(),
+         '_serial'           => $serial,
          'csr'               => '',
          'firstname'         => 'John',
          'lastname'          => 'Doe',
          'version'           => $this->minAndroidVersion,
          'type'              => 'android',
-         'inventory'         => $this->rawData,
+         'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
       ]);
       return $agentId;
    }
