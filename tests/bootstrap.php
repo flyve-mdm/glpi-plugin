@@ -30,7 +30,7 @@
  */
 
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
-global $CFG_GLPI, $PLUGIN_HOOKS;
+global $CFG_GLPI, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
