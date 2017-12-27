@@ -1198,8 +1198,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Prepare invitation update
       $invitationInput = [
-            'id'                 => $invitation->getID(),
-            'status'             => 'done'
+         'id'                 => $invitation->getID(),
+         'status'             => 'done'
       ];
 
       // Invalidate the token
