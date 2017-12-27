@@ -57,7 +57,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function afterTestMethod($method) {
       parent::afterTestMethod($method);
-      \Session::destroy();
+      //\Session::destroy();
    }
 
    /**
@@ -102,7 +102,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // reset config for other tests
       $this->login('glpi', 'glpi');
       $entityConfig->update(['id' => $activeEntity, 'device_limit' => '0']);
-      \Session::destroy();
+      //\Session::destroy();
    }
 
    /**
@@ -480,7 +480,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       // Switch back to registered user
-      \Session::destroy();
+      //\Session::destroy();
       $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
 
       $computerId = $agent->getField(\Computer::getForeignKeyField());
@@ -519,7 +519,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $userId = $computer->getField(\User::getForeignKeyField());
 
       // Switch back to registered user
-      \Session::destroy();
+      //\Session::destroy();
       $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
 
       // Delete shall succeed
@@ -858,7 +858,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     */
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
-      \Session::destroy();
+      $this->terminateSession();
+      $this->restartSession();
+      $this->setupGLPIFramework();
+      //\Session::destroy();
       $this->setupGLPIFramework();
 
       // login as invited user
@@ -913,7 +916,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Login as guest user
       $_REQUEST['user_token'] = \User::getToken($invitation->getField('users_id'), 'api_token');
-      \Session::destroy();
+      $this->terminateSession();
+      $this->restartSession();
+      $this->setupGLPIFramework();
+      //\Session::destroy();
       $this->boolean($this->login('', '', false))->isTrue();
       unset($_REQUEST['user_token']);
 
