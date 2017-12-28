@@ -328,7 +328,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $invitation->getField('invitation_token'));
 
       // Test the agent is created
-      $this->boolean($agent->isNewItem())->isFalse($_SESSION['MESSAGE_AFTER_REDIRECT']);
+      $this->boolean($agent->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
    }
 
    /**
@@ -491,7 +491,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $this->boolean($mqttUser->getByUser($serial))->isFalse();
       $computer = new \Computer();
-      $this->boolean($computer->getFromDB($computerId))->isFalse();
+      $this->boolean($computer->getFromDB($computerId))->isTrue();
 
       // Check if user has not been deleted
       $this->boolean($user->getFromDb($user->getID()))->isTrue();
