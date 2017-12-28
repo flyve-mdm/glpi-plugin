@@ -131,6 +131,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
             $this->getType(), -1);
       $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $fields['name'] = self::getSpecificValueToDisplay('name', $fields['name']);
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
             'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
@@ -697,5 +698,26 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return null;
+   }
+
+   /**
+    * Get a specific value to display
+    *
+    * @param string $field
+    * @param array $values
+    * @param array $options
+    * @return string
+    */
+   static function getSpecificValueToDisplay($field, $values, array $options = []) {
+
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'name':
+            return ($values['name']) ? $values['name'] : NOT_AVAILABLE;
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }

@@ -81,6 +81,12 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return false;
       }
 
+      //check the name of the item exists
+      if (!$package->getField('name')) {
+         Session::addMessageAfterRedirect(__('The application does not have a name', 'flyvemdm'));
+         return false;
+      }
+
       return true;
    }
 
