@@ -63,7 +63,7 @@ class TestingCommonTools {
                 <HARDWARE>
                   <DATELASTLOGGEDUSER>09/11/17</DATELASTLOGGEDUSER>
                   <LASTLOGGEDUSER>jenkins</LASTLOGGEDUSER>
-                  <NAME>Aquaris M10 FHD</NAME>
+                  <NAME>" . $serial . "</NAME>
                   <OSNAME>Android</OSNAME>
                   <OSVERSION>6.0</OSVERSION>
                   <ARCHNAME>aarch64</ARCHNAME>
