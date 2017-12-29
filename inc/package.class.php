@@ -137,6 +137,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          ['value' => $objectName, 'display' => false]
       );
       $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $fields['name'] = self::getSpecificValueToDisplay('name', $fields['name']);
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
             'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
@@ -192,7 +193,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          return false;
       }
 
-      if (!$this->isFileUploadValid($preparedFile['filename'])) {
+      $localFilename = $preparedFile['filename'];
+      if (!$this->isFileUploadValid($localFilename)) {
          return false;
       }
 
@@ -207,6 +209,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          if (rename($uploadedFile, $destination)) {
             $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = basename($uploadedFile);
+            $input['name'] = $localFilename;
          } else {
             $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
@@ -234,7 +237,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       if ($preparedFile && is_array($preparedFile)) {
          try {
-            if (!$this->isFileUploadValid($preparedFile['filename'])) {
+            $localFilename = $preparedFile['filename'];
+            if (!$this->isFileUploadValid($localFilename)) {
                return false;
             }
             $uploadedFile = $preparedFile['uploadedFile'];
@@ -245,6 +249,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                $input['filesize'] = fileSize($destination);
                $input['dl_filename'] = basename($destination);
+               $input['name'] = $localFilename;
                if ($filename != $this->fields['filename']) {
                   unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
                }
@@ -707,5 +712,26 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return null;
+   }
+
+   /**
+    * Get a specific value to display
+    *
+    * @param string $field
+    * @param array $values
+    * @param array $options
+    * @return string
+    */
+   static function getSpecificValueToDisplay($field, $values, array $options = []) {
+
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'name':
+            return ($values['name']) ? $values['name'] : NOT_AVAILABLE;
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }
