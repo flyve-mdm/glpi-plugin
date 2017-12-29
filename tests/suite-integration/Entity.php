@@ -91,7 +91,7 @@ class Entity extends CommonTestCase {
       $packageName = 'com.domain.author.application';
       $packageTable = \PluginFlyvemdmPackage::getTable();
       $DB->query("INSERT INTO $packageTable (
-            `name`,
+            `package_name`,
             `alias`,
             `version`,
             `filename`,

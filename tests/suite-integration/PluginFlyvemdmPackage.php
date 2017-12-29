@@ -61,7 +61,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $packageTable = FlyvemdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
-         `name`,
+         `package_name`,
          `alias`,
          `version`,
          `filename`,
@@ -157,5 +157,4 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
       return $task;
    }
-
 }

@@ -119,16 +119,16 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $uniqid = uniqid();
       $table_file = PluginFlyvemdmPackage::getTable();
       $query = "INSERT INTO `$table_file` (
-        `name`, 
-        `alias`, 
-        `version`, 
-        `filename`, 
-        `filesize`, 
-        `entities_id`, 
-        `dl_filename`, 
+        `package_name`,
+        `alias`,
+        `version`,
+        `filename`,
+        `filesize`,
+        `entities_id`,
+        `dl_filename`,
         `icon`
         ) VALUES (
-        '" . $uniqid . $this->packageName . "', 
+        '" . $uniqid . $this->packageName . "',
         'application',
         '1.0.5',
         '0/" . $uniqid . $this->filename . "',
@@ -149,6 +149,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @tags testGetMqttMessage
+    * @engine inline
     */
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();
@@ -160,7 +161,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $this->array($result)->hasKeys(['id', 'versionCode', $this->dataField['symbol']])
          ->string($result['id'])->isEqualTo($item->getID())
          ->string($result['versionCode'])->isEqualTo("")
-         ->string($result[$this->dataField['symbol']])->isEqualTo($item->getName());
+         ->string($result[$this->dataField['symbol']])->isEqualTo($item->getField('package_name'));
    }
 
    /**

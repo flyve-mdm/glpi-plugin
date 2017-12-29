@@ -98,7 +98,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       $package = new PluginFlyvemdmPackage();
       $package->getFromDB($itemId);
       $array = [
-            $this->symbol  => $package->getField('name'),
+            $this->symbol  => $package->getField('package_name'),
             'id'           => $package->getID(),
             'versionCode'  => $package->getField('version_code'),
       ];
