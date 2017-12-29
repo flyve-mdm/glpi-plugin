@@ -127,9 +127,15 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields['name'], 'name',
-            (isset($options['withtemplate']) && $options['withtemplate'] == 2),
-            $this->getType(), -1);
+      $objectName          = autoName(
+         $this->fields['name'], 'name',
+         (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+         $this->getType(), -1
+      );
+      $fields['name']      = Html::autocompletionTextField(
+         $this, 'name',
+         ['value' => $objectName, 'display' => false]
+      );
       $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
@@ -175,6 +181,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
+      // Name must not be populated
+      if (!Session::isCron()) {
+         unset($input['package_name']);
+      }
+
       // Find the added file
       $preparedFile = $this->prepareFileUpload();
       if (!$preparedFile) {
@@ -215,6 +226,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
+      if (!Session::isCron()) {
+         unset($input['package_name']);
+      }
       // Find the added file
       $preparedFile = $this->prepareFileUpload();
 
@@ -584,7 +598,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
       $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
       $input['icon'] = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-      $input['name'] = $manifest->getPackageName();
+      $input['package_name'] = $manifest->getPackageName();
       $input['version'] = $manifest->getVersionName();
       $input['version_code'] = $manifest->getVersionCode();
       if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {

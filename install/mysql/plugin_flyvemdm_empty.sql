@@ -130,6 +130,7 @@ DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_packages`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `id`                    int(11)                              NOT NULL AUTO_INCREMENT,
   `name`                  varchar(255)                         NOT NULL DEFAULT '',
+  `package_name`          varchar(255)                         NOT NULL DEFAULT '',
   `alias`                 varchar(255)                         NOT NULL DEFAULT '',
   `version`               varchar(255)                         NOT NULL DEFAULT '',
   `version_code`          varchar(255)                         NOT NULL DEFAULT '',

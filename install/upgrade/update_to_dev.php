@@ -182,8 +182,12 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed') NOT NULL DEFAULT 'pending'",
       ['after' => 'dl_filename', 'default' => 'pending']);
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
+   $migration->changeField($table, 'name', 'package_name', 'string');
+   $migration->migrationOneTable($table);
+   $migration->addField($table, 'name', 'string', ['after' => 'id']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
+   $migration->addPostQuery("UPDATE `$table` SET `name` = `package_name`");
 
    $result = $DB->request(['FROM' => $table, 'LIMIT' => '1']);
    if ($result->count() > 0) {
