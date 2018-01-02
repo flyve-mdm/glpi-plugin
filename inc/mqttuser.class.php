@@ -81,9 +81,9 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
                $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_flyvemdm_mqttusers_id'   => $this->fields['id'],
-                     'topic'                          => $acl['topic'],
-                     'access_level'                   => $acl['access_level'],
+                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+                  'topic'                        => $acl['topic'],
+                  'access_level'                 => $acl['access_level'],
                ]);
             }
          }
@@ -93,7 +93,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    /**
     * @see CommonDBTM::post_updateItem()
     */
-   public function post_updateItem($history=1) {
+   public function post_updateItem($history = 1) {
       if ($this->input['_reset_acl'] === true) {
          $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
@@ -103,9 +103,9 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
                $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_flyvemdm_mqttusers_id'   => $this->fields['id'],
-                     'topic'                          => $acl['topic'],
-                     'access_level'                   => $acl['access_level'],
+                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+                  'topic'                        => $acl['topic'],
+                  'access_level'                 => $acl['access_level'],
                ]);
             }
          }
@@ -143,7 +143,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
     * @return string
     * @throws Exception
     */
-   public static function getRandomPassword($length = 0, $keyspace= '') {
+   public static function getRandomPassword($length = 0, $keyspace = '') {
       if ($length == 0) {
          $length = '32';
       }
@@ -178,7 +178,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
    public function post_purgeItem() {
       $mqttAcl = new PluginFlyvemdmMqttacl();
       $mqttAcl->deleteByCriteria([
-            'plugin_flyvemdm_mqttusers_id'   => $this->getID()
+         'plugin_flyvemdm_mqttusers_id' => $this->getID(),
       ]);
    }
 

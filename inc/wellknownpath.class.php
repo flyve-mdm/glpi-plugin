@@ -39,14 +39,14 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    // name of the right in DB
-   public static $rightname            = 'flyvemdm:wellknownpath';
+   public static $rightname = 'flyvemdm:wellknownpath';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return __s('Well known path', 'flyvemdm');
    }
 
@@ -77,44 +77,44 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Well known path', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __('Well known path', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('comment'),
-         'massiveaction'      => false,
-         'datatype'           => 'text'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('comment'),
+         'massiveaction' => false,
+         'datatype'      => 'text',
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'is_default',
-         'name'               => __('default'),
-         'massiveaction'      => false,
-         'datatype'           => 'bool'
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'is_default',
+         'name'          => __('default'),
+         'massiveaction' => false,
+         'datatype'      => 'bool',
       ];
 
       return $tab;

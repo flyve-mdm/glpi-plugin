@@ -33,27 +33,27 @@
 
 require_once 'vendor/autoload.php';
 
-class RoboFile extends Glpi\Tools\RoboFile
-{
+class RoboFile extends Glpi\Tools\RoboFile {
+
    protected static $banned = [
-         'dist/',
-         'vendor/',
-         '.git',
-         '.gitignore',
-         '.gitattributes',
-         '.github',
-         '.tx',
-         '.settings/',
-         '.project',
-         '.buildpath/',
-         'tools/',
-         'tests/',
-         'screenshot*.png',
-         'RoboFile*.php',
-         'plugin.xml',
-         'phpunit.xml.*',
-         '.travis.yml',
-         'save.sql',
+      'dist/',
+      'vendor/',
+      '.git',
+      '.gitignore',
+      '.gitattributes',
+      '.github',
+      '.tx',
+      '.settings/',
+      '.project',
+      '.buildpath/',
+      'tools/',
+      'tests/',
+      'screenshot*.png',
+      'RoboFile*.php',
+      'plugin.xml',
+      'phpunit.xml.*',
+      '.travis.yml',
+      'save.sql',
    ];
 
    protected static $tagPrefix = 'v';
@@ -165,7 +165,8 @@ class RoboFile extends Glpi\Tools\RoboFile
          return;
       }
       $jsonContent['version'] = $version;
-      file_put_contents($filename, json_encode($jsonContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+      file_put_contents($filename,
+         json_encode($jsonContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
    }
 
    /**
@@ -207,9 +208,9 @@ class RoboFile extends Glpi\Tools\RoboFile
     * @return void
 
    public function testUpgrade() {
-      $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
-   }
-   */
+    * $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
+    * }
+    */
 
    /**
     * run phpcs over the project
@@ -258,9 +259,9 @@ class RoboFile extends Glpi\Tools\RoboFile
       // Build archive
       $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
-      $targetFile = $pluginPath. "/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
+      $targetFile = $pluginPath . "/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
       $toArchive = implode(' ', $this->getFileToArchive($version));
-      @mkdir($pluginPath. "/dist");
+      @mkdir($pluginPath . "/dist");
       $rev = self::$tagPrefix . $version;
       $this->_exec("git archive --prefix=$pluginName/ $rev $toArchive | bzip2 > $targetFile");
    }
@@ -300,24 +301,26 @@ class RoboFile extends Glpi\Tools\RoboFile
       $loader = new Twig_Loader_Filesystem($tplDir);
 
       // force auto-reload to always have the latest version of the template
-      $twig = new Twig_Environment($loader, array(
-            'cache' => $tmpDir,
-            'auto_reload' => true
-      ));
+      $twig = new Twig_Environment($loader, [
+         'cache'       => $tmpDir,
+         'auto_reload' => true,
+      ]);
       include __DIR__ . '/lib/GlpiLocalesExtension.php';
       $twig->addExtension(new GlpiLocalesExtension());
       // configure Twig the way you want
 
       // iterate over all templates
-      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir),
+         RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          // force compilation
          if ($file->isFile()) {
-            $twig->loadTemplate(str_replace($tplDir.'/', '', $file));
+            $twig->loadTemplate(str_replace($tplDir . '/', '', $file));
          }
       }
 
       // find compiled templates
-      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDir),
+         RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          if ($file->isFile()) {
             $compiledTemplates[] = $file;
          }
@@ -328,8 +331,8 @@ class RoboFile extends Glpi\Tools\RoboFile
       $phpSources = "*.php ajax/*.php front/*.php inc/*.php install/*.php";
       // extract locales from source code
       $command = "xgettext $phpSources $compiledTemplates -o locales/$potfile -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po";
-      $command.= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
-      $command.= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
+      $command .= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
+      $command .= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
       $this->_exec($command);
       return $this;
    }
@@ -449,14 +452,14 @@ class RoboFile extends Glpi\Tools\RoboFile
    /**
     * Search for a version in the plugin description XML file
     *
-    * @param string  $versionToSearch
+    * @param string $versionToSearch
     * @return mixed|NULL
     */
    protected function getVersionTagFromXML($versionToSearch) {
       $xml = $this->getPluginXMLDescription();
       if (!isset($xml['versions']['version'][0])) {
          $xml['versions']['version'] = [
-               0 => $xml['versions']['version']
+            0 => $xml['versions']['version'],
          ];
       }
       // several versions available, in an array with numeric keys
@@ -493,7 +496,7 @@ class RoboFile extends Glpi\Tools\RoboFile
       $commitHash = $this->getCurrentCommitHash();
       exec("git tag -l --contains $commitHash", $output, $retCode);
       if (isset($output[0]) && $output[0] == $tag) {
-         return  true;
+         return true;
       }
 
       return false;
@@ -578,10 +581,10 @@ class RoboFile extends Glpi\Tools\RoboFile
       $ext = pathinfo($filename, PATHINFO_EXTENSION);
       switch ($ext) {
          case 'php':
-            $prefix              = "\<\?php\\n/\*(\*)?\\n";
-            $replacementPrefix   = "<?php\n/**\n";
-            $suffix              = "\\n( )?\*/";
-            $replacementSuffix   = "\n */";
+            $prefix = "\<\?php\\n/\*(\*)?\\n";
+            $replacementPrefix = "<?php\n/**\n";
+            $suffix = "\\n( )?\*/";
+            $replacementSuffix = "\n */";
             break;
 
          default:
@@ -591,7 +594,8 @@ class RoboFile extends Glpi\Tools\RoboFile
 
       // format header template for the file type
       $header = trim($this->getHeaderTemplate());
-      $formatedHeader = $replacementPrefix . $this->getFormatedHeaderTemplate($ext, $header) . $replacementSuffix;
+      $formatedHeader = $replacementPrefix . $this->getFormatedHeaderTemplate($ext,
+            $header) . $replacementSuffix;
 
       // get the content of the file to update
       $source = file_get_contents($filename);
@@ -606,13 +610,15 @@ class RoboFile extends Glpi\Tools\RoboFile
          $originalHeader = $headerMatch[0];
          preg_match_all($authorsRegex, $originalHeader, $originalAuthors);
          if (isset($originalAuthors[1])) {
-            $originalAuthors = $this->getFormatedHeaderTemplate($ext, implode("\n", $originalAuthors[1]));
+            $originalAuthors = $this->getFormatedHeaderTemplate($ext,
+               implode("\n", $originalAuthors[1]));
             $formatedHeader = preg_replace($authorsRegex, $originalAuthors, $formatedHeader, 1);
          }
       }
 
       // replace the header if it exists
-      $source = preg_replace('#^' . $prefix . '(.*)' . $suffix . '#Us', $formatedHeader, $source, 1);
+      $source = preg_replace('#^' . $prefix . '(.*)' . $suffix . '#Us', $formatedHeader, $source,
+         1);
       if (empty($source)) {
          throw new Exception("An error occurred while processing $filename");
       }
@@ -626,7 +632,7 @@ class RoboFile extends Glpi\Tools\RoboFile
     */
    protected function getSemverRegex() {
       $regex = '#^\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)' // 3 numbers separated by a dots
-      . '(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b$#i'; // dash and a word
+         . '(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b$#i'; // dash and a word
 
       return $regex;
    }

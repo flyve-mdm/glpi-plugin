@@ -34,8 +34,7 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use Plugin;
 
-class Config extends CommonTestCase
-{
+class Config extends CommonTestCase {
 
    /**
     * @engine inline
@@ -46,20 +45,20 @@ class Config extends CommonTestCase
       $pluginName = TEST_PLUGIN_NAME;
 
       $this->given(self::setupGLPIFramework())
-           ->and($this->boolean($DB->connected)->isTrue())
-           ->and($this->configureGLPI())
-           ->and($this->installDependancies());
+         ->and($this->boolean($DB->connected)->isTrue())
+         ->and($this->configureGLPI())
+         ->and($this->installDependancies());
 
       //Drop plugin configuration if exists
       $config = $this->newTestedInstance();
-      $config->deleteByCriteria(array('context' => $pluginName));
+      $config->deleteByCriteria(['context' => $pluginName]);
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
       $result = $DB->query($query);
       while ($data = $DB->fetch_array($result)) {
          if (strstr($data[0], "glpi_plugin_$pluginName") !== false) {
-            $DB->query("DROP TABLE ".$data[0]);
+            $DB->query("DROP TABLE " . $data[0]);
          }
       }
 
@@ -71,7 +70,7 @@ class Config extends CommonTestCase
 
       // Install the plugin
       $log = '';
-      ob_start(function($in) use ($log) {
+      ob_start(function ($in) use ($log) {
          $log .= $in;
          return '';
       });
@@ -80,7 +79,7 @@ class Config extends CommonTestCase
       $this->boolean($plugin->isInstalled($pluginName))->isTrue($log);
 
       // Assert the database matches the schema
-      $filename = GLPI_ROOT."/plugins/$pluginName/install/mysql/plugin_" . $pluginName . "_empty.sql";
+      $filename = GLPI_ROOT . "/plugins/$pluginName/install/mysql/plugin_" . $pluginName . "_empty.sql";
       $this->checkInstall($filename, 'glpi_plugin_' . $pluginName . '_', 'install');
 
       // Enable the plugin
@@ -121,11 +120,11 @@ class Config extends CommonTestCase
       global $CFG_GLPI;
 
       $settings = [
-         'use_notifications' => '1',
-         'notifications_mailing' => '1',
-         'enable_api'  => '1',
-         'enable_api_login_credentials'  => '1',
-         'enable_api_login_external_token'  => '1',
+         'use_notifications'               => '1',
+         'notifications_mailing'           => '1',
+         'enable_api'                      => '1',
+         'enable_api_login_credentials'    => '1',
+         'enable_api_login_external_token' => '1',
       ];
       \Config::setConfigurationValues('core', $settings);
 
@@ -149,14 +148,18 @@ class Config extends CommonTestCase
 
       // Install the plugin
       $installOutput = '';
-      ob_start(function($in) use ($installOutput) { $installOutput .= $in; return ''; });
+      ob_start(function ($in) use ($installOutput) {
+         $installOutput .= $in;
+         return '';
+      });
       $plugin->install($plugin->getID());
       ob_end_clean();
       $plugin->activate($plugin->getID());
 
       // Check the plugin is installed
       $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
-      $this->boolean($plugin->isActivated($pluginName))->isTrue("Failed to install FusionInventory\n$installOutput\n");
+      $this->boolean($plugin->isActivated($pluginName))
+         ->isTrue("Failed to install FusionInventory\n$installOutput\n");
 
       $rule = new \Rule();
       $this->boolean($rule->getFromDBByCrit([

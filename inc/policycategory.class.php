@@ -39,15 +39,15 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
 
    // name of the right in DB
-   public static  $rightname           = 'flyvemdm:policycategory';
-   public         $can_be_translated   = true;
+   public static $rightname = 'flyvemdm:policycategory';
+   public $can_be_translated = true;
 
    /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   static function getTypeName($nb=0) {
+   static function getTypeName($nb = 0) {
       return _n('Policy category', 'Policy categories', $nb, 'flyvemdm');
    }
 
@@ -59,35 +59,35 @@ class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Policy category', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __('Policy category', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'completename',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'completename',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('comment'),
-         'massiveaction'      => false,
-         'datatype'           => 'text'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('comment'),
+         'massiveaction' => false,
+         'datatype'      => 'text',
       ];
 
       return $tab;

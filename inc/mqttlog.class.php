@@ -53,7 +53,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('MQTT subscriber', 'MQTT subscribers', $nb, "flyvemdm");
    }
 
@@ -85,7 +85,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    protected function saveMqttMessage($direction, $topicList, $msg) {
       global $DB;
 
-      if (! is_array($topicList)) {
+      if (!is_array($topicList)) {
          $topicList = [$topicList];
       }
       $msg = $DB->escape($msg);

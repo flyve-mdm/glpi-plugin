@@ -44,19 +44,19 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    /**
     * @var bool $dohistory maintain history
     */
-   public $dohistory                   = false;
+   public $dohistory = false;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = true;
+   protected $usenotepad = true;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = true;
+   protected $usenotepadRights = true;
 
-   public static $types                = ['Computer'];
+   public static $types = ['Computer'];
 
    /**
     * Localized name of the type
@@ -72,7 +72,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     *
     * @since version 9.1
     **/
-   function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
 
       if (static::canView()) {
          switch ($item->getType()) {
@@ -81,7 +81,8 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('computers_id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
+                     $nb = countElementsInTable(static::getTable(),
+                        ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
@@ -92,7 +93,8 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(), ['computers_id' => $computerId]);
+                     $nb = countElementsInTable(static::getTable(),
+                        ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
@@ -107,7 +109,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @param integer $withtemplate (default 0)
     * @return bool
     */
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       switch (get_class($item)) {
          case PluginFlyvemdmAgent::class:
             self::showForAgent($item);
@@ -125,7 +127,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    /**
     * @see CommonDBTM::getRights()
     */
-   public function getRights($interface='central') {
+   public function getRights($interface = 'central') {
       $rights = parent::getRights();
       //$values = [READ    => __('Read'),
       //           PURGE   => ['short' => __('Purge'),
@@ -161,9 +163,9 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       }
 
       if (!$input['latitude'] == 'na' && !$input['longitude'] == 'na') {
-         $input['latitude']      = floatval($input['latitude']);
-         $input['longitude']     = floatval($input['longitude']);
-         $input['computers_id']  = intval($input['computers_id']);
+         $input['latitude'] = floatval($input['latitude']);
+         $input['longitude'] = floatval($input['longitude']);
+         $input['computers_id'] = intval($input['computers_id']);
 
          if ($input['latitude'] < -180 || $input['latitude'] > 180) {
             Session::addMessageAfterRedirect(__('latitude is invalid', 'flyvemdm'));
@@ -276,10 +278,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       $randEnd = mt_rand();
       $data = [
          'computerId' => $computerId,
-         'beginDate' => $beginDate,
-         'endDate' => $endDate,
-         'randBegin' => $randBegin,
-         'randEnd' => $randEnd,
+         'beginDate'  => $beginDate,
+         'endDate'    => $endDate,
+         'randBegin'  => $randBegin,
+         'randEnd'    => $randEnd,
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('computer_geolocation.html', $data);
@@ -292,53 +294,53 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __s('Geolocation', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __s('Geolocation', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => 'glpi_computers',
-         'field'              => 'id',
-         'name'               => __('Computer'),
-         'datatype'           => 'dropdown',
-         'massiveaction'      => false
+         'id'            => '3',
+         'table'         => 'glpi_computers',
+         'field'         => 'id',
+         'name'          => __('Computer'),
+         'datatype'      => 'dropdown',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'latitude',
-         'name'               => __('latitude'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'latitude',
+         'name'          => __('latitude'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => $this->getTable(),
-         'field'              => 'longitude',
-         'name'               => __('longitude'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'longitude',
+         'name'          => __('longitude'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '6',
-         'table'              => $this->getTable(),
-         'field'              => 'date',
-         'name'               => __('date'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'date',
+         'name'          => __('date'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       return $tab;
