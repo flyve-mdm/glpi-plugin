@@ -35,12 +35,12 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFlyvemdmInvitation extends CommonDBTM {
 
-   const DEFAULT_TOKEN_LIFETIME  = "P7D";
+   const DEFAULT_TOKEN_LIFETIME = "P7D";
 
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'flyvemdm:invitation';
+   public static $rightname = 'flyvemdm:invitation';
 
    /**
     * @var User The invited user
@@ -53,8 +53,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     */
    public function getEnumInvitationStatus() {
       return [
-         'pending'         => __('Pending', 'flyvemdm'),
-         'done'            => __('Done', 'flyvemdm'),
+         'pending' => __('Pending', 'flyvemdm'),
+         'done'    => __('Done', 'flyvemdm'),
       ];
    }
 
@@ -63,7 +63,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('Invitation', 'Invitations', $nb, "flyvemdm");
    }
 
@@ -116,22 +116,24 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       if (!$user->getFromDBbyName($input['_useremails'])) {
          // The user does not exists yet, create him
          $userId = $user->add([
-            '_useremails'     => [$input['_useremails']],
-            'name'            => $input['_useremails'],
-            '_profiles_id'    => $guestProfileId,
-            '_entities_id'    => $entityId,
-            '_is_recursive'   => 0,
-            'authtype'        => Auth::DB_GLPI
+            '_useremails'   => [$input['_useremails']],
+            'name'          => $input['_useremails'],
+            '_profiles_id'  => $guestProfileId,
+            '_entities_id'  => $entityId,
+            '_is_recursive' => 0,
+            'authtype'      => Auth::DB_GLPI,
          ]);
          if ($user->isNewItem()) {
-            Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO,
+               true);
             return false;
          }
 
       } else {
          // Do not handle deleted users
          if ($user->isDeleted()) {
-            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.", 'flyvemdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.",
+               'flyvemdm'), false, INFO, true);
             return false;
          }
 
@@ -141,10 +143,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
          $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
          if (!isset($entities[$_SESSION['glpiactive_entity']])) {
             $profile_User->add([
-                  'users_id'       => $userId,
-                  'profiles_id'    => $guestProfileId,
-                  'entities_id'    => $_SESSION['glpiactive_entity'],
-                  'is_recursive'   => 0,
+               'users_id'     => $userId,
+               'profiles_id'  => $guestProfileId,
+               'entities_id'  => $_SESSION['glpiactive_entity'],
+               'is_recursive' => 0,
             ]);
          }
       }
@@ -174,7 +176,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       // Generate the QR code
       $documentId = $this->createQRCodeDocument($user, $input['invitation_token'], $entityId);
       if ($documentId === false) {
-         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'flyvemdm'), false, INFO, true);
+         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'flyvemdm'),
+            false, INFO, true);
          return false;
       }
 
@@ -192,12 +195,12 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $registeredProfileId = $config['registered_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $registeredProfileId) {
          $forbidden = array_diff_key(
-               $input,
-               [
-                     'id'           => '',
-                     '_notify'      => '',
-                     '_no_history'  => '',
-               ]
+            $input,
+            [
+               'id'          => '',
+               '_notify'     => '',
+               '_no_history' => '',
+            ]
          );
          if (count($forbidden)) {
             // An attempt to edit the item by a registered use
@@ -258,7 +261,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $document = new Document();
       $document->getFromDB($item->getField('documents_id'));
       return $document->delete([
-            'id' => $item->getField('documents_id')
+         'id' => $item->getField('documents_id'),
       ], 1);
    }
 
@@ -271,7 +274,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $documentId = $item->getID();
       $rows = $invitation->find("`documents_id`='$documentId'", '', '1');
       if (count($rows) > 0) {
-         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first', 'flyvemdm'));
+         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first',
+            'flyvemdm'));
          $item->input = false;
       }
    }
@@ -306,18 +310,18 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       $personalToken = User::getToken($user->getID(), 'api_token');
       $enrollmentData = [
-         'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
-         'user_token'         => $personalToken,
-         'invitation_token'   => $invitationToken,
-         'support_name'       => $entityConfig->getField('support_name'),
-         'support_phone'      => $entityConfig->getField('support_phone'),
-         'support_website'    => $entityConfig->getField('support_website'),
-         'support_email'      => $entityConfig->getField('support_email'),
+         'url'              => rtrim($CFG_GLPI["url_base_api"], '/'),
+         'user_token'       => $personalToken,
+         'invitation_token' => $invitationToken,
+         'support_name'     => $entityConfig->getField('support_name'),
+         'support_phone'    => $entityConfig->getField('support_phone'),
+         'support_website'  => $entityConfig->getField('support_website'),
+         'support_email'    => $entityConfig->getField('support_email'),
          //'support_address'    => $entityConfig->getField('support_address'),
       ];
 
       $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-                        . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
+         . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
@@ -325,7 +329,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Add border to the QR
       // TCPDF forgets the quiet zone
-      $borderSize  = 30;
+      $borderSize = 30;
       $image = imagecreatefromstring($qrCode);
       $width = imagesx($image);
       $height = imagesy($image);
@@ -334,7 +338,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $compliantQRcode = imagecreatetruecolor($width + 2 * $borderSize, $height + 2 * $borderSize);
       $white = imagecolorallocate($compliantQRcode, 255, 255, 255);
       // Fill it with white
-      imagefilledrectangle($compliantQRcode, 0, 0, $width + 2 * $borderSize, $height + 2 * $borderSize, $white);
+      imagefilledrectangle($compliantQRcode, 0, 0, $width + 2 * $borderSize,
+         $height + 2 * $borderSize, $white);
 
       // Copy and center the qr code in the big image
       imagecopy($compliantQRcode, $image, $borderSize, $borderSize, 0, 0, $width, $height);
@@ -346,11 +351,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       // Generate a document with the QR code
       $input = [];
       $document = new Document();
-      $input['entities_id']               = $entities_id;
-      $input['is_recursive']              = '0';
-      $input['name']                      = addslashes(__('Enrollment QR code', 'flyvemdm'));
-      $input['_filename']                 = [$tmpFile];
-      $input['_only_if_upload_succeed']   = true;
+      $input['entities_id'] = $entities_id;
+      $input['is_recursive'] = '0';
+      $input['name'] = addslashes(__('Enrollment QR code', 'flyvemdm'));
+      $input['_filename'] = [$tmpFile];
+      $input['_only_if_upload_succeed'] = true;
       $documentId = $document->add($input);
 
       return $documentId;
@@ -361,8 +366,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     */
    public function sendInvitation() {
       NotificationEvent::raiseEvent(
-            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
-            $this
+         PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
+         $this
       );
    }
 
@@ -374,44 +379,44 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __s('Invitation', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __s('Invitation', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => 'glpi_users',
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '1',
+         'table'         => 'glpi_users',
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'status',
-         'name'               => __('Status'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'status',
+         'name'          => __('Status'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'expiration_date',
-         'name'               => __('Expiration date'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'expiration_date',
+         'name'          => __('Expiration date'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       return $tab;
@@ -439,13 +444,13 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $fields = $this->fields;
       $user = new User();
       $user->getFromDB($fields['users_id']);
-      $fields['_useremails']  = $user->getDefaultEmail();
+      $fields['_useremails'] = $user->getDefaultEmail();
       $data = [
-            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
-            'canUpdate'    => $canUpdate,
-            'isNewID'      => $this->isNewID($ID),
-            'invitation'   => $fields,
-            'resendButton' => Html::submit(_x('button', 'Re-send'), ['name' => 'resend']),
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+         'canUpdate'    => $canUpdate,
+         'isNewID'      => $this->isNewID($ID),
+         'invitation'   => $fields,
+         'resendButton' => Html::submit(_x('button', 'Re-send'), ['name' => 'resend']),
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
@@ -464,7 +469,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function showMassiveActionInviteUser() {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
-            'inviteButton' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction'])
+         'inviteButton' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']),
       ];
       echo $twig->render('mass_invitation.html', $data);
    }
@@ -491,7 +496,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param CommonDBTM $item
     * @param array $ids
     */
-   public static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item, array $ids) {
+   public static function processMassiveActionsForOneItemtype(
+      MassiveAction $ma,
+      CommonDBTM $item,
+      array $ids
+   ) {
       switch ($ma->getAction()) {
          case 'InviteUser':
             if ($item->getType() == User::class) {
@@ -526,8 +535,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                   } else {
                      $invitation = new PluginFlyvemdmInvitation();
                      $success = $invitation->add([
-                        '_useremails'  => $emailAddress,
-                        'entities_id'  => $_SESSION['glpiactive_entity'],
+                        '_useremails' => $emailAddress,
+                        'entities_id' => $_SESSION['glpiactive_entity'],
                      ]);
                      if (!$success) {
                         $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);

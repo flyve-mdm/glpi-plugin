@@ -41,17 +41,17 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'flyvemdm:policy';
+   static $rightname = 'flyvemdm:policy';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = false;
+   protected $usenotepad = false;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = false;
+   protected $usenotepadRights = false;
 
    /**
     * Finds the symbol that matches the argument
@@ -82,7 +82,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   static function getTypeName($nb=0) {
+   static function getTypeName($nb = 0) {
       return _n('Policy', 'Policies', $nb, "flyvemdm");
    }
 
@@ -94,79 +94,79 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Policy', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __('Policy', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_policycategories',
-         'field'              => 'completename',
-         'name'               => __('Policy category'),
-         'datatype'           => 'dropdown',
-         'massiveaction'      => false
+         'id'            => '3',
+         'table'         => 'glpi_plugin_flyvemdm_policycategories',
+         'field'         => 'completename',
+         'name'          => __('Policy category'),
+         'datatype'      => 'dropdown',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'type',
-         'name'               => __('Type'),
-         'datatype'           => 'string'
+         'id'       => '4',
+         'table'    => $this->getTable(),
+         'field'    => 'type',
+         'name'     => __('Type'),
+         'datatype' => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => $this->getTable(),
-         'field'              => 'type_data',
-         'name'               => __('Enumeration data'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'type_data',
+         'name'          => __('Enumeration data'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '6',
-         'table'              => $this->getTable(),
-         'field'              => 'group',
-         'name'               => __('Group'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'group',
+         'name'          => __('Group'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '7',
-         'table'              => $this->getTable(),
-         'field'              => 'default_value',
-         'name'               => __('Default value'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'default_value',
+         'name'          => __('Default value'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '8',
-         'table'              => $this->getTable(),
-         'field'              => 'recommended_value',
-         'name'               => __('Recommended value'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '8',
+         'table'         => $this->getTable(),
+         'field'         => 'recommended_value',
+         'name'          => __('Recommended value'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       return $tab;

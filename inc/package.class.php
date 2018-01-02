@@ -41,24 +41,24 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'flyvemdm:package';
+   static $rightname = 'flyvemdm:package';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = true;
+   protected $usenotepad = true;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = true;
+   protected $usenotepadRights = true;
 
    /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('Package', 'Packages', $nb, "flyvemdm");
    }
 
@@ -96,7 +96,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       switch ($item->getType()) {
          case 'Software' :
-            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(), 'flyvemdm');
+            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(),
+               'flyvemdm');
 
       }
       return '';
@@ -109,7 +110,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @param integer $withtemplate
     * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+   public static function displayTabContentForItem(
+      CommonGLPI $item,
+      $tabnum = 1,
+      $withtemplate = 0
+   ) {
       if ($item->getType() == 'Software') {
          self::showForSoftware($item);
          return true;
@@ -126,23 +131,23 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      $fields              = $this->fields;
-      $objectName          = autoName(
+      $fields = $this->fields;
+      $objectName = autoName(
          $this->fields['name'], 'name',
          (isset($options['withtemplate']) && $options['withtemplate'] == 2),
          $this->getType(), -1
       );
-      $fields['name']      = Html::autocompletionTextField(
+      $fields['name'] = Html::autocompletionTextField(
          $this, 'name',
          ['value' => $objectName, 'display' => false]
       );
-      $fields['filesize']  = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
       $data = [
-            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
-            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
-            'isNewID'      => $this->isNewID($ID),
-            'package'      => $fields,
-            'upload'       => Html::file(['name' => 'file', 'display' => false]),
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
+         'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+         'isNewID'      => $this->isNewID($ID),
+         'package'      => $fields,
+         'upload'       => Html::file(['name' => 'file', 'display' => false]),
       ];
       echo $twig->render('package.html', $data);
 
@@ -155,7 +160,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    protected static function getMaxFileSize() {
       $val = trim(ini_get('post_max_size'));
-      $last = strtolower($val[strlen($val)-1]);
+      $last = strtolower($val[strlen($val) - 1]);
       switch ($last) {
          case 'g':
             $val *= 1024;
@@ -268,8 +273,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
          if (isAPI()
-             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-                 || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
+            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+               || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
       }
@@ -308,7 +313,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          foreach ($taskCol as $taskId => $taskRow) {
             $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
+               Toolbox::logInFile('php-errors',
+                  "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
             $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
@@ -328,8 +334,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function pre_deleteItem() {
       $task = new PluginFlyvemdmTask();
       return $task->deleteByCriteria([
-            'itemtype'  => $this->getType(),
-            'items_id'  => $this->getID()
+         'itemtype' => $this->getType(),
+         'items_id' => $this->getID(),
       ]);
    }
 
@@ -360,62 +366,62 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __s('Package', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __s('Package', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'alias',
-         'name'               => __('alias'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'alias',
+         'name'          => __('alias'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'version',
-         'name'               => __('version'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'version',
+         'name'          => __('version'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => $this->getTable(),
-         'field'              => 'icon',
-         'name'               => __('icon'),
-         'massiveaction'      => false,
-         'datatype'           => 'image'
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'icon',
+         'name'          => __('icon'),
+         'massiveaction' => false,
+         'datatype'      => 'image',
       ];
 
       $tab[] = [
-         'id'                 => '6',
-         'table'              => $this->getTable(),
-         'field'              => 'filesize',
-         'name'               => __('filesize'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'filesize',
+         'name'          => __('filesize'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       return $tab;
@@ -456,7 +462,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       $fileHandle = @fopen($streamSource, 'rb');
       if (!$fileHandle) {
-         header ("HTTP/1.0 500 Internal Server Error");
+         header("HTTP/1.0 500 Internal Server Error");
          exit(0);
       }
 
@@ -475,7 +481,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       // seek to the begining of the range
       $currentPosition = $begin;
       if (fseek($fileHandle, $begin, SEEK_SET) < 0) {
-         header ("HTTP/1.0 500 Internal Server Error");
+         header("HTTP/1.0 500 Internal Server Error");
          exit(0);
       }
 
@@ -527,7 +533,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       switch ($name) {
          case 'ParseApplication' :
-            return array('description' => __('Parse an application to find metadata', 'flyvemdm'));
+            return ['description' => __('Parse an application to find metadata', 'flyvemdm')];
       }
    }
 
@@ -547,11 +553,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $cronStatus = 0;
 
       $request = [
-       'FROM' => static::getTable(),
-       'WHERE' => ['AND' => [
-          'parse_status' => 'pending',
-       ]],
-       'LIMIT' => 10
+         'FROM'  => static::getTable(),
+         'WHERE' => [
+            'AND' => [
+               'parse_status' => 'pending',
+            ],
+         ],
+         'LIMIT' => 10,
       ];
       foreach ($DB->request($request) as $data) {
          $package = new static();
@@ -586,7 +594,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          if (!($apk instanceof \ApkParser\Parser)) {
             $this->update([
                'id'           => $this->fields['id'],
-               'parse_status' => 'failed'
+               'parse_status' => 'failed',
             ]);
             return false;
          }
@@ -602,7 +610,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $input['version'] = $manifest->getVersionName();
       $input['version_code'] = $manifest->getVersionCode();
       if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
-         $input['alias']         = $apkLabel[0]; // Get the first item
+         $input['alias'] = $apkLabel[0]; // Get the first item
       }
 
       $input['id'] = $this->fields['id'];

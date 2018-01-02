@@ -33,17 +33,17 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginFlyvemdmTaskstatus extends CommonDBTM
-{
+class PluginFlyvemdmTaskstatus extends CommonDBTM {
+
    // name of the right in DB
-   public static $rightname            = 'flyvemdm:taskstatus';
+   public static $rightname = 'flyvemdm:taskstatus';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     * @return protected|string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return __s('Task status', 'flyvemdm');
    }
 
@@ -57,8 +57,8 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM
       $status = $policy->filterStatus($status);
 
       $this->update([
-            'id'     => $this->getID(),
-            'status' => $status
+         'id'     => $this->getID(),
+         'status' => $status,
       ]);
    }
 }
