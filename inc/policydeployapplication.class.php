@@ -181,10 +181,12 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          $task = new PluginFlyvemdmTask();
          $package = new PluginFlyvemdmPackage();
          if ($package->getFromDB($itemId)) {
+            $packageName = $package->getField('package_name');
+            $packageName = ($packageName)? $packageName: $package->getField('name');
             if (!$task->add([
                   'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                   'plugin_flyvemdm_policies_id' => $policyData->getID(),
-                  'value'                       => $package->getField('name'),
+                  'value'                       => $packageName,
                   '_silent'                     => true,
             ])) {
                return false;
