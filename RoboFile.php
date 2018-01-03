@@ -208,9 +208,9 @@ class RoboFile extends Glpi\Tools\RoboFile {
     * @return void
 
    public function testUpgrade() {
-    * $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
-    * }
-    */
+      $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
+   }
+   */
 
    /**
     * run phpcs over the project
@@ -255,6 +255,15 @@ class RoboFile extends Glpi\Tools\RoboFile {
       // update version in package.json
       $this->sourceUpdatePackageJson($version);
       $this->sourceUpdateComposerJson($version);
+
+      $this->updateChangelog();
+
+      $diff = $this->gitDiff(['package.json', 'composer.json']);
+      $diff = implode("\n", $diff);
+      if ($diff != '') {
+          $this->gitCommit(['package.json', 'composer.json'], "docs: bump version in JSON files");
+      }
+      $this->gitCommit(['CHANGELOG.md'], "docs(changelog): update changelog");
 
       // Build archive
       $pluginName = $this->getPluginName();
@@ -310,8 +319,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       // configure Twig the way you want
 
       // iterate over all templates
-      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir),
-         RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          // force compilation
          if ($file->isFile()) {
             $twig->loadTemplate(str_replace($tplDir . '/', '', $file));
@@ -319,8 +327,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       }
 
       // find compiled templates
-      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDir),
-         RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+      foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tmpDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          if ($file->isFile()) {
             $compiledTemplates[] = $file;
          }
@@ -363,7 +370,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
     * @return array
     */
    protected function getFileToArchive($version) {
-      $filesToArchive = $this->getTrackedFiles(self::$tagPrefix . $version);
+      $filesToArchive = $this->getTrackedFiles($version);
 
       // prepare banned items for regex
       $patterns = [];
@@ -581,10 +588,10 @@ class RoboFile extends Glpi\Tools\RoboFile {
       $ext = pathinfo($filename, PATHINFO_EXTENSION);
       switch ($ext) {
          case 'php':
-            $prefix = "\<\?php\\n/\*(\*)?\\n";
-            $replacementPrefix = "<?php\n/**\n";
-            $suffix = "\\n( )?\*/";
-            $replacementSuffix = "\n */";
+            $prefix              = "\<\?php\\n/\*(\*)?\\n";
+            $replacementPrefix   = "<?php\n/**\n";
+            $suffix              = "\\n( )?\*/";
+            $replacementSuffix   = "\n */";
             break;
 
          default:
@@ -594,8 +601,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
 
       // format header template for the file type
       $header = trim($this->getHeaderTemplate());
-      $formatedHeader = $replacementPrefix . $this->getFormatedHeaderTemplate($ext,
-            $header) . $replacementSuffix;
+      $formatedHeader = $replacementPrefix . $this->getFormatedHeaderTemplate($ext, $header) . $replacementSuffix;
 
       // get the content of the file to update
       $source = file_get_contents($filename);
@@ -610,15 +616,13 @@ class RoboFile extends Glpi\Tools\RoboFile {
          $originalHeader = $headerMatch[0];
          preg_match_all($authorsRegex, $originalHeader, $originalAuthors);
          if (isset($originalAuthors[1])) {
-            $originalAuthors = $this->getFormatedHeaderTemplate($ext,
-               implode("\n", $originalAuthors[1]));
+            $originalAuthors = $this->getFormatedHeaderTemplate($ext, implode("\n", $originalAuthors[1]));
             $formatedHeader = preg_replace($authorsRegex, $originalAuthors, $formatedHeader, 1);
          }
       }
 
       // replace the header if it exists
-      $source = preg_replace('#^' . $prefix . '(.*)' . $suffix . '#Us', $formatedHeader, $source,
-         1);
+      $source = preg_replace('#^' . $prefix . '(.*)' . $suffix . '#Us', $formatedHeader, $source, 1);
       if (empty($source)) {
          throw new Exception("An error occurred while processing $filename");
       }
@@ -635,5 +639,66 @@ class RoboFile extends Glpi\Tools\RoboFile {
          . '(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b$#i'; // dash and a word
 
       return $regex;
+   }
+
+   /**
+    * @param array $files files to commit
+    * @param string $commitMessage commit message
+    */
+   protected function gitCommit(array $files, $commitMessage) {
+      if (count($files) < 1) {
+         $arg = '-u';
+      } else {
+         $arg = '"' . implode('" "', $files) . '"';
+      }
+       exec("git add $arg", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to add files for $commitMessage");
+      }
+
+       exec("git commit -m \"$commitMessage\" --dry-run", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to commit $commitMessage");
+      }
+
+       return true;
+   }
+
+   /**
+    * @param array $files files to commit
+    * @param string $version1
+    * @param string $version2
+    */
+   protected function gitDiff(array $files, $version1 = '', $version2 = '') {
+      if (count($files) < 1) {
+         $arg = '-u';
+      } else {
+         $arg = '"' . implode('" "', $files) . '"';
+      }
+
+      if ($version1 == '' && $version2 == '') {
+         $fromTo = '';
+      } else {
+         $fromTo = "$version1..$version2";
+      }
+
+       exec("git diff $fromTo -- $arg", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to diff $fromTo");
+      }
+
+       return $output;
+   }
+
+
+   /**
+    */
+   protected function updateChangelog() {
+       exec("node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to update the changelog");
+      }
+
+       return true;
    }
 }
