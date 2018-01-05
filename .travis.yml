@@ -37,7 +37,7 @@ before_script:
 script:
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
-  - for f in `ls tests/suite-integration/`; do vendor/bin/atoum -ft -bf tests/bootstrap.php --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI CommonDBRelation CommonDBConnexity ProfileRight -f tests/suite-integration/$f; done;
+  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ]] ; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
 
