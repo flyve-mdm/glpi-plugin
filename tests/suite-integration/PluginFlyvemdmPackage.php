@@ -32,10 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmFleet;
-use PluginFlyvemdmPackage as FlyvemdmPackage;
-use PluginFlyvemdmPolicy;
-use stdClass;
 
 class PluginFlyvemdmPackage extends CommonTestCase {
 
@@ -59,7 +55,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       // Create an application (directly in DB) because we are not uploading any file
       $uniqueString = $this->getUniqueString();
       $packageName = 'com.domain.' . $uniqueString . '.application';
-      $packageTable = FlyvemdmPackage::getTable();
+      $packageTable = \PluginFlyvemdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
          `package_name`,
@@ -87,10 +83,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $this->boolean($package->getFromDBByQuery("WHERE `package_name`='$packageName'"))
          ->isTrue($mysqlError);
 
-      $policyDataDeploy = new PluginFlyvemdmPolicy();
+      $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();
 
-      $policyDataRemove = new PluginFlyvemdmPolicy();
+      $policyDataRemove = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataRemove->getFromDBBySymbol('removeApp'))->isTrue();
 
       $fleet = $this->createFleet();
@@ -119,10 +115,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
+    * @return object \PluginFlyvemdmFleet mocked
     */
    private function createFleet() {
-      $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
+      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
@@ -134,17 +130,17 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @param PluginFlyvemdmPolicy $policyData
-    * @param FlyvemdmPackage $package
-    * @param PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy $policyData
+    * @param \PluginFlyvemdmPackage $package
+    * @param \PluginFlyvemdmFleet $fleet
     * @return \PluginFlyvemdmTask
     */
    private function applyAddPackagePolicy(
-      PluginFlyvemdmPolicy $policyData,
-      FlyvemdmPackage $package,
-      PluginFlyvemdmFleet $fleet
+      \PluginFlyvemdmPolicy $policyData,
+      \PluginFlyvemdmPackage $package,
+      \PluginFlyvemdmFleet $fleet
    ) {
-      $value = new stdClass();
+      $value = new \stdClass();
       $value->remove_on_delete = '1';
 
       $task = new \PluginFlyvemdmTask();

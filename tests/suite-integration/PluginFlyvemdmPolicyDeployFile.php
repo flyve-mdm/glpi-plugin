@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmFile;
 
 class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
@@ -47,7 +46,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       // Create an application (directly in DB) because we are not uploading any file
       // Create an file (directly in DB)
       $fileName = 'flyve-user-manual-' . uniqid() . '.pdf';
-      $fileTable = PluginFlyvemdmFile::getTable();
+      $fileTable = \PluginFlyvemdmFile::getTable();
       $entityId = $this->defaultEntity;
       $query = "INSERT INTO $fileTable (
          `name`,
@@ -63,7 +62,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $file = new PluginFlyvemdmFile();
+      $file = new \PluginFlyvemdmFile();
       $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
@@ -193,7 +192,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
     */
    private function applyAddFilePolicy(
       \PluginFlyvemdmPolicy $policyData,
-      PluginFlyvemdmFile $file,
+      \PluginFlyvemdmFile $file,
       \PluginFlyvemdmFleet $fleet
    ) {
       $value = new \stdClass();

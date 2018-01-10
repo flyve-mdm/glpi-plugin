@@ -32,9 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use Document;
-use User;
-use QueuedNotification;
 
 class PluginFlyvemdmInvitation extends CommonTestCase {
 
@@ -64,20 +61,20 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->boolean($invitation->isNewItem())->isFalse();
 
       // check the guest user exists
-      $user = new User();
-      $this->boolean($user->getFromDB($invitation->getField(User::getForeignKeyField())))->isTrue();
+      $user = new \User();
+      $this->boolean($user->getFromDB($invitation->getField(\User::getForeignKeyField())))->isTrue();
 
       // check a email was queued
       $invitationType = \PluginFlyvemdmInvitation::class;
       $invitationId = $invitation->getID();
-      $queuedNotification = new QueuedNotification();
+      $queuedNotification = new \QueuedNotification();
       $this->boolean($queuedNotification->getFromDBByQuery(
          "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
       )->isTrue();
 
       // Check a QR code is created
-      $document = new Document();
-      $documentFk = Document::getForeignKeyField();
+      $document = new \Document();
+      $documentFk = \Document::getForeignKeyField();
       $document->getFromDB($invitation->getField($documentFk));
       $this->boolean($document->isNewItem())->isFalse();
 
@@ -94,7 +91,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->boolean($secondInvitation->isNewItem())->isFalse();
 
       // Check both invitations have the same user
-      $userFk = User::getForeignKeyField();
+      $userFk = \User::getForeignKeyField();
       $this->integer((int) $invitation->getField($userFk))
          ->isEqualTo($secondInvitation->getField($userFk));
    }
