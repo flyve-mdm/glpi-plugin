@@ -71,5 +71,3 @@ $CFG_GLPI['url_base_api']  = TEST_GLPI_URI . '/apirest.php';
 
 // Mock PluginFlyvemdmMqttClient
 include __DIR__ . "/inc/MqttClient.php";
-include __DIR__ . "/src/TestingCommonTools.php";
-
