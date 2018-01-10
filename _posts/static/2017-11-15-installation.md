@@ -19,7 +19,7 @@ You need several servers to run Flyve MDM:
 
 Flyve MDM runs on GLPI 9.1.1 and later. It depends on inventory features of FusionInventory for GLPI. You need FusionInventory 9.1+1.0 or later. The version depends on the version of GLPI you're planning to setup.
 
-The general steps to properly configure the whole infrastructure are :
+The general steps to properly configure the whole infrastructure are:
 
 * install GLPI
 * install FusionInventory and Flyve MDM plugin for GLPI
@@ -120,7 +120,9 @@ Click on **Email followups configuration** and setup the form depending on your 
 
 <img src="{{ '/images/email-notification-settings.png' | absolute_url }}" alt="Email Notification Settings">
 
-In **Setup > Automatic actions** open queuedmail. Set Run mode to **CLI**. This action is now triggered by the cron job every minute.
+In Setup > Automatic actions open queuedmail. Set Run mode to CLI. This action is now triggered by the cron job every minute.
+
+<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px">  Since GLPI 9.2 the notification system was redesigned, in **Setup > Automatic actions** search for **queuednotifications** instead.
 
 To ensure the cronjob is properly configured, check the log **glpi/files/_log/cron.log**. If a log entry contains the word **External** then the job fired from cron. Jobs manually fired from the UI would show **Internal** instead.
 
