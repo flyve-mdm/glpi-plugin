@@ -32,27 +32,11 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmAgent;
-use PluginFlyvemdmFile;
-use PluginFlyvemdmPackage;
-use PluginFlyvemdmEntityConfig;
-use PluginFlyvemdmFleet;
-use PluginFlyvemdmGeolocation;
-use PluginFlyvemdmWellknownpath;
-use PluginFlyvemdmPolicy;
-use PluginFlyvemdmPolicyCategory;
-use PluginFlyvemdmProfile;
-use PluginFlyvemdmInvitation;
-use PluginFlyvemdmInvitationLog;
-use User;
-use Profile;
-use Computer;
-use Config;
 
 class ProfileRight extends CommonTestCase {
 
    public function testAgentProfileRights() {
-      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
       $this->array($config)->hasKey('agent_profiles_id');
       $this->integer((int) $config['agent_profiles_id'])->isGreaterThan(0);
 
@@ -60,10 +44,10 @@ class ProfileRight extends CommonTestCase {
 
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname        => READ,
-         PluginFlyvemdmPackage::$rightname      => READ,
-         PluginFlyvemdmFile::$rightname         => READ,
-         PluginFlyvemdmEntityConfig::$rightname => READ,
+         \PluginFlyvemdmAgent::$rightname        => READ,
+         \PluginFlyvemdmPackage::$rightname      => READ,
+         \PluginFlyvemdmFile::$rightname         => READ,
+         \PluginFlyvemdmEntityConfig::$rightname => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
@@ -92,21 +76,21 @@ class ProfileRight extends CommonTestCase {
 
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname          => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFleet::$rightname          => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFile::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmGeolocation::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
-         PluginFlyvemdmPolicy::$rightname         => READ,
-         PluginFlyvemdmPolicyCategory::$rightname => READ,
-         PluginFlyvemdmProfile::$rightname        => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-         PluginFlyvemdmEntityconfig::$rightname   => READ
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
-         PluginFlyvemdmInvitationLog::$rightname  => READ,
+         \PluginFlyvemdmAgent::$rightname          => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmFleet::$rightname          => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmFile::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmGeolocation::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
+         \PluginFlyvemdmPolicy::$rightname         => READ,
+         \PluginFlyvemdmPolicyCategory::$rightname => READ,
+         \PluginFlyvemdmProfile::$rightname        => \PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+         \PluginFlyvemdmEntityconfig::$rightname   => READ
+            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         \PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
+         \PluginFlyvemdmInvitationLog::$rightname  => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
@@ -122,16 +106,16 @@ class ProfileRight extends CommonTestCase {
    }
 
    public function testGuestProfileRights() {
-      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $this->array($config)->hasKey('guest_profiles_id');
       $this->integer((int) $config['guest_profiles_id'])->isGreaterThan(0);
 
       $profileId = $config['guest_profiles_id'];
       // Expected rights
       $rightsSet = [
-         PluginFlyvemdmAgent::$rightname   => READ | CREATE,
-         PluginFlyvemdmPackage::$rightname => READ,
-         PluginFlyvemdmFile::$rightname    => READ,
+         \PluginFlyvemdmAgent::$rightname   => READ | CREATE,
+         \PluginFlyvemdmPackage::$rightname => READ,
+         \PluginFlyvemdmFile::$rightname    => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
