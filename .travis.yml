@@ -1,5 +1,6 @@
 language: php
 
+sudo: required
 
 env:
   global:
@@ -23,17 +24,7 @@ allow_failures:
   - php: nightly
       
 before_script:
-  - mysql -u root -e 'create database glpitest;'
-  - rm -f composer.lock
-  - tests/config-composer.sh
-  - git clone --depth=1 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
-  - composer install --no-dev --no-interaction
-  - php tools/cliinstall.php --db=glpitest --user=root --tests
-  - mkdir plugins/fusioninventory && git clone --depth=1 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
-  - IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
-  - mv ../${repo[1]} plugins/flyvemdm
-  - if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/10f8dabfc5e20bb5a4e7d4ba4b93706871156a8a.diff; fi
-  - cd plugins/flyvemdm && composer install --no-interaction
+  - ./tests/before_script.sh
 
 script:
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
