@@ -19,7 +19,7 @@
         "flyve",
         "mdm"
     ],
-    "author": "Thierry Bugier Pineau <tbugier@teclib.com> (https://flyve-mdm.com/)",
+    "author": "Thierry Bugier <tbugier@teclib.com> (https://flyve-mdm.com/)",
     "license": "GPL-3.0",
     "bugs": {
         "url": "https://github.com/flyve-mdm/flyve-mdm-glpi/issues"
