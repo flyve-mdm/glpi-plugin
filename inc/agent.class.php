@@ -1003,7 +1003,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
       $mdmType          = isset($input['type']) ? $input['type'] : null;
-      $inventory        = isset($input['inventory']) ? $input['inventory'] : null;
+      $inventory        = isset($input['inventory']) ? base64_decode($input['inventory']) : null;
       $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
       // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
 
