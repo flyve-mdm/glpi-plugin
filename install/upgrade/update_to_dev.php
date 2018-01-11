@@ -111,6 +111,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
+   $migration->changeField($table, 'wipe', 'wipe', 'bool');
+   $migration->changeField($table, 'lock', 'lock', 'bool');
 
    $enumMdmType = PluginFlyvemdmAgent::getEnumMdmType();
    $currentEnumMdmType = PluginFlyvemdmCommon::getEnumValues($table, 'mdm_type');
