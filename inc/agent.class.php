@@ -750,34 +750,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => 'glpi_computers',
-         'field'              => 'serial',
-         'name'               => __('Serial number'),
-         'datatype'           => 'dropdown',
-         'massiveaction'      => false
-      ];
-
-      $tab[] = [
-         'id'                 => '6',
-         'table'              => 'glpi_users',
-         'field'              => 'id',
-         'name'               => __('User'),
-         'forcegroupby'       => false,
-         'massiveaction'      => false,
-         'datatype'           => 'dropdown',
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_computers',
-               'joinparams'         => [
-                  'jointype'           => '',
-                  'condition'          => ''
-               ]
-            ]
-         ]
-      ];
-
-      $tab[] = [
          'id'                 => '7',
          'table'              => 'glpi_plugin_flyvemdm_fleets',
          'field'              => 'id',
@@ -841,19 +813,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $tab[] = [
-         'id'                 => '12',
+         'id'                 => '15',
          'table'              => $this->getTable(),
-         'field'              => 'mdm_type',
-         'name'               => __('Type of MDM'),
+         'field'              => 'wipe',
+         'name'               => __('Wipe requested', 'flyvemdm'),
          'datatype'           => 'boolean',
          'massiveaction'      => false
       ];
 
       $tab[] = [
-         'id'                 => '13',
+         'id'                 => '16',
          'table'              => $this->getTable(),
-         'field'              => 'has_system_permission',
-         'name'               => __('Has system permission'),
+         'field'              => 'lock',
+         'name'               => __('Lock requested', 'flyvemdm'),
          'datatype'           => 'boolean',
          'massiveaction'      => false
       ];
