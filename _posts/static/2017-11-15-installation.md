@@ -21,10 +21,10 @@ Flyve MDM runs on GLPI 9.1.1 and later. It depends on inventory features of Fusi
 
 The general steps to properly configure the whole infrastructure are:
 
-* install GLPI
-* install FusionInventory and Flyve MDM plugin for GLPI
-* configure Flyve MDM plugin for GLPI
-* configure your DBMS
+* Install GLPI
+* Install FusionInventory and Flyve MDM plugin for GLPI
+* Configure Flyve MDM plugin for GLPI
+* Configure your DBMS
 * Install and configure Mosquitto
 * Install and configure the web application
 
@@ -32,9 +32,9 @@ The general steps to properly configure the whole infrastructure are:
 
 This plugin depends on GLPI, FusionInventory for GLPI and some packages
 
-* Download our specific version of GLPI 9.1.2 (please refer to its documentation to install)
-* Download FusionInventory 9.1+1.0 for GLPI and put it in GLPI/plugins/
-* Donwnload Flyve MDM for GLPI and put it in glpi/plugins/
+* Download our specific version of GLPI 9.2.x (please refer to its documentation to install)
+* Download FusionInventory 9.2+1.0 for GLPI and put it in GLPI/plugins/
+* Donwnload Flyve MDM for GLPI 2.0.0-dev and put it in glpi/plugins/
 
 You will probably ask why you need a specific version of GLPI. Flyve MDM relies on a rest API GLPI developed recently. Flyve MDM requires some improvements which are not in the latest stable relase of GLPI. The specific version of GLPI we provide is the latest stable version, with a few backports from the development versions, to satisfy our needs.
 
@@ -43,10 +43,10 @@ You will probably ask why you need a specific version of GLPI. Flyve MDM relies 
 <table>
     <tr>
         <td style="width:150px">GLPI</td>
-        <td>9.1.1</td>
-        <td>9.1.2</td>
-        <td>9.1.3</td>
-        <td>9.2.0</td>
+        <td style="width:100px">9.1.1</td>
+        <td style="width:100px">9.1.2</td>
+        <td style="width:100px">9.1.3</td>
+        <td style="width:100px">9.2.0</td>
     </tr>
     <tr>
         <td><b>Flyve MDM</b></td>
@@ -70,6 +70,8 @@ You should have a directory structure like this:
 
 * Go in the directory glpi/plugins/flyvemdm
 * Run **composer install --no-dev**
+
+<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px"> For Flyve MDM versions 1.x the folder must be renamed to storkmdm in order to appear in Setup > Plugins
 
 ## Configuration of GLPI
 
@@ -120,9 +122,9 @@ Click on **Email followups configuration** and setup the form depending on your 
 
 <img src="{{ '/images/email-notification-settings.png' | absolute_url }}" alt="Email Notification Settings">
 
-In Setup > Automatic actions open queuedmail. Set Run mode to CLI. This action is now triggered by the cron job every minute.
+In Setup > Automatic actions open queuednotifications. Set Run mode to CLI. This action is now triggered by the cron job every minute.
 
-<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px">  Since GLPI 9.2 the notification system was redesigned, in **Setup > Automatic actions** search for **queuednotifications** instead.
+<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px">  For GLPI 9.1.x versions, in **Setup > Automatic actions** search for **queuedmail** instead.
 
 To ensure the cronjob is properly configured, check the log **glpi/files/_log/cron.log**. If a log entry contains the word **External** then the job fired from cron. Jobs manually fired from the UI would show **Internal** instead.
 
@@ -135,9 +137,9 @@ External #1: Launch queuedmail
 ### Enabling the rest API
 
 * Open the menu **Setup > General** and select the tab **API**
-* enable rest API
-* enable **login with credentials**
-* enable **login with external tokens**
+* Enable rest API
+* Enable **login with credentials**
+* Enable **login with external tokens**
 * Check there is a full access API client able to use the API from any IPv4 or IPv6 address (click it to read and/or edit)
 
 <img src="{{ '/images/enable-api.png' | absolute_url }}" alt="Enable API">
@@ -196,7 +198,7 @@ Have a look into **glpi/.htaccess** if you can use Apache's mod_rewrite.
 
 The DBMS must provide an access to the message queuing server for the authentication process of its clients. This server will be configured below; let's focus on the DBMS for now.
 
-Assuming your DBMS server is not exposed to the world and the message queuing is on an other server, edit **my.cnf** to listen on **0.0.0.0** instead of 127.0.0.1.
+Assuming your DBMS server is not exposed to the world and the message queuing is on another server, edit **my.cnf** to listen on **0.0.0.0** instead of 127.0.0.1.
 
 ```
 bind-address = 0.0.0.0
