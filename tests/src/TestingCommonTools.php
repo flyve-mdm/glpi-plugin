@@ -232,6 +232,6 @@ class TestingCommonTools {
                 </BATTERIES>
               </CONTENT>
             </REQUEST>";
-      return base64_encode($xml);
+      return htmlspecialchars($xml);
    }
 }
