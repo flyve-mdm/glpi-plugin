@@ -80,10 +80,10 @@
 				<p>{{ __('It is recommended to create a dedicated user for Mosquitto alowed to connect only from a specific IP.', 'flyvemdm') }}</p>
 				<p>mysql -e "CREATE USER 'mosquitto'@'192.168.1.20' IDENTIFIED BY 'password';"</p>
 				<p>{{ __('This user should be able to only SELECT the following tables:', 'flyvemdm') }}</p>
-				<p>- glpi_plugin_flyvemdm_mosquittousers</p>
-				<p>- glpi_plugin_flyvemdm_mosquittoacls</p>
-				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mosquittousers TO 'mosquitto'@'192.168.0.20';"</p>
-				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mosquittoacls TO 'mosquitto'@'192.168.0.20';"</p>
+				<p>- glpi_plugin_flyvemdm_mqttusers</p>
+				<p>- glpi_plugin_flyvemdm_mqttacls</p>
+				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttusers TO 'mosquitto'@'192.168.0.20';"</p>
+				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttacls TO 'mosquitto'@'192.168.0.20';"</p>
 				<p>{{ __('Create the file', 'flyvemdm') }}/etc/mysql/conf.d/flyvemdm.cnf</p>
 				<p>{{ __('Insert the following content, and adapt the bind address to the interface Mosquitto will use to connect to your DBMS.', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="6" cols="80">[mysqld]
