@@ -994,6 +994,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|bool
     */
    protected function enrollByInvitationToken($input) {
+      global $LOADED_PLUGINS;
+
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
       $serial           = isset($input['_serial']) ? $input['_serial'] : null;
@@ -1173,6 +1175,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       //var_dump($_SESSION['glpi_plugin_fusioninventory']);
       $_SESSION['glpi_fusionionventory_nolock'] = true;
       ob_start();
+      if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',
+            $_SESSION['glpi_plugin_fusioninventory'])) {
+         // forced reload of the FI plugin for correct import of inventory
+         unset($LOADED_PLUGINS['fusioninventory']);
+         Plugin::load('fusioninventory');
+      }
       $pfCommunication->handleOCSCommunication('', $inventory, 'glpi');
       $fiOutput = ob_get_contents();
       if (strlen($fiOutput) != 0) {
