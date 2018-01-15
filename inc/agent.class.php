@@ -1124,33 +1124,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $entityId = $invitation->getField('entities_id');
 
-      //create agent user account
-      $agentAccount = new User();
-      $agentAccount->add([
-         'usercategories_id' => $config['agentusercategories_id'],
-         'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
-         'realname'          => $serial,
-         '_profiles_id'      => $config['agent_profiles_id'],
-         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
-         '_entities_id'      => $entityId,
-         '_is_recursive'     => 0,
-      ]);
-
-      if ($agentAccount->isNewItem()) {
-         $event = __('Cannot create a user account for the agent', 'flyvemdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
-         return false;
-      }
-
-      $agentToken = User::getToken($agentAccount->getID(), 'api_token');
-      if ($agentToken === false) {
-         $event = __('Cannot create the API token for the agent', 'flyvemdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
-         return false;
-      }
-
       //sign the agent's certificate (if TLS enabled)
       if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
@@ -1238,6 +1211,33 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'computertypes_id' => $computerTypeId,
          'users_id'         => $userId,
       ]);
+
+      //create agent user account
+      $agentAccount = new User();
+      $agentAccount->add([
+         'usercategories_id' => $config['agentusercategories_id'],
+         'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
+         'realname'          => $serial,
+         '_profiles_id'      => $config['agent_profiles_id'],
+         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
+         '_entities_id'      => $entityId,
+         '_is_recursive'     => 0,
+      ]);
+
+      if ($agentAccount->isNewItem()) {
+         $event = __('Cannot create a user account for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      $agentToken = User::getToken($agentAccount->getID(), 'api_token');
+      if ($agentToken === false) {
+         $event = __('Cannot create the API token for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
       // Create the agent
       $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
