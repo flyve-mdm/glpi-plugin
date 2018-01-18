@@ -1384,97 +1384,241 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['version']                   = $version;
       $input['users_id']                  = $agentAccount->getID();
       $input['mdm_type']                  = $mdmType;
-      $input['$systemPermission']         = $systemPermission;
+      $input['systemPermission']          = $systemPermission;
       return $input;
-
    }
 
    /**
-    * @param string $serial
-    * @param array $authFactors
-    * @param string $csr Certificate Signing Request from the agent
-    * @param &string $notFoundMessage Contains the error message if the enrollment failed
-    * @return boolean|PluginFlyvemdmAgent
-    *
+    * Attemt to enroll with an entity invitation token
+    * @param array $input Enrollment data
+    * @return array|bool
     */
-   //protected static function enrollByEntityToken($serial, $authFactors, $csr, &$errorMessage) {
-      //global $DB;
+    protected function enrollByEntityToken($input) {
+      $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
+      $csr              = isset($input['csr']) ? $input['csr'] : null;
+      $version          = isset($input['version']) ? $input['version'] : null;
+      $mdmType          = isset($input['type']) ? $input['type'] : null;
+      $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
+         ENT_COMPAT | ENT_XML1) : null;
+      $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
+      // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
 
-      //$token = $DB->escape($authFactors['entityToken']);
+      $input = [];
 
-      //// Find an entity matching the given token
-      //$entity = new PluginFlyvemdmEntityconfig();
-      //if (!$entity->getFromDBByCrit(['enroll_token' => $token])) {
-      //   $errorMessage = "no entity token not found";
-      //   return false;
-      //}
+      // Find the entity
+      $entityConfig = new PluginFlyvemdmEntityconfig();
+      if (!$entityConfig->getFromDBByToken($invitationToken)) {
+         $this->filterMessages(__('Entity token invalid', 'flyvemdm'));
+         return false;
+      }
+      $entity = new Entity();
+      if (!$entity->getFromDB($entityConfig->getID())) {
+         $this->filterMessages(__('Entity not found', 'flyvemdm'));
+         return false;
+      }
+      $entityId = $entity->getID();
 
-      //// Create a new computer for the device being enrolled
-      //// TODO : Enable localization of the type
-      //$computerType = new ComputerType();
-      //$computerTypeId = $computerType->import(['name' => 'Smartphone']);
-      //if ($computerTypeId == -1 || $computerTypeId === false) {
-      //   $computerTypeId = 0;
-      //}
-      //$computer = new Computer();
-      //$condition = "`serial`='" . $DB->escape($serial) . "' AND `entities_id`='" . $entity->getID() . "'";
-      //$computerCollection = $computer->find($condition);
-      //if (count($computerCollection) > 1) {
-      //   $errorMessage = "failed to find the computer";
-      //   return false;
-      //}
-      //if (count($computerCollection) == 1) {
+      if (empty($inventory)) {
+         $event = __('Device inventory XML is mandatory', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //   reset($computerCollection);
-      //   $computer->getFromDB(key($computerCollection));
-      //   $computerId = $computer->getID();
+      if ($config['debug_save_inventory'] != '0') {
+         PluginFlyvemdmCommon::saveInventoryFile($inventory, $invitationToken);
+      }
+      $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
+      if (!$parsedXml) {
+         $event = __('Inventory XML is not well formed', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //} else {
-      //   $computerId = $computer->add([
-      //      'entities_id'        => $entity->getID(),
-      //      'serial'             => $serial,
-      //      'computertypes_id'   => $computerTypeId
-      //   ]);
+      if (empty($version)) {
+         $event = __('Agent version missing', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //   if ($computerId === false) {
-      //      $errorMessage = "failed to create the computer";
-      //      return false;
-      //   }
-      //}
+      if (empty($mdmType)) {
+         $event = __('MDM type missing', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //if (! $computerId > 0) {
-      //   $errorMessage = "failed to update the computer";
-      //   return false;
-      //}
+      if (!in_array($mdmType, array_keys($this::getEnumMdmType()))) {
+         $event = __('unknown MDM type', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //// Create an agent for this device, linked to the new computer
-      //$agent = new PluginFlyvemdmAgent();
-      //$condition = "`computers_id`='$computerId'";
-      //$agentCollection = $agent->find($condition);
-      //if (count($agentCollection) > 1) {
-      //   return false;
-      //}
-      //if (count($agentCollection) == 1) {
+      if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) !== 1) {
+         $event = __('Bad agent version', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //   reset($agentCollection);
-      //   $agent->getFromDB(key($agentCollection));
-      //   $agentId = $agent->getId();
+      // Check the agent matches the minimum version requirement of the backend
+      $minVersion = $this->getMinVersioForType($mdmType);
+      if (version_compare($minVersion, $version) > 0) {
+         $event = __('The agent version is too low', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
-      //} else {
-      //   $agentId = $agent->add([
-      //         'entities_id'     => $entity->getID(),
-      //         'computers_id'    => $computer->getID(),
-      //         'token_expire'    => '0000-00-00 00:00:00'
-      //   ]);
-      //}
+      // Check the agent shall provide or not the system permissions flag
+      switch ($mdmType) {
+         case 'android':
+            if ($systemPermission === null) {
+               $event = __('The agent does not advertise its system permissions', 'flyvemdm');
+               $this->filterMessages($event);
+               $this->logInvitationEvent($invitation, $event);
+               return false;
+            }
+      }
 
-      //if (! $agentId > 0) {
-      //   return false;
-      //}
+      //sign the agent's certificate (if TLS enabled)
+      $input['certificate'] = '';
+      if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
+         $answer = self::signCertificate($csr);
+         $crt = isset($answer['crt']) ? $answer['crt'] : false;
+         if ($crt === false) {
+            $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
+            $this->filterMessages($event);
+            $this->logInvitationEvent($invitation, $event);
+            return false;
+         }
+         $input['certificate'] = $crt;
+      }
 
-      //return $agent;
+      // Create the device
+      $pfCommunication = new PluginFusioninventoryCommunication();
+      $_SESSION['glpi_fusionionventory_nolock'] = true;
+      ob_start();
+      if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',
+            $_SESSION['glpi_plugin_fusioninventory'])) {
+         // forced reload of the FI plugin for correct import of inventory
+         unset($LOADED_PLUGINS['fusioninventory']);
+         Plugin::load('fusioninventory');
+      }
+      $pfCommunication->handleOCSCommunication('', $inventory, 'glpi');
+      $fiOutput = ob_get_contents();
+      ob_end_clean();
+      if (strlen($fiOutput) != 0) {
+         // FI print errors to sdt output and agents needs a correct response, let's save this to logs.
+         $this->logInvitationEvent($invitation, $fiOutput);
+      }
+      unset($_SESSION['glpi_fusionionventory_nolock']);
+      $fiAgentId = $_SESSION['plugin_fusioninventory_agents_id']; // generated by FusionInventory
 
-   //}
+      if ($fiAgentId === 0 || !property_exists($parsedXml, 'DEVICEID')) {
+         $event = __('Cannot get the FusionInventory agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      $pfAgent = new PluginFusioninventoryAgent();
+      if (!$pfAgent->getFromDBByCrit(['device_id' => $parsedXml->DEVICEID])) {
+         $event = __('FusionInventory agent not created', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+      $computerId = $pfAgent->getField(Computer::getForeignKeyField());
+
+      if ($computerId === 0) {
+         $event = __("Cannot create the device", 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Set the type of computer
+      $computerTypeId = $config['computertypes_id'];
+      if ($computerTypeId == -1 || $computerTypeId === false) {
+         $computerTypeId = 0;
+      }
+      $computer = new Computer();
+      $computer->update([
+         'id'               => $computerId,
+         'computertypes_id' => $computerTypeId,
+         'users_id'         => $userId,
+      ]);
+
+      // Awful hack because the current user profile does not
+      // have more rights than the profile of the agent.
+      // @see User::post_addItem()
+      // @see Profle::currentUserHaveMoreRightThan()
+      // @see Profile::getUnderActiveProfileRestrictRequest()
+      $backupProfileRight = $_SESSION['glpiactiveprofile']['profile'];
+      $_SESSION['glpiactiveprofile']['profile'] = $_SESSION['glpiactiveprofile']['profile'] | CREATE;
+
+      //create agent user account
+      $agentAccount = new User();
+      $agentAccount->add([
+         'usercategories_id' => $config['agentusercategories_id'],
+         'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
+         'realname'          => $computer->getField('serial'),
+         '_profiles_id'      => $config['agent_profiles_id'],
+         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
+         '_entities_id'      => $entityId,
+         '_is_recursive'     => 0,
+         'authtype'          => Auth::DB_GLPI,
+      ]);
+
+      // End of awful hack !
+      $_SESSION['glpiactiveprofile']['profile'] = $backupProfileRight;
+
+      if ($agentAccount->isNewItem()) {
+         $event = __('Cannot create a user account for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      $agentToken = User::getToken($agentAccount->getID(), 'api_token');
+      if ($agentToken === false) {
+         $event = __('Cannot create the API token for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Create the agent
+      $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
+      if ($defaultFleet === null) {
+         $event = __("No default fleet available for the device", 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Enrollment is about to succeed then cleanup subtopics
+      $this->fields['computers_id'] = $computerId;
+      $this->fields['entities_id']  = $entityId;
+      $this->cleanupSubtopics();
+
+      $input['name']                      = '';
+      $input['computers_id']              = $computerId;
+      $input['entities_id']               = $entityId;
+      $input['plugin_flyvemdm_fleets_id'] = $defaultFleet->getID();
+      $input['_invitations_id']           = $invitation->getID();
+      $input['enroll_status']             = 'enrolled';
+      $input['version']                   = $version;
+      $input['users_id']                  = $agentAccount->getID();
+      $input['mdm_type']                  = $mdmType;
+      $input['$systemPermission']         = $systemPermission;
+
+      return $input;
+   }
 
    /**
     * Erase delete persisted MQTT topics of the agent

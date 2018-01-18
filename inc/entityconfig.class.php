@@ -275,6 +275,15 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    }
 
    /**
+    * Finds the entity configuration that matches the token given in argument
+    * @param string $token
+    * @return boolean true if the token exist
+    */
+   public function getFromDBByToken($token) {
+      return $this->getFromDBByCrit(['enroll_token' => $token]);
+   }
+
+   /**
     * Gets the tabs name
     * @param CommonGLPI $item
     * @param integer $withtemplate
