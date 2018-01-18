@@ -29,7 +29,8 @@
         "consolidation/robo": "dev-master",
         "glpi-project/tools": "^0.1.2",
         "flyve-mdm/test": "dev-develop",
-        "atoum/stubs": "^2.5"
+        "atoum/stubs": "^2.5",
+        "atoum/reports-extension": "^3.0"
     },
     "repositories": [
         {
