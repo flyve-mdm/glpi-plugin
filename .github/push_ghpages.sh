@@ -17,7 +17,9 @@ if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TR
         find build/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: container\\n---\\n/" "{}" \;
 
         # commit_website_files
-        git add build/tests/coverage/*
+        if [ "$TRAVIS_BRANCH" = "develop" ]; then
+            git add build/tests/coverage/*
+        fi
         #git add build/docs/*
         git checkout -b localCi
         git commit -m "changes to be merged"
@@ -25,7 +27,7 @@ if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TR
         git checkout localCi build/
 
         # upload_files
-        git commit --message "docs: update code coverage and test result"
+        git commit --message "docs: update docs from test results"
         git rebase origin-pages/gh-pages
         git push --quiet --set-upstream origin-pages gh-pages --force
     fi
