@@ -23,14 +23,16 @@ php:
 
 allow_failures:
   - php: nightly
-      
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_2906252ca964_key -iv $encrypted_2906252ca964_iv -in deploy_key.enc -out deploy_key -d
+
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y mosquitto
       
 before_script:
-  - ./tests/before_script.sh
-
+- "./tests/before_script.sh"
 script:
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
   - php scripts/mqtt.php --tests > /dev/null 2>&1 &
@@ -45,7 +47,6 @@ after_success:
 
 cache:
   directories:
-    - $HOME/.composer/cache
-    
+  - "$HOME/.composer/cache"
 notifications:
   webhooks: https://hooks.aethonan.pro/travisci/-1001061475099/
