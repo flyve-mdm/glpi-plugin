@@ -5,9 +5,9 @@
    <logo>https://raw.githubusercontent.com/flyve-mdm/flyve-mdm-glpi/master/icon.png</logo>
    <description>
       <short>
-         <fr>Flyve MDM est une solution de gestion et d'administation d'appareils mobiles.</fr>
+         <fr>Flyve MDM est une solution de gestion et d'administration d'appareils mobiles.</fr>
          <en>Flyve MDM is a mobile devices management and administration solution.</en>
-         <en>Flyve MDM es una solución administrativa y de gestión de dispositivos móviles.</en>
+         <es>Flyve MDM es una solución administrativa y de gestión de dispositivos móviles.</es>
       </short>
       <long>
          <fr>
@@ -40,11 +40,11 @@ Features
 6. Emergency remote wipe of mobile devices
          </en>
          <es>
-FlyveMDM es una solución administrativa y de administración de dispositivos móviles. El plugin se ejecuta en una instancia dedicada de GLPI.
+FlyveMDM es una solución administrativa y de gestión de dispositivos móviles. El plugin se ejecuta en una instancia dedicada de GLPI.
 
-Para mas informacion, por favor visite https://flyve-mdm.com/
+Para mas información, por favor visite https://flyve-mdm.com/
 
-Caracteristicas
+Características
 --------
 1. Inscripción de dispositivos móviles
 2. Implementación de archivos en dispositivos móviles
@@ -75,14 +75,14 @@ Caracteristicas
    <license>AGPL v3+</license>
    <tags>
       <fr>
-         <tag>inventory</tag>
+         <tag>inventaire</tag>
          <tag>smartphone</tag>
          <tag>configuration</tag>
          <tag>android</tag>
          <tag>ios</tag>
       </fr>
       <en>
-         <tag>inventaire</tag>
+         <tag>inventory</tag>
          <tag>smartphone</tag>
          <tag>setup</tag>
          <tag>android</tag>
