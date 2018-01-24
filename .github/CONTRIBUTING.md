@@ -1,93 +1,159 @@
-# Contributing
+# How to contribute
 
-We are more than happy to accept external contributions to the project in the form of feedback, bug reports and even better - pull requests :)
+Welcome to our ever growing community! We are more than happy to accept external contributions to the project in the form of feedback, [translations](http://flyve.org/glpi-plugin/howtos/contribute-translating), bug reports and even better, pull requests!
 
-These rules are adopted from the AngularJS and Yeoman project.
+As a contributor, we present you the guidelines to start contributing in any of the Flyve MDM projects.
 
-## Issue submission
+* [Questions or Doubts?](#questions-or-doubts)
+* [Bugs](#found-a-bug)
+* [Proposed Features](#new-feature)
+* [Submitting issues and Pull Requests](#submitting)
+* [Coding Rules](#coding-rules)
 
-In order for us to help you please check that you've completed the following steps:
+### Questions or Doubts
 
-* Used the search feature to ensure that the bug hasn't been reported before
-* Included as much information about the bug as possible, including any output you've received, what OS and version you're on, etc.
+If you require general support assistance, you can find us in [Telegram](https://t.me/flyvemdm), and we'll help you as soon as possible.
 
-[Submit your issue](https://github.com/flyve-mdm/glpi-plugin/issues/new)
+For notices about major changes and general discussion of Flyve MDM development, subscribe to the [/r/FlyveMDM](https://www.reddit.com/r/FlyveMDM/) subreddit. You can also chat with us via IRC in [#flyve-mdm on freenode](http://webchat.freenode.net/?channels=flyve-mdm).
 
-## Style Guide
+This is in order to keep GitHub issues for bug reports and new features only.
 
-This project follows the [GLPI development guidelines](https://readthedocs.org/projects/glpi-developer-documentation/).
+### Found a bug
 
-## Pull Request Guidelines
+You can let us know in our [issue Dashboard](#submit-an-issue).
 
-* Please check to make sure that there aren't existing pull requests attempting to address the issue mentioned. We also recommend checking for issues related to the issue on the tracker, as a team member may be working on the issue in a branch or fork.
-* Non-trivial changes should be discussed in an issue first
-* Develop in a topic branch, not master
-* Add relevant tests to cover the change
-* Make sure test-suite passes: `phpuinit`
-* Squash your commits
-* Write a convincing description of your PR and why we should land it
-* Check the individual project to see if there is a **contributing.md** or similar file as some project's have different requirements.
-* Make sure that the commit messages match the [AngularJS conventions][commit-message-format] (see below).
-* When submitting a bugfix, write a test that exposes the bug and fails before applying your fix. Submit the test alongside the fix.
-* When submitting a new feature, add tests that cover the feature.
+Know how to fix it? Great! Then submit a [pull request](#submit-a-pull-request).
 
-## Git Commit Guidelines
+### New feature
 
-We use [git-flow](http://git-flow.readthedocs.io/en/latest/presentation.html) as branching model for Git.
+You can _**request**_ a new feature by submitting an issue, and if you would like to _**implement**_ a new feature, please submit an issue with a proposal for your work first, to be sure that we can use it, this will allow us to better coordinate our efforts, prevent duplication of work, and help you to craft the change so that it is successfully accepted into the project. Please consider what kind of change it is:
 
-### Commit Message Format
+* For a Major Feature, first open an issue and outline your proposal so it can be discussed.
+* Small Features can be crafted and directly submitted as a Pull Request.
 
-Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
-format that includes a **type**, a **scope** and a **subject**:
+## Submitting
 
-```TXT
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+### Submit an Issue
+
+Before submitting the issue please check the [issue tracker](https://github.com/flyve-mdm/glpi-plugin/issues), there exists the possibility that the bug was already reported by other contributor.
+
+This way you help us to maximise the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
+
+We'll work very hard to fix all the issues without delay, but before fixing it we need to confirm it, for that we require you to provide us the following information:
+
+* Overview of the Issue - if an error is being thrown a description of the problem is extremely helpful
+* Motivation for or Use Case - explain why this is a bug for you
+* Project Version(s)
+* Device Operating System & Model - is this a problem with all devices or only specific ones?
+* Reproduce the Error - provide a live example or an unambiguous set of steps.
+* Related Issues - has a similar issue been reported before?
+* Suggest a Fix - if you can't fix the bug yourself, perhaps you can point to what might be causing the problem (line of code or commit)
+
+You can file new issues by filling out our [new issue form](https://github.com/flyve-mdm/glpi-plugin/issues/new).
+
+### Submit a Pull Request
+
+Before submitting your Pull Request check for an open or closed PR that relates to your submission. We don't want to duplicate efforts.
+
+* Make your changes in a new branch, the project is organized according to the branch model [Git Flow](http://git-flow.readthedocs.io/en/latest/), though this is not mandatory it's really useful:
+
+```console
+    git checkout -b my-fix-branch develop
 ```
 
-Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
-to read on github as well as in various git tools.
+* Follow our [Coding Rules](#coding-rules).
 
-### Type
+* Commit your changes using a descriptive commit message that follows the [Conventional Commit](http://conventionalcommits.org/). This is **indispensable** since the release notes and changelogs are automatically generated from these messages. [More info.](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y)
 
-Must be one of the following:
+Please try not to write a commit message too long, in case your commit changes several aspect provide this information in the commit's description, for example:
 
-* **feat**: A new feature
-* **fix**: A bug fix
-* **docs**: Documentation only changes
-* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing
-  semi-colons, etc)
-* **refactor**: A code change that neither fixes a bug or adds a feature
-* **test**: Adding missing tests
-* **chore**: Changes to the build process or auxiliary tools and libraries such as documentation
-  generation
+Bad
 
-### Scope
+```console
+    docs(readme): fix orthography, remove out of date paragraph and fix broken links
+```
 
-The scope could be anything specifying place of the commit change. For example `app`,
-`gen`, `docs`, `gen:view`, `gen:route`, `gen:service`, etc... It is preferred to use ascope matching an available label for issues. If no label match the scope of your PR, please, get in touch with us.
+Good
 
-### Subject
+```console
+    docs(readme): change content
 
-The subject contains succinct description of the change:
+    fix orthography
+    remove out of date paragraph
+    fix broken links
+```
 
-* use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize first letter
-* no dot (.) at the end
+* Push your branch to GitHub:
 
-### Body
+```console
+    git push origin my-fix-branch
+```
 
-Just as in the **subject**, use the imperative, present tense: "change" not "changed" nor "changes"
-The body should include the motivation for the change and contrast this with previous behavior.
+* In GitHub, send a pull request to our [Repository](https://github.com/flyve-mdm/).
 
-### Footer
+Keep in mind that the PR should be named in reference of the main fix or feature you provide, minor information can be added in the description.
 
-The footer should contain any information about **Breaking Changes** and is also the place to
-reference GitHub issues that this commit **Closes**.
+Use the WIP label while you're working on it, this will prevent us from merging unfinished work.
 
-A detailed explanation can be found in this [document][commit-message-format].
+Bad
 
-[commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y
+> WIP Fix errors in installation method, update dependencies and improve installation documentation
+
+Good
+
+> WIP Fix installation method
+
+> What's the new behaviour?
+> 
+> * Dependencies updated
+> * Documentation improved
+
+Also, avoid using your branch or the commit guidelines to name your PR, for example:
+
+Bad
+
+> feat(private): implement private data method
+
+Good
+
+> WIP Feature private information
+
+In case your contribution has to do with reports, remember those are created in the develop branch, nor master or PR's.
+
+* If we suggest changes then:
+
+  * Make the required updates.
+
+  * Rebase your branch and force push to your GitHub repository (this will update your Pull Request)
+  * Remove the WIP label
+
+    **That's it! :tada: Thank you for your contribution!**
+
+#### After your pull request is merged
+
+You can safely delete your branch and pull the changes from the main (upstream) repository:
+
+* Delete the remote branch on GitHub either through the GitHub web UI or your local shell as you prefer.
+
+## Coding Rules
+
+To ensure consistency throughout the source code, keep these rules in mind as you are working:
+
+* All features or bug fixes must be [tested](#tests) by one or more specs (unit-tests).
+* All methods must be documented.
+* This project follows the [GLPI development guidelines](https://readthedocs.org/projects/glpi-developer-documentation/).
+
+## Tests
+
+* Make sure test-suite passes: [atoum](http://atoum.org/)
+* Run:
+
+```console
+vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
+vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
+vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
+vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
+vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/;
+```
+
+For more information you can see our [Travis CI file](https://github.com/flyve-mdm/glpi-plugin/blob/develop/.travis.yml)
