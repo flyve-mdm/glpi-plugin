@@ -1156,14 +1156,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      // Update the computer's serial and type
-      // Create a new computer for the device being enrolled
-      // TODO : Enable localization of the type
-      $computerTypeId = $config['computertypes_id'];
-      if ($computerTypeId == -1 || $computerTypeId === false) {
-         $computerTypeId = 0;
-      }
-
       // Create the device
       $pfCommunication = new PluginFusioninventoryCommunication();
       $pfAgent = new PluginFusioninventoryAgent();
@@ -1208,6 +1200,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
+      // Set the type of computer
+      $computerTypeId = $config['computertypes_id'];
+      if ($computerTypeId == -1 || $computerTypeId === false) {
+         $computerTypeId = 0;
+      }
       $computer = new Computer();
       $computer->update([
          'id'               => $computerId,
