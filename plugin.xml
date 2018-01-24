@@ -7,6 +7,7 @@
       <short>
          <fr>Flyve MDM est une solution de gestion et d'administation d'appareils mobiles.</fr>
          <en>Flyve MDM is a mobile devices management and administration solution.</en>
+         <en>Flyve MDM es una solución administrativa y de gestión de dispositivos móviles.</en>
       </short>
       <long>
          <fr>
@@ -25,25 +26,39 @@ Fonctionnalités
 6. Effacement d'urgence à distance des appareils mobiles
          </fr>
          <en>
-FlyveMDM is a mobile devices management and administration solution. It runs on a dedicated isntance of GLPi.
+FlyveMDM is a mobile devices management and administration solution. It runs on a dedicated instance of GLPi.
 
 For more information, please visit https://flyve-mdm.com/
 
 Features
 --------
-1. Mobile devies enrolment
+1. Mobile devices enrolment
 2. File deployment on mobile devices
 3. Application deployment on mobile devices
 4. Configuration of mobile devices (password, connectivity, lock)
 5. Geolocation of the mobile devices
 6. Emergency remote wipe of mobile devices
          </en>
+         <es>
+FlyveMDM es una solución administrativa y de administración de dispositivos móviles. El plugin se ejecuta en una instancia dedicada de GLPI.
+
+Para mas informacion, por favor visite https://flyve-mdm.com/
+
+Caracteristicas
+--------
+1. Inscripción de dispositivos móviles
+2. Implementación de archivos en dispositivos móviles
+3. Implementación de aplicaciones en dispositivos móviles
+4. Configuración de dispositivos móviles (contraseña, conectividad, bloqueo)
+5. Geolocalización de los dispositivos móviles
+6. Eliminación remota de datos por emergecia en dispositivos móviles
+         </es>
       </long>
    </description>
-   <homepage>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin</homepage>
-   <download>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/releases</download>
-   <issues>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/issues</issues>
-   <readme>https://github.com/flyve-mdm/flyve-mdm-glpi-plugin/blob/master/README.md</readme>
+   <homepage>https://github.com/flyve-mdm/glpi-plugin</homepage>
+   <download>https://github.com/flyve-mdm/glpi-plugin/releases</download>
+   <issues>https://github.com/flyve-mdm/glpi-plugin/issues</issues>
+   <readme>https://github.com/flyve-mdm/glpi-plugin/blob/develop/README.md</readme>
    <authors>
       <author>TECLIB'</author>
    </authors>
@@ -64,12 +79,21 @@ Features
          <tag>smartphone</tag>
          <tag>configuration</tag>
          <tag>android</tag>
+         <tag>ios</tag>
       </fr>
       <en>
          <tag>inventaire</tag>
          <tag>smartphone</tag>
          <tag>setup</tag>
          <tag>android</tag>
+         <tag>ios</tag>
       </en>
+      <es>
+         <tag>inventario</tag>
+         <tag>teléfono inteligente</tag>
+         <tag>configuración</tag>
+         <tag>android</tag>
+         <tag>ios</tag>
+      </es>
    </tags>
 </root>
