@@ -86,6 +86,12 @@ class Config extends CommonTestCase {
       // Enable debug mode for enrollment messages
       \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
 
+      // Configure MQTT broker
+      \Config::setConfigurationValues($pluginName, [
+         'mqtt_broker_address' => '127.0.0.1',
+         'mqtt_internal_broker_address' => '127.0.0.1',
+      ]);
+
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
       // and not force broker's reconfiguration when launching tests on the test-dedicates DB

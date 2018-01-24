@@ -66,14 +66,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   private function createInstance() {
-      $this->newTestedInstance();
-      return $this->testedInstance;
-   }
-
-   /**
     * @tags testClass
     */
    public function testClass() {
@@ -94,7 +86,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testGetEnumMdmType
     */
    public function testGetEnumMdmType() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $result = $instance->getEnumMdmType();
       $this->array($result)->hasKeys(['android', 'apple'])
          ->string($result['android'])->isEqualTo('Android')
@@ -105,7 +97,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getTypeName(1))->isEqualTo('Agent')
          ->string($instance->getTypeName(3))->isEqualTo('Agents');
    }
@@ -114,7 +106,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testGetMenuPicture
     */
    public function testGetMenuPicture() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getMenuPicture())->isEqualTo('fa-tablet');
    }
 
@@ -122,7 +114,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testGetRights
     */
    public function testGetRights() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getRights())->containsValues([
          'Create',
          'Read',
@@ -136,7 +128,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testDefineTabs
     */
    public function testDefineTabs() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $result = $instance->defineTabs();
       $this->array($result)->values
          ->string[0]->isEqualTo('Agent')
@@ -147,7 +139,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testGetTabNameForItem
     */
    /*public function testGetTabNameForItem() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $result = $instance->getTabNameForItem();
    }*/
 
@@ -169,7 +161,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowForm
     */
    /*public function testShowForm() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       // TODO: have a fake agent registered in DB before this.
       $instance->showForm(1);
@@ -188,7 +180,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowDangerZone
     */
    /*public function testShowDangerZone() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       // TODO: have a fake agent registered in DB before this.
       $instance->showDangerZone(1);
@@ -198,13 +190,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ->contains("method='post' action='/plugins/flyvemdm/front/agent.form.php'")
          ->contains("input type='checkbox' class='new_checkbox' name='lock'")
          ->contains("input type='checkbox' class='new_checkbox' name='wipe'")
-         ->contains('iinput type="submit" value="Unenroll" name="unenroll"')
+         ->contains('input type="submit" value="Unenroll" name="unenroll"')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
    }*/
 
    /**
     * @tags testShowForFleet
-    * @engine inline
     */
    public function testShowForFleet() {
       $class = $this->testedClass->getClass();
@@ -216,16 +207,16 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    public function testCanViewItem() {
+      // Simulate a profile different of guest
       $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $_SESSION['glpiactiveprofile']['id'] = $config['guest_profiles_id'] + 1;
 
       $testedInstance = $this->newTestedInstance;
       $this->boolean($testedInstance->canViewItem())->isFalse();
 
+      // Simulate a profile equal to guest
       $_SESSION['glpiactiveprofile']['id'] = $config['guest_profiles_id'];
       $testedInstance = $this->newTestedInstance;
       $this->boolean($testedInstance->canViewItem())->isFalse();
-
    }
-
 }

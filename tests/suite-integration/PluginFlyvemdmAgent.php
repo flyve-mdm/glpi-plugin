@@ -66,7 +66,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    public function testDeviceCountLimit() {
       $entityConfig = new \PluginFlyvemdmEntityConfig();
       $activeEntity = $_SESSION['glpiactive_entity'];
-      $agents = countElementsInTable(\PluginFlyvemdmAgent::getTable());
+      $DbUtils = new \DBUtils();
+      $agents = $DbUtils->countElementsInTable(\PluginFlyvemdmAgent::getTable());
       $this->given(
          $deviceLimit = ($agents + 5),
          $entityConfig,
@@ -90,6 +91,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       for ($i = 0, $max = (count($invitationData) - 1); $i < $max; $i++) {
          $agentId = $this->loginAndAddAgent($invitationData[$i]);
          // Agent creation should succeed
+         $this->variable($agentId)->isNotFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
          $this->integer($agentId)
             ->isGreaterThan(0, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       }
@@ -480,7 +482,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       // Switch back to registered user
-      //\Session::destroy();
       $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
 
       $computerId = $agent->getField(\Computer::getForeignKeyField());
@@ -519,7 +520,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $userId = $computer->getField(\User::getForeignKeyField());
 
       // Switch back to registered user
-      //\Session::destroy();
       $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
 
       // Delete shall succeed
@@ -553,30 +553,27 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      $tester = $this;
-      $mockedAgent = $this->newMockInstance($this->testedClass());
-      $mockedAgent->getFromDB($agent->getID());
-
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Ping");
-         $tester->string($mqttMessage)
-            ->isEqualTo(json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(0);
-      };
-
-      $updateSuccess = $mockedAgent->update([
-         'id'    => $mockedAgent->getID(),
+      $updateSuccess = $agent->update([
+         'id'    => $agent->getID(),
          '_ping' => '',
       ]);
+
       // Update shall fail because the ping answer will not occur
       $this->boolean($updateSuccess)->isFalse();
+
+      // Get the latest MQTT message
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Ping');
+      $mqttMessage = ['query' => 'Ping'];
+
+      // check the message
+      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
    }
 
    /**
@@ -593,29 +590,26 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      $tester = $this;
-      $mockedAgent = $this->newMockInstance($this->testedClass());
-      $mockedAgent->getFromDB($agent->getID());
-
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Geolocate");
-         $tester->string($mqttMessage)
-            ->isEqualTo(json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(0);
-      };
-
-      $updateSuccess = $mockedAgent->update([
-         'id'         => $mockedAgent->getID(),
+      $updateSuccess = $agent->update([
+         'id'         => $agent->getID(),
          '_geolocate' => '',
       ]);
       $this->boolean($updateSuccess)->isFalse("Failed to update the agent");
+
+      // Get the latest MQTT message
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Geolocate');
+      $mqttMessage = ['query' => 'Geolocate'];
+
+      // check the message
+      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
+
    }
 
    /**
@@ -633,31 +627,28 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      $tester = $this;
-      $mockedAgent = $this->newMockInstance($this->testedClass());
-      $mockedAgent->getFromDB($agent->getID());
-
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Inventory");
-         $tester->string($mqttMessage)->isEqualTo(json_encode(['query' => 'Inventory'],
-            JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(0);
-      };
-
-      $updateSuccess = $mockedAgent->update([
+      $updateSuccess = $agent->update([
          'id'         => $agent->getID(),
          '_inventory' => '',
       ]);
 
       // Update shall fail because the inventory is not received
       $this->boolean($updateSuccess)->isFalse();
+
+      // Get the latest MQTT message
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Inventory');
+      $mqttMessage = ['query'  => 'Inventory'];
+
+      // check the message
+      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
+
    }
 
    /**
@@ -798,35 +789,28 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @param bool $expected
     */
    private function wipeDevice(\PluginFlyvemdmAgent $agent, $wipe = true, $expected = true) {
-      $tester = $this;
-      $mockedAgent = $this->newMockInstance($this->testedClass());
-      $mockedAgent->getFromDB($agent->getID());
-
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent, $wipe) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Wipe");
-         $message = [
-            'wipe' => $wipe ? 'now' : 'unwipe',
-            // unwipe not implemented because this is not relevant
-         ];
-         $tester->string($mqttMessage)->isEqualTo(json_encode($message, JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(1);
-      };
-
-      $mockedAgent->update([
+      $agent->update([
          'id'   => $agent->getID(),
          'wipe' => $wipe ? '1' : '0',
       ]);
 
-      // Check the lock status is saved
+      // Check the wipe status is saved
       $agent->getFromDB($agent->getID());
       $this->integer((int) $agent->getField('wipe'))->isEqualTo($expected ? 1 : 0);
+
+      // Get the latest MQTT message
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Wipe');
+      $mqttMessage = ['wipe' => 'now'];
+
+      // check the message
+      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
    }
 
    /**
