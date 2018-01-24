@@ -5,8 +5,8 @@ if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TR
     #wget http://get.sensiolabs.org/sami.phar -O "$HOME/bin/sami.phar"
     # setup_git only for the main repo and not forks
     openssl aes-256-cbc -k $encrypted_3f03f06b7880_key -iv $encrypted_3f03f06b7880_iv -in github_deploy_key.enc -out /tmp/github_deploy_key -d
-    git config --global user.email "deploy@travis-ci.org"
-    git config --global user.name "Deployment Bot"
+    git config --global user.email "apps@teclib.com"
+    git config --global user.name "Teclib' bot"
     git remote add origin-pages git@github.com:"$TRAVIS_REPO_SLUG".git > /dev/null 2>&1
     git fetch origin-pages
 
@@ -28,7 +28,7 @@ if [ "$TRAVIS_BRANCH" = "master" ] || [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TR
         git checkout localCi build/
 
         # upload_files
-        git commit --message "docs: update docs from test results"
+        git commit --message "docs: update test reports"
         git rebase origin-pages/gh-pages
         git push --quiet --set-upstream origin-pages gh-pages --force
     fi
