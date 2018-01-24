@@ -732,6 +732,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __('Agent', 'flyvemdm'),
+      ];
+
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
+
       $tab[] = [
          'id'                 => '3',
          'table'              => 'glpi_plugin_flyvemdm_fleets',

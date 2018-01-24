@@ -91,20 +91,11 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
+      $tab = parent::getSearchOptionsNew();
 
-      $tab[] = [
+      $tab[0] = [
          'id'   => 'common',
          'name' => __('Policy', 'flyvemdm'),
-      ];
-
-      $tab[] = [
-         'id'            => '1',
-         'table'         => $this->getTable(),
-         'field'         => 'name',
-         'name'          => __('Name'),
-         'datatype'      => 'itemlink',
-         'massiveaction' => false,
       ];
 
       $tab[] = [
