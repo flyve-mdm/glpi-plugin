@@ -70,4 +70,4 @@ $CFG_GLPI['url_base']      = TEST_GLPI_URI;
 $CFG_GLPI['url_base_api']  = TEST_GLPI_URI . '/apirest.php';
 
 // Mock PluginFlyvemdmMqttClient
-include __DIR__ . "/inc/MqttClient.php";
+//include __DIR__ . "/inc/MqttClient.php";
