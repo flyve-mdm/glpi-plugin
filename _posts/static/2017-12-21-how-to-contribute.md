@@ -11,8 +11,6 @@ Welcome to our ever growing community! We are more than happy to accept external
 
 All our projects are on [GitHub](https://github.com/) the largest host of open source code and [Git](https://git-scm.com/) as our version control system.
 
-These rules are adopted from the AngularJS and Yeoman project.
-
 * [Questions or Doubts?](#questions-or-doubts)
 * [Bugs](#found-a-bug)
 * [Proposed Features](#new-feature)
@@ -46,7 +44,7 @@ You can _**request**_ a new feature by submitting an issue, and if you would lik
 
 Before submitting the issue please check the [issue tracker](https://github.com/flyve-mdm/glpi-plugin/issues), there exists the possibility that the bug was already reported by other contributor.
 
-This way you help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
+This way you help us to maximise the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
 We'll work very hard to fix all the issues without delay, but before fixing it we need to confirm it, for that we require you to provide us of the following information:
 
@@ -75,21 +73,68 @@ Before submitting your Pull Request please check for an open or closed PR that r
 
 * Commit your changes using a descriptive commit message that follows the [Conventional Commit](http://conventionalcommits.org/). This is **indispensable** since the release notes and changelogs are automatically generated from these messages.
 
+Please try not to write a commit message too long, in case your commit changes several aspect provide this information in the commit's description, for example:
+
+Bad
+
+```console
+docs(readme): fix orthography, remove out of date paragraph and fix broken links
+```
+
+Good
+
+```console
+  docs(readme): change content
+
+  fix orthography
+  remove out of date paragraph
+  fix broken links
+```
+
 * Push your branch to GitHub:
 
 ```console
     git push origin my-fix-branch
 ```
 
-* In GitHub, send a pull request to our [Repository](https://github.com/flyve-mdm/glpi-plugin).
+* In GitHub, send a pull request to our [Repository](https://github.com/flyve-mdm/).
+
+Keep in mind that the PR should be named in reference of the main fix or feature you provide, minor information can be added in the description.
+
+Use the WIP label while you're working on it, this will prevent us from merging unfinished work.
+
+Bad
+
+> WIP Fix errors in installation method, update dependencies and improve installation documentation
+
+Good
+
+> WIP Fix installation method
+
+> What's the new behaviour?
+> 
+> * Dependencies updated
+> * Documentation improved
+
+Also, avoid using your branch or the commit guidelines to name your PR, for example:
+
+Bad
+
+> feat(private): implement private data method
+
+Good
+
+> WIP Feature private information
+
+In case your contribution has to do with reports, remember those are created in the develop branch, nor master or PR's.
 
 * If we suggest changes then:
 
   * Make the required updates.
+  * Rebase your branch and force push to your GitHub repository (this will update your Pull Request)
+  * Remove the WIP label
 
-  * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
-
-    **That's it! :tada:  Thank you for your contribution!**
+**That's it! Thank you for your contribution!**
 
 #### After your pull request is merged
 
@@ -101,7 +146,7 @@ You can safely delete your branch and pull the changes from the main (upstream) 
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
-* All features or bug fixes must be tested by one or more specs (unit-tests). **Make sure** test-suite passes: `phpuinit`
+* All features or bug fixes must be tested by one or more specs (unit-tests). **Make sure** test-suite passes: [atoum](http://atoum.org/)
   * If the feature or fix require a new test, you must add it to your PR.
 * All methods must be documented.
 * This project follows the [GLPI development guidelines](https://readthedocs.org/projects/glpi-developer-documentation/).
