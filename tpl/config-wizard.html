@@ -77,7 +77,7 @@
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('Flyve MDM requires that Mosquitto has access to your database.', 'flyvemdm') }}</p>
-				<p>{{ __('It is recommended to create a dedicated user for Mosquitto alowed to connect only from its specific IP.', 'flyvemdm') }}</p>
+				<p>{{ __('It is recommended to create a dedicated user for Mosquitto allowed to connect only from its specific IP.', 'flyvemdm') }}</p>
 				<p>mysql -e "CREATE USER 'mosquitto'@'mqtt.server.ip' IDENTIFIED BY 'password';"</p>
 				<p>{{ __('This user should be able to only SELECT the following tables:', 'flyvemdm') }}</p>
 				<p>- glpi_plugin_flyvemdm_mqttusers</p>
@@ -85,12 +85,12 @@
 				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttusers TO 'mosquitto'@'mqtt.server.ip';"</p>
 				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttacls TO 'mosquitto'@'mqtt.server.ip';"</p>
 				<p>{{ __('Create the file', 'flyvemdm') }}/etc/mysql/conf.d/flyvemdm.cnf</p>
-				<p>{{ __('Insert the following content, and adapt the bind address to the interface Mosquitto will use to connect to your DBMS.', 'flyvemdm') }}</p>
+				<p>{{ __('Insert the following content, and adapt the bind address to the interface used by Mosquitto to connect to your DBMS.', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="6" cols="80">[mysqld]
 bind-address = 0.0.0.0
 </textarea></p>
 				<p>{{ __('Restart your DBMS daemon and check it listens to the expected interface.', 'flyvemdm') }}</p>
-				<p>{{ __('Check you can login to your DBMD from the IP which will run Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 104 %}
