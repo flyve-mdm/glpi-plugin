@@ -113,6 +113,25 @@ class PluginFlyvemdmTask extends CommonTestCase {
          $this->string($row['status'])->isEqualTo('pending');
       }
 
+      // Check a MQTT message is sent
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+
+      $policyName = $policy->getField('symbol');
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName");
+
+      // check the message
+      $receivedMqttMessage = json_decode($row['message'], JSON_OBJECT_AS_ARRAY);
+      $this->array($receivedMqttMessage)->hasKey($policyName);
+      $this->variable($receivedMqttMessage[$policyName])->isEqualTo($task->getField('value') == '0' ? 'false' : 'true');
+      $this->array($receivedMqttMessage)->hasKey('taskId');
+      $this->integer($receivedMqttMessage['taskId'])->isEqualTo($task->getID());
+
       // Test apply a policy twice fails
       $task = $this->newTestedInstance();
 
