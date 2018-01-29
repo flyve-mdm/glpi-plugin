@@ -1,50 +1,16 @@
-<!--
-PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
--->
+### Step 1: Are you in the right place?
 
-# Checklist
-<!-- Check one of the following options with "x" -->
+* For issues or feature requests related to the code **in this repository** file a Github issue.
+* For general technical questions, post a question on [StackOverflow](http://stackoverflow.com/) tagged appropriately.
+* For general discussion, use the [Flyve-MDM mailing list](http://mail.ow2.org/wws/info/flyve-mdm-dev).
+* For help troubleshooting for customers [support channel](https://support.teclib.com/).
+  
+### Step 2: Describe the problem:
+  
+#### Observed Results:
 
-- [ ] Regression (a behaviour that used to work and stopped working in a new release)
-- [ ] Bug report <!-- Please search GitHub for a similar issue or PR before submitting -->
-- [ ] Feature request
-- [ ] Documentation issue or request
-- [ ] Support request => Please do not submit support request here, instead see our [Questions or doubts section](https://git.io/vN6fh)
+<!-- This could be a description, error output, steps to reproduce, a feature missed, etc. -->
+  
+#### Expected behavior:
 
-## Current behaviour
-<!-- Describe how the issue manifests. -->
-
-
-## Expected behaviour
-<!-- Describe what the desired behaviour would be. -->
-
-
-## Steps to reproduce the behaviour
-<!--
-For bug reports please provide the *STEPS TO REPRODUCE* and if possible a *MINIMAL DEMO* of the problem or similar.
--->
-
-### Screenshots, backtraces or logs
-
-Please check your logs for passwords, device serial numbers, IP addresses or any sensitive content
-
-php-errors.log
-```
-```
-
-sql-errors.log
-```
-```
-
-HTTP server error log
-```
-```
-
-## Environment Details
-
-- HTTP server version:
-- GLPi version:
-- Flyve MDM version:
-- FusionInventory version:
-- Mosquitto version:
-- Mosquitto's auth plugin version:
+<!-- What did you expect to happen? -->
