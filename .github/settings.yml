@@ -64,8 +64,6 @@ labels:
     color: 2196f3
   - name: test
     color: 8bc34a
-  - name: transversal development
-    color: b60205
   - name: ui
     color: bfdadc
   - name: user
