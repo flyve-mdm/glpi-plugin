@@ -1,5 +1,3 @@
-# Pull Request
-
 ### Changes description
 
 <!-- Describe results, user mentions, screenshots, screencast (gif) -->
