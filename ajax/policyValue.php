@@ -42,9 +42,23 @@ if (!isset($_POST['value'])) {
 }
 
 $policyId = intval($_POST['value']);
+$mode = (isset($_POST['mode'])) ? strval($_POST['mode']) : null;
 
 $factory = new PluginFlyvemdmPolicyFactory();
 $policy = $factory->createFromDBByID($policyId);
 if ($policy !== null) {
+   if ($mode == "update") {
+      $rand = mt_rand();
+      echo '<form name="policy_editor_form'.$rand.'" id="policy_editor_form'.$rand.'" method="post"
+            action="/plugins/flyvemdm/front/task.form.php"><br>';
+   }
    echo $policy->showValueInput();
+   if ($mode == "update") {
+      echo "<input type='hidden' name='id' value='" . $_POST['task'] . "'>
+      <input type='hidden' name='plugin_flyvemdm_policies_id' value='" . $policyId . "'>
+      <input type='hidden' name='plugin_flyvemdm_fleets_id' value='" . $_POST['fleet'] . "'>
+      <br><br><input type='submit' class='submit' name='update' value='" . _x('button',
+            'Update') . "'>";
+      echo Html::closeForm(false);
+   }
 }
