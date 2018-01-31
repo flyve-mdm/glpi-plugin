@@ -1677,49 +1677,48 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             if (!$computer->getFromDB($this->fields['computers_id'])) {
                // TODO : failed to find the computer
                return;
-            } else {
-               $serial = $computer->getField('serial');
-               if (!empty($serial)) {
-                  $acls = [
-                     [
-                        'topic'        => $this->getTopic() . '/Status/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                     ],
-                     [
-                        'topic'        => $this->getTopic() . '/Command/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                     ],
-                     [
-                        'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                     ],
-                     [
-                        'topic'        => '/FlyvemdmManifest/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                     ],
-                  ];
+            }
+            $serial = $computer->getField('serial');
+            if (!empty($serial)) {
+               $acls = [
+                  [
+                     'topic'        => $this->getTopic() . '/Status/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/Command/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+               ];
 
-                  $mqttUser = new PluginFlyvemdmMqttuser();
-                  $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
-                  if (!$mqttUser->getByUser($serial)) {
-                     // The user does not exists
-                     $mqttUser->add([
-                        'user'         => $serial,
-                        'enabled'      => '1',
-                        'password'     => $mqttClearPassword,
-                        '_acl'         => $acls,
-                        '_reset_acl'   => true,
-                     ]);
-                  } else {
-                     // The user exists
-                     $mqttUser->update([
-                        'id'          => $mqttUser->getID(),
-                        'enabled'     => '1',
-                        'password'    => $mqttClearPassword,
-                        '_acl'        => $acls,
-                        '_reset_acl'  => true,
-                     ]);
-                  }
+               $mqttUser = new PluginFlyvemdmMqttuser();
+               $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               if (!$mqttUser->getByUser($serial)) {
+                  // The user does not exists
+                  $mqttUser->add([
+                     'user'         => $serial,
+                     'enabled'      => '1',
+                     'password'     => $mqttClearPassword,
+                     '_acl'         => $acls,
+                     '_reset_acl'   => true,
+                  ]);
+               } else {
+                  // The user exists
+                  $mqttUser->update([
+                     'id'          => $mqttUser->getID(),
+                     'enabled'     => '1',
+                     'password'    => $mqttClearPassword,
+                     '_acl'        => $acls,
+                     '_reset_acl'  => true,
+                  ]);
                }
             }
 
