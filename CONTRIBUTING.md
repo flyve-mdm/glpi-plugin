@@ -2,8 +2,10 @@
 title: CONTRIBUTING
 robots: noindex, nofollow
 description: contribute guidelines
-tags: contributing, GitHub
+tags: contributing, github, flyve, mdm
 ---
+
+[![flyve hero](/images/flyve-mdm-banner.png)](https://flyve-mdm.com/)
 
 # How to contribute to Flyve MDM GLPI Plugin
 
@@ -60,11 +62,11 @@ We present you the guidelines to start contributing in any of the Flyve MDM proj
 
 
 ## <a name="1.1"></a> 1.1 Issue Dashboard :fire:
-If you want to know all the issues we're dealing with right now, take a look at our [glpi-plugin Issue Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and look for areas in which you can help.
+If you want to know all the issues we're dealing with right now, take a look at our [Issue Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and look for areas in which you can help.
 
 
 ## <a name="1.2"></a> 1.2 Pull Request Dashboard :fire_engine:
-If you want to give us a hand solving issues then great, take a look at our [glpi-plugin Pull Request Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and check for an open or closed PR. We don’t want to duplicate efforts.
+If you want to give us a hand solving issues then great, take a look at our [Pull Request Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and check for an open or closed PR. We don’t want to duplicate efforts.
 
 # <a name="2"></a> 2. Assistance
 
@@ -252,6 +254,7 @@ Pull requests or PR are **proposed changes** to a repository submitted by a user
 After all the work being pushed to the newly created branch, In GitHub, send a pull request to our [repository.](https://github.com/flyve-mdm/glpi-plugin/pulls)
 
 ### <a name="4.2.5.1"></a> 4.2.5.1 How to Write a Title for a Pull Request.
+Pull Request should be named in reference to the main fix or feature you provide, minor information can be added to the description.
 
 :straight_ruler:
 **Title Lenght:** Keep it concise and don't write more than **50 characters** in the title.
@@ -272,8 +275,6 @@ After all the work being pushed to the newly created branch, In GitHub, send a p
 >:point_right:Contribution Guideline Improvement.:point_left:
 ---
 
-Keep in mind that the Pull Request should be named in reference to the main fix or feature you provide, minor information can be added to the description.
-
 ### <a name="4.2.5.2"></a> 4.2.5.2 How to Write a Description for a Pull Request.
 
 We provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for Pull Request descriptions. When you're creating a Pull Request it'll be shown automatically. Just fill it out and you're done.
@@ -285,15 +286,16 @@ We provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for 
 
 ### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions.
 
-In case your contribution has to do with reports, remember those are created in the develop branch, nor master or PR's.
-
-* If we suggest changes then:
-
+If we suggest changes then:
 * Make the required updates.
+* Re-run the Angular test suites to ensure tests are still passing.
+* Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
-* Rebase your branch and force push to your GitHub repository (this will update your Pull Request)
-
-* Remove the WIP label
+    ```shell
+    git rebase develop -i
+    git push -f
+    ```
+* Remove the WIP label.
 
 # 5. <a name="5"></a> What to do next?
 
@@ -333,3 +335,5 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 
 # Good luck! :tada:
+
+[![flyve hero](/images/flyve-mdm-banner.png)](https://flyve-mdm.com/)
