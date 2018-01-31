@@ -219,4 +219,65 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $testedInstance = $this->newTestedInstance;
       $this->boolean($testedInstance->canViewItem())->isFalse();
    }
+
+   public function testGetTopicsToCleanup() {
+      $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
+
+      $expected = [
+         // Commands
+         'Command/Subscribe',
+         'Command/Ping',
+         'Command/Geolocate',
+         'Command/Inventory',
+         'Command/Lock',
+         'Command/Wipe',
+         'Command/Unenroll',
+
+         // Policies
+         'Policy/passwordEnabled',
+         'Policy/passwordMinLength',
+         'Policy/passwordQuality',
+         'Policy/passwordMinLetters',
+         'Policy/passwordMinLowerCase',
+         'Policy/passwordMinNonLetter',
+         'Policy/passwordMinNumeric',
+         'Policy/passwordMinSymbols',
+         'Policy/passwordMinUpperCase',
+         'Policy/MaximumFailedPasswordsForWipe',
+         'Policy/MaximumTimeToLock',
+         'Policy/storageEncryption',
+         'Policy/disableCamera',
+         'Policy/deployApp',
+         'Policy/removeApp',
+         'Policy/deployFile',
+         'Policy/removeFile',
+         'Policy/disableWifi',
+         'Policy/disableBluetooth',
+         'Policy/useTLS',
+         'Policy/disableRoaming',
+         'Policy/disableGPS',
+         'Policy/disableUsbMtp',
+         'Policy/disableUsbPtp',
+         'Policy/disableUsbAdb',
+         'Policy/disableFmRadio',
+         'Policy/disableMobileLine',
+         'Policy/disableVoiceMail',
+         'Policy/disableCallAutoAnswer',
+         'Policy/disableVoiceDictation',
+         'Policy/disableNfc',
+         'Policy/disableHostpotTethering',
+         'Policy/disableUsbOnTheGo',
+         'Policy/disableSmsMms',
+         'Policy/disableAirplaneMode',
+         'Policy/disableStatusBar',
+         'Policy/disableScreenCapture',
+         'Policy/resetPassword',
+         'Policy/disableSpeakerphone',
+         'Policy/disableCreateVpnProfiles',
+         'Policy/inventoryFrequency',
+       ];
+
+      $this->array($topics)->size->isEqualTo(count($expected));
+      $this->array($topics)->containsValues($expected);
+   }
 }

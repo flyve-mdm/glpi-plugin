@@ -1389,7 +1389,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       foreach ($rows as $row) {
          $topics[] = 'Policy/' . $row['symbol'];
       }
-      return $topics + [
+      return array_merge($topics, [
          'Command/Subscribe',
          'Command/Ping',
          'Command/Geolocate',
@@ -1397,7 +1397,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'Command/Lock',
          'Command/Wipe',
          'Command/Unenroll',
-      ];
+      ]);
    }
 
    /**

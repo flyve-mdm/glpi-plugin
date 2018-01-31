@@ -89,7 +89,7 @@ class Config extends CommonTestCase {
       // Configure MQTT broker
       \Config::setConfigurationValues($pluginName, [
          'mqtt_broker_address' => '127.0.0.1',
-         'mqtt_internal_broker_address' => '127.0.0.1',
+         'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
       // Force the MQTT backend's credentials

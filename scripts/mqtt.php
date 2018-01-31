@@ -29,12 +29,12 @@
  * ------------------------------------------------------------------------------
  */
 
-
 // Ensure current directory when run from crontab
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
 if (isset($argv[1])) {
    if ($argv[1] == '--tests') {
+      echo "running in  testing environment" . PHP_EOL;
       define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
       define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
    }
