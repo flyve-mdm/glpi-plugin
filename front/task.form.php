@@ -54,10 +54,8 @@ if (isset($_POST['add'])) {
 }
 
 if (isset($_POST['update'])) {
-   //$task->check(-1, UPDATE, $_POST);
+   $task->check(-1, UPDATE, $_POST);
    $_POST = $task->preprocessInput($_POST);
-//   var_dump($_POST);
-//   die();
    $task->update($_POST);
    Html::back();
 }
