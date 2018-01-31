@@ -31,34 +31,7 @@
 		</tr>
 		{% endif %} {% if step == 100 %}
 		<tr>
-			<th colspan="3" class="">{{ __('Email notifications', 'flyvemdm') }}</th>
-		</tr>
-		<tr class="tab_bg_1">
-			<td>
-				<p>{{ __('Flyve MDM requires email notifications. The following link will open a new tab to the email notifications settings.', 'flyvemdm') }}</p>
-				<p><a href="../../../front/notificationmailingsetting.form.php" target="_blank">{{ __('Email notifications', 'flyvemdm' )}}</a></p>
-				<p>{{ __('Flyve MDM requires cron job to run automatic actions.', 'flyvemdm') }}</p>
-				<p>{{ __('As root in a terminal, execute the following command.', 'flyvemdm') }}</p>
-			</td>
-		</tr>
-		{% endif %} {% if step == 101 %}
-		<tr>
-			<th colspan="3" class="">{{ __('REST API', 'flyvemdm') }}</th>
-		</tr>
-		<tr class="tab_bg_1">
-			<td>
-				<p>{{ __('Flyve MDM requires REST API enabled. The following link will open a new tab to the REST API setings.', 'flyvemdm') }}</p>
-				<p>{{ __('Please enable the following settings:', 'flyvemdm') }}</p>
-				<p>{{ __('- Enable Rest API', 'flyvemdm') }}</p>
-				<p>{{ __('- Enable login with credentials', 'flyvemdm') }}</p>
-				<p>{{ __('- Enable login with external token', 'flyvemdm') }}</p>
-				<p>{{ __('- Add an API client leaving empty IPv4 address range, IPv6 address and application token.', 'flyvemdm') }}</p>
-				<p><a href="../../../front/config.form.php?forcetab=Config$8" target="_blank">{{ __('API', 'flyvemdm' )}}</a></p>
-			</td>
-		</tr>
-		{% endif %} {% if step == 102 %}
-		<tr>
-			<th colspan="3" class="">{{ __('REST API', 'flyvemdm') }}</th>
+			<th colspan="3" class="">{{ __('Cron Job', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
@@ -70,7 +43,47 @@
 				<p>{{ __('Automatic actions registered in the scheduler of GLPI will run every minute.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
+		{% endif %} {% if step == 101 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Email notifications', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires email notifications. The following link will open a new tab to the email notifications settings.', 'flyvemdm') }}</p>
+				<p><a href="../../../front/notificationmailingsetting.form.php" target="_blank">{{ __('Email notifications', 'flyvemdm' )}}</a></p>
+				<p>{{ __('The queuednotification must have set Run mode to CLI. This action will be triggered by the cron job. The following link will open a new tab to the Automatic actions list','flyvemdm') }}</p>
+				<p><a href="../../../front/crontask.php" target="_blank">{{ __('Automatic actions', 'flyvemdm' )}}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 102 %}
+		<tr>
+			<th colspan="3" class="">{{ __('REST API', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires REST API enabled. The following link will open a new tab to the REST API settings.', 'flyvemdm') }}</p>
+				<p>{{ __('Make sure the following settings are enabled:', 'flyvemdm') }}</p>
+				<p>{{ __('- Rest API', 'flyvemdm') }}</p>
+				<p>{{ __('- Login with credentials', 'flyvemdm') }}</p>
+				<p>{{ __('- Login with external token', 'flyvemdm') }}</p>
+				<p>{{ __('- Add an API client leaving empty IPv4 address range, IPv6 address and application token.', 'flyvemdm') }}</p>
+				<p><a href="../../../front/config.form.php?forcetab=Config$8" target="_blank">{{ __('API', 'flyvemdm' )}}</a></p>
+			</td>
+		</tr>
 		{% endif %} {% if step == 103 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Fusion Inventory Configuration', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('For FusionInventory greater than 9.1 + 1.1:', 'flyvemdm') }}</p>
+				<p>{{ __('It is required to desactivate the Computer constraint rule.', 'flyvemdm') }}</p>
+				<p>{{ __('The following link will open a new tab to the Rules section of FusionInventory ', 'flyvemdm') }}</p>
+				<p><a href="../../../plugins/fusioninventory/front/inventoryruleimport.php" target="_blank">{{ __('Rules', 'flyvemdm' )}}</a></p>
+				<p>{{ __('Missing this will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 104 %}
 		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -93,7 +106,7 @@ bind-address = 0.0.0.0
 				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 104 %}
+		{% endif %} {% if step == 105 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -120,7 +133,39 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 105 %}
+		{% endif %} {% if step == 106 %}
+		<tr>
+			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Use TLS version 1.2, lower versions are no longer considered safe.', 'flyvemdm') }}</p>
+				<p>{{ __('Mosquitto does not support SSLv2 or SSLv3', 'flyvemdm') }}</p>
+				<p>{{ __('- Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and private key.', 'flyvemdm') }}</p>
+				<p>{{ __('- Secure your private key', 'flyvemdm') }}</p>
+				<p>chmod 600 /etc/mosquitto/certs/private-key.key</p>
+				<p>chown mosquitto:root /etc/mosquitto/certs/private-key.key</p>
+				<p>{{ __('- Refresh hash and symlinks to your certificates', 'flyvemdm') }}</p>
+				<p>c_rehash /etc/mosquitto/certs</p>
+				<p>{{ __('Use a certificate signed by a certified authority or you may have trouble with the android devices, using them with custom certification authorities might not work (not tested).', 'flyvemdm') }}</p>
+				<p><textarea disabled="" rows="12" cols="120">listener 8883
+	
+cafile /etc/mosquitto/certs/cachain.pem
+certfile /etc/mosquitto/certs/cachain.pem
+keyfile /etc/mosquitto/certs/private-key.key
+tls_version tlsv1.2
+ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:AES128:AES256:HIGH:!RC4:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK
+				</textarea></p>
+				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
+				<p>{{ __('- Test you can successfully connect to Mosquitto', 'flyvemdm') }}</p>
+				<p>mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
+				<p>{{ __('- Assuming TLS was successfully enabled and tested, remove the following settings:', 'flyvemdm') }}</p>
+				<p>{{ __('Bind_address', 'flyvemdm') }}</p>
+				<p>{{ __('Port', 'flyvemdm') }}</p>
+				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 107 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
