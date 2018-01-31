@@ -346,29 +346,39 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      $tester = $this;
-      $mockedAgent = $this->newMockInstance($this->testedClass());
-      $mockedAgent->getFromDB($agent->getID());
+      sleep(2);
 
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      ) use ($tester, &$mockedAgent) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Unenroll");
-         $tester->string($mqttMessage)
-            ->isEqualTo(json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(1);
-      };
+      $log = new \PluginFlyvemdmMqttlog();
 
-      $mockedAgent->update([
-         'id'        => $mockedAgent->getID(),
+      $rows = $log->find('', '`id` DESC', '1');
+      $row = array_pop($rows);
+      if ($row === null) {
+         $row = ['id' => 0];
+      }
+      $startLogId = $row['id'] + 1;
+
+      $agent->update([
+         'id'        => $agent->getID(),
          '_unenroll' => '',
       ]);
 
-      $this->mock($mockedAgent)->call('notify')->once();
+      // Get the latest MQTT message
+      sleep(2);
+
+      $rows = $log->find('', '`id` DESC', '1');
+      $row = array_pop($rows);
+      if ($row === null) {
+         $row = ['id' => 0];
+      }
+      $endLogId = $row['id'];
+      $this->integer($startLogId)->isLessThanOrEqualTo($endLogId, 'No MQTT message sent or logged');
+
+      $baseTopic = $agent->getTopic();
+      $expected = [
+         "$baseTopic/Command/Unenroll" => json_encode(['unenroll' => 'now']),
+      ];
+      $rows = $log->find("`id` >= '$startLogId' AND `id` <= '$endLogId' AND `direction` = 'O'");
+      $this->compareListOfMQTTMessages($expected, $rows);
    }
 
    /**
@@ -565,7 +575,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('', '`date` DESC', '1');
+      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
       $row = array_pop($rows);
 
       // check the topic of the message
@@ -600,7 +610,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('', '`date` DESC', '1');
+      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
       $row = array_pop($rows);
 
       // check the topic of the message
@@ -639,7 +649,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('', '`date` DESC', '1');
+      $rows = $log->find('"`direction` = 'O'"', '`date` DESC', '1');
       $row = array_pop($rows);
 
       // check the topic of the message
@@ -802,7 +812,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('', '`date` DESC', '1');
+      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
       $row = array_pop($rows);
 
       // check the topic of the message
@@ -992,4 +1002,19 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       return $this->enrollFromInvitation($user, $input);
    }
 
+   /**
+    * Compare two lists of MQTT messages
+    * @param array  $expected array of topics => messages
+    * @param array  $received array of messages obtained by find() method
+    */
+   private function compareListOfMQTTMessages(array $expected, array $received) {
+      // Check the count of messages matches
+      $this->array($received)->hasSize(count(array_values($expected)));
+
+      foreach ($received as $aMessage) {
+         $this->string($aMessage['direction'])->isEqualTo('I');
+         $this->array($expected)->hasKey($aMessage['topic']);
+         $this->array($expected)->contains($aMessage['message']);
+      }
+   }
 }
