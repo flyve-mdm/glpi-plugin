@@ -52,7 +52,11 @@
 				<p>{{ __('Flyve MDM requires email notifications. The following link will open a new tab to the email notifications settings.', 'flyvemdm') }}</p>
 				<p><a href="../../../front/notificationmailingsetting.form.php" target="_blank">{{ __('Email notifications', 'flyvemdm' )}}</a></p>
 				<p>{{ __('The queuednotification must have set Run mode to CLI. This action will be triggered by the cron job. The following link will open a new tab to the Automatic actions list','flyvemdm') }}</p>
-				<p><a href="../../../front/crontask.php" target="_blank">{{ __('Automatic actions', 'flyvemdm' )}}</p>
+				<p><a href="../../../front/crontask.php" target="_blank">{{ __('Automatic actions', 'flyvemdm' )}}</a></p>
+				<p>{{ __('Ensure the cron job is properly configure by checking the log glpi/files/_log/cron.log. The entry should contain the word External','flyvemdm') }}</p>
+				<p><textarea disabled="" rows="6" cols="80">External #1: Launch queuednotification
+2016-12-21 10:22:02 [@my-server]
+</textarea></p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 102 %}
@@ -72,6 +76,30 @@
 		</tr>
 		{% endif %} {% if step == 103 %}
 		<tr>
+			<th colspan="3" class="">{{ __('Server Configuration', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure php.ini allows reasonable upload sizes.', 'flyvemdm') }}</p>
+				<p>{{ __('For example:', 'flyvemdm' )}}</p>
+				<p><textarea disabled="" rows="12" cols="80">; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; http://php.net/post-max-size
+post_max_size = 8M
+					
+; Whether to allow HTTP file uploads.
+; http://php.net/file-uploads
+file_uploads = On
+					
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 8M
+</textarea></p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 104 %}
+		<tr>
 			<th colspan="3" class="">{{ __('Fusion Inventory Configuration', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
@@ -83,13 +111,13 @@
 				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 104 %}
+		{% endif %} {% if step == 105 %}
 		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
-				<p>{{ __('Flyve MDM requires that Mosquitto has access to the database of GLPI.', 'flyvemdm') }}</p>
+				<p>{{ __('Flyve MDM requires that Mosquitto has access to the database of GLPI, this is for the authentication process of its clients.', 'flyvemdm') }}</p>
 				<p>{{ __('It is recommended to create a dedicated user for Mosquitto allowed to connect only from its specific IP.', 'flyvemdm') }}</p>
 				<p>{{ __('Run the following command on your MySQL host, and adapt the mqtt.server.ip', 'flyvemdm') }}</p>
 				<p>mysql -e "CREATE USER 'mosquitto'@'mqtt.server.ip' IDENTIFIED BY 'password';"</p>
@@ -111,7 +139,7 @@ bind-address = 0.0.0.0
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-flyvemdm-92\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 105 %}
+		{% endif %} {% if step == 106 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -138,12 +166,13 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 106 %}
+		{% endif %} {% if step == 107 %}
 		<tr>
 			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
+				<p>{{ __('TLS provides security to the communication, through authentication of server and client, besides data encryption.', 'flyvemdm') }}</p>
 				<p>{{ __('Use TLS version 1.2, lower versions are no longer considered safe.', 'flyvemdm') }}</p>
 				<p>{{ __('Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe).', 'flyvemdm') }}</p>
 				<p>{{ __('- Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and private key.', 'flyvemdm') }}</p>
@@ -169,7 +198,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>netstat -taupen | grep mosquitto</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 107 %}
+		{% endif %} {% if step == 108 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
