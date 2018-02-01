@@ -77,10 +77,10 @@
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('For FusionInventory greater than 9.1 + 1.1:', 'flyvemdm') }}</p>
-				<p>{{ __('It is required to desactivate the Computer constraint rule.', 'flyvemdm') }}</p>
+				<p>{{ __('It is required to desactivate the Computer constraint (name) rule in the Equipment import and link rules menu.', 'flyvemdm') }}</p>
 				<p>{{ __('The following link will open a new tab to the Rules section of FusionInventory ', 'flyvemdm') }}</p>
 				<p><a href="../../../plugins/fusioninventory/front/inventoryruleimport.php" target="_blank">{{ __('Rules', 'flyvemdm' )}}</a></p>
-				<p>{{ __('Missing this will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
+				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 104 %}
@@ -89,12 +89,14 @@
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
-				<p>{{ __('Flyve MDM requires that Mosquitto has access to your database.', 'flyvemdm') }}</p>
+				<p>{{ __('Flyve MDM requires that Mosquitto has access to the database of GLPI.', 'flyvemdm') }}</p>
 				<p>{{ __('It is recommended to create a dedicated user for Mosquitto allowed to connect only from its specific IP.', 'flyvemdm') }}</p>
+				<p>{{ __('Run the following command on your MySQL host, and adapt the mqtt.server.ip', 'flyvemdm') }}</p>
 				<p>mysql -e "CREATE USER 'mosquitto'@'mqtt.server.ip' IDENTIFIED BY 'password';"</p>
 				<p>{{ __('This user should be able to only SELECT the following tables:', 'flyvemdm') }}</p>
 				<p>- glpi_plugin_flyvemdm_mqttusers</p>
 				<p>- glpi_plugin_flyvemdm_mqttacls</p>
+				<p>{{ __('Run the following commands on your MySQL host, and adapt the name of the database and the mqtt.server.ip', 'flyvemdm') }}</p>
 				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttusers TO 'mosquitto'@'mqtt.server.ip';"</p>
 				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttacls TO 'mosquitto'@'mqtt.server.ip';"</p>
 				<p>{{ __('Create the file', 'flyvemdm') }}/etc/mysql/conf.d/flyvemdm.cnf</p>
@@ -103,7 +105,10 @@
 bind-address = 0.0.0.0
 </textarea></p>
 				<p>{{ __('Restart your DBMS daemon and check it listens to the expected interface.', 'flyvemdm') }}</p>
+				<p>netstat -taupen | grep 3306</p>
 				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('The following command will ask for the password you choosed earlier', 'flyvemdm') }}</p>
+				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-flyvemdm-92\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 105 %}
@@ -140,7 +145,7 @@ auth_opt_cacheseconds 300</textarea></p>
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('Use TLS version 1.2, lower versions are no longer considered safe.', 'flyvemdm') }}</p>
-				<p>{{ __('Mosquitto does not support SSLv2 or SSLv3', 'flyvemdm') }}</p>
+				<p>{{ __('Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe).', 'flyvemdm') }}</p>
 				<p>{{ __('- Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and private key.', 'flyvemdm') }}</p>
 				<p>{{ __('- Secure your private key', 'flyvemdm') }}</p>
 				<p>chmod 600 /etc/mosquitto/certs/private-key.key</p>
@@ -148,6 +153,7 @@ auth_opt_cacheseconds 300</textarea></p>
 				<p>{{ __('- Refresh hash and symlinks to your certificates', 'flyvemdm') }}</p>
 				<p>c_rehash /etc/mosquitto/certs</p>
 				<p>{{ __('Use a certificate signed by a certified authority or you may have trouble with the android devices, using them with custom certification authorities might not work (not tested).', 'flyvemdm') }}</p>
+				<p>{{ __('Append the following to /etc/mosquitto/conf.d/flyvemdm.conf.', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="12" cols="120">listener 8883
 	
 cafile /etc/mosquitto/certs/cachain.pem
@@ -159,10 +165,8 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
 				<p>{{ __('- Test you can successfully connect to Mosquitto', 'flyvemdm') }}</p>
 				<p>mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
-				<p>{{ __('- Assuming TLS was successfully enabled and tested, remove the following settings:', 'flyvemdm') }}</p>
-				<p>{{ __('Bind_address', 'flyvemdm') }}</p>
-				<p>{{ __('Port', 'flyvemdm') }}</p>
-				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
+				<p>{{ __('- Check the ports that Mosquitto listens. You should see only the port 8883.', 'flyvemdm') }}</p>
+				<p>netstat -taupen | grep mosquitto</p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 107 %}
