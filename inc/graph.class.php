@@ -245,4 +245,8 @@ class PluginFlyvemdmGraph extends CommonDBTM
          }
       }
    }
+
+   public function showAgentOnlineStats() {
+
+   }
 }
