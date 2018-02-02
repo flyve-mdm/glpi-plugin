@@ -943,7 +943,7 @@ Regards,
          [
             'name'                                => __('Maximum failed password attemps for wipe',
                'flyvemdm'),
-            'symbol'                              => 'MaximumFailedPasswordsForWipe',
+            'symbol'                              => 'maximumFailedPasswordsForWipe',
             'group'                               => 'policies',
             'type'                                => 'int',
             'type_data'                           => [
@@ -963,7 +963,7 @@ Regards,
          [
             'name'                                => __('Maximum time to lock (milliseconds)',
                'flyvemdm'),
-            'symbol'                              => 'MaximumTimeToLock',
+            'symbol'                              => 'maximumTimeToLock',
             'group'                               => 'policies',
             'type'                                => 'int',
             'type_data'                           => [
