@@ -25,6 +25,9 @@ mv ../${repo[1]} plugins/flyvemdm
 
 # patch GLPI when needed
 if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/10f8dabfc5e20bb5a4e7d4ba4b93706871156a8a.diff; fi
+cd plugins/fusioninventory
+if [[ $GLPI_BRANCH == "master" ]] ; then patch -p1 --batch < ../../plugins/flyvemdm/tests/patches/fi_master_patch.diff; fi
+cd ../..
 
 # prepare plugin to test
 cd plugins/flyvemdm 
