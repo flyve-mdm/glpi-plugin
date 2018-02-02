@@ -243,4 +243,14 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $cronTask->deleteByCriteria(['itemtype' => 'PluginFlyvemdmMqttupdatequeue']);
    $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
    $migration->dropTable($table);
+
+   // Fix PascalCase symbols
+   $query = "UPDATE `glpi_plugin_flyvemdm_policies`
+                SET `symbol` = 'maximumFailedPasswordsForWipe'
+                WHERE `symbol`='MaximumFailedPasswordsForWipe'";
+   $DB->query($query);
+   $query = "UPDATE `glpi_plugin_flyvemdm_policies`
+                SET `symbol` = 'maximumTimeToLock'
+                WHERE `symbol`='MaximumTimeToLock'";
+   $DB->query($query);
 }
