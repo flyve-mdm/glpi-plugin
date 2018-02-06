@@ -247,6 +247,120 @@ class PluginFlyvemdmGraph extends CommonDBTM
    }
 
    public function showAgentOnlineStats() {
+      global $DB;
 
+      $domain = $range = $serie = [];
+      $FlyvemdmAgent = PluginFlyvemdmAgent::getTable();
+      $logTable = Log::getTable();
+      $query = "SELECT l.`new_value` AS online_date, f.`name` AS agent_name, f.`id` AS agent_id 
+        FROM " . $logTable . " AS l 
+        INNER JOIN " . $FlyvemdmAgent . " AS f ON l.`items_id` = f.`id`
+        WHERE l.`itemtype`='PluginFlyvemdmAgent' AND l.`id_search_option`='8' 
+        ORDER BY agent_id ASC, online_date ASC";
+      $result = $DB->query($query);
+      if ($result && $DB->numrows($result) > 0) {
+         $currentId = $currentDate = null;
+      }
+
+      $out = $this->displayLineGraph(
+         __('Online Agents', 'flyvemdm'),
+         $domain,
+         $range,
+         [
+            'width' => '100%',
+         ],
+         false
+      );
+
+      echo $out;
+   }
+
+   /**
+    * Display stacked bar graph
+    *
+    * @param string   $title  Graph title
+    * @param string[] $labels Labels to display
+    * @param array    $series Series data. An array of the form:
+    *                 [
+    *                    ['name' => 'a name', 'data' => []],
+    *                    ['name' => 'another name', 'data' => []]
+    *                 ]
+    * @param string[] $options  array of options
+    * @param boolean  $display  Whether to display directly; defauts to true
+    *
+    * @return void
+    */
+   public function displayLineGraph($title, $labels, $series, $options = null, $display = true) {
+      $param = [
+         'width' => 900,
+         'height' => 400,
+         'tooltip' => true,
+         'legend' => true,
+         'animate' => false,
+      ];
+
+      if (is_array($options) && count($options)) {
+         foreach ($options as $key => $val) {
+            $param[$key] = $val;
+         }
+      }
+
+      $first = true;
+      $serieString = '';
+      foreach ($series as $serie) {
+         if ($first === true) {
+            $first = false;
+         } else {
+            $serieString .= ",\n";
+         }
+         if (isset($serie['name'])) {
+            $serieString .= "{name: '{$serie['name']}', data: [" . implode(', ',
+                  $serie['data']) . "]}";
+         } else {
+            $serieString .= "[" . implode(', ', $serie['data']) . "]";
+         }
+      }
+
+      $this->checkEmptyLabels($labels);
+      $jsData = "{
+         /*labels: ['" . implode('\', \'', Toolbox::addslashes_deep($labels)) . "'],*/
+         series: [" . $serieString . "]
+      }";
+
+      $jsOptions = "{
+         width: '{$param['width']}',
+         height: '{$param['height']}',
+         showLine: false,
+         fullWidth: true
+      ";
+      if ($param['legend'] === true || $param['tooltip'] === true) {
+         $jsOptions .= ", plugins: [";
+         if ($param['legend'] === true) {
+            $jsOptions .= "Chartist.plugins.legend()";
+         }
+         if ($param['tooltip'] === true) {
+            $jsOptions .= ($param['legend'] === true ? ',' : '') . "Chartist.plugins.tooltip()";
+         }
+         $jsOptions .= "]";
+      }
+      $jsOptions .= "}";
+
+      $slug = str_replace('-', '_', Toolbox::slugify($title));
+      $out = "<h2 class='center'>$title</h2>";
+      $out .= "<div id='$slug' class='chart'></div>";
+      $out .= "<script type='text/javascript'>
+                  $(function() {
+                     var chart_$slug = new Chartist.Line('#$slug', " . $jsData . ", " . $jsOptions . ");";
+
+      if ($param['animate'] === true) {
+         $out .= "";
+      }
+      $out .= "});</script>";
+
+      if ($display) {
+         echo $out;
+         return;
+      }
+      return $out;
    }
 }
