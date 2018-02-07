@@ -246,18 +246,19 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    /**
     * @return string|void
     */
-   public function showValueInput() {
+   public function showValueInput($value = '') {
       $out = PluginFlyvemdmFile::dropdown([
             'display'      => false,
             'name'         => 'items_id',
       ]);
-      $out .= '<input type="hidden" name="itemtype" value="PluginFlyvemdmFile" />';
+      $out .= '<input type="hidden" name="itemtype" value="' . PluginFlyvemdmFile::class . '" />';
       $out .= '<br>';
       $out .= __('copy to', 'flyvemdm');
       $out .= '<br>';
       $out .= PluginFlyvemdmWellknownpath::dropdown([
-            'display'      => false,
-            'name'         => 'destination_base',
+         'display'   => false,
+         'name'      => 'destination_base',
+         'value'     => $value,
       ]);
       $out .= '<input type="text" name="value[destination]" value="" />';
       $out .= '<input type="hidden" name="value[remove_on_delete]" value="1" />';

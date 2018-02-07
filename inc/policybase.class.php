@@ -180,8 +180,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    /**
     * @return string
     */
-   public function showValueInput() {
-      $html = '<input name="value" value="" >';
+   public function showValueInput($value = '', $itemtype = '', $itemId = 0) {
+      $html = '<input name="value" value="' . $value . '" >';
 
       return $html;
    }
@@ -220,7 +220,6 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    /**
     * Generate the form for add or edit a policy
     *
-    * @param PluginFlyvemdmPolicyBase $policy to be edited
     * @param string $mode add or update
     * @param array $_input values for update
     * @return string html
@@ -229,8 +228,18 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $mode = 'add',
       array $_input = []
    ) {
+      $task = new PluginFlyvemdmTask();
+      $value = '';
+      $itemtype = '';
+      $itemId = 0;
+      if (!$task->isNewID($_input['task'])) {
+         $task->getFromDB($_input['task']);
+         $value = $task->getField('value');
+         $itemtype = $task->getField('itemtype');
+         $itemId = $task->getField('items_id');
+      }
       $form['mode'] = $mode;
-      $form['input'] = $this->showValueInput();
+      $form['input'] = $this->showValueInput($value, $itemtype, $itemId);
       if ($mode == "update") {
          $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
          $form['rand'] = mt_rand();
