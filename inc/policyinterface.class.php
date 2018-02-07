@@ -119,8 +119,12 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * return HTML input to set policy value
+    * @param string $value value of the task
+    * @param string $itemtype type of the item linked to the task
+    * @param integer $itemId ID of the item
+    * @return string
     */
-   public function showValueInput();
+   public function showValueInput($value = '', $itemtype = '', $itemId = 0);
 
 
    /**
