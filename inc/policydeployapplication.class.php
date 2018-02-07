@@ -198,17 +198,23 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
-      $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+      $itemtype = PluginFlyvemdmPackage::class;
+      if ($value !== '') {
+         $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+         $removeOnDelete = $value['remove_on_delete'];
+      } else {
+         $removeOnDelete = 1;
+      }
       $out = PluginFlyvemdmPackage::dropdown([
          'display'      => false,
          'displaywith'  => ['alias'],
          'name'         => 'items_id',
          'value'        => $itemId,
       ]);
-      $itemtype = PluginFlyvemdmPackage::class;
-      $removeOnDelete = $value['remove_on_delete'];
+      $out .= '<br>';
+      $out .= __('Remove when the policy is removed', 'flyvemdm');
+      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
       $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
-      $out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
 
       return $out;
    }

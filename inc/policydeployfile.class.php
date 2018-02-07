@@ -250,21 +250,42 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @return string|void
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
+      $itemtype = PluginFlyvemdmFile::class;
+      if ($value !== '') {
+         $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+         $removeOnDelete = $value['remove_on_delete'];
+         $cut = strpos($value['destination'], '/');
+         if ($cut === 0 || $cut === false) {
+            $cut = strlen($value['destination']);
+         }
+         $destination = substr($value['destination'], $cut);
+         $destination_base = substr($value['destination'], 0, $cut);
+      } else {
+         $removeOnDelete = 1;
+         $destination_base = '';
+         $destination = '';
+      }
       $out = PluginFlyvemdmFile::dropdown([
-            'display'      => false,
-            'name'         => 'items_id',
+         'display'   => false,
+         'name'      => 'items_id',
+         'value'     => $itemId,
       ]);
-      $out .= '<input type="hidden" name="itemtype" value="' . PluginFlyvemdmFile::class . '" />';
       $out .= '<br>';
       $out .= __('copy to', 'flyvemdm');
       $out .= '<br>';
+      $path = new PluginFlyvemdmWellknownpath();
+      $path->getFromDBByPath($destination_base);
       $out .= PluginFlyvemdmWellknownpath::dropdown([
          'display'   => false,
          'name'      => 'destination_base',
-         'value'     => $value,
+         'value'     => $path->getID(),
       ]);
-      $out .= '<input type="text" name="value[destination]" value="" />';
-      $out .= '<input type="hidden" name="value[remove_on_delete]" value="1" />';
+      $out .= '<input type="text" name="value[destination]" value="' . $destination . '" />';
+      $out .= '<br>';
+      $out .= __('Remove when the policy is removed', 'flyvemdm');
+      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
+      //$out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
+      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
       return $out;
    }

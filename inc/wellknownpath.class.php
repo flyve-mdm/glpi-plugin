@@ -71,6 +71,15 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
    }
 
    /**
+    * Get an item from by path
+    * @param string $path
+    * @return boolean
+    */
+   public function getFromDBByPath($path) {
+      return $this->getFromDBByQuery("WHERE `name`='$path'");
+   }
+
+   /**
     * @return array
     */
    public function getSearchOptionsNew() {

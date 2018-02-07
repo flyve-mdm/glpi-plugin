@@ -222,28 +222,23 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @tags testShowValueInput
+    * @engine inline
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
-      $json = json_encode([
-         'remove_on_delete' => 0
-      ]);
-      $value = $policy->showValueInput($json);
+      $value = $policy->showValueInput();
       $this->string($value)
          ->contains('dropdown_items_id')
          ->contains('ajax/getDropdownValue.php')
-         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"')
-         ->contains('input type="hidden" name="value[remove_on_delete]" value="0"');
+         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"');
 
-      $json = json_encode([
-         'remove_on_delete' => 1
-      ]);
-      $value = $policy->showValueInput($json);
-      $this->string($value)
-         ->contains('dropdown_items_id')
-         ->contains('ajax/getDropdownValue.php')
-         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"')
-         ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
+      $matches = null;
+      preg_match(
+         '/.*<select[^>]*name=\'value\[remove_on_delete\]\'[^>]*>.*/',
+         $value,
+         $matches
+      );
+      $this->array($matches)->hasSize(1);
    }
 
    /**
