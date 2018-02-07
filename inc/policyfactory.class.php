@@ -117,6 +117,7 @@ class PluginFlyvemdmPolicyFactory {
       $form['mode'] = $mode;
       $form['input'] = $policy->showValueInput();
       if ($mode == "update") {
+         $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
          $form['rand'] = mt_rand();
          $form['taskId'] = $_input['task'];
          $form['policyId'] = $_input['policyId'];

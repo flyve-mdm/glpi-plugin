@@ -1,6 +1,6 @@
 {% if form.mode == "update" %}
 <form name="policy_editor_form{{ form.rand }}" id="policy_editor_form{{ form.rand }}" method="post"
-      action="/plugins/flyvemdm/front/task.form.php"><br>
+      action="{{ form.url }}"><br>
 {% endif %}
 {{ form.input|raw }}
 {% if form.mode == "update" %}
