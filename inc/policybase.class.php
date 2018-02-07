@@ -216,4 +216,32 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    public function getPolicyData() {
       return $this->policyData;
    }
+
+   /**
+    * Generate the form for add or edit a policy
+    *
+    * @param PluginFlyvemdmPolicyBase $policy to be edited
+    * @param string $mode add or update
+    * @param array $_input values for update
+    * @return string html
+    */
+   public function formGenerator(
+      $mode = 'add',
+      array $_input = []
+   ) {
+      $form['mode'] = $mode;
+      $form['input'] = $this->showValueInput();
+      if ($mode == "update") {
+         $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
+         $form['rand'] = mt_rand();
+         $form['taskId'] = $_input['task'];
+         $form['policyId'] = $_input['policyId'];
+         $form['fleetId'] = $_input['fleet'];
+         $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
+            ['value' => Session::getNewCSRFToken()]) : '';
+      }
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('policy_form.html', ['form' => $form]);
+   }
+
 }
