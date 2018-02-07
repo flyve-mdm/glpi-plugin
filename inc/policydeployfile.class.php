@@ -244,9 +244,12 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
+    * @param string $value
+    * @param string $itemType
+    * @param int $itemId
     * @return string|void
     */
-   public function showValueInput($value = '') {
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $out = PluginFlyvemdmFile::dropdown([
             'display'      => false,
             'name'         => 'items_id',
