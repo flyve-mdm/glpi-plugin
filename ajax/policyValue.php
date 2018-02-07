@@ -47,7 +47,7 @@ $mode = (isset($_POST['mode'])) ? $_POST['mode'] : null;
 $factory = new PluginFlyvemdmPolicyFactory();
 $policy = $factory->createFromDBByID($policyId);
 if ($policy !== null) {
-   echo $factory::formGenerator($policy, $mode, [
+   echo $policy->formGenerator($mode, [
       'policyId' => $policyId,
       'task'  => (int) ((isset($_POST['task'])) ? $_POST['task'] : 0),
       'fleet' => (int) ((isset($_POST['fleet'])) ? $_POST['fleet'] : 0),

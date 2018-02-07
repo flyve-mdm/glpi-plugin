@@ -274,7 +274,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       if ($itemId != $this->fields['items_id'] || $policyId != $this->fields['plugin_flyvemdm_policies_id']) {
          // the fleet and the policy are not changing, then check unicity
-         if (!$this->policy->unicityCheck($this->fleet)) {
+         if (!$this->policy->unicityCheck($value, $itemtype, $itemId, $this->fleet)) {
             Session::addMessageAfterRedirect(__('Policy already applied', 'flyvemdm'), false,
                ERROR);
             return false;
