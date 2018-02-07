@@ -34,15 +34,15 @@ $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-Session::checkRight("flyvemdm:fleet", UPDATE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:fleet', UPDATE);
 
 if (!isset($_GET['id'])) {
-   $_GET["id"] = '';
+   $_GET['id'] = '';
 }
 
-if (!isset($_GET["withtemplate"])) {
-   $_GET["withtemplate"] = '';
+if (!isset($_GET['withtemplate'])) {
+   $_GET['withtemplate'] = '';
 }
 
 $task = new PluginFlyvemdmTask();
