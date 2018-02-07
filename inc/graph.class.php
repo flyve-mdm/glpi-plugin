@@ -260,6 +260,19 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $result = $DB->query($query);
       if ($result && $DB->numrows($result) > 0) {
          $currentId = $currentDate = null;
+         while ($row = $DB->fetch_assoc($result)) {
+            list($date, $time) = explode(' ', $row['online_date']);
+            //$domain[] = $date;
+            //$serie[] = strtotime($time);
+            if ($currentId != $row['agent_id']) {
+               $currentId = $row['agent_id'];
+               $range[$currentId]['name'] = $row['agent_name'] . ' (ID:' . $currentId . ')';
+               $range[$currentId]['data'] = [];
+            }
+            $jsTime = strtotime($row['online_date']) * 1000;
+            $range[$currentId]['data'][] = "{x:$jsTime, y:$jsTime}";
+         }
+         //$domain = array_unique($domain);
       }
 
       $out = $this->displayLineGraph(
@@ -273,6 +286,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
       );
 
       echo $out;
+      echo '<script type="text/javascript" src="/lib/jqueryplugins/fullcalendar/lib/moment.min.js"></script>'; //TODO: fix this bad call
    }
 
    /**
@@ -331,7 +345,18 @@ class PluginFlyvemdmGraph extends CommonDBTM
          width: '{$param['width']}',
          height: '{$param['height']}',
          showLine: false,
-         fullWidth: true
+         fullWidth: true,
+         axisX: {
+          labelInterpolationFnc: function(value, index) {
+            return moment(value).format('L');
+          }
+        },
+        axisY: {
+          type: Chartist.FixedScaleAxis,
+          labelInterpolationFnc: function(value, index) {
+            return moment(value).format('LT');
+          }
+        }
       ";
       if ($param['legend'] === true || $param['tooltip'] === true) {
          $jsOptions .= ", plugins: [";
