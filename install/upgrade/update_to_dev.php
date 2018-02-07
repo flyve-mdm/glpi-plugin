@@ -180,6 +180,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
    // All policies exist for Android
    $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
+   $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('disableFmRadio','disableVoiceMail','disableCallAutoAnswer','disableVoiceDictation','disableUsbOnTheGo')");
 
    // update Applications table
    $table = 'glpi_plugin_flyvemdm_packages';
