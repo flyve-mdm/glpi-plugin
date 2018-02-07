@@ -295,8 +295,15 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       $this->string($value)
          ->contains('dropdown_items_id')->contains('ajax/getDropdownValue.php')
          ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmFile"')
-         ->contains('input type="text" name="value[destination]" value=""')
-         ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
+         ->contains('input type="text" name="value[destination]" value=""');
+
+      $matches = null;
+      preg_match(
+         '/.*<select[^>]*name=\'value\[remove_on_delete\]\'[^>]*>.*/',
+         $value,
+         $matches
+      );
+      $this->array($matches)->hasSize(1);
    }
 
    /**
