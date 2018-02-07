@@ -225,9 +225,23 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
-      $value = $policy->showValueInput();
+      $json = json_encode([
+         'remove_on_delete' => 0
+      ]);
+      $value = $policy->showValueInput($json);
       $this->string($value)
-         ->contains('dropdown_items_id')->contains('ajax/getDropdownValue.php')
+         ->contains('dropdown_items_id')
+         ->contains('ajax/getDropdownValue.php')
+         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"')
+         ->contains('input type="hidden" name="value[remove_on_delete]" value="0"');
+
+      $json = json_encode([
+         'remove_on_delete' => 1
+      ]);
+      $value = $policy->showValueInput($json);
+      $this->string($value)
+         ->contains('dropdown_items_id')
+         ->contains('ajax/getDropdownValue.php')
          ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"')
          ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
    }

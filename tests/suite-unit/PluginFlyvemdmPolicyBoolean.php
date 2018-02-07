@@ -105,7 +105,10 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
 
-      $this->string($policy->showValueInput())
+      $this->string($policy->showValueInput('0'))
          ->contains("<option value='0' selected>No</option><option value='1'>Yes</option>");
+
+      $this->string($policy->showValueInput('1'))
+         ->contains("<option value='0'>No</option><option value='1' selected>Yes</option>");
    }
 }

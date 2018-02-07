@@ -85,7 +85,6 @@ class PluginFlyvemdmFile extends CommonTestCase {
       // Test add policy fails when a removal policy exists
       $fleet_policy = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
       $this->boolean($fleet_policy->isNewItem())->isTrue();
-
    }
 
    /**
