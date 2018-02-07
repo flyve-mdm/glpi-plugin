@@ -1,5 +1,5 @@
 body {
-    color: #333;
+    margin: 0;
 }
 
 th {
@@ -12,21 +12,16 @@ td, th {
 }
 
 tr.line td, tr.line th {
-    padding: 4px!important;
-    line-height: 1!important;
-}
-
-th {
-    text-align: center!important;
+    padding: 10px!important;
+    line-height: 0!important;
 }
 
 pre {
-    border: none;
     background-color: transparent;
     padding: 0;
     margin: 0;
     border-radius: 0;
-    line-height: 1.8em;
+    border-left: none;
 }
 
 pre .label, .panel-heading .label {
@@ -37,20 +32,6 @@ pre .label {
     font-weight: 300;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
     font-size: 13px;
-}
-
-footer img {
-    width: 48px;
-}
-
-.navbar-header img {
-    height: 24px;
-    float: left;
-    margin-right: 15px;
-}
-
-.navbar-header .navbar-brand {
-    line-height: 24px;
 }
 
 .covered {
@@ -68,12 +49,6 @@ footer img {
 .graph {
     display: block;
     overflow: auto;
-}
-
-div, text {
-    font-weight: 300;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
-    font-size: 14px;
 }
 
 .node rect {
@@ -120,4 +95,32 @@ div, text {
 
 .number {
     color: #333;
+}
+
+.table-bordered, .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+    border: 0.1px solid #DDD;
+}
+
+.col-lg-12 {
+    width: 100%;
+}
+
+.line {
+    border-width: 0.1px;
+}
+
+.navbar-brand [alt=atoum] {
+    height: 24px;
+    float: left;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+[alt=atoum] {
+    height: 24px;
+    float: right;
+}
+
+footer {
+    position: initial;
 }
