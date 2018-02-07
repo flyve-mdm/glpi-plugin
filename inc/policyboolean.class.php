@@ -86,7 +86,13 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       return $array;
    }
 
-   public function showValueInput($value = '', $itemtype = '', $itemId = 0) {
+   /**
+    * @param string $value
+    * @param string $itemType
+    * @param int $itemId
+    * @return int|string
+    */
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       return Dropdown::showYesNo('value', $value, -1, ['display' => false]);
    }
 

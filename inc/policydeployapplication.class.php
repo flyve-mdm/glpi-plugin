@@ -197,7 +197,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return true;
    }
 
-   public function showValueInput($value = '', $itemtype = '', $itemId = 0) {
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
       $out = PluginFlyvemdmPackage::dropdown([
          'display'      => false,

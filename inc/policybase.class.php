@@ -178,9 +178,12 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
+    * @param string $value value of the task
+    * @param string $itemType type of the item linked to the task
+    * @param integer $itemId ID of the item
     * @return string
     */
-   public function showValueInput($value = '', $itemtype = '', $itemId = 0) {
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $html = '<input name="value" value="' . $value . '" >';
 
       return $html;
