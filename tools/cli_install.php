@@ -46,7 +46,7 @@ Options:
    --api-user-token     APITOKEN    APITOKEN
    --enable-api         Enable GLPI's API
    --enable-email       Enable GLPI's email notification
-   --tests              Use GLPi test database
+   --tests              Use GLPI test database
 
 DOC;
 
