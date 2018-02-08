@@ -356,7 +356,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    /**
-    * MQTT publish all policies applying to the fleet
+    * MQTT publish a policy applying to the fleet
     *
     * @param PluginFlyvemdmNotifiable $item
     */
@@ -370,30 +370,34 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $fleetId = $fleet->getID();
          $topic = $item->getTopic();
 
+         // Initialize a task status for each agent in the fleet
          $agent = new PluginFlyvemdmAgent();
-         $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+         $fleetFk = $fleet::getForeignKeyField();
+         $rows = $agent->find("`$fleetFk` = '$fleetId'");
          foreach ($rows as $row) {
             $agent = new PluginFlyvemdmAgent();
             if ($agent->getFromDB($row['id'])) {
                $taskStatus = new PluginFlyvemdmTaskstatus();
                $taskStatus->add([
-                  'plugin_flyvemdm_agents_id'  => $row['id'],
-                  'plugin_flyvemdm_tasks_id'   => $this->getID(),
-                  'status'                     => 'pending',
+                  $agent::getForeignKeyField()  => $row['id'],
+                  $this::getForeignKeyField()   => $this->getID(),
+                  'status'                      => 'pending',
                ]);
             }
          }
 
+         $policy = new PluginFlyvemdmPolicy();
+         $policyFk = $policy::getForeignKeyField();
          $policyFactory = new PluginFlyvemdmPolicyFactory();
-         $appliedPolicy = $policyFactory->createFromDBByID($this->fields['plugin_flyvemdm_policies_id']);
+         $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
          if ($appliedPolicy === null) {
-            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $this->fields['plugin_flyvemdm_policies_id'] . "not found while generating MQTT message\n" );
+            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message\n" );
             return;
          }
 
-         $policy = new PluginFlyvemdmPolicy();
-         $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
+         $policy->getFromDB($this->fields[$policyFk]);
          $policyName = $policy->getField('symbol');
+         $taskId = $this->getID();
          $policyMessage = $appliedPolicy->getMqttMessage(
             $this->fields['value'],
             $this->fields['itemtype'],
@@ -401,7 +405,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          );
          $policyMessage['taskId'] = $this->getID();
          $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
-         $fleet->notify("$topic/Policy/$policyName", $encodedMessage, 0, 1);
+         $fleet->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
       }
    }
 
@@ -420,61 +424,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $topic = $item->getTopic();
 
          $policy = new PluginFlyvemdmPolicy();
+         $taskId = $this->getID();
          $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
          $policyName = $policy->getField('symbol');
-         $fleet->notify("$topic/Policy/$policyName", null, 0, 1);
+         $fleet->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
 
-      }
-   }
-
-   /**
-    * MQTT publish all policies applying to the fleet
-    *
-    * @param PluginFlyvemdmNotifiable $item
-    * @param array $groups the notifiable is updated only for the following policies groups
-    */
-   public function publishPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {
-      if ($this->silent) {
-         return;
-      }
-
-      $fleet = $item->getFleet();
-
-      if ($fleet !== null && $fleet->getField('is_default') == '0') {
-         $fleetId = $fleet->getID();
-
-         if (count($groups) == 0) {
-            $groups = $this->getGroupsOfAppliedPolicies($fleet);
-         }
-
-         $topic = $item->getTopic();
-         foreach ($groups as $groupName) {
-            // get policies with data, including not applied policies having a default value
-            $policiesToApply = $this->getGroupOfPolicies($groupName, $fleet);
-
-            // create tasks for the agents of the fleet
-            $agent = new PluginFlyvemdmAgent();
-            $rows = $agent->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
-            foreach ($rows as $row) {
-               $agent = new PluginFlyvemdmAgent();
-               if ($agent->getFromDB($row['id'])) {
-                  $this->createTaskStatus($agent, $policiesToApply);
-               }
-            }
-
-            // Build MQTT message for the group
-            try {
-               $groupToEncode = $this->buildMqttMessage($policiesToApply);
-            } catch (PolicyApplicationException $exception) {
-               Toolbox::logInFile('plugin_flyvemdm_communication',
-                  'Fleet (' . $fleet->getField('name') . '): ' . $exception->getMessage());
-               continue;
-            }
-
-            // convert message into JSON and send it
-            $encodedGroup = json_encode([$groupName => $groupToEncode], JSON_UNESCAPED_SLASHES);
-            $fleet->notify("$topic/$groupName", $encodedGroup, 0, 1);
-         }
       }
    }
 

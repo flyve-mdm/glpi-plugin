@@ -119,11 +119,12 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $log = new \PluginFlyvemdmMqttlog();
       $rows = $log->find('', '`date` DESC', '1');
       $row = array_pop($rows);
+      $mqttLogId = $row['id'];
 
       $policyName = $policy->getField('symbol');
 
       // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName");
+      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
 
       // check the message
       $receivedMqttMessage = json_decode($row['message'], JSON_OBJECT_AS_ARRAY);
@@ -146,6 +147,15 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $task->delete([
          'id' => $taskId,
       ], 1);
+
+      // CHeck a mqtt message is sent to remove the applied policy from MQTT
+      $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
+      $this->array($rows)->size->isEqualTo(1);
+      $row = array_pop($rows);
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
+      // check the message
+      $this->string($row['message'])->isEqualTo('');
 
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
