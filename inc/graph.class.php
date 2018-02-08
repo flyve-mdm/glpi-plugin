@@ -257,23 +257,34 @@ class PluginFlyvemdmGraph extends CommonDBTM
         INNER JOIN " . $FlyvemdmAgent . " AS f ON l.`items_id` = f.`id`
         WHERE l.`itemtype`='PluginFlyvemdmAgent' AND l.`id_search_option`='8' 
         ORDER BY agent_id ASC, online_date ASC";
-      $result = $DB->query($query);
-      if ($result && $DB->numrows($result) > 0) {
-         $currentId = $currentDate = null;
-         while ($row = $DB->fetch_assoc($result)) {
-            list($date, $time) = explode(' ', $row['online_date']);
-            //$domain[] = $date;
-            //$serie[] = strtotime($time);
-            if ($currentId != $row['agent_id']) {
-               $currentId = $row['agent_id'];
-               $range[$currentId]['name'] = $row['agent_name'] . ' (ID:' . $currentId . ')';
-               $range[$currentId]['data'] = [];
-            }
-            $jsTime = strtotime($row['online_date']) * 1000;
-            $range[$currentId]['data'][] = "{x:$jsTime, y:$jsTime}";
+      $request = [
+         'FIELDS' => [$logTable => ['new_value'], $FlyvemdmAgent => ['id', 'name']],
+         'FROM' => $logTable,
+         'INNER JOIN' => [
+            $FlyvemdmAgent => [
+               'FKEY' => [
+                  $FlyvemdmAgent => 'id',
+                  $logTable      => 'items_id',
+               ],
+            ],
+         ],
+         'WHERE' => ['itemtype' => 'PluginFlyvemdmAgent', 'id_search_option' => 8],
+         'ORDER' => ['id ASC', 'new_value ASC'],
+      ];
+      $currentId = $currentDate = null;
+      foreach ($DB->request($request) as $data) {
+         list($date, $time) = explode(' ', $data['new_value']);
+         //$domain[] = $date;
+         //$serie[] = strtotime($time);
+         if ($currentId != $data['id']) {
+            $currentId = $data['id'];
+            $range[$currentId]['name'] = $data['name'] . ' (ID:' . $currentId . ')';
+            $range[$currentId]['data'] = [];
          }
-         //$domain = array_unique($domain);
+         $jsTime = strtotime($data['new_value']) * 1000;
+         $range[$currentId]['data'][] = "{x:$jsTime, y:$jsTime}";
       }
+      //$domain = array_unique($domain);
 
       $out = $this->displayLineGraph(
          __('Online Agents', 'flyvemdm'),
