@@ -50,7 +50,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
       PluginFlyvemdmInvitationlog::$rightname   => READ,
       PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-      PluginFlyvemdmTask::$rightname            => READ,
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
@@ -303,4 +302,97 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
                 SET `symbol` = 'maximumTimeToLock'
                 WHERE `symbol`='MaximumTimeToLock'";
    $DB->query($query);
+
+   // change MQTT topics tree layout : remove leading slash
+   $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+   $request = [
+      'FIELDS' => [
+         'glpi_plugin_flyvemdm_agents' => ['entities_id'],
+         'glpi_computers' => ['serial'],
+      ],
+      'FROM'   => 'glpi_plugin_flyvemdm_agents',
+      'INNER JOIN' => [
+         'glpi_computers' => ['FKEY' => [
+            'glpi_plugin_flyvemdm_agents' => 'computers_id',
+            'glpi_computers' => 'id'
+         ]]
+      ],
+      'WHERE'  => ['lock' => ['<>' => '0']]
+   ];
+   $mqttMessage = ['lock' => 'now'];
+   $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+   foreach ($DB->request($request) as $row) {
+      $topic = implode('/', [
+         $row['entities_id'],
+         'agent',
+         $row['serial'],
+         'Command',
+         'Lock',
+      ]);
+      $mqttClient->publish($topic, $mqttMessage, 0, 1);
+      $mqttClient->publish('/' . $topic, null, 0, 1);
+   }
+
+   // re-use previous request array
+   $request['WHERE'] = ['wipe' => ['<>' => '0']];
+   $mqttMessage = ['wipe' => 'now'];
+   $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+   foreach ($DB->request($request) as $row) {
+      $topic = implode('/', [
+         $row['entities_id'],
+         'agent',
+         $row['serial'],
+         'Command',
+         'Wipe',
+      ]);
+      $mqttClient->publish($topic, $mqttMessage, 0, 1);
+      $mqttClient->publish('/' . $topic, null, 0, 1);
+   }
+
+   $request['WHERE'] = ['enroll_status' => ['=' => 'unenrolling']];
+   $mqttMessage = ['unenroll' => 'now'];
+   $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+   foreach ($DB->request($request) as $row) {
+      $topic = implode('/', [
+         $row['entities_id'],
+         'agent',
+         $row['serial'],
+         'Command',
+         'Unenroll',
+      ]);
+      $mqttClient->publish($topic, $mqttMessage, 0, 1);
+      $mqttClient->publish('/' . $topic, null, 0, 1);
+   }
+
+   $request = [
+      'FIELDS' => [
+         'glpi_plugin_flyvemdm_tasks' => ['id', 'plugin_flyvemdm_fleets_id'],
+         'glpi_plugin_flyvemdm_policies' => ['symbol'],
+         'glpi_plugin_flyvemdm_fleets' => ['entities_id']
+      ],
+      'FROM'   => 'glpi_plugin_flyvemdm_tasks',
+      'INNER JOIN' => [
+         'glpi_plugin_flyvemdm_policies' => [
+            'FKEY' => [
+               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_policies_id', 'glpi_plugin_flyvemdm_policies' => 'id'
+            ]
+         ],
+         'glpi_plugin_flyvemdm_fleets' => [
+            'FKEY' => [
+               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_fleets_id', 'glpi_plugin_flyvemdm_fleets' => 'id'
+            ]
+         ]
+      ]
+   ];
+   foreach ($DB->request($request) as $row) {
+      $topic = implode('/', [
+         $row['entities_id'],
+         'fleet',
+         $row['plugin_flyvemdm_fleets_id'],
+         'Policy',
+         $row['symbol'],
+      ]);
+      $mqttClient->publish("$topic/Task/" . $row['id'], json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+      $mqttClient->publish('/' . $topic, null, 0, 1);
+   }
 }

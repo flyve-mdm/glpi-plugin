@@ -295,7 +295,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          return null;
       }
 
-      return '/' . $this->fields['entities_id'] . '/fleet/' . $this->fields['id'];
+      return $this->fields['entities_id'] . '/fleet/' . $this->fields['id'];
    }
 
    /**
