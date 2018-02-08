@@ -38,8 +38,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    15%
-                                            <small>of 27</small>
+                    14%
+                                            <small>of 28</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -77,6 +77,13 @@ layout: coverage
                                         <td style="text-align: center">2</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getFromDBByPath">PluginFlyvemdmWellknownpath::getFromDBByPath()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -676,7 +683,7 @@ layout: coverage
                     <th id="L74" class="number ">74</th>
 
                     <td class="" >
-                        <pre>    * @return array
+                        <pre>    * Get an item from by path
 </pre>
                     </td>
                 </tr>
@@ -684,26 +691,49 @@ layout: coverage
                     <th id="L75" class="number ">75</th>
 
                     <td class="" >
+                        <pre>    * @param string $path
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L76" class="number ">76</th>
+
+                    <td class="" >
+                        <pre>    * @return boolean
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L77" class="number ">77</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getSearchOptionsNew">
-                    <th id="L76" class="number ">76</th>
+                            <tr class="line" id="getFromDBByPath">
+                    <th id="L78" class="number ">78</th>
 
-                    <td class="" id="getSearchOptionsNew">
-                        <pre>   public function getSearchOptionsNew() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="getFromDBByPath">
+                        <pre>   public function getFromDBByPath($path) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L77" class="number uncovered">77</th>
+                    <th id="L79" class="number uncovered">79</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab = parent::getSearchOptionsNew();</pre>
+                        <pre>      return $this-&gt;getFromDBByQuery(&quot;WHERE `name`=&#039;$path&#039;&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L78" class="number ">78</th>
+                    <th id="L80" class="number unreach">80</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L81" class="number ">81</th>
 
                     <td class="" >
                         <pre>
@@ -711,31 +741,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L79" class="number uncovered">79</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[0] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L80" class="number uncovered">80</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L81" class="number uncovered">81</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039; =&gt; __(&#039;Well known path&#039;, &#039;flyvemdm&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L82" class="number ">82</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -743,58 +752,59 @@ layout: coverage
                     <th id="L83" class="number ">83</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @return array
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L84" class="number uncovered">84</th>
+                    <th id="L84" class="number ">84</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" >
+                        <pre>    */
+</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L85" class="number uncovered">85</th>
+                            <tr class="line" id="getSearchOptionsNew">
+                    <th id="L85" class="number ">85</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                    <td class="" id="getSearchOptionsNew">
+                        <pre>   public function getSearchOptionsNew() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L86" class="number uncovered">86</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>      $tab = parent::getSearchOptionsNew();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L87" class="number uncovered">87</th>
+                    <th id="L87" class="number ">87</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L88" class="number uncovered">88</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
+                        <pre>      $tab[0] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number ">89</th>
+                    <th id="L89" class="number uncovered">89</th>
 
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L90" class="number uncovered">90</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
+                        <pre>         &#039;name&#039; =&gt; __(&#039;Well known path&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -824,7 +834,7 @@ layout: coverage
                     <th id="L94" class="number uncovered">94</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -838,14 +848,14 @@ layout: coverage
                     <th id="L96" class="number uncovered">96</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;comment&#039;,</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L97" class="number uncovered">97</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;comment&#039;),</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -860,7 +870,7 @@ layout: coverage
                     <th id="L99" class="number uncovered">99</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;text&#039;,</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -890,7 +900,7 @@ layout: coverage
                     <th id="L103" class="number uncovered">103</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -904,14 +914,14 @@ layout: coverage
                     <th id="L105" class="number uncovered">105</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;is_default&#039;,</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;comment&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L106" class="number uncovered">106</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;default&#039;),</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;comment&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -926,7 +936,7 @@ layout: coverage
                     <th id="L108" class="number uncovered">108</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;bool&#039;,</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;text&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -949,18 +959,84 @@ layout: coverage
                     <th id="L111" class="number uncovered">111</th>
 
                     <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L112" class="number uncovered">112</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L113" class="number uncovered">113</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L114" class="number uncovered">114</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;is_default&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L115" class="number uncovered">115</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;default&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L116" class="number ">116</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L117" class="number uncovered">117</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;bool&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L118" class="number ">118</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L119" class="number ">119</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L120" class="number uncovered">120</th>
+
+                    <td class="uncovered" >
                         <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L112" class="number unreach">112</th>
+                    <th id="L121" class="number unreach">121</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L113" class="number ">113</th>
+                    <th id="L122" class="number ">122</th>
 
                     <td class="" >
                         <pre>}

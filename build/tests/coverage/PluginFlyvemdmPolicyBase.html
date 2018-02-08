@@ -38,8 +38,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    20%
-                                            <small>of 20</small>
+                    10%
+                                            <small>of 41</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -103,6 +103,13 @@ layout: coverage
             <tr>
             <td><a href="#getPolicyData">PluginFlyvemdmPolicyBase::getPolicyData()</a></td>
                                         <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#formGenerator">PluginFlyvemdmPolicyBase::formGenerator()</a></td>
+                                        <td style="text-align: center">21</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -1570,7 +1577,7 @@ layout: coverage
                     <th id="L181" class="number ">181</th>
 
                     <td class="" >
-                        <pre>    * @return string
+                        <pre>    * @param string $value value of the task
 </pre>
                     </td>
                 </tr>
@@ -1578,44 +1585,46 @@ layout: coverage
                     <th id="L182" class="number ">182</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>    * @param string $itemType type of the item linked to the task
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="showValueInput">
+                            <tr class="line" id="">
                     <th id="L183" class="number ">183</th>
 
-                    <td class="" id="showValueInput">
-                        <pre>   public function showValueInput() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * @param integer $itemId ID of the item
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L184" class="number uncovered">184</th>
+                    <th id="L184" class="number ">184</th>
 
-                    <td class="uncovered" >
-                        <pre>      $html = &#039;&lt;input name=&quot;value&quot; value=&quot;&quot; &gt;&#039;;</pre>
+                    <td class="" >
+                        <pre>    * @return string
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L185" class="number ">185</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L186" class="number uncovered">186</th>
+                            <tr class="line" id="showValueInput">
+                    <th id="L186" class="number ">186</th>
 
-                    <td class="uncovered" >
-                        <pre>      return $html;</pre>
+                    <td class="" id="showValueInput">
+                        <pre>   public function showValueInput($value = &#039;&#039;, $itemType = &#039;&#039;, $itemId = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L187" class="number unreach">187</th>
+                    <th id="L187" class="number uncovered">187</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="uncovered" >
+                        <pre>      $html = &#039;&lt;input name=&quot;value&quot; value=&quot;&#039; . $value . &#039;&quot; &gt;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1627,26 +1636,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L189" class="number ">189</th>
+                    <th id="L189" class="number uncovered">189</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $html;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L190" class="number ">190</th>
+                    <th id="L190" class="number unreach">190</th>
 
-                    <td class="" >
-                        <pre>    * @param PluginFlyvemdmTask $task
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L191" class="number ">191</th>
 
                     <td class="" >
-                        <pre>    * @return mixed
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -1654,118 +1661,20 @@ layout: coverage
                     <th id="L192" class="number ">192</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="showValue">
+                            <tr class="line" id="">
                     <th id="L193" class="number ">193</th>
 
-                    <td class="" id="showValue">
-                        <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L194" class="number uncovered">194</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $task-&gt;getField(&#039;value&#039;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L195" class="number unreach">195</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L196" class="number ">196</th>
-
                     <td class="" >
-                        <pre>
+                        <pre>    * @param PluginFlyvemdmTask $task
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L197" class="number ">197</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L198" class="number ">198</th>
-
-                    <td class="" >
-                        <pre>    * @param array $input
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L199" class="number ">199</th>
-
-                    <td class="" >
-                        <pre>    * @return array
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L200" class="number ">200</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="preprocessFormData">
-                    <th id="L201" class="number ">201</th>
-
-                    <td class="" id="preprocessFormData">
-                        <pre>   public function preprocessFormData($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L202" class="number uncovered">202</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $input;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L203" class="number unreach">203</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L204" class="number ">204</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L205" class="number ">205</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L206" class="number ">206</th>
-
-                    <td class="" >
-                        <pre>    * @param $status
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L207" class="number ">207</th>
+                    <th id="L194" class="number ">194</th>
 
                     <td class="" >
                         <pre>    * @return mixed
@@ -1773,36 +1682,36 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L208" class="number ">208</th>
+                    <th id="L195" class="number ">195</th>
 
                     <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="filterStatus">
-                    <th id="L209" class="number ">209</th>
+                            <tr class="line" id="showValue">
+                    <th id="L196" class="number ">196</th>
 
-                    <td class="" id="filterStatus">
-                        <pre>   public function filterStatus($status) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="showValue">
+                        <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L210" class="number uncovered">210</th>
+                    <th id="L197" class="number uncovered">197</th>
 
                     <td class="uncovered" >
-                        <pre>      return $status;</pre>
+                        <pre>      return $task-&gt;getField(&#039;value&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L211" class="number unreach">211</th>
+                    <th id="L198" class="number unreach">198</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L212" class="number ">212</th>
+                    <th id="L199" class="number ">199</th>
 
                     <td class="" >
                         <pre>
@@ -1810,7 +1719,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L213" class="number ">213</th>
+                    <th id="L200" class="number ">200</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1818,7 +1727,129 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L214" class="number ">214</th>
+                    <th id="L201" class="number ">201</th>
+
+                    <td class="" >
+                        <pre>    * @param array $input
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L202" class="number ">202</th>
+
+                    <td class="" >
+                        <pre>    * @return array
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L203" class="number ">203</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="preprocessFormData">
+                    <th id="L204" class="number ">204</th>
+
+                    <td class="" id="preprocessFormData">
+                        <pre>   public function preprocessFormData($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L205" class="number uncovered">205</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L206" class="number unreach">206</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L207" class="number ">207</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L208" class="number ">208</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L209" class="number ">209</th>
+
+                    <td class="" >
+                        <pre>    * @param $status
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L210" class="number ">210</th>
+
+                    <td class="" >
+                        <pre>    * @return mixed
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L211" class="number ">211</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="filterStatus">
+                    <th id="L212" class="number ">212</th>
+
+                    <td class="" id="filterStatus">
+                        <pre>   public function filterStatus($status) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L213" class="number uncovered">213</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $status;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L214" class="number unreach">214</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L215" class="number ">215</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L216" class="number ">216</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L217" class="number ">217</th>
 
                     <td class="" >
                         <pre>    * @return PluginFlyvemdmPolicy
@@ -1826,7 +1857,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L215" class="number ">215</th>
+                    <th id="L218" class="number ">218</th>
 
                     <td class="" >
                         <pre>    */
@@ -1834,28 +1865,301 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getPolicyData">
-                    <th id="L216" class="number ">216</th>
+                    <th id="L219" class="number ">219</th>
 
                     <td class="" id="getPolicyData">
                         <pre>   public function getPolicyData() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L217" class="number uncovered">217</th>
+                    <th id="L220" class="number uncovered">220</th>
 
                     <td class="uncovered" >
                         <pre>      return $this-&gt;policyData;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L218" class="number unreach">218</th>
+                    <th id="L221" class="number unreach">221</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L219" class="number ">219</th>
+                    <th id="L222" class="number ">222</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L223" class="number ">223</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L224" class="number ">224</th>
+
+                    <td class="" >
+                        <pre>    * Generate the form for add or edit a policy
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L225" class="number ">225</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L226" class="number ">226</th>
+
+                    <td class="" >
+                        <pre>    * @param string $mode add or update
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L227" class="number ">227</th>
+
+                    <td class="" >
+                        <pre>    * @param array $_input values for update
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L228" class="number ">228</th>
+
+                    <td class="" >
+                        <pre>    * @return string html
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L229" class="number ">229</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="formGenerator">
+                    <th id="L230" class="number ">230</th>
+
+                    <td class="" id="formGenerator">
+                        <pre>   public function formGenerator(<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L231" class="number ">231</th>
+
+                    <td class="" >
+                        <pre>      $mode = &#039;add&#039;,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L232" class="number ">232</th>
+
+                    <td class="" >
+                        <pre>      array $_input = []
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L233" class="number ">233</th>
+
+                    <td class="" >
+                        <pre>   ) {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L234" class="number uncovered">234</th>
+
+                    <td class="uncovered" >
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L235" class="number uncovered">235</th>
+
+                    <td class="uncovered" >
+                        <pre>      $value = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L236" class="number uncovered">236</th>
+
+                    <td class="uncovered" >
+                        <pre>      $itemtype = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L237" class="number uncovered">237</th>
+
+                    <td class="uncovered" >
+                        <pre>      $itemId = 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L238" class="number uncovered">238</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!$task-&gt;isNewID($_input[&#039;task&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L239" class="number uncovered">239</th>
+
+                    <td class="uncovered" >
+                        <pre>         $task-&gt;getFromDB($_input[&#039;task&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L240" class="number uncovered">240</th>
+
+                    <td class="uncovered" >
+                        <pre>         $value = $task-&gt;getField(&#039;value&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L241" class="number uncovered">241</th>
+
+                    <td class="uncovered" >
+                        <pre>         $itemtype = $task-&gt;getField(&#039;itemtype&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L242" class="number uncovered">242</th>
+
+                    <td class="uncovered" >
+                        <pre>         $itemId = $task-&gt;getField(&#039;items_id&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L243" class="number ">243</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L244" class="number uncovered">244</th>
+
+                    <td class="uncovered" >
+                        <pre>      $form[&#039;mode&#039;] = $mode;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L245" class="number uncovered">245</th>
+
+                    <td class="uncovered" >
+                        <pre>      $form[&#039;input&#039;] = $this-&gt;showValueInput($value, $itemtype, $itemId);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L246" class="number uncovered">246</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($mode == &quot;update&quot;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L247" class="number uncovered">247</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;url&#039;] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L248" class="number uncovered">248</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;rand&#039;] = mt_rand();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L249" class="number uncovered">249</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;taskId&#039;] = $_input[&#039;task&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L250" class="number uncovered">250</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;policyId&#039;] = $_input[&#039;policyId&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L251" class="number uncovered">251</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;fleetId&#039;] = $_input[&#039;fleet&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L252" class="number uncovered">252</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;_csrf&#039;] = (GLPI_USE_CSRF_CHECK) ? Html::hidden(&#039;_glpi_csrf_token&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L253" class="number uncovered">253</th>
+
+                    <td class="uncovered" >
+                        <pre>            [&#039;value&#039; =&gt; Session::getNewCSRFToken()]) : &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L254" class="number ">254</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L255" class="number uncovered">255</th>
+
+                    <td class="uncovered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L256" class="number uncovered">256</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $twig-&gt;render(&#039;policy_form.html&#039;, [&#039;form&#039; =&gt; $form]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L257" class="number unreach">257</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L258" class="number ">258</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L259" class="number ">259</th>
 
                     <td class="" >
                         <pre>}

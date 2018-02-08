@@ -38,8 +38,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    58%
-                                            <small>of 117</small>
+                    50%
+                                            <small>of 137</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -102,7 +102,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#showValueInput">PluginFlyvemdmPolicyDeployfile::showValueInput()</a></td>
-                                        <td style="text-align: center">11</td>
+                                        <td style="text-align: center">31</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -2000,7 +2000,7 @@ layout: coverage
                     <th id="L247" class="number ">247</th>
 
                     <td class="" >
-                        <pre>    * @return string|void
+                        <pre>    * @param string $value
 </pre>
                     </td>
                 </tr>
@@ -2008,329 +2008,92 @@ layout: coverage
                     <th id="L248" class="number ">248</th>
 
                     <td class="" >
+                        <pre>    * @param string $itemType
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L249" class="number ">249</th>
+
+                    <td class="" >
+                        <pre>    * @param int $itemId
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L250" class="number ">250</th>
+
+                    <td class="" >
+                        <pre>    * @return string|void
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L251" class="number ">251</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="showValueInput">
-                    <th id="L249" class="number ">249</th>
-
-                    <td class="" id="showValueInput">
-                        <pre>   public function showValueInput() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L250" class="number uncovered">250</th>
-
-                    <td class="uncovered" >
-                        <pre>      $out = PluginFlyvemdmFile::dropdown([</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L251" class="number uncovered">251</th>
-
-                    <td class="uncovered" >
-                        <pre>            &#039;display&#039;      =&gt; false,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L252" class="number ">252</th>
 
-                    <td class="" >
-                        <pre>            &#039;name&#039;         =&gt; &#039;items_id&#039;,
-</pre>
+                    <td class="" id="showValueInput">
+                        <pre>   public function showValueInput($value = &#039;&#039;, $itemType = &#039;&#039;, $itemId = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L253" class="number ">253</th>
+                    <th id="L253" class="number uncovered">253</th>
 
-                    <td class="" >
-                        <pre>      ]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $itemtype = PluginFlyvemdmFile::class;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L254" class="number uncovered">254</th>
 
                     <td class="uncovered" >
-                        <pre>      $out .= &#039;&lt;input type=&quot;hidden&quot; name=&quot;itemtype&quot; value=&quot;PluginFlyvemdmFile&quot; /&gt;&#039;;</pre>
+                        <pre>      if ($value !== &#039;&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L255" class="number uncovered">255</th>
 
                     <td class="uncovered" >
-                        <pre>      $out .= &#039;&lt;br&gt;&#039;;</pre>
+                        <pre>         $value = json_decode($value, JSON_OBJECT_AS_ARRAY);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L256" class="number uncovered">256</th>
 
                     <td class="uncovered" >
-                        <pre>      $out .= __(&#039;copy to&#039;, &#039;flyvemdm&#039;);</pre>
+                        <pre>         $removeOnDelete = $value[&#039;remove_on_delete&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L257" class="number uncovered">257</th>
 
                     <td class="uncovered" >
-                        <pre>      $out .= &#039;&lt;br&gt;&#039;;</pre>
+                        <pre>         $cut = strpos($value[&#039;destination&#039;], &#039;/&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L258" class="number uncovered">258</th>
 
                     <td class="uncovered" >
-                        <pre>      $out .= PluginFlyvemdmWellknownpath::dropdown([</pre>
+                        <pre>         if ($cut === 0 || $cut === false) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L259" class="number uncovered">259</th>
 
                     <td class="uncovered" >
-                        <pre>            &#039;display&#039;      =&gt; false,</pre>
+                        <pre>            $cut = strlen($value[&#039;destination&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L260" class="number ">260</th>
-
-                    <td class="" >
-                        <pre>            &#039;name&#039;         =&gt; &#039;destination_base&#039;,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L261" class="number ">261</th>
-
-                    <td class="" >
-                        <pre>      ]);
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L262" class="number uncovered">262</th>
-
-                    <td class="uncovered" >
-                        <pre>      $out .= &#039;&lt;input type=&quot;text&quot; name=&quot;value[destination]&quot; value=&quot;&quot; /&gt;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L263" class="number uncovered">263</th>
-
-                    <td class="uncovered" >
-                        <pre>      $out .= &#039;&lt;input type=&quot;hidden&quot; name=&quot;value[remove_on_delete]&quot; value=&quot;1&quot; /&gt;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L264" class="number ">264</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L265" class="number uncovered">265</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $out;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L266" class="number unreach">266</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L267" class="number ">267</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L268" class="number ">268</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L269" class="number ">269</th>
-
-                    <td class="" >
-                        <pre>    * @param PluginFlyvemdmTask $task
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L270" class="number ">270</th>
-
-                    <td class="" >
-                        <pre>    * @return string
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L271" class="number ">271</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="showValue">
-                    <th id="L272" class="number ">272</th>
-
-                    <td class="" id="showValue">
-                        <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L273" class="number uncovered">273</th>
-
-                    <td class="uncovered" >
-                        <pre>      $file = new PluginFlyvemdmFile();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L274" class="number uncovered">274</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($file-&gt;getFromDB($task-&gt;getField(&#039;items_id&#039;))) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L275" class="number uncovered">275</th>
-
-                    <td class="uncovered" >
-                        <pre>         $path = json_decode($task-&gt;getField(&#039;value&#039;), JSON_OBJECT_AS_ARRAY);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L276" class="number uncovered">276</th>
-
-                    <td class="uncovered" >
-                        <pre>         $path = $path[&#039;destination&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L277" class="number uncovered">277</th>
-
-                    <td class="uncovered" >
-                        <pre>         $name  = $file-&gt;getField(&#039;name&#039;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L278" class="number uncovered">278</th>
-
-                    <td class="uncovered" >
-                        <pre>         return &quot;$path/$name&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L279" class="number ">279</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L280" class="number uncovered">280</th>
-
-                    <td class="uncovered" >
-                        <pre>      return NOT_AVAILABLE;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L281" class="number unreach">281</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L282" class="number ">282</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L283" class="number ">283</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L284" class="number ">284</th>
-
-                    <td class="" >
-                        <pre>    * @param array $input
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L285" class="number ">285</th>
-
-                    <td class="" >
-                        <pre>    * @return array
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L286" class="number ">286</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="preprocessFormData">
-                    <th id="L287" class="number ">287</th>
-
-                    <td class="" id="preprocessFormData">
-                        <pre>   public function preprocessFormData($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L288" class="number uncovered">288</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (isset($input[&#039;destination_base&#039;]) &amp;&amp; isset($input[&#039;value&#039;][&#039;destination&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L289" class="number uncovered">289</th>
-
-                    <td class="uncovered" >
-                        <pre>         $basePath = new PluginFlyvemdmWellknownpath();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L290" class="number uncovered">290</th>
-
-                    <td class="uncovered" >
-                        <pre>         if ($basePath-&gt;getFromDB(intval($input[&#039;destination_base&#039;]))) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L291" class="number uncovered">291</th>
-
-                    <td class="uncovered" >
-                        <pre>            $input[&#039;value&#039;][&#039;destination&#039;] = $basePath-&gt;getField(&#039;name&#039;) . $input[&#039;value&#039;][&#039;destination&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L292" class="number ">292</th>
 
                     <td class="" >
                         <pre>         }
@@ -2338,7 +2101,50 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L293" class="number ">293</th>
+                    <th id="L261" class="number uncovered">261</th>
+
+                    <td class="uncovered" >
+                        <pre>         $destination = substr($value[&#039;destination&#039;], $cut);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L262" class="number uncovered">262</th>
+
+                    <td class="uncovered" >
+                        <pre>         $destination_base = substr($value[&#039;destination&#039;], 0, $cut);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L263" class="number ">263</th>
+
+                    <td class="" >
+                        <pre>      } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L264" class="number uncovered">264</th>
+
+                    <td class="uncovered" >
+                        <pre>         $removeOnDelete = 1;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L265" class="number uncovered">265</th>
+
+                    <td class="uncovered" >
+                        <pre>         $destination_base = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L266" class="number uncovered">266</th>
+
+                    <td class="uncovered" >
+                        <pre>         $destination = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L267" class="number ">267</th>
 
                     <td class="" >
                         <pre>      }
@@ -2346,7 +2152,157 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L294" class="number ">294</th>
+                    <th id="L268" class="number uncovered">268</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out = PluginFlyvemdmFile::dropdown([</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L269" class="number uncovered">269</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;display&#039;   =&gt; false,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L270" class="number uncovered">270</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;      =&gt; &#039;items_id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L271" class="number uncovered">271</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;value&#039;     =&gt; $itemId,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L272" class="number ">272</th>
+
+                    <td class="" >
+                        <pre>      ]);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L273" class="number uncovered">273</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &#039;&lt;br&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L274" class="number uncovered">274</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= __(&#039;copy to&#039;, &#039;flyvemdm&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L275" class="number uncovered">275</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &#039;&lt;br&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L276" class="number uncovered">276</th>
+
+                    <td class="uncovered" >
+                        <pre>      $path = new PluginFlyvemdmWellknownpath();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L277" class="number uncovered">277</th>
+
+                    <td class="uncovered" >
+                        <pre>      $path-&gt;getFromDBByPath($destination_base);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L278" class="number uncovered">278</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= PluginFlyvemdmWellknownpath::dropdown([</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L279" class="number uncovered">279</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;display&#039;   =&gt; false,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L280" class="number uncovered">280</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;      =&gt; &#039;destination_base&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L281" class="number uncovered">281</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;value&#039;     =&gt; $path-&gt;getID(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L282" class="number ">282</th>
+
+                    <td class="" >
+                        <pre>      ]);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L283" class="number uncovered">283</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &#039;&lt;input type=&quot;text&quot; name=&quot;value[destination]&quot; value=&quot;&#039; . $destination . &#039;&quot; /&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L284" class="number uncovered">284</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &#039;&lt;br&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L285" class="number uncovered">285</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= __(&#039;Remove when the policy is removed&#039;, &#039;flyvemdm&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L286" class="number uncovered">286</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &quot;&amp;nbsp;&amp;nbsp;&quot; . Dropdown::showYesNo(&#039;value[remove_on_delete]&#039;, $removeOnDelete, -1, [&#039;display&#039; =&gt; false]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L287" class="number ">287</th>
+
+                    <td class="" >
+                        <pre>      //$out .= &#039;&lt;input type=&quot;hidden&quot; name=&quot;value[remove_on_delete]&quot; value=&quot;&#039; . $removeOnDelete . &#039;&quot; /&gt;&#039;;
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L288" class="number uncovered">288</th>
+
+                    <td class="uncovered" >
+                        <pre>      $out .= &#039;&lt;input type=&quot;hidden&quot; name=&quot;itemtype&quot; value=&quot;&#039; . $itemtype . &#039;&quot; /&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L289" class="number ">289</th>
 
                     <td class="" >
                         <pre>
@@ -2354,21 +2310,245 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L295" class="number uncovered">295</th>
+                    <th id="L290" class="number uncovered">290</th>
 
                     <td class="uncovered" >
-                        <pre>      return $input;</pre>
+                        <pre>      return $out;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L296" class="number unreach">296</th>
+                    <th id="L291" class="number unreach">291</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L292" class="number ">292</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L293" class="number ">293</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L294" class="number ">294</th>
+
+                    <td class="" >
+                        <pre>    * @param PluginFlyvemdmTask $task
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L295" class="number ">295</th>
+
+                    <td class="" >
+                        <pre>    * @return string
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L296" class="number ">296</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="showValue">
                     <th id="L297" class="number ">297</th>
+
+                    <td class="" id="showValue">
+                        <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L298" class="number uncovered">298</th>
+
+                    <td class="uncovered" >
+                        <pre>      $file = new PluginFlyvemdmFile();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L299" class="number uncovered">299</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($file-&gt;getFromDB($task-&gt;getField(&#039;items_id&#039;))) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L300" class="number uncovered">300</th>
+
+                    <td class="uncovered" >
+                        <pre>         $path = json_decode($task-&gt;getField(&#039;value&#039;), JSON_OBJECT_AS_ARRAY);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L301" class="number uncovered">301</th>
+
+                    <td class="uncovered" >
+                        <pre>         $path = $path[&#039;destination&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L302" class="number uncovered">302</th>
+
+                    <td class="uncovered" >
+                        <pre>         $name  = $file-&gt;getField(&#039;name&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L303" class="number uncovered">303</th>
+
+                    <td class="uncovered" >
+                        <pre>         return &quot;$path/$name&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L304" class="number ">304</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L305" class="number uncovered">305</th>
+
+                    <td class="uncovered" >
+                        <pre>      return NOT_AVAILABLE;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L306" class="number unreach">306</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L307" class="number ">307</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L308" class="number ">308</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L309" class="number ">309</th>
+
+                    <td class="" >
+                        <pre>    * @param array $input
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L310" class="number ">310</th>
+
+                    <td class="" >
+                        <pre>    * @return array
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L311" class="number ">311</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="preprocessFormData">
+                    <th id="L312" class="number ">312</th>
+
+                    <td class="" id="preprocessFormData">
+                        <pre>   public function preprocessFormData($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L313" class="number uncovered">313</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (isset($input[&#039;destination_base&#039;]) &amp;&amp; isset($input[&#039;value&#039;][&#039;destination&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L314" class="number uncovered">314</th>
+
+                    <td class="uncovered" >
+                        <pre>         $basePath = new PluginFlyvemdmWellknownpath();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L315" class="number uncovered">315</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ($basePath-&gt;getFromDB(intval($input[&#039;destination_base&#039;]))) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L316" class="number uncovered">316</th>
+
+                    <td class="uncovered" >
+                        <pre>            $input[&#039;value&#039;][&#039;destination&#039;] = $basePath-&gt;getField(&#039;name&#039;) . $input[&#039;value&#039;][&#039;destination&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L317" class="number ">317</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L318" class="number ">318</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L319" class="number ">319</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L320" class="number uncovered">320</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L321" class="number unreach">321</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L322" class="number ">322</th>
 
                     <td class="" >
                         <pre>}
