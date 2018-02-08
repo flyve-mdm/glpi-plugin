@@ -32,16 +32,33 @@
 // Ensure current directory when run from crontab
 chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 
-if (isset($argv[1])) {
-   if ($argv[1] == '--tests') {
-      echo "running in  testing environment" . PHP_EOL;
-      define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-      define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
-   }
+include (__DIR__ . "/../vendor/docopt/docopt/src/docopt.php");
+
+$doc = <<<DOC
+cli_install.php
+
+Usage:
+   cli_install.php [ --tests ] [ --debug ]
+
+Options:
+   --tests              Use GLPI test database
+   --debug              Verbose mode for debug (dumps all messages)
+
+DOC;
+
+$docopt = new \Docopt\Handler();
+$args = $docopt->handle($doc);
+if (isset($args['--tests']) && $args['--tests'] !== false) {
+   echo "running in  testing environment" . PHP_EOL;
+   define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
+   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
 }
 
 include (__DIR__ . '/../../../inc/includes.php');
 
+if (isset($args['--debug']) && $args['--debug'] !== false) {
+   \sskaje\mqtt\Debug::Enable();
+}
 $mqttLogger = PluginFlyvemdmMqttclient::getInstance();
 $mqttLogger->setHandler(PluginFlyvemdmMqtthandler::getInstance());
 $mqttLogger->subscribe();
