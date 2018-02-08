@@ -220,9 +220,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($testedInstance->canViewItem())->isFalse();
    }
 
+   /**
+    * @engine inline
+    */
    public function testGetTopicsToCleanup() {
-      $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
-
       $expected = [
          // Commands
          'Command/Subscribe',
@@ -243,8 +244,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'Policy/passwordMinNumeric',
          'Policy/passwordMinSymbols',
          'Policy/passwordMinUpperCase',
-         'Policy/MaximumFailedPasswordsForWipe',
-         'Policy/MaximumTimeToLock',
+         'Policy/maximumFailedPasswordsForWipe',
+         'Policy/maximumTimeToLock',
          'Policy/storageEncryption',
          'Policy/disableCamera',
          'Policy/deployApp',
@@ -277,7 +278,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'Policy/inventoryFrequency',
        ];
 
+      $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
       $this->array($topics)->size->isEqualTo(count($expected));
-      $this->array($topics)->containsValues($expected);
+      $this->array($topics)->containsValues(
+         $expected,
+         "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+      );
    }
 }
