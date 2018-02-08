@@ -649,7 +649,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('"`direction` = 'O'"', '`date` DESC', '1');
+      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
       $row = array_pop($rows);
 
       // check the topic of the message
@@ -1012,7 +1012,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->array($received)->hasSize(count(array_values($expected)));
 
       foreach ($received as $aMessage) {
-         $this->string($aMessage['direction'])->isEqualTo('I');
          $this->array($expected)->hasKey($aMessage['topic']);
          $this->array($expected)->contains($aMessage['message']);
       }
