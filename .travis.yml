@@ -25,8 +25,7 @@ allow_failures:
   - php: nightly
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y mosquitto
+  - "./tests/before_install.sh"
       
 before_script:
 - "./tests/before_script.sh"
