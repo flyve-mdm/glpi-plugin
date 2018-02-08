@@ -903,7 +903,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             $serial = $computer->getField('serial');
             if (strlen($serial)) {
                $entity = $this->getField('entities_id');
-               $this->topic = "/$entity/agent/$serial";
+               $this->topic = "$entity/agent/$serial";
             }
          }
       }
@@ -921,10 +921,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       $mqttPath = explode('/', $topic);
-      if (isset($mqttPath[3])) {
-         if ($mqttPath[2] == 'agent') {
+      if (isset($mqttPath[2])) {
+         if ($mqttPath[1] == 'agent') {
             $entity = intval($mqttPath[1]);
-            $serial = $DB->escape($mqttPath[3]);
+            $serial = $DB->escape($mqttPath[2]);
             if (strlen($serial)) {
                $computerTable = Computer::getTable();
                $agentTable = self::getTable();

@@ -117,21 +117,21 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $message = $publish_object->getMessage();
       $this->log->saveIngoingMqttMessage($topic, $message);
 
-      $mqttPath = explode('/', $topic, 5);
-      if (isset($mqttPath[4])) {
-         if ($mqttPath[4] == "Status/Ping" && $message == "!") {
+      $mqttPath = explode('/', $topic, 4);
+      if (isset($mqttPath[3])) {
+         if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[4] == "Status/Geolocation"  && $message != "?") {
+         } else if ($mqttPath[3] == "Status/Geolocation"  && $message != "?") {
             $this->saveGeolocationPosition($topic, $message);
-         } else if ($mqttPath[4] == "Status/Unenroll") {
+         } else if ($mqttPath[3] == "Status/Unenroll") {
             $this->deleteAgent($topic, $message);
-         } else if ($mqttPath[4] == "Status/Inventory") {
+         } else if ($mqttPath[3] == "Status/Inventory") {
             $this->updateInventory($topic, $message);
-         } else if ($mqttPath[4] == "Status/Online") {
+         } else if ($mqttPath[3] == "Status/Online") {
             $this->updateOnlineStatus($topic, $message);
-         } else if ($mqttPath[4] == "Status/Task") {
+         } else if ($mqttPath[3] == "Status/Task") {
             $this->updateTaskStatus($topic, $message);
-         } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
+         } else if ($mqttPath[3] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
             if ($topic == '/FlyvemdmManifest/Status/Version') {
@@ -203,7 +203,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
             }
          }
 
-         $this->updateLastContact($topic, $message);
+         $this->updateLastContact($topic, '!');
       }
    }
 
@@ -216,6 +216,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateLastContact($topic, $message) {
+      if ($message !== '!') {
+         return;
+      }
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
 
@@ -280,7 +283,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
             }
          }
 
-         $this->updateLastContact($topic, $message);
+         $this->updateLastContact($topic, '!');
       }
    }
 
@@ -324,7 +327,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
                $taskStatus->updateStatus($policy, $status);
             }
 
-            $this->updateLastContact($topic, $message);
+            $this->updateLastContact($topic, '!');
          }
       }
    }
@@ -355,7 +358,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
                'is_online' => $status,
          ]);
 
-         $this->updateLastContact($topic, $message);
+         $this->updateLastContact($topic, '!');
       }
    }
 }
