@@ -50,6 +50,9 @@ if (!file_exists(GLPI_CONFIG_DIR . '/config_db.php')) {
 }
 define('GLPI_LOG_DIR', __DIR__ . '/logs');
 @mkdir(GLPI_LOG_DIR);
+if (!defined('STDERR')) {
+   define('STDERR', fopen(GLPI_LOG_DIR . 'stderr.log', 'w'));
+}
 
 // Giving --debug argument to atoum will be detected by GLPI too
 // the error handler in Toolbox may output to stdout a message and break process communication

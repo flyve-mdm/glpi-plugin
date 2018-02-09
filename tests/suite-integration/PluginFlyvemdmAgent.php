@@ -36,7 +36,6 @@ use Glpi\Test\CommonTestCase;
 
 /**
  * TODO: testDeviceCountLimit should go to Entity unit test, remove inline engine when change that.
- * @engine inline
  */
 class PluginFlyvemdmAgent extends CommonTestCase {
 
