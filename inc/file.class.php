@@ -143,6 +143,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $input['name'] = $actualFilename;
       }
 
+      if (!isset($input['comment']) || empty($input['comment'])) {
+         $input['comment'] = '';
+      }
+
       // File added, then this is the first version
       $input['version'] = '1';
 
@@ -158,7 +162,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
          // from GLPI UI
          $actualFilename = $_POST['_file'][0];
-         $uploadedFile = GLPI_TMP_DIR."/".$_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR . "/" . $_POST['_file'][0];
       } else {
          // from API
          if (isset($_FILES['file']['error'])) {
@@ -168,28 +172,24 @@ class PluginFlyvemdmFile extends CommonDBTM {
                }
                return false;
             }
-
             $destination = GLPI_TMP_DIR . '/' . $_FILES['file']['name'];
             if (is_readable($_FILES['file']['tmp_name']) && !is_readable($destination)) {
                // Move the file to GLPI_TMP_DIR
                if (!is_dir(GLPI_TMP_DIR)) {
-                  Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
+                  Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false,
+                     ERROR);
                   return false;
                }
-
                // With GLPI < 9.2, the file was not moved by the API
                if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
                   return false;
                }
             }
-
             $actualFilename = $_FILES['file']['name'];
             $uploadedFile = $destination;
          }
       }
-
       unset($input['entities_id']);
-
       if (isset($uploadedFile)) {
          // A file has been uploaded
          if (!isset($actualFilename)) {
@@ -202,7 +202,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
          if (!rename($uploadedFile, $destination)) {
             if (!is_writable(dirname($destination))) {
                $destination = dirname($destination);
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
+               Toolbox::logInFile('php-errors',
+                  "Plugin Flyvemdm : Directory '$destination' is not writeable");
             }
             return false;
          }
@@ -213,10 +214,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
          // No file uploaded
          unset($input['source']);
       }
-
       // File updated, then increment its version
       $input['version'] = $this->fields['version']++;
-
       return $input;
    }
 
@@ -279,7 +278,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
       $tab[] = [
          'id'                 => 'common',
-         'name'               => __s('File', 'flyvemdm')
+         'name'               => __s('File', 'flyvemdm'),
       ];
 
       $tab[] = [
@@ -307,6 +306,14 @@ class PluginFlyvemdmFile extends CommonDBTM {
          'name'               => __('Source'),
          'datatype'           => 'string',
          'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('Comment'),
+         'datetype'           => 'text',
       ];
 
       return $tab;
@@ -503,6 +510,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
             'isNewID'      => $this->isNewID($ID),
             'file'         => $fields,
             'upload'       => Html::file(['name' => 'file', 'display' => false]),
+            'comment'      => $fields['comment'],
       ];
       echo $twig->render('file.html', $data);
 

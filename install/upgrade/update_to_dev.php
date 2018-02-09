@@ -197,6 +197,19 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $table = 'glpi_plugin_flyvemdm_files';
    $migration->addKey($table, 'entities_id', 'entities_id');
+   $migration->addField($table, 'comment', 'text');
+
+   // Add display preferences for PluginFlyvemdmFile
+   $query = "SELECT * FROM `glpi_displaypreferences`
+   WHERE `itemtype` = 'PluginFlyvemdmFile'
+      AND `users_id`='0'";
+   $result=$DB->query($query);
+   if ($DB->numrows($result) == '0') {
+      $query = "INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`, `users_id`)
+                VALUES (NULL, 'PluginFlyvemdmFile', '1', '1', '0'),
+                (NULL, 'PluginFlyvemdmFile', '4', '2', '0');";
+      $DB->query($query);
+   }
 
    $table = 'glpi_plugin_flyvemdm_fleets';
    $migration->addField($table, 'is_recursive', 'bool');

@@ -1,13 +1,28 @@
 <tr class='tab_bg_1'>
    <td>
-      {{ __('Name') }}{{ withTemplate }} 
+      {{ __('Name') }}{{ withTemplate }}
    </td>
    <td>
       <input type="text" name="name" value="{{ file.name }}">
    </td>
    <td></td>
-   <td></td>
+   <td>
+  </td>
 </tr>
+
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Comment') }}{{ withTemplate }}
+   </td>
+   <td>
+      <textarea cols="45" rows="5"  name="comment">{{ comment }}</textarea>
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+</tr>
+
 <tr class='tab_bg_1'>
    <td>
       {{ __('Version') }} 
