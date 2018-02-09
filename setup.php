@@ -271,7 +271,7 @@ function plugin_flyvemdm_getTemplateEngine() {
    $loader = new Twig_Loader_Filesystem(__DIR__ . '/tpl');
    $twig =  new Twig_Environment($loader, [
          'cache'        => FLYVEMDM_TEMPLATE_CACHE_PATH,
-         'auto_reload'  => ($_SESSION['glpi_use_mode'] == 2),
+         'auto_reload'  => ($_SESSION['glpi_use_mode'] == Session::DEBUG_MODE),
    ]);
    $twig->addExtension(new GlpiLocalesExtension());
    return $twig;
