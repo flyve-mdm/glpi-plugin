@@ -1,0 +1,234 @@
+<table class="tab_cadre_fixe" cellpadding="5">
+	<tbody>
+		{% if step == -1 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Installation wizard',
+				'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td class="center" colspan="2">{{ __('Wizard complete', 'flyvemdm') }}<br>
+			</td>
+		</tr>
+		<tr class="tab_bg_1">
+			<td colspan="2">
+				<p>{{ __('Wizard complete', 'flyvemdm') }}</p>
+				<p>{{ __('This wizard will no longer be accessible.', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 1 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Installation wizard', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td class="center" colspan="2">{{ __('Requirements', 'flyvemdm') }}<br>
+			</td>
+		</tr>
+		<tr class="tab_bg_1">
+			<td colspan="2">
+				<p>{{ __('To setup Flyve MDM please connect to your server with a command line interface. Some operations require a root access.', 'flyvemdm') }}</p>
+				<p>{{ __('This wizard will guide you through the steps to setup Flyve MDM.', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 100 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Cron Job', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires cron job to run automatic actions.', 'flyvemdm') }}</p>
+				<p>{{ __('As root in a terminal, execute the following command. Adapt www-data to the user running your HTTP server.', 'flyvemdm') }}</p>
+				<p>{{ __('crontab -e -u www-data', 'flyvemdm') }}</p>
+				<p>{{ __('Add, if missing, the following line. Adapt path to php CLI binary and path to GLPI:', 'flyvemdm') }}</p>
+				<p>*/1 * * * * /usr/bin/php /var/www/html/glpi/front/cron.php &amp;>/dev/null</p>
+				<p>{{ __('Automatic actions registered in the scheduler of GLPI will run every minute.', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 101 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Email notifications', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires email notifications. The following link will open a new tab to the email notifications settings.', 'flyvemdm') }}</p>
+				<p><a href="../../../front/notificationmailingsetting.form.php" target="_blank">{{ __('Email notifications', 'flyvemdm' )}}</a></p>
+				<p>{{ __('The queuednotification must have set Run mode to CLI. This action will be triggered by the cron job. The following link will open a new tab to the Automatic actions list','flyvemdm') }}</p>
+				<p><a href="../../../front/crontask.php" target="_blank">{{ __('Automatic actions', 'flyvemdm' )}}</a></p>
+				<p>{{ __('Ensure the cron job is properly configure by checking the log glpi/files/_log/cron.log. The entry should contain the word External','flyvemdm') }}</p>
+				<p><textarea disabled="" rows="6" cols="80">External #1: Launch queuednotification
+2016-12-21 10:22:02 [@my-server]
+</textarea></p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 102 %}
+		<tr>
+			<th colspan="3" class="">{{ __('REST API', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires REST API enabled. The following link will open a new tab to the REST API settings.', 'flyvemdm') }}</p>
+				<p>{{ __('Make sure the following settings are enabled:', 'flyvemdm') }}</p>
+				<p>{{ __('- Rest API', 'flyvemdm') }}</p>
+				<p>{{ __('- Login with credentials', 'flyvemdm') }}</p>
+				<p>{{ __('- Login with external token', 'flyvemdm') }}</p>
+				<p>{{ __('- Add an API client leaving empty IPv4 address range, IPv6 address and application token.', 'flyvemdm') }}</p>
+				<p><a href="../../../front/config.form.php?forcetab=Config$8" target="_blank">{{ __('API', 'flyvemdm' )}}</a></p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 103 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Server Configuration', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure php.ini allows reasonable upload sizes.', 'flyvemdm') }}</p>
+				<p>{{ __('For example:', 'flyvemdm' )}}</p>
+				<p><textarea disabled="" rows="12" cols="80">; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; http://php.net/post-max-size
+post_max_size = 8M
+					
+; Whether to allow HTTP file uploads.
+; http://php.net/file-uploads
+file_uploads = On
+					
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 8M
+</textarea></p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 104 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Fusion Inventory Configuration', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('For FusionInventory greater than 9.1 + 1.1:', 'flyvemdm') }}</p>
+				<p>{{ __('It is required to desactivate the Computer constraint (name) rule in the Equipment import and link rules menu.', 'flyvemdm') }}</p>
+				<p>{{ __('The following link will open a new tab to the Rules section of FusionInventory ', 'flyvemdm') }}</p>
+				<p><a href="../../../plugins/fusioninventory/front/inventoryruleimport.php" target="_blank">{{ __('Rules', 'flyvemdm' )}}</a></p>
+				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 105 %}
+		<tr>
+			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires that Mosquitto has access to the database of GLPI, this is for the authentication process of its clients.', 'flyvemdm') }}</p>
+				<p>{{ __('It is recommended to create a dedicated user for Mosquitto allowed to connect only from its specific IP.', 'flyvemdm') }}</p>
+				<p>{{ __('Run the following command on your MySQL host, and adapt the mqtt.server.ip', 'flyvemdm') }}</p>
+				<p>mysql -e "CREATE USER 'mosquitto'@'mqtt.server.ip' IDENTIFIED BY 'password';"</p>
+				<p>{{ __('This user should be able to only SELECT the following tables:', 'flyvemdm') }}</p>
+				<p>- glpi_plugin_flyvemdm_mqttusers</p>
+				<p>- glpi_plugin_flyvemdm_mqttacls</p>
+				<p>{{ __('Run the following commands on your MySQL host, and adapt the name of the database and the mqtt.server.ip', 'flyvemdm') }}</p>
+				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttusers TO 'mosquitto'@'mqtt.server.ip';"</p>
+				<p>mysql -e "GRANT SELECT ON glpi.glpi_plugin_flyvemdm_mqttacls TO 'mosquitto'@'mqtt.server.ip';"</p>
+				<p>{{ __('Create the file', 'flyvemdm') }}/etc/mysql/conf.d/flyvemdm.cnf</p>
+				<p>{{ __('Insert the following content, and adapt the bind address to the interface used by Mosquitto to connect to your DBMS.', 'flyvemdm') }}</p>
+				<p><textarea disabled="" rows="6" cols="80">[mysqld]
+bind-address = 0.0.0.0
+</textarea></p>
+				<p>{{ __('Restart your DBMS daemon and check it listens to the expected interface.', 'flyvemdm') }}</p>
+				<p>netstat -taupen | grep 3306</p>
+				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('The following command will ask for the password you choosed earlier', 'flyvemdm') }}</p>
+				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-flyvemdm-92\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 106 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires a Message queue server.', 'flyvemdm') }}</p>
+				<p>{{ __('Prefer a dedicated server or VM for running Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('As root in a terminal, execute the following command', 'flyvemdm') }}</p>
+				<p>apt-get install mosquitto mosquitto-auth-plug</p>
+				<p>{{ __('Create', 'flyvemdm') }}&nbsp;/etc/mosquitto/conf.d/flyvemdm.conf
+				   {{ __('Add the following content, adapting your DBMS credentials:', 'flyvemdm') }}</p>
+				<p><textarea disabled="" rows="12" cols="80">allow_anonymous false
+
+auth_plugin /usr/local/lib/libmosquitto-auth-plug.so
+auth_opt_backends mysql
+auth_opt_host backend-server-ip-or-fqdn
+auth_opt_port 3306
+auth_opt_user database-user
+auth_opt_dbname glpi
+auth_opt_pass StrongPassword
+auth_opt_userquery SELECT password FROM glpi_plugin_flyvemdm_mqttusers WHERE user='%s' AND enabled='1'
+auth_opt_aclquery SELECT topic FROM glpi_plugin_flyvemdm_mqttacls a LEFT JOIN glpi_plugin_flyvemdm_mqttusers u ON (a.plugin_flyvemdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
+auth_opt_cacheseconds 300</textarea></p>
+			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 107 %}
+		<tr>
+			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('TLS provides security to the communication, through authentication of server and client, besides data encryption.', 'flyvemdm') }}</p>
+				<p>{{ __('Use TLS version 1.2, lower versions are no longer considered safe.', 'flyvemdm') }}</p>
+				<p>{{ __('Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe).', 'flyvemdm') }}</p>
+				<p>{{ __('- Copy in /etc/mosquitto/certs your certificate, your certificate authority chain and private key.', 'flyvemdm') }}</p>
+				<p>{{ __('- Secure your private key', 'flyvemdm') }}</p>
+				<p>chmod 600 /etc/mosquitto/certs/private-key.key</p>
+				<p>chown mosquitto:root /etc/mosquitto/certs/private-key.key</p>
+				<p>{{ __('- Refresh hash and symlinks to your certificates', 'flyvemdm') }}</p>
+				<p>c_rehash /etc/mosquitto/certs</p>
+				<p>{{ __('Use a certificate signed by a certified authority or you may have trouble with the android devices, using them with custom certification authorities might not work (not tested).', 'flyvemdm') }}</p>
+				<p>{{ __('Append the following to /etc/mosquitto/conf.d/flyvemdm.conf.', 'flyvemdm') }}</p>
+				<p><textarea disabled="" rows="12" cols="120">listener 8883
+	
+cafile /etc/mosquitto/certs/cachain.pem
+certfile /etc/mosquitto/certs/cachain.pem
+keyfile /etc/mosquitto/certs/private-key.key
+tls_version tlsv1.2
+ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-ECDSA-RC4-SHA:AES128:AES256:HIGH:!RC4:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK
+				</textarea></p>
+				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
+				<p>{{ __('- Test you can successfully connect to Mosquitto', 'flyvemdm') }}</p>
+				<p>mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
+				<p>{{ __('- Check the ports that Mosquitto listens. You should see only the port 8883.', 'flyvemdm') }}</p>
+				<p>netstat -taupen | grep mosquitto</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 108 %}
+		<tr>
+			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('Flyve MDM requires to connect to Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('For SYSV systems, link the init script in /etc/init.d/', 'flyvemdm') }}</p>
+				<p>ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm</p>
+				<p>{{ __('Check the user configured in the script and adapt it if needed.', 'flyvemdm') }}</p>
+				<p>update-rc.d flyvemdm defaults</p>
+				<p>service flyvemdm start</p>
+			</td>
+		</tr>
+		{% endif %}
+		<tr class="tab_bg_1">
+			<td class="center" colspan="2">
+				<input type="hidden" name="id" value="1" class="submit">
+				<input type="hidden" name="config_context" value="flyvemdm">
+				<input type="hidden" name="config_class" value="PluginFlyvemdmConfig">
+				{% if step > 1 or step == -1 %}
+				<input type="submit" name="back" value="{{ __('Back', 'flyvemdm') }}" class="submit">
+				&nbsp;&nbsp;
+				{% endif %}
+				<input type="submit" name="update" value="{{ update }}" class="submit">
+			</td>
+		</tr>
+		<tr class="tab_bg_1">
+			<td class="right" colspan="2">
+			{{ __('Wizard page:','flyvemdm') }}&nbsp;{{ step }}
+			</td>
+		</tr>
+	</tbody>
+</table>

@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -244,23 +244,48 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
+    * @param string $value
+    * @param string $itemType
+    * @param int $itemId
     * @return string|void
     */
-   public function showValueInput() {
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
+      $itemtype = PluginFlyvemdmFile::class;
+      if ($value !== '') {
+         $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+         $removeOnDelete = $value['remove_on_delete'];
+         $cut = strpos($value['destination'], '/');
+         if ($cut === 0 || $cut === false) {
+            $cut = strlen($value['destination']);
+         }
+         $destination = substr($value['destination'], $cut);
+         $destination_base = substr($value['destination'], 0, $cut);
+      } else {
+         $removeOnDelete = 1;
+         $destination_base = '';
+         $destination = '';
+      }
       $out = PluginFlyvemdmFile::dropdown([
-            'display'      => false,
-            'name'         => 'items_id',
+         'display'   => false,
+         'name'      => 'items_id',
+         'value'     => $itemId,
       ]);
-      $out .= '<input type="hidden" name="itemtype" value="PluginFlyvemdmFile" />';
       $out .= '<br>';
       $out .= __('copy to', 'flyvemdm');
       $out .= '<br>';
+      $path = new PluginFlyvemdmWellknownpath();
+      $path->getFromDBByPath($destination_base);
       $out .= PluginFlyvemdmWellknownpath::dropdown([
-            'display'      => false,
-            'name'         => 'destination_base',
+         'display'   => false,
+         'name'      => 'destination_base',
+         'value'     => $path->getID(),
       ]);
-      $out .= '<input type="text" name="value[destination]" value="" />';
-      $out .= '<input type="hidden" name="value[remove_on_delete]" value="1" />';
+      $out .= '<input type="text" name="value[destination]" value="' . $destination . '" />';
+      $out .= '<br>';
+      $out .= __('Remove when the policy is removed', 'flyvemdm');
+      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
+      //$out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
+      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
       return $out;
    }

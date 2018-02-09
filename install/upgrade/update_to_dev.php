@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -22,7 +22,7 @@
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
  * @author    the flyvemdm plugin team
- * @copyright Copyright © 2017 Teclib
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -50,11 +50,13 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
       PluginFlyvemdmInvitationlog::$rightname   => READ,
       PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+      PluginFlyvemdmTask::$rightname            => READ,
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
    Config::setConfigurationValues('flyvemdm', [
       'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+      'show_wizard'       => '0',
    ]);
 
    // Update configuration
@@ -111,6 +113,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'computers_id', 'computers_id');
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
+   $migration->changeField($table, 'wipe', 'wipe', 'bool');
+   $migration->changeField($table, 'lock', 'lock', 'bool');
 
    $enumMdmType = PluginFlyvemdmAgent::getEnumMdmType();
    $currentEnumMdmType = PluginFlyvemdmCommon::getEnumValues($table, 'mdm_type');
@@ -182,8 +186,12 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed') NOT NULL DEFAULT 'pending'",
       ['after' => 'dl_filename', 'default' => 'pending']);
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
+   $migration->changeField($table, 'name', 'package_name', 'string');
+   $migration->migrationOneTable($table);
+   $migration->addField($table, 'name', 'string', ['after' => 'id']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
+   $migration->addPostQuery("UPDATE `$table` SET `name` = `package_name`");
 
    $result = $DB->request(['FROM' => $table, 'LIMIT' => '1']);
    if ($result->count() > 0) {
@@ -243,6 +251,19 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addKey($table, 'documents_id', 'documents_id');
 
+   // drop Mqtt Update queue
+   $cronTask = new CronTask();
+   $cronTask->deleteByCriteria(['itemtype' => 'PluginFlyvemdmMqttupdatequeue']);
    $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
-   $migration->dropKey($table, 'status');
+   $migration->dropTable($table);
+
+   // Fix PascalCase symbols
+   $query = "UPDATE `glpi_plugin_flyvemdm_policies`
+                SET `symbol` = 'maximumFailedPasswordsForWipe'
+                WHERE `symbol`='MaximumFailedPasswordsForWipe'";
+   $DB->query($query);
+   $query = "UPDATE `glpi_plugin_flyvemdm_policies`
+                SET `symbol` = 'maximumTimeToLock'
+                WHERE `symbol`='MaximumTimeToLock'";
+   $DB->query($query);
 }

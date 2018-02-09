@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -53,7 +53,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('MQTT subscriber', 'MQTT subscribers', $nb, "flyvemdm");
    }
 
@@ -85,7 +85,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    protected function saveMqttMessage($direction, $topicList, $msg) {
       global $DB;
 
-      if (! is_array($topicList)) {
+      if (!is_array($topicList)) {
          $topicList = [$topicList];
       }
       $msg = $DB->escape($msg);

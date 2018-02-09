@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmFile;
 
 class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
@@ -47,7 +46,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       // Create an application (directly in DB) because we are not uploading any file
       // Create an file (directly in DB)
       $fileName = 'flyve-user-manual-' . uniqid() . '.pdf';
-      $fileTable = PluginFlyvemdmFile::getTable();
+      $fileTable = \PluginFlyvemdmFile::getTable();
       $entityId = $this->defaultEntity;
       $query = "INSERT INTO $fileTable (
          `name`,
@@ -63,7 +62,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $file = new PluginFlyvemdmFile();
+      $file = new \PluginFlyvemdmFile();
       $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
@@ -193,7 +192,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
     */
    private function applyAddFilePolicy(
       \PluginFlyvemdmPolicy $policyData,
-      PluginFlyvemdmFile $file,
+      \PluginFlyvemdmFile $file,
       \PluginFlyvemdmFleet $fleet
    ) {
       $value = new \stdClass();

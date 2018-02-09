@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -34,15 +34,15 @@ $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
-Session::checkRight("flyvemdm:fleet", UPDATE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:fleet', UPDATE);
 
 if (!isset($_GET['id'])) {
-   $_GET["id"] = '';
+   $_GET['id'] = '';
 }
 
-if (!isset($_GET["withtemplate"])) {
-   $_GET["withtemplate"] = '';
+if (!isset($_GET['withtemplate'])) {
+   $_GET['withtemplate'] = '';
 }
 
 $task = new PluginFlyvemdmTask();
@@ -52,4 +52,12 @@ if (isset($_POST['add'])) {
    $task->add($_POST);
    Html::back();
 }
+
+if (isset($_POST['update'])) {
+   $task->check(-1, UPDATE, $_POST);
+   $_POST = $task->preprocessInput($_POST);
+   $task->update($_POST);
+   Html::back();
+}
+
 Html::back();

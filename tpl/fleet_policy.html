@@ -45,7 +45,15 @@
       <tr>
          <td>{% if canEdit %}{{ policy.checkbox|raw }}{% endif %}</td>
          <td>{{ policy.policyName }}</td>
-         <td>{{ policy.value }}</td>
+         <td>
+            {% if canEdit %}
+            <a href="#" onclick="editPolicy('{{ policy.plugin_flyvemdm_policies_id }}', '{{ policy.id }}'); return false;">
+               {{ policy.value }}
+            </a>
+            {% else %}
+            {{ policy.value }}
+            {% endif %}
+         </td>
       </tr>
       {% endfor %}
       <tr>
@@ -57,5 +65,36 @@
    </table>
    {% if canEdit %}
      {{ massiveActionForm.end|raw }}
+   <div id='policy_editor' align="center" class='invisible'>
+      <div>Update policy value:</div>
+      <div id="policy_editor_form"></div>
+   </div>
+      <script type="text/javascript">
+          $( document ).ready(function() {
+              $('#policy_editor').dialog({
+                  height: 'auto',
+                  width: 'auto',
+                  modal: true,
+                  autoOpen: false
+              });
+          });
+
+          function editPolicy($policyId, $taskId) {
+              $('#policy_editor').dialog('open');
+              $.ajax({
+                  url: '../ajax/policyValue.php',
+                  method: 'POST',
+                  data: {
+                      mode: 'update',
+                      fleet: '{{ fleet_policy.plugin_flyvemdm_fleets_id }}',
+                      task: $taskId,
+                      value: $policyId
+                  },
+                  success: function (response) {
+                      $('#policy_editor_form').html(response);
+                  }
+              });
+          }
+      </script>
    {% endif %}
 </div>

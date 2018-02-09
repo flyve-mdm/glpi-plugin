@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -47,24 +47,26 @@ class PluginFlyvemdmInstaller {
 
    // Order of this array is mandatory due tu dependancies on install and uninstall
    protected static $itemtypesToInstall = [
-         'mqttuser',                      // Must be before config because config creates a mqtt user for the plugin
-         'mqttacl',                       // Must be before config because config creates a mqtt ACL for the plugin
-         'config',
-         'entityconfig',
-         'mqttlog',
-         'agent',
-         'package',
-         'file',
-         'fleet',
-         'profile',
-         'notificationtargetinvitation',
-         'geolocation',
-         'policy',
-         'policycategory',
-         'fleet_policy',
-         'wellknownpath',
-         'invitation',
-         'invitationlog',
+      'mqttuser',
+      // Must be before config because config creates a mqtt user for the plugin
+      'mqttacl',
+      // Must be before config because config creates a mqtt ACL for the plugin
+      'config',
+      'entityconfig',
+      'mqttlog',
+      'agent',
+      'package',
+      'file',
+      'fleet',
+      'profile',
+      'notificationtargetinvitation',
+      'geolocation',
+      'policy',
+      'policycategory',
+      'fleet_policy',
+      'wellknownpath',
+      'invitation',
+      'invitationlog',
    ];
 
    protected static $currentVersion = null;
@@ -78,7 +80,8 @@ class PluginFlyvemdmInstaller {
     */
    public function autoload($classname) {
       // useful only for installer GLPI autoloader already handles inc/ folder
-      $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '', $classname)). '.class.php';
+      $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '',
+            $classname)) . '.class.php';
       if (is_readable($filename) && is_file($filename)) {
          include_once($filename);
          return true;
@@ -112,9 +115,12 @@ class PluginFlyvemdmInstaller {
             $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
             return false;
          }
+
          $this->createInitialConfig();
       } else {
-         if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev") || (version_compare(self::getCurrentVersion(), PLUGIN_FLYVEMDM_VERSION) != 0)) {
+         if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION,
+               "-dev") || (version_compare(self::getCurrentVersion(),
+                  PLUGIN_FLYVEMDM_VERSION) != 0)) {
             // TODO : Upgrade (or downgrade)
             $this->upgrade(self::getCurrentVersion());
          }
@@ -139,7 +145,7 @@ class PluginFlyvemdmInstaller {
 
    /**
     * Find a profile having the given comment, or create it
-    * @param string $name    Name of the profile
+    * @param string $name Name of the profile
     * @param string $comment Comment of the profile
     * @return integer profile ID
     */
@@ -165,24 +171,26 @@ class PluginFlyvemdmInstaller {
 
    public function createDirectories() {
       // Create directory for uploaded applications
-      if (! file_exists(FLYVEMDM_PACKAGE_PATH)) {
-         if (! mkdir(FLYVEMDM_PACKAGE_PATH, 0770, true)) {
+      if (!file_exists(FLYVEMDM_PACKAGE_PATH)) {
+         if (!mkdir(FLYVEMDM_PACKAGE_PATH, 0770, true)) {
             $this->migration->displayWarning("Cannot create " . FLYVEMDM_PACKAGE_PATH . " directory");
          } else {
-            if (! $htAccessHandler = fopen(FLYVEMDM_PACKAGE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
+            if (!$htAccessHandler = fopen(FLYVEMDM_PACKAGE_PATH . "/.htaccess", "w")) {
+               fwrite($htAccessHandler,
+                  "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in packages directory\n");
                fclose($htAccessHandler);
             }
          }
       }
 
       // Create directory for uploaded files
-      if (! file_exists(FLYVEMDM_FILE_PATH)) {
-         if (! mkdir(FLYVEMDM_FILE_PATH, 0770, true)) {
+      if (!file_exists(FLYVEMDM_FILE_PATH)) {
+         if (!mkdir(FLYVEMDM_FILE_PATH, 0770, true)) {
             $this->migration->displayWarning("Cannot create " . FLYVEMDM_FILE_PATH . " directory");
          } else {
-            if (! $htAccessHandler = fopen(FLYVEMDM_FILE_PATH . "/.htaccess", "w")) {
-               fwrite($htAccessHandler, "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
+            if (!$htAccessHandler = fopen(FLYVEMDM_FILE_PATH . "/.htaccess", "w")) {
+               fwrite($htAccessHandler,
+                  "allow from all\n") or $this->migration->displayWarning("Cannot create .htaccess file in files directory\n");
                fclose($htAccessHandler);
             }
          }
@@ -199,7 +207,7 @@ class PluginFlyvemdmInstaller {
     * @return null|string
     */
    public static function getCurrentVersion() {
-      if (self::$currentVersion === NULL) {
+      if (self::$currentVersion === null) {
          $config = \Config::getConfigurationValues("flyvemdm", ['version']);
          if (!isset($config['version'])) {
             self::$currentVersion = '';
@@ -213,14 +221,14 @@ class PluginFlyvemdmInstaller {
    protected function createRootEntityConfig() {
       $entityConfig = new PluginFlyvemdmEntityconfig();
       $entityConfig->getFromDBByCrit([
-         'entities_id' => '0'
+         'entities_id' => '0',
       ]);
       if ($entityConfig->isNewItem()) {
          $entityConfig->add([
-               'id'                 => '0',
-               'entities_id'        => '0',
-               'download_url'       => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
-               'agent_token_life'   => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
+            'id'               => '0',
+            'entities_id'      => '0',
+            'download_url'     => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+            'agent_token_life' => PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME,
          ]);
       }
    }
@@ -232,22 +240,22 @@ class PluginFlyvemdmInstaller {
       $profileRight = new ProfileRight();
 
       $newRights = [
-         PluginFlyvemdmProfile::$rightname         => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-         PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT,
-         PluginFlyvemdmAgent::$rightname           => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFleet::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmPackage::$rightname         => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmFile::$rightname            => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         PluginFlyvemdmPolicy::$rightname          => READ,
-         PluginFlyvemdmPolicyCategory::$rightname  => READ,
-         PluginFlyvemdmWellknownpath::$rightname   => ALLSTANDARDRIGHT,
-         PluginFlyvemdmEntityconfig::$rightname    => READ
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-                                                      | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-         PluginFlyvemdmInvitationLog::$rightname   => READ,
-         PluginFlyvemdmTaskstatus::$rightname      => READ,
+         PluginFlyvemdmProfile::$rightname        => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
+         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
+         PluginFlyvemdmAgent::$rightname          => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFleet::$rightname          => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFile::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmGeolocation::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmPolicy::$rightname         => READ,
+         PluginFlyvemdmPolicyCategory::$rightname => READ,
+         PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
+         PluginFlyvemdmEntityconfig::$rightname   => READ
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         PluginFlyvemdmInvitationLog::$rightname  => READ,
+         PluginFlyvemdmTaskstatus::$rightname     => READ,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -259,10 +267,10 @@ class PluginFlyvemdmInstaller {
       $fleet = new PluginFlyvemdmFleet();
       if (!$fleet->getFromDBByQuery("WHERE `is_default` = '1' AND `entities_id` = '0'")) {
          $fleet->add([
-               'name'         => __("not managed fleet", 'flyvemdm'),
-               'entities_id'  => '0',
-               'is_recursive' => '1',
-               'is_default'   => '1',
+            'name'         => __("not managed fleet", 'flyvemdm'),
+            'entities_id'  => '0',
+            'is_recursive' => '1',
+            'is_default'   => '1',
          ]);
       }
    }
@@ -273,15 +281,15 @@ class PluginFlyvemdmInstaller {
    protected function createGuestProfileAccess() {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
-            __("Flyve MDM guest users", "flyvemdm"),
-            __("guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
+         __("Flyve MDM guest users", "flyvemdm"),
+         __("guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
       );
       Config::setConfigurationValues('flyvemdm', ['guest_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
-         PluginFlyvemdmAgent::$rightname        => READ | CREATE,
-         PluginFlyvemdmFile::$rightname         => READ,
-         PluginFlyvemdmPackage::$rightname      => READ,
+         PluginFlyvemdmAgent::$rightname   => READ | CREATE,
+         PluginFlyvemdmFile::$rightname    => READ,
+         PluginFlyvemdmPackage::$rightname => READ,
       ]);
    }
 
@@ -291,9 +299,10 @@ class PluginFlyvemdmInstaller {
    protected function createAgentProfileAccess() {
       // create profile for guest users
       $profileId = self::getOrCreateProfile(
-            __("Flyve MDM device agent users", "flyvemdm"),
-            __("device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.", "flyvemdm")
-            );
+         __("Flyve MDM device agent users", "flyvemdm"),
+         __("device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this comment.",
+            "flyvemdm")
+      );
       Config::setConfigurationValues('flyvemdm', ['agent_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
@@ -316,23 +325,24 @@ class PluginFlyvemdmInstaller {
          // Import the policy category or find the existing one
          $category = new PluginFlyvemdmPolicyCategory();
          $categoryId = $category->import([
-            'completename' => $policyData['plugin_flyvemdm_policycategories_id']
+            'completename' => $policyData['plugin_flyvemdm_policycategories_id'],
          ]);
          $policyData['plugin_flyvemdm_policycategories_id'] = $categoryId;
 
          if (count($rows) == 0) {
             // Create only non existing policy objects
-            $policyData['type_data'] = json_encode($policyData['type_data'], JSON_UNESCAPED_SLASHES);
+            $policyData['type_data'] = json_encode($policyData['type_data'],
+               JSON_UNESCAPED_SLASHES);
             $policy->add($policyData);
          } else {
             // Update default value and recommended value for existing policy objects
             $policy2 = new PluginFlyvemdmPolicy();
             $policy2->getFromDBBySymbol($symbol);
             $policy2->update([
-               'id'                                   => $policy2->getID(),
-               'default_value'                        => $policyData['default_value'],
-               'recommended_value'                    => $policyData['recommended_value'],
-               'plugin_flyvemdm_policycategories_id'  => $categoryId
+               'id'                                  => $policy2->getID(),
+               'default_value'                       => $policyData['default_value'],
+               'recommended_value'                   => $policyData['recommended_value'],
+               'plugin_flyvemdm_policycategories_id' => $categoryId,
             ]);
          }
       }
@@ -347,11 +357,11 @@ class PluginFlyvemdmInstaller {
       Session::loadLanguage('en_GB');
 
       $notifications = [
-            PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => [
-                  'itemtype'        => PluginFlyvemdmInvitation::class,
-                  'name'            => __('User invitation', "flyvemdm"),
-                  'subject'         => __('You have been invited to join Flyve MDM', 'flyvemdm'),
-                  'content_text'    => __('Hi,
+         PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => [
+            'itemtype'     => PluginFlyvemdmInvitation::class,
+            'name'         => __('User invitation', "flyvemdm"),
+            'subject'      => __('You have been invited to join Flyve MDM', 'flyvemdm'),
+            'content_text' => __('Hi,
 
 ##user.firstname## ##user.realname## invited you to enroll your mobile device
 in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
@@ -375,7 +385,7 @@ following link or copy it to your browser.
 Regards,
 
 ', 'flyvemdm'),
-                  'content_html'    => __('Hi,
+            'content_html' => __('Hi,
 
 ##user.firstname## ##user.realname## invited you to enroll your mobile device
 in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
@@ -401,8 +411,8 @@ following link or copy it to your browser.
 
 Regards,
 
-', 'flyvemdm')
-            ]
+', 'flyvemdm'),
+         ],
       ];
 
       // Restore user's locale
@@ -424,9 +434,9 @@ Regards,
          if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
             // Add template
             $templateId = $template->add([
-                  'name'      => addcslashes($data['name'], "'\""),
-                  'comment'   => '',
-                  'itemtype'  => $itemtype,
+               'name'     => addcslashes($data['name'], "'\""),
+               'comment'  => '',
+               'itemtype' => $itemtype,
             ]);
 
             // Add default translation
@@ -436,34 +446,34 @@ Regards,
                $contentHtml = self::convertTextToHtml($data['content_html']);
             }
             $translation->add([
-                  'notificationtemplates_id' => $templateId,
-                  'language'                 => '',
-                  'subject'                  => addcslashes($data['subject'], "'\""),
-                  'content_text'             => addcslashes($data['content_text'], "'\""),
-                  'content_html'             => addcslashes(htmlentities($contentHtml), "'\""),
+               'notificationtemplates_id' => $templateId,
+               'language'                 => '',
+               'subject'                  => addcslashes($data['subject'], "'\""),
+               'content_text'             => addcslashes($data['content_text'], "'\""),
+               'content_html'             => addcslashes(htmlentities($contentHtml), "'\""),
             ]);
 
             // Create the notification
             $notificationId = $notification->add([
-                  'name'                     => addcslashes($data['name'], "'\""),
-                  'comment'                  => '',
-                  'entities_id'              => 0,
-                  'is_recursive'             => 1,
-                  'is_active'                => 1,
-                  'itemtype'                 => $itemtype,
-                  'event'                    => $event,
+               'name'         => addcslashes($data['name'], "'\""),
+               'comment'      => '',
+               'entities_id'  => 0,
+               'is_recursive' => 1,
+               'is_active'    => 1,
+               'itemtype'     => $itemtype,
+               'event'        => $event,
             ]);
 
             $notification_notificationTemplate->add([
-                  'notifications_id'         => $notificationId,
-                  'notificationtemplates_id' => $templateId,
-                  'mode'                     => Notification_NotificationTemplate::MODE_MAIL,
+               'notifications_id'         => $notificationId,
+               'notificationtemplates_id' => $templateId,
+               'mode'                     => Notification_NotificationTemplate::MODE_MAIL,
             ]);
 
             $notificationTarget->add([
-                  'items_id'           => Notification::USER,
-                  'type'               => Notification::USER_TYPE,
-                  'notifications_id'   => $notificationId
+               'items_id'         => Notification::USER,
+               'type'             => Notification::USER_TYPE,
+               'notifications_id' => $notificationId,
             ]);
 
          }
@@ -515,22 +525,17 @@ Regards,
          if (function_exists($updateFunction)) {
             $this->migration->addNewMessageArea("Upgrade to $toVersion");
             $updateFunction($this->migration);
+            $this->migration->executeMigration();
             $this->migration->displayMessage('Done');
          }
       }
    }
 
    protected function createJobs() {
-      CronTask::Register(PluginFlyvemdmMqttupdatequeue::class, 'UpdateTopics', MINUTE_TIMESTAMP,
-         [
-            'comment'   => __('Update retained MQTT topics for fleet policies', 'flyvemdm'),
-            'mode'      => CronTask::MODE_EXTERNAL
-         ]);
-
       CronTask::Register(PluginFlyvemdmPackage::class, 'ParseApplication', MINUTE_TIMESTAMP,
          [
-            'comment'   => __('Parse uploaded applications to collect metadata', 'flyvemdm'),
-            'mode'      => CronTask::MODE_EXTERNAL
+            'comment' => __('Parse uploaded applications to collect metadata', 'flyvemdm'),
+            'mode'    => CronTask::MODE_EXTERNAL,
          ]);
    }
 
@@ -553,7 +558,8 @@ Regards,
     */
    protected function endsWith($haystack, $needle) {
       // search forward starting from end minus needle length characters
-      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack,
+               $needle, $temp) !== false);
    }
 
    /**
@@ -608,36 +614,37 @@ Regards,
       $crypto_strong = null;
       $instanceId = base64_encode(openssl_random_pseudo_bytes(64, $crypto_strong));
       $newConfig = [
-         'mqtt_broker_address'            => '',
-         'mqtt_broker_internal_address'   => '127.0.0.1',
-         'mqtt_broker_port'               => '1883',
-         'mqtt_broker_tls_port'           => '8883',
-         'mqtt_tls_for_clients'           => '0',
-         'mqtt_tls_for_backend'           => '0',
-         'mqtt_use_client_cert'           => '0',
-         'mqtt_broker_tls_ciphers'        => self::DEFAULT_CIPHERS_LIST,
-         'mqtt_user'                      => self::BACKEND_MQTT_USER,
-         'mqtt_passwd'                    => $MdmMqttPassword,
-         'instance_id'                    => $instanceId,
-         'registered_profiles_id'         => '',
-         'guest_profiles_id'              => '',
-         'agent_profiles_id'              => '',
-         'service_profiles_id'            => '',
-         'debug_enrolment'                => '0',
-         'debug_noexpire'                 => '0',
-         'ssl_cert_url'                   => '',
-         'default_device_limit'           => '0',
-         'default_agent_url'              => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
-         'android_bugcollecctor_url'      => '',
-         'android_bugcollector_login'     => '',
-         'android_bugcollector_passwd'    => '',
-         'webapp_url'                     => '',
-         'demo_mode'                      => '0',
-         'demo_time_limit'                => '0',
-         'inactive_registered_profiles_id'=> '',
-         'computertypes_id'               => '0',
-         'agentusercategories_id'         => '0',
-         'invitation_deeplink'            => PLUGIN_FLYVEMDM_DEEPLINK
+         'mqtt_broker_address'             => '',
+         'mqtt_broker_internal_address'    => '127.0.0.1',
+         'mqtt_broker_port'                => '1883',
+         'mqtt_broker_tls_port'            => '8883',
+         'mqtt_tls_for_clients'            => '0',
+         'mqtt_tls_for_backend'            => '0',
+         'mqtt_use_client_cert'            => '0',
+         'mqtt_broker_tls_ciphers'         => self::DEFAULT_CIPHERS_LIST,
+         'mqtt_user'                       => self::BACKEND_MQTT_USER,
+         'mqtt_passwd'                     => $MdmMqttPassword,
+         'instance_id'                     => $instanceId,
+         'registered_profiles_id'          => '',
+         'guest_profiles_id'               => '',
+         'agent_profiles_id'               => '',
+         'service_profiles_id'             => '',
+         'debug_enrolment'                 => '0',
+         'debug_noexpire'                  => '0',
+         'ssl_cert_url'                    => '',
+         'default_device_limit'            => '0',
+         'default_agent_url'               => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+         'android_bugcollecctor_url'       => '',
+         'android_bugcollector_login'      => '',
+         'android_bugcollector_passwd'     => '',
+         'webapp_url'                      => '',
+         'demo_mode'                       => '0',
+         'demo_time_limit'                 => '0',
+         'inactive_registered_profiles_id' => '',
+         'computertypes_id'                => '0',
+         'agentusercategories_id'          => '0',
+         'invitation_deeplink'             => PLUGIN_FLYVEMDM_DEEPLINK,
+         'show_wizard'                     => PluginFlyvemdmConfig::WIZARD_WELCOME_BEGIN,
       ];
       Config::setConfigurationValues('flyvemdm', $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
@@ -657,14 +664,16 @@ Regards,
       // Check the MQTT user account for the plugin exists
       if (!$mqttUser->getFromDBByQuery("WHERE `user`='$MdmMqttUser'")) {
          // Create the MQTT user account for the plugin
-         if (! $mqttUser->add([
-               'user'            => $MdmMqttUser,
-               'password'        => $MdmMqttPassword,
-               'enabled'         => '1',
-               '_acl'            => [[
-                     'topic'           => '#',
-                     'access_level'    => PluginFlyvemdmMqttacl::MQTTACL_READ_WRITE
-               ]],
+         if (!$mqttUser->add([
+            'user'     => $MdmMqttUser,
+            'password' => $MdmMqttPassword,
+            'enabled'  => '1',
+            '_acl'     => [
+               [
+                  'topic'        => '#',
+                  'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ_WRITE,
+               ],
+            ],
          ])) {
             // Failed to create the account
             $this->migration->displayWarning('Unable to create the MQTT account for FlyveMDM : ' . $DB->error());
@@ -677,7 +686,8 @@ Regards,
             }
 
             // Save MQTT credentials in configuration
-            Config::setConfigurationValues("flyvemdm", ['mqtt_user'       => $MdmMqttUser, 'mqtt_passwd'     => $MdmMqttPassword]);
+            Config::setConfigurationValues("flyvemdm",
+               ['mqtt_user' => $MdmMqttUser, 'mqtt_passwd' => $MdmMqttPassword]);
          }
       }
    }
@@ -706,24 +716,24 @@ Regards,
       Session::loadLanguage('en_GB');
 
       $categories = [
-            [
-                  'name'                                 => __('Security', 'flyvemdm'),
-            ],
-            [
-                  'name'                                 => __('Authentication', 'flyvemdm'),
-            ],
-            [
-                  'name'                                 => __('Password', 'flyvemdm'),
-            ],
-            [
-                  'name'                                 => __('Encryption', 'flyvemdm'),
-            ],
-            [
-                  'name'                                 => __('Peripherals', 'flyvemdm'),
-            ],
-            [
-                  'name'                                 => __('Deployment', 'flyvemdm'),
-            ],
+         [
+            'name' => __('Security', 'flyvemdm'),
+         ],
+         [
+            'name' => __('Authentication', 'flyvemdm'),
+         ],
+         [
+            'name' => __('Password', 'flyvemdm'),
+         ],
+         [
+            'name' => __('Encryption', 'flyvemdm'),
+         ],
+         [
+            'name' => __('Peripherals', 'flyvemdm'),
+         ],
+         [
+            'name' => __('Deployment', 'flyvemdm'),
+         ],
       ];
 
       // Restore user's locale
@@ -748,672 +758,720 @@ Regards,
 
       $policies = [
          [
-            'name'                                 => __('Password enabled', 'flyvemdm'),
-            'symbol'                               => 'passwordEnabled',
-            'group'                                => 'policies',
-            'type'                                 => 'dropdown',
-            'type_data'                            => [
-               "PASSWORD_NONE"                  => __('No', 'flyvemdm'),
-               "PASSWORD_PIN"                   => __('Pin', 'flyvemdm'),
-               "PASSWORD_PASSWD"                => __('Password', 'flyvemdm')
+            'name'                                => __('Password enabled', 'flyvemdm'),
+            'symbol'                              => 'passwordEnabled',
+            'group'                               => 'policies',
+            'type'                                => 'dropdown',
+            'type_data'                           => [
+               "PASSWORD_NONE"   => __('No', 'flyvemdm'),
+               "PASSWORD_PIN"    => __('Pin', 'flyvemdm'),
+               "PASSWORD_PASSWD" => __('Password', 'flyvemdm'),
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Enable the password', 'flyvemdm'),
-            'default_value'                        => 'PASSWORD_NONE',
-            'recommended_value'                    => 'PASSWORD_PIN',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Enable the password', 'flyvemdm'),
+            'default_value'                       => 'PASSWORD_NONE',
+            'recommended_value'                   => 'PASSWORD_PIN',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum password length', 'flyvemdm'),
-            'symbol'                               => 'passwordMinLength',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum password length', 'flyvemdm'),
+            'symbol'                              => 'passwordMinLength',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Set the required number of characters for the password. For example, you can require PIN or passwords to have at least six characters', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '6',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Set the required number of characters for the password. For example, you can require PIN or passwords to have at least six characters',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '6',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Password quality', 'flyvemdm'),
-            'symbol'                               => 'passwordQuality',
-            'group'                                => 'policies',
-            'type'                                 => 'dropdown',
-            'type_data'                            => [
-               "PASSWORD_QUALITY_UNSPECIFIED"   => __('Unspecified', 'flyvemdm'),
-               "PASSWORD_QUALITY_SOMETHING"     => __('Something', 'flyvemdm'),
-               "PASSWORD_QUALITY_NUMERIC"       => __('Numeric', 'flyvemdm'),
-               "PASSWORD_QUALITY_ALPHABETIC"    => __('Alphabetic', 'flyvemdm'),
-               "PASSWORD_QUALITY_ALPHANUMERIC"  => __('Alphanumeric', 'flyvemdm'),
-               "PASSWORD_QUALITY_COMPLEX"       => __('Complex', 'flyvemdm')
+            'name'                                => __('Password quality', 'flyvemdm'),
+            'symbol'                              => 'passwordQuality',
+            'group'                               => 'policies',
+            'type'                                => 'dropdown',
+            'type_data'                           => [
+               "PASSWORD_QUALITY_UNSPECIFIED"  => __('Unspecified', 'flyvemdm'),
+               "PASSWORD_QUALITY_SOMETHING"    => __('Something', 'flyvemdm'),
+               "PASSWORD_QUALITY_NUMERIC"      => __('Numeric', 'flyvemdm'),
+               "PASSWORD_QUALITY_ALPHABETIC"   => __('Alphabetic', 'flyvemdm'),
+               "PASSWORD_QUALITY_ALPHANUMERIC" => __('Alphanumeric', 'flyvemdm'),
+               "PASSWORD_QUALITY_COMPLEX"      => __('Complex', 'flyvemdm'),
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Complexity of allowed password', 'flyvemdm'),
-            'default_value'                        => 'PASSWORD_QUALITY_UNSPECIFIED',
-            'recommended_value'                    => 'PASSWORD_QUALITY_UNSPECIFIED',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Complexity of allowed password',
+               'flyvemdm'),
+            'default_value'                       => 'PASSWORD_QUALITY_UNSPECIFIED',
+            'recommended_value'                   => 'PASSWORD_QUALITY_UNSPECIFIED',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum letters required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinLetters',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum letters required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinLetters',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of letters required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of letters required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum lowercase letters required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinLowerCase',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum lowercase letters required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinLowerCase',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of lowercase letters required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '1',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of lowercase letters required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '1',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum non-letter characters required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinNonLetter',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum non-letter characters required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinNonLetter',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of non-letter characters required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of non-letter characters required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum numerical digits required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinNumeric',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum numerical digits required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinNumeric',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of numerical digits required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '1',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of numerical digits required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '1',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum symbols required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinSymbols',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum symbols required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinSymbols',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of symbols required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of symbols required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Minimum uppercase letters required in password', 'flyvemdm'),
-            'symbol'                               => 'passwordMinUpperCase',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Minimum uppercase letters required in password',
+               'flyvemdm'),
+            'symbol'                              => 'passwordMinUpperCase',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('The minimum number of uppercase letters required in the password for all admins or a particular one', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '1',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('The minimum number of uppercase letters required in the password for all admins or a particular one',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '1',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Maximum failed password attemps for wipe', 'flyvemdm'),
-            'symbol'                               => 'MaximumFailedPasswordsForWipe',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Maximum failed password attemps for wipe',
+               'flyvemdm'),
+            'symbol'                              => 'maximumFailedPasswordsForWipe',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Number of consecutive failed attemps of unlock the device to wipe', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '5',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Number of consecutive failed attemps of unlock the device to wipe',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '5',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Maximum time to lock (milliseconds)', 'flyvemdm'),
-            'symbol'                               => 'MaximumTimeToLock',
-            'group'                                => 'policies',
-            'type'                                 => 'int',
-            'type_data'                            => [
-               "min"                            => 0,
+            'name'                                => __('Maximum time to lock (milliseconds)',
+               'flyvemdm'),
+            'symbol'                              => 'maximumTimeToLock',
+            'group'                               => 'policies',
+            'type'                                => 'int',
+            'type_data'                           => [
+               "min" => 0,
             ],
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Maximum time to lock the device in milliseconds', 'flyvemdm'),
-            'default_value'                        => '60000',
-            'recommended_value'                    => '60000',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Maximum time to lock the device in milliseconds',
+               'flyvemdm'),
+            'default_value'                       => '60000',
+            'recommended_value'                   => '60000',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Internal Storage encryption', 'flyvemdm'),
-            'symbol'                               => 'storageEncryption',
-            'group'                                => 'encryption',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Encryption',
-            'comment'                              => __('Force internal storage encryption', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Internal Storage encryption', 'flyvemdm'),
+            'symbol'                              => 'storageEncryption',
+            'group'                               => 'encryption',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Encryption',
+            'comment'                             => __('Force internal storage encryption',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable Camera', 'flyvemdm'),
-            'symbol'                               => 'disableCamera',
-            'group'                                => 'camera',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Prevent usage of the Camera', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable Camera', 'flyvemdm'),
+            'symbol'                              => 'disableCamera',
+            'group'                               => 'camera',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Prevent usage of the Camera', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Deploy application', 'flyvemdm'),
-            'symbol'                               => 'deployApp',
-            'group'                                => 'application',
-            'type'                                 => 'deployapp',
-            'type_data'                            => '',
-            'unicity'                              => 0,
-            'plugin_flyvemdm_policycategories_id'  => 'Deployment',
-            'comment'                              => __('Deploy an application on the device', 'flyvemdm'),
-            'default_value'                        => '',
-            'recommended_value'                    => '',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Deploy application', 'flyvemdm'),
+            'symbol'                              => 'deployApp',
+            'group'                               => 'application',
+            'type'                                => 'deployapp',
+            'type_data'                           => '',
+            'unicity'                             => 0,
+            'plugin_flyvemdm_policycategories_id' => 'Deployment',
+            'comment'                             => __('Deploy an application on the device',
+               'flyvemdm'),
+            'default_value'                       => '',
+            'recommended_value'                   => '',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Remove application', 'flyvemdm'),
-            'symbol'                               => 'removeApp',
-            'group'                                => 'application',
-            'type'                                 => 'removeapp',
-            'type_data'                            => '',
-            'unicity'                              => 0,
-            'plugin_flyvemdm_policycategories_id'  => 'Deployment',
-            'comment'                              => __('Uninstall an application on the device', 'flyvemdm'),
-            'default_value'                        => '',
-            'recommended_value'                    => '',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Remove application', 'flyvemdm'),
+            'symbol'                              => 'removeApp',
+            'group'                               => 'application',
+            'type'                                => 'removeapp',
+            'type_data'                           => '',
+            'unicity'                             => 0,
+            'plugin_flyvemdm_policycategories_id' => 'Deployment',
+            'comment'                             => __('Uninstall an application on the device',
+               'flyvemdm'),
+            'default_value'                       => '',
+            'recommended_value'                   => '',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Deploy file', 'flyvemdm'),
-            'symbol'                               => 'deployFile',
-            'group'                                => 'file',
-            'type'                                 => 'deployfile',
-            'type_data'                            => '',
-            'unicity'                              => 0,
-            'plugin_flyvemdm_policycategories_id'  => 'Deployment',
-            'comment'                              => __('Deploy a file on the device', 'flyvemdm'),
-            'default_value'                        => '',
-            'recommended_value'                    => '',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Deploy file', 'flyvemdm'),
+            'symbol'                              => 'deployFile',
+            'group'                               => 'file',
+            'type'                                => 'deployfile',
+            'type_data'                           => '',
+            'unicity'                             => 0,
+            'plugin_flyvemdm_policycategories_id' => 'Deployment',
+            'comment'                             => __('Deploy a file on the device', 'flyvemdm'),
+            'default_value'                       => '',
+            'recommended_value'                   => '',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Remove file', 'flyvemdm'),
-            'symbol'                               => 'removeFile',
-            'group'                                => 'file',
-            'type'                                 => 'removefile',
-            'type_data'                            => '',
-            'unicity'                              => 0,
-            'plugin_flyvemdm_policycategories_id'  => 'Deployment',
-            'comment'                              => __('Uninstall a file on the device', 'flyvemdm'),
-            'default_value'                        => '',
-            'recommended_value'                    => '',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Remove file', 'flyvemdm'),
+            'symbol'                              => 'removeFile',
+            'group'                               => 'file',
+            'type'                                => 'removefile',
+            'type_data'                           => '',
+            'unicity'                             => 0,
+            'plugin_flyvemdm_policycategories_id' => 'Deployment',
+            'comment'                             => __('Uninstall a file on the device',
+               'flyvemdm'),
+            'default_value'                       => '',
+            'recommended_value'                   => '',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable Wifi', 'flyvemdm'),
-            'symbol'                               => 'disableWifi',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable wifi connectivity', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable Wifi', 'flyvemdm'),
+            'symbol'                              => 'disableWifi',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable wifi connectivity', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable Bluetooth', 'flyvemdm'),
-            'symbol'                               => 'disableBluetooth',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable Bluetooth connectivity', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable Bluetooth', 'flyvemdm'),
+            'symbol'                              => 'disableBluetooth',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable Bluetooth connectivity',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('use TLS', 'flyvemdm'),
-            'symbol'                               => 'useTLS',
-            'group'                                => 'MDM',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'MDM',
-            'comment'                              => __('use TLS', 'flyvemdm'),
-            'default_value'                        => '',
-            'recommended_value'                    => '',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('use TLS', 'flyvemdm'),
+            'symbol'                              => 'useTLS',
+            'group'                               => 'MDM',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'MDM',
+            'comment'                             => __('use TLS', 'flyvemdm'),
+            'default_value'                       => '',
+            'recommended_value'                   => '',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable roaming', 'flyvemdm'),
-            'symbol'                               => 'disableRoaming',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable roaming', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable roaming', 'flyvemdm'),
+            'symbol'                              => 'disableRoaming',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable roaming', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable GPS', 'flyvemdm'),
-            'symbol'                               => 'disableGPS',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable GPS', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '0',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable GPS', 'flyvemdm'),
+            'symbol'                              => 'disableGPS',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable GPS', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable USB MTP', 'flyvemdm'),
-            'symbol'                               => 'disableUsbMtp',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > USB',
-            'comment'                              => __('Disable USB Media Transfert Protocol', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable USB MTP', 'flyvemdm'),
+            'symbol'                              => 'disableUsbMtp',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > USB',
+            'comment'                             => __('Disable USB Media Transfert Protocol',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable USB PTP', 'flyvemdm'),
-            'symbol'                               => 'disableUsbPtp',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > USB',
-            'comment'                              => __('Disable USB Picture Transfert Protocol', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable USB PTP', 'flyvemdm'),
+            'symbol'                              => 'disableUsbPtp',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > USB',
+            'comment'                             => __('Disable USB Picture Transfert Protocol',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable USB ADB', 'flyvemdm'),
-            'symbol'                               => 'disableUsbAdb',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > USB',
-            'comment'                              => __('Disable USB Android Debug Bridge', 'flyvemdm'),
-            'default_value'                        => '1',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable USB ADB', 'flyvemdm'),
+            'symbol'                              => 'disableUsbAdb',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > USB',
+            'comment'                             => __('Disable USB Android Debug Bridge',
+               'flyvemdm'),
+            'default_value'                       => '1',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable FM Radio', 'flyvemdm'),
-            'symbol'                               => 'disableFmRadio',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable FM radio', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable FM Radio', 'flyvemdm'),
+            'symbol'                              => 'disableFmRadio',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable FM radio', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable Mobile line', 'flyvemdm'),
-            'symbol'                               => 'disableMobileLine',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable Mobile line', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable Mobile line', 'flyvemdm'),
+            'symbol'                              => 'disableMobileLine',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable Mobile line', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable Voice mail', 'flyvemdm'),
-            'symbol'                               => 'disableVoiceMail',
-            'group'                                => 'phone',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Phone',
-            'comment'                              => __('Disable Voice mail', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable Voice mail', 'flyvemdm'),
+            'symbol'                              => 'disableVoiceMail',
+            'group'                               => 'phone',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Phone',
+            'comment'                             => __('Disable Voice mail', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable call auto answer', 'flyvemdm'),
-            'symbol'                               => 'disableCallAutoAnswer',
-            'group'                                => 'phone',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Phone',
-            'comment'                              => __('Disable automatic answer to incoming phone calls', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable call auto answer', 'flyvemdm'),
+            'symbol'                              => 'disableCallAutoAnswer',
+            'group'                               => 'phone',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Phone',
+            'comment'                             => __('Disable automatic answer to incoming phone calls',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable voice dictation', 'flyvemdm'),
-            'symbol'                               => 'disableVoiceDictation',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable voice dictation', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable voice dictation', 'flyvemdm'),
+            'symbol'                              => 'disableVoiceDictation',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable voice dictation', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable NFC', 'flyvemdm'),
-            'symbol'                               => 'disableNfc',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable Near Field Contact', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable NFC', 'flyvemdm'),
+            'symbol'                              => 'disableNfc',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable Near Field Contact', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable hotspot and tethering', 'flyvemdm'),
-            'symbol'                               => 'disableHostpotTethering',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable hotspot and tethering', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable hotspot and tethering',
+               'flyvemdm'),
+            'symbol'                              => 'disableHostpotTethering',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable hotspot and tethering',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable USB On-The-Go', 'flyvemdm'),
-            'symbol'                               => 'disableUsbOnTheGo',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable USB On-The-Go', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable USB On-The-Go', 'flyvemdm'),
+            'symbol'                              => 'disableUsbOnTheGo',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable USB On-The-Go', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable SMS and MMS', 'flyvemdm'),
-            'symbol'                               => 'disableSmsMms',
-            'group'                                => 'phone',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Phone',
-            'comment'                              => __('Disable SMS and MMS', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable SMS and MMS', 'flyvemdm'),
+            'symbol'                              => 'disableSmsMms',
+            'group'                               => 'phone',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Phone',
+            'comment'                             => __('Disable SMS and MMS', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable airplane mode', 'flyvemdm'),
-            'symbol'                               => 'disableAirplaneMode',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('Disable airplane mode', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable airplane mode', 'flyvemdm'),
+            'symbol'                              => 'disableAirplaneMode',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable airplane mode', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable status bar', 'flyvemdm'),
-            'symbol'                               => 'disableStatusBar',
-            'group'                                => 'ui',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > User interface',
-            'comment'                              => __('Disable the status bar. Disabling the status bar blocks notifications, quick settings and other screen overlays that allow escaping from a single use device.', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable status bar', 'flyvemdm'),
+            'symbol'                              => 'disableStatusBar',
+            'group'                               => 'ui',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > User interface',
+            'comment'                             => __('Disable the status bar. Disabling the status bar blocks notifications, quick settings and other screen overlays that allow escaping from a single use device.',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable screen capture', 'flyvemdm'),
-            'symbol'                               => 'disableScreenCapture',
-            'group'                                => 'ui',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > User interface',
-            'comment'                              => __('Disable screen capture. Disabling screen capture also prevents the content from being shown on display devices that do not have a secure video output.', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable screen capture', 'flyvemdm'),
+            'symbol'                              => 'disableScreenCapture',
+            'group'                               => 'ui',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > User interface',
+            'comment'                             => __('Disable screen capture. Disabling screen capture also prevents the content from being shown on display devices that do not have a secure video output.',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Reset password', 'flyvemdm'),
-            'symbol'                               => 'resetPassword',
-            'group'                                => 'policies',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Authentication > Password',
-            'comment'                              => __('Force a new password for device unlock (the password needed to access the entire device) or the work profile challenge on the current user. This takes effect immediately.', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Reset password', 'flyvemdm'),
+            'symbol'                              => 'resetPassword',
+            'group'                               => 'policies',
+            'type'                                => 'string',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Authentication > Password',
+            'comment'                             => __('Force a new password for device unlock (the password needed to access the entire device) or the work profile challenge on the current user. This takes effect immediately.',
+               'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable speakerphone', 'flyvemdm'),
-            'symbol'                               => 'disableSpeakerphone',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable speakerphone', 'flyvemdm'),
+            'symbol'                              => 'disableSpeakerphone',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable the speakerphone', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
          ],
 
          [
-            'name'                                 => __('Disable create VPN profiles', 'flyvemdm'),
-            'symbol'                               => 'disableCreateVpnProfiles',
-            'group'                                => 'connectivity',
-            'type'                                 => 'bool',
-            'type_data'                            => '',
-            'unicity'                              => 1,
-            'plugin_flyvemdm_policycategories_id'  => 'Security > Peripherals',
-            'comment'                              => __('', 'flyvemdm'),
-            'default_value'                        => '0',
-            'recommended_value'                    => '0',
-            'is_android_policy'                    => '1',
-            'is_android_system'                    => '1',
-            'is_apple_policy'                      => '0',
+            'name'                                => __('Disable create VPN profiles', 'flyvemdm'),
+            'symbol'                              => 'disableCreateVpnProfiles',
+            'group'                               => 'connectivity',
+            'type'                                => 'bool',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Disable creation of VPN profiles', 'flyvemdm'),
+            'default_value'                       => '0',
+            'recommended_value'                   => '0',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '1',
+            'is_apple_policy'                     => '0',
+         ],
+
+         [
+            'name'                                => __('Set an inventory frequency', 'flyvemdm'),
+            'symbol'                              => 'inventoryFrequency',
+            'group'                               => 'connectivity',
+            'type'                                => 'int',
+            'type_data'                           => '',
+            'unicity'                             => 1,
+            'plugin_flyvemdm_policycategories_id' => 'Security > Peripherals',
+            'comment'                             => __('Sets the recurrence of inventory in minutes', 'flyvemdm'),
+            'default_value'                       => '1440',
+            'recommended_value'                   => '1440',
+            'is_android_policy'                   => '1',
+            'is_android_system'                   => '0',
+            'is_apple_policy'                     => '1',
          ],
       ];
 
@@ -1427,10 +1485,10 @@ Regards,
       global $DB;
 
       // Define DB tables
-      $tableTargets        = NotificationTarget::getTable();
-      $tableNotification   = Notification::getTable();
-      $tableTranslations   = NotificationTemplateTranslation::getTable();
-      $tableTemplates      = NotificationTemplate::getTable();
+      $tableTargets = NotificationTarget::getTable();
+      $tableNotification = Notification::getTable();
+      $tableTranslations = NotificationTemplateTranslation::getTable();
+      $tableTemplates = NotificationTemplate::getTable();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
@@ -1477,7 +1535,6 @@ Regards,
          PluginFlyvemdmInvitation::getTable(),
          PluginFlyvemdmMqttacl::getTable(),
          PluginFlyvemdmMqttlog::getTable(),
-         PluginFlyvemdmMqttupdatequeue::getTable(),
          PluginFlyvemdmMqttuser::getTable(),
          PluginFlyvemdmPackage::getTable(),
          PluginFlyvemdmPolicy::getTable(),
@@ -1491,14 +1548,14 @@ Regards,
       }
    }
 
-   protected  function deleteProfiles() {
+   protected function deleteProfiles() {
       $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
 
       foreach ($config as $profileId) {
          $profile = new Profile();
          $profile->getFromDB($profileId);
          if ($profile->deleteFromDB()) {
-            $profileUser= new Profile_User();
+            $profileUser = new Profile_User();
             $profileUser->deleteByCriteria(['profiles_id' => $profileId], true);
          }
       }
@@ -1534,7 +1591,7 @@ Regards,
          PluginFlyvemdmPackage::class,
          PluginFlyvemdmPolicy::class,
          PluginFlyvemdmPolicyCategory::class,
-         PluginFlyvemdmWellknownpath::class
+         PluginFlyvemdmWellknownpath::class,
       ];
 
       // Itemtypes from the core having relations to itemtypes of the plugin
@@ -1544,7 +1601,7 @@ Regards,
          DropdownTranslation::class,
          Log::class,
          Bookmark::class,
-         SavedSearch::class
+         SavedSearch::class,
       ];
       foreach ($pluginItemtypes as $pluginItemtype) {
          foreach ($itemtypes as $itemtype) {

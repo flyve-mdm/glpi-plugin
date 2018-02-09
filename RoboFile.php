@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,10 +21,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
+ * @author    Thierry Bugier
  * @author    other author
  * @author    third author
- * @copyright Copyright © 2017 Teclib
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -33,27 +33,27 @@
 
 require_once 'vendor/autoload.php';
 
-class RoboFile extends Glpi\Tools\RoboFile
-{
+class RoboFile extends Glpi\Tools\RoboFile {
+
    protected static $banned = [
-         'dist/',
-         'vendor/',
-         '.git',
-         '.gitignore',
-         '.gitattributes',
-         '.github',
-         '.tx',
-         '.settings/',
-         '.project',
-         '.buildpath/',
-         'tools/',
-         'tests/',
-         'screenshot*.png',
-         'RoboFile*.php',
-         'plugin.xml',
-         'phpunit.xml.*',
-         '.travis.yml',
-         'save.sql',
+      'dist/',
+      'vendor/',
+      '.git',
+      '.gitignore',
+      '.gitattributes',
+      '.github',
+      '.tx',
+      '.settings/',
+      '.project',
+      '.buildpath/',
+      'tools/',
+      'tests/',
+      'screenshot*.png',
+      'RoboFile*.php',
+      'plugin.xml',
+      'phpunit.xml.*',
+      '.travis.yml',
+      'save.sql',
    ];
 
    protected static $tagPrefix = 'v';
@@ -165,7 +165,8 @@ class RoboFile extends Glpi\Tools\RoboFile
          return;
       }
       $jsonContent['version'] = $version;
-      file_put_contents($filename, json_encode($jsonContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+      file_put_contents($filename,
+         json_encode($jsonContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
    }
 
    /**
@@ -255,12 +256,21 @@ class RoboFile extends Glpi\Tools\RoboFile
       $this->sourceUpdatePackageJson($version);
       $this->sourceUpdateComposerJson($version);
 
+      $this->updateChangelog();
+
+      $diff = $this->gitDiff(['package.json', 'composer.json']);
+      $diff = implode("\n", $diff);
+      if ($diff != '') {
+          $this->gitCommit(['package.json', 'composer.json'], "docs: bump version in JSON files");
+      }
+      $this->gitCommit(['CHANGELOG.md'], "docs(changelog): update changelog");
+
       // Build archive
       $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
-      $targetFile = $pluginPath. "/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
+      $targetFile = $pluginPath . "/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
       $toArchive = implode(' ', $this->getFileToArchive($version));
-      @mkdir($pluginPath. "/dist");
+      @mkdir($pluginPath . "/dist");
       $rev = self::$tagPrefix . $version;
       $this->_exec("git archive --prefix=$pluginName/ $rev $toArchive | bzip2 > $targetFile");
    }
@@ -300,10 +310,10 @@ class RoboFile extends Glpi\Tools\RoboFile
       $loader = new Twig_Loader_Filesystem($tplDir);
 
       // force auto-reload to always have the latest version of the template
-      $twig = new Twig_Environment($loader, array(
-            'cache' => $tmpDir,
-            'auto_reload' => true
-      ));
+      $twig = new Twig_Environment($loader, [
+         'cache'       => $tmpDir,
+         'auto_reload' => true,
+      ]);
       include __DIR__ . '/lib/GlpiLocalesExtension.php';
       $twig->addExtension(new GlpiLocalesExtension());
       // configure Twig the way you want
@@ -312,7 +322,7 @@ class RoboFile extends Glpi\Tools\RoboFile
       foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          // force compilation
          if ($file->isFile()) {
-            $twig->loadTemplate(str_replace($tplDir.'/', '', $file));
+            $twig->loadTemplate(str_replace($tplDir . '/', '', $file));
          }
       }
 
@@ -328,8 +338,8 @@ class RoboFile extends Glpi\Tools\RoboFile
       $phpSources = "*.php ajax/*.php front/*.php inc/*.php install/*.php";
       // extract locales from source code
       $command = "xgettext $phpSources $compiledTemplates -o locales/$potfile -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po";
-      $command.= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
-      $command.= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
+      $command .= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
+      $command .= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
       $this->_exec($command);
       return $this;
    }
@@ -360,7 +370,7 @@ class RoboFile extends Glpi\Tools\RoboFile
     * @return array
     */
    protected function getFileToArchive($version) {
-      $filesToArchive = $this->getTrackedFiles(self::$tagPrefix . $version);
+      $filesToArchive = $this->getTrackedFiles($version);
 
       // prepare banned items for regex
       $patterns = [];
@@ -449,14 +459,14 @@ class RoboFile extends Glpi\Tools\RoboFile
    /**
     * Search for a version in the plugin description XML file
     *
-    * @param string  $versionToSearch
+    * @param string $versionToSearch
     * @return mixed|NULL
     */
    protected function getVersionTagFromXML($versionToSearch) {
       $xml = $this->getPluginXMLDescription();
       if (!isset($xml['versions']['version'][0])) {
          $xml['versions']['version'] = [
-               0 => $xml['versions']['version']
+            0 => $xml['versions']['version'],
          ];
       }
       // several versions available, in an array with numeric keys
@@ -493,7 +503,7 @@ class RoboFile extends Glpi\Tools\RoboFile
       $commitHash = $this->getCurrentCommitHash();
       exec("git tag -l --contains $commitHash", $output, $retCode);
       if (isset($output[0]) && $output[0] == $tag) {
-         return  true;
+         return true;
       }
 
       return false;
@@ -626,8 +636,69 @@ class RoboFile extends Glpi\Tools\RoboFile
     */
    protected function getSemverRegex() {
       $regex = '#^\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)' // 3 numbers separated by a dots
-      . '(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b$#i'; // dash and a word
+         . '(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b$#i'; // dash and a word
 
       return $regex;
+   }
+
+   /**
+    * @param array $files files to commit
+    * @param string $commitMessage commit message
+    */
+   protected function gitCommit(array $files, $commitMessage) {
+      if (count($files) < 1) {
+         $arg = '-u';
+      } else {
+         $arg = '"' . implode('" "', $files) . '"';
+      }
+       exec("git add $arg", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to add files for $commitMessage");
+      }
+
+       exec("git commit -m \"$commitMessage\" --dry-run", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to commit $commitMessage");
+      }
+
+       return true;
+   }
+
+   /**
+    * @param array $files files to commit
+    * @param string $version1
+    * @param string $version2
+    */
+   protected function gitDiff(array $files, $version1 = '', $version2 = '') {
+      if (count($files) < 1) {
+         $arg = '-u';
+      } else {
+         $arg = '"' . implode('" "', $files) . '"';
+      }
+
+      if ($version1 == '' && $version2 == '') {
+         $fromTo = '';
+      } else {
+         $fromTo = "$version1..$version2";
+      }
+
+       exec("git diff $fromTo -- $arg", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to diff $fromTo");
+      }
+
+       return $output;
+   }
+
+
+   /**
+    */
+   protected function updateChangelog() {
+       exec("node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s", $output, $retCode);
+      if ($retCode > 0) {
+         throw new Exception("Failed to update the changelog");
+      }
+
+       return true;
    }
 }

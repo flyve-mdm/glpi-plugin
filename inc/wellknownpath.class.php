@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -39,14 +39,14 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    // name of the right in DB
-   public static $rightname            = 'flyvemdm:wellknownpath';
+   public static $rightname = 'flyvemdm:wellknownpath';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return __s('Well known path', 'flyvemdm');
    }
 
@@ -71,50 +71,50 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
    }
 
    /**
+    * Get an item from by path
+    * @param string $path
+    * @return boolean
+    */
+   public function getFromDBByPath($path) {
+      return $this->getFromDBByQuery("WHERE `name`='$path'");
+   }
+
+   /**
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
+      $tab = parent::getSearchOptionsNew();
 
-      $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Well known path', 'flyvemdm')
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __('Well known path', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('comment'),
+         'massiveaction' => false,
+         'datatype'      => 'text',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('comment'),
-         'massiveaction'      => false,
-         'datatype'           => 'text'
-      ];
-
-      $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'is_default',
-         'name'               => __('default'),
-         'massiveaction'      => false,
-         'datatype'           => 'bool'
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'is_default',
+         'name'          => __('default'),
+         'massiveaction' => false,
+         'datatype'      => 'bool',
       ];
 
       return $tab;

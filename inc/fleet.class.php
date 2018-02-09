@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -214,13 +214,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      $mqttQueue = new PluginFlyvemdmMqttupdatequeue();
-      if (!$mqttQueue->deleteByCriteria(['plugin_flyvemdm_fleets_id' => $fleetId])) {
-         Session::addMessageAfterRedirect(__('Could not delete message queue on the fleet', 'flyvemdm'));
-         // Do not fail yet. We need a CRON purge feature on this itemtype
-         //return false;
-      }
-
       return true;
    }
 
@@ -228,20 +221,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
+      $tab = parent::getSearchOptionsNew();
 
-      $tab[] = [
+      $tab[0] = [
          'id'                 => 'common',
          'name'               => __s('Fleet', 'flyvemdm')
-      ];
-
-      $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
       ];
 
       $tab[] = [
@@ -319,8 +303,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
-      $task = new PluginFlyvemdmTask();
-      $task->publishPolicies($this, ['camera', 'connectivity', 'encryption', 'policies']);
+      $policy = new PluginFlyvemdmPolicy();
+      foreach ($policy->find() as $row) {
+         $policyName = $row['symbol'];
+         $topic = $this->getTopic();
+         $this->notify("$topic/Policy/$policyName", null, 0, 1);
+      }
    }
 
    /**
@@ -508,6 +496,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
+
    /**
     * create folders and initial setup of the entity related to MDM
     * @param CommonDBTM $item

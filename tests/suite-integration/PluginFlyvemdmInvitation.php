@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -32,9 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use Document;
-use User;
-use QueuedNotification;
 
 class PluginFlyvemdmInvitation extends CommonTestCase {
 
@@ -64,20 +61,20 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->boolean($invitation->isNewItem())->isFalse();
 
       // check the guest user exists
-      $user = new User();
-      $this->boolean($user->getFromDB($invitation->getField(User::getForeignKeyField())))->isTrue();
+      $user = new \User();
+      $this->boolean($user->getFromDB($invitation->getField(\User::getForeignKeyField())))->isTrue();
 
       // check a email was queued
       $invitationType = \PluginFlyvemdmInvitation::class;
       $invitationId = $invitation->getID();
-      $queuedNotification = new QueuedNotification();
+      $queuedNotification = new \QueuedNotification();
       $this->boolean($queuedNotification->getFromDBByQuery(
          "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
       )->isTrue();
 
       // Check a QR code is created
-      $document = new Document();
-      $documentFk = Document::getForeignKeyField();
+      $document = new \Document();
+      $documentFk = \Document::getForeignKeyField();
       $document->getFromDB($invitation->getField($documentFk));
       $this->boolean($document->isNewItem())->isFalse();
 
@@ -94,7 +91,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->boolean($secondInvitation->isNewItem())->isFalse();
 
       // Check both invitations have the same user
-      $userFk = User::getForeignKeyField();
+      $userFk = \User::getForeignKeyField();
       $this->integer((int) $invitation->getField($userFk))
          ->isEqualTo($secondInvitation->getField($userFk));
    }

@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -38,14 +38,14 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'flyvemdm:invitationLog';
+   public static $rightname = 'flyvemdm:invitationLog';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('Invitation log', 'Invitation logs', $nb, "flyvemdm");
    }
 
@@ -68,44 +68,44 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __s('Invitation log', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __s('Invitation log', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'date_creation',
-         'name'               => __('date'),
-         'massiveaction'      => false,
-         'datatype'           => 'datetime'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'date_creation',
+         'name'          => __('date'),
+         'massiveaction' => false,
+         'datatype'      => 'datetime',
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => 'glpi_plugin_flyvemdm_invitations',
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'dropdown'
+         'id'            => '4',
+         'table'         => 'glpi_plugin_flyvemdm_invitations',
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'dropdown',
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => $this->getTable(),
-         'field'              => 'event',
-         'name'               => __('event'),
-         'massiveaction'      => false,
-         'datatype'           => 'string'
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'event',
+         'name'          => __('event'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
       ];
 
       return $tab;

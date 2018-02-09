@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `version`                   varchar(255)                                      NOT NULL DEFAULT '',
   `computers_id`              int(11)                                           NOT NULL DEFAULT '0',
   `users_id`                  int(11)                                           NOT NULL DEFAULT '0',
-  `wipe`                      int(1)                                            NOT NULL DEFAULT '0',
-  `lock`                      int(1)                                            NOT NULL DEFAULT '0',
+  `wipe`                      tinyint(1)                                        NOT NULL DEFAULT '0',
+  `lock`                      tinyint(1)                                        NOT NULL DEFAULT '0',
   `enroll_status`             enum('enrolled','unenrolling','unenrolled')       NOT NULL DEFAULT 'enrolled',
   `entities_id`               int(11)                                           NOT NULL DEFAULT '0',
   `plugin_flyvemdm_fleets_id` int(11)                                           DEFAULT NULL,
@@ -131,6 +131,7 @@ DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_packages`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `id`                    int(11)                              NOT NULL AUTO_INCREMENT,
   `name`                  varchar(255)                         NOT NULL DEFAULT '',
+  `package_name`          varchar(255)                         NOT NULL DEFAULT '',
   `alias`                 varchar(255)                         NOT NULL DEFAULT '',
   `version`               varchar(255)                         NOT NULL DEFAULT '',
   `version_code`          varchar(255)                         NOT NULL DEFAULT '',
@@ -229,19 +230,6 @@ CREATE TABLE `glpi_plugin_flyvemdm_invitations` (
   KEY `users_id` (`users_id`),
   KEY `entities_id` (`entities_id`),
   KEY `documents_id` (`documents_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
--- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_mqttupdatequeues
-DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_mqttupdatequeues`;
-CREATE TABLE `glpi_plugin_flyvemdm_mqttupdatequeues` (
-  `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
-  `group`                            varchar(255)              NOT NULL DEFAULT '',
-  `plugin_flyvemdm_fleets_id`        int(11)                   NOT NULL DEFAULT '0',
-  `date`                             datetime                  NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `status`                           enum('queued','done')     NOT NULL DEFAULT 'queued',
-  PRIMARY KEY (`id`),
-  INDEX `status` (`status`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

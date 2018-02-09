@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -69,9 +69,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     *
     * Returns the minimum version of the agent accepted by the backend
-    *
     * @param string $mdmType the type of the agent.
-    *
     * @return string the minimum version of the agent depending on its type
     */
    private function getMinVersioForType($mdmType) {
@@ -201,8 +199,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Show form for edition
-    * @param integer $ID
+    * Shows form for edition
+    * @param integer $ID Id of the agent
     * @param array $options
     */
    public function showForm($ID, array $options = []) {
@@ -248,7 +246,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Print the computer's operating system form
+    * Prints the computer's operating system form
     *
     * @param PluginFlyvemdmAgent $item
     *
@@ -292,7 +290,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Display the agents according the fleet
+    * Displays the agents according the fleet
     * @param PluginFlyvemdmFleet $item
     * @return string an html with the agents
     */
@@ -354,9 +352,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ]);
    }
 
-   /**
-    * @see CommonDBTM::canViewItem()
-    */
    public function canViewItem() {
       // Check the active profile
       $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
@@ -379,7 +374,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a wipe command to the agent
+    * Sends a wipe command to the agent
     */
    protected function sendWipeQuery() {
       $topic = $this->getTopic();
@@ -390,7 +385,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a lock command to the agent
+    * Sends a lock command to the agent
     */
    protected function sendLockQuery() {
       $topic = $this->getTopic();
@@ -401,7 +396,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send a lock command to the agent
+    * Sends a lock command to the agent
     */
    protected function sendUnlockQuery() {
       $topic = $this->getTopic();
@@ -412,7 +407,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Send unenrollment command to  the agent
+    * Sends unenrollment command to the agent
     */
    protected function sendUnenrollQuery() {
       $topic = $this->getTopic();
@@ -422,10 +417,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
-   /**
-    * @param array $input
-    * @return array|bool
-    */
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
       $entityConfig = new PluginFlyvemdmEntityconfig();
@@ -466,10 +457,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
-   /**
-    * @param array $input
-    * @return array|bool
-    */
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
@@ -552,17 +539,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $input;
    }
 
-   /**
-    * @see CommonDBTM::post_addItem()
-    */
    public function post_addItem() {
       // Notify the agent about its fleets
       $this->updateSubscription();
    }
 
-   /**
-    * @see CommonDBTM::post_getFromDB()
-    */
    public function post_getFromDB() {
       // set Topic after getting an item
       // Useful for post_purgeItem
@@ -624,6 +605,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'id'  => $this->fields['users_id'],
       ], true);
 
+      // Send unrolling message to reset agent status
+      if ($this->fields['enroll_status'] == 'enrolled') {
+         $this->sendUnenrollQuery();
+      }
+
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
          $mqttUser = new PluginFlyvemdmMqttuser();
@@ -633,12 +619,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                return false;
             }
          }
-      }
-
-      // Delete the computer associated to the agent
-      if (!$computer->delete(['id' => $computerId], true)) {
-         Session::addMessageAfterRedirect(__('Failed to delete the device', 'flyvemdm'));
-         return false;
       }
 
       // Delete documents associated to the agent
@@ -663,17 +643,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          // create tasks for the agent from already applied policies
+         $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
          $newFleet = new PluginFlyvemdmFleet();
-         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         if ($newFleet->getFromDB($fleetId)) {
+            // Create task status for the agent and the applied policies
             $task = new PluginFlyvemdmTask();
-
-            // get groups of policies where a policy applies
-            $groups = $task->getGroupsOfAppliedPolicies($newFleet);
-            foreach ($groups as $groupName) {
-               // get policies per group
-               $policiesToApply = $task->getGroupOfPolicies($groupName, $newFleet);
-               // create task statuses for a single agent
-               $task->createTaskStatus($this, $policiesToApply);
+            $tasks = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+            foreach ($tasks as $row) {
+               $taskStatus = new PluginFlyvemdmTaskstatus();
+               $taskStatus->add([
+                  'plugin_flyvemdm_agents_id' => $this->getID(),
+                  'plugin_flyvemdm_tasks_id'  => $row['id'],
+                  'status'                    => 'pending',
+               ]);
             }
          }
 
@@ -727,11 +709,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->cleanupSubtopics();
    }
 
-   /**
-    * @return array
-    */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
+
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __('Agent', 'flyvemdm'),
+      ];
+
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
       $tab[] = [
          'id'                 => '3',
@@ -751,34 +744,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => 'glpi_computers',
-         'field'              => 'serial',
-         'name'               => __('Serial number'),
-         'datatype'           => 'dropdown',
-         'massiveaction'      => false
-      ];
-
-      $tab[] = [
-         'id'                 => '6',
-         'table'              => 'glpi_users',
-         'field'              => 'id',
-         'name'               => __('User'),
-         'forcegroupby'       => false,
-         'massiveaction'      => false,
-         'datatype'           => 'dropdown',
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_computers',
-               'joinparams'         => [
-                  'jointype'           => '',
-                  'condition'          => ''
-               ]
-            ]
-         ]
-      ];
-
-      $tab[] = [
          'id'                 => '7',
          'table'              => 'glpi_plugin_flyvemdm_fleets',
          'field'              => 'id',
@@ -794,25 +759,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'name'               => __('Last contact', 'flyvemdm'),
          'datatype'           => 'datetime',
          'massiveaction'      => false
-      ];
-
-      $tab[] = [
-         'id'                 => '9',
-         'table'              => 'glpi_users',
-         'field'              => 'realname',
-         'name'               => __('User'),
-         'forcegroupby'       => false,
-         'massiveaction'      => false,
-         'datatype'           => 'dropdown',
-         'joinparams'         => [
-            'beforejoin'         => [
-               'table'              => 'glpi_computers',
-               'joinparams'         => [
-                  'jointype'           => '',
-                  'condition'          => ''
-               ]
-            ]
-         ]
       ];
 
       $tab[] = [
@@ -860,11 +806,29 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'massiveaction'      => false
       ];
 
+      $tab[] = [
+         'id'                 => '15',
+         'table'              => $this->getTable(),
+         'field'              => 'wipe',
+         'name'               => __('Wipe requested', 'flyvemdm'),
+         'datatype'           => 'boolean',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '16',
+         'table'              => $this->getTable(),
+         'field'              => 'lock',
+         'name'               => __('Lock requested', 'flyvemdm'),
+         'datatype'           => 'boolean',
+         'massiveaction'      => false
+      ];
+
       return $tab;
    }
 
    /**
-    * Limit search for agents of guest user
+    * Limits search for agents of guest user
     */
    public static function addDefaultJoin() {
       $join = '';
@@ -1024,6 +988,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|bool
     */
    protected function enrollByInvitationToken($input) {
+      global $LOADED_PLUGINS;
+
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
       $serial           = isset($input['_serial']) ? $input['_serial'] : null;
@@ -1033,6 +999,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
       $mdmType          = isset($input['type']) ? $input['type'] : null;
+      $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
+         ENT_COMPAT | ENT_XML1) : null;
       $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
       // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
 
@@ -1056,6 +1024,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if (empty($serial) && empty($uuid)) {
          $event = __('One of serial and uuid is mandatory', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (empty($inventory)) {
+         $event = __('Device inventory XML is mandatory', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -1137,23 +1112,105 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $user = new User();
       $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
       if ($user->getFromDBbyEmail($email, $condition) === false) {
-         $event = __('wrong email address', 'flyvemdm');
+         $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
       $userId = $user->getId();
 
-      // Check the serial does not exists in the entity
-      $computer = new Computer();
       $entityId = $invitation->getField('entities_id');
-      $rows = $computer->find("`entities_id`='$entityId' AND `serial`='$serial'");
-      if (count($rows) > 0) {
-         $event = __('The serial already exists', 'flyvemdm');
+
+      //sign the agent's certificate (if TLS enabled)
+      if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
+         $answer = self::signCertificate($csr);
+         $crt = isset($answer['crt']) ? $answer['crt'] : false;
+         if ($crt === false) {
+            $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
+            $this->filterMessages($event);
+            $this->logInvitationEvent($invitation, $event);
+            return false;
+         }
+         $input['certificate'] = $crt;
+      } else {
+         $input['certificate'] = '';
+      }
+
+      // Prepare invitation update
+      $invitationInput = [
+         'id'                 => $invitation->getID(),
+         'status'             => 'done'
+      ];
+
+      // Invalidate the token
+      if ($config['debug_noexpire'] == '0') {
+         $invitationInput['expiration_date'] = '0000-00-00 00:00:00';
+         $invitationInput['status']          = 'done';
+
+         // Update the invitation
+         if (!$invitation->update($invitationInput)) {
+            $event = __("Failed to update the invitation", 'flyvemdm');
+            $this->filterMessages($event);
+            $this->logInvitationEvent($invitation, $event);
+            return false;
+         }
+      }
+
+      // Create the device
+      $pfCommunication = new PluginFusioninventoryCommunication();
+      $pfAgent = new PluginFusioninventoryAgent();
+      //var_dump($_SESSION['glpi_plugin_fusioninventory']);
+      $_SESSION['glpi_fusionionventory_nolock'] = true;
+      ob_start();
+      if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',
+            $_SESSION['glpi_plugin_fusioninventory'])) {
+         // forced reload of the FI plugin for correct import of inventory
+         unset($LOADED_PLUGINS['fusioninventory']);
+         Plugin::load('fusioninventory');
+      }
+      $pfCommunication->handleOCSCommunication('', $inventory, 'glpi');
+      $fiOutput = ob_get_contents();
+      ob_end_clean();
+      if (strlen($fiOutput) != 0) {
+         // FI print errors to sdt output and agents needs a correct response, let's save this to logs.
+         $this->logInvitationEvent($invitation, $fiOutput);
+      }
+      unset($_SESSION['glpi_fusionionventory_nolock']);
+      $fiAgentId = $_SESSION['plugin_fusioninventory_agents_id']; // generated by FusionInventory
+
+      if ($fiAgentId === 0) {
+         $event = __('Cannot get the FusionInventory agent', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
+
+      if (!$pfAgent->getFromDB($fiAgentId)) {
+         $event = __('FusionInventory agent not created', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+      $computerId = $pfAgent->getField(Computer::getForeignKeyField());
+
+      if ($computerId === 0) {
+         $event = __("Cannot create the device", 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Set the type of computer
+      $computerTypeId = $config['computertypes_id'];
+      if ($computerTypeId == -1 || $computerTypeId === false) {
+         $computerTypeId = 0;
+      }
+      $computer = new Computer();
+      $computer->update([
+         'id'               => $computerId,
+         'computertypes_id' => $computerTypeId,
+         'users_id'         => $userId,
+      ]);
 
       //create agent user account
       $agentAccount = new User();
@@ -1173,6 +1230,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
+
       $agentToken = User::getToken($agentAccount->getID(), 'api_token');
       if ($agentToken === false) {
          $event = __('Cannot create the API token for the agent', 'flyvemdm');
@@ -1181,75 +1239,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      //sign the agent's certificate (if TLS enabled)
-      if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
-         $answer = self::signCertificate($csr);
-         $crt = isset($answer['crt']) ? $answer['crt'] : false;
-         if ($crt === false) {
-            $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
-            $this->filterMessages($event);
-            $this->logInvitationEvent($invitation, $event);
-            return false;
-         }
-         $input['certificate'] = $crt;
-      } else {
-         $input['certificate'] = '';
-      }
-
-      // Prepare invitation update
-      $invitationInput = [
-            'id'                 => $invitation->getID(),
-            'status'             => 'done'
-      ];
-
-      // Invalidate the token
-      if ($config['debug_noexpire'] == '0') {
-         $invitationInput['expiration_date'] = '0000-00-00 00:00:00';
-         $invitationInput['status']          = 'done';
-
-         // Update the invitation
-         if (!$invitation->update($invitationInput)) {
-            $event = __("Failed to update the invitation", 'flyvemdm');
-            $this->filterMessages($event);
-            $this->logInvitationEvent($invitation, $event);
-            return false;
-         }
-      }
-
-      // Update the computer's serial and type
-      // Create a new computer for the device being enrolled
-      // TODO : Enable localization of the type
-      $computerTypeId = $config['computertypes_id'];
-      if ($computerTypeId == -1 || $computerTypeId === false) {
-         $computerTypeId = 0;
-      }
-
-      // Create the device
-      $computer = new Computer();
-      $computerId = $computer->add([
-         'name'               => $email,
-         'users_id'           => $userId,
-         'entities_id'        => $entityId,
-         'serial'             => $serial,
-         'uuid'               => $uuid,
-         'computertypes_id'   => $computerTypeId,
-         'is_dynamic'   => 1,
-      ]);
-      if ($computerId === false) {
-         $event = __("Cannot create the device", 'flyvemdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
-         return false;
-      }
-
-      // Lock the name field of the device
-      $fiLock = new PluginFusioninventoryLock();
-      $fiLock->addLocks('Computer', $computerId, ['name', 'users_id']);
-
       // Create the agent
       $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
       if ($defaultFleet === null) {
-         $computer->delete(['id' => $computerId]);
          $event = __("No default fleet available for the device", 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
@@ -1389,22 +1381,23 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string[]
     */
    public static function getTopicsToCleanup() {
-      return [
-         "Command/Subscribe",
-         "Command/Ping",
-         "Command/Geolocate",
-         "Command/Inventory",
-         "Command/Lock",
-         "Command/Wipe",
-         "Command/Unenroll",
-         "Configuration",
-         "application",
-         "file",
-         "policies",
-         "encryption",
-         "camera",
-         "connectivity",
-      ];
+      $policy = new PluginFlyvemdmPolicy();
+      $rows = $policy->find();
+
+      // get all policies sub topics
+      $topics = [];
+      foreach ($rows as $row) {
+         $topics[] = 'Policy/' . $row['symbol'];
+      }
+      return array_merge($topics, [
+         'Command/Subscribe',
+         'Command/Ping',
+         'Command/Geolocate',
+         'Command/Inventory',
+         'Command/Lock',
+         'Command/Wipe',
+         'Command/Unenroll',
+      ]);
    }
 
    /**
@@ -1420,7 +1413,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
          $lastPosition = array_pop($lastPositionRows);
 
-         $this->notify("$topic/Command/Geolocate", '{"query":"Geolocate"}', 0, 0);
+         $mqttMessage = ['query' => 'Geolocate'];
+         $this->notify("$topic/Command/Geolocate", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 0);
 
          return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
       }
@@ -1683,49 +1677,48 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             if (!$computer->getFromDB($this->fields['computers_id'])) {
                // TODO : failed to find the computer
                return;
-            } else {
-               $serial = $computer->getField('serial');
-               if (!empty($serial)) {
-                  $acls = [
-                     [
-                        'topic'        => $this->getTopic() . '/Status/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                     ],
-                     [
-                        'topic'        => $this->getTopic() . '/Command/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                     ],
-                     [
-                        'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                     ],
-                     [
-                        'topic'        => '/FlyvemdmManifest/#',
-                        'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                     ],
-                  ];
+            }
+            $serial = $computer->getField('serial');
+            if (!empty($serial)) {
+               $acls = [
+                  [
+                     'topic'        => $this->getTopic() . '/Status/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/Command/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+               ];
 
-                  $mqttUser = new PluginFlyvemdmMqttuser();
-                  $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
-                  if (!$mqttUser->getByUser($serial)) {
-                     // The user does not exists
-                     $mqttUser->add([
-                        'user'         => $serial,
-                        'enabled'      => '1',
-                        'password'     => $mqttClearPassword,
-                        '_acl'         => $acls,
-                        '_reset_acl'   => true,
-                     ]);
-                  } else {
-                     // The user exists
-                     $mqttUser->update([
-                        'id'          => $mqttUser->getID(),
-                        'enabled'     => '1',
-                        'password'    => $mqttClearPassword,
-                        '_acl'        => $acls,
-                        '_reset_acl'  => true,
-                     ]);
-                  }
+               $mqttUser = new PluginFlyvemdmMqttuser();
+               $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               if (!$mqttUser->getByUser($serial)) {
+                  // The user does not exists
+                  $mqttUser->add([
+                     'user'         => $serial,
+                     'enabled'      => '1',
+                     'password'     => $mqttClearPassword,
+                     '_acl'         => $acls,
+                     '_reset_acl'   => true,
+                  ]);
+               } else {
+                  // The user exists
+                  $mqttUser->update([
+                     'id'          => $mqttUser->getID(),
+                     'enabled'     => '1',
+                     'password'    => $mqttClearPassword,
+                     '_acl'        => $acls,
+                     '_reset_acl'  => true,
+                  ]);
                }
             }
 

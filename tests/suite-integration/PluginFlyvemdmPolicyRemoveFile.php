@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -92,10 +92,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
-      // Clean the Mqtt messages queu table
-      $table = \PluginFlyvemdmMqttupdatequeue::getTable();
-      $this->boolean($DB->query("TRUNCATE TABLE `$table`"))->isTrue();
-
       $groupName = $policyData->getField('group');
       $fleetId = $fleet->getID();
 
@@ -107,13 +103,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
          'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isFalse();
-
-      // Check there is a MQTT message queued
-      $mqttUpdateQueue = new \PluginFlyvemdmMqttupdatequeue();
-      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-                                       AND `plugin_flyvemdm_fleets_id` = '$fleetId'
-                                       AND `status` = 'queued'");
-      $this->integer(count($rows))->isEqualTo(1);
 
    }
 

@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -31,6 +31,7 @@
 
 namespace tests\units;
 
+use Flyvemdm\Tests\Src\TestingCommonTools;
 use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
@@ -50,10 +51,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @tags testApplyPolicy
+    * @engine inline
     */
    public function testApplyPolicy() {
-      global $DB;
-
       // Create an agent
       $guestEmail = $this->getUniqueEmail();
       $invitation = $this->createInvitation($guestEmail);
@@ -72,6 +72,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
             'lastname'          => 'Doe',
             'version'           => $this->minAndroidVersion,
             'type'              => 'android',
+            'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
          ]
       );
       $this->boolean($agent->isNewItem())
@@ -90,11 +91,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByQuery("WHERE `symbol` = 'storageEncryption'");
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-      $groupName = $policy->getField('group');
       $fleetId = $fleet->getID();
-
-      $table = \PluginFlyvemdmMqttupdatequeue::getTable();
-      $this->boolean($DB->query("TRUNCATE TABLE `$table`"))->isTrue();
 
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
@@ -107,21 +104,34 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      // Check a MQTT message is queued
-      $mqttUpdateQueue = new \PluginFlyvemdmMqttupdatequeue();
-      $rows = $mqttUpdateQueue->find("`group` = '$groupName'
-                                      AND `$fleetFk` = '$fleetId'
-                                      AND `status` = 'queued'");
-      $this->integer(count($rows))->isEqualTo(1);
-
       // Check a task status is created for the agent
       $taskStatus = new \PluginFlyvemdmTaskstatus();
       $taskFk = $task::getForeignKeyField();
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
-         $this->string($row['status'])->isEqualTo('queued');
+         $this->string($row['status'])->isEqualTo('pending');
       }
+
+      // Check a MQTT message is sent
+      sleep(2);
+
+      $log = new \PluginFlyvemdmMqttlog();
+      $rows = $log->find('', '`date` DESC', '1');
+      $row = array_pop($rows);
+      $mqttLogId = $row['id'];
+
+      $policyName = $policy->getField('symbol');
+
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
+
+      // check the message
+      $receivedMqttMessage = json_decode($row['message'], JSON_OBJECT_AS_ARRAY);
+      $this->array($receivedMqttMessage)->hasKey($policyName);
+      $this->variable($receivedMqttMessage[$policyName])->isEqualTo($task->getField('value') == '0' ? 'false' : 'true');
+      $this->array($receivedMqttMessage)->hasKey('taskId');
+      $this->integer($receivedMqttMessage['taskId'])->isEqualTo($task->getID());
 
       // Test apply a policy twice fails
       $task = $this->newTestedInstance();
@@ -137,6 +147,15 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $task->delete([
          'id' => $taskId,
       ], 1);
+
+      // CHeck a mqtt message is sent to remove the applied policy from MQTT
+      $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
+      $this->array($rows)->size->isEqualTo(1);
+      $row = array_pop($rows);
+      // check the topic of the message
+      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
+      // check the message
+      $this->string($row['message'])->isEqualTo('');
 
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
@@ -173,11 +192,11 @@ class PluginFlyvemdmTask extends CommonTestCase {
     */
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
+      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       \Session::destroy();
       $this->setupGLPIFramework();
 
       // login as invited user
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
       unset($_REQUEST['user_token']);
 

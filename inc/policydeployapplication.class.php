@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -98,7 +98,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       $package = new PluginFlyvemdmPackage();
       $package->getFromDB($itemId);
       $array = [
-            $this->symbol  => $package->getField('name'),
+            $this->symbol  => $package->getField('package_name'),
             'id'           => $package->getID(),
             'versionCode'  => $package->getField('version_code'),
       ];
@@ -181,10 +181,12 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          $task = new PluginFlyvemdmTask();
          $package = new PluginFlyvemdmPackage();
          if ($package->getFromDB($itemId)) {
+            $packageName = $package->getField('package_name');
+            $packageName = ($packageName)? $packageName: $package->getField('name');
             if (!$task->add([
                   'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
                   'plugin_flyvemdm_policies_id' => $policyData->getID(),
-                  'value'                       => $package->getField('name'),
+                  'value'                       => $packageName,
                   '_silent'                     => true,
             ])) {
                return false;
@@ -195,17 +197,24 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       return true;
    }
 
-   /**
-    * @return string
-    */
-   public function showValueInput() {
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
+      $itemtype = PluginFlyvemdmPackage::class;
+      if ($value !== '') {
+         $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+         $removeOnDelete = $value['remove_on_delete'];
+      } else {
+         $removeOnDelete = 1;
+      }
       $out = PluginFlyvemdmPackage::dropdown([
-            'display'      => false,
-            'displaywith'  => ['alias'],
-            'name'         => 'items_id',
+         'display'      => false,
+         'displaywith'  => ['alias'],
+         'name'         => 'items_id',
+         'value'        => $itemId,
       ]);
-      $out .= '<input type="hidden" name="itemtype" value="PluginFlyvemdmPackage" />';
-      $out .= '<input type="hidden" name="value[remove_on_delete]" value="1" />';
+      $out .= '<br>';
+      $out .= __('Remove when the policy is removed', 'flyvemdm');
+      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
+      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
       return $out;
    }

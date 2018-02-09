@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -295,8 +295,15 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       $this->string($value)
          ->contains('dropdown_items_id')->contains('ajax/getDropdownValue.php')
          ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmFile"')
-         ->contains('input type="text" name="value[destination]" value=""')
-         ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
+         ->contains('input type="text" name="value[destination]" value=""');
+
+      $matches = null;
+      preg_match(
+         '/.*<select[^>]*name=\'value\[remove_on_delete\]\'[^>]*>.*/',
+         $value,
+         $matches
+      );
+      $this->array($matches)->hasSize(1);
    }
 
    /**

@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -34,32 +34,28 @@ namespace tests\units;
 use Glpi\Test\CommonTestCase;
 use Plugin;
 
-class Config extends CommonTestCase
-{
+class Config extends CommonTestCase {
 
-   /**
-    * @engine inline
-    */
    public function testInstallPlugin() {
       global $DB;
 
       $pluginName = TEST_PLUGIN_NAME;
 
       $this->given(self::setupGLPIFramework())
-           ->and($this->boolean($DB->connected)->isTrue())
-           ->and($this->configureGLPI())
-           ->and($this->installDependancies());
+         ->and($this->boolean($DB->connected)->isTrue())
+         ->and($this->configureGLPI())
+         ->and($this->installDependancies());
 
       //Drop plugin configuration if exists
       $config = $this->newTestedInstance();
-      $config->deleteByCriteria(array('context' => $pluginName));
+      $config->deleteByCriteria(['context' => $pluginName]);
 
       // Drop tables of the plugin if they exist
       $query = "SHOW TABLES";
       $result = $DB->query($query);
       while ($data = $DB->fetch_array($result)) {
          if (strstr($data[0], "glpi_plugin_$pluginName") !== false) {
-            $DB->query("DROP TABLE ".$data[0]);
+            $DB->query("DROP TABLE " . $data[0]);
          }
       }
 
@@ -71,7 +67,7 @@ class Config extends CommonTestCase
 
       // Install the plugin
       $log = '';
-      ob_start(function($in) use ($log) {
+      ob_start(function ($in) use ($log) {
          $log .= $in;
          return '';
       });
@@ -80,7 +76,7 @@ class Config extends CommonTestCase
       $this->boolean($plugin->isInstalled($pluginName))->isTrue($log);
 
       // Assert the database matches the schema
-      $filename = GLPI_ROOT."/plugins/$pluginName/install/mysql/plugin_" . $pluginName . "_empty.sql";
+      $filename = GLPI_ROOT . "/plugins/$pluginName/install/mysql/plugin_" . $pluginName . "_empty.sql";
       $this->checkInstall($filename, 'glpi_plugin_' . $pluginName . '_', 'install');
 
       // Enable the plugin
@@ -89,6 +85,12 @@ class Config extends CommonTestCase
 
       // Enable debug mode for enrollment messages
       \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
+
+      // Configure MQTT broker
+      \Config::setConfigurationValues($pluginName, [
+         'mqtt_broker_address' => '127.0.0.1',
+         'mqtt_broker_internal_address' => '127.0.0.1',
+      ]);
 
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
@@ -121,11 +123,11 @@ class Config extends CommonTestCase
       global $CFG_GLPI;
 
       $settings = [
-         'use_notifications' => '1',
-         'notifications_mailing' => '1',
-         'enable_api'  => '1',
-         'enable_api_login_credentials'  => '1',
-         'enable_api_login_external_token'  => '1',
+         'use_notifications'               => '1',
+         'notifications_mailing'           => '1',
+         'enable_api'                      => '1',
+         'enable_api_login_credentials'    => '1',
+         'enable_api_login_external_token' => '1',
       ];
       \Config::setConfigurationValues('core', $settings);
 
@@ -149,13 +151,24 @@ class Config extends CommonTestCase
 
       // Install the plugin
       $installOutput = '';
-      ob_start(function($in) use ($installOutput) { $installOutput .= $in; return ''; });
+      ob_start(function ($in) use ($installOutput) {
+         $installOutput .= $in;
+         return '';
+      });
       $plugin->install($plugin->getID());
       ob_end_clean();
       $plugin->activate($plugin->getID());
 
       // Check the plugin is installed
       $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
-      $this->boolean($plugin->isActivated($pluginName))->isTrue("Failed to install FusionInventory\n$installOutput\n");
+      $this->boolean($plugin->isActivated($pluginName))
+         ->isTrue("Failed to install FusionInventory\n$installOutput\n");
+
+      $rule = new \Rule();
+      $this->boolean($rule->getFromDBByCrit([
+         'sub_type' => 'PluginFusioninventoryInventoryRuleImport',
+         'name'     => 'Computer constraint (name)',
+      ]))->isTrue();
+      $this->boolean($rule->update(['id' => $rule->getID(), 'is_active' => 0]))->isTrue();
    }
 }

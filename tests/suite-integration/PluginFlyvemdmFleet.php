@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -31,6 +31,7 @@
 
 namespace tests\units;
 
+use Flyvemdm\Tests\Src\TestingCommonTools;
 use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmFleet extends CommonTestCase {
@@ -92,6 +93,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
             'lastname'          => 'Doe',
             'version'           => $this->minAndroidVersion,
             'type'              => 'android',
+            'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
          ]
       );
       $this->boolean($agent->isNewItem())
@@ -169,11 +171,11 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     */
    private function enrollFromInvitation(\User $user, array $input) {
       // Close current session
+      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       \Session::destroy();
       $this->setupGLPIFramework();
 
       // login as invited user
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
       unset($_REQUEST['user_token']);
 

@@ -1,0 +1,15 @@
+diff --git a/inc/commondevice.class.php b/inc/commondevice.class.php
+index 22f791947b..73844ec8c2 100644
+--- a/inc/commondevice.class.php
++++ b/inc/commondevice.class.php
+@@ -411,8 +411,8 @@ abstract class CommonDevice extends CommonDropdown {
+                   break;
+ 
+                case 'delta':
+-                  $where[] = "`".$field."`>'".($input[$field] - $compare[1])."'";
+-                  $where[] = "`".$field."`<'".($input[$field] + $compare[1])."'";
++                  $where[] = "`".$field."`>'".((int) $input[$field] - (int) $compare[1])."'";
++                  $where[] = "`".$field."`<'".((int) $input[$field] + (int) $compare[1])."'";
+                   break;
+             }
+          }

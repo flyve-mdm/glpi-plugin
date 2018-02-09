@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -155,6 +155,10 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);*/
 
       // success
+      if (is_dir($destination = GLPI_DOC_DIR . '/PNG/')) {
+         // this folder should no exist on test environment for asserting the test
+         \PluginFlyvemdmCommon::recursiveRmdir($destination);
+      }
       $result = $instance->prepareInputForAdd($input);
       $this->boolean($instance->isNewItem())->isTrue()->array($result)->hasKeys([
          '_useremails',
@@ -165,7 +169,8 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          'documents_id',
       ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
          ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])->isEqualTo($sessionMessages[2]);
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])
+         ->isEqualTo($sessionMessages[2], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], 128));
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
       // check if expiration date is valid
@@ -195,39 +200,6 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
    public function testGetFromDBByToken() {
       $instance = $this->createNewInstance();
       $this->boolean($instance->getFromDBByToken('invalidToken'))->isFalse();
-   }
-
-   /**
-    * @tags testGetSearchOptionsNew
-    */
-   public function testGetSearchOptionsNew() {
-      $this->given($this->newTestedInstance)
-         ->array($result = $this->testedInstance->getSearchOptionsNew())
-         ->child[0](function ($child) {
-            $child->hasKeys(['id', 'name'])->values
-               ->string[0]->isEqualTo('common')
-               ->string[1]->isEqualTo('Invitation');
-         })
-         ->child[1](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
-               ->string[1]->isEqualTo('glpi_users')
-               ->string[2]->isEqualTo('name');
-         })
-         ->child[2](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
-               ->string[2]->isEqualTo('id');
-         })
-         ->child[3](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
-               ->string[2]->isEqualTo('status');
-         })
-         ->child[4](function ($child) {
-            $child->hasKeys(['table', 'name'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_invitations')
-               ->string[2]->isEqualTo('expiration_date');
-         });
    }
 
    /**

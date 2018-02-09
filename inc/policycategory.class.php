@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -39,15 +39,15 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
 
    // name of the right in DB
-   public static  $rightname           = 'flyvemdm:policycategory';
-   public         $can_be_translated   = true;
+   public static $rightname = 'flyvemdm:policycategory';
+   public $can_be_translated = true;
 
    /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   static function getTypeName($nb=0) {
+   static function getTypeName($nb = 0) {
       return _n('Policy category', 'Policy categories', $nb, 'flyvemdm');
    }
 
@@ -59,35 +59,35 @@ class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
       $tab = [];
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Policy category', 'flyvemdm')
+         'id'   => 'common',
+         'name' => __('Policy category', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'completename',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'completename',
+         'name'          => __('Name'),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('comment'),
-         'massiveaction'      => false,
-         'datatype'           => 'text'
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('comment'),
+         'massiveaction' => false,
+         'datatype'      => 'text',
       ];
 
       return $tab;

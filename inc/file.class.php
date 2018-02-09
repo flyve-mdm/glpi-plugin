@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -39,24 +39,24 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmFile extends CommonDBTM {
 
    // name of the right in DB
-   static $rightname                   = 'flyvemdm:file';
+   static $rightname = 'flyvemdm:file';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = true;
+   protected $usenotepad = true;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = true;
+   protected $usenotepadRights = true;
 
    /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   public static function getTypeName($nb=0) {
+   public static function getTypeName($nb = 0) {
       return _n('File', 'Files', $nb, "flyvemdm");
    }
 
@@ -86,7 +86,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
          // from GLPI UI
          $actualFilename = $_POST['_file'][0];
-         $uploadedFile = GLPI_TMP_DIR."/".$_POST['_file'][0];
+         $uploadedFile = GLPI_TMP_DIR . "/" . $_POST['_file'][0];
       } else {
          // from API
          if (!isset($_FILES['file'])) {
@@ -133,7 +133,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
       if (!rename($uploadedFile, $destination)) {
          if (!is_writable(dirname($destination))) {
             $destination = dirname($destination);
-            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Directory '$destination' is not writeable");
+            Toolbox::logInFile('php-errors',
+               "Plugin Flyvemdm : Directory '$destination' is not writeable");
          }
          Session::addMessageAfterRedirect(__('Failed to store the uploaded file', "flyvemdm"));
          return false;
@@ -229,7 +230,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $success = false;
 
       $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
-      if (false && ! in_array($fileExtension, ["txt", "pdf"])) {
+      if (false && !in_array($fileExtension, ["txt", "pdf"])) {
          $success = false;
       } else {
          $this->createEntityDirectory(dirname($destination));
@@ -274,7 +275,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
+      $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
          'id'                 => 'common',
@@ -282,30 +283,21 @@ class PluginFlyvemdmFile extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
-      ];
-
-      $tab[] = [
-         'id'                 => '3',
-         'table'              => $this->getTable(),
-         'field'              => 'source',
-         'name'               => __('Source'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'source',
+         'name'          => __('Source'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
@@ -325,8 +317,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
    public function pre_deleteItem() {
       $task = new PluginFlyvemdmTask();
       return $task->deleteByCriteria([
-            'itemtype'  => $this->getType(),
-            'items_id'  => $this->getID()
+         'itemtype' => $this->getType(),
+         'items_id' => $this->getID(),
       ]);
    }
 
@@ -341,8 +333,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
          if (isAPI()
-             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-                 || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
+            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+               || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
       }
@@ -361,16 +353,15 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $task = new PluginFlyvemdmTask();
          $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
          $fleet = new PluginFlyvemdmFleet();
-         $policyFactory = new PluginFlyvemdmPolicyFactory();
          foreach ($taskCol as $taskId => $taskRow) {
             $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
             if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
+               Toolbox::logInFile('php-errors',
+                  "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
                continue;
             }
-            $policy = $policyFactory->createFromDBByID($taskRow['plugin_flyvemdm_policies_id']);
             if ($task->getFromDB($taskId)) {
-               $task->updateQueue($fleet, $policy->getGroup());
+               $task->publishPolicy($fleet);
             }
          }
       }
@@ -409,7 +400,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       // Open the file
       $fileHandle = @fopen($streamSource, 'rb');
       if (!$fileHandle) {
-         header ("HTTP/1.0 500 Internal Server Error");
+         header("HTTP/1.0 500 Internal Server Error");
          exit(0);
       }
 
@@ -494,10 +485,10 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
-            (isset($options['withtemplate']) && $options['withtemplate'] == 2),
-            $this->getType(), -1);
+      $fields = $this->fields;
+      $objectName = autoName($this->fields["name"], "name",
+         (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+         $this->getType(), -1);
       if ($this->isNewID($ID)) {
          $fields['filesize'] = '';
       } else {
@@ -505,12 +496,12 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
       }
       $data = [
-            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
-            'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
-            'isNewID'      => $this->isNewID($ID),
-            'file'         => $fields,
-            'upload'       => Html::file(['name' => 'file', 'display' => false]),
-            'comment'      => $fields['comment'],
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+         'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+         'isNewID'      => $this->isNewID($ID),
+         'file'         => $fields,
+         'upload'       => Html::file(['name' => 'file', 'display' => false]),
+         'comment'      => $fields['comment'],
       ];
       echo $twig->render('file.html', $data);
 

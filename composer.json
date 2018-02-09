@@ -28,8 +28,9 @@
         "atoum/atoum": "^3.1",
         "consolidation/robo": "dev-master",
         "glpi-project/tools": "^0.1.2",
-        "flyve-mdm/test": "dev-atoumize",
-        "atoum/stubs": "^2.5"
+        "flyve-mdm/test": "dev-develop",
+        "atoum/stubs": "^2.5",
+        "atoum/reports-extension": "^3.0"
     },
     "repositories": [
         {
@@ -37,5 +38,10 @@
             "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
             "no-api": true
         }
-    ]
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Flyvemdm\\Tests\\Src\\": "tests/src/"
+        }
+    }
 }

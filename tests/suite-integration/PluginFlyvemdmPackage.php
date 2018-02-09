@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -32,10 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmFleet;
-use PluginFlyvemdmPackage as FlyvemdmPackage;
-use PluginFlyvemdmPolicy;
-use stdClass;
 
 class PluginFlyvemdmPackage extends CommonTestCase {
 
@@ -57,11 +53,12 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $packageName = 'com.domain.author.application';
-      $packageTable = FlyvemdmPackage::getTable();
+      $uniqueString = $this->getUniqueString();
+      $packageName = 'com.domain.' . $uniqueString . '.application';
+      $packageTable = \PluginFlyvemdmPackage::getTable();
       $entityId = $_SESSION['glpiactive_entity'];
       $query = "INSERT INTO $packageTable (
-         `name`,
+         `package_name`,
          `alias`,
          `version`,
          `filename`,
@@ -74,22 +71,22 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          '$packageName',
          'application',
          '1.0.5',
-         '$entityId/123456789_application_105.apk',
+         '$entityId/123456789_application_" . $uniqueString . ".apk',
          '1048576',
          '$entityId',
-         'application_105.apk',
+         'application_" . $uniqueString . ".apk',
          ''
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
       $package = $this->newTestedinstance();
-      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))
+      $this->boolean($package->getFromDBByQuery("WHERE `package_name`='$packageName'"))
          ->isTrue($mysqlError);
 
-      $policyDataDeploy = new PluginFlyvemdmPolicy();
+      $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();
 
-      $policyDataRemove = new PluginFlyvemdmPolicy();
+      $policyDataRemove = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataRemove->getFromDBBySymbol('removeApp'))->isTrue();
 
       $fleet = $this->createFleet();
@@ -118,10 +115,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
+    * @return object \PluginFlyvemdmFleet mocked
     */
    private function createFleet() {
-      $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
+      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function () {};
       $fleet->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
@@ -133,17 +130,17 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @param PluginFlyvemdmPolicy $policyData
-    * @param FlyvemdmPackage $package
-    * @param PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy $policyData
+    * @param \PluginFlyvemdmPackage $package
+    * @param \PluginFlyvemdmFleet $fleet
     * @return \PluginFlyvemdmTask
     */
    private function applyAddPackagePolicy(
-      PluginFlyvemdmPolicy $policyData,
-      FlyvemdmPackage $package,
-      PluginFlyvemdmFleet $fleet
+      \PluginFlyvemdmPolicy $policyData,
+      \PluginFlyvemdmPackage $package,
+      \PluginFlyvemdmFleet $fleet
    ) {
-      $value = new stdClass();
+      $value = new \stdClass();
       $value->remove_on_delete = '1';
 
       $task = new \PluginFlyvemdmTask();
@@ -157,5 +154,4 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
       return $task;
    }
-
 }

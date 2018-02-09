@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -35,16 +35,21 @@ if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
 if (!isset($_POST['value'])) {
    die();
 }
 
-$policyId = intval($_POST['value']);
+$policyId = (int) $_POST['value'];
+$mode = (isset($_POST['mode'])) ? $_POST['mode'] : null;
 
 $factory = new PluginFlyvemdmPolicyFactory();
 $policy = $factory->createFromDBByID($policyId);
 if ($policy !== null) {
-   echo $policy->showValueInput();
+   echo $policy->formGenerator($mode, [
+      'policyId' => $policyId,
+      'task'  => (int) ((isset($_POST['task'])) ? $_POST['task'] : 0),
+      'fleet' => (int) ((isset($_POST['fleet'])) ? $_POST['fleet'] : 0),
+   ]);
 }

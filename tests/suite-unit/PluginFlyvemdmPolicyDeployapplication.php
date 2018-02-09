@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2016 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -22,7 +22,7 @@
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
  * @author    Domingo Oropeza
- * @copyright Copyright © 2017 Teclib
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -119,16 +119,16 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $uniqid = uniqid();
       $table_file = PluginFlyvemdmPackage::getTable();
       $query = "INSERT INTO `$table_file` (
-        `name`, 
-        `alias`, 
-        `version`, 
-        `filename`, 
-        `filesize`, 
-        `entities_id`, 
-        `dl_filename`, 
+        `package_name`,
+        `alias`,
+        `version`,
+        `filename`,
+        `filesize`,
+        `entities_id`,
+        `dl_filename`,
         `icon`
         ) VALUES (
-        '" . $uniqid . $this->packageName . "', 
+        '" . $uniqid . $this->packageName . "',
         'application',
         '1.0.5',
         '0/" . $uniqid . $this->filename . "',
@@ -160,7 +160,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $this->array($result)->hasKeys(['id', 'versionCode', $this->dataField['symbol']])
          ->string($result['id'])->isEqualTo($item->getID())
          ->string($result['versionCode'])->isEqualTo("")
-         ->string($result[$this->dataField['symbol']])->isEqualTo($item->getName());
+         ->string($result[$this->dataField['symbol']])->isEqualTo($item->getField('package_name'));
    }
 
    /**
@@ -222,14 +222,23 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @tags testShowValueInput
+    * @engine inline
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
       $value = $policy->showValueInput();
       $this->string($value)
-         ->contains('dropdown_items_id')->contains('ajax/getDropdownValue.php')
-         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"')
-         ->contains('input type="hidden" name="value[remove_on_delete]" value="1"');
+         ->contains('dropdown_items_id')
+         ->contains('ajax/getDropdownValue.php')
+         ->contains('input type="hidden" name="itemtype" value="PluginFlyvemdmPackage"');
+
+      $matches = null;
+      preg_match(
+         '/.*<select[^>]*name=\'value\[remove_on_delete\]\'[^>]*>.*/',
+         $value,
+         $matches
+      );
+      $this->array($matches)->hasSize(1);
    }
 
    /**

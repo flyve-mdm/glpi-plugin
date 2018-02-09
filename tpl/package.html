@@ -13,7 +13,7 @@
       {{ __('Name') }}{{ withTemplate }} 
    </td>
    <td>
-      {{ package.name }}
+      {{ package.name|raw }}
    </td>
    <td>
       {{ __('Alias', 'flyvemdm') }}
@@ -34,6 +34,18 @@
    </td>
    <td>
       {{ package.filesize }}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Package name', 'flyvemdm') }} 
+   </td>
+   <td>
+      {{ package.package_name }}
+   </td>
+   <td>
+   </td>
+   <td>
    </td>
 </tr>
 {% if canUpdate == true %}

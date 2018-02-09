@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -41,17 +41,17 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'flyvemdm:policy';
+   static $rightname = 'flyvemdm:policy';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = false;
+   protected $usenotepad = false;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = false;
+   protected $usenotepadRights = false;
 
    /**
     * Finds the symbol that matches the argument
@@ -82,7 +82,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @param integer $nb number of item in the type (default 0)
     * @return string
     */
-   static function getTypeName($nb=0) {
+   static function getTypeName($nb = 0) {
       return _n('Policy', 'Policies', $nb, "flyvemdm");
    }
 
@@ -91,82 +91,73 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
+      $tab = parent::getSearchOptionsNew();
 
-      $tab[] = [
-         'id'                 => 'common',
-         'name'               => __('Policy', 'flyvemdm')
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __('Policy', 'flyvemdm'),
       ];
 
       $tab[] = [
-         'id'                 => '1',
-         'table'              => $this->getTable(),
-         'field'              => 'name',
-         'name'               => __('Name'),
-         'datatype'           => 'itemlink',
-         'massiveaction'      => false
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
       ];
 
       $tab[] = [
-         'id'                 => '2',
-         'table'              => $this->getTable(),
-         'field'              => 'id',
-         'name'               => __('ID'),
-         'massiveaction'      => false,
-         'datatype'           => 'number'
+         'id'            => '3',
+         'table'         => 'glpi_plugin_flyvemdm_policycategories',
+         'field'         => 'completename',
+         'name'          => __('Policy category'),
+         'datatype'      => 'dropdown',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_policycategories',
-         'field'              => 'completename',
-         'name'               => __('Policy category'),
-         'datatype'           => 'dropdown',
-         'massiveaction'      => false
+         'id'       => '4',
+         'table'    => $this->getTable(),
+         'field'    => 'type',
+         'name'     => __('Type'),
+         'datatype' => 'string',
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'type',
-         'name'               => __('Type'),
-         'datatype'           => 'string'
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'type_data',
+         'name'          => __('Enumeration data'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => $this->getTable(),
-         'field'              => 'type_data',
-         'name'               => __('Enumeration data'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'group',
+         'name'          => __('Group'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '6',
-         'table'              => $this->getTable(),
-         'field'              => 'group',
-         'name'               => __('Group'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'default_value',
+         'name'          => __('Default value'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       $tab[] = [
-         'id'                 => '7',
-         'table'              => $this->getTable(),
-         'field'              => 'default_value',
-         'name'               => __('Default value'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
-      ];
-
-      $tab[] = [
-         'id'                 => '8',
-         'table'              => $this->getTable(),
-         'field'              => 'recommended_value',
-         'name'               => __('Recommended value'),
-         'datatype'           => 'string',
-         'massiveaction'      => false
+         'id'            => '8',
+         'table'         => $this->getTable(),
+         'field'         => 'recommended_value',
+         'name'          => __('Recommended value'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
       ];
 
       return $tab;

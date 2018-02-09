@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2016 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -22,7 +22,7 @@
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
  * @author    Domingo Oropeza
- * @copyright Copyright © 2017 Teclib
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -100,42 +100,5 @@ class PluginFlyvemdmWellknownpath extends CommonTestCase {
       $instance = $this->createInstance();
       $input = ['is_default' => 'some value'];
       $this->array($instance->prepareInputForUpdate($input))->notHasKey('is_default');
-   }
-
-   /**
-    * @tags testGetSearchOptionsNew
-    */
-   public function testGetSearchOptionsNew() {
-      $this->given($this->newTestedInstance)
-         ->array($result = $this->testedInstance->getSearchOptionsNew())
-         ->child[0](function ($child) {
-            $child->hasKeys(['id', 'name'])->values
-               ->string[0]->isEqualTo('common')
-               ->string[1]->isEqualTo('Well known path');
-         })
-         ->child[1](function ($child) {
-            $child->hasKeys(['table', 'field', 'datatype'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_wellknownpaths')
-               ->string[2]->isEqualTo('name')
-               ->string[4]->isEqualTo('itemlink');
-         })
-         ->child[2](function ($child) {
-            $child->hasKeys(['table', 'field', 'datatype'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_wellknownpaths')
-               ->string[2]->isEqualTo('id')
-               ->string[5]->isEqualTo('number');
-         })
-         ->child[3](function ($child) {
-            $child->hasKeys(['table', 'field', 'datatype'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_wellknownpaths')
-               ->string[2]->isEqualTo('comment')
-               ->string[5]->isEqualTo('text');
-         })
-         ->child[4](function ($child) {
-            $child->hasKeys(['table', 'field', 'datatype'])->values
-               ->string[1]->isEqualTo('glpi_plugin_flyvemdm_wellknownpaths')
-               ->string[2]->isEqualTo('is_default')
-               ->string[5]->isEqualTo('bool');
-         });
    }
 }

@@ -2,8 +2,8 @@
 /**
  * LICENSE
  *
- * Copyright © 2016-2017 Teclib'
- * Copyright © 2010-2017 by the FusionInventory Development Team.
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
  *
  * This file is part of Flyve MDM Plugin for GLPI.
  *
@@ -21,8 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier Pineau
- * @copyright Copyright © 2017 Teclib
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
@@ -178,10 +178,13 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
+    * @param string $value value of the task
+    * @param string $itemType type of the item linked to the task
+    * @param integer $itemId ID of the item
     * @return string
     */
-   public function showValueInput() {
-      $html = '<input name="value" value="" >';
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
+      $html = '<input name="value" value="' . $value . '" >';
 
       return $html;
    }
@@ -216,4 +219,41 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    public function getPolicyData() {
       return $this->policyData;
    }
+
+   /**
+    * Generate the form for add or edit a policy
+    *
+    * @param string $mode add or update
+    * @param array $_input values for update
+    * @return string html
+    */
+   public function formGenerator(
+      $mode = 'add',
+      array $_input = []
+   ) {
+      $task = new PluginFlyvemdmTask();
+      $value = '';
+      $itemtype = '';
+      $itemId = 0;
+      if (!$task->isNewID($_input['task'])) {
+         $task->getFromDB($_input['task']);
+         $value = $task->getField('value');
+         $itemtype = $task->getField('itemtype');
+         $itemId = $task->getField('items_id');
+      }
+      $form['mode'] = $mode;
+      $form['input'] = $this->showValueInput($value, $itemtype, $itemId);
+      if ($mode == "update") {
+         $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
+         $form['rand'] = mt_rand();
+         $form['taskId'] = $_input['task'];
+         $form['policyId'] = $_input['policyId'];
+         $form['fleetId'] = $_input['fleet'];
+         $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
+            ['value' => Session::getNewCSRFToken()]) : '';
+      }
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('policy_form.html', ['form' => $form]);
+   }
+
 }
