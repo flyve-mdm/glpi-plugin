@@ -302,28 +302,31 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history = 1) {
-      if (isset($this->oldvalues['filename'])) {
-         $itemtype = $this->getType();
-         $itemId = $this->getID();
-
-         $task = new PluginFlyvemdmTask();
-         $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-         $fleet = new PluginFlyvemdmFleet();
-         foreach ($taskCol as $taskId => $taskRow) {
-            $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
-            if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors',
-                  "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
-               continue;
-            }
-            if ($task->getFromDB($taskId)) {
-               $task->publishPolicy($fleet);
-            }
-         }
-
-         // File updated, then scan it again
-         $this->createOrionReport();
+      if (!isset($this->oldvalues['filename'])) {
+         return;
       }
+
+      $itemtype = $this->getType();
+      $itemId = $this->getID();
+
+      $task = new PluginFlyvemdmTask();
+      $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      $fleet = new PluginFlyvemdmFleet();
+      foreach ($taskCol as $taskId => $taskRow) {
+         $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
+         if ($fleet->getFromDB($fleetId)) {
+            Toolbox::logInFile('php-errors',
+               "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
+            continue;
+         }
+         if ($task->getFromDB($taskId)) {
+            $task->publishPolicy($fleet);
+            $task->createTaskStatuses($fleet);
+         }
+      }
+
+      // File updated, then scan it again
+      $this->createOrionReport();
    }
 
    /**

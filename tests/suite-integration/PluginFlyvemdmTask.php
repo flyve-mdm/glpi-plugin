@@ -51,7 +51,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @tags testApplyPolicy
-    * @engine inline
     */
    public function testApplyPolicy() {
       // Create an agent
@@ -160,6 +159,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(0);
+   }
+
+   public function testCreateTaskStatuses() {
+
    }
 
    /**

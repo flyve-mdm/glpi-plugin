@@ -30,6 +30,8 @@
  */
 
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyBadFleetException;
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyNotFoundException;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -299,10 +301,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    public function post_addItem() {
       $this->publishPolicy($this->fleet);
+      $this->createTaskStatuses($this->fleet);
    }
 
    public function post_updateItem($history = 1) {
       $this->publishPolicy($this->fleet);
+      $this->createTaskStatuses($this->fleet);
    }
 
    public function pre_deleteItem() {
@@ -331,21 +335,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    /**
-    * create tasks statuses for this  task
-    * @param PluginFlyvemdmFleet $fleet
-    */
-   private function createTasksStatuses(PluginFlyvemdmFleet $fleet) {
-      foreach ($fleet->getAgents() as $agent) {
-         $taskStatus = new PluginFlyvemdmTaskstatus();
-         $taskStatus->add([
-            'plugin_flyvemdm_agents_id' => $agent->getID(),
-            'plugin_flyvemdm_tasks_id'  => $this->getID(),
-            'status'                    => 'queued',
-         ]);
-      }
-   }
-
-   /**
     * Deletes the task statuses
     */
    private function deleteTaskStatuses() {
@@ -366,46 +355,63 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       $fleet = $item->getFleet();
-      if ($fleet !== null && $fleet->getField('is_default') == '0') {
-         $fleetId = $fleet->getID();
-         $topic = $item->getTopic();
+      if ($fleet === null || $fleet->getField('is_default') != '0') {
+         $notifiableItemtype = get_class($item);
+         $exceptionMessage = "Plugin Flyvemdm : no fleet for the notifiable item $notifiableItemtype, or has a default fleet";
+         Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
+         throw new TaskPublishPolicyBadFleetException($exceptionMessage);
+      }
 
-         // Initialize a task status for each agent in the fleet
+      $topic = $item->getTopic();
+
+      $policy = new PluginFlyvemdmPolicy();
+      $policyFk = $policy::getForeignKeyField();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
+      if ($appliedPolicy === null) {
+         $exceptionMessage = "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
+         Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
+         throw new TaskPublishPolicyNotFoundException($exceptionMessage);
+      }
+
+      $policy->getFromDB($this->fields[$policyFk]);
+      $policyName = $policy->getField('symbol');
+      $taskId = $this->getID();
+      $policyMessage = $appliedPolicy->getMqttMessage(
+         $this->fields['value'],
+         $this->fields['itemtype'],
+         $this->fields['items_id']
+      );
+      $policyMessage['taskId'] = $this->getID();
+      $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $fleet->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
+   }
+
+   /**
+    * Creates task status for all agents in the fleet linked to this task
+    * @param PluginFlyvemdmNotifiable $item
+    */
+   public function createTaskStatuses(PluginFlyvemdmNotifiable $item) {
+      $fleet = $item->getFleet();
+      if ($fleet === null || $fleet->getField('is_default') != '0') {
+         return;
+      }
+
+      // Initialize a task status for each agent in the fleet
+      $fleetId = $fleet->getID();
+      $agent = new PluginFlyvemdmAgent();
+      $fleetFk = $fleet::getForeignKeyField();
+      $rows = $agent->find("`$fleetFk` = '$fleetId'");
+      foreach ($rows as $row) {
          $agent = new PluginFlyvemdmAgent();
-         $fleetFk = $fleet::getForeignKeyField();
-         $rows = $agent->find("`$fleetFk` = '$fleetId'");
-         foreach ($rows as $row) {
-            $agent = new PluginFlyvemdmAgent();
-            if ($agent->getFromDB($row['id'])) {
-               $taskStatus = new PluginFlyvemdmTaskstatus();
-               $taskStatus->add([
-                  $agent::getForeignKeyField()  => $row['id'],
-                  $this::getForeignKeyField()   => $this->getID(),
-                  'status'                      => 'pending',
-               ]);
-            }
+         if ($agent->getFromDB($row['id'])) {
+            $taskStatus = new PluginFlyvemdmTaskstatus();
+            $taskStatus->add([
+               $agent::getForeignKeyField()  => $row['id'],
+               $this::getForeignKeyField()   => $this->getID(),
+               'status'                      => 'pending',
+            ]);
          }
-
-         $policy = new PluginFlyvemdmPolicy();
-         $policyFk = $policy::getForeignKeyField();
-         $policyFactory = new PluginFlyvemdmPolicyFactory();
-         $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
-         if ($appliedPolicy === null) {
-            Toolbox::logInFile('php-errors', "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message\n" );
-            return;
-         }
-
-         $policy->getFromDB($this->fields[$policyFk]);
-         $policyName = $policy->getField('symbol');
-         $taskId = $this->getID();
-         $policyMessage = $appliedPolicy->getMqttMessage(
-            $this->fields['value'],
-            $this->fields['itemtype'],
-            $this->fields['items_id']
-         );
-         $policyMessage['taskId'] = $this->getID();
-         $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
-         $fleet->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
       }
    }
 
@@ -561,28 +567,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       return $groupToEncode;
-   }
-
-   /**
-    * generate pending tasks statuses for each agent in the fleet
-    *
-    * @param PluginFlyvemdmAgent $agent an agent
-    * @param array $policiesToApply policies to apply to the agents via the fleet
-    * @return void
-    */
-   public function createTaskStatus(PluginFlyvemdmAgent $agent, array $policiesToApply) {
-      $agentId = $agent->getID();
-      foreach ($policiesToApply as $policyToApply) {
-         $taskId = $policyToApply['tasks_id'];
-         if ($taskId > 0) {
-            $taskStatus = new PluginFlyvemdmTaskstatus();
-            $taskStatus->add([
-               'plugin_flyvemdm_agents_id' => $agentId,
-               'plugin_flyvemdm_tasks_id'  => $taskId,
-               'status'                    => 'pending',
-            ]);
-         }
-      }
    }
 
    /**
