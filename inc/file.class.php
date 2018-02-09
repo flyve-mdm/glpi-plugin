@@ -156,10 +156,12 @@ class PluginFlyvemdmFile extends CommonDBTM {
     */
    public function prepareInputForUpdate($input) {
       // Find the added file
-      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+      if (!isAPI()) {
          // from GLPI UI
-         $actualFilename = $_POST['_file'][0];
-         $uploadedFile = GLPI_TMP_DIR . "/" . $_POST['_file'][0];
+         if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+            $actualFilename = $_POST['_file'][0];
+            $uploadedFile = GLPI_TMP_DIR . "/" . $_POST['_file'][0];
+         }
       } else {
          // from API
          if (isset($_FILES['file']['error'])) {
@@ -212,14 +214,13 @@ class PluginFlyvemdmFile extends CommonDBTM {
          if ($filename != $this->fields['source']) {
             unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
          }
+         // File updated, then increment its version
+         $input['version'] = $this->fields['version'] + 1;
       } else {
          // No file uploaded
          unset($input['source']);
       }
-
-      // File updated, then increment its version
-      $input['version'] = $this->fields['version']++;
-
+      
       return $input;
    }
 
@@ -280,9 +281,9 @@ class PluginFlyvemdmFile extends CommonDBTM {
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __s('File', 'flyvemdm'),
+      $tab[] = [
+         'id'                 => 'common',
+         'name'               => __s('File', 'flyvemdm'),
       ];
 
       $tab[] = [
@@ -301,6 +302,14 @@ class PluginFlyvemdmFile extends CommonDBTM {
          'name'          => __('Source'),
          'datatype'      => 'string',
          'massiveaction' => false,
+      ];
+
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => $this->getTable(),
+         'field'              => 'comment',
+         'name'               => __('Comment'),
+         'datetype'           => 'text',
       ];
 
       return $tab;
@@ -496,6 +505,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          'isNewID'      => $this->isNewID($ID),
          'file'         => $fields,
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
+         'comment'      => $fields['comment'],
       ];
       echo $twig->render('file.html', $data);
 

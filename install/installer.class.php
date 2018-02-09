@@ -137,6 +137,7 @@ class PluginFlyvemdmInstaller {
       $this->createNotificationTargetInvitation();
       $this->createJobs();
       $this->createRootEntityConfig();
+      $this->createDisplayPreferences();
 
       Config::setConfigurationValues('flyvemdm', ['version' => PLUGIN_FLYVEMDM_VERSION]);
 
@@ -1532,10 +1533,33 @@ Regards,
       }
    }
 
+   protected function createDisplayPreferences() {
+      $displayPreference = new DisplayPreference();
+      $itemtype = PluginFlyvemdmFile::class;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '1' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => PluginFlyvemdmFile::class,
+            'num'                      => '1',
+            'rank'                     => '1',
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => PluginFlyvemdmFile::class,
+            'num'                      => '4',
+            'rank'                     => '2',
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+   }
+
    protected function deleteDisplayPreferences() {
-      // To cleanup display preferences if any
-      //$displayPreference = new DisplayPreference();
-      //$displayPreference->deleteByCriteria(["`num` >= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MIN . "
-      //                                             AND `num` <= " . PluginFlyvemdmConfig::RESERVED_TYPE_RANGE_MAX]);
+      global $DB;
+
+      $table = DisplayPreference::getTable();
+      $DB->query("DELETE FROM `$table` WHERE `itemtype` LIKE 'PluginFlyvemdm%'");
    }
 }

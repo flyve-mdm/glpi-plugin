@@ -48,6 +48,10 @@ if (isset($_POST['add'])) {
    $flyveFile->check(-1, CREATE, $_POST);
    $flyveFile->add($_POST);
    Html::back();
+} else if (isset($_POST['update'])) {
+   $flyveFile->check(-1, UPDATE, $_POST);
+   $flyveFile->update($_POST);
+   Html::back();
 } else {
    $flyveFile->check($_GET['id'], READ);
    Html::header(
