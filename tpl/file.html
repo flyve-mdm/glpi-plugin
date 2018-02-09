@@ -15,7 +15,9 @@
       {{ __('Comment') }}{{ withTemplate }}
    </td>
    <td>
-      <textarea cols="45" rows="5"  name="comment">{{ comment }}</textarea>
+      <textarea cols="45" rows="5"
+        name="comment" aria-label="{{ __('Comment') }}{{ withTemplate }}"
+      >{{ comment }}</textarea>
    </td>
    <td>
    </td>
