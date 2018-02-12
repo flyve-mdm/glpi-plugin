@@ -144,10 +144,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $input['name'] = $actualFilename;
       }
 
-      if (!isset($input['comment']) || empty($input['comment'])) {
-         $input['comment'] = '';
-      }
-
       // File added, then this is the first version
       $input['version'] = '1';
 
