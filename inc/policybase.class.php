@@ -241,8 +241,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
          $itemtype = $task->getField('itemtype');
          $itemId = $task->getField('items_id');
       }
-      $form['mode'] = $mode;
-      $form['input'] = $this->showValueInput($value, $itemtype, $itemId);
+      $form = [
+         'mode' => $mode,
+         'input' => $this->showValueInput($value, $itemtype, $itemId)
+      ];
       if ($mode == "update") {
          $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
          $form['rand'] = mt_rand();
