@@ -188,11 +188,22 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'disableUsbOnTheGo',
    ];
    $tasksTable = 'glpi_plugin_flyvemdm_tasks';
+   $fleetTable = 'glpi_plugin_flyvemdm_fleets';
    $request = [
-      'FIELDS'     => [$table => ['symbol'], $tasksTable => ['plugin_flyvemdm_fleets_id']],
+      'FIELDS'     => [
+         $table => ['symbol'],
+         $tasksTable => ['id', 'plugin_flyvemdm_fleets_id'],
+         $fleetTable => ['entities_id'],
+      ],
       'FROM'       => $table,
       'INNER JOIN' => [
          $tasksTable => ['FKEY' => [$tasksTable => 'plugin_flyvemdm_policies_id', $table => 'id']],
+         $fleetTable => [
+            'FKEY' => [
+               $tasksTable => 'plugin_flyvemdm_fleets_id',
+               $fleetTable => 'id',
+            ],
+         ],
       ],
       'WHERE'      => ['symbol' => $policies],
    ];
@@ -200,7 +211,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (count($result) > 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       foreach ($DB->request($result) as $row => $data) {
-         $mqttClient->publish($data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'], null, 0, 1);
+         $topic = "/" . $data['entities_id'] . "/fleet/" . $data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'] . "/Task/" . $data['id'];
+         $mqttClient->publish($topic, null, 0, 1);
       }
       $DB->delete($table, ['symbol' => $policies]);
    }
