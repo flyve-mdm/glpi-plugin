@@ -19,6 +19,8 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
         git checkout composer.lock
         #php $HOME/bin/sami.phar update "$TRAVIS_BUILD_DIR"/.github/samiConfig.php --force
         find build/tests/coverage/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
+        find build/tests/coverage/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
+        find build/tests/coverage/ -type f -name "*.html" -exec sed -i "/report.css/d" "{}" \;
 
         # commit_website_files
         echo "adding the coverage report"
