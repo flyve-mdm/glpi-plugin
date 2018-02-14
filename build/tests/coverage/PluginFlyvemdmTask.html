@@ -37,9 +37,9 @@ layout: coverage
     <tr>
         
                     <td style="text-align: center; width: 100%">
-                <h1 class="text-success">
-                    79%
-                                            <small>of 173</small>
+                <h1 class="text-warning">
+                    35%
+                                            <small>of 387</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -59,6 +59,13 @@ layout: coverage
 
     <tbody>
             <tr>
+            <td><a href="#getTabNameForItem">PluginFlyvemdmTask::getTabNameForItem()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
             <td><a href="#addNeededInfoToInput">PluginFlyvemdmTask::addNeededInfoToInput()</a></td>
                                         <td style="text-align: center">10</td>
                 <td style="text-align: center">    
@@ -73,10 +80,24 @@ layout: coverage
 </td>
                                             </tr>
             <tr>
+            <td><a href="#prepareInputForUpdate">PluginFlyvemdmTask::prepareInputForUpdate()</a></td>
+                                        <td style="text-align: center">52</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
             <td><a href="#post_addItem">PluginFlyvemdmTask::post_addItem()</a></td>
                                         <td style="text-align: center">2</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_updateItem">PluginFlyvemdmTask::post_updateItem()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -91,6 +112,13 @@ layout: coverage
                                         <td style="text-align: center">3</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#createTasksStatuses">PluginFlyvemdmTask::createTasksStatuses()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -115,10 +143,66 @@ layout: coverage
 </td>
                                             </tr>
             <tr>
+            <td><a href="#getGroupsOfAppliedPolicies">PluginFlyvemdmTask::getGroupsOfAppliedPolicies()</a></td>
+                                        <td style="text-align: center">14</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getGroupOfPolicies">PluginFlyvemdmTask::getGroupOfPolicies()</a></td>
+                                        <td style="text-align: center">40</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#buildMqttMessage">PluginFlyvemdmTask::buildMqttMessage()</a></td>
+                                        <td style="text-align: center">14</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#createTaskStatus">PluginFlyvemdmTask::createTaskStatus()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#cleanupPolicies">PluginFlyvemdmTask::cleanupPolicies()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmTask::getSearchOptionsNew()</a></td>
                                         <td style="text-align: center">44</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForItem">PluginFlyvemdmTask::displayTabContentForItem()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showForFleet">PluginFlyvemdmTask::showForFleet()</a></td>
+                                        <td style="text-align: center">52</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#preprocessInput">PluginFlyvemdmTask::preprocessInput()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
         </tbody>
@@ -821,28 +905,25 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getTabNameForItem">
                     <th id="L87" class="number ">87</th>
 
-                    <td class="" >
-                        <pre>   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-</pre>
+                    <td class="" id="getTabNameForItem">
+                        <pre>   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L88" class="number ">88</th>
+                    <th id="L88" class="number uncovered">88</th>
 
-                    <td class="" >
-                        <pre>      if (static::canView()) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (static::canView()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number ">89</th>
+                    <th id="L89" class="number uncovered">89</th>
 
-                    <td class="" >
-                        <pre>         switch ($item-&gt;getType()) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         switch ($item-&gt;getType()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -854,51 +935,45 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number ">91</th>
+                    <th id="L91" class="number uncovered">91</th>
 
-                    <td class="" >
-                        <pre>               if ($_SESSION[&#039;glpishow_count_on_tabs&#039;]) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>               if ($_SESSION[&#039;glpishow_count_on_tabs&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L92" class="number ">92</th>
+                    <th id="L92" class="number uncovered">92</th>
 
-                    <td class="" >
-                        <pre>                  $nb = 0;
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $nb = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number ">93</th>
+                    <th id="L93" class="number uncovered">93</th>
 
-                    <td class="" >
-                        <pre>                  $fleetId = $item-&gt;getID();
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $fleetId = $item-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L94" class="number uncovered">94</th>
 
-                    <td class="" >
-                        <pre>                  $pluralNumber = Session::getPluralNumber();
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $pluralNumber = Session::getPluralNumber();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number ">95</th>
+                    <th id="L95" class="number uncovered">95</th>
 
-                    <td class="" >
-                        <pre>                  $nb = countElementsInTable(static::getTable(),
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $nb = countElementsInTable(static::getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
+                    <th id="L96" class="number uncovered">96</th>
 
-                    <td class="" >
-                        <pre>                     [&#039;plugin_flyvemdm_fleets_id&#039; =&gt; $fleetId]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>                     [&#039;plugin_flyvemdm_fleets_id&#039; =&gt; $fleetId]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -910,11 +985,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number ">98</th>
+                    <th id="L98" class="number uncovered">98</th>
 
-                    <td class="" >
-                        <pre>               return self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb);
-</pre>
+                    <td class="uncovered" >
+                        <pre>               return self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -934,11 +1008,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number ">101</th>
+                    <th id="L101" class="number uncovered">101</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1771,36 +1844,32 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="prepareInputForUpdate">
                     <th id="L214" class="number ">214</th>
 
-                    <td class="" >
-                        <pre>   public function prepareInputForUpdate($input) {
-</pre>
+                    <td class="" id="prepareInputForUpdate">
+                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L215" class="number ">215</th>
+                    <th id="L215" class="number uncovered">215</th>
 
-                    <td class="" >
-                        <pre>      $input = parent::prepareInputForUpdate($input);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $input = parent::prepareInputForUpdate($input);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L216" class="number ">216</th>
+                    <th id="L216" class="number uncovered">216</th>
 
-                    <td class="" >
-                        <pre>      $value = $input[&#039;value&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $value = $input[&#039;value&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L217" class="number ">217</th>
+                    <th id="L217" class="number uncovered">217</th>
 
-                    <td class="" >
-                        <pre>      if (is_object($input[&#039;value&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (is_object($input[&#039;value&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1812,27 +1881,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L219" class="number ">219</th>
+                    <th id="L219" class="number uncovered">219</th>
 
-                    <td class="" >
-                        <pre>         $value = get_object_vars($input[&#039;value&#039;]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $value = get_object_vars($input[&#039;value&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L220" class="number ">220</th>
+                    <th id="L220" class="number uncovered">220</th>
 
-                    <td class="" >
-                        <pre>         $input[&#039;value&#039;] = json_encode($input[&#039;value&#039;], JSON_UNESCAPED_SLASHES);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $input[&#039;value&#039;] = json_encode($input[&#039;value&#039;], JSON_UNESCAPED_SLASHES);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L221" class="number ">221</th>
+                    <th id="L221" class="number uncovered">221</th>
 
-                    <td class="" >
-                        <pre>      } else if (is_array($input[&#039;value&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      } else if (is_array($input[&#039;value&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1844,19 +1910,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L223" class="number ">223</th>
+                    <th id="L223" class="number uncovered">223</th>
 
-                    <td class="" >
-                        <pre>         $value = $input[&#039;value&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $value = $input[&#039;value&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L224" class="number ">224</th>
+                    <th id="L224" class="number uncovered">224</th>
 
-                    <td class="" >
-                        <pre>         $input[&#039;value&#039;] = json_encode($input[&#039;value&#039;], JSON_UNESCAPED_SLASHES);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $input[&#039;value&#039;] = json_encode($input[&#039;value&#039;], JSON_UNESCAPED_SLASHES);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1884,27 +1948,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L228" class="number ">228</th>
+                    <th id="L228" class="number uncovered">228</th>
 
-                    <td class="" >
-                        <pre>      $policyId = $this-&gt;fields[&#039;plugin_flyvemdm_policies_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyId = $this-&gt;fields[&#039;plugin_flyvemdm_policies_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L229" class="number ">229</th>
+                    <th id="L229" class="number uncovered">229</th>
 
-                    <td class="" >
-                        <pre>      if (isset($input[&#039;plugin_flyvemdm_policies_id&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (isset($input[&#039;plugin_flyvemdm_policies_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L230" class="number ">230</th>
+                    <th id="L230" class="number uncovered">230</th>
 
-                    <td class="" >
-                        <pre>         $policyId = $input[&#039;plugin_flyvemdm_policies_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policyId = $input[&#039;plugin_flyvemdm_policies_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1916,43 +1977,38 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L232" class="number ">232</th>
+                    <th id="L232" class="number uncovered">232</th>
 
-                    <td class="" >
-                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L233" class="number ">233</th>
+                    <th id="L233" class="number uncovered">233</th>
 
-                    <td class="" >
-                        <pre>      $this-&gt;policy = $policyFactory-&gt;createFromDBByID($policyId);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $this-&gt;policy = $policyFactory-&gt;createFromDBByID($policyId);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L234" class="number ">234</th>
+                    <th id="L234" class="number uncovered">234</th>
 
-                    <td class="" >
-                        <pre>      if (!$this-&gt;policy instanceof PluginFlyvemdmPolicyInterface) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;policy instanceof PluginFlyvemdmPolicyInterface) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L235" class="number ">235</th>
+                    <th id="L235" class="number uncovered">235</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Policy not found&#039;, &#039;flyvemdm&#039;), false, ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Policy not found&#039;, &#039;flyvemdm&#039;), false, ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L236" class="number ">236</th>
+                    <th id="L236" class="number uncovered">236</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1980,27 +2036,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L240" class="number ">240</th>
+                    <th id="L240" class="number uncovered">240</th>
 
-                    <td class="" >
-                        <pre>      $itemtype = $this-&gt;fields[&#039;itemtype&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $itemtype = $this-&gt;fields[&#039;itemtype&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L241" class="number ">241</th>
+                    <th id="L241" class="number uncovered">241</th>
 
-                    <td class="" >
-                        <pre>      if (isset($input[&#039;itemtype&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (isset($input[&#039;itemtype&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L242" class="number ">242</th>
+                    <th id="L242" class="number uncovered">242</th>
 
-                    <td class="" >
-                        <pre>         $itemtype = $input[&#039;itemtype&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $itemtype = $input[&#039;itemtype&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2012,27 +2065,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L244" class="number ">244</th>
+                    <th id="L244" class="number uncovered">244</th>
 
-                    <td class="" >
-                        <pre>      $itemId = $this-&gt;fields[&#039;items_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $itemId = $this-&gt;fields[&#039;items_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L245" class="number ">245</th>
+                    <th id="L245" class="number uncovered">245</th>
 
-                    <td class="" >
-                        <pre>      if (isset($input[&#039;items_id&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (isset($input[&#039;items_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L246" class="number ">246</th>
+                    <th id="L246" class="number uncovered">246</th>
 
-                    <td class="" >
-                        <pre>         $itemId = $input[&#039;items_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $itemId = $input[&#039;items_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2060,27 +2110,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L250" class="number ">250</th>
+                    <th id="L250" class="number uncovered">250</th>
 
-                    <td class="" >
-                        <pre>      $fleetId = $this-&gt;fields[&#039;plugin_flyvemdm_fleets_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $fleetId = $this-&gt;fields[&#039;plugin_flyvemdm_fleets_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L251" class="number ">251</th>
+                    <th id="L251" class="number uncovered">251</th>
 
-                    <td class="" >
-                        <pre>      if (isset($input[&#039;plugin_flyvemdm_fleets_id&#039;])) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (isset($input[&#039;plugin_flyvemdm_fleets_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L252" class="number ">252</th>
+                    <th id="L252" class="number uncovered">252</th>
 
-                    <td class="" >
-                        <pre>         $fleetId = $input[&#039;plugin_flyvemdm_fleets_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $fleetId = $input[&#039;plugin_flyvemdm_fleets_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2092,43 +2139,38 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L254" class="number ">254</th>
+                    <th id="L254" class="number uncovered">254</th>
 
-                    <td class="" >
-                        <pre>      $this-&gt;fleet = new PluginFlyvemdmFleet();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $this-&gt;fleet = new PluginFlyvemdmFleet();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L255" class="number ">255</th>
+                    <th id="L255" class="number uncovered">255</th>
 
-                    <td class="" >
-                        <pre>      if (!$this-&gt;fleet-&gt;getFromDB($fleetId)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;fleet-&gt;getFromDB($fleetId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L256" class="number ">256</th>
+                    <th id="L256" class="number uncovered">256</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Cannot find the target fleet&#039;, &#039;flyvemdm&#039;), false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Cannot find the target fleet&#039;, &#039;flyvemdm&#039;), false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L257" class="number ">257</th>
+                    <th id="L257" class="number uncovered">257</th>
 
-                    <td class="" >
-                        <pre>            ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L258" class="number ">258</th>
+                    <th id="L258" class="number uncovered">258</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2156,35 +2198,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L262" class="number ">262</th>
+                    <th id="L262" class="number uncovered">262</th>
 
-                    <td class="" >
-                        <pre>      if ($this-&gt;fleet-&gt;getField(&#039;is_default&#039;)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fleet-&gt;getField(&#039;is_default&#039;)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L263" class="number ">263</th>
+                    <th id="L263" class="number uncovered">263</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Cannot apply a policy on a not managed fleet&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Cannot apply a policy on a not managed fleet&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L264" class="number ">264</th>
+                    <th id="L264" class="number uncovered">264</th>
 
-                    <td class="" >
-                        <pre>            &#039;flyvemdm&#039;), false, ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;flyvemdm&#039;), false, ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L265" class="number ">265</th>
+                    <th id="L265" class="number uncovered">265</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2212,35 +2250,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L269" class="number ">269</th>
+                    <th id="L269" class="number uncovered">269</th>
 
-                    <td class="" >
-                        <pre>      if (!$this-&gt;policy-&gt;integrityCheck($value, $itemtype, $itemId)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;policy-&gt;integrityCheck($value, $itemtype, $itemId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L270" class="number ">270</th>
+                    <th id="L270" class="number uncovered">270</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Incorrect value for this policy&#039;, &#039;flyvemdm&#039;), false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Incorrect value for this policy&#039;, &#039;flyvemdm&#039;), false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L271" class="number ">271</th>
+                    <th id="L271" class="number uncovered">271</th>
 
-                    <td class="" >
-                        <pre>            ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L272" class="number ">272</th>
+                    <th id="L272" class="number uncovered">272</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2260,11 +2294,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L275" class="number ">275</th>
+                    <th id="L275" class="number uncovered">275</th>
 
-                    <td class="" >
-                        <pre>      if ($itemId != $this-&gt;fields[&#039;items_id&#039;] || $policyId != $this-&gt;fields[&#039;plugin_flyvemdm_policies_id&#039;]) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ($itemId != $this-&gt;fields[&#039;items_id&#039;] || $policyId != $this-&gt;fields[&#039;plugin_flyvemdm_policies_id&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2276,35 +2309,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L277" class="number ">277</th>
+                    <th id="L277" class="number uncovered">277</th>
 
-                    <td class="" >
-                        <pre>         if (!$this-&gt;policy-&gt;unicityCheck($value, $itemtype, $itemId, $this-&gt;fleet)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if (!$this-&gt;policy-&gt;unicityCheck($value, $itemtype, $itemId, $this-&gt;fleet)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L278" class="number ">278</th>
+                    <th id="L278" class="number uncovered">278</th>
 
-                    <td class="" >
-                        <pre>            Session::addMessageAfterRedirect(__(&#039;Policy already applied&#039;, &#039;flyvemdm&#039;), false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            Session::addMessageAfterRedirect(__(&#039;Policy already applied&#039;, &#039;flyvemdm&#039;), false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L279" class="number ">279</th>
+                    <th id="L279" class="number uncovered">279</th>
 
-                    <td class="" >
-                        <pre>               ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>               ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L280" class="number ">280</th>
+                    <th id="L280" class="number uncovered">280</th>
 
-                    <td class="" >
-                        <pre>            return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2332,35 +2361,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L284" class="number ">284</th>
+                    <th id="L284" class="number uncovered">284</th>
 
-                    <td class="" >
-                        <pre>      if (!$this-&gt;policy-&gt;canApply($this-&gt;fleet, $value, $itemtype, $itemId)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;policy-&gt;canApply($this-&gt;fleet, $value, $itemtype, $itemId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L285" class="number ">285</th>
+                    <th id="L285" class="number uncovered">285</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;The requirements for this policy are not met&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;The requirements for this policy are not met&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L286" class="number ">286</th>
+                    <th id="L286" class="number uncovered">286</th>
 
-                    <td class="" >
-                        <pre>            &#039;flyvemdm&#039;), false, ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;flyvemdm&#039;), false, ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L287" class="number ">287</th>
+                    <th id="L287" class="number uncovered">287</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2388,35 +2413,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L291" class="number ">291</th>
+                    <th id="L291" class="number uncovered">291</th>
 
-                    <td class="" >
-                        <pre>      if (!$this-&gt;policy-&gt;apply($this-&gt;fleet, $value, $itemtype, $itemId)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;policy-&gt;apply($this-&gt;fleet, $value, $itemtype, $itemId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L292" class="number ">292</th>
+                    <th id="L292" class="number uncovered">292</th>
 
-                    <td class="" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Failed to apply the policy&#039;, &#039;flyvemdm&#039;), false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Failed to apply the policy&#039;, &#039;flyvemdm&#039;), false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L293" class="number ">293</th>
+                    <th id="L293" class="number uncovered">293</th>
 
-                    <td class="" >
-                        <pre>            ERROR);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L294" class="number ">294</th>
+                    <th id="L294" class="number uncovered">294</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2436,19 +2457,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L297" class="number ">297</th>
+                    <th id="L297" class="number uncovered">297</th>
 
-                    <td class="" >
-                        <pre>      return $input;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L298" class="number ">298</th>
+                    <th id="L298" class="number unreach">298</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2488,28 +2507,25 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="post_updateItem">
                     <th id="L304" class="number ">304</th>
 
-                    <td class="" >
-                        <pre>   public function post_updateItem($history = 1) {
-</pre>
+                    <td class="" id="post_updateItem">
+                        <pre>   public function post_updateItem($history = 1) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L305" class="number ">305</th>
+                    <th id="L305" class="number uncovered">305</th>
 
-                    <td class="" >
-                        <pre>      $this-&gt;publishPolicy($this-&gt;fleet);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $this-&gt;publishPolicy($this-&gt;fleet);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L306" class="number ">306</th>
+                    <th id="L306" class="number uncovered">306</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2735,60 +2751,53 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="createTasksStatuses">
                     <th id="L337" class="number ">337</th>
 
-                    <td class="" >
-                        <pre>   private function createTasksStatuses(PluginFlyvemdmFleet $fleet) {
-</pre>
+                    <td class="" id="createTasksStatuses">
+                        <pre>   private function createTasksStatuses(PluginFlyvemdmFleet $fleet) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L338" class="number ">338</th>
+                    <th id="L338" class="number uncovered">338</th>
 
-                    <td class="" >
-                        <pre>      foreach ($fleet-&gt;getAgents() as $agent) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($fleet-&gt;getAgents() as $agent) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L339" class="number ">339</th>
+                    <th id="L339" class="number uncovered">339</th>
 
-                    <td class="" >
-                        <pre>         $taskStatus = new PluginFlyvemdmTaskstatus();
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $taskStatus = new PluginFlyvemdmTaskstatus();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L340" class="number ">340</th>
+                    <th id="L340" class="number uncovered">340</th>
 
-                    <td class="" >
-                        <pre>         $taskStatus-&gt;add([
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $taskStatus-&gt;add([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L341" class="number ">341</th>
+                    <th id="L341" class="number uncovered">341</th>
 
-                    <td class="" >
-                        <pre>            &#039;plugin_flyvemdm_agents_id&#039; =&gt; $agent-&gt;getID(),
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;plugin_flyvemdm_agents_id&#039; =&gt; $agent-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L342" class="number ">342</th>
+                    <th id="L342" class="number uncovered">342</th>
 
-                    <td class="" >
-                        <pre>            &#039;plugin_flyvemdm_tasks_id&#039;  =&gt; $this-&gt;getID(),
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;plugin_flyvemdm_tasks_id&#039;  =&gt; $this-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L343" class="number ">343</th>
+                    <th id="L343" class="number uncovered">343</th>
 
-                    <td class="" >
-                        <pre>            &#039;status&#039;                    =&gt; &#039;queued&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;status&#039;                    =&gt; &#039;queued&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2808,11 +2817,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L346" class="number ">346</th>
+                    <th id="L346" class="number uncovered">346</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3521,20 +3529,18 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getGroupsOfAppliedPolicies">
                     <th id="L442" class="number ">442</th>
 
-                    <td class="" >
-                        <pre>   public function getGroupsOfAppliedPolicies(PluginFlyvemdmFleet $fleet) {
-</pre>
+                    <td class="" id="getGroupsOfAppliedPolicies">
+                        <pre>   public function getGroupsOfAppliedPolicies(PluginFlyvemdmFleet $fleet) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L443" class="number ">443</th>
+                    <th id="L443" class="number uncovered">443</th>
 
-                    <td class="" >
-                        <pre>      global $DB;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3546,27 +3552,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L445" class="number ">445</th>
+                    <th id="L445" class="number uncovered">445</th>
 
-                    <td class="" >
-                        <pre>      $groups = [];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $groups = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L446" class="number ">446</th>
+                    <th id="L446" class="number uncovered">446</th>
 
-                    <td class="" >
-                        <pre>      if ($fleet !== null &amp;&amp; $fleet-&gt;getField(&#039;is_default&#039;) == &#039;0&#039;) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ($fleet !== null &amp;&amp; $fleet-&gt;getField(&#039;is_default&#039;) == &#039;0&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L447" class="number ">447</th>
+                    <th id="L447" class="number uncovered">447</th>
 
-                    <td class="" >
-                        <pre>         $fleetId = $fleet-&gt;getID();
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $fleetId = $fleet-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3594,19 +3597,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L451" class="number ">451</th>
+                    <th id="L451" class="number uncovered">451</th>
 
-                    <td class="" >
-                        <pre>         $taskTable = PluginFlyvemdmTask::getTable();
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $taskTable = PluginFlyvemdmTask::getTable();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L452" class="number ">452</th>
+                    <th id="L452" class="number uncovered">452</th>
 
-                    <td class="" >
-                        <pre>         $policyTable = PluginFlyvemdmPolicy::getTable();
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policyTable = PluginFlyvemdmPolicy::getTable();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3618,35 +3619,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L454" class="number ">454</th>
+                    <th id="L454" class="number uncovered">454</th>
 
-                    <td class="" >
-                        <pre>                   FROM `$taskTable` `fp`
-</pre>
+                    <td class="uncovered" >
+                        <pre>                   FROM `$taskTable` `fp`</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L455" class="number ">455</th>
+                    <th id="L455" class="number uncovered">455</th>
 
-                    <td class="" >
-                        <pre>                   LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-</pre>
+                    <td class="uncovered" >
+                        <pre>                   LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L456" class="number ">456</th>
+                    <th id="L456" class="number uncovered">456</th>
 
-                    <td class="" >
-                        <pre>                   WHERE `fp`.`plugin_flyvemdm_fleets_id` = &#039;$fleetId&#039;&quot;;
-</pre>
+                    <td class="uncovered" >
+                        <pre>                   WHERE `fp`.`plugin_flyvemdm_fleets_id` = &#039;$fleetId&#039;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L457" class="number ">457</th>
+                    <th id="L457" class="number uncovered">457</th>
 
-                    <td class="" >
-                        <pre>         $result = $DB-&gt;query($query);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $result = $DB-&gt;query($query);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3666,27 +3663,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L460" class="number ">460</th>
+                    <th id="L460" class="number uncovered">460</th>
 
-                    <td class="" >
-                        <pre>         if ($result === false) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($result === false) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L461" class="number ">461</th>
+                    <th id="L461" class="number uncovered">461</th>
 
-                    <td class="" >
-                        <pre>            while ($row = $DB-&gt;fetch_assoc($result)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>            while ($row = $DB-&gt;fetch_assoc($result)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L462" class="number ">462</th>
+                    <th id="L462" class="number uncovered">462</th>
 
-                    <td class="" >
-                        <pre>               $groups[] = $row[&#039;group&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>               $groups[] = $row[&#039;group&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3722,19 +3716,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L467" class="number ">467</th>
+                    <th id="L467" class="number uncovered">467</th>
 
-                    <td class="" >
-                        <pre>      return $groups;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $groups;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L468" class="number ">468</th>
+                    <th id="L468" class="number unreach">468</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3809,20 +3801,18 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getGroupOfPolicies">
                     <th id="L478" class="number ">478</th>
 
-                    <td class="" >
-                        <pre>   public function getGroupOfPolicies($group, $fleet) {
-</pre>
+                    <td class="" id="getGroupOfPolicies">
+                        <pre>   public function getGroupOfPolicies($group, $fleet) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L479" class="number ">479</th>
+                    <th id="L479" class="number uncovered">479</th>
 
-                    <td class="" >
-                        <pre>      global $DB;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3842,123 +3832,108 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L482" class="number ">482</th>
+                    <th id="L482" class="number uncovered">482</th>
 
-                    <td class="" >
-                        <pre>      $fleetId = $fleet-&gt;getID();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $fleetId = $fleet-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L483" class="number ">483</th>
+                    <th id="L483" class="number uncovered">483</th>
 
-                    <td class="" >
-                        <pre>      $taskTable = PluginFlyvemdmTask::getTable();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $taskTable = PluginFlyvemdmTask::getTable();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L484" class="number ">484</th>
+                    <th id="L484" class="number uncovered">484</th>
 
-                    <td class="" >
-                        <pre>      $policyTable = PluginFlyvemdmPolicy::getTable();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyTable = PluginFlyvemdmPolicy::getTable();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L485" class="number ">485</th>
+                    <th id="L485" class="number uncovered">485</th>
 
-                    <td class="" >
-                        <pre>      $query = &quot;SELECT `t`.* FROM `$taskTable` `t`
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $query = &quot;SELECT `t`.* FROM `$taskTable` `t`</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L486" class="number ">486</th>
+                    <th id="L486" class="number uncovered">486</th>
 
-                    <td class="" >
-                        <pre>                LEFT JOIN `$policyTable` `p` ON `t`.`plugin_flyvemdm_policies_id` = `p`.`id`
-</pre>
+                    <td class="uncovered" >
+                        <pre>                LEFT JOIN `$policyTable` `p` ON `t`.`plugin_flyvemdm_policies_id` = `p`.`id`</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L487" class="number ">487</th>
+                    <th id="L487" class="number uncovered">487</th>
 
-                    <td class="" >
-                        <pre>                WHERE `t`.`plugin_flyvemdm_fleets_id`=&#039;$fleetId&#039; AND `p`.`group` = &#039;$group&#039;&quot;;
-</pre>
+                    <td class="uncovered" >
+                        <pre>                WHERE `t`.`plugin_flyvemdm_fleets_id`=&#039;$fleetId&#039; AND `p`.`group` = &#039;$group&#039;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L488" class="number ">488</th>
+                    <th id="L488" class="number uncovered">488</th>
 
-                    <td class="" >
-                        <pre>      $result = $DB-&gt;query($query);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $result = $DB-&gt;query($query);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L489" class="number ">489</th>
+                    <th id="L489" class="number uncovered">489</th>
 
-                    <td class="" >
-                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L490" class="number ">490</th>
+                    <th id="L490" class="number uncovered">490</th>
 
-                    <td class="" >
-                        <pre>      $excludedPolicyIds = [];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $excludedPolicyIds = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L491" class="number ">491</th>
+                    <th id="L491" class="number uncovered">491</th>
 
-                    <td class="" >
-                        <pre>      $policiesToApply = [];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policiesToApply = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L492" class="number ">492</th>
+                    <th id="L492" class="number uncovered">492</th>
 
-                    <td class="" >
-                        <pre>      while ($row = $DB-&gt;fetch_assoc($result)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      while ($row = $DB-&gt;fetch_assoc($result)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L493" class="number ">493</th>
+                    <th id="L493" class="number uncovered">493</th>
 
-                    <td class="" >
-                        <pre>         $appliedPolicyData = $policyFactory-&gt;createFromDBByID($row[&#039;plugin_flyvemdm_policies_id&#039;]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $appliedPolicyData = $policyFactory-&gt;createFromDBByID($row[&#039;plugin_flyvemdm_policies_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L494" class="number ">494</th>
+                    <th id="L494" class="number uncovered">494</th>
 
-                    <td class="" >
-                        <pre>         if ($appliedPolicyData === null) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($appliedPolicyData === null) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L495" class="number ">495</th>
+                    <th id="L495" class="number uncovered">495</th>
 
-                    <td class="" >
-                        <pre>            Toolbox::logInFile(&#039;php-errors&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            Toolbox::logInFile(&#039;php-errors&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L496" class="number ">496</th>
+                    <th id="L496" class="number uncovered">496</th>
 
-                    <td class="" >
-                        <pre>               &quot;Plugin Flyvemdm : Policy ID &quot; . $row[&#039;plugin_flyvemdm_policies_id&#039;] . &quot;not found while generating MQTT message\n&quot;);
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &quot;Plugin Flyvemdm : Policy ID &quot; . $row[&#039;plugin_flyvemdm_policies_id&#039;] . &quot;not found while generating MQTT message\n&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3970,59 +3945,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L498" class="number ">498</th>
+                    <th id="L498" class="number uncovered">498</th>
 
-                    <td class="" >
-                        <pre>            $policiesToApply[] = [
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policiesToApply[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L499" class="number ">499</th>
+                    <th id="L499" class="number uncovered">499</th>
 
-                    <td class="" >
-                        <pre>               &#039;tasks_id&#039;   =&gt; $row[&#039;id&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;tasks_id&#039;   =&gt; $row[&#039;id&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L500" class="number ">500</th>
+                    <th id="L500" class="number uncovered">500</th>
 
-                    <td class="" >
-                        <pre>               &#039;policyData&#039; =&gt; $appliedPolicyData,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;policyData&#039; =&gt; $appliedPolicyData,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L501" class="number ">501</th>
+                    <th id="L501" class="number uncovered">501</th>
 
-                    <td class="" >
-                        <pre>               &#039;policyId&#039;   =&gt; $row[&#039;plugin_flyvemdm_policies_id&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;policyId&#039;   =&gt; $row[&#039;plugin_flyvemdm_policies_id&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L502" class="number ">502</th>
+                    <th id="L502" class="number uncovered">502</th>
 
-                    <td class="" >
-                        <pre>               &#039;value&#039;      =&gt; $row[&#039;value&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;value&#039;      =&gt; $row[&#039;value&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L503" class="number ">503</th>
+                    <th id="L503" class="number uncovered">503</th>
 
-                    <td class="" >
-                        <pre>               &#039;itemtype&#039;   =&gt; $row[&#039;itemtype&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;itemtype&#039;   =&gt; $row[&#039;itemtype&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L504" class="number ">504</th>
+                    <th id="L504" class="number uncovered">504</th>
 
-                    <td class="" >
-                        <pre>               &#039;items_id&#039;   =&gt; $row[&#039;items_id&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;items_id&#039;   =&gt; $row[&#039;items_id&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4042,11 +4010,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L507" class="number ">507</th>
+                    <th id="L507" class="number uncovered">507</th>
 
-                    <td class="" >
-                        <pre>         $excludedPolicyIds[] = $row[&#039;plugin_flyvemdm_policies_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $excludedPolicyIds[] = $row[&#039;plugin_flyvemdm_policies_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4074,67 +4041,59 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L511" class="number ">511</th>
+                    <th id="L511" class="number uncovered">511</th>
 
-                    <td class="" >
-                        <pre>      $excludedPolicyIds = &quot;&#039;&quot; . implode(&quot;&#039;, &#039;&quot;, $excludedPolicyIds) . &quot;&#039;&quot;;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $excludedPolicyIds = &quot;&#039;&quot; . implode(&quot;&#039;, &#039;&quot;, $excludedPolicyIds) . &quot;&#039;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L512" class="number ">512</th>
+                    <th id="L512" class="number uncovered">512</th>
 
-                    <td class="" >
-                        <pre>      $policy = new PluginFlyvemdmPolicy();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policy = new PluginFlyvemdmPolicy();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L513" class="number ">513</th>
+                    <th id="L513" class="number uncovered">513</th>
 
-                    <td class="" >
-                        <pre>      $rows = $policy-&gt;find(&quot;`group` = &#039;$group&#039; AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN (&#039;&#039;)&quot;);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $rows = $policy-&gt;find(&quot;`group` = &#039;$group&#039; AND `id` NOT IN ($excludedPolicyIds) AND `default_value` NOT IN (&#039;&#039;)&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L514" class="number ">514</th>
+                    <th id="L514" class="number uncovered">514</th>
 
-                    <td class="" >
-                        <pre>      foreach ($rows as $policyId =&gt; $row) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($rows as $policyId =&gt; $row) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L515" class="number ">515</th>
+                    <th id="L515" class="number uncovered">515</th>
 
-                    <td class="" >
-                        <pre>         $defaultPolicyData = $policyFactory-&gt;createFromDBByID($policyId);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $defaultPolicyData = $policyFactory-&gt;createFromDBByID($policyId);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L516" class="number ">516</th>
+                    <th id="L516" class="number uncovered">516</th>
 
-                    <td class="" >
-                        <pre>         if ($defaultPolicyData === null) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($defaultPolicyData === null) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L517" class="number ">517</th>
+                    <th id="L517" class="number uncovered">517</th>
 
-                    <td class="" >
-                        <pre>            Toolbox::logInFile(&#039;php-errors&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            Toolbox::logInFile(&#039;php-errors&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L518" class="number ">518</th>
+                    <th id="L518" class="number uncovered">518</th>
 
-                    <td class="" >
-                        <pre>               &quot;Plugin Flyvemdm : Policy ID &quot; . $row[&#039;plugin_flyvemdm_policies_id&#039;] . &quot;not found while generating MQTT message\n&quot;);
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &quot;Plugin Flyvemdm : Policy ID &quot; . $row[&#039;plugin_flyvemdm_policies_id&#039;] . &quot;not found while generating MQTT message\n&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4146,59 +4105,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L520" class="number ">520</th>
+                    <th id="L520" class="number uncovered">520</th>
 
-                    <td class="" >
-                        <pre>            $policiesToApply[] = [
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policiesToApply[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L521" class="number ">521</th>
+                    <th id="L521" class="number uncovered">521</th>
 
-                    <td class="" >
-                        <pre>               &#039;tasks_id&#039;   =&gt; &#039;0&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;tasks_id&#039;   =&gt; &#039;0&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L522" class="number ">522</th>
+                    <th id="L522" class="number uncovered">522</th>
 
-                    <td class="" >
-                        <pre>               &#039;policyData&#039; =&gt; $defaultPolicyData,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;policyData&#039; =&gt; $defaultPolicyData,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L523" class="number ">523</th>
+                    <th id="L523" class="number uncovered">523</th>
 
-                    <td class="" >
-                        <pre>               &#039;policyId&#039;   =&gt; $policyId,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;policyId&#039;   =&gt; $policyId,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L524" class="number ">524</th>
+                    <th id="L524" class="number uncovered">524</th>
 
-                    <td class="" >
-                        <pre>               &#039;value&#039;      =&gt; $row[&#039;default_value&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;value&#039;      =&gt; $row[&#039;default_value&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L525" class="number ">525</th>
+                    <th id="L525" class="number uncovered">525</th>
 
-                    <td class="" >
-                        <pre>               &#039;itemtype&#039;   =&gt; &#039;&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;itemtype&#039;   =&gt; &#039;&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L526" class="number ">526</th>
+                    <th id="L526" class="number uncovered">526</th>
 
-                    <td class="" >
-                        <pre>               &#039;items_id&#039;   =&gt; &#039;&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;items_id&#039;   =&gt; &#039;&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4234,19 +4186,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L531" class="number ">531</th>
+                    <th id="L531" class="number uncovered">531</th>
 
-                    <td class="" >
-                        <pre>      return $policiesToApply;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $policiesToApply;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L532" class="number ">532</th>
+                    <th id="L532" class="number unreach">532</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4305,12 +4255,11 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="buildMqttMessage">
                     <th id="L540" class="number ">540</th>
 
-                    <td class="" >
-                        <pre>   protected function buildMqttMessage($policiesToApply) {
-</pre>
+                    <td class="" id="buildMqttMessage">
+                        <pre>   protected function buildMqttMessage($policiesToApply) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4322,59 +4271,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L542" class="number ">542</th>
+                    <th id="L542" class="number uncovered">542</th>
 
-                    <td class="" >
-                        <pre>      $groupToEncode = [];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $groupToEncode = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L543" class="number ">543</th>
+                    <th id="L543" class="number uncovered">543</th>
 
-                    <td class="" >
-                        <pre>      foreach ($policiesToApply as $policyToApply) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($policiesToApply as $policyToApply) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L544" class="number ">544</th>
+                    <th id="L544" class="number uncovered">544</th>
 
-                    <td class="" >
-                        <pre>         $policy = $policyToApply[&#039;policyData&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policy = $policyToApply[&#039;policyData&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L545" class="number ">545</th>
+                    <th id="L545" class="number uncovered">545</th>
 
-                    <td class="" >
-                        <pre>         $policyMessage = $policy-&gt;getMqttMessage(
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policyMessage = $policy-&gt;getMqttMessage(</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L546" class="number ">546</th>
+                    <th id="L546" class="number uncovered">546</th>
 
-                    <td class="" >
-                        <pre>            $policyToApply[&#039;value&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policyToApply[&#039;value&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L547" class="number ">547</th>
+                    <th id="L547" class="number uncovered">547</th>
 
-                    <td class="" >
-                        <pre>            $policyToApply[&#039;itemtype&#039;],
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policyToApply[&#039;itemtype&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L548" class="number ">548</th>
+                    <th id="L548" class="number uncovered">548</th>
 
-                    <td class="" >
-                        <pre>            $policyToApply[&#039;items_id&#039;]
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policyToApply[&#039;items_id&#039;]</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4386,11 +4328,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L550" class="number ">550</th>
+                    <th id="L550" class="number uncovered">550</th>
 
-                    <td class="" >
-                        <pre>         if ($policyMessage === false) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($policyMessage === false) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4402,27 +4343,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L552" class="number ">552</th>
+                    <th id="L552" class="number uncovered">552</th>
 
-                    <td class="" >
-                        <pre>            throw new PolicyApplicationException(&quot;Policy &#039;&quot; . $policy-&gt;getPolicyData()
-</pre>
+                    <td class="uncovered" >
+                        <pre>            throw new PolicyApplicationException(&quot;Policy &#039;&quot; . $policy-&gt;getPolicyData()</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L553" class="number ">553</th>
+                    <th id="L553" class="number uncovered">553</th>
 
-                    <td class="" >
-                        <pre>                  -&gt;getField(&#039;name&#039;) . &quot;&#039; with value &#039;&quot; . $policyToApply[&#039;value&#039;] . &quot;&#039; was not applied\n&quot;);
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  -&gt;getField(&#039;name&#039;) . &quot;&#039; with value &#039;&quot; . $policyToApply[&#039;value&#039;] . &quot;&#039; was not applied\n&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L554" class="number ">554</th>
+                    <th id="L554" class="number unreach">554</th>
 
-                    <td class="" >
-                        <pre>            continue;
-</pre>
+                    <td class="unreach" >
+                        <pre>            continue;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4442,19 +4380,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L557" class="number ">557</th>
+                    <th id="L557" class="number uncovered">557</th>
 
-                    <td class="" >
-                        <pre>         if ($policyToApply[&#039;tasks_id&#039;] != &#039;0&#039;) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($policyToApply[&#039;tasks_id&#039;] != &#039;0&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L558" class="number ">558</th>
+                    <th id="L558" class="number uncovered">558</th>
 
-                    <td class="" >
-                        <pre>            $policyMessage[&#039;taskId&#039;] = $policyToApply[&#039;tasks_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $policyMessage[&#039;taskId&#039;] = $policyToApply[&#039;tasks_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4466,11 +4402,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L560" class="number ">560</th>
+                    <th id="L560" class="number uncovered">560</th>
 
-                    <td class="" >
-                        <pre>         $groupToEncode[] = $policyMessage;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $groupToEncode[] = $policyMessage;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4490,19 +4425,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L563" class="number ">563</th>
+                    <th id="L563" class="number uncovered">563</th>
 
-                    <td class="" >
-                        <pre>      return $groupToEncode;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $groupToEncode;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L564" class="number ">564</th>
+                    <th id="L564" class="number unreach">564</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4569,84 +4502,74 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="createTaskStatus">
                     <th id="L573" class="number ">573</th>
 
-                    <td class="" >
-                        <pre>   public function createTaskStatus(PluginFlyvemdmAgent $agent, array $policiesToApply) {
-</pre>
+                    <td class="" id="createTaskStatus">
+                        <pre>   public function createTaskStatus(PluginFlyvemdmAgent $agent, array $policiesToApply) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L574" class="number ">574</th>
+                    <th id="L574" class="number uncovered">574</th>
 
-                    <td class="" >
-                        <pre>      $agentId = $agent-&gt;getID();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $agentId = $agent-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L575" class="number ">575</th>
+                    <th id="L575" class="number uncovered">575</th>
 
-                    <td class="" >
-                        <pre>      foreach ($policiesToApply as $policyToApply) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($policiesToApply as $policyToApply) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L576" class="number ">576</th>
+                    <th id="L576" class="number uncovered">576</th>
 
-                    <td class="" >
-                        <pre>         $taskId = $policyToApply[&#039;tasks_id&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $taskId = $policyToApply[&#039;tasks_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L577" class="number ">577</th>
+                    <th id="L577" class="number uncovered">577</th>
 
-                    <td class="" >
-                        <pre>         if ($taskId &gt; 0) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($taskId &gt; 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L578" class="number ">578</th>
+                    <th id="L578" class="number uncovered">578</th>
 
-                    <td class="" >
-                        <pre>            $taskStatus = new PluginFlyvemdmTaskstatus();
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $taskStatus = new PluginFlyvemdmTaskstatus();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L579" class="number ">579</th>
+                    <th id="L579" class="number uncovered">579</th>
 
-                    <td class="" >
-                        <pre>            $taskStatus-&gt;add([
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $taskStatus-&gt;add([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L580" class="number ">580</th>
+                    <th id="L580" class="number uncovered">580</th>
 
-                    <td class="" >
-                        <pre>               &#039;plugin_flyvemdm_agents_id&#039; =&gt; $agentId,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;plugin_flyvemdm_agents_id&#039; =&gt; $agentId,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L581" class="number ">581</th>
+                    <th id="L581" class="number uncovered">581</th>
 
-                    <td class="" >
-                        <pre>               &#039;plugin_flyvemdm_tasks_id&#039;  =&gt; $taskId,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;plugin_flyvemdm_tasks_id&#039;  =&gt; $taskId,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L582" class="number ">582</th>
+                    <th id="L582" class="number uncovered">582</th>
 
-                    <td class="" >
-                        <pre>               &#039;status&#039;                    =&gt; &#039;pending&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;status&#039;                    =&gt; &#039;pending&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4674,11 +4597,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L586" class="number ">586</th>
+                    <th id="L586" class="number uncovered">586</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4737,44 +4659,39 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="cleanupPolicies">
                     <th id="L594" class="number ">594</th>
 
-                    <td class="" >
-                        <pre>   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {
-</pre>
+                    <td class="" id="cleanupPolicies">
+                        <pre>   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L595" class="number ">595</th>
+                    <th id="L595" class="number uncovered">595</th>
 
-                    <td class="" >
-                        <pre>      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $mqttClient = PluginFlyvemdmMqttclient::getInstance();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L596" class="number ">596</th>
+                    <th id="L596" class="number uncovered">596</th>
 
-                    <td class="" >
-                        <pre>      $topic = $item-&gt;getTopic();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $topic = $item-&gt;getTopic();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L597" class="number ">597</th>
+                    <th id="L597" class="number uncovered">597</th>
 
-                    <td class="" >
-                        <pre>      foreach ($groups as $groupName) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($groups as $groupName) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L598" class="number ">598</th>
+                    <th id="L598" class="number uncovered">598</th>
 
-                    <td class="" >
-                        <pre>         $mqttClient-&gt;publish(&quot;$topic/$groupName&quot;, null, 0, 1);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $mqttClient-&gt;publish(&quot;$topic/$groupName&quot;, null, 0, 1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4786,11 +4703,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L600" class="number ">600</th>
+                    <th id="L600" class="number uncovered">600</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5379,20 +5295,18 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="displayTabContentForItem">
                     <th id="L680" class="number ">680</th>
 
-                    <td class="" >
-                        <pre>   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-</pre>
+                    <td class="" id="displayTabContentForItem">
+                        <pre>   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L681" class="number ">681</th>
+                    <th id="L681" class="number uncovered">681</th>
 
-                    <td class="" >
-                        <pre>      switch (get_class($item)) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      switch (get_class($item)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5404,11 +5318,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L683" class="number ">683</th>
+                    <th id="L683" class="number uncovered">683</th>
 
-                    <td class="" >
-                        <pre>            static::showForFleet($item, $withtemplate);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            static::showForFleet($item, $withtemplate);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5420,11 +5333,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L685" class="number ">685</th>
+                    <th id="L685" class="number uncovered">685</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5483,20 +5395,18 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="showForFleet">
                     <th id="L693" class="number ">693</th>
 
-                    <td class="" >
-                        <pre>   static function showForFleet(CommonDBTM $item, $withtemplate = &#039;&#039;) {
-</pre>
+                    <td class="" id="showForFleet">
+                        <pre>   static function showForFleet(CommonDBTM $item, $withtemplate = &#039;&#039;) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L694" class="number ">694</th>
+                    <th id="L694" class="number uncovered">694</th>
 
-                    <td class="" >
-                        <pre>      global $CFG_GLPI;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      global $CFG_GLPI;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5508,19 +5418,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L696" class="number ">696</th>
+                    <th id="L696" class="number uncovered">696</th>
 
-                    <td class="" >
-                        <pre>      if (!$item-&gt;canView()) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (!$item-&gt;canView()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L697" class="number ">697</th>
+                    <th id="L697" class="number uncovered">697</th>
 
-                    <td class="" >
-                        <pre>         return false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5540,27 +5448,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L700" class="number ">700</th>
+                    <th id="L700" class="number uncovered">700</th>
 
-                    <td class="" >
-                        <pre>      $itemId = $item-&gt;getID();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $itemId = $item-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L701" class="number ">701</th>
+                    <th id="L701" class="number uncovered">701</th>
 
-                    <td class="" >
-                        <pre>      $canedit = Session::haveRightsOr(&#039;flyvemdm:fleet&#039;, [CREATE, UPDATE, DELETE, PURGE]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $canedit = Session::haveRightsOr(&#039;flyvemdm:fleet&#039;, [CREATE, UPDATE, DELETE, PURGE]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L702" class="number ">702</th>
+                    <th id="L702" class="number uncovered">702</th>
 
-                    <td class="" >
-                        <pre>      $rand = mt_rand();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $rand = mt_rand();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5580,51 +5485,45 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L705" class="number ">705</th>
+                    <th id="L705" class="number uncovered">705</th>
 
-                    <td class="" >
-                        <pre>      $policyDropdown = null;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyDropdown = null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L706" class="number ">706</th>
+                    <th id="L706" class="number uncovered">706</th>
 
-                    <td class="" >
-                        <pre>      if ((empty($withtemplate) || ($withtemplate != 2))
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ((empty($withtemplate) || ($withtemplate != 2))</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L707" class="number ">707</th>
+                    <th id="L707" class="number uncovered">707</th>
 
-                    <td class="" >
-                        <pre>         &amp;&amp; $canedit) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &amp;&amp; $canedit) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L708" class="number ">708</th>
+                    <th id="L708" class="number uncovered">708</th>
 
-                    <td class="" >
-                        <pre>         $policyDropdown = PluginFlyvemdmPolicy::dropdown([
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policyDropdown = PluginFlyvemdmPolicy::dropdown([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L709" class="number ">709</th>
+                    <th id="L709" class="number uncovered">709</th>
 
-                    <td class="" >
-                        <pre>            &#039;display&#039;  =&gt; false,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;display&#039;  =&gt; false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L710" class="number ">710</th>
+                    <th id="L710" class="number uncovered">710</th>
 
-                    <td class="" >
-                        <pre>            &#039;name&#039;     =&gt; &#039;plugin_flyvemdm_policies_id&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;name&#039;     =&gt; &#039;plugin_flyvemdm_policies_id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5636,27 +5535,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L712" class="number ">712</th>
+                    <th id="L712" class="number uncovered">712</th>
 
-                    <td class="" >
-                        <pre>               &#039;value_fieldname&#039; =&gt; &#039;value&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;value_fieldname&#039; =&gt; &#039;value&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L713" class="number ">713</th>
+                    <th id="L713" class="number uncovered">713</th>
 
-                    <td class="" >
-                        <pre>               &#039;to_update&#039;       =&gt; &#039;plugin_flyvemdm_policy_value&#039;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;to_update&#039;       =&gt; &#039;plugin_flyvemdm_policy_value&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L714" class="number ">714</th>
+                    <th id="L714" class="number uncovered">714</th>
 
-                    <td class="" >
-                        <pre>               &#039;url&#039;             =&gt; $CFG_GLPI[&#039;root_doc&#039;] . &quot;/plugins/flyvemdm/ajax/policyValue.php&quot;,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;url&#039;             =&gt; $CFG_GLPI[&#039;root_doc&#039;] . &quot;/plugins/flyvemdm/ajax/policyValue.php&quot;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5700,19 +5596,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L720" class="number ">720</th>
+                    <th id="L720" class="number uncovered">720</th>
 
-                    <td class="" >
-                        <pre>      $policy = new PluginFlyvemdmPolicy();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policy = new PluginFlyvemdmPolicy();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L721" class="number ">721</th>
+                    <th id="L721" class="number uncovered">721</th>
 
-                    <td class="" >
-                        <pre>      $policies = $policy-&gt;find();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policies = $policy-&gt;find();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5732,19 +5626,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L724" class="number ">724</th>
+                    <th id="L724" class="number uncovered">724</th>
 
-                    <td class="" >
-                        <pre>      $task = new PluginFlyvemdmTask();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L725" class="number ">725</th>
+                    <th id="L725" class="number uncovered">725</th>
 
-                    <td class="" >
-                        <pre>      $appliedPolicies = $task-&gt;find(&quot;`plugin_flyvemdm_fleets_id` = &#039;$itemId&#039;&quot;);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $appliedPolicies = $task-&gt;find(&quot;`plugin_flyvemdm_fleets_id` = &#039;$itemId&#039;&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5764,75 +5656,66 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L728" class="number ">728</th>
+                    <th id="L728" class="number uncovered">728</th>
 
-                    <td class="" >
-                        <pre>      $factory = new PluginFlyvemdmPolicyFactory();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $factory = new PluginFlyvemdmPolicyFactory();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L729" class="number ">729</th>
+                    <th id="L729" class="number uncovered">729</th>
 
-                    <td class="" >
-                        <pre>      foreach ($appliedPolicies as $id =&gt; &amp;$appliedPolicyData) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      foreach ($appliedPolicies as $id =&gt; &amp;$appliedPolicyData) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L730" class="number ">730</th>
+                    <th id="L730" class="number uncovered">730</th>
 
-                    <td class="" >
-                        <pre>         $appliedPolicyData[&#039;checkbox&#039;] = Html::getMassiveActionCheckBox(__CLASS__, $id);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $appliedPolicyData[&#039;checkbox&#039;] = Html::getMassiveActionCheckBox(__CLASS__, $id);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L731" class="number ">731</th>
+                    <th id="L731" class="number uncovered">731</th>
 
-                    <td class="" >
-                        <pre>         $appliedPolicyData[&#039;policyName&#039;] = $policies[$appliedPolicyData[&#039;plugin_flyvemdm_policies_id&#039;]][&#039;name&#039;];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $appliedPolicyData[&#039;policyName&#039;] = $policies[$appliedPolicyData[&#039;plugin_flyvemdm_policies_id&#039;]][&#039;name&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L732" class="number ">732</th>
+                    <th id="L732" class="number uncovered">732</th>
 
-                    <td class="" >
-                        <pre>         $policyItem = $factory-&gt;createFromDBByID($appliedPolicyData[&#039;plugin_flyvemdm_policies_id&#039;]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $policyItem = $factory-&gt;createFromDBByID($appliedPolicyData[&#039;plugin_flyvemdm_policies_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L733" class="number ">733</th>
+                    <th id="L733" class="number uncovered">733</th>
 
-                    <td class="" >
-                        <pre>         if ($policyItem !== null) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>         if ($policyItem !== null) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L734" class="number ">734</th>
+                    <th id="L734" class="number uncovered">734</th>
 
-                    <td class="" >
-                        <pre>            $task = new PluginFlyvemdmTask();
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $task = new PluginFlyvemdmTask();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L735" class="number ">735</th>
+                    <th id="L735" class="number uncovered">735</th>
 
-                    <td class="" >
-                        <pre>            $task-&gt;getFromDB($id);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $task-&gt;getFromDB($id);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L736" class="number ">736</th>
+                    <th id="L736" class="number uncovered">736</th>
 
-                    <td class="" >
-                        <pre>            $appliedPolicyData[&#039;value&#039;] = $policyItem-&gt;showValue($task);
-</pre>
+                    <td class="uncovered" >
+                        <pre>            $appliedPolicyData[&#039;value&#039;] = $policyItem-&gt;showValue($task);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5868,27 +5751,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L741" class="number ">741</th>
+                    <th id="L741" class="number uncovered">741</th>
 
-                    <td class="" >
-                        <pre>      $addFormBegin = &quot;&lt;form name=&#039;task_form$rand&#039; id=&#039;task_form$rand&#039; method=&#039;post&#039;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $addFormBegin = &quot;&lt;form name=&#039;task_form$rand&#039; id=&#039;task_form$rand&#039; method=&#039;post&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L742" class="number ">742</th>
+                    <th id="L742" class="number uncovered">742</th>
 
-                    <td class="" >
-                        <pre>                       action=&#039;&quot; . Toolbox::getItemTypeFormURL(__CLASS__) . &quot;&#039;&gt;&quot;;
-</pre>
+                    <td class="uncovered" >
+                        <pre>                       action=&#039;&quot; . Toolbox::getItemTypeFormURL(__CLASS__) . &quot;&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L743" class="number ">743</th>
+                    <th id="L743" class="number uncovered">743</th>
 
-                    <td class="" >
-                        <pre>      $addFormEnd = Html::closeForm(false);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $addFormEnd = Html::closeForm(false);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5900,11 +5780,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L745" class="number ">745</th>
+                    <th id="L745" class="number uncovered">745</th>
 
-                    <td class="" >
-                        <pre>      $actions = [&#039;purge&#039; =&gt; _x(&#039;button&#039;, &#039;Delete permanently&#039;)];
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $actions = [&#039;purge&#039; =&gt; _x(&#039;button&#039;, &#039;Delete permanently&#039;)];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5916,27 +5795,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L747" class="number ">747</th>
+                    <th id="L747" class="number uncovered">747</th>
 
-                    <td class="" >
-                        <pre>         &#039;num_displayed&#039;    =&gt; count($appliedPolicies),
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;num_displayed&#039;    =&gt; count($appliedPolicies),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L748" class="number ">748</th>
+                    <th id="L748" class="number uncovered">748</th>
 
-                    <td class="" >
-                        <pre>         &#039;container&#039;        =&gt; &#039;mass&#039; . __CLASS__ . $rand,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;container&#039;        =&gt; &#039;mass&#039; . __CLASS__ . $rand,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L749" class="number ">749</th>
+                    <th id="L749" class="number uncovered">749</th>
 
-                    <td class="" >
-                        <pre>         &#039;specific_actions&#039; =&gt; $actions,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;specific_actions&#039; =&gt; $actions,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5956,27 +5832,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L752" class="number ">752</th>
+                    <th id="L752" class="number uncovered">752</th>
 
-                    <td class="" >
-                        <pre>      $massiveActionTop = Html::showMassiveActions($massiveactionparams);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $massiveActionTop = Html::showMassiveActions($massiveactionparams);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L753" class="number ">753</th>
+                    <th id="L753" class="number uncovered">753</th>
 
-                    <td class="" >
-                        <pre>      $massiveactionparams[&#039;ontop&#039;] = false;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $massiveactionparams[&#039;ontop&#039;] = false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L754" class="number ">754</th>
+                    <th id="L754" class="number uncovered">754</th>
 
-                    <td class="" >
-                        <pre>      $massiveActionBottom = Html::showMassiveActions($massiveactionparams);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $massiveActionBottom = Html::showMassiveActions($massiveactionparams);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -5996,11 +5869,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L757" class="number ">757</th>
+                    <th id="L757" class="number uncovered">757</th>
 
-                    <td class="" >
-                        <pre>         &#039;canEdit&#039;           =&gt; $canedit,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;canEdit&#039;           =&gt; $canedit,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6012,19 +5884,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L759" class="number ">759</th>
+                    <th id="L759" class="number uncovered">759</th>
 
-                    <td class="" >
-                        <pre>            &#039;begin&#039; =&gt; $addFormBegin,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;begin&#039; =&gt; $addFormBegin,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L760" class="number ">760</th>
+                    <th id="L760" class="number uncovered">760</th>
 
-                    <td class="" >
-                        <pre>            &#039;end&#039;   =&gt; $addFormEnd,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;end&#039;   =&gt; $addFormEnd,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6044,19 +5914,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L763" class="number ">763</th>
+                    <th id="L763" class="number uncovered">763</th>
 
-                    <td class="" >
-                        <pre>            &#039;begin&#039; =&gt; Html::getOpenMassiveActionsForm(&#039;mass&#039; . __CLASS__ . $rand)
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;begin&#039; =&gt; Html::getOpenMassiveActionsForm(&#039;mass&#039; . __CLASS__ . $rand)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L764" class="number ">764</th>
+                    <th id="L764" class="number uncovered">764</th>
 
-                    <td class="" >
-                        <pre>               . $massiveActionTop,
-</pre>
+                    <td class="uncovered" >
+                        <pre>               . $massiveActionTop,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6068,11 +5936,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L766" class="number ">766</th>
+                    <th id="L766" class="number uncovered">766</th>
 
-                    <td class="" >
-                        <pre>               . Html::closeForm(false),
-</pre>
+                    <td class="uncovered" >
+                        <pre>               . Html::closeForm(false),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6084,11 +5951,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L768" class="number ">768</th>
+                    <th id="L768" class="number uncovered">768</th>
 
-                    <td class="" >
-                        <pre>         &#039;checkAll&#039;          =&gt; Html::getCheckAllAsCheckbox(&#039;mass&#039; . __CLASS__ . $rand),
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;checkAll&#039;          =&gt; Html::getCheckAllAsCheckbox(&#039;mass&#039; . __CLASS__ . $rand),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6100,19 +5966,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L770" class="number ">770</th>
+                    <th id="L770" class="number uncovered">770</th>
 
-                    <td class="" >
-                        <pre>            &#039;policy&#039;                    =&gt; $policyDropdown,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;policy&#039;                    =&gt; $policyDropdown,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L771" class="number ">771</th>
+                    <th id="L771" class="number uncovered">771</th>
 
-                    <td class="" >
-                        <pre>            &#039;plugin_flyvemdm_fleets_id&#039; =&gt; $itemId,
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;plugin_flyvemdm_fleets_id&#039; =&gt; $itemId,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6124,11 +5988,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L773" class="number ">773</th>
+                    <th id="L773" class="number uncovered">773</th>
 
-                    <td class="" >
-                        <pre>         &#039;policies&#039;          =&gt; $appliedPolicies,
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;policies&#039;          =&gt; $appliedPolicies,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6148,19 +6011,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L776" class="number ">776</th>
+                    <th id="L776" class="number uncovered">776</th>
 
-                    <td class="" >
-                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L777" class="number ">777</th>
+                    <th id="L777" class="number uncovered">777</th>
 
-                    <td class="" >
-                        <pre>      echo $twig-&gt;render(&#039;fleet_policy.html&#039;, $data);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      echo $twig-&gt;render(&#039;fleet_policy.html&#039;, $data);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6172,19 +6033,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L779" class="number ">779</th>
+                    <th id="L779" class="number uncovered">779</th>
 
-                    <td class="" >
-                        <pre>      Html::closeForm();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      Html::closeForm();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L780" class="number ">780</th>
+                    <th id="L780" class="number uncovered">780</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6235,44 +6094,39 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="preprocessInput">
                     <th id="L787" class="number ">787</th>
 
-                    <td class="" >
-                        <pre>   public function preprocessInput(array $input) {
-</pre>
+                    <td class="" id="preprocessInput">
+                        <pre>   public function preprocessInput(array $input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L788" class="number ">788</th>
+                    <th id="L788" class="number uncovered">788</th>
 
-                    <td class="" >
-                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L789" class="number ">789</th>
+                    <th id="L789" class="number uncovered">789</th>
 
-                    <td class="" >
-                        <pre>      $policy = $policyFactory-&gt;createFromDBByID($input[&#039;plugin_flyvemdm_policies_id&#039;]);
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $policy = $policyFactory-&gt;createFromDBByID($input[&#039;plugin_flyvemdm_policies_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L790" class="number ">790</th>
+                    <th id="L790" class="number uncovered">790</th>
 
-                    <td class="" >
-                        <pre>      if ($policy) {
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ($policy) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L791" class="number ">791</th>
+                    <th id="L791" class="number uncovered">791</th>
 
-                    <td class="" >
-                        <pre>         $input = $policy-&gt;preprocessFormData($input);
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $input = $policy-&gt;preprocessFormData($input);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6292,19 +6146,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L794" class="number ">794</th>
+                    <th id="L794" class="number uncovered">794</th>
 
-                    <td class="" >
-                        <pre>      return $input;
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L795" class="number ">795</th>
+                    <th id="L795" class="number unreach">795</th>
 
-                    <td class="" >
-                        <pre>   }
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">

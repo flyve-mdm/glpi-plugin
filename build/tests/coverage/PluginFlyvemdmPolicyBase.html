@@ -2052,77 +2052,93 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L244" class="number uncovered">244</th>
+                    <th id="L244" class="number ">244</th>
 
-                    <td class="uncovered" >
-                        <pre>      $form[&#039;mode&#039;] = $mode;</pre>
+                    <td class="" >
+                        <pre>      $form = [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L245" class="number uncovered">245</th>
 
                     <td class="uncovered" >
-                        <pre>      $form[&#039;input&#039;] = $this-&gt;showValueInput($value, $itemtype, $itemId);</pre>
+                        <pre>         &#039;mode&#039; =&gt; $mode,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L246" class="number uncovered">246</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($mode == &quot;update&quot;) {</pre>
+                        <pre>         &#039;input&#039; =&gt; $this-&gt;showValueInput($value, $itemtype, $itemId)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L247" class="number uncovered">247</th>
+                    <th id="L247" class="number ">247</th>
 
-                    <td class="uncovered" >
-                        <pre>         $form[&#039;url&#039;] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);</pre>
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L248" class="number uncovered">248</th>
 
                     <td class="uncovered" >
-                        <pre>         $form[&#039;rand&#039;] = mt_rand();</pre>
+                        <pre>      if ($mode == &quot;update&quot;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L249" class="number uncovered">249</th>
 
                     <td class="uncovered" >
-                        <pre>         $form[&#039;taskId&#039;] = $_input[&#039;task&#039;];</pre>
+                        <pre>         $form[&#039;url&#039;] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L250" class="number uncovered">250</th>
 
                     <td class="uncovered" >
-                        <pre>         $form[&#039;policyId&#039;] = $_input[&#039;policyId&#039;];</pre>
+                        <pre>         $form[&#039;rand&#039;] = mt_rand();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L251" class="number uncovered">251</th>
 
                     <td class="uncovered" >
-                        <pre>         $form[&#039;fleetId&#039;] = $_input[&#039;fleet&#039;];</pre>
+                        <pre>         $form[&#039;taskId&#039;] = $_input[&#039;task&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L252" class="number uncovered">252</th>
 
                     <td class="uncovered" >
-                        <pre>         $form[&#039;_csrf&#039;] = (GLPI_USE_CSRF_CHECK) ? Html::hidden(&#039;_glpi_csrf_token&#039;,</pre>
+                        <pre>         $form[&#039;policyId&#039;] = $_input[&#039;policyId&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L253" class="number uncovered">253</th>
 
                     <td class="uncovered" >
+                        <pre>         $form[&#039;fleetId&#039;] = $_input[&#039;fleet&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L254" class="number uncovered">254</th>
+
+                    <td class="uncovered" >
+                        <pre>         $form[&#039;_csrf&#039;] = (GLPI_USE_CSRF_CHECK) ? Html::hidden(&#039;_glpi_csrf_token&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L255" class="number uncovered">255</th>
+
+                    <td class="uncovered" >
                         <pre>            [&#039;value&#039; =&gt; Session::getNewCSRFToken()]) : &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L254" class="number ">254</th>
+                    <th id="L256" class="number ">256</th>
 
                     <td class="" >
                         <pre>      }
@@ -2130,28 +2146,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L255" class="number uncovered">255</th>
+                    <th id="L257" class="number uncovered">257</th>
 
                     <td class="uncovered" >
                         <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L256" class="number uncovered">256</th>
+                    <th id="L258" class="number uncovered">258</th>
 
                     <td class="uncovered" >
                         <pre>      return $twig-&gt;render(&#039;policy_form.html&#039;, [&#039;form&#039; =&gt; $form]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L257" class="number unreach">257</th>
+                    <th id="L259" class="number unreach">259</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L258" class="number ">258</th>
+                    <th id="L260" class="number ">260</th>
 
                     <td class="" >
                         <pre>
@@ -2159,7 +2175,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L259" class="number ">259</th>
+                    <th id="L261" class="number ">261</th>
 
                     <td class="" >
                         <pre>}
