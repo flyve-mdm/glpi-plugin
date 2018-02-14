@@ -1,10 +1,3 @@
----
-title: CONTRIBUTING
-robots: noindex, nofollow
-description: contribute guidelines
-tags: contributing, github, flyve, mdm
----
-
 [![flyve hero](/images/header.png)](https://flyve-mdm.com/)
 
 # How to contribute to Flyve MDM GLPI Plugin
@@ -13,9 +6,9 @@ Welcome to our ever-growing community :octocat:!
 
 Flyve MDM is an award-winning mobile device management software (MDM) that enables organizations to manage their entire mobile fleet with ease. Broader visibility for the IT security team to proactively work on security weaknesses and manage risk on Apple® iOS and Google Android™ mobile devices.
 
-We are more than happy to accept external contributions to the project in the form of feedback, translations, bug reports and even better, pull requests.
+We are more than happy to accept external contributions to the project in the form of feedback, translations, bug reports, and even better, pull requests.
 
-We present you the guidelines to start contributing in any of the Flyve MDM projects.
+We present you here the guidelines to start contributing in any of the Flyve MDM projects.
 
 # Table of contents:
 
@@ -32,30 +25,31 @@ We present you the guidelines to start contributing in any of the Flyve MDM proj
         - 3.1.1 [Major Feature Request](#3.1.1)
         - 3.1.2 [Minor Feature Request](#3.1.2)
     - 3.2 [Request a New Feature](#3.2)
-    - 3.3 [Implement a New Feature](#3.3)
 - 4 [Submitting](#4)
-    - 4.1 [How to Submit an Issue](#4.1)
-        - 4.1.1 [Check for Past Issues](#4.1.1)
-        - 4.1.2 [Information Needed](#4.1.2)
-        - 4.1.3 [Submit an Issue](#4.1.3)
+    - 4.1 [How to Submit an Issue or Bugs](#4.1)
+        - 4.1.1 [Check for Past Issues or Bugs](#4.1.1)
+        - 4.1.2 [Try to Reproduce It!](#4.1.2)
+        - 4.1.3 [Isolate the Problem](#4.1.3)
+        - 4.1.4 [Information Needed for the Report](#4.1.4)
+        - 4.1.5 [Submit an Issue](#4.1.5)
     - 4.2 [How to Create a Pull Request (PR)](#4.2)
-        - 4.2.1 [Create a Branch](#4.2.1)
+        - 4.2.1 [Create a Branch and Naming it](#4.2.1)
         - 4.2.2 [Make Changes](#4.2.2)
         - 4.2.3 [Commit Your Changes](#4.2.3)
             - 4.2.3.1 [Rules to Follow](#4.2.3.1)
             - 4.2.3.2 [Commit Format](#4.2.3.2)
-                - 4.2.3.2.1 [Header: Writting a `type`](#4.2.3.2.1)
-                - 4.2.3.2.2 [Header: Writting the `(optional scope)`](#4.2.3.2.2 )
-                - 4.2.3.2.3 [Header: Writting a `description`](#4.2.3.2.3)
+                - 4.2.3.2.1 [Header: Writing a `type`](#4.2.3.2.1)
+                - 4.2.3.2.2 [Header: Writing the `(optional scope)`](#4.2.3.2.2 )
+                - 4.2.3.2.3 [Header: Writing a `description`](#4.2.3.2.3)
                 - 4.2.3.2.4 [Header Lenght](#4.2.3.2.4)
-                - 4.2.3.2.5 [Writting the `optional body`](#4.2.3.2.5)
-                - 4.2.3.2.6 [Writting the `optional footer`](#4.2.3.2.6)
+                - 4.2.3.2.5 [Writing the `optional body`](#4.2.3.2.5)
+                - 4.2.3.2.6 [Writing the `optional footer`](#4.2.3.2.6)
             - 4.2.3.3 [Commit Examples](#4.2.3.3)
         - 4.2.4 [Push your Changes](#4.2.4)
         - 4.2.5 [Create a Pull Request](#4.2.5)
             - 4.2.5.1 [How to Write a Title for a Pull Request.](#4.2.5.1)
             - 4.2.5.2 [How to Write a Description for a Pull Request.](#4.2.5.2)
-            - 4.2.5.1 [Additional Information.](#4.2.5.1)
+            - 4.2.5.3 [Additional Information.](#4.2.5.3)
         - 4.2.6 [How to proceed with suggestions.](#4.2.6)
 - 5 [What to do next?](#5)
 - 6 [Coding Rules](#6)
@@ -63,30 +57,31 @@ We present you the guidelines to start contributing in any of the Flyve MDM proj
 # <a name="1"></a> 1. See what's going on!
 
 
-## <a name="1.1"></a> 1.1 Issue Dashboard :fire:
+## <a name="1.1"></a> 1.1 Issue Dashboard
 If you want to know all the issues we're dealing with right now, take a look at our [Issue Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and look for areas in which you can help.
 
 
-## <a name="1.2"></a> 1.2 Pull Request Dashboard :fire_engine:
+## <a name="1.2"></a> 1.2 Pull Request Dashboard
 If you want to give us a hand solving issues then great, take a look at our [Pull Request Dashboard](https://github.com/flyve-mdm/glpi-plugin/pulls) and check for an open or closed PR. We don’t want to duplicate efforts.
 
 # <a name="2"></a> 2. Assistance
 
-## <a name="2.1"></a> 2.1 Live Support :loudspeaker:
+## <a name="2.1"></a> 2.1 Live Support
 You can find us in [Telegram](https://t.me/flyvemdm), we'll help you as soon as possible.
 
-## <a name="2.2"></a> 2.2 Technical Questions :closed_book:
+## <a name="2.2"></a> 2.2 Technical Questions
 For general technical questions, post an appropriately tagged question on [StackOverflow](http://stackoverflow.com/).
 
-## <a name="2.3"></a> 2.3 Discussion :speech_balloon:
+## <a name="2.3"></a> 2.3 Discussion
 For general discussion, use the [Flyve-MDM mailing list](http://mail.ow2.org/wws/info/flyve-mdm-dev).
 
-## <a name="2.4"></a> 2.4 Customers Assistance :ear:
+## <a name="2.4"></a> 2.4 Customers Assistance
 Use our official [support channel](https://support.teclib.com/).
 
 # <a name="3"></a> 3. Feature Requests
 
 ## <a name="3.1"></a> 3.1 Requirement for a Feature Request
+If you like to _implement_ a new feature please [submit an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new) with a proposal, so we can be sure it's relevant.
 
 ### <a name="3.1.1"></a> 3.1.1 Major Feature Request
 For a major new feature request, [open an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new) and outline your proposal so it can be discussed.
@@ -97,40 +92,50 @@ For a minor new feature request, you can craft it and directly [submit it as a P
 ## <a name="3.2"></a> 3.2 Request a New Feature
 You can request a new feature by [submitting an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new)
 
-## <a name="3.3"></a> 3.3 Implement a New Feature
-If you like to _implement_ a new feature please [submit an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new) with a proposal, so we can be sure it's relevant.
-
 # <a name="4"></a> 4. Submitting
 
-## <a name="4.1"></a> 4.1 How to Submit an Issue.
+## <a name="4.1"></a> 4.1 How to Submit an Issue or Bugs.
 
-### <a name="4.1.1"></a> 4.1.1 Check for Past Issues.
-Before submitting the issue please check the [Issue Tracker](https://github.com/flyve-mdm/glpi-plugin/issues/), maybe the bug was already reported by another contributor. By doing this you help us maximize the effort spent on solving problems and the addition of new features.
+A good Issue/Bug report shouldn't leave others needing to chase you up for more information. Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What would you expect to be the outcome? All these details will help people to fix any potential bugs.
 
-### <a name="4.1.2"></a> 4.1.2 Information Needed.
+A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful, here are steps to follow to build a good one:
+
+### <a name="4.1.1"></a> 4.1.1 Check for Past Issues or Bugs.
+Before submitting the issue please check the [Issue Tracker](https://github.com/flyve-mdm/glpi-plugin/issues/), maybe the issue/bug was already reported by another contributor. By doing this you help us maximize the effort spent on solving problems and the addition of new features.
+
+### <a name="4.1.2"></a> 4.1.2 Try to Reproduce It!
+Try to reproduce this issue/bug using the latest `develop` branch in the repository [Check it here](https://github.com/flyve-mdm/glpi-plugin/branches).
+
+### <a name="4.1.3"></a> 4.1.3 Isolate the Problem.
+Ideally, create a reduced test case. We prefer bug reports with small, portable test cases.
+
+### <a name="4.1.4"></a> 4.1.4 Information Needed for the Report.
 We require the following information:
 
 * :warning: **Observed Results:** A brief description of the problem.
+* :mag_right: **What steps will reproduce the issue?:** If suitable, including the steps required to reproduce the bug.
 * :boom: **Expected Results:** What did you expect to happen?
 
-### <a name="4.1.3"></a> 4.1.3 Submit an Issue. :rocket:
+### <a name="4.1.5"></a> 4.1.5 Submit an Issue. :rocket:
 Having all data and hand, file the new issue by filling out our [Issue form](https://github.com/flyve-mdm/glpi-plugin/issues/new).
-### That's it! :tada:
+
+**&mdash; That's it! :tada:**
 
 ## <a name="4.2"></a> 4.2 How to Create a Pull Request (PR).
 
 Before submitting your Pull Request check for an open or closed PR that relates to your submission. We don't want to duplicate efforts.
 
-### <a name="4.2.1"></a> 4.2.1 Create a Branch
+### <a name="4.2.1"></a> 4.2.1 Create a Branch and Naming it.
 
-Create a new branch before committing any changes. A _branch is a parallel version of a repository._ It is contained within the repository but does not affect the **`primary or master` branch**. Name it anything _except master, develop, release-*, or hotfix-*_. For the educational purpose in our examples, we'll use **`created-branch`**.
+The project is organized according to the branch model [Git Flow.](http://git-flow.readthedocs.io/en/latest/) Create a new branch before committing any changes. A _branch is a parallel version of a repository._ It is contained within the repository but does not affect the **`primary or master`** branch.
 
-:no_entry_sign: **Important:** Do not commit to our default **`develop`** branch.
+:heavy_exclamation_mark: **Branch Name Format: `feature/my-killer-feature`**.
+
+:no_entry_sign: **Important:** Do not commit to our default **`develop`** branch. Name it anything _except master, develop, release-*, or hotfix-*_. We'll use **`created-branch`** an example.
 
 ### <a name="4.2.2"></a> 4.2.2 Make Changes
 
-
-Make your changes in your **newly created** branch, the project is organized according to the branch model [Git Flow.](http://git-flow.readthedocs.io/en/latest/)
+Make your changes in your **newly created** branch.
 
 ```console
     git checkout -b created-branch develop
@@ -143,8 +148,8 @@ A commit, or "revision", is an individual change to a file (or set of files). It
 For commits, we follow the [Conventional Commit](http://conventionalcommits.org/). This leads to **more readable messages** that are easy to follow when looking through the project history. But also, we use the git commit messages to **automatically generate changelogs** from these messages.
 
 ### <a name="4.2.3.2"></a> 4.2.3.2 Commit Format
-Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
-format that includes a **type**, a **scope** and a **description**:
+Each commit message consists of a **header**, a **body**, and a **footer**. The header has a special
+format that includes a **type**, a **scope**, and a **description**:
 
 **:warning: Important:** Please avoid generic terms.
 
@@ -158,7 +163,7 @@ optional body
 optional footer
 ```
 
-### <a name="4.2.3.2.1"></a> 4.2.3.2.1 Header: Writting a `type`. 
+### <a name="4.2.3.2.1"></a> 4.2.3.2.1 Header: Writing a `type`. 
 Commits must be prefixed with a type, which consists of a verb, **feat, fix, build,** followed by a colon and space. 
 
 **Your options:**
@@ -178,7 +183,7 @@ Commits must be prefixed with a type, which consists of a verb, **feat, fix, bui
 >:point_right:feat:point_left:(parser): add ability to parse arrays
 ---
 
-### <a name="4.2.3.2.2"></a> 4.2.3.2.2 Header: Writting the `(optional scope)`.
+### <a name="4.2.3.2.2"></a> 4.2.3.2.2 Header: Writing the `(optional scope)`.
 Refers to the extent, subject matter or contextual information about your changes. A scope is a phrase describing the file modified or a section of the codebase, it’s always enclosed in parenthesis.
 
 ---
@@ -186,7 +191,7 @@ Refers to the extent, subject matter or contextual information about your change
 > feat:point_right:(parser):point_left:: add ability to parse arrays 
 ---
 
-### <a name="4.2.3.2.3"></a> 4.2.3.2.3 Header: Writting a `description`
+### <a name="4.2.3.2.3"></a> 4.2.3.2.3 Header: Writing a `description`
 A description must immediately follow the **`type(optional scope):`** The description is a short description of the commit.
 
 **Important**
@@ -202,7 +207,7 @@ A description must immediately follow the **`type(optional scope):`** The descri
 ### <a name="4.2.3.2.4"></a> 4.2.3.2.4 Header Lenght
 The **header** cannot be longer than 100 characters. This allows the message to be easier to read on GitHub as well as in various git tools.
 
-### <a name="4.2.3.2.5"></a> 4.2.3.2.5 Writting the `optional body`.
+### <a name="4.2.3.2.5"></a> 4.2.3.2.5 Writing the `optional body`.
 The body should include the motivation for the change and contrast this with previous behavior.
 
 ---
@@ -214,7 +219,7 @@ fix broken links
 ```
 ---
 
-### <a name="4.2.3.2.6"></a> 4.2.3.2.6 Writting the `optional footer`.
+### <a name="4.2.3.2.6"></a> 4.2.3.2.6 Writing the `optional footer`.
 The `<optional footer>` should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-using-keywords/) if any.
 
 For example, to close an issue numbered **`123`**, you could use the phrases **`Closes #123`** in your pull request description or commit message. Once the branch is merged into the default branch, the issue will close.
@@ -285,7 +290,7 @@ Pull Request should be named in reference to the main fix or feature you provide
 
 We provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for Pull Request descriptions. When you're creating a Pull Request it'll be shown automatically. Just fill it out and you're done.
 
-### <a name="4.2.5.1"></a> 4.2.5.1 Additional Information.
+### <a name="4.2.5.3"></a> 4.2.5.3 Additional Information.
 
 :page_with_curl:
 **Choose the right label**: Look at the [list of available labels.](https://github.com/flyve-mdm/glpi-plugin/issues/labels)
