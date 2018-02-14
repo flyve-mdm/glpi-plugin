@@ -4,6 +4,13 @@
 # Before script for Travis CI
 #
 
+# config composer
+if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
+  mkdir ~/.composer -p
+  touch ~/.composer/composer.json
+  composer config -g github-oauth.github.com $GH_OAUTH
+fi
+
 # Make a ramdisk for mysql (speed improvement)
 sudo mkdir /mnt/ramdisk
 sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
@@ -11,11 +18,9 @@ sudo stop mysql
 sudo mv /var/lib/mysql /mnt/ramdisk
 sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
 sudo start mysql
-	
+
 # setup GLPI and its plugins
 mysql -u root -e 'create database $DBNAME;'
-rm -f composer.lock
-tests/config-composer.sh
 git clone --depth=1 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
 composer install --no-dev --no-interaction
 if [ -e scripts/cliinstall.php ] ; then php scripts/cliinstall.php --db=glpitest --user=root --tests ; fi
@@ -29,5 +34,5 @@ if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tes
 
 # prepare plugin to test
 cd plugins/flyvemdm 
-composer install --no-interaction
+composer install --no-interaction --ignore-platform-reqs
 
