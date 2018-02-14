@@ -31,7 +31,7 @@
 
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyBadFleetException;
-use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -371,7 +371,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       if ($appliedPolicy === null) {
          $exceptionMessage = "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
          Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
-         throw new TaskPublishPolicyNotFoundException($exceptionMessage);
+         throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
       }
 
       $policy->getFromDB($this->fields[$policyFk]);
