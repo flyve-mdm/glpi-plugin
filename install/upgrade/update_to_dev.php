@@ -180,7 +180,30 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
    // All policies exist for Android
    $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
-   $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('disableFmRadio','disableVoiceMail','disableCallAutoAnswer','disableVoiceDictation','disableUsbOnTheGo')");
+   $policies = [
+      'disableFmRadio',
+      'disableVoiceMail',
+      'disableCallAutoAnswer',
+      'disableVoiceDictation',
+      'disableUsbOnTheGo',
+   ];
+   $tasksTable = 'glpi_plugin_flyvemdm_tasks';
+   $request = [
+      'FIELDS'     => [$table => ['symbol'], $tasksTable => ['plugin_flyvemdm_fleets_id']],
+      'FROM'       => $table,
+      'INNER JOIN' => [
+         $tasksTable => ['FKEY' => [$tasksTable => 'plugin_flyvemdm_policies_id', $table => 'id']],
+      ],
+      'WHERE'      => ['symbol' => $policies],
+   ];
+   $result = $DB->request($request);
+   if (count($result) > 0) {
+      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      foreach ($DB->request($result) as $row => $data) {
+         $mqttClient->publish($data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'], null, 0, 1);
+      }
+      $DB->delete($table, ['symbol' => $policies]);
+   }
 
    // update Applications table
    $table = 'glpi_plugin_flyvemdm_packages';
