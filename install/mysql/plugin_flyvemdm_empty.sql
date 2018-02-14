@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_files` (
   `id`                        int(11)      NOT NULL AUTO_INCREMENT,
   `name`                      varchar(255) NOT NULL DEFAULT '',
   `source`                    varchar(255) NOT NULL DEFAULT '',
+  `comment`                   text         DEFAULT NULL,
   `entities_id`               int(11) NOT  NULL DEFAULT '0',
   `version`                   int(11) NOT  NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -259,3 +260,8 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   INDEX `plugin_flyvemdm_tasks_id` (`plugin_flyvemdm_tasks_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+-- glpi_displaypreferences
+INSERT INTO `glpi_displaypreferences` (`id`, `itemtype`, `num`, `rank`, `users_id`)
+   VALUES (NULL,'PluginFlyvemdmFile', '1', '1', '0'),
+          (NULL,'PluginFlyvemdmFile', '4', '2', '0');
