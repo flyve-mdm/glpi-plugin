@@ -92,7 +92,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $destination = FLYVEMDM_FILE_PATH . "/" . $input['source'];
       $this->createEntityDirectory(dirname($destination));
       if (!rename($uploadedFile, $destination)) {
-         if (!is_writable(dirname($destination))) {
+         if (!file_exists(dirname($destination))) {
             $destination = dirname($destination);
             Toolbox::logInFile('php-errors',
                "Plugin Flyvemdm : Directory '$destination' is not writeable");
@@ -134,7 +134,9 @@ class PluginFlyvemdmFile extends CommonDBTM {
             return false;
          }
          if ($filename != $this->fields['source']) {
-            unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
+            if (file_exists(FLYVEMDM_FILE_PATH . "/" . $this->fields['source'])) {
+               unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
+            }
          }
          // File updated, then increment its version
          $input['version'] = $this->fields['version'] + 1;
