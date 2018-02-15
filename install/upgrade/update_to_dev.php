@@ -349,6 +349,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $mqttClient->publish('/' . $topic, null, 0, 1);
    }
 
+   // re-use previous request array
    $request['WHERE'] = ['enroll_status' => ['=' => 'unenrolling']];
    $mqttMessage = ['unenroll' => 'now'];
    $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);

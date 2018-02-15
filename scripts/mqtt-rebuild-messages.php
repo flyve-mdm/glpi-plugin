@@ -35,10 +35,10 @@ chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 include (__DIR__ . "/../vendor/docopt/docopt/src/docopt.php");
 
 $doc = <<<DOC
-cli_install.php
+mqtt-rebuild-messages.php
 
 Usage:
-   cli_install.php [ --tests ] [ --debug ]
+   mqtt-rebuild-messages.php [ --tests ]
 
 Options:
    --tests              Use GLPI test database
@@ -56,9 +56,15 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
 
 include (__DIR__ . '/../../../inc/includes.php');
 
-if (isset($args['--debug']) && $args['--debug'] !== false) {
-   \sskaje\mqtt\Debug::Enable();
+$mqttClient = PluginFlyvemdmMqttClient::getInstance();
+$fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
+$request = [
+   'SELECT' => ['id'],
+   'FROM' => PluginFlyvemdmFleet::getTable(),
+   'WHERE' => ['is_default' => ['<>' => '0']]
+];
+$fleet = new PluginFlyvemdmFleet();
+foreach($DB->request($request) as $row) {
+   $fleet->getFromDB($row['id']);
+   $fleet->refreshPersistedNotifications();
 }
-$mqttLogger = PluginFlyvemdmMqttclient::getInstance();
-$mqttLogger->setHandler(PluginFlyvemdmMqtthandler::getInstance());
-$mqttLogger->subscribe();

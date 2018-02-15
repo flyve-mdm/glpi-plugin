@@ -1839,4 +1839,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agent = new static();
       $agent->deleteByCriteria(['computers_id' => $item->getField('id')], 1);
    }
+
+   public function refreshPersistedNotifications() {
+      if ($this->isNewItem()) {
+         return;
+      }
+
+      if ($this->fields['wipe'] != '0') {
+         $this->sendWipeQuery();
+      }
+
+      if ($this->fields['lock'] != '0') {
+         $this->sendLockQuery();
+      }
+
+      if ($this->fields['enroll_status'] != 'unenrolling') {
+         $this->sendUnenrollQuery();
+      }
+   }
 }
