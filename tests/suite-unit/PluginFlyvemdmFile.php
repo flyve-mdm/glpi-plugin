@@ -71,13 +71,50 @@ class PluginFlyvemdmFile extends CommonTestCase {
       ];
    }
 
+   public function providerPrepareInputForUpdate() {
+      return [
+         /*
+          // This test case needs dependency injection bacause a mock is required
+          [
+          'isApi' => true,
+          'input' => [
+          'entities_id' => '0',
+          ],
+          'upload' => [
+          'file' => [
+          'tmp_name' => '/tmp/unit-test-uploaded',
+          'error' => 0
+          ]
+          ],
+          'expected' => [
+          'version' => 1,
+          ]
+          ],
+          */
+         [
+            'isApi' => false,
+            'input' => [
+               'entities_id' => '0',
+            ],
+            'upload' => [
+               '_file' => [
+                  0 => 'document.pdf',
+               ]
+            ],
+            'expected' => [
+               'version' => 6,
+            ]
+         ],
+      ];
+   }
+
    /**
-    * @engine inline
     * @dataProvider providerPrepareInputForAdd
     * @param boolean $isApi
     * @param array $input
     * @param array $upload
     * @param array|boolean $expected
+    * @engine inline
     */
    public function testPrepareInputForAdd($isApi, $input, $upload, $expected) {
       // backup altered superglobals
@@ -104,6 +141,74 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $this->calling($common)->isAPI = $isApi;
       $file = $this->newTestedInstance();
       $output = $file->prepareInputForAdd($input);
+      if ($expected === false) {
+         $this->boolean($output)->isFalse();
+      } else {
+         $this->integer((int) $output['version'])->isEqualTo($expected['version'], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->array($output)->hasKey('source');
+      }
+
+      // restore altered superglobals
+      if ($isApi) {
+         $_FILES = $backupFiles;
+      } else {
+         $_POST = $backupPost;
+      }
+   }
+
+   /**
+    * @engine inline
+    * @dataProvider providerPrepareInputForUpdate
+    * @param boolean $isApi
+    * @param array $input
+    * @param array $upload
+    * @param array|boolean $expected
+    */
+   public function testPrepareInputForUpdate($isApi, $input, $upload, $expected) {
+      global $DB;
+
+      // backup altered superglobals
+      if ($isApi) {
+         $backupFiles = $_FILES;
+         $_FILES = $upload;
+      } else {
+         $backupPost = $_POST;
+         $_POST = $upload;
+      }
+
+      // put a file in the actual FS
+      if ($isApi) {
+         if (isset($upload['file']['tmp_name'])) {
+            file_put_contents($upload['file']['tmp_name'], 'dummy');
+         }
+      } else {
+         if (isset($upload['_file'][0])) {
+            file_put_contents(GLPI_TMP_DIR . '/' . $upload['_file'][0], 'dummy');
+         }
+      }
+
+      $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
+      $this->calling($common)->isAPI = $isApi;
+
+      $file = $this->newTestedInstance();
+      $fileTable = $file::getTable();
+      $fileName = $this->getUniqueString() . '.pdf';
+      $DB->query("INSERT INTO $fileTable (
+         `name`,
+         `source`,
+         `entities_id`,
+         `version`
+      )
+      VALUES (
+         '$fileName',
+         '2/12345678_$fileName',
+         '0',
+         '5'
+      )");
+      $mysqlError = $DB->error();
+      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+
+      $output = $file->prepareInputForUpdate($input);
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
