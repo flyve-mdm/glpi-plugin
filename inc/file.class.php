@@ -68,19 +68,12 @@ class PluginFlyvemdmFile extends CommonDBTM {
       return 'fa-file';
    }
 
-   /**
-    * @see CommonDBTM::addNeededInfoToInput()
-    */
    public function addNeededInfoToInput($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
    }
 
-   /**
-    * (non-PHPdoc)
-    * @see CommonDBTM::prepareInputForAdd()
-    */
    public function prepareInputForAdd($input) {
       // Find the added file
       if (!isAPI()) {
@@ -147,10 +140,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
       return $input;
    }
 
-   /**
-    * (non-PHPdoc)
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
    public function prepareInputForUpdate($input) {
       // Find the added file
       if (!isAPI()) {
@@ -307,9 +296,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
       return $tab;
    }
 
-   /**
-    * @see CommonDBTM::pre_deleteItem()
-    */
    public function pre_deleteItem() {
       $task = new PluginFlyvemdmTask();
       return $task->deleteByCriteria([
@@ -336,10 +322,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
    }
 
-   /**
-    * @see CommonDBTM::post_updateItem()
-    * @param integer $history
-    */
    public function post_updateItem($history = 1) {
       // Check if the source changed
       if (isset($this->oldvalues['source'])) {
@@ -363,9 +345,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
    }
 
-   /**
-    * @see CommonDBTM::post_purgeItem()
-    */
    public function post_purgeItem() {
       $filename = FLYVEMDM_FILE_PATH . "/" . $this->fields['source'];
       if (is_writeable($filename)) {
