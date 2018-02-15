@@ -519,4 +519,22 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $fleet->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
       }
    }
+
+   public function refreshPersistedNotifications() {
+      global $DB;
+
+      if ($this->isNewItem()) {
+         return;
+      }
+
+      $task = new PluginFlyvemdmTask();
+      $request = [
+         'FROM' => $task::getTable(),
+         'WHERE' => [$this::getForeignKeyField() => $this->getID()]
+      ];
+      foreach ($DB->request($request) as $row) {
+         $task->getFromDB($row['id']);
+         $task->publishPolicy($this);
+      }
+   }
 }

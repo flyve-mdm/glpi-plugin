@@ -75,4 +75,10 @@ interface PluginFlyvemdmNotifiable {
     * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0);
+
+   /**
+    * Send all persisted messages for the notifiable
+    * Used to regenerate messages stored by the broker if they are lost
+    */
+   public function refreshPersistedNotifications();
 }
