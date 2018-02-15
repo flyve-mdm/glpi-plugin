@@ -74,7 +74,7 @@ class PluginFlyvemdmCommon
     * @param string $field name
     * @return array
     */
-   static function getEnumValues($table, $field) {
+   public static function getEnumValues($table, $field) {
       global $DB;
 
       $enum = [];
@@ -139,5 +139,12 @@ class PluginFlyvemdmCommon
          }
       }
       return rmdir($dir);
+   }
+
+   /**
+    * Mockable front for isAPI function of GLPI
+    */
+   public function isAPI() {
+      return isAPI();
    }
 }
