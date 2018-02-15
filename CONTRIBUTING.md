@@ -293,7 +293,7 @@ Pull Request should be named in reference to the main fix or feature you provide
 
 **2 - Choose the right label**: Look at the [list of available labels.](https://github.com/flyve-mdm/glpi-plugin/issues/labels)
 
-**3 - Smash that button!** Press that _Create Pull Request_ button and you're done, for now.
+**3 - Smash that button!** Press that _Create Pull Request_ button and you're done.
 
 **&mdash; That's it! :tada:**
 
