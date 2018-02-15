@@ -214,7 +214,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
          $topic = "/" . $data['entities_id'] . "/fleet/" . $data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'] . "/Task/" . $data['id'];
          $mqttClient->publish($topic, null, 0, 1);
       }
-      $DB->delete($table, ['symbol' => $policies]);
+      $policiesStr = implode("','", $policies);
+      $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('" . $policiesStr . "')");
    }
 
    // update Applications table
