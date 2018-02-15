@@ -434,7 +434,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
          $policyName = $policy->getField('symbol');
          $fleet->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
-
       }
    }
 
