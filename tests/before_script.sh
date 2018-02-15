@@ -34,5 +34,5 @@ if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tes
 
 # prepare plugin to test
 cd plugins/flyvemdm 
-composer install --no-interaction --ignore-platform-reqs
+composer install --no-interaction
 
