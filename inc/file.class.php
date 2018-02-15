@@ -83,20 +83,22 @@ class PluginFlyvemdmFile extends CommonDBTM {
     */
    public function prepareInputForAdd($input) {
       // Find the added file
-      if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+      if (!isAPI()) {
          // from GLPI UI
-         $actualFilename = $_POST['_file'][0];
-         $uploadedFile = GLPI_TMP_DIR . "/" . $_POST['_file'][0];
+         if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
+            $actualFilename = $_POST['_file'][0];
+            $uploadedFile = GLPI_TMP_DIR . '/' . $_POST['_file'][0];
+         }
       } else {
          // from API
          if (!isset($_FILES['file'])) {
-            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            Session::addMessageAfterRedirect(__('No file uploaded', 'flyvemdm'));
             return false;
          }
 
          if (!$_FILES['file']['error'] == 0) {
             if (!$_FILES['file']['error'] == 4) {
-               Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+               Session::addMessageAfterRedirect(__('File upload failed', 'flyvemdm'));
             }
             return false;
          }
@@ -105,12 +107,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          if (is_readable($_FILES['file']['tmp_name']) && !is_readable($destination)) {
             // Move the file to GLPI_TMP_DIR
             if (!is_dir(GLPI_TMP_DIR)) {
-               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false, ERROR);
-               return false;
-            }
-
-            // With GLPI < 9.2, the file was not moved by the API
-            if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+               Session::addMessageAfterRedirect(__('Temp directory doesn\'t exist', 'flyvemdm'), false, ERROR);
                return false;
             }
          }
@@ -124,7 +121,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       }
 
       if (!isset($actualFilename)) {
-         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+         Session::addMessageAfterRedirect(__('File uploaded without name', 'flyvemdm'));
          return false;
       }
       $input['source'] = $input['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
@@ -167,7 +164,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          if (isset($_FILES['file']['error'])) {
             if (!$_FILES['file']['error'] == 0) {
                if (!$_FILES['file']['error'] == 4) {
-                  Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+                  Session::addMessageAfterRedirect(__('File upload failed', 'flyvemdm'));
                }
                return false;
             }
@@ -176,13 +173,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
             if (is_readable($_FILES['file']['tmp_name']) && !is_readable($destination)) {
                // Move the file to GLPI_TMP_DIR
                if (!is_dir(GLPI_TMP_DIR)) {
-                  Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false,
+                  Session::addMessageAfterRedirect(__('Temp directory doesn\'t exist', 'flyvemdm'), false,
                      ERROR);
-                  return false;
-               }
-
-               // With GLPI < 9.2, the file was not moved by the API
-               if (!move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
                   return false;
                }
             }
@@ -197,7 +189,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       if (isset($uploadedFile)) {
          // A file has been uploaded
          if (!isset($actualFilename)) {
-            Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
+            Session::addMessageAfterRedirect(__('File uploaded without name', 'flyvemdm'));
             return false;
          }
          $input['source'] = $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
@@ -220,7 +212,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          // No file uploaded
          unset($input['source']);
       }
-      
+
       return $input;
    }
 
