@@ -427,7 +427,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $maxAgents = $entityConfig->getField('device_limit');
       $entityId = $_SESSION['glpiactive_entity'];
-      $deviceCount = countElementsInTable($this->getTable(), "`entities_id`='$entityId'");
+      $DbUtils = new DbUtils();
+      $deviceCount = $DbUtils->countElementsInTable($this->getTable(), "`entities_id`='$entityId'");
       if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
          // Too many devices
          $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));

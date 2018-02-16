@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmAgent as FlyvemdmAgent;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
 
@@ -74,10 +73,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->testedClass->hasConstant('ENROLL_ENTITY_TOKEN');
       $this->testedClass->hasConstant('DEFAULT_TOKEN_LIFETIME');
       $this->given($this->testedClass)
-         ->integer(FlyvemdmAgent::ENROLL_DENY)->isEqualTo(0)
-         ->integer(FlyvemdmAgent::ENROLL_INVITATION_TOKEN)->isEqualTo(1)
-         ->integer(FlyvemdmAgent::ENROLL_ENTITY_TOKEN)->isEqualTo(2)
-         ->string(FlyvemdmAgent::DEFAULT_TOKEN_LIFETIME)->isEqualTo('P7D');
+         ->integer(\PluginFlyvemdmAgent::ENROLL_DENY)->isEqualTo(0)
+         ->integer(\PluginFlyvemdmAgent::ENROLL_INVITATION_TOKEN)->isEqualTo(1)
+         ->integer(\PluginFlyvemdmAgent::ENROLL_ENTITY_TOKEN)->isEqualTo(2)
+         ->string(\PluginFlyvemdmAgent::DEFAULT_TOKEN_LIFETIME)->isEqualTo('P7D');
       $class = $this->testedClass->getClass();
       $this->given($class)->string($class::$rightname)->isEqualTo('flyvemdm:agent');
    }
