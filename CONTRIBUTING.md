@@ -50,6 +50,8 @@ We present you here the guidelines to start contributing in any of the Flyve MDM
             - 4.2.5.1 [How to Write a Title for a Pull Request](#4.2.5.1)
             - 4.2.5.2 [Before Send a Pull Request](#4.2.5.2)
             - 4.2.5.3 [How We Check your Submission](#4.2.5.3)
+                - 4.2.5.3.1 [Status Check](#4.2.5.3.1)
+                - 4.2.5.3.2 [App/Bots List](#4.2.5.3.2)
         - 4.2.6 [How to proceed with suggestions](#4.2.6)
 - 5 [What to do next?](#5)
 - 6 [Coding Rules](#6)
@@ -299,17 +301,37 @@ Pull Request should be named in reference to the main fix or feature you provide
 
 ### <a name="4.2.5.3"></a> 4.2.5.3 How We Check your Submission.
 
-We use a set of apps/bots to check submissions, some of them are here on this list:
+#### <a name="4.2.5.3.1"></a> 4.2.5.3.1 Status Check :rotating_light:
+
+Required status checks ensure us that all required tests are passing before collaborators can make changes to a protected branch. We enforce status checks before a branch is merged.
+
+The type of required status check we choose is _Loose_, not all of them are required but some of them determines whether your changes will be reviewed or not. Some of them are here on this list, although, some of them may not be implemented in all repositories:
+
+#### <a name="4.2.5.3.2"></a> 4.2.5.3.2 App/Bots List :traffic_light:
 
 **WIP:** Refers to Work In Progress, this app helps you to prevent your PR to be merged accidentally, add the word "wip" or "WIP" to its title and WIP bot will set its status to error. When you write WIP in the PR title it means that your changes are still in progress or unfinished, so it won't be reviewed until the WIP is removed.
+Maintainers: Required / Contributors: Required
 
 **AccessLint:** When a pull request is opened, AccessLint reviews the changes and comments with any new accessibility issues, giving you quick, timely, and targeted feedback, before code goes live.
+Maintainers: Required / Contributors: Required
 
 **GPG:** After installation, this app checks all commits of new (or newly updated) pull requests for valid GPG signatures according to the GitHub API.
+Maintainers: Required / Contributors: Optional
 
 **validate-commit-msg:** Runs validate-commit-msg over all commits of new or edited pull requests and sets an appropriate status check.
+Maintainers: Required / Contributors: Required
 
 **DCO:** This App enforces the Developer Certificate of Origin (DCO) on Pull Requests. It requires all commit messages to contain the Signed-off-by line with an email address that matches the commit author.
+Maintainers: Required / Contributors: Optional
+
+**DEP:** A Github App that helps to manage Pull Request dependencies. That App works similar to typical CI services ( e.g Travis) but instead of running a test suite, It will check whether a pull request dependencies are resolved.
+Maintainers: Required / Contributors: Required
+
+**ci/circleci build:** CircleCI acts as a platform for both Continuous Integration and Continuous Deployment. If your tests pass, then you can deploy your code to development, staging, production, or other environments.
+Maintainers: Required / Contributors: Required
+
+**continuous-integration/travis-ci/push(and pr):** An automatic construction of the requested changes is carried out and the tests are executed automatically.
+Maintainers: Required / Contributors: Required
 
 ### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions.
 
