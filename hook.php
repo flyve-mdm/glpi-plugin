@@ -176,7 +176,7 @@ function plugin_flyvemdm_getDatabaseRelations() {
  */
 function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
    if ($item instanceof Entity) {
-      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       $entityConfig->hook_entity_add($item);
 
       $fleet = new PluginFlyvemdmFleet();
@@ -190,7 +190,7 @@ function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
 function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
    if ($item instanceof Entity) {
       $itemtypes = [
-         PluginFlyvemdmEntityconfig::class,
+         PluginFlyvemdmEntityConfig::class,
          PluginFlyvemdmInvitation::class,
          PluginFlyvemdmAgent::class,
          PluginFlyvemdmFleet::class,

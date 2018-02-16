@@ -124,14 +124,14 @@ class PluginFlyvemdmProfile extends Profile {
             'field'       => self::$rightname,
             'rights'      => [self::RIGHT_FLYVEMDM_USE => __('Use Flyve MDM')]
          ],
-         ['itemtype'  => PluginFlyvemdmEntityconfig::class,
-            'label'  => PluginFlyvemdmEntityconfig::getTypeName(2),
-            'field'  => PluginFlyvemdmEntityconfig::$rightname,
+         ['itemtype'  => PluginFlyvemdmEntityConfig::class,
+            'label'  => PluginFlyvemdmEntityConfig::getTypeName(2),
+            'field'  => PluginFlyvemdmEntityConfig::$rightname,
             'rights' => [
                 READ                                                             => __('Read'),
-                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
-                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
-                PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
+                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
+                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
+                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
              ]
          ],
          ['itemtype'  => PluginFlyvemdmInvitationLog::class,
