@@ -220,7 +220,7 @@ class PluginFlyvemdmInstaller {
    }
 
    protected function createRootEntityConfig() {
-      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       $entityConfig->getFromDBByCrit([
          'entities_id' => '0',
       ]);
@@ -251,10 +251,10 @@ class PluginFlyvemdmInstaller {
          PluginFlyvemdmPolicy::$rightname         => READ,
          PluginFlyvemdmPolicyCategory::$rightname => READ,
          PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
-         PluginFlyvemdmEntityconfig::$rightname   => READ
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         PluginFlyvemdmEntityConfig::$rightname   => READ
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
          PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
       ];
@@ -310,7 +310,7 @@ class PluginFlyvemdmInstaller {
          PluginFlyvemdmAgent::$rightname        => READ,
          PluginFlyvemdmFile::$rightname         => READ,
          PluginFlyvemdmPackage::$rightname      => READ,
-         PluginFlyvemdmEntityconfig::$rightname => READ,
+         PluginFlyvemdmEntityConfig::$rightname => READ,
       ]);
    }
 
@@ -1446,7 +1446,7 @@ Regards,
 
       $tables = [
          PluginFlyvemdmAgent::getTable(),
-         PluginFlyvemdmEntityconfig::getTable(),
+         PluginFlyvemdmEntityConfig::getTable(),
          PluginFlyvemdmFile::getTable(),
          PluginFlyvemdmInvitationlog::getTable(),
          PluginFlyvemdmFleet::getTable(),
@@ -1503,7 +1503,7 @@ Regards,
    protected function deleteRelations() {
       $pluginItemtypes = [
          PluginFlyvemdmAgent::class,
-         PluginFlyvemdmEntityconfig::class,
+         PluginFlyvemdmEntityConfig::class,
          PluginFlyvemdmFile::class,
          PluginFlyvemdmFleet::class,
          PluginFlyvemdmGeolocation::class,

@@ -419,16 +419,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
-      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
          $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'flyvemdm')));
          return false;
       }
 
-      $maxAgents = $entityConfig->getField('device_limit');
-      $entityId = $_SESSION['glpiactive_entity'];
-      $deviceCount = countElementsInTable($this->getTable(), "`entities_id`='$entityId'");
-      if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
+      if (!$entityConfig->canAddAgent($_SESSION['glpiactive_entity'])) {
          // Too many devices
          $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));
          $input = false;
