@@ -162,7 +162,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['invitation_token'] = $this->setInvitationToken();
 
       // Get the default expiration delay
-      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       if ($entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
          $tokenExpire = $entityConfig->getField('agent_token_life');
@@ -305,7 +305,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function createQRCodeDocument(User $user, $invitationToken, $entities_id) {
       global $CFG_GLPI;
 
-      $entityConfig = new PluginFlyvemdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
       $entityConfig->getFromDBByCrit(['entities_id' => $entities_id]);
 
       $personalToken = User::getToken($user->getID(), 'api_token');

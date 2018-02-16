@@ -37,7 +37,7 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 0.1.0
  */
-class PluginFlyvemdmEntityconfig extends CommonDBTM {
+class PluginFlyvemdmEntityConfig extends CommonDBTM {
 
    const RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT = 128;
    const RIGHT_FLYVEMDM_APP_DOWNLOAD_URL = 256;
@@ -70,9 +70,9 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
       if (static::$rightname) {
          return Session::haveRight(static::$rightname,
-            PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-            | PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE
+            PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE
          );
       }
    }
@@ -128,17 +128,17 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
     */
    public function prepareInputForUpdate($input) {
       if (!Session::haveRight(static::$rightname,
-         PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
          unset($input['device_limit']);
       }
 
       if (!Session::haveRight(static::$rightname,
-         PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
       }
 
       if (!Session::haveRight(static::$rightname,
-         PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
          unset($input['agent_token_life']);
       }
 
@@ -189,7 +189,7 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
       $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
       // Create entity configuration
-      $entityconfig = new PluginFlyvemdmEntityconfig();
+      $entityconfig = new PluginFlyvemdmEntityConfig();
       $entityconfig->add([
          'id'           => $item->getID(),
          'managed'      => $managed,
@@ -383,6 +383,28 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
    }
 
    /**
+    * Can the entity get one more agent ?
+    * Checks if the device count limit is reached
+    *
+    * @return boolean true if the limit not reached, false otherwise
+    */
+   public function canAddAgent($entityId) {
+      if ($this->isNewItem()) {
+         return false;
+      }
+
+      $maxAgents = $this->fields['device_limit'];
+      $DbUtils = new DbUtils();
+      $deviceCount = $DbUtils->countElementsInTable(PluginFlyvemdmAgent::getTable(), "`entities_id`='$entityId'");
+      if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
+         // Too many devices
+         return false;
+      }
+
+      return  true;
+   }
+
+   /**
     * @return array
     */
    public function getSearchOptionsNew() {
@@ -489,5 +511,4 @@ class PluginFlyvemdmEntityconfig extends CommonDBTM {
 
       return $tab;
    }
-
 }

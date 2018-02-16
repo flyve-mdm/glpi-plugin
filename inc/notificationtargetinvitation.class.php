@@ -104,7 +104,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
 
                // Get the entitiy configuration data
-               $entityConfig = new PluginFlyvemdmEntityconfig();
+               $entityConfig = new PluginFlyvemdmEntityConfig();
                $entityConfig->getFromDBByCrit(['entities_id' => $event->obj->getField('entities_id')]);
 
                // Build the data of the deeplink

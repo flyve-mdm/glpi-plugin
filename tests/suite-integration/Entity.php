@@ -134,7 +134,7 @@ class Entity extends CommonTestCase {
       $this->boolean($package->getFromDB($package->getID()))->isFalse();
       $this->boolean($file->getFromDB($file->getID()))->isFalse();
 
-      $entityConfig = new \PluginFlyvemdmEntityconfig();
+      $entityConfig = new \PluginFlyvemdmEntityConfig();
       $this->integer(count($entityConfig->find("`entities_id` = '$entityId'")))->isEqualTo(0);
 
    }
