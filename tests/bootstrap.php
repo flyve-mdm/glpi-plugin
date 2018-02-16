@@ -32,6 +32,8 @@
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
 global $CFG_GLPI, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
+ini_set('session.use_cookies', 0); //disable session cookies
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 define('TEST_GLPI_URI', 'http://localhost:8088');

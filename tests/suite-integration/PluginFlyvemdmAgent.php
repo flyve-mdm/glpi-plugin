@@ -111,6 +111,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testEnrollAgent
+    * @engine inline
     */
    public function testEnrollAgent() {
       // Set a computer type
@@ -338,6 +339,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Test agent unenrollment
     * @tags testUnenrollAgent
+    * @engine inline
     */
    public function testUnenrollAgent() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
