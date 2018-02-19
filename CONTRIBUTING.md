@@ -47,10 +47,12 @@ We present you here the guidelines to start contributing in any of the Flyve MDM
             - 4.2.3.3 [Commit Examples](#4.2.3.3)
         - 4.2.4 [Push your Changes](#4.2.4)
         - 4.2.5 [Create a Pull Request](#4.2.5)
-            - 4.2.5.1 [How to Write a Title for a Pull Request.](#4.2.5.1)
-            - 4.2.5.2 [How to Write a Description for a Pull Request.](#4.2.5.2)
-            - 4.2.5.3 [Additional Information.](#4.2.5.3)
-        - 4.2.6 [How to proceed with suggestions.](#4.2.6)
+            - 4.2.5.1 [How to Write a Title for a Pull Request](#4.2.5.1)
+            - 4.2.5.2 [Before Send a Pull Request](#4.2.5.2)
+            - 4.2.5.3 [How We Check your Submission](#4.2.5.3)
+                - 4.2.5.3.1 [Status Check](#4.2.5.3.1)
+                - 4.2.5.3.2 [App/Bots List](#4.2.5.3.2)
+        - 4.2.6 [How to proceed with suggestions](#4.2.6)
 - 5 [What to do next?](#5)
 - 6 [Coding Rules](#6)
 
@@ -195,7 +197,8 @@ Refers to the extent, subject matter or contextual information about your change
 A description must immediately follow the **`type(optional scope):`** The description is a short description of the commit.
 
 **Important**
-* Use the imperative, present tense: "change" not "changed" nor "changes".
+* About commit character length, keep it concise and don't write more than **50 characters**.
+* Use the imperative present tense: change, make, add, update, fix, etc; Do not use changed, changes, added, fixes, fixed, etc.
 * Don't capitalize the first letter.
 * Do not use a dot (.) at the end.
 
@@ -229,7 +232,7 @@ For example, to close an issue numbered **`123`**, you could use the phrases **`
 >:point_right:Closes #123:point_left:
 ---
 
-### <a name="4.2.3.3 "></a> 4.2.3.3 Commit Examples
+### <a name="4.2.3.3"></a> 4.2.3.3 Commit Examples
 :shit:
 **Bad**
 
@@ -268,7 +271,7 @@ Pull Request should be named in reference to the main fix or feature you provide
 **:warning: Important:** Please avoid generic terms.
 
 :straight_ruler:
-**Title Lenght:** Keep it concise and don't write more than **50 characters** in the title.
+**Title Length:** Keep it concise and don't write more than **50 characters** in the title.
 
 :construction:
 **For Work in Progress (WIP):** If you don’t want your PR to be merged accidentally, add the word "wip" or "WIP" to its title and the [WIP bot](https://github.com/apps/wip) will set its status to error.
@@ -286,14 +289,57 @@ Pull Request should be named in reference to the main fix or feature you provide
 >:point_right:Added a Table of Content for the Contributing Guideline Document.:point_left:
 ---
 
-### <a name="4.2.5.2"></a> 4.2.5.2 How to Write a Description for a Pull Request.
+### <a name="4.2.5.2"></a> 4.2.5.2 Before Send a Pull Request.
 
-We provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for Pull Request descriptions. When you're creating a Pull Request it'll be shown automatically. Just fill it out and you're done.
+**1 - Pull Request Description:** Write a description about the changes, we provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for Pull Request descriptions. When you're creating a Pull Request it'll be shown automatically. Just fill it out and you're done.
 
-### <a name="4.2.5.3"></a> 4.2.5.3 Additional Information.
+**2 - Choose the right label**: Look at the [list of available labels.](https://github.com/flyve-mdm/glpi-plugin/issues/labels)
 
-:page_with_curl:
-**Choose the right label**: Look at the [list of available labels.](https://github.com/flyve-mdm/glpi-plugin/issues/labels)
+**3 - Smash that button!** Press that _Create Pull Request_ button and you're done.
+
+**&mdash; That's it! :tada:**
+
+### <a name="4.2.5.3"></a> 4.2.5.3 How We Check your Submission.
+
+#### <a name="4.2.5.3.1"></a> 4.2.5.3.1 Status Check :rotating_light:
+
+Required status checks ensure us that all required tests are passing before collaborators can make changes to a protected branch. We enforce status checks before a branch is merged.
+
+The type of required status check we choose is _Loose_, not all of them are required but some of them determines whether your changes will be reviewed or not. Some of them are here on this list, although, some of them may not be implemented in all repositories:
+
+#### <a name="4.2.5.3.2"></a> 4.2.5.3.2 App/Bots List :traffic_light:
+
+**WIP:** Refers to Work In Progress, this app helps you to prevent your PR to be merged accidentally, add the word "wip" or "WIP" to its title and WIP bot will set its status to error. When you write WIP in the PR title it means that your changes are still in progress or unfinished, so it won't be reviewed until the WIP is removed.
+
+_WIP: Maintainers: Required / Contributors: Required_
+
+**AccessLint:** When a pull request is opened, AccessLint reviews the changes and comments with any new accessibility issues, giving you quick, timely, and targeted feedback, before code goes live.
+
+_AccessLint: Maintainers: Required / Contributors: Required_
+
+**GPG:** After installation, this app checks all commits of new (or newly updated) pull requests for valid GPG signatures according to the GitHub API.
+
+_GPG: Maintainers: Required / Contributors: Optional_
+
+**validate-commit-msg:** Runs validate-commit-msg over all commits of new or edited pull requests and sets an appropriate status check.
+
+_validate-commit-msg: Maintainers: Required / Contributors: Required_
+
+**DCO:** This App enforces the Developer Certificate of Origin (DCO) on Pull Requests. It requires all commit messages to contain the Signed-off-by line with an email address that matches the commit author.
+
+_DCO: Maintainers: Required / Contributors: Optional_
+
+**DEP:** A Github App that helps to manage Pull Request dependencies. That App works similar to typical CI services ( e.g Travis) but instead of running a test suite, It will check whether a pull request dependencies are resolved.
+
+_DEP: Maintainers: Required / Contributors: Required_
+
+**ci/circleci build:** CircleCI acts as a platform for both Continuous Integration and Continuous Deployment. If your tests pass, then you can deploy your code to development, staging, production, or other environments.
+
+_ci/circleci build: Maintainers: Required / Contributors: Required_
+
+**continuous-integration/travis-ci/push(and pr):** An automatic construction of the requested changes is carried out and the tests are executed automatically.
+
+_continuous-integration/travis-ci/push(and pr): Maintainers: Required / Contributors: Required_
 
 ### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions.
 
@@ -306,7 +352,8 @@ If we suggest changes then:
     git rebase develop -i
     git push -f
     ```
-* Remove the WIP label.
+:warning:
+**Remove the WIP label:** When a PR is ready for review, remove the prefix WIP in the PR title.
 
 # 5. <a name="5"></a> What to do next?
 
