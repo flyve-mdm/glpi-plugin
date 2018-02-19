@@ -47,10 +47,12 @@ We present you here the guidelines to start contributing in any of the Flyve MDM
             - 4.2.3.3 [Commit Examples](#4.2.3.3)
         - 4.2.4 [Push your Changes](#4.2.4)
         - 4.2.5 [Create a Pull Request](#4.2.5)
-            - 4.2.5.1 [How to Write a Title for a Pull Request.](#4.2.5.1)
-            - 4.2.5.2 [How to Write a Description for a Pull Request.](#4.2.5.2)
-            - 4.2.5.3 [Additional Information.](#4.2.5.3)
-        - 4.2.6 [How to proceed with suggestions.](#4.2.6)
+            - 4.2.5.1 [How to Write a Title for a Pull Request](#4.2.5.1)
+            - 4.2.5.2 [Before Send a Pull Request](#4.2.5.2)
+            - 4.2.5.3 [How We Check your Submission](#4.2.5.3)
+                - 4.2.5.3.1 [Status Check](#4.2.5.3.1)
+                - 4.2.5.3.2 [App/Bots List](#4.2.5.3.2)
+        - 4.2.6 [How to proceed with suggestions](#4.2.6)
 - 5 [What to do next?](#5)
 - 6 [Coding Rules](#6)
 
@@ -335,7 +337,7 @@ _DEP: Maintainers: Required / Contributors: Required_
 
 _ci/circleci build: Maintainers: Required / Contributors: Required_
 
-### <a name="4.2.5.3"></a> 4.2.5.3 Additional Information.
+**continuous-integration/travis-ci/push(and pr):** An automatic construction of the requested changes is carried out and the tests are executed automatically.
 
 _continuous-integration/travis-ci/push(and pr): Maintainers: Required / Contributors: Required_
 
