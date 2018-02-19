@@ -148,12 +148,12 @@ bind-address = 0.0.0.0
 				<p>{{ __('Flyve MDM requires a Message queue server.', 'flyvemdm') }}</p>
 				<p>{{ __('Prefer a dedicated server or VM for running Mosquitto.', 'flyvemdm') }}</p>
 				<p>{{ __('As root in a terminal, execute the following command', 'flyvemdm') }}</p>
-				<p>apt-get install mosquitto mosquitto-auth-plug</p>
+				<p>apt-get install mosquitto mosquitto-auth-plugin</p>
 				<p>{{ __('Create', 'flyvemdm') }}&nbsp;/etc/mosquitto/conf.d/flyvemdm.conf
 				   {{ __('Add the following content, adapting your DBMS credentials:', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="12" cols="80">allow_anonymous false
 
-auth_plugin /usr/local/lib/libmosquitto-auth-plug.so
+auth_plugin /usr/lib/mosquitto-auth-plugin/auth-plugin.so
 auth_opt_backends mysql
 auth_opt_host backend-server-ip-or-fqdn
 auth_opt_port 3306
