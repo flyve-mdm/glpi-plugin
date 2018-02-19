@@ -310,28 +310,36 @@ The type of required status check we choose is _Loose_, not all of them are requ
 #### <a name="4.2.5.3.2"></a> 4.2.5.3.2 App/Bots List :traffic_light:
 
 **WIP:** Refers to Work In Progress, this app helps you to prevent your PR to be merged accidentally, add the word "wip" or "WIP" to its title and WIP bot will set its status to error. When you write WIP in the PR title it means that your changes are still in progress or unfinished, so it won't be reviewed until the WIP is removed.
-Maintainers: Required / Contributors: Required
+
+_WIP: Maintainers: Required / Contributors: Required_
 
 **AccessLint:** When a pull request is opened, AccessLint reviews the changes and comments with any new accessibility issues, giving you quick, timely, and targeted feedback, before code goes live.
-Maintainers: Required / Contributors: Required
+
+_AccessLint: Maintainers: Required / Contributors: Required_
 
 **GPG:** After installation, this app checks all commits of new (or newly updated) pull requests for valid GPG signatures according to the GitHub API.
-Maintainers: Required / Contributors: Optional
+
+_GPG: Maintainers: Required / Contributors: Optional_
 
 **validate-commit-msg:** Runs validate-commit-msg over all commits of new or edited pull requests and sets an appropriate status check.
-Maintainers: Required / Contributors: Required
+
+_validate-commit-msg: Maintainers: Required / Contributors: Required_
 
 **DCO:** This App enforces the Developer Certificate of Origin (DCO) on Pull Requests. It requires all commit messages to contain the Signed-off-by line with an email address that matches the commit author.
-Maintainers: Required / Contributors: Optional
+
+_DCO: Maintainers: Required / Contributors: Optional_
 
 **DEP:** A Github App that helps to manage Pull Request dependencies. That App works similar to typical CI services ( e.g Travis) but instead of running a test suite, It will check whether a pull request dependencies are resolved.
-Maintainers: Required / Contributors: Required
+
+_DEP: Maintainers: Required / Contributors: Required_
 
 **ci/circleci build:** CircleCI acts as a platform for both Continuous Integration and Continuous Deployment. If your tests pass, then you can deploy your code to development, staging, production, or other environments.
-Maintainers: Required / Contributors: Required
+
+_ci/circleci build: Maintainers: Required / Contributors: Required_
 
 **continuous-integration/travis-ci/push(and pr):** An automatic construction of the requested changes is carried out and the tests are executed automatically.
-Maintainers: Required / Contributors: Required
+
+_continuous-integration/travis-ci/push(and pr): Maintainers: Required / Contributors: Required_
 
 ### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions.
 
