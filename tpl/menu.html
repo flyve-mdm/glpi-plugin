@@ -1,3 +1,8 @@
+{% if configuration == false %}
+<center>
+	<p>{{ __('GLPI is not properly configured. Please check the general settings, the API settings and the notification settings.', 'flyvemdm' )}}</p>
+</center>
+{% endif %}
 <center>
    <ul id="plugin_flyvemdm_menu">
       {% for menuName, menuItem in menu %}

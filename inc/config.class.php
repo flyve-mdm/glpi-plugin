@@ -62,7 +62,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    // first and last steps of the MQTT pages of wizard
    const WIZARD_MQTT_BEGIN = 106;
-   const WIZARD_MQTT_END = 108;
+   const WIZARD_MQTT_END = 109;
 
    const WIZARD_FINISH = -1;
    static $config = [];
@@ -483,5 +483,36 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          unset($fields['value']);
       }
       return $fields;
+   }
+
+   /**
+    * Checks that GLPI is propery configured
+    * @return boolean true if configuration matches the plugin, false otherwise
+    */
+   public function isGlpiConfigured() {
+      $config = Config::getConfigurationValues('core', [
+         'url_base',
+         'enable_api',
+         'use_notifications',
+         'notifications_mailing'
+      ]);
+
+      if (!isset($config['url_base']) || strlen($config['url_base']) == 0) {
+         return false;
+      }
+
+      if (!isset($config['enable_api']) || $config['enable_api'] == 0) {
+         return false;
+      }
+
+      if (!isset($config['use_notifications']) || $config['use_notifications'] == 0) {
+         return false;
+      }
+
+      if (!isset($config['notifications_mailing']) || $config['notifications_mailing'] == 0) {
+         return false;
+      }
+
+      return true;
    }
 }
