@@ -79,12 +79,14 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     * Display the menu
     */
    public function displayMenu() {
-      $iconPath = __DIR__ . '/../pics';
-
       $pluralNumber = Session::getPluralNumber();
+
+      $config = new PluginFlyvemdmConfig();
+      $isGlpiConfigured = $config->isGlpiConfigured();
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
+         'configuration' => $isGlpiConfigured,
          'menu'   => [
             __('General', 'flyvemdm') => [
                   PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [

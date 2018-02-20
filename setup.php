@@ -211,12 +211,7 @@ function plugin_version_flyvemdm() {
             'plugins'   => [
                'fusioninventory',
             ],
-            'params' => [
-               'url_base',
-               'enable_api',
-               'use_notifications',
-               'notifications_mailing'
-            ],
+            'params' => [],
          ],
          'php' => [
             'exts'   => [
