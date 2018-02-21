@@ -1,6 +1,3 @@
-#Storkmdm Dump database on 2016-04-26 15:57
-
-
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_agents
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_agents`;
 CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
