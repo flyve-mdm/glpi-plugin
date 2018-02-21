@@ -56,13 +56,11 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testDeleteDefaultFleet
     */
    public function testDeleteDefaultFleet() {
+      // Creating an entity automatically creates a default fleet
+      $entity = new \Entity();
+      $entityId = $entity->import(['completename' => 'delete default fleet']);
+
       $fleet = $this->newTestedInstance();
-      $entityId = 1;
-      $fleet->add([
-         'name'        => 'fleet for delete',
-         'entities_id' => $entityId,
-         'is_default'  => 1,
-      ]);
       $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))
          ->isTrue();
 
