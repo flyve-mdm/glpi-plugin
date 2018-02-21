@@ -109,7 +109,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $this->string($result)
          ->matches("#method='post' action='.+?\/plugins\/flyvemdm\/front\/fleet\.form\.php'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
-         ->contains("input type='hidden' name='is_recursive' value='0'")
+         ->contains("select name='is_recursive'")
          ->contains("type='text' name='name'")
          ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
