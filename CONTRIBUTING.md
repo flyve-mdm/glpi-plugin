@@ -10,7 +10,7 @@ We are more than happy to accept external contributions to the project in the fo
 
 We present you here the guidelines to start contributing in any of the Flyve MDM projects.
 
-# Table of contents:
+# <a name="top"></a>Table of contents
 
 - 1 [See what’s going on](#1)
     - 1.1 [Issue Dashboard](#1.1)
@@ -56,8 +56,7 @@ We present you here the guidelines to start contributing in any of the Flyve MDM
 - 5 [What to do next?](#5)
 - 6 [Coding Rules](#6)
 
-# <a name="1"></a> 1. See what's going on!
-
+# <a name="1"></a> 1. See what's going on! [:top:](#top)
 
 ## <a name="1.1"></a> 1.1 Issue Dashboard
 If you want to know all the issues we're dealing with right now, take a look at our [Issue Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues) and look for areas in which you can help.
@@ -66,7 +65,7 @@ If you want to know all the issues we're dealing with right now, take a look at 
 ## <a name="1.2"></a> 1.2 Pull Request Dashboard
 If you want to give us a hand solving issues then great, take a look at our [Pull Request Dashboard](https://github.com/flyve-mdm/glpi-plugin/pulls) and check for an open or closed PR. We don’t want to duplicate efforts.
 
-# <a name="2"></a> 2. Assistance
+# <a name="2"></a> 2. Assistance [:top:](#top)
 
 ## <a name="2.1"></a> 2.1 Live Support
 You can find us in [Telegram](https://t.me/flyvemdm), we'll help you as soon as possible.
@@ -80,7 +79,7 @@ For general discussion, use the [Flyve-MDM mailing list](http://mail.ow2.org/wws
 ## <a name="2.4"></a> 2.4 Customers Assistance
 Use our official [support channel](https://support.teclib.com/).
 
-# <a name="3"></a> 3. Feature Requests
+# <a name="3"></a> 3. Feature Requests [:top:](#top)
 
 ## <a name="3.1"></a> 3.1 Requirement for a Feature Request
 If you like to _implement_ a new feature please [submit an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new) with a proposal, so we can be sure it's relevant.
@@ -94,24 +93,24 @@ For a minor new feature request, you can craft it and directly [submit it as a P
 ## <a name="3.2"></a> 3.2 Request a New Feature
 You can request a new feature by [submitting an Issue](https://github.com/flyve-mdm/glpi-plugin/issues/new)
 
-# <a name="4"></a> 4. Submitting
+# <a name="4"></a> 4. Submitting [:top:](#top)
 
-## <a name="4.1"></a> 4.1 How to Submit an Issue or Bugs.
+## <a name="4.1"></a> 4.1 How to Submit an Issue or Bugs
 
 A good Issue/Bug report shouldn't leave others needing to chase you up for more information. Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What would you expect to be the outcome? All these details will help people to fix any potential bugs.
 
 A bug is a _demonstrable problem_ that is caused by the code in the repository. Good bug reports are extremely helpful, here are steps to follow to build a good one:
 
-### <a name="4.1.1"></a> 4.1.1 Check for Past Issues or Bugs.
+### <a name="4.1.1"></a> 4.1.1 Check for Past Issues or Bugs
 Before submitting the issue please check the [Issue Tracker](https://github.com/flyve-mdm/glpi-plugin/issues/), maybe the issue/bug was already reported by another contributor. By doing this you help us maximize the effort spent on solving problems and the addition of new features.
 
 ### <a name="4.1.2"></a> 4.1.2 Try to Reproduce It!
 Try to reproduce this issue/bug using the latest `develop` branch in the repository [Check it here](https://github.com/flyve-mdm/glpi-plugin/branches).
 
-### <a name="4.1.3"></a> 4.1.3 Isolate the Problem.
+### <a name="4.1.3"></a> 4.1.3 Isolate the Problem
 Ideally, create a reduced test case. We prefer bug reports with small, portable test cases.
 
-### <a name="4.1.4"></a> 4.1.4 Information Needed for the Report.
+### <a name="4.1.4"></a> 4.1.4 Information Needed for the Report
 We require the following information:
 
 * :warning: **Observed Results:** A brief description of the problem.
@@ -123,11 +122,11 @@ Having all data and hand, file the new issue by filling out our [Issue form](htt
 
 **&mdash; That's it! :tada:**
 
-## <a name="4.2"></a> 4.2 How to Create a Pull Request (PR).
+## <a name="4.2"></a> 4.2 How to Create a Pull Request (PR)
 
 Before submitting your Pull Request check for an open or closed PR that relates to your submission. We don't want to duplicate efforts.
 
-### <a name="4.2.1"></a> 4.2.1 Create a Branch and Naming it.
+### <a name="4.2.1"></a> 4.2.1 Create a Branch and Naming it
 
 The project is organized according to the branch model [Git Flow.](http://git-flow.readthedocs.io/en/latest/) Create a new branch before committing any changes. A _branch is a parallel version of a repository._ It is contained within the repository but does not affect the **`primary or master`** branch.
 
@@ -165,7 +164,7 @@ optional body
 optional footer
 ```
 
-### <a name="4.2.3.2.1"></a> 4.2.3.2.1 Header: Writing a `type`. 
+### <a name="4.2.3.2.1"></a> 4.2.3.2.1 Header: Writing a `type`
 Commits must be prefixed with a type, which consists of a verb, **feat, fix, build,** followed by a colon and space. 
 
 **Your options:**
@@ -185,7 +184,7 @@ Commits must be prefixed with a type, which consists of a verb, **feat, fix, bui
 >:point_right:feat:point_left:(parser): add ability to parse arrays
 ---
 
-### <a name="4.2.3.2.2"></a> 4.2.3.2.2 Header: Writing the `(optional scope)`.
+### <a name="4.2.3.2.2"></a> 4.2.3.2.2 Header: Writing the `(optional scope)`
 Refers to the extent, subject matter or contextual information about your changes. A scope is a phrase describing the file modified or a section of the codebase, it’s always enclosed in parenthesis.
 
 ---
@@ -210,7 +209,7 @@ A description must immediately follow the **`type(optional scope):`** The descri
 ### <a name="4.2.3.2.4"></a> 4.2.3.2.4 Header Lenght
 The **header** cannot be longer than 100 characters. This allows the message to be easier to read on GitHub as well as in various git tools.
 
-### <a name="4.2.3.2.5"></a> 4.2.3.2.5 Writing the `optional body`.
+### <a name="4.2.3.2.5"></a> 4.2.3.2.5 Writing the `optional body`
 The body should include the motivation for the change and contrast this with previous behavior.
 
 ---
@@ -222,7 +221,7 @@ fix broken links
 ```
 ---
 
-### <a name="4.2.3.2.6"></a> 4.2.3.2.6 Writing the `optional footer`.
+### <a name="4.2.3.2.6"></a> 4.2.3.2.6 Writing the `optional footer`
 The `<optional footer>` should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-using-keywords/) if any.
 
 For example, to close an issue numbered **`123`**, you could use the phrases **`Closes #123`** in your pull request description or commit message. Once the branch is merged into the default branch, the issue will close.
@@ -265,7 +264,7 @@ Pull requests or PR are **proposed changes** to a repository submitted by a user
 
 After all the work being pushed to the newly created branch, In GitHub, send a pull request to our [repository.](https://github.com/flyve-mdm/glpi-plugin/pulls)
 
-### <a name="4.2.5.1"></a> 4.2.5.1 How to Write a Title for a Pull Request.
+### <a name="4.2.5.1"></a> 4.2.5.1 How to Write a Title for a Pull Request
 Pull Request should be named in reference to the main fix or feature you provide; minor information can be added to the description. Please be specific and don't use generic terms.
 
 **:warning: Important:** Please avoid generic terms.
@@ -289,7 +288,7 @@ Pull Request should be named in reference to the main fix or feature you provide
 >:point_right:Added a Table of Content for the Contributing Guideline Document.:point_left:
 ---
 
-### <a name="4.2.5.2"></a> 4.2.5.2 Before Send a Pull Request.
+### <a name="4.2.5.2"></a> 4.2.5.2 Before Send a Pull Request
 
 **1 - Pull Request Description:** Write a description about the changes, we provide a [template](https://github.com/flyve-mdm/glpi-plugin/community) for Pull Request descriptions. When you're creating a Pull Request it'll be shown automatically. Just fill it out and you're done.
 
@@ -299,7 +298,7 @@ Pull Request should be named in reference to the main fix or feature you provide
 
 **&mdash; That's it! :tada:**
 
-### <a name="4.2.5.3"></a> 4.2.5.3 How We Check your Submission.
+### <a name="4.2.5.3"></a> 4.2.5.3 How We Check your Submission
 
 #### <a name="4.2.5.3.1"></a> 4.2.5.3.1 Status Check :rotating_light:
 
@@ -341,7 +340,7 @@ _ci/circleci build: Maintainers: Required / Contributors: Required_
 
 _continuous-integration/travis-ci/push(and pr): Maintainers: Required / Contributors: Required_
 
-### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions.
+### <a name="4.2.6"></a> 4.2.6 How to proceed with suggestions
 
 If we suggest changes then:
 * Make the required updates.
@@ -355,7 +354,7 @@ If we suggest changes then:
 :warning:
 **Remove the WIP label:** When a PR is ready for review, remove the prefix WIP in the PR title.
 
-# 5. <a name="5"></a> What to do next?
+# 5. <a name="5"></a> What to do next? [:top:](#top)
 
 After your pull request is merged, you can safely delete your branch and pull the changes
 from the main (upstream) repository:
@@ -384,7 +383,7 @@ from the main (upstream) repository:
     git pull --ff upstream develop
     ```
 
-# 6. <a name="6"></a> Coding Rules
+# 6. <a name="6"></a> Coding Rules [:top:](#top)
 
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
