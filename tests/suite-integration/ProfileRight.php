@@ -85,10 +85,10 @@ class ProfileRight extends CommonTestCase {
          \PluginFlyvemdmPolicy::$rightname         => READ,
          \PluginFlyvemdmPolicyCategory::$rightname => READ,
          \PluginFlyvemdmProfile::$rightname        => \PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-         \PluginFlyvemdmEntityconfig::$rightname   => READ
-            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
-            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
-            | \PluginFlyvemdmEntityconfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
+         \PluginFlyvemdmEntityConfig::$rightname   => READ
+            | \PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | \PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | \PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
          \PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          \PluginFlyvemdmInvitationLog::$rightname  => READ,
       ];

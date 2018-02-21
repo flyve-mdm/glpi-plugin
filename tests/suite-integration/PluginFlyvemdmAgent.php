@@ -63,8 +63,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testDeviceCountLimit
     */
    public function testDeviceCountLimit() {
+      $entity = new \Entity();
+      $activeEntity = $entity->import(['completename' => 'device count limit']);
+      $this->boolean($entity->isNewItem())->isFalse();
       $entityConfig = new \PluginFlyvemdmEntityConfig();
-      $activeEntity = $_SESSION['glpiactive_entity'];
+      //$activeEntity = $_SESSION['glpiactive_entity'];
       $DbUtils = new \DBUtils();
       $agents = $DbUtils->countElementsInTable(\PluginFlyvemdmAgent::getTable());
       $this->given(
@@ -108,6 +111,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testEnrollAgent
+    * @engine inline
     */
    public function testEnrollAgent() {
       // Set a computer type
@@ -335,6 +339,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Test agent unenrollment
     * @tags testUnenrollAgent
+    * @engine inline
     */
    public function testUnenrollAgent() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -347,14 +352,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       sleep(2);
 
+      // Find the last existing ID of logged MQTT messages
       $log = new \PluginFlyvemdmMqttlog();
-
-      $rows = $log->find('', '`id` DESC', '1');
-      $row = array_pop($rows);
-      if ($row === null) {
-         $row = ['id' => 0];
-      }
-      $startLogId = $row['id'] + 1;
+      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
 
       $agent->update([
          'id'        => $agent->getID(),
@@ -364,20 +364,19 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $rows = $log->find('', '`id` DESC', '1');
-      $row = array_pop($rows);
-      if ($row === null) {
-         $row = ['id' => 0];
-      }
-      $endLogId = $row['id'];
-      $this->integer($startLogId)->isLessThanOrEqualTo($endLogId, 'No MQTT message sent or logged');
-
       $baseTopic = $agent->getTopic();
-      $expected = [
-         "$baseTopic/Command/Unenroll" => json_encode(['unenroll' => 'now']),
-      ];
-      $rows = $log->find("`id` >= '$startLogId' AND `id` <= '$endLogId' AND `direction` = 'O'");
-      $this->compareListOfMQTTMessages($expected, $rows);
+      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      foreach($rows as $row) {
+         if ($row['topic'] == $agent->getTopic() . '/Command/Unenroll') {
+            $logEntryFound = $row['id'];
+            break;
+         }
+      }
+      $this->integer((int) $logEntryFound)->isGreaterThan(0);
+
+      // check the message
+      $mqttMessage = ['unenroll' => 'now'];
+      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
    }
 
    /**
@@ -562,6 +561,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
+      // Find the last existing ID of logged MQTT messages
+      $log = new \PluginFlyvemdmMqttlog();
+      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
+
       $updateSuccess = $agent->update([
          'id'    => $agent->getID(),
          '_ping' => '',
@@ -573,15 +576,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
-      $row = array_pop($rows);
-
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Ping');
-      $mqttMessage = ['query' => 'Ping'];
+      $logEntryFound = 0;
+      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      foreach($rows as $row) {
+         if ($row['topic'] == $agent->getTopic() . '/Command/Ping') {
+            $logEntryFound = $row['id'];
+            break;
+         }
+      }
+      $this->integer((int) $logEntryFound)->isGreaterThan(0);
 
       // check the message
+      $mqttMessage = ['query' => 'Ping'];
       $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
    }
 
@@ -599,6 +605,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
+      // Find the last existing ID of logged MQTT messages
+      $log = new \PluginFlyvemdmMqttlog();
+      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
+
       $updateSuccess = $agent->update([
          'id'         => $agent->getID(),
          '_geolocate' => '',
@@ -608,17 +618,19 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
-      $row = array_pop($rows);
-
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Geolocate');
-      $mqttMessage = ['query' => 'Geolocate'];
+      $logEntryFound = 0;
+      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      foreach($rows as $row) {
+         if ($row['topic'] == $agent->getTopic() . '/Command/Geolocate') {
+            $logEntryFound = $row['id'];
+            break;
+         }
+      }
+      $this->integer((int) $logEntryFound)->isGreaterThan(0);
 
       // check the message
+      $mqttMessage = ['query' => 'Geolocate'];
       $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
-
    }
 
    /**
@@ -636,6 +648,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
+      // Find the last existing ID of logged MQTT messages
+      $log = new \PluginFlyvemdmMqttlog();
+      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
+
       $updateSuccess = $agent->update([
          'id'         => $agent->getID(),
          '_inventory' => '',
@@ -647,15 +663,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
-      $row = array_pop($rows);
-
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Inventory');
-      $mqttMessage = ['query'  => 'Inventory'];
+      $logEntryFound = 0;
+      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      foreach($rows as $row) {
+         if ($row['topic'] == $agent->getTopic() . '/Command/Inventory') {
+            $logEntryFound = $row['id'];
+            break;
+         }
+      }
+      $this->integer((int) $logEntryFound)->isGreaterThan(0);
 
       // check the message
+      $mqttMessage = ['query'  => 'Inventory'];
       $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
 
    }
@@ -798,6 +817,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @param bool $expected
     */
    private function wipeDevice(\PluginFlyvemdmAgent $agent, $wipe = true, $expected = true) {
+      // Find the last existing ID of logged MQTT messages
+      $log = new \PluginFlyvemdmMqttlog();
+      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
+
       $agent->update([
          'id'   => $agent->getID(),
          'wipe' => $wipe ? '1' : '0',
@@ -810,15 +833,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find("`direction` = 'O'", '`date` DESC', '1');
-      $row = array_pop($rows);
-
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($agent->getTopic() . '/Command/Wipe');
-      $mqttMessage = ['wipe' => 'now'];
+      $logEntryFound = 0;
+      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      foreach($rows as $row) {
+         if ($row['topic'] == $agent->getTopic() . '/Command/Wipe') {
+            $logEntryFound = $row['id'];
+            break;
+         }
+      }
+      $this->integer((int) $logEntryFound)->isGreaterThan(0);
 
       // check the message
+      $mqttMessage = ['wipe' => 'now'];
       $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
    }
 

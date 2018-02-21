@@ -32,6 +32,8 @@
 // fix empty CFG_GLPI on boostrap; see https://github.com/sebastianbergmann/phpunit/issues/325
 global $CFG_GLPI, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
+ini_set('session.use_cookies', 0); //disable session cookies
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 define('TEST_GLPI_URI', 'http://localhost:8088');
@@ -73,6 +75,3 @@ Config::setConfigurationValues('core', [
 ]);
 $CFG_GLPI['url_base']      = TEST_GLPI_URI;
 $CFG_GLPI['url_base_api']  = TEST_GLPI_URI . '/apirest.php';
-
-// Mock PluginFlyvemdmMqttClient
-//include __DIR__ . "/inc/MqttClient.php";

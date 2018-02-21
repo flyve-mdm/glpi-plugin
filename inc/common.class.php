@@ -147,4 +147,20 @@ class PluginFlyvemdmCommon
    public function isAPI() {
       return isAPI();
    }
+
+   /**
+    * Get the maximum value of a column for a given itemtype
+    * @param CommonDBTM $item
+    * @param string $condition
+    * @param string $fieldName
+    * @return NULL|integer
+    */
+   public static function getMax(CommonDBTM $item, $condition, $fieldName) {
+      $rows = $item->find($condition, "`$fieldName` DESC", '1');
+      $line = array_pop($rows);
+      if ($line === null) {
+         return null;
+      }
+      return $line[$fieldName];
+   }
 }
