@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
                     61%
-                                            <small>of 846</small>
+                                            <small>of 855</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -458,6 +458,13 @@ layout: coverage
             <tr>
             <td><a href="#hook_computer_purge">PluginFlyvemdmAgent::hook_computer_purge()</a></td>
                                         <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#refreshPersistedNotifications">PluginFlyvemdmAgent::refreshPersistedNotifications()</a></td>
+                                        <td style="text-align: center">9</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -7249,7 +7256,7 @@ layout: coverage
                     <th id="L906" class="number covered">906</th>
 
                     <td class="covered" >
-                        <pre>               $this-&gt;topic = &quot;/$entity/agent/$serial&quot;;</pre>
+                        <pre>               $this-&gt;topic = &quot;$entity/agent/$serial&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -7387,14 +7394,14 @@ layout: coverage
                     <th id="L924" class="number covered">924</th>
 
                     <td class="covered" >
-                        <pre>      if (isset($mqttPath[3])) {</pre>
+                        <pre>      if (isset($mqttPath[2])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L925" class="number covered">925</th>
 
                     <td class="covered" >
-                        <pre>         if ($mqttPath[2] == &#039;agent&#039;) {</pre>
+                        <pre>         if ($mqttPath[1] == &#039;agent&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -7408,7 +7415,7 @@ layout: coverage
                     <th id="L927" class="number covered">927</th>
 
                     <td class="covered" >
-                        <pre>            $serial = $DB-&gt;escape($mqttPath[3]);</pre>
+                        <pre>            $serial = $DB-&gt;escape($mqttPath[2]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -14264,6 +14271,140 @@ layout: coverage
                 </tr>
                             <tr class="line" id="">
                     <th id="L1842" class="number ">1842</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="refreshPersistedNotifications">
+                    <th id="L1843" class="number ">1843</th>
+
+                    <td class="" id="refreshPersistedNotifications">
+                        <pre>   public function refreshPersistedNotifications() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1844" class="number uncovered">1844</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;isNewItem()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1845" class="number uncovered">1845</th>
+
+                    <td class="uncovered" >
+                        <pre>         return;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1846" class="number ">1846</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1847" class="number ">1847</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1848" class="number uncovered">1848</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fields[&#039;wipe&#039;] != &#039;0&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1849" class="number uncovered">1849</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendWipeQuery();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1850" class="number ">1850</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1851" class="number ">1851</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1852" class="number uncovered">1852</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fields[&#039;lock&#039;] != &#039;0&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1853" class="number uncovered">1853</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendLockQuery();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1854" class="number ">1854</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1855" class="number ">1855</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1856" class="number uncovered">1856</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fields[&#039;enroll_status&#039;] != &#039;unenrolling&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1857" class="number uncovered">1857</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendUnenrollQuery();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1858" class="number ">1858</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1859" class="number uncovered">1859</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1860" class="number ">1860</th>
 
                     <td class="" >
                         <pre>}

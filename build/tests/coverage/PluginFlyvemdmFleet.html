@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    61%
-                                            <small>of 193</small>
+                    58%
+                                            <small>of 203</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -206,6 +206,13 @@ layout: coverage
             <tr>
             <td><a href="#hook_entity_purge">PluginFlyvemdmFleet::hook_entity_purge()</a></td>
                                         <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#refreshPersistedNotifications">PluginFlyvemdmFleet::refreshPersistedNotifications()</a></td>
+                                        <td style="text-align: center">10</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -2488,7 +2495,7 @@ layout: coverage
                     <th id="L298" class="number covered">298</th>
 
                     <td class="covered" >
-                        <pre>      return &#039;/&#039; . $this-&gt;fields[&#039;entities_id&#039;] . &#039;/fleet/&#039; . $this-&gt;fields[&#039;id&#039;];</pre>
+                        <pre>      return $this-&gt;fields[&#039;entities_id&#039;] . &#039;/fleet/&#039; . $this-&gt;fields[&#039;id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4165,8 +4172,140 @@ layout: coverage
                     <th id="L522" class="number ">522</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="refreshPersistedNotifications">
+                    <th id="L523" class="number ">523</th>
+
+                    <td class="" id="refreshPersistedNotifications">
+                        <pre>   public function refreshPersistedNotifications() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L524" class="number uncovered">524</th>
+
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L525" class="number ">525</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L526" class="number uncovered">526</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;isNewItem()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L527" class="number uncovered">527</th>
+
+                    <td class="uncovered" >
+                        <pre>         return;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L528" class="number ">528</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L529" class="number ">529</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L530" class="number uncovered">530</th>
+
+                    <td class="uncovered" >
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L531" class="number ">531</th>
+
+                    <td class="" >
+                        <pre>      $request = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L532" class="number uncovered">532</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;FROM&#039; =&gt; $task::getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L533" class="number uncovered">533</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;WHERE&#039; =&gt; [$this::getForeignKeyField() =&gt; $this-&gt;getID()]</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L534" class="number ">534</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L535" class="number uncovered">535</th>
+
+                    <td class="uncovered" >
+                        <pre>      foreach ($DB-&gt;request($request) as $row) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L536" class="number uncovered">536</th>
+
+                    <td class="uncovered" >
+                        <pre>         $task-&gt;getFromDB($row[&#039;id&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L537" class="number uncovered">537</th>
+
+                    <td class="uncovered" >
+                        <pre>         $task-&gt;publishPolicy($this);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L538" class="number ">538</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L539" class="number uncovered">539</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L540" class="number ">540</th>
+
+                    <td class="" >
+                        <pre>}</pre>
                     </td>
                 </tr>
                         </tbody>
