@@ -24,42 +24,49 @@ MQTT messages are JSON strings
 # MQTT Topic hierarchy
 
 ```
-/
-+- <FlyvemdmManifest>
-|  +- Status
-|  |   +- Version
+<FlyvemdmManifest>
++- Status
+|   +- Version
+
+<1st entity-ID>
++- agent
+|  +- <1st Device's serial>
+|  |  +- Command/Subscribe
+|  |  +- Command/Ping
+|  |  +- Command/Geolocate
+|  |  +- Command/Lock
+|  |  +- Command/Wipe
+|  |  +- Command/Inventory
+|  |  +- Command/Unenroll
+|  | 
+|  |  +- Status/Ping
+|  |  +- Status/Geolocation
+|  |  +- Status/Inventory
+|  |  +- Status/Install
+|  |  +- Status/Unenroll
+|  |  +- Status/Task
+|  |  +- Status/Online
+|  |  
+|  +- <2nd Device's serial ...>
+|  +- <Nth Device's serial >
 |
-+- <1st entity-ID>
-|  +- agent
-|  |  +- <1st Device's serial>
-|  |  |  +- Command/Subscribe
-|  |  |  +- Command/Ping
-|  |  |  +- Command/Geolocate
-|  |  |  +- Command/Lock
-|  |  |  +- Command/Wipe
-|  |  |  +- Command/Inventory
-|  |  |  +- Command/Unenroll
-|  |  | 
-|  |  |  +- Status/Ping
-|  |  |  +- Status/Geolocation
-|  |  |  +- Status/Inventory
-|  |  |  +- Status/Install
-|  |  |  +- Status/Unenroll
-|  |  |  +- Status/Task
-|  |  |  +- Status/Online
-|  |  |  
-|  |  +- <2nd Device's serial ...>
-|  |  +- <Nth Device's serial >
-|  |
-|  +- fleet
-|     +- <1st fleet ID>
-|     |  +- <1st PolicyGroup>
-|     |  +- <2nd PolicyGroup...>
-|     |  +- <nth PolicyGroup>
-|     |   
-|     +- <2nd fleet ID ...>
-|     +- <Nth fleet ID>
-|  
++- fleet
+   +- <1st fleet ID>
+   |  +- <Policy>
+   |     +- <1st policySymbol>
+   |     |  +- Task
+   |     |     +- <task ID>
+   |     +- <2nd policySymbol>
+   |     |  +- Task
+   |     |     +- <task ID>
+   |     +- <Nth policySymbol>
+   |        +- Task
+   |           +- <task ID>
+   |           
+   |   
+   +- <2nd fleet ID ...>
+   +- <Nth fleet ID>
+
 +- <2nd Entity-ID...>
 +- <Nth entity-ID>
 ```
@@ -73,15 +80,8 @@ When the backend needs to notify a fleet or an agent about new policy settings, 
 Example :
 ```json
 {
-    "policies": [
-        { "passwordQuality" : "PASSWORD_QUALITY_ALPHABETIC", "taskId": "1"},
-        { "passwordMinLowerCase" : "6", "taskId": "3"},
-        { "passwordMinUpperCase" : "2", "taskId": "4"},
-        { "MaximumFailedPasswordsForWipe" : "6", "taskId": "9"}
-    ],
-    "encryption": [
-         { "setEncryption" : "true", "taskId": "11"}
-    ]
+   "storageEncryption":"false",
+   "taskId":37
 }
 ```
 
@@ -164,43 +164,72 @@ Subtopic ```Status/Unenroll```
 
 ### Password settings policies
 
-Policies are sent to the subtopic ```<PolicyGroup>``` of a fleet's topic. PolicyGroup is meant to group in a single MQTT message all policies which belong to this group. If a single policy of the group must be updated, all other policies of the same group will be updated too, no matter their value did not change. If some policies in the group are not set for a fleet they will be sent with a default value and without a taskId
+There are several password policies to setup the type of password required on a device and the complexity of the challenge.
+
+Topic: 0/fleet/1/Policy/passwordEnabled/Task/2
 
 ```json
-{
-    "policies": [
-        { "passwordEnabled": "true|false", "taskId": "2"},
-        { "passwordQuality" : "PASSWORD_QUALITY_NUMERIC|PASSWORD_QUALITY_ALPHABETIC|PASSWORD_QUALITY_ALPHANUMERIC|PASSWORD_QUALITY_COMPLEX|PASSWORD_QUALITY_SOMETHING|PASSWORD_QUALITY_UNSPECIFIED", "taskId": "3"},
-        { "passwordMinLetters" : "0|1|2|..", "taskId": "4"},
-        { "passwordMinLowerCase" : "0|1|2|..", "taskId": "5"},
-        { "passwordMinUpperCase" : "0|1|2|..", "taskId": "6"},
-        { "passwordMinNonLetter" : "0|1|2|..", "taskId": "7"},
-        { "passwordMinNumeric" : "0|1|2|..", "taskId": "7"},
-        { "passwordMinLength" : "0|1|2|..", "taskId": "8"},
-        { "MaximumFailedPasswordsForWipe" : "0|1|2|..", "taskId": "9"},
-        { "MaximumTimeToLock" : "time in MS", "taskId": "10"},
-        { "passwordMinSymbols" : "0|1|2|..", "taskId": "11"}
-    ]
-}
+{ "passwordEnabled": "true|false", "taskId": "2"},
 ```
 
-Below is an actual example of policies for password settings
+Topic: 0/fleet/1/Policy/passwordQuality/Task/3
+
 ```json
-{
-    "policies": [
-        { "passwordEnabled": "true", "taskId": "2"},
-        { "passwordQuality" : "PASSWORD_QUALITY_COMPLEX", "taskId": "3"},
-        { "passwordMinLetters" : "4", "taskId": "4"},
-        { "passwordMinLowerCase" : "2", "taskId": "5"},
-        { "passwordMinUpperCase" : "2", "taskId": "6"},
-        { "passwordMinNonLetter" : "1", "taskId": "7"},
-        { "passwordMinNumeric" : "1", "taskId": "7"},
-        { "passwordMinLength" : "8", "taskId": "8"},
-        { "MaximumFailedPasswordsForWipe" : "5", "taskId": "9"},
-        { "MaximumTimeToLock" : "5000", "taskId": "10"},
-        { "passwordMinSymbols" : "0"}
-    ]
-}
+{ "passwordQuality" : "PASSWORD_QUALITY_NUMERIC|PASSWORD_QUALITY_ALPHABETIC|PASSWORD_QUALITY_ALPHANUMERIC|PASSWORD_QUALITY_COMPLEX|PASSWORD_QUALITY_SOMETHING|PASSWORD_QUALITY_UNSPECIFIED", "taskId": "3"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinLetters/Task/4
+
+```json
+{ "passwordMinLetters" : "0|1|2|..", "taskId": "4"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinLowerCase/Task/5
+
+```json
+{ "passwordMinLowerCase" : "0|1|2|..", "taskId": "5"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinUpperCase/Task/6
+
+```json
+{ "passwordMinUpperCase" : "0|1|2|..", "taskId": "6"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinNonLetter/Task/7
+
+```json
+{ "passwordMinNonLetter" : "0|1|2|..", "taskId": "7"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinNumeric/Task/8
+
+```json
+{ "passwordMinNumeric" : "0|1|2|..", "taskId": "8"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinLength/Task/9
+
+```json
+{ "passwordMinLength" : "0|1|2|..", "taskId": "9"},
+```
+
+Topic: 0/fleet/1/Policy/MaximumFailedPasswordsForWipe/Task/10
+
+```json
+{ "MaximumFailedPasswordsForWipe" : "0|1|2|..", "taskId": "10"},
+```
+
+Topic: 0/fleet/1/Policy/MaximumTimeToLock/Task/11
+
+```json
+{ "MaximumTimeToLock" : "time in MS", "taskId": "11"},
+```
+
+Topic: 0/fleet/1/Policy/passwordMinSymbols/Task/12
+
+```json
+{ "passwordMinSymbols" : "0|1|2|..", "taskId": "12"}
 ```
 
 ### Application deployment policies
@@ -209,57 +238,36 @@ There are two application deployment policies. One policy actually deploys an ap
 
 The deployment policy retains a remove_on_delete flag. If this flag is set, removal of the deployment policy will create a policy in charge of the deletion of the same application, applied to the same fleet target.
 
-Deployment and removal of application may share the same MQTT message.
-
 #### Example 
 
 ##### Three deployment policies are applied to a single fleet target
 
+Topic: 0/fleet/1/Policy/deployApp/Task/11
+
 ```json
-{
-    "application" : [
-        {"deployApp" : "org.fdroid.fdroid", "id" : "1", "version": "18", "taskId": "11"},
-        {"deployApp" : "com.domain.application", "id" : "42", "version": "2", "taskId": "14"},
-        {"deployApp" : "com.domain.application", "id" : "5", "version": "42", "taskId": "19"}
-    ]
-}
+{"deployApp" : "org.fdroid.fdroid", "id" : "1", "version": "18", "taskId": "11"},
+```
+
+Topic: 0/fleet/1/Policy/deployApp/Task/14
+
+```json
+{"deployApp" : "com.domain.application", "id" : "42", "version": "2", "taskId": "14"},
+```
+
+Topic: 0/fleet/1/Policy/deployApp/Task/19
+
+```json
+{"deployApp" : "com.domain.application", "id" : "5", "version": "42", "taskId": "19"}
 ```
 
 ##### One application removal policies is applied to a fleet target
 
-```json
-{
-    "application" : [
-        {
-           "removeApp" : "org.fdroid.fdroid", 
-           "taskId": "16"
-        }
-    ]
-}
-```
-
-##### Deployemnt and removal of applications might share the same message
+Topic: 0/fleet/1/Policy/removeApp/Task/16
 
 ```json
 {
-   "application": [
-      {
-         "deployApp": "org.fdroid.fdroid", 
-         "id": "1", 
-         "version": "18", 
-         "taskId": "8"
-      },
-      { 
-         "deployApp": "com.domain.application", 
-         "id": "42", 
-         "version": "2", 
-         "taskId": "25"
-      },
-      {
-         "removeApp": "org.removeme.app",
-         "taskId": "24"
-      }
-   ]
+   "removeApp" : "org.fdroid.fdroid", 
+   "taskId": "16"
 }
 ```
 
@@ -267,39 +275,25 @@ Deployment and removal of application may share the same MQTT message.
 
 #### Example of file deployment policy
 
-```json
-{
-   "file": [
-      {
-         "deployFile": "%SDCARD%/path/to/file.ext",
-         "id": "8",
-         "version": "18",
-         "taskId": "23"
-      }
-   ]
-}
-```
-
-#### Example of file removal policy
+Topic: 0/fleet/1/Policy/removeApp/Task/23
 
 ```json
 {
-   "file": [
-      {
-         "removeFile": "%SDCARD%/path/to/file.ext",
-         "taskId": "24"
-      }
-   ]
+  "deployFile": "%SDCARD%/path/to/file.ext",
+  "version": "18",
+  "taskId": "23"
 }
+
 ```
 
 ### Peripheral related policies
 
+Topic: 0/fleet/1/Policy/removeApp/Task/25
+
 ```json
-{
-    "camera": [
-        { "disableCamera" : "true|false", "taskId": "25"}
-    ]
+{ 
+	"disableCamera" : "true|false", 
+	"taskId": "25"
 }
 ```
 
@@ -325,14 +319,6 @@ To unlock a device
 }
 ```
 
-```json
-{
-    "encryption": [
-        { "storageEncryption" : "true|false", "taskId": "27"}
-    ]
-}
-```
-
 #### Wipe a device
 
 Sub topic ```/Command/Wipe```
@@ -349,16 +335,36 @@ QoS of the message = 2
 
 3 policies are available, a registered user can choose to apply only some of them. This means the array in the JSON may contain a subset of the JSON array below.
 
+Topic: 0/fleet/1/Policy/removeApp/Task/25
+
 ```json
-{
-    "connectivity": [
-        { "disableWifi" : "true|false"}
-        { "disableGPS" : "true|false"}
-        { "disableBluetooth" : "true|false"}
-    ]
+{ 
+   "disableWifi" : "true|false",
+   "taskId": "25"
 }
 ```
+
+Topic: 0/fleet/1/Policy/removeApp/Task/27
+
+```json
+{ 
+	"disableGPS" : "true|false",
+	"taskId": "27"
+}
+```json
+
+Topic: 0/fleet/1/Policy/removeApp/Task/28
+
+```json
+{ 
+	"disableBluetooth" : "true|false",
+	"taskId": "28"
+}
+```
+
 ## (Uhuru Mobile) Applications available from the launcher
+
+(specification only, not implemented)
 
 ```json
 {
@@ -371,6 +377,7 @@ QoS of the message = 2
         ]}
 }
 ```
+
 ### Property :
 - **code** : identifiant de commande
         _start_ : lance l'application launcher
@@ -398,18 +405,14 @@ Sub topic ```/FlyvemdmManifest/Status/Version```
 
 ## Task status
 
-This subtopic is used by agents to feedback the progress of a policy deployment. The message may contain several statuses as described below. This is not mandatory. 
+This subtopic is used by agents to feedback the progress of a policy deployment.
 
-Sub topic ```/Status/Task```
+Sub topic ```/Status/Task/<task ID>```
 
 ```json
 {
-    "updateStatus": [
-        {"taskId": "12", "status": "in progress"},
-        {"taskId": "14", "status": "download"},
-        {"taskId": "15", "status": "done"},
-    ]
-}
+	"status": "in progress"
+},
 ```
 
 The status value may be any string up to 255 chars except the reserved statuses (see below). The status should be a short string. In the future, statuses will be normalized.
