@@ -1,14 +1,14 @@
 [![flyve hero](/images/header.png)](https://flyve-mdm.com/)
 
-# How to contribute to Flyve MDM GLPI Plugin
+# How to contribute to Flyve MDM® GLPI Plugin
 
 Welcome to our ever-growing community :octocat:!
 
-Flyve MDM is an award-winning mobile device management software (MDM) that enables organizations to manage their entire mobile fleet with ease. Broader visibility for the IT security team to proactively work on security weaknesses and manage risk on Apple® iOS and Google Android™ mobile devices.
+Flyve MDM® is an award-winning mobile device management software that enables organizations to manage their entire mobile fleet with ease. Flyve MDM® empower your IT security team with broader visibility to proactively work on security weaknesses and manage risk on Apple® iOS and Google Android™ mobile devices.
 
 We are more than happy to accept external contributions to the project in the form of feedback, translations, bug reports, and even better, pull requests.
 
-We present you here the guidelines to start contributing in any of the Flyve MDM projects.
+We present you here the guidelines to start contributing in any of the Flyve MDM® projects.
 
 # <a name="top"></a>Table of contents
 
