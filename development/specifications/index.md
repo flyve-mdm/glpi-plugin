@@ -1,7 +1,10 @@
 ---
 layout: container
 ---
-# Index
+
+# MQTT Specifications
+
+## Index
 
 * [Subscribe](#subscription-to-topics)
 * [Device status policies](#device-status-policies)
@@ -70,7 +73,7 @@ MQTT messages are JSON strings
 
 There are many policies available. Some may be applied, some not.
 
-When the backend needs to notify a fleet or an agent about new policy settings, the backends send all policies actually applied, in a single message. 
+When the backend needs to notify a fleet or an agent about new policy settings, the backends send all policies actually applied, in a single message.
 
 Example :
 ```json
@@ -86,7 +89,7 @@ Example :
 
 Subscription to a fleet occurs when a device enrolls, and when an administrator moves a device from a fleet to another.
 
-The database model makes a device is assigned to one and only one fleet. However the JSON format in the message allows a possible removal of this contraint in the future.
+The database model makes sure a device is assigned to one and only one fleet. However the JSON format in the message allows a possible removal of this constraint in the future.
 
 Sub topic ```/Command/Subscribe```
 
@@ -229,11 +232,11 @@ Topic: 0/fleet/1/Policy/passwordMinSymbols/Task/12
 
 ### Application deployment policies
 
-There are two application deployment policies. One policy actually deploys an application, the other one removes an application. These policies may both apply multiple times on the same fleet target. 
+There are two application deployment policies. One policy actually deploys an application, the other one removes an application. These policies may both apply multiple times on the same fleet target.
 
 The deployment policy retains a remove_on_delete flag. If this flag is set, removal of the deployment policy will create a policy in charge of the deletion of the same application, applied to the same fleet target.
 
-#### Example 
+#### Example
 
 ##### Three deployment policies are applied to a single fleet target
 
@@ -346,7 +349,7 @@ Topic: 0/fleet/1/Policy/removeApp/Task/27
 	"disableGPS" : "true|false",
 	"taskId": "27"
 }
-```json
+```
 
 Topic: 0/fleet/1/Policy/removeApp/Task/28
 
@@ -363,7 +366,7 @@ Topic: 0/fleet/1/Policy/removeApp/Task/28
 
 ```json
 {
-    "launcher": 
+    "launcher":
         { "code" : "update|start|unlock",
           "data" : [
             {"name" : "com.android.contacts"},
@@ -373,16 +376,18 @@ Topic: 0/fleet/1/Policy/removeApp/Task/28
 }
 ```
 
-### Property :
-- **code** : identifiant de commande
-        _start_ : lance l'application launcher
-        _update_ : met à jour l'application launcher
-        _unlock_ : déverouille le 'screen pinning'
-- **data** : liste des applications
-        _name_ : package de l'application à autoriser sur le terminal
+### Property:
 
-Ps1: Dans le cas où une seule application est référencée, celle-ci est exécutée automatiquement (autolaunch).
-Ps2: Dans le cas d'une liste d'applications, celles_ci sont affichées sur un bureau.
+* **code**: command identifier
+  * _start_: starts the application launcher
+  * _update_: updates the application launcher
+  * _unlock_: unlocks the 'screen pinning'
+* **data**: applications' list
+  *_name_: application package to autorise on terminal
+
+Ps1: In the case only one applications is referenced, it will be executed automatically (self-launch)
+
+Ps2: In the case it is an applications' list, they will be displayed on desk.
 
 # MQTT messages sent by a device
 
@@ -415,7 +420,6 @@ The status value may be any string up to 255 chars except the reserved statuses 
 Reserved statuses:
 * queued (when a task is created, this value is used to initialize the task status)
 * pushed (when a message is sent by the backend, this value is used to update the status)
-
 
 # Sources
 
