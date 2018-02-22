@@ -11,24 +11,26 @@ The Flyve MDM plugin for GLPI integrates the intuitive and outstanding features 
 
 As GLPI is a Free Asset and IT Management Software package, we wanted to provide a plugin that helps you to keep control of your mobile devices, here we'll guide you in the steps to manage your mobile fleet from the basics.
 
-## Adding agents
+## Enrolling Agents
 
-In order to add agents you must invite them, go to the Invitations section, click on the "+" button and write the email of the user whose device you'll control.
+In order to add the devices to your fleet, you must invite the owner of the device to enroll by sending him an email.
 
-Automatically, the user will receive an invitation in his email account, and now it will appear to you on the _Pending Invitations_ until it is accepted, helping you to keep track of the devices that already belong to your infrastructure.
+Go to the Invitations section, click on the "+" button and write the email of the user whose device you'll control.
+
+Automatically it will appear to you on the _Pending Invitations_ until the user enrolls the device.
 
 ![Invitations](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/invitations.gif)
 
-Please note that the users must have installed in their devices the Android or iOS Agent, see these links for more information:
+Note that the users must have installed in their devices the Android or iOS Agent, see these links for more information:
 
 * [Android Agent](http://flyve.org/android-mdm-agent/)
 * [iOS Agent](http://flyve.org/ios-mdm-agent/)
 
-Once the user receives the email and enrolls, you will now see it in the Agent section, you can from there on access to the features, such as:
+After enrollment, the device will be displayed on the Agent section, you can from there on:
 
 * Assign the Agent to a fleet
-* Inventory
-* Geolocation
+* Get the Inventory
+* Geolocate the device
 
 ## Create your Fleet
 
@@ -38,13 +40,13 @@ You must create a new fleet since the "not managed fleet" is the default one and
 
 In order to create it, you only have to click in the "+" button on the Fleet section, name it and click on add.
 
-To add the policies go to the Fleets section and select your Fleet by clicking on it, with the left side menu you can add all the [policies](#our-policies) you require your fleet to have.
+To add the policies go to the Fleets section and select your Fleet by clicking on it, with the left side menu you can add all the [policies](#some-of-our-policies) you require your fleet to have.
 
 ![Creating Fleets](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/fleet.gif)
 
 Once you assign the devices to the Fleet, all the policies will be immediately applied!
 
-## Our Policies
+## Some of our Policies
 
 * Password, set the specifications as
   * Lenght
@@ -53,21 +55,30 @@ Once you assign the devices to the Fleet, all the policies will be immediately a
   * Minimun of numbers
   * Wipe the device at a number of failed attempts to unlock the device
 * Encryption of Internal Storage
-* Peripherals
+* Disable
+  * Airplane mode
   * Cameras
   * Wifi
   * Bluetooth
   * GPS
+  * USB
+  * Mobile line
+  * MMS and SMS
+  * Speakerphone
+  * Roaming
+  * NFC
+  * Creation of VPN profiles
+* And many more.
 
 ## Adding Files & Applications
 
-You must add in their respective sections the Files and Packages so you can use them on your Fleet.
+You must add in their respective sections the Files and Packages so you can deploy them on your Fleet. You must have previously added the APK and UPK types.
 
 Go to the Files section, click on the "+" button, name and select your file, click on "add"
 
 ![Files](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/file.gif)
 
-You can now select it when you use the Deploy file policy
+Now it will be available when you use the Deploy file policy.
 
 ![Deploy file](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/df1.png)
 
@@ -77,6 +88,6 @@ Go to the Package section, click on the "+" button, name and select your applica
 
 ![Packages](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/da.gif)
 
-And now you can select it when you use the Deploy application policy
+Now it will be available when you use the Deploy application policy.
 
 ![Deploy apps](https://raw.githubusercontent.com/Naylin15/Screenshots/master/glpi/app4.png)
