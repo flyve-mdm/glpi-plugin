@@ -12,10 +12,8 @@ description: Now with Wizard
 You need several servers to run Flyve MDM:
 
 * a server running Linux, Apache, Mysql/MariaDB and PHP (a LAMP server) for the backend (GLPI and Flyve MDM for GLPI),
-* a server running Mosquitto,
+* an Ubuntu or Debian server running Mosquitto,
 * a server running the web interface. It may run on the same server as GLPI
-
-<img src="{{ '/images/picto-information.png' | absolute_url }}" alt="Good to know:" height="16px"> This is not mandatory, Mosquitto and GLPI can run in the same server, there is no limitation.
 
 ## Flyve MDM Overview
 
@@ -49,73 +47,81 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
 
 ## Early Steps
 
-* Download our specific version of GLPI 9.2.1 (please refer to its documentation to install)
+### GLPI Installation
+
+* Download the specific version of GLPI 9.2.x, you can get it with any of these methods:
+
+  * From the [Download section](http://glpi-project.org/?article41&lang=en) on their website.
+  * From [GitHub releases](https://github.com/glpi-project/glpi/releases)
+  * Using Git, for those who are familiar with it:
+
+```console
+    git clone https://github.com/glpi-project/glpi.git
+```
+
+* Unpack the file in:
+
+```console
+/var/www/
+```
+
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command:
+
+```console
+tar -xvzf file-name.tar.gz
+```
+
+or
+
+```console
+tar -xvzf file-name.tgz
+```
+
 * Go to the glpi folder and **run composer install --no-dev**
-* Download FusionInventory 9.2+1.0 for GLPI and put it in glpi/plugins/
-* Download Flyve MDM for GLPI and put it in glpi/plugins/
+
+Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/doku.php?id=en:welcome), there you will find more information about GLPI.
+
+### Fusion Inventory plugin
+
+* Download FusionInventory 9.2+1.0 for GLPI, you can get it with any of these methods:
+
+  * From [GitHub Releases](https://github.com/fusioninventory/fusioninventory-for-glpi/releases)
+  * Using Git:
+
+    ```console
+      git clone https://github.com/fusioninventory/fusioninventory-for-glpi.git
+    ```
+* Go to glpi/plugins/ and unpack the file there
+
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball see the [commands listed above](#commands).
+
+Here is the link to the [Fusion Inventory Documentation](http://fusioninventory.org/documentation/).
+
+### Flyve MDM plugin
+
+* Download Flyve MDM for GLPI v2.0.0-dev, you can get it with any of these methods:
+
+<!--  * From [GitHub releases](https://github.com/flyve-mdm/glpi-plugin/releases)-->
+  * [Download zip file](https://github.com/flyve-mdm/glpi-plugin/archive/develop.zip) from GitHub (The zip is from the develop branch, which is the v2.0.0-dev)
+  * Using Git:
+
+    ```console
+      git clone https://github.com/flyve-mdm/glpi-plugin.git
+    ```
+* Go to glpi/plugins and unzip the file there
+* Go in the directory glpi/plugins/flyvemdm
+* Run **composer install --no-dev**
+
+### Final structure
 
 You should have a directory structure like this:
 
 <img src="{{ '/images/glpi-tree-structure.png' | absolute_url }}" alt="GLPI Tree Insfrastructure">
 
-* Go in the directory glpi/plugins/flyvemdm
-* Run **composer install --no-dev**
+## Wizard
 
-## Configuration of GLPI
+We implemented a Wizard for the plugin configuration, which will help you to check and complete all the mandatory steps in order to obtain a successful setup of Flyve MDM.
 
-These steps are mandatory in order to access the plugin configuration.
+To access the Wizard, once you have successfully completed all the early steps, go to Setup > Plugins, click on Flyve Mobile Device Management
 
-### Notifications
-
-* Login in GLPI with a super admin account.
-* Go to **Setup > Notifications**
-  * Enable followup
-  * Enable followups via email
-
-<img src="{{ '/images/step-notifications.png' | absolute_url }}" alt="Enable Email Notifications">
-
-Click on **Email followups configuration** and setup the form depending on your requirements to send emails. This step is available from the wizard.
-
-### Enabling the Rest API
-
-* Go to **Setup > General** and select the tab **API**
-  * Enable Rest API
-  * Enable **login with credentials**
-  * Enable **login with external tokens**
-  * Check there is a full access API client able to use the API from any IPv4 or IPv6 address (click it to read and/or edit)
-
-<img src="{{ '/images/enable-api.png' | absolute_url }}" alt="Enable API">
-
-From the wizard you will be able to check this configuration is as it should.
-
-## Configuration of Flyve MDM for GLPI
-
-These steps can be followed from the Installation Wizard.
-
-The Wizard will help you to check and complete all the mandatory steps in order to obtain a successful setup of Flyve MDM.
-
-### Cron Job
-
-Flyve MDM requires cron job to run Automatic actions
-
-<img src="{{ '/images/step-cron.png' | absolute_url }}" alt="Cron Job">
-
-### Email configuration
-
-Adapt the settings to your requirements
-
-<img src="{{ '/images/step-email-notifications.png' | absolute_url }}" alt="Email Notifications">
-
-## Mosquitto & Mosquitto authentication plugin
-
-Flyve MDM needs an authentication plugin for Mosquitto to authenticate MQTT clients against users stored in GLPI's DBMS.
-
-The Wizard has an specific set of pages that will guide you through this configuration.
-
-<img src="{{ '/images/step-mosquitto.png' | absolute_url }}" alt="Mosquitto">
-
-### TLS listener
-
-TLS provides security to the communication, through authentication of server and client, besides data encryption.
-
-<img src="{{ '/images/step-tls.png' | absolute_url }}" alt="TLS listener">
+<img src="{{ '/images/wizard.png' | absolute_url }}" alt="Wizard">
