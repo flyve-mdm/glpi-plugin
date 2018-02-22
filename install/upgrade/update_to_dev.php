@@ -209,7 +209,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $result = $DB->request($request);
    if (count($result) > 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      foreach ($DB->request($result) as $row => $data) {
+      foreach ($result->next() as $data) {
          $topic = "/" . $data['entities_id'] . "/fleet/" . $data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'] . "/Task/" . $data['id'];
          $mqttClient->publish($topic, null, 0, 1);
       }
