@@ -1,10 +1,5 @@
 ---
-layout: post
-howtos: true
-published: true
-title: MQTT Messages Specifications
-permalink: howtos/mqtt-messages-specifications
-description: MQ Telemetry Transport
+layout: container
 ---
 # Index
 
@@ -424,4 +419,4 @@ Reserved statuses:
 
 # Sources
 
-Spec MQTT  3.1.1 : http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/csprd01/mqtt-v3.1.1-csprd01.html#_Toc376954407
+* [Spec MQTT  3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/csprd01/mqtt-v3.1.1-csprd01.html#_Toc376954407)
