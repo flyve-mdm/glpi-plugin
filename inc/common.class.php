@@ -37,24 +37,6 @@ class PluginFlyvemdmCommon
 {
    const SEMVER_VERSION_REGEX = '#\bv?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?\b#i';
 
-
-   /**
-    * Convert int size to GiB
-    * @param float $size
-    * @return string format numeric
-    */
-   public static function convertToGiB($size) {
-      $units = ['KiB', 'MiB', 'GiB', 'TiB'];
-      $unit = 'B';
-
-      while ($size > 1024 && count($units) > 0) {
-         $size = $size / 1024;
-         $unit = array_shift($units);
-      }
-      $size = Html::formatNumber($size, false, 2);
-      return "$size $unit";
-   }
-
    /**
     * Display massive actions
     * @param array $massiveactionparams

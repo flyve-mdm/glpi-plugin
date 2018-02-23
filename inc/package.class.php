@@ -141,7 +141,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $this, 'name',
          ['value' => $objectName, 'display' => false]
       );
-      $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $fields['filesize'] = Toolbox::getSize($fields['filesize']);
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
          'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),

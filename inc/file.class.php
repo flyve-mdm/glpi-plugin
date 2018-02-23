@@ -436,7 +436,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $fields['filesize'] = '';
       } else {
          $fields['filesize'] = fileSize(FLYVEMDM_FILE_PATH . '/' . $fields['source']);
-         $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+         $fields['filesize'] = Toolbox::getSize($fields['filesize']);
       }
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
