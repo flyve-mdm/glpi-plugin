@@ -33,7 +33,6 @@ namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
 
-
 class PluginFlyvemdmEntityConfig extends CommonTestCase {
 
    public function beforeTestMethod($method) {

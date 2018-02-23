@@ -32,17 +32,12 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\Src\TestingCommonTools;
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Test\CommonTestCase;
 
 /**
  * TODO: testDeviceCountLimit should go to Entity unit test, remove inline engine when change that.
  */
 class PluginFlyvemdmAgent extends CommonTestCase {
-
-   /**
-    * @var string
-    */
-   private $minAndroidVersion = '2.0.0';
 
    public function setUp() {
       $this->resetState();
@@ -56,7 +51,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function afterTestMethod($method) {
       parent::afterTestMethod($method);
-      //\Session::destroy();
    }
 
    /**
@@ -179,7 +173,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test enrollment with a too low version
       $rows = $invitationLog->find("1");
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
-         '1.9');
+         '1.9.0');
       $this->boolean($agent->isNewItem())->isTrue();
 
       $invitationLog = new \PluginFlyvemdmInvitationlog();
@@ -198,7 +192,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Test enrollment without inventory
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
-         '6.0', '');
+         \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0', '');
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $expectedLogCount++;
@@ -864,54 +858,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * Create a new invitation
-    *
-    * @param string $guestEmail
-    * @return \PluginFlyvemdmInvitation
-    */
-   private function createInvitation($guestEmail) {
-      $invitation = new \PluginFlyvemdmInvitation();
-      $invitation->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
-      ]);
-      $this->boolean($invitation->isNewItem())->isFalse();
-
-      return $invitation;
-   }
-
-   /**
-    *
-    * Try to enroll an device by creating an agent. If the enrollment fails
-    * the agent returned will not contain an ID. To ensore the enrollment succeeded
-    * use isNewItem() method on the returned object.
-    *
-    * @param \User $user
-    * @param array $input enrollment data for agent creation
-    * @return object
-    */
-   private function enrollFromInvitation(\User $user, array $input) {
-      // Close current session
-      $this->terminateSession();
-      $this->restartSession();
-      $this->setupGLPIFramework();
-      //\Session::destroy();
-      $this->setupGLPIFramework();
-
-      // login as invited user
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
-      $this->boolean($this->login('', '', false))->isTrue();
-      $this->setupGLPIFramework();
-      unset($_REQUEST['user_token']);
-
-      // Try to enroll
-      $agent = $this->newTestedInstance();
-      $agent->add($input);
-
-      return $agent;
-   }
-
-   /**
     * @param $agent
     * @param $mqttStatus
     * @param $expectedStatus
@@ -967,79 +913,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'csr'               => '',
          'firstname'         => 'John',
          'lastname'          => 'Doe',
-         'version'           => $this->minAndroidVersion,
+         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
          'type'              => 'android',
          'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
       ]);
       return $agentId;
-   }
-
-   /**
-    * @param string $userIdField
-    * @return array
-    */
-   private function createUserInvitation($userIdField) {
-      // Create an invitation
-      $serial = $this->getUniqueString();
-      $guestEmail = $this->getUniqueEmail();
-      $invitation = $this->createInvitation($guestEmail);
-      $user = new \User();
-      $user->getFromDB($invitation->getField($userIdField));
-
-      return [$user, $serial, $guestEmail, $invitation];
-   }
-
-   /**
-    * @param \User $user object
-    * @param string $guestEmail
-    * @param string|null $serial if null the value is not used
-    * @param string $invitationToken
-    * @param string $mdmType
-    * @param string|null $version if null the value is not used
-    * @param string $inventory xml
-    * @return object
-    */
-   private function agentFromInvitation(
-      $user,
-      $guestEmail,
-      $serial,
-      $invitationToken,
-      $mdmType = 'android',
-      $version = '',
-      $inventory = null
-   ) {
-      //Version change
-      $finalVersion = $this->minAndroidVersion;
-      if ($version) {
-         $finalVersion = $version;
-      }
-      if (null === $version) {
-         $finalVersion = null;
-      }
-
-      $finalInventory = (null !== $inventory) ? $inventory : TestingCommonTools::AgentXmlInventory($serial);
-
-      //$finalVersion = (null === $version) ? null : ((!empty($version)) ? $version : $this->minAndroidVersion);
-      //$invitationToken = ($badToken) ? 'bad token' : $invitation->getField('invitation_token');
-      $input = [
-         'entities_id'       => $_SESSION['glpiactive_entity'],
-         '_email'            => $guestEmail,
-         '_invitation_token' => $invitationToken,
-         'csr'               => '',
-         'firstname'         => 'John',
-         'lastname'          => 'Doe',
-         'type'              => $mdmType,
-         'inventory'         => $finalInventory,
-      ];
-
-      if ($serial) {
-         $input['_serial'] = $serial;
-      }
-      if ($finalVersion) {
-         $input['version'] = $finalVersion;
-      }
-
-      return $this->enrollFromInvitation($user, $input);
    }
 
    /**
