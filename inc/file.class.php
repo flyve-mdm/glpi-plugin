@@ -276,8 +276,11 @@ class PluginFlyvemdmFile extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         if (isAPI()
-            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+         $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['source'];
+         $isFile = is_file($filename);
+         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+         $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+         if (isAPI() && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
