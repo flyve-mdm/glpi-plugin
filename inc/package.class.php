@@ -210,7 +210,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $destination = GLPI_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = basename($uploadedFile);
          } else {
             $this->logErrorIfDirNotWritable($destination);
@@ -248,7 +247,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             $this->createEntityDirectory(dirname($destination));
             if (rename($uploadedFile, $destination)) {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
-               $input['filesize'] = fileSize($destination);
                $input['dl_filename'] = basename($destination);
                if ($filename != $this->fields['filename']) {
                   unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
@@ -272,8 +270,11 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         if (isAPI()
-            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+         $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['source'];
+         $isFile = is_file($filename);
+         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+         $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+         if (isAPI() && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
@@ -405,15 +406,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          'name'          => __('icon'),
          'massiveaction' => false,
          'datatype'      => 'image',
-      ];
-
-      $tab[] = [
-         'id'            => '6',
-         'table'         => $this->getTable(),
-         'field'         => 'filesize',
-         'name'          => __('filesize'),
-         'massiveaction' => false,
-         'datatype'      => 'string',
       ];
 
       return $tab;
