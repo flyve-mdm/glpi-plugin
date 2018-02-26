@@ -62,7 +62,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          `alias`,
          `version`,
          `filename`,
-         `filesize`,
          `entities_id`,
          `dl_filename`,
          `icon`
@@ -72,7 +71,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          'application',
          '1.0.5',
          '$entityId/123456789_application_" . $uniqueString . ".apk',
-         '1048576',
          '$entityId',
          'application_" . $uniqueString . ".apk',
          ''
