@@ -30,6 +30,8 @@ To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
 This plugin for GLPI is a subproject of Flyve MDM.
 
+It allows the management of mobile devices of your IT infrastructure, providing security policies, files and applications download and many more features.
+
 It provides a stand alone web based administration and an interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
 
 ## Build Status
@@ -49,11 +51,11 @@ It provides a stand alone web based administration and an interface integrated i
 
 ## Installation
 
-Installation instructions are available on the website, see the [How-tos section](http://flyve.org/glpi-plugin/howtos/installation-wizard).
+Installation instructions are available on the website, see our [Installation article](http://flyve.org/glpi-plugin/howtos/installation-wizard).
 
 ## Documentation
 
-We share long-form content about the project on the website, see the [Development section](http://flyve.org/glpi-plugin/).
+We share long-form content about the project on the website, see our [How-tos](http://flyve.org/glpi-plugin/howtos) and [Development](http://flyve.org/glpi-plugin/) sections.
 
 ## Versioning
 
