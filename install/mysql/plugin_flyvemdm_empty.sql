@@ -134,7 +134,6 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `version_code`          varchar(255)                         NOT NULL DEFAULT '',
   `icon`                  text                                 NOT NULL,
   `filename`              varchar(255)                         NOT NULL DEFAULT '',
-  `filesize`              int(11)                              NOT NULL DEFAULT '0',
   `entities_id`           int(11)                              NOT NULL DEFAULT '0',
   `dl_filename`           varchar(255)                         NOT NULL DEFAULT '',
   `parse_status`          enum('pending', 'parsed', 'failed')  NOT NULL DEFAULT 'pending',
