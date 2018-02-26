@@ -65,25 +65,12 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
     git clone https://github.com/glpi-project/glpi.git
 ```
 
-* Unpack the file in:
+* Unpack the file in: ```/var/www/```
 
-```console
-/var/www/
-```
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command: ```tar -xvzf file-name.tar.gz``` or ```tar -xvzf file-name.tgz```
 
-<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command:
-
-```console
-tar -xvzf file-name.tar.gz
-```
-
-or
-
-```console
-tar -xvzf file-name.tgz
-```
-
-* Go to the glpi folder and **run composer install --no-dev**
+* Rename the folder to ```glpi```
+* Go to the glpi folder and ```run composer install --no-dev```
 
 Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/doku.php?id=en:welcome), there you will find more information about GLPI.
 
@@ -98,6 +85,7 @@ Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/d
       git clone https://github.com/fusioninventory/fusioninventory-for-glpi.git
     ```
 * Go to glpi/plugins/ and unpack the file there
+* Rename the folder to ```fusioninventory```
 
 <img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball see the [commands listed above](#commands).
 
@@ -107,7 +95,7 @@ Here is the link to the [Fusion Inventory Documentation](http://fusioninventory.
 
 * Download Flyve MDM for GLPI v2.0.0-dev, you can get it with any of these methods:
 
-<!--  * From [GitHub releases](https://github.com/flyve-mdm/glpi-plugin/releases)-->
+   <!--  * From [GitHub releases](https://github.com/flyve-mdm/glpi-plugin/releases)-->
   * [Download zip file](https://github.com/flyve-mdm/glpi-plugin/archive/develop.zip) from GitHub (The zip is from the develop branch, which is the v2.0.0-dev)
   * Using Git:
 
@@ -115,8 +103,9 @@ Here is the link to the [Fusion Inventory Documentation](http://fusioninventory.
       git clone https://github.com/flyve-mdm/glpi-plugin.git
     ```
 * Go to glpi/plugins and unzip the file there
+* Rename the folder to ```flyvemdm```
 * Go in the directory glpi/plugins/flyvemdm
-* Run **composer install --no-dev**
+* Run ```composer install --no-dev```
 
 ### Final structure
 
