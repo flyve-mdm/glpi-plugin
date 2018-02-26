@@ -18,6 +18,7 @@ To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
 * [Synopsis](#synopsis)
 * [Build status](#build-status)
+* [Compatibility Matrix](#compatibility-matrix)
 * [Installation](#installation)
 * [Documentation](#documentation)
 * [Versioning](#versioning)
@@ -29,7 +30,7 @@ To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
 This plugin for GLPI is a subproject of Flyve MDM.
 
-It provides a stand alone web based administration and a interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
+It provides a stand alone web based administration and an interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
 
 ## Build Status
 
@@ -37,9 +38,18 @@ It provides a stand alone web based administration and a interface integrated in
 |:---:|:---:|
 | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/glpi-plugin) |
 
+## Compatibility Matrix
+
+|GLPI|9.1.x|9.2.x|
+|:---|:---:|:---:|
+|Flyve MDM|1.x|2.0.0-dev|
+|FusionInventory|9.1+1.0|9.2+1.0|
+|Demo Mode|-|1.0.0-dev|
+|Web MDM Dashboard|-|1.0.0-dev|
+
 ## Installation
 
-Installation instructions are available on the website, see the [How-tos section](http://flyve.org/glpi-plugin/howtos/).
+Installation instructions are available on the website, see the [How-tos section](http://flyve.org/glpi-plugin/howtos/installation-wizard).
 
 ## Documentation
 
