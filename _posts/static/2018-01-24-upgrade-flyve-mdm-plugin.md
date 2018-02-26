@@ -15,6 +15,38 @@ Remember to:
 * Make a backup of your database
 * Make a backup of the files of GLPI
 
+## Compatibility Matrix
+
+<br>
+
+<table>
+    <tr>
+        <td style="width:180px">GLPI</td>
+        <td style="width:100px">9.1.x</td>
+        <td>9.2.x</td>
+    </tr>
+    <tr>
+        <td><b>Flyve MDM</b></td>
+        <td>1.x.x</td>
+        <td>2.0.0-dev</td>
+    </tr>
+    <tr>
+        <td><b>FusionInventory</b></td>
+        <td>9.1+1.0</td>
+        <td>9.2+1.0</td>
+    </tr>
+    <tr>
+        <td><b>Flyve MDM Demo</b></td>
+        <td>-</td>
+        <td>1.0.0-dev</td>
+    </tr>
+    <tr>
+        <td><b>Web MDM Dashboard</b></td>
+        <td>-</td>
+        <td>1.0.0-dev</td>
+    </tr>
+</table>
+
 ## From one release to another
 
 * Download the new version of the plugin
@@ -26,7 +58,7 @@ Remember to:
 * Enable the plugin again with the user interface of GLPI
 * Check in the file glpi/plugins/flyvemdm/scripts/service.sh that the user of the daemon is the same as your HTTP server (www-data for debian based systems).
 * If you need to change the user, please run ```update-rc.d flyvemdm defaults```
-*  restart the daemon ```service flyvemdm restart```
+* Restart the daemon ```service flyvemdm restart```
 
 After you successfully confirm everything is as it should, delete the old version you moved out of GLPI
 

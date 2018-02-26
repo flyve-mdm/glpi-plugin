@@ -21,27 +21,33 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
 
 ### Compatibility matrix
 
+<br>
+
 <table>
     <tr>
-        <td style="width:150px">GLPI</td>
-        <td style="width:100px">9.1.1</td>
-        <td style="width:100px">9.1.2</td>
-        <td style="width:100px">9.1.3</td>
-        <td style="width:100px">9.2.1</td>
+        <td style="width:180px">GLPI</td>
+        <td style="width:100px">9.1.x</td>
+        <td>9.2.x</td>
     </tr>
     <tr>
         <td><b>Flyve MDM</b></td>
-        <td>1.x.x</td>
-        <td>1.x.x</td>
         <td>1.x.x</td>
         <td>2.0.0-dev</td>
     </tr>
     <tr>
         <td><b>FusionInventory</b></td>
         <td>9.1+1.0</td>
-        <td>9.1+1.0</td>
-        <td>9.1+1.0</td>
         <td>9.2+1.0</td>
+    </tr>
+    <tr>
+        <td><b>Flyve MDM Demo</b></td>
+        <td>-</td>
+        <td>1.0.0-dev</td>
+    </tr>
+    <tr>
+        <td><b>Web MDM Dashboard</b></td>
+        <td>-</td>
+        <td>1.0.0-dev</td>
     </tr>
 </table>
 
