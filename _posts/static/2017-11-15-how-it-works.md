@@ -4,14 +4,14 @@ howtos: true
 published: true
 title: How it works
 permalink: howtos/how-it-works
-description: What you should know
+description: What you need to know
 ---
 
 ## General architecture
 
 The Mobile Device Management is composed of:
 
-* an user interface server for the administrator
+* a user interface server for the administrator
 * a backend server
 * a M2M server
 * an agent installed in the managed device.
