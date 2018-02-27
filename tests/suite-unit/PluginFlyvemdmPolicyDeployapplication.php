@@ -123,7 +123,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
         `alias`,
         `version`,
         `filename`,
-        `filesize`,
         `entities_id`,
         `dl_filename`,
         `icon`
@@ -132,7 +131,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
         'application',
         '1.0.5',
         '0/" . $uniqid . $this->filename . "',
-        '1048576',
         '0',
         '" . $this->filename . "',
         ''
