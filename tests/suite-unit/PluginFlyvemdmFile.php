@@ -97,18 +97,18 @@ class PluginFlyvemdmFile extends CommonTestCase {
          ],
          */
          [
-            'isApi' => false,
-            'input' => [
+            'isApi'    => false,
+            'input'    => [
                'entities_id' => '0',
             ],
-            'upload' => [
+            'upload'   => [
                '_file' => [
                   0 => 'document.pdf',
-               ]
+               ],
             ],
             'expected' => [
                'version' => 1,
-            ]
+            ],
          ],
       ];
    }
@@ -134,19 +134,19 @@ class PluginFlyvemdmFile extends CommonTestCase {
           ],
           */
          [
-            'isApi' => false,
-            'input' => [
+            'isApi'    => false,
+            'input'    => [
                'entities_id' => '0',
-               'version' => '5',
+               'version'     => '5',
             ],
-            'upload' => [
+            'upload'   => [
                '_file' => [
                   0 => 'document.pdf',
-               ]
+               ],
             ],
             'expected' => [
                'version' => 6,
-            ]
+            ],
          ],
       ];
    }
@@ -187,7 +187,8 @@ class PluginFlyvemdmFile extends CommonTestCase {
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
-         $this->integer((int) $output['version'])->isEqualTo($expected['version'], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->integer((int)$output['version'])->isEqualTo($expected['version'],
+            json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
          $this->array($output)->hasKey('source');
       }
 
@@ -238,7 +239,8 @@ class PluginFlyvemdmFile extends CommonTestCase {
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
-         $this->integer($output['version'])->isEqualTo($expected['version'], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->integer($output['version'])->isEqualTo($expected['version'],
+               json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
          $this->array($output)->hasKey('source');
       }
 
@@ -279,14 +281,12 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $file = $this->createFile($fileTable, $filename);
       if (isAPI() && $argument['download']) {
          $this->resource($file)->isStream();
+      } else if (isAPI()) {
+         $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
+            ->integer($fields['filesize'])->isEqualTo($fileSize)
+            ->string($fields['mime_type'])->isEqualTo('text');
       } else {
-         if (isAPI()) {
-            $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
-               ->integer($fields['filesize'])->isEqualTo($fileSize)
-               ->string($fields['mime_type'])->isEqualTo('text');
-         } else {
-            $this->object($file)->isInstanceOf('PluginFlyvemdmFile');
-         }
+         $this->object($file)->isInstanceOf('PluginFlyvemdmFile');
       }
    }
 }

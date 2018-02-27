@@ -280,7 +280,8 @@ class PluginFlyvemdmFile extends CommonDBTM {
          $isFile = is_file($filename);
          $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
          $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
-         if (isAPI() && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+         if (isAPI()
+            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
             $this->sendFile(); // and terminate script
          }
