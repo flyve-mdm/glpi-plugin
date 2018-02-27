@@ -47,16 +47,17 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    /**
     * @param string $packageTable
     * @param null|string $filename
-    * @param int $version
+    * @param string $version
     * @return object
     */
-   private function createPackage($packageTable, $filename = null, $version = 1) {
+   private function createPackage($packageTable, $filename = null, $version = '1.0.5') {
       global $DB;
 
       // Create an file (directly in DB)
       $uniqueString = ((null !== $filename) ? $filename : $this->getUniqueString());
       $packageName = 'com.domain.' . $uniqueString . '.application';
       $entityId = $_SESSION['glpiactive_entity'];
+      $destination = $entityId . '/123456789_application_' . $uniqueString . '.apk';
       $query = "INSERT INTO $packageTable (
          `package_name`,
          `alias`,
@@ -65,23 +66,24 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          `entities_id`,
          `dl_filename`,
          `icon`
-      )
-      VALUES (
+      ) VALUES (
          '$packageName',
          'application',
-         '1.0.5',
-         '$entityId/123456789_application_" . $uniqueString . ".apk',
+         '$version',
+         '$destination',
          '$entityId',
          'application_" . $uniqueString . ".apk',
          ''
       )";
       $DB->query($query);
       $mysqlError = $DB->error();
-      $package = $this->newTestedInstance();
-      $this->boolean($package->getFromDBByQuery("WHERE `package_name`='$packageName'"))
+      $instance = $this->newTestedInstance();
+      $this->boolean($instance->getFromDBByQuery("WHERE `package_name`='$packageName'"))
          ->isTrue($mysqlError);
+      $fileSize = file_put_contents(FLYVEMDM_PACKAGE_PATH . '/' . $destination, 'dummy');
+      $this->integer($fileSize)->isGreaterThan(0);
 
-      return $package;
+      return $instance;
    }
 
    public function providerPostGetFromDB() {
@@ -103,24 +105,18 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $fileTable = \PluginFlyvemdmFile::getTable();
+      $tableName = \PluginFlyvemdmPackage::getTable();
       $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
       $this->calling($common)->isAPI = $isApi;
 
-      $filename = $this->getUniqueString();
-      $fileSize = file_put_contents(FLYVEMDM_FILE_PATH . '/' . $filename, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
-      $file = $this->createPackage($fileTable, $filename);
+      $file = $this->createPackage($tableName);
       if (isAPI() && $argument['download']) {
          $this->resource($file)->isStream();
+      } else if (isAPI()) {
+         $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
+            ->integer($fields['filesize'])->isGreaterThan(0);
       } else {
-         if (isAPI()) {
-            $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
-               ->integer($fields['filesize'])->isEqualTo($fileSize)
-               ->string($fields['mime_type'])->isEqualTo('text');
-         } else {
-            $this->object($file)->isInstanceOf('PluginFlyvemdmPackage');
-         }
+         $this->object($file)->isInstanceOf('PluginFlyvemdmPackage');
       }
    }
 
