@@ -58,6 +58,11 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $packageName = 'com.domain.' . $uniqueString . '.application';
       $entityId = $_SESSION['glpiactive_entity'];
       $destination = $entityId . '/123456789_application_' . $uniqueString . '.apk';
+      if (!is_dir($directory = FLYVEMDM_PACKAGE_PATH . "/" . $entityId)) {
+         @mkdir($directory);
+      }
+      $fileSize = file_put_contents(FLYVEMDM_PACKAGE_PATH . '/' . $destination, 'dummy');
+      $this->integer($fileSize)->isGreaterThan(0);
       $query = "INSERT INTO $packageTable (
          `package_name`,
          `alias`,
@@ -80,9 +85,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $instance = $this->newTestedInstance();
       $this->boolean($instance->getFromDBByQuery("WHERE `package_name`='$packageName'"))
          ->isTrue($mysqlError);
-      $fileSize = file_put_contents(FLYVEMDM_PACKAGE_PATH . '/' . $destination, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
-
       return $instance;
    }
 

@@ -270,7 +270,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['source'];
+         $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['filename'];
          $isFile = is_file($filename);
          $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
          $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
