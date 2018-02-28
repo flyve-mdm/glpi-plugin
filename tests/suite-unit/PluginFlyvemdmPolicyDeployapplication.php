@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmPackage;
 
 class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
@@ -73,7 +72,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
          'Check the app exists'                => [
             'data'     => [
                ['remove_on_delete' => 0],
-               PluginFlyvemdmPackage::class,
+               \PluginFlyvemdmPackage::class,
                '-1',
             ],
             'expected' => [false, 'The application does not exists'],
@@ -81,7 +80,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
          'Valid check 1'                       => [
             'data'     => [
                ['remove_on_delete' => 0],
-               PluginFlyvemdmPackage::class,
+               \PluginFlyvemdmPackage::class,
                true,
             ],
             'expected' => [true],
@@ -111,13 +110,13 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * Create an application (directly in DB) because we are not uploading any file
-    * @return PluginFlyvemdmPackage
+    * @return \PluginFlyvemdmPackage
     */
    private function createAppInDB() {
       global $DB;
 
       $uniqid = uniqid();
-      $table_file = PluginFlyvemdmPackage::getTable();
+      $table_file = \PluginFlyvemdmPackage::getTable();
       $query = "INSERT INTO `$table_file` (
         `package_name`,
         `alias`,
@@ -138,7 +137,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $result = $DB->query($query);
       $this->boolean($result)->isTrue();
 
-      $file = new PluginFlyvemdmPackage();
+      $file = new \PluginFlyvemdmPackage();
       $file->getFromDB($DB->insert_id());
       $this->boolean($file->isNewItem())->isFalse();
 
@@ -169,7 +168,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
       $application = $this->createAppInDB();
-      $this->boolean($policy->unicityCheck(null, PluginFlyvemdmPackage::class, $application->getID(),
+      $this->boolean($policy->unicityCheck(null, \PluginFlyvemdmPackage::class, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
    }
@@ -181,7 +180,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $packageClass = PluginFlyvemdmPackage::class;
+      $packageClass = \PluginFlyvemdmPackage::class;
       $this->boolean($policy->conflictCheck(null, $packageClass, -1, $mockInstance))->isFalse();
       $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])
          ->isEqualTo('The application does not exists');
@@ -206,7 +205,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
       // check for task to delete
       $value = '{"remove_on_delete":0}';
-      $packageClass = PluginFlyvemdmPackage::class;
+      $packageClass = \PluginFlyvemdmPackage::class;
       $this->boolean($policy->unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
          ->isTrue();
 
