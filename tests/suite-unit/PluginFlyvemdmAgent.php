@@ -31,6 +31,7 @@
 
 namespace tests\units;
 
+use Flyvemdm\Tests\Src\TestingCommonTools;
 use Glpi\Test\CommonTestCase;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
@@ -197,9 +198,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowForFleet
     */
    public function testShowForFleet() {
-      $class = $this->testedClass->getClass();
       ob_start();
-      $class::showForFleet(new \PluginFlyvemdmFleet());
+      \PluginFlyvemdmAgent::showForFleet(new \PluginFlyvemdmFleet());
       $result = ob_get_contents();
       ob_end_clean();
       $this->string($result)->contains('There is no agent yet');
@@ -278,5 +278,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $expected,
          "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
       );
+   }
+
+   public function updateSubscription() {
+      list($user, $serial, $guestEmail, $invitation) = TestingCommonTools::createUserInvitation('users_id');
+      $agent = TestingCommonTools::agentFromInvitation($user, $guestEmail, $serial,
+         $invitation->getField('invitation_token'));
+
    }
 }

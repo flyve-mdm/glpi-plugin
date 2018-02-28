@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
+class PluginFlyvemdmMqttHandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * @var PluginFlyvemdmMqttlog $log mqtt messages logger
@@ -53,7 +53,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected static $instance = null;
 
    /**
-    * PluginFlyvemdmMqtthandler constructor.
+    * PluginFlyvemdmMqttHandler constructor.
     */
    protected function __construct() {
       $this->log = new \PluginFlyvemdmMqttlog();
@@ -61,7 +61,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    }
 
    /**
-    * Gets the instance of the PluginFlyvemdmMqtthandler
+    * Gets the instance of the PluginFlyvemdmMqttHandler
     * @return the instance of this class
     */
    public static function getInstance() {
@@ -76,7 +76,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     *
     * @param \sskaje\mqtt\MQTT $mqtt
     */
-   protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
+   protected function publishManifest() {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
       $config = Config::getConfigurationValues('flyvemdm', ['version']);
@@ -84,7 +84,8 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       if ($this->flyveManifestMissing) {
          if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
-            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
+            $mqtt = \PluginFlyvemdmMqttclient::getInstance();
+            $mqtt->publish("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
             $this->flyveManifestMissing = false;
          }
       }
@@ -129,13 +130,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
             $this->updateInventory($topic, $message);
          } else if ($mqttPath[3] == "Status/Online") {
             $this->updateOnlineStatus($topic, $message);
-         } else if ($mqttPath[3] == "Status/Task") {
+         } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
             $this->updateTaskStatus($topic, $message);
          } else if ($mqttPath[3] == "FlyvemdmManifest/Status/Version") {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
             if ($topic == '/FlyvemdmManifest/Status/Version') {
-               $this->publishFlyveManifest($mqtt);
+               $this->publishFlyveManifest($message);
             }
          }
       }
@@ -162,11 +163,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Publishes the current version of Flyve
-    * @param \sskaje\mqtt\MQTT $mqtt
     * @return mixed $mqtt the current version
     */
-   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt) {
-      // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
+   protected function publishFlyveManifest($message) {
+      // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
       $config = Config::getConfigurationValues('flyvemdm', ['version']);
       $version = $config['version'];
@@ -174,9 +174,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       // TODO: check for $message & $mqtt values, both are undefined.
       $matches = null;
       preg_match('/^([\d\.]+)/', $version, $matches);
-      if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
+      if (!isset($matches[1]) || ($matches[1] != $message)) {
          $this->flyveManifestMissing = true;
-         $this->publishManifest($mqtt);
+         $this->publishManifest(PluginFlyvemdmMqttclient::getInstance());
       }
    }
 
@@ -303,41 +303,39 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected function updateTaskStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
+         $agentId = $agent->getID();
          $feedback = json_decode($message, true);
-         if (!isset($feedback['updateStatus'])) {
+         if (!isset($feedback['status'])) {
             return;
          }
-         foreach ($feedback['updateStatus'] as $statusData) {
-            if (isset($statusData['taskId']) && isset($statusData['status'])) {
-               $taskId = $statusData['taskId'];
-               $status = $statusData['status'];
-               $agentId = $agent->getID();
 
-               // Find the task the device wants to update
-               $task = new PluginFlyvemdmTask();
-               if (!$task->getFromDB($taskId)) {
-                  return;
-               }
-               if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
-                  return;
-               }
-               $taskStatus = new PluginFlyvemdmTaskstatus();
-               $request = [
-                  'AND' => [
-                     PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
-                     PluginFlyvemdmTask::getForeignKeyField() => $taskId
-                  ]
-               ];
-               $taskStatus->getFromDBByCrit($request);
-               if ($taskStatus->isNewItem()) {
-                  return;
-               }
+         // Find the task the device wants to update
+         $taskId = (int) array_pop(explode('/', $topic));
+         $task = new PluginFlyvemdmTask();
+         if (!$task->getFromDB($taskId)) {
+            return;
+         }
 
-               // Update the task
-               $policyFactory = new PluginFlyvemdmPolicyFactory();
-               $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
-               $taskStatus->updateStatus($policy, $status);
-            }
+         // Check the task belongs to the sender agent and the fleet of the agent
+         if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
+            return;
+         }
+         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $request = [
+            'AND' => [
+               PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
+               PluginFlyvemdmTask::getForeignKeyField() => $taskId
+            ]
+         ];
+         $taskStatus->getFromDBByCrit($request);
+         if ($taskStatus->isNewItem()) {
+            return;
+         }
+
+         // Update the task
+         $policyFactory = new PluginFlyvemdmPolicyFactory();
+         $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
+         $taskStatus->updateStatus($policy, $status);
 
             $this->updateLastContact($topic, '!');
          }

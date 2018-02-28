@@ -111,4 +111,41 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
       $this->string($policy->showValueInput('1'))
          ->contains("<option value='0'>No</option><option value='1' selected>Yes</option>");
    }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyBoolean($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+   }
 }
