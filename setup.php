@@ -61,6 +61,10 @@ if (!defined('FLYVEMDM_FILE_PATH')) {
    define('FLYVEMDM_FILE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/file');
 }
 
+if (!defined('FLYVEMDM_INVENTORY_PATH')) {
+   define('FLYVEMDM_INVENTORY_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/inventory');
+}
+
 if (!defined('FLYVEMDM_TEMPLATE_CACHE_PATH')) {
    define('FLYVEMDM_TEMPLATE_CACHE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/cache');
 }

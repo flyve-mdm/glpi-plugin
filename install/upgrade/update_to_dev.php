@@ -54,8 +54,9 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
    Config::setConfigurationValues('flyvemdm', [
-      'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
-      'show_wizard'       => '0',
+      'default_agent_url'     => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+      'show_wizard'           => '0',
+      'debug_save_inventory'  => '0',
    ]);
 
    // Update configuration
@@ -235,7 +236,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $result->rewind();
       $row = $result->current();
       if (strpos($row['filename'], 'flyvemdm/package/') !== 0) {
-         // It there is at least one package and the path does st arts with the new prefix, then update all the table
+         // If there is at least one package and the path does starts with the new prefix, then update all the table
          $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('flyvemdm/package/', `filename`)");
       }
    }

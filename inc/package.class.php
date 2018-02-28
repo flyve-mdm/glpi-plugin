@@ -59,7 +59,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return string
     */
    public static function getTypeName($nb = 0) {
-      return _n('Package', 'Packages', $nb, "flyvemdm");
+      return _n('Package', 'Packages', $nb, 'flyvemdm');
    }
 
    /**
