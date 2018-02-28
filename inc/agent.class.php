@@ -1022,10 +1022,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $input = [];
 
-      $config = Config::getConfigurationValues("flyvemdm", [
+      $config = Config::getConfigurationValues('flyvemdm', [
          'mqtt_tls_for_clients',
          'mqtt_use_client_cert',
          'debug_noexpire',
+         'debug_save_inventory',
          'computertypes_id',
          'agentusercategories_id',
          'agent_profiles_id',
@@ -1177,9 +1178,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Create the device
+      if ($config['debug_save_inventory'] != '0') {
+         if (!is_dir(FLYVEMDM_INVENTORY_PATH)) {
+            @mkdir(FLYVEMDM_INVENTORY_PATH, 0770, true);
+         }
+         file_put_contents(FLYVEMDM_INVENTORY_PATH . "/$invitationToken.xml", $inventory);
+      }
       $pfCommunication = new PluginFusioninventoryCommunication();
       $pfAgent = new PluginFusioninventoryAgent();
-      //var_dump($_SESSION['glpi_plugin_fusioninventory']);
       $_SESSION['glpi_fusionionventory_nolock'] = true;
       ob_start();
       if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',

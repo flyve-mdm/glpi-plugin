@@ -304,6 +304,12 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          -1,
          ['display' => false]
       );
+      $fields['debug_save_inventory'] = Dropdown::showYesNo(
+         'debug_save_inventory',
+         $fields['debug_save_inventory'],
+         -1,
+         ['display' => false]
+      );
       $fields['show_wizard'] = Dropdown::showYesNo(
          'show_wizard',
          $fields['show_wizard'],
