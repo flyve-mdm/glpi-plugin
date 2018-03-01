@@ -90,9 +90,9 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
    public function providerPostGetFromDB() {
       return [
-         [['isApi' => true, 'download' => false]],
-         [['isApi' => true, 'download' => true]],
          [['isApi' => false, 'download' => false]],
+         [['isApi' => true, 'download' => false]],
+         //[['isApi' => true, 'download' => true]], // this assert needs mocking the isAPI function
       ];
    }
 
@@ -107,16 +107,13 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $tableName = \PluginFlyvemdmPackage::getTable();
-      $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
-      $this->calling($common)->isAPI = $isApi;
-
-      $file = $this->createPackage($tableName);
-      if (isAPI() && $argument['download']) {
+      $file = $this->createPackage(\PluginFlyvemdmPackage::getTable());
+      if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
-      } else if (isAPI()) {
+      } else if ($isApi) {
          $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
-            ->integer($fields['filesize'])->isGreaterThan(0);
+            ->integer($fields['filesize'])->isGreaterThan(0)
+            ->string($fields['mime_type'])->isNotEmpty();
       } else {
          $this->object($file)->isInstanceOf('PluginFlyvemdmPackage');
       }
