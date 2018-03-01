@@ -69,8 +69,13 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
 
 <img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command: ```tar -xvzf file-name.tar.gz``` or ```tar -xvzf file-name.tgz```
 
-* Rename the folder to ```glpi```
-* Go to the glpi folder and ```run composer install --no-dev```
+* Rename the folder to ```glpi``` if needed.
+
+If you downloaded the ```.tgz``` file then avoid the following step.
+
+* Go to the glpi folder and run ```composer install --no-dev```
+
+This is because the Release files already have the vendor folder with the dependencies require.
 
 Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/doku.php?id=en:welcome), there you will find more information about GLPI.
 
