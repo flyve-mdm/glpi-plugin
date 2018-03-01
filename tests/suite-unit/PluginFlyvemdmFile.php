@@ -46,25 +46,30 @@ class PluginFlyvemdmFile extends CommonTestCase {
 
    /**
     * @param string $fileTable
-    * @param null|string $filename
+    * @param null|string $userFilename
     * @param int $version
     * @return object
     */
-   private function createFile($fileTable, $filename = null, $version = 1) {
+   private function createFile($fileTable, $userFilename = null, $version = 1) {
       global $DB;
 
       // Create an file (directly in DB)
-      $fileName = ((null !== $filename) ? $filename : $this->getUniqueString()) . '.txt';
       $entityId = $_SESSION['glpiactive_entity'];
+      $fileName = ((null !== $userFilename) ? $userFilename : $this->getUniqueString());
+      $destination = $entityId . '/dummy_file_' . $fileName;
+      if (!is_dir($directory = FLYVEMDM_FILE_PATH . "/" . $entityId)) {
+         @mkdir($directory);
+      }
+      $fileSize = file_put_contents(FLYVEMDM_FILE_PATH . '/' . $destination, 'dummy');
+      $this->integer($fileSize)->isGreaterThan(0);
       $query = "INSERT INTO $fileTable (
          `name`,
          `source`,
          `entities_id`,
          `version`
-      )
-      VALUES (
+      ) VALUES (
          '$fileName',
-         '2/12345678_{$fileName}',
+         '$destination',
          '$entityId',
          '$version'
       )";
@@ -254,9 +259,9 @@ class PluginFlyvemdmFile extends CommonTestCase {
 
    public function providerPostGetFromDB() {
       return [
-         [['isApi' => true, 'download' => false]],
-         [['isApi' => true, 'download' => true]],
          [['isApi' => false, 'download' => false]],
+         [['isApi' => true, 'download' => false]],
+         //[['isApi' => true, 'download' => true]], // this assert needs mocking the isAPI function
       ];
    }
 
@@ -271,20 +276,13 @@ class PluginFlyvemdmFile extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
-      $this->calling($common)->isAPI = $isApi;
-
-      $filename = $this->getUniqueString();
-      $fileSize = file_put_contents(FLYVEMDM_FILE_PATH . '/' . $filename, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
-      $file = $this->createFile($fileTable, $filename);
-      if (isAPI() && $argument['download']) {
+      $file = $this->createFile(\PluginFlyvemdmFile::getTable());
+      if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
-      } else if (isAPI()) {
+      } else if ($isApi) {
          $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
-            ->integer($fields['filesize'])->isEqualTo($fileSize)
-            ->string($fields['mime_type'])->isEqualTo('text');
+            ->integer($fields['filesize'])->isGreaterThan(0)
+            ->string($fields['mime_type'])->isEqualTo('text/plain');
       } else {
          $this->object($file)->isInstanceOf('PluginFlyvemdmFile');
       }
