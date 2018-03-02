@@ -335,7 +335,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
 
       // Download range defaults to the full file
       // get file metadata
-      $size = filesize($streamSource);
+      $size = $this->fields['filesize'];
       $begin = 0;
       $end = $size - 1;
       $mimeType = 'application/octet-stream';
