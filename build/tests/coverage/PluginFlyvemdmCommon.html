@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    61%
-                                            <small>of 44</small>
+                    54%
+                                            <small>of 37</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -56,13 +56,6 @@ layout: coverage
     </thead>
 
     <tbody>
-            <tr>
-            <td><a href="#convertToGiB">PluginFlyvemdmCommon::convertToGiB()</a></td>
-                                        <td style="text-align: center">7</td>
-                <td style="text-align: center">    
-    <span class="label label-success">100%</span>
-</td>
-                                            </tr>
             <tr>
             <td><a href="#getMassiveActions">PluginFlyvemdmCommon::getMassiveActions()</a></td>
                                         <td style="text-align: center">4</td>
@@ -433,7 +426,7 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -441,7 +434,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Display massive actions
 </pre>
                     </td>
                 </tr>
@@ -449,7 +442,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>    * Convert int size to GiB
+                        <pre>    * @param array $massiveactionparams
 </pre>
                     </td>
                 </tr>
@@ -457,7 +450,7 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
-                        <pre>    * @param float $size
+                        <pre>    * @return string an HTML
 </pre>
                     </td>
                 </tr>
@@ -465,37 +458,36 @@ layout: coverage
                     <th id="L44" class="number ">44</th>
 
                     <td class="" >
-                        <pre>    * @return string format numeric
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L45" class="number ">45</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="convertToGiB">
-                    <th id="L46" class="number ">46</th>
+                            <tr class="line" id="getMassiveActions">
+                    <th id="L45" class="number ">45</th>
 
-                    <td class="" id="convertToGiB">
-                        <pre>   public static function convertToGiB($size) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    <td class="" id="getMassiveActions">
+                        <pre>   public static function getMassiveActions($massiveactionparams) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L46" class="number covered">46</th>
+
+                    <td class="covered" >
+                        <pre>      ob_start();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L47" class="number covered">47</th>
 
                     <td class="covered" >
-                        <pre>      $units = [&#039;KiB&#039;, &#039;MiB&#039;, &#039;GiB&#039;, &#039;TiB&#039;];</pre>
+                        <pre>      Html::showMassiveActions($massiveactionparams);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L48" class="number covered">48</th>
 
                     <td class="covered" >
-                        <pre>      $unit = &#039;B&#039;;</pre>
+                        <pre>      $html = ob_get_clean();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -510,168 +502,34 @@ layout: coverage
                     <th id="L50" class="number covered">50</th>
 
                     <td class="covered" >
-                        <pre>      while ($size &gt; 1024 &amp;&amp; count($units) &gt; 0) {</pre>
+                        <pre>      return $html;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L51" class="number covered">51</th>
+                    <th id="L51" class="number unreach">51</th>
 
-                    <td class="covered" >
-                        <pre>         $size = $size / 1024;</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L52" class="number covered">52</th>
+                    <th id="L52" class="number ">52</th>
 
-                    <td class="covered" >
-                        <pre>         $unit = array_shift($units);</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L53" class="number ">53</th>
 
                     <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L54" class="number covered">54</th>
-
-                    <td class="covered" >
-                        <pre>      $size = Html::formatNumber($size, false, 2);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L55" class="number covered">55</th>
-
-                    <td class="covered" >
-                        <pre>      return &quot;$size $unit&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L56" class="number unreach">56</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L57" class="number ">57</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L58" class="number ">58</th>
-
-                    <td class="" >
                         <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L59" class="number ">59</th>
-
-                    <td class="" >
-                        <pre>    * Display massive actions
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L60" class="number ">60</th>
-
-                    <td class="" >
-                        <pre>    * @param array $massiveactionparams
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L61" class="number ">61</th>
-
-                    <td class="" >
-                        <pre>    * @return string an HTML
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L62" class="number ">62</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getMassiveActions">
-                    <th id="L63" class="number ">63</th>
-
-                    <td class="" id="getMassiveActions">
-                        <pre>   public static function getMassiveActions($massiveactionparams) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L64" class="number covered">64</th>
-
-                    <td class="covered" >
-                        <pre>      ob_start();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L65" class="number covered">65</th>
-
-                    <td class="covered" >
-                        <pre>      Html::showMassiveActions($massiveactionparams);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L66" class="number covered">66</th>
-
-                    <td class="covered" >
-                        <pre>      $html = ob_get_clean();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L67" class="number ">67</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L68" class="number covered">68</th>
-
-                    <td class="covered" >
-                        <pre>      return $html;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L69" class="number unreach">69</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L70" class="number ">70</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L71" class="number ">71</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L72" class="number ">72</th>
+                    <th id="L54" class="number ">54</th>
 
                     <td class="" >
                         <pre>    * Return an array of values from enum fields
@@ -679,7 +537,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L73" class="number ">73</th>
+                    <th id="L55" class="number ">55</th>
 
                     <td class="" >
                         <pre>    * @param string $table name
@@ -687,7 +545,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L74" class="number ">74</th>
+                    <th id="L56" class="number ">56</th>
 
                     <td class="" >
                         <pre>    * @param string $field name
@@ -695,7 +553,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L75" class="number ">75</th>
+                    <th id="L57" class="number ">57</th>
 
                     <td class="" >
                         <pre>    * @return array
@@ -703,7 +561,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L76" class="number ">76</th>
+                    <th id="L58" class="number ">58</th>
 
                     <td class="" >
                         <pre>    */
@@ -711,21 +569,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getEnumValues">
-                    <th id="L77" class="number ">77</th>
+                    <th id="L59" class="number ">59</th>
 
                     <td class="" id="getEnumValues">
                         <pre>   public static function getEnumValues($table, $field) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L78" class="number covered">78</th>
+                    <th id="L60" class="number covered">60</th>
 
                     <td class="covered" >
                         <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L79" class="number ">79</th>
+                    <th id="L61" class="number ">61</th>
 
                     <td class="" >
                         <pre>
@@ -733,63 +591,63 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L80" class="number covered">80</th>
+                    <th id="L62" class="number covered">62</th>
 
                     <td class="covered" >
                         <pre>      $enum = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L81" class="number covered">81</th>
+                    <th id="L63" class="number covered">63</th>
 
                     <td class="covered" >
                         <pre>      if ($res = $DB-&gt;query( &quot;SHOW COLUMNS FROM `$table` WHERE Field = &#039;$field&#039;&quot; )) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L82" class="number covered">82</th>
+                    <th id="L64" class="number covered">64</th>
 
                     <td class="covered" >
                         <pre>         $data = $DB-&gt;fetch_array($res);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L83" class="number covered">83</th>
+                    <th id="L65" class="number covered">65</th>
 
                     <td class="covered" >
                         <pre>         $type = $data[&#039;Type&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L84" class="number covered">84</th>
+                    <th id="L66" class="number covered">66</th>
 
                     <td class="covered" >
                         <pre>         $matches = null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L85" class="number covered">85</th>
+                    <th id="L67" class="number covered">67</th>
 
                     <td class="covered" >
                         <pre>         preg_match(&quot;/^enum\(\&#039;(.*)\&#039;\)$/&quot;, $type, $matches);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L86" class="number covered">86</th>
+                    <th id="L68" class="number covered">68</th>
 
                     <td class="covered" >
                         <pre>         if (isset($matches[1])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L87" class="number covered">87</th>
+                    <th id="L69" class="number covered">69</th>
 
                     <td class="covered" >
                         <pre>            $enum = explode(&quot;&#039;,&#039;&quot;, $matches[1]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L88" class="number ">88</th>
+                    <th id="L70" class="number ">70</th>
 
                     <td class="" >
                         <pre>         }
@@ -797,7 +655,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number ">89</th>
+                    <th id="L71" class="number ">71</th>
 
                     <td class="" >
                         <pre>      }
@@ -805,7 +663,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L90" class="number ">90</th>
+                    <th id="L72" class="number ">72</th>
 
                     <td class="" >
                         <pre>
@@ -813,21 +671,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number covered">91</th>
+                    <th id="L73" class="number covered">73</th>
 
                     <td class="covered" >
                         <pre>      return $enum;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L92" class="number unreach">92</th>
+                    <th id="L74" class="number unreach">74</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number ">93</th>
+                    <th id="L75" class="number ">75</th>
 
                     <td class="" >
                         <pre>
@@ -835,7 +693,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L76" class="number ">76</th>
 
                     <td class="" >
                         <pre>   /**
@@ -843,7 +701,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number ">95</th>
+                    <th id="L77" class="number ">77</th>
 
                     <td class="" >
                         <pre>    * @return string pseudo-random UUID version 4
@@ -851,7 +709,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
+                    <th id="L78" class="number ">78</th>
 
                     <td class="" >
                         <pre>    */
@@ -859,21 +717,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="generateUUID">
-                    <th id="L97" class="number ">97</th>
+                    <th id="L79" class="number ">79</th>
 
                     <td class="" id="generateUUID">
                         <pre>   public static function generateUUID() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number covered">98</th>
+                    <th id="L80" class="number covered">80</th>
 
                     <td class="covered" >
                         <pre>      return sprintf(&#039;%04x%04x-%04x-%04x-%04x-%04x%04x%04x&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L99" class="number ">99</th>
+                    <th id="L81" class="number ">81</th>
 
                     <td class="" >
                         <pre>
@@ -881,7 +739,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number ">100</th>
+                    <th id="L82" class="number ">82</th>
 
                     <td class="" >
                         <pre>         // 32 bits for &quot;time_low&quot;
@@ -889,14 +747,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number covered">101</th>
+                    <th id="L83" class="number covered">83</th>
 
                     <td class="covered" >
                         <pre>         mt_rand(0, 0xffff), mt_rand(0, 0xffff),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L102" class="number ">102</th>
+                    <th id="L84" class="number ">84</th>
 
                     <td class="" >
                         <pre>
@@ -904,7 +762,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number ">103</th>
+                    <th id="L85" class="number ">85</th>
 
                     <td class="" >
                         <pre>         // 16 bits for &quot;time_mid&quot;
@@ -912,14 +770,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number covered">104</th>
+                    <th id="L86" class="number covered">86</th>
 
                     <td class="covered" >
                         <pre>         mt_rand(0, 0xffff),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L105" class="number ">105</th>
+                    <th id="L87" class="number ">87</th>
 
                     <td class="" >
                         <pre>
@@ -927,7 +785,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number ">106</th>
+                    <th id="L88" class="number ">88</th>
 
                     <td class="" >
                         <pre>         // 16 bits for &quot;time_hi_and_version&quot;,
@@ -935,7 +793,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number ">107</th>
+                    <th id="L89" class="number ">89</th>
 
                     <td class="" >
                         <pre>         // four most significant bits holds version number 4
@@ -943,14 +801,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L108" class="number covered">108</th>
+                    <th id="L90" class="number covered">90</th>
 
                     <td class="covered" >
                         <pre>         mt_rand(0, 0x0fff) | 0x4000,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L109" class="number ">109</th>
+                    <th id="L91" class="number ">91</th>
 
                     <td class="" >
                         <pre>
@@ -958,7 +816,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L110" class="number ">110</th>
+                    <th id="L92" class="number ">92</th>
 
                     <td class="" >
                         <pre>         // 16 bits, 8 bits for &quot;clk_seq_hi_res&quot;,
@@ -966,7 +824,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L111" class="number ">111</th>
+                    <th id="L93" class="number ">93</th>
 
                     <td class="" >
                         <pre>         // 8 bits for &quot;clk_seq_low&quot;,
@@ -974,7 +832,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L112" class="number ">112</th>
+                    <th id="L94" class="number ">94</th>
 
                     <td class="" >
                         <pre>         // two most significant bits holds zero and one for variant DCE1.1
@@ -982,14 +840,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L113" class="number covered">113</th>
+                    <th id="L95" class="number covered">95</th>
 
                     <td class="covered" >
                         <pre>         mt_rand(0, 0x3fff) | 0x8000,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L114" class="number ">114</th>
+                    <th id="L96" class="number ">96</th>
 
                     <td class="" >
                         <pre>
@@ -997,7 +855,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L115" class="number ">115</th>
+                    <th id="L97" class="number ">97</th>
 
                     <td class="" >
                         <pre>         // 48 bits for &quot;node&quot;
@@ -1005,14 +863,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L116" class="number covered">116</th>
+                    <th id="L98" class="number covered">98</th>
 
                     <td class="covered" >
                         <pre>         mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L117" class="number ">117</th>
+                    <th id="L99" class="number ">99</th>
 
                     <td class="" >
                         <pre>      );
@@ -1020,14 +878,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L118" class="number unreach">118</th>
+                    <th id="L100" class="number unreach">100</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L119" class="number ">119</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>
@@ -1035,7 +893,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L120" class="number ">120</th>
+                    <th id="L102" class="number ">102</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1043,7 +901,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L121" class="number ">121</th>
+                    <th id="L103" class="number ">103</th>
 
                     <td class="" >
                         <pre>    * delete a directory and its content recursive
@@ -1051,7 +909,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L122" class="number ">122</th>
+                    <th id="L104" class="number ">104</th>
 
                     <td class="" >
                         <pre>    * @param string $dir
@@ -1059,7 +917,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L123" class="number ">123</th>
+                    <th id="L105" class="number ">105</th>
 
                     <td class="" >
                         <pre>    * @return bool
@@ -1067,7 +925,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L124" class="number ">124</th>
+                    <th id="L106" class="number ">106</th>
 
                     <td class="" >
                         <pre>    */
@@ -1075,28 +933,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="recursiveRmdir">
-                    <th id="L125" class="number ">125</th>
+                    <th id="L107" class="number ">107</th>
 
                     <td class="" id="recursiveRmdir">
                         <pre>   public static function recursiveRmdir($dir) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L126" class="number uncovered">126</th>
+                    <th id="L108" class="number uncovered">108</th>
 
                     <td class="uncovered" >
                         <pre>      if (!file_exists($dir)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L127" class="number uncovered">127</th>
+                    <th id="L109" class="number uncovered">109</th>
 
                     <td class="uncovered" >
                         <pre>         return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L128" class="number ">128</th>
+                    <th id="L110" class="number ">110</th>
 
                     <td class="" >
                         <pre>      }
@@ -1104,21 +962,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L129" class="number uncovered">129</th>
+                    <th id="L111" class="number uncovered">111</th>
 
                     <td class="uncovered" >
                         <pre>      if (!is_dir($dir)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L130" class="number uncovered">130</th>
+                    <th id="L112" class="number uncovered">112</th>
 
                     <td class="uncovered" >
                         <pre>         return unlink($dir);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L131" class="number ">131</th>
+                    <th id="L113" class="number ">113</th>
 
                     <td class="" >
                         <pre>      }
@@ -1126,35 +984,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L132" class="number uncovered">132</th>
+                    <th id="L114" class="number uncovered">114</th>
 
                     <td class="uncovered" >
                         <pre>      $dirContent = scandir($dir);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L133" class="number uncovered">133</th>
+                    <th id="L115" class="number uncovered">115</th>
 
                     <td class="uncovered" >
                         <pre>      foreach ($dirContent as $item) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L134" class="number uncovered">134</th>
+                    <th id="L116" class="number uncovered">116</th>
 
                     <td class="uncovered" >
                         <pre>         if ($item == &#039;.&#039; || $item == &#039;..&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L135" class="number uncovered">135</th>
+                    <th id="L117" class="number uncovered">117</th>
 
                     <td class="uncovered" >
                         <pre>            continue;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L136" class="number ">136</th>
+                    <th id="L118" class="number ">118</th>
 
                     <td class="" >
                         <pre>         }
@@ -1162,21 +1020,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L137" class="number uncovered">137</th>
+                    <th id="L119" class="number uncovered">119</th>
 
                     <td class="uncovered" >
                         <pre>         if (!self::recursiveRmdir($dir . DIRECTORY_SEPARATOR . $item)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L138" class="number uncovered">138</th>
+                    <th id="L120" class="number uncovered">120</th>
 
                     <td class="uncovered" >
                         <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L139" class="number ">139</th>
+                    <th id="L121" class="number ">121</th>
 
                     <td class="" >
                         <pre>         }
@@ -1184,7 +1042,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L140" class="number ">140</th>
+                    <th id="L122" class="number ">122</th>
 
                     <td class="" >
                         <pre>      }
@@ -1192,21 +1050,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L141" class="number uncovered">141</th>
+                    <th id="L123" class="number uncovered">123</th>
 
                     <td class="uncovered" >
                         <pre>      return rmdir($dir);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L142" class="number unreach">142</th>
+                    <th id="L124" class="number unreach">124</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L143" class="number ">143</th>
+                    <th id="L125" class="number ">125</th>
 
                     <td class="" >
                         <pre>
@@ -1214,7 +1072,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L144" class="number ">144</th>
+                    <th id="L126" class="number ">126</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1222,7 +1080,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L145" class="number ">145</th>
+                    <th id="L127" class="number ">127</th>
 
                     <td class="" >
                         <pre>    * Mockable front for isAPI function of GLPI
@@ -1230,7 +1088,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L146" class="number ">146</th>
+                    <th id="L128" class="number ">128</th>
 
                     <td class="" >
                         <pre>    */
@@ -1238,28 +1096,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="isAPI">
-                    <th id="L147" class="number ">147</th>
+                    <th id="L129" class="number ">129</th>
 
                     <td class="" id="isAPI">
                         <pre>   public function isAPI() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L148" class="number uncovered">148</th>
+                    <th id="L130" class="number uncovered">130</th>
 
                     <td class="uncovered" >
                         <pre>      return isAPI();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L149" class="number unreach">149</th>
+                    <th id="L131" class="number unreach">131</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L150" class="number ">150</th>
+                    <th id="L132" class="number ">132</th>
 
                     <td class="" >
                         <pre>
@@ -1267,7 +1125,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L151" class="number ">151</th>
+                    <th id="L133" class="number ">133</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1275,7 +1133,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L152" class="number ">152</th>
+                    <th id="L134" class="number ">134</th>
 
                     <td class="" >
                         <pre>    * Get the maximum value of a column for a given itemtype
@@ -1283,7 +1141,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L153" class="number ">153</th>
+                    <th id="L135" class="number ">135</th>
 
                     <td class="" >
                         <pre>    * @param CommonDBTM $item
@@ -1291,7 +1149,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L154" class="number ">154</th>
+                    <th id="L136" class="number ">136</th>
 
                     <td class="" >
                         <pre>    * @param string $condition
@@ -1299,7 +1157,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L155" class="number ">155</th>
+                    <th id="L137" class="number ">137</th>
 
                     <td class="" >
                         <pre>    * @param string $fieldName
@@ -1307,7 +1165,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L156" class="number ">156</th>
+                    <th id="L138" class="number ">138</th>
 
                     <td class="" >
                         <pre>    * @return NULL|string
@@ -1315,7 +1173,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L157" class="number ">157</th>
+                    <th id="L139" class="number ">139</th>
 
                     <td class="" >
                         <pre>    */
@@ -1323,42 +1181,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getMax">
-                    <th id="L158" class="number ">158</th>
+                    <th id="L140" class="number ">140</th>
 
                     <td class="" id="getMax">
                         <pre>   public static function getMax(CommonDBTM $item, $condition, $fieldName) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L159" class="number uncovered">159</th>
+                    <th id="L141" class="number uncovered">141</th>
 
                     <td class="uncovered" >
                         <pre>      $rows = $item-&gt;find($condition, &quot;`$fieldName` DESC&quot;, &#039;1&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L160" class="number uncovered">160</th>
+                    <th id="L142" class="number uncovered">142</th>
 
                     <td class="uncovered" >
                         <pre>      $line = array_pop($rows);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L161" class="number uncovered">161</th>
+                    <th id="L143" class="number uncovered">143</th>
 
                     <td class="uncovered" >
                         <pre>      if ($line === null) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L162" class="number uncovered">162</th>
+                    <th id="L144" class="number uncovered">144</th>
 
                     <td class="uncovered" >
                         <pre>         return null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L163" class="number ">163</th>
+                    <th id="L145" class="number ">145</th>
 
                     <td class="" >
                         <pre>      }
@@ -1366,21 +1224,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L164" class="number uncovered">164</th>
+                    <th id="L146" class="number uncovered">146</th>
 
                     <td class="uncovered" >
                         <pre>      return $line[$fieldName];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L165" class="number unreach">165</th>
+                    <th id="L147" class="number unreach">147</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L166" class="number ">166</th>
+                    <th id="L148" class="number ">148</th>
 
                     <td class="" >
                         <pre>}
