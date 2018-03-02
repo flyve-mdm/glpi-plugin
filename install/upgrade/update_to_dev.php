@@ -224,9 +224,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
    $migration->changeField($table, 'name', 'package_name', 'string');
    $migration->migrationOneTable($table);
-   if ($DB->fieldExists($table, 'filesize')) {
-      $DB->query("ALTER TABLE `$table` DROP COLUMN `filesize`") or die("Could upgrade table $table" . $DB->error());
-   }
+   $migration->dropField($table, 'filesize');
    $migration->addField($table, 'name', 'string', ['after' => 'id']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
