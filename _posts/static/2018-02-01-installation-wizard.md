@@ -58,8 +58,11 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
 * Download the specific version of GLPI 9.2.x, you can get it with any of these methods:
 
   * From the [Download section](http://glpi-project.org/?article41&lang=en) on their website.
-  * From [GitHub releases](https://github.com/glpi-project/glpi/releases)
-  * Using Git, for those who are familiar with it:
+  * From [GitHub releases](https://github.com/glpi-project/glpi/releases). Be sure to select the ```.tgz``` file.
+
+    As specified in the [GLPI Installation documentation](http://glpi-install.readthedocs.io/en/latest/index.html), the ```Source code``` files should not be used.
+
+  * Using Git, for those who are familiar with it, be aware of the version:
 
 ```console
     git clone https://github.com/glpi-project/glpi.git
@@ -67,24 +70,14 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
 
 * Unpack the file in: ```/var/www/```
 
-<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command: ```tar -xvzf file-name.tar.gz``` or ```tar -xvzf file-name.tgz```
-
-* Rename the folder to ```glpi``` if needed.
-
-If you downloaded the ```.tgz``` file then avoid the following step.
-
-* Go to the glpi folder and run ```composer install --no-dev```
-
-This is because the Release files already have the vendor folder with the dependencies require.
-
-Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/doku.php?id=en:welcome), there you will find more information about GLPI.
+<img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball you need the <a name="commands"></a>following command: ```tar -xvzf file-name.tgz``` or ```tar -xvzf file-name.tar.bz2```
 
 ### Fusion Inventory plugin
 
 * Download FusionInventory 9.2+1.0 for GLPI, you can get it with any of these methods:
 
   * From [GitHub Releases](https://github.com/fusioninventory/fusioninventory-for-glpi/releases)
-  * Using Git:
+  * Using Git, for those who are familiar with it, be aware of the version:
 
     ```console
       git clone https://github.com/fusioninventory/fusioninventory-for-glpi.git
@@ -94,7 +87,7 @@ Here you have the link to the [GLPI Project Wiki](http://wiki.glpi-project.org/d
 
 <img src="{{ '/images/picto-warning.png' | absolute_url }}" alt="Careful!" height="16px"> Keep in mind the type of file you download, to unpack a tarball see the [commands listed above](#commands).
 
-Here is the link to the [Fusion Inventory Documentation](http://fusioninventory.org/documentation/).
+For more information, check the [Fusion Inventory Documentation](http://fusioninventory.org/documentation/).
 
 ### Flyve MDM plugin
 
