@@ -111,10 +111,24 @@ You should have a directory structure like this:
 
 <img src="{{ '/images/glpi-tree-structure.png' | absolute_url }}" alt="GLPI Tree Insfrastructure">
 
-## Wizard
+## Introducing the Wizard Installation
 
 We implemented a Wizard for the plugin configuration, which will help you to check and complete all the mandatory steps in order to obtain a successful setup of Flyve MDM.
 
-To access the Wizard, once you have successfully completed all the early steps, go to Setup > Plugins, click on Flyve Mobile Device Management
+To access the Wizard, once you have successfully completed all the early steps, go to Setup > Plugins, click on Flyve Mobile Device Management.
 
 <img src="{{ '/images/wizard.png' | absolute_url }}" alt="Wizard">
+
+In case a step is missed or misconfigured in GLPI, a message will be shown in the plugin, warning you in order to avoid future problems.
+
+<img src="{{ '/images/install-warning.png' | absolute_url }}" alt="Warning">
+
+The Wizard is designed in two main categories:
+
+* Requirements: comprehending the GLPI setup, server and plugins configuration.
+
+<img src="{{ '/images/step-cron.png' | absolute_url }}" alt="Cron Job step">
+
+* MQTT: includes the steps to download and configure Mosquitto, an open source message broker.
+
+<img src="{{ '/images/step-mosquitto.png' | absolute_url }}" alt="Mosquitto step">
