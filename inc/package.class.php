@@ -439,7 +439,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          exit(0);
       }
 
-      $size = filesize($streamSource);
+      $size = $this->fields['filesize'];
       $begin = 0;
       $end = $size - 1;
       $mimeType = 'application/octet-stream';
