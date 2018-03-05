@@ -447,7 +447,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
          'comment'      => $fields['comment'],
       ];
-      echo $twig->render('file.html', $data);
+      echo $twig->render('file.html.twig', $data);
 
       $this->showFormButtons($options);
    }

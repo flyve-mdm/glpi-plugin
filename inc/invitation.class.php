@@ -454,7 +454,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('invitation.html', $data);
+      echo $twig->render('invitation.html.twig', $data);
 
       if (!$this->isNewID($ID)) {
          $options['canedit'] = true;
@@ -471,7 +471,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $data = [
          'inviteButton' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']),
       ];
-      echo $twig->render('mass_invitation.html', $data);
+      echo $twig->render('mass_invitation.html.twig', $data);
    }
 
    /**

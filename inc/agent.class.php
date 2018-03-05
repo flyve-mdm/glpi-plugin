@@ -240,7 +240,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('agent.html', $data);
+      echo $twig->render('agent.html.twig', $data);
 
       $this->showFormButtons($options);
    }
@@ -284,7 +284,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('agent_dangerzone.html', $data);
+      echo $twig->render('agent_dangerzone.html.twig', $data);
 
       $item->showFormButtons(['candel' => false, 'formfooter' => false]);
    }
@@ -327,7 +327,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('agent_fleet.html', $data);
+      echo $twig->render('agent_fleet.html.twig', $data);
    }
 
    /**
@@ -345,7 +345,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $fields['last_contact'] = __('Never seen online', 'flyvemdm');
       }
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('agentComputerInfo.html', [
+      echo $twig->render('agentComputerInfo.html.twig', [
          'agent' => $fields,
          'agentUrl' => Toolbox::getItemTypeFormURL(self::class),
          'fleetUrl' => Toolbox::getItemTypeFormURL(PluginFlyvemdmFleet::class)

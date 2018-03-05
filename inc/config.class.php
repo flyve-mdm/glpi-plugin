@@ -229,7 +229,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config.html', $data);
+      echo $twig->render('config.html.twig', $data);
 
       Html::closeForm();
    }
@@ -275,7 +275,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config-messagequeue.html', $data);
+      echo $twig->render('config-messagequeue.html.twig', $data);
 
       Html::closeForm();
    }
@@ -316,7 +316,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config-debug.html', $data);
+      echo $twig->render('config-debug.html.twig', $data);
 
       Html::closeForm();
    }
@@ -346,7 +346,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
          ];
          $twig = plugin_flyvemdm_getTemplateEngine();
-         echo $twig->render('config-wizard.html', $data);
+         echo $twig->render('config-wizard.html.twig', $data);
 
          Html::closeForm();
       }

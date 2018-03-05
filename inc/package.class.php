@@ -149,7 +149,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          'package'      => $fields,
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
       ];
-      echo $twig->render('package.html', $data);
+      echo $twig->render('package.html.twig', $data);
 
       $this->showFormButtons($options);
    }

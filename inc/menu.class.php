@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmMenu extends CommonGLPI {
    static $rightname = 'plugin_flyve_config';
 
-   const TEMPLATE = 'menu.html';
+   const TEMPLATE = 'menu.html.twig';
 
    /**
     * Displays the menu name
@@ -123,7 +123,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
             ]
          ],
       ];
-      echo $twig->render('menu.html', $data);
+      echo $twig->render('menu.html.twig', $data);
    }
 
    /**

@@ -284,7 +284,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          'randEnd'    => $randEnd,
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('computer_geolocation.html', $data);
+      echo $twig->render('computer_geolocation.html.twig', $data);
    }
 
    /**

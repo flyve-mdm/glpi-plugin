@@ -757,7 +757,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('fleet_policy.html', $data);
+      echo $twig->render('fleet_policy.html.twig', $data);
 
       Html::closeForm();
    }
