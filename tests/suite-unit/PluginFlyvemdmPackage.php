@@ -45,6 +45,38 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testShowForm':
+         case 'testPrepareInputForAdd':
+         case 'testPrepareInputForUpdate':
+            parent::afterTestMethod($method);
+            \Session::destroy();
+            break;
+      }
+   }
+
+   /**
+    * @tags testGetTypeName
+    */
+   public function testGetTypeName() {
+      $class = $this->testedClass->getClass();
+      $this->string($class::getTypeName(1))->isEqualTo('Package')
+         ->string($class::getTypeName(3))->isEqualTo('Packages');
+   }
+
+   /**
+    * @tags testGetMenuPicture
+    */
+   public function testGetMenuPicture() {
+      $class = $this->testedClass->getClass();
+      $this->given($class)
+         ->string($class::getMenuPicture())->isEqualTo('fa-gear');
+   }
+
+   /**
     * @param string $packageTable
     * @param null|string $filename
     * @param string $version
