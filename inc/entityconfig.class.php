@@ -377,7 +377,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('entity_entityconfig.html', $data);
+      echo $twig->render('entity_entityconfig.html.twig', $data);
 
       $item->showFormButtons(['candel' => false, 'formfooter' => false]);
    }

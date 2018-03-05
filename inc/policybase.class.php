@@ -255,7 +255,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
             ['value' => Session::getNewCSRFToken()]) : '';
       }
       $twig = plugin_flyvemdm_getTemplateEngine();
-      return $twig->render('policy_form.html', ['form' => $form]);
+      return $twig->render('policy_form.html.twig', ['form' => $form]);
    }
 
 }

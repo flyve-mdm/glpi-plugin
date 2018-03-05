@@ -123,7 +123,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             'fleet'        => $fields,
       ];
 
-      echo $twig->render('fleet.html', $data);
+      echo $twig->render('fleet.html.twig', $data);
 
       $this->showFormButtons($options);
    }
