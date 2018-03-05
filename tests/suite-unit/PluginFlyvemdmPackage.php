@@ -38,6 +38,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    public function beforeTestMethod($method) {
       switch ($method) {
          case 'testShowForm':
+         case 'testPrepareInputForAdd':
+         case 'testAddNeededInfoToInput':
          case 'testPrepareInputForUpdate':
          case 'testPostGetFromDB':
             $this->login('glpi', 'glpi');
@@ -52,6 +54,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       switch ($method) {
          case 'testShowForm':
          case 'testPrepareInputForAdd':
+         case 'testAddNeededInfoToInput':
          case 'testPrepareInputForUpdate':
             parent::afterTestMethod($method);
             \Session::destroy();
@@ -101,6 +104,15 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          ->contains("type=\"text\" name=\"alias\" value=\"\"")
          ->contains("type='file' name='file[]'")
          ->contains('input type="hidden" name="_glpi_csrf_token"');
+   }
+
+   /**
+    * @tags testAddNeededInfoToInput
+    */
+   public function testAddNeededInfoToInput() {
+      $instance = $this->createInstance();
+      $input = $instance->addNeededInfoToInput([]);
+      $this->array($input)->hasKey('entities_id')->integer['entities_id']->isEqualTo(0);
    }
 
    /**
