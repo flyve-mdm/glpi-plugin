@@ -141,7 +141,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $this, 'name',
          ['value' => $objectName, 'display' => false]
       );
-      $fields['filesize'] = Toolbox::getSize($fields['filesize']);
+      if ($this->isNewID($ID)) {
+         $fields['filesize'] = '';
+      } else {
+         $fields['filesize'] = fileSize(FLYVEMDM_PACKAGE_PATH . '/' . $fields['source']);
+         $fields['filesize'] = Toolbox::getSize($fields['filesize']);
+      }
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
          'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
@@ -272,7 +277,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       if ($this->canView() && $this->canViewItem()) {
          $filename = FLYVEMDM_PACKAGE_PATH . '/' . $this->fields['filename'];
          $isFile = is_file($filename);
-         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : $this->fields['filesize'];
          $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
          if (isAPI()
             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
