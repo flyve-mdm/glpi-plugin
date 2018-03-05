@@ -37,6 +37,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       switch ($method) {
+         case 'testShowForm':
          case 'testPrepareInputForUpdate':
          case 'testPostGetFromDB':
             $this->login('glpi', 'glpi');
@@ -59,6 +60,14 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
+    * @return object
+    */
+   public function createInstance() {
+      $instance = $this->newTestedInstance();
+      return $instance;
+   }
+
+   /**
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
@@ -74,6 +83,24 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $class = $this->testedClass->getClass();
       $this->given($class)
          ->string($class::getMenuPicture())->isEqualTo('fa-gear');
+   }
+
+   /**
+    * @tags testShowForm
+    */
+   public function testShowForm() {
+      $instance = $this->createInstance();
+      ob_start();
+      $instance->showForm(0);
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)
+         ->matches("#method='post' action='.+?\/plugins\/flyvemdm\/front\/package\.form\.php'#")
+         ->contains("input type='hidden' name='entities_id' value='0'")
+         ->contains("type='text' name='name' value=\"\"")
+         ->contains("type=\"text\" name=\"alias\" value=\"\"")
+         ->contains("type='file' name='file[]'")
+         ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
 
    /**
