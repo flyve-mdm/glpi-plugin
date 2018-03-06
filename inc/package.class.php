@@ -683,6 +683,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       return null;
    }
 
+   /**
+    * Adds extra fields to the itemType
+    */
    protected function addExtraFileInfo() {
       $filename = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
       $isFile = is_file($filename);
