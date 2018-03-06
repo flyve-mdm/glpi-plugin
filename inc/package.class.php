@@ -160,25 +160,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * Gets the maximum file size allowed for uploads from PHP configuration
-    * @return integer maximum file size
-    */
-   protected static function getMaxFileSize() {
-      $val = trim(ini_get('post_max_size'));
-      $last = strtolower($val[strlen($val) - 1]);
-      switch ($last) {
-         case 'g':
-            $val *= 1024;
-         case 'm':
-            $val *= 1024;
-         case 'k':
-            $val *= 1024;
-      }
-
-      return $val;
-   }
-
-   /**
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
