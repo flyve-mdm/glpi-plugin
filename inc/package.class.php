@@ -141,11 +141,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $this, 'name',
          ['value' => $objectName, 'display' => false]
       );
+      $this->addExtraFileInfo();
       if ($this->isNewID($ID)) {
          $fields['filesize'] = '';
-      } else {
-         $fields['filesize'] = fileSize(FLYVEMDM_PACKAGE_PATH . '/' . $fields['source']);
-         $fields['filesize'] = Toolbox::getSize($fields['filesize']);
       }
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
@@ -193,7 +191,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       try {
          $uploadedFile = $preparedFile['uploadedFile'];
          $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
-         $destination = GLPI_DOC_DIR . '/' . $input['filename'];
+         $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
             $input['dl_filename'] = basename($uploadedFile);
@@ -229,13 +227,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             }
             $uploadedFile = $preparedFile['uploadedFile'];
             $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-            $destination = GLPI_DOC_DIR . '/' . $input['filename'];
+            $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
             $this->createEntityDirectory(dirname($destination));
             if (rename($uploadedFile, $destination)) {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
                $input['dl_filename'] = basename($destination);
                if ($filename != $this->fields['filename']) {
-                  unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
+                  unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
                }
             } else {
                $this->logErrorIfDirNotWritable($destination);
@@ -256,10 +254,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         $filename = FLYVEMDM_PACKAGE_PATH . '/' . $this->fields['filename'];
-         $isFile = is_file($filename);
-         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : $this->fields['filesize'];
-         $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+         $this->addExtraFileInfo();
          if (isAPI()
             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
@@ -332,7 +327,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
+      $filename = GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'];
       if (is_writable($filename)) {
          unlink($filename);
       }
@@ -418,7 +413,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * Sends a file
     */
    protected function sendFile() {
-      $streamSource = GLPI_DOC_DIR . "/" . $this->fields['filename'];
+      $streamSource = GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'];
 
       if (!file_exists($streamSource) || !is_file($streamSource)) {
          header("HTTP/1.0 404 Not Found");
@@ -550,7 +545,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return boolean true if success, false otherwise
     */
    private function parseApplication() {
-      $destination = GLPI_DOC_DIR . '/' . $this->fields['filename'];
+      $destination = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
       $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
       if ($fileExtension == 'apk') {
          try {
@@ -686,5 +681,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return null;
+   }
+
+   protected function addExtraFileInfo() {
+      $filename = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
+      $isFile = is_file($filename);
+      $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+      $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
    }
 }
