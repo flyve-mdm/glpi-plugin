@@ -61,4 +61,21 @@ class GlpiLocalesExtension extends \Twig_Extension
    public function getName() {
       return 'glpi_locales_extension';
    }
+
+   public function getFilters()
+   {
+      return array(
+         new \Twig_SimpleFilter('fileSize', array($this, 'fileSizeFilter')),
+      );
+   }
+
+   /**
+    * Format a size passing a size in octet
+    * @param int $number
+    * @return string
+    */
+   public function fileSizeFilter($number)
+   {
+      return Toolbox::getSize($number);
+   }
 }
