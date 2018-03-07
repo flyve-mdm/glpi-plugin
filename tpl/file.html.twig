@@ -13,7 +13,7 @@
       {{ __('file size', 'flyvemdm') }}
    </td>
    <td>
-      {{ file.filesize }}
+      {{ file.filesize|fileSize }}
    </td>
    <td>
       {{ __('Comment') }}{{ withTemplate }} 
