@@ -63,14 +63,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   public function createInstance() {
-      $instance = $this->newTestedInstance();
-      return $instance;
-   }
-
-   /**
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
@@ -92,7 +84,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
     * @tags testShowForm
     */
    public function testShowForm() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       $instance->showForm(0);
       $result = ob_get_contents();
@@ -110,7 +102,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
     * @tags testAddNeededInfoToInput
     */
    public function testAddNeededInfoToInput() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $input = $instance->addNeededInfoToInput([]);
       $this->array($input)->hasKey('entities_id')->integer['entities_id']->isEqualTo(0);
    }
