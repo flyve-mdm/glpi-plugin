@@ -1018,7 +1018,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
          ENT_COMPAT | ENT_XML1) : null;
       $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
-      // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
+      // For non-android agents, system permssion might be forced to 1 depending on the lack of such constraint
 
       $input = [];
 
