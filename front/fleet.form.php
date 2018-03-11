@@ -70,6 +70,10 @@ if (isset($_POST["add"])) {
          'PluginFlyvemdmMenu',
          'fleet'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $fleet->display([
       'id' => $_GET["id"],
       'withtemplate' => $_GET["withtemplate"]

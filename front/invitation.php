@@ -46,6 +46,9 @@ Html::header(
       'invitation'
       );
 
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu('mini');
+
 Search::show(PluginFlyvemdmInvitation::class);
 
 Html::footer();

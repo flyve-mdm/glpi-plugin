@@ -66,6 +66,10 @@ if (isset($_POST['add'])) {
          'PluginFlyvemdmMenu',
          'package'
          );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $package->display([
       'id' => $_GET['id'],
       'withtemplate' => $_GET["withtemplate"]

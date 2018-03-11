@@ -56,6 +56,12 @@ if (isset($_POST['update']) || isset($_POST['back'])) {
       'PluginFlyvemdmMenu',
       'config'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+   // To add vertical space after the menu
+   echo '<div class="navigationheader">&nbsp;</div>';
+
    $pluginConfig->display(['id' => 1]);
    // Footer
 

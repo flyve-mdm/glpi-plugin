@@ -99,6 +99,10 @@ if (isset($_POST["add"])) {
          'PluginFlyvemdmMenu',
          'agent'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $agent->display([
       'id' => $_GET['id'],
       'withtemplate' => $_GET['withtemplate']

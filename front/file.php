@@ -46,6 +46,9 @@ Html::header(
       'file'
 );
 
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu('mini');
+
 Search::show(PluginFlyvemdmFile::class);
 
 Html::footer();
