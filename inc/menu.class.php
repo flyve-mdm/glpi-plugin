@@ -77,8 +77,9 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
    /**
     * Display the menu
+    * @param string $type type of menu : dashboard to show graphs, anything else to show only the dropdown menu
     */
-   public function displayMenu() {
+   public function displayMenu($type = 'dashboard') {
       $pluralNumber = Session::getPluralNumber();
 
       $config = new PluginFlyvemdmConfig();
@@ -87,6 +88,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
          'configuration' => $isGlpiConfigured,
+         'menuType' => $type,
          'menu'   => [
             __('General', 'flyvemdm') => [
                   PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [

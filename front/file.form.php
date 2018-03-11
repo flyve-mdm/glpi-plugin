@@ -61,6 +61,10 @@ if (isset($_POST['add'])) {
          'PluginFlyvemdmMenu',
          'file'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $flyveFile->display([
       'id' => $_GET["id"], 'withtemplate' => $_GET["withtemplate"]
    ]);

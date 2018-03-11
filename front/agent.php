@@ -46,8 +46,8 @@ Html::header(
       'agent'
 );
 
-// Use later to disable GLPI header
-//Html::nullHeader("test header");
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu('mini');
 
 Search::show(PluginFlyvemdmAgent::class);
 
