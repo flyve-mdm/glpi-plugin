@@ -100,6 +100,52 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
       return $array;
    }
 
+   /**
+    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param int $itemId
+    * @return bool
+    */
+   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+      // force the itemtype for packages
+      if (!($itemtype instanceof PluginFlyvemdmPackage)) {
+         $itemtype = new PluginFlyvemdmPackage();
+      }
+
+      // the itemId wasn't send and the itemtype is new
+      if ($itemtype->isNewItem() && !$itemId) {
+         Session::addMessageAfterRedirect(__('An application ID is required', 'flyvemdm'),
+            false, ERROR);
+         return false;
+      }
+
+      // the itemid is send but the itemtype is new, lest's try to load the info of the package
+      if ($itemtype->isNewItem() && $itemId) {
+         if (!$itemtype->getFromDB($itemId)) {
+            Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'),
+               false, ERROR);
+            return false;
+         }
+      }
+
+      // the package is loaded, let's create the task
+      $packageName = $itemtype->getField('package_name');
+      $packageName = ($packageName) ? $packageName : $itemtype->getField('name');
+      $value = json_encode(['package' => $packageName, 'id' => $itemtype->getID()]);
+      $task = new PluginFlyvemdmTask();
+      if (!$task->add([
+         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'plugin_flyvemdm_policies_id' => $this->getPolicyData()->getID(),
+         'value'                       => $value,
+         '_silent'                     => true,
+      ])) {
+         return false;
+      }
+
+      return true;
+   }
+
    public static function getEnumSpecificStatus() {
       return [
          'waiting' => __('Waiting', 'flyvemdm'),

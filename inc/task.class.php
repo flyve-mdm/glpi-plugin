@@ -369,6 +369,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * MQTT publish a policy applying to the fleet
     *
     * @param PluginFlyvemdmNotifiable $item
+    * @throws TaskPublishPolicyBadFleetException
+    * @throws TaskPublishPolicyPolicyNotFoundException
     */
    public function publishPolicy(PluginFlyvemdmNotifiable $item) {
       if ($this->silent) {
@@ -558,10 +560,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    /**
-    *
     * @param array $policiesToApply
-    *
     * @return array
+    * @throws PolicyApplicationException
     */
    protected function buildMqttMessage($policiesToApply) {
       // generate message of all policies
