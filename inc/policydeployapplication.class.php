@@ -191,16 +191,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return true;
       }
 
-      $task = new PluginFlyvemdmTask();
-      $packageName = $package->getField('package_name');
-      $packageName = ($packageName) ? $packageName : $package->getField('name');
-      if (!$task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-         'plugin_flyvemdm_policies_id' => $policyData->getID(),
-         'value'                       => $packageName,
-         '_silent'                     => true,
-      ])) {
-         return false;
+      $package = new PluginFlyvemdmPackage();
+      if ($package->getFromDB($itemId)) {
+         $policyFactory = new PluginFlyvemdmPolicyFactory();
+         $removeApp = $policyFactory->createFromPolicy($policyData);
+         $removeApp->apply($fleet, '', $package, $itemId);
       }
 
       return true;
