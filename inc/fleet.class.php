@@ -476,12 +476,16 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $entityId = $_SESSION['glpiactive_entity'];
       }
       $defaultFleet = new PluginFlyvemdmFleet();
-      if (!$defaultFleet->getFromDBByQuery(
-            "WHERE `is_default`='1' AND `entities_id`='$entityId'"
-            )) {
-               return null;
+      $request = [
+         'AND' => [
+            'is_default' => '1',
+            Entity::getForeignKeyField() => $entityId
+         ]
+      ];
+      if (!$defaultFleet->getFromDBByCrit($request)) {
+         return null;
       }
-            return $defaultFleet;
+      return $defaultFleet;
    }
 
    /**

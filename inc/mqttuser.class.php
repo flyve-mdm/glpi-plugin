@@ -191,7 +191,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       global $DB;
 
       $user = $DB->escape($user);
-      return $this->getFromDBByQuery("WHERE `user` = '$user'");
+      return $this->getFromDBByCrit(['user' => $user]);
    }
 
    /**

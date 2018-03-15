@@ -62,7 +62,8 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $file = new \PluginFlyvemdmFile();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $file->getFromDBByCrit(['name' => $fileName]);
+      $this->boolean($file->isNewItem())->isFalse($mysqlError);
 
       // Create a fleet
       $fleet = $this->createFleet();

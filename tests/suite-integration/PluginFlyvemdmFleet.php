@@ -61,7 +61,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $entityId = $entity->import(['completename' => 'delete default fleet']);
 
       $fleet = $this->newTestedInstance();
-      $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))
+      $request = [
+         'AND' => [
+            'is_default' => '1',
+            \Entity::getForeignKeyField() => $entityId,
+         ]
+      ];
+      $this->boolean($fleet->getFromDBByCrit($request))
          ->isTrue();
 
       $result = $fleet->delete(['id' => $fleet->getID()]);

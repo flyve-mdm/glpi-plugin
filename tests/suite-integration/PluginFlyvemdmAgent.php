@@ -410,6 +410,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Test online status change on MQTT message
     * @tags testDeviceOnlineChange
+    * @engine inline
     */
    public function testDeviceOnlineChange() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -734,9 +735,14 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Move the agent to the default fleet
       $entityId = $_SESSION['glpiactive_entity'];
       $defaultFleet = new \PluginFlyvemdmFleet();
-      $this->boolean($defaultFleet->getFromDBByQuery(" WHERE `is_default`='1' AND `entities_id`='$entityId'"))
+      $request = [
+         'AND' => [
+            'is_default' => '1',
+            \Entity::getForeignKeyField() => $entityId
+         ]
+      ];
+      $this->boolean($defaultFleet->getFromDbByCrit($request))
          ->isTrue();
-
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
 
@@ -935,7 +941,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->terminateSession();
       $this->restartSession();
       $this->setupGLPIFramework();
-      //\Session::destroy();
+
       $this->boolean($this->login('', '', false))->isTrue();
       unset($_REQUEST['user_token']);
 

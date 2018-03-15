@@ -188,7 +188,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
       foreach ($extensions as $extension => $name) {
          $documentType = new DocumentType();
-         if (!$documentType->getFromDBByQuery("WHERE LOWER(`ext`)='$extension'")) {
+         if (!$documentType->getFromDBByCrit(['ext' => $extension])) {
             $documentType->add([
                   'name'            => $name,
                   'ext'             => $extension,

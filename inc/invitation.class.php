@@ -221,7 +221,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return boolean true if the invitation token exist
     */
    public function getFromDBByToken($token) {
-      return $this->getFromDBByQuery("WHERE `invitation_token`='$token'");
+      return $this->getFromDBByCrit(['invitation_token' => $token]);
    }
 
    /**

@@ -146,8 +146,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $instance = $this->newTestedInstance();
-      $this->boolean($instance->getFromDBByQuery("WHERE `package_name`='$packageName'"))
-         ->isTrue($mysqlError);
+      $instance->getFromDBByCrit(['package_name' => $packageName]);
+      $this->boolean($instance->isNewItem())->isFalse($mysqlError);
       return $instance;
    }
 

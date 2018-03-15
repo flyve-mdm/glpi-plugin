@@ -76,7 +76,8 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $file = $this->newTestedInstance();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $file->getFromDBByCrit(['name' => $fileName]);
+      $this->boolean($file->isNewItem())->isFalse($mysqlError);
 
       return $file;
    }

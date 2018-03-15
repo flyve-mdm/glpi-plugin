@@ -68,9 +68,14 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $invitationType = \PluginFlyvemdmInvitation::class;
       $invitationId = $invitation->getID();
       $queuedNotification = new \QueuedNotification();
-      $this->boolean($queuedNotification->getFromDBByQuery(
-         "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
-      )->isTrue();
+      $request = [
+         'AND' => [
+            'itemtype' => $invitationType,
+            'items_id' => $invitationId
+         ]
+      ];
+      $queuedNotification->getFromDBByCrit($request);
+      $this->boolean($queuedNotification->isNewItem())->isFalse();
 
       // Check a QR code is created
       $document = new \Document();
