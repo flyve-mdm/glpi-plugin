@@ -69,7 +69,7 @@ class PluginFlyvemdmPolicyRemoveApplication extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $package = new \PluginFlyvemdmPackage();
-      $this->boolean($package->getFromDBByQuery("WHERE `name`='$packageName'"))
+      $this->boolean($package->getFromDBByCrit(['name' => $packageName]))
          ->isTrue($mysqlError);
 
       // Create a fleet

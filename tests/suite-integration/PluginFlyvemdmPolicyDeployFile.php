@@ -63,7 +63,8 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $file = new \PluginFlyvemdmFile();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $file->getFromDBByCrit(['name' => $fileName]);
+      $this->boolean($file->isNewItem())->isFalse($mysqlError);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployFile'))->isTrue();

@@ -28,6 +28,9 @@ if [ -e tools/cliinstall.php ] ; then php tools/cliinstall.php --db=glpitest --u
 mkdir plugins/fusioninventory && git clone --depth=1 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
 IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
 mv ../${repo[1]} plugins/flyvemdm
+cd plugins/fusioninventory
+patch -p1 < ../flyvemdm/tests/patches/fi-master.patch
+cd ../..
 
 # patch GLPI when needed
 if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/10f8dabfc5e20bb5a4e7d4ba4b93706871156a8a.diff; fi

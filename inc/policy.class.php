@@ -59,7 +59,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return boolean true if the symbol is found
     */
    public function getFromDBBySymbol($symbol) {
-      return $this->getFromDBByQuery("WHERE `symbol`='$symbol'");
+      return $this->getFromDBByCrit(['symbol' => $symbol]);
    }
 
    /**

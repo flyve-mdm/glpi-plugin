@@ -88,7 +88,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
       // Test apply policy
       $policy = new \PluginFlyvemdmPolicy();
-      $policy->getFromDBByQuery("WHERE `symbol` = 'storageEncryption'");
+      $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
       $fleetId = $fleet->getID();
 
@@ -159,10 +159,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(0);
-   }
-
-   public function testCreateTaskStatuses() {
-
    }
 
    /**

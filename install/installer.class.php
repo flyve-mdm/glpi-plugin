@@ -266,9 +266,15 @@ class PluginFlyvemdmInstaller {
 
    protected function createDefaultFleet() {
       $fleet = new PluginFlyvemdmFleet();
-      if (!$fleet->getFromDBByQuery("WHERE `is_default` = '1' AND `entities_id` = '0'")) {
+      $request = [
+         'AND' => [
+            'is_default' => '1',
+            Entity::getForeignKeyField() => '0'
+         ]
+      ];
+      if (!$fleet->getFromDBByCrit($request)) {
          $fleet->add([
-            'name'         => __("not managed fleet", 'flyvemdm'),
+            'name'         => __('not managed fleet', 'flyvemdm'),
             'entities_id'  => '0',
             'is_recursive' => '1',
             'is_default'   => '1',
@@ -663,7 +669,7 @@ Regards,
       $mqttUser = new PluginFlyvemdmMqttuser();
 
       // Check the MQTT user account for the plugin exists
-      if (!$mqttUser->getFromDBByQuery("WHERE `user`='$MdmMqttUser'")) {
+      if (!$mqttUser->getFromDBByCrit(['user' => $MdmMqttUser])) {
          // Create the MQTT user account for the plugin
          if (!$mqttUser->add([
             'user'     => $MdmMqttUser,

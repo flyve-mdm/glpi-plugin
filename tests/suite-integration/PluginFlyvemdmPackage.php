@@ -78,8 +78,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $DB->query($query);
       $mysqlError = $DB->error();
       $package = $this->newTestedinstance();
-      $this->boolean($package->getFromDBByQuery("WHERE `package_name`='$packageName'"))
-         ->isTrue($mysqlError);
+      $package->getFromDBByCrit(['package_name' => $packageName]);
+      $this->boolean($package->isNEwItem())->isFalse($mysqlError);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();

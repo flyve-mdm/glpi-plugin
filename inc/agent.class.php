@@ -556,6 +556,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
+      global $DB;
+
       $success = false;
 
       // get serial of the computer
@@ -610,7 +612,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
          $mqttUser = new PluginFlyvemdmMqttuser();
-         if ($mqttUser->getFromDBByQuery("WHERE `user` = '$serial'")) {
+         if ($mqttUser->getFromDBByCrit(['user' => $serial])) {
             if (!$mqttUser->delete(['id' => $mqttUser->getID()], true)) {
                Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'flyvemdm'));
                return false;
@@ -918,26 +920,43 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool
     */
    public function getByTopic($topic) {
-      global $DB;
-
       $mqttPath = explode('/', $topic);
-      if (isset($mqttPath[2])) {
-         if ($mqttPath[1] == 'agent') {
-            $entity = intval($mqttPath[1]);
-            $serial = $DB->escape($mqttPath[2]);
-            if (strlen($serial)) {
-               $computerTable = Computer::getTable();
-               $agentTable = self::getTable();
-               return $this->getFromDBByQuery("LEFT JOIN `$computerTable` `c` ON (
-                     `c`.`id` = `$agentTable`.`computers_id`
-                     )
-                     WHERE `$agentTable`.`entities_id`='$entity' AND `c`.`serial` = '$serial'"
-               );
-            }
-         }
+      if (!isset($mqttPath[2])) {
+         return false;
       }
-
-      return false;
+      if ($mqttPath[1] != 'agent') {
+         return false;
+      }
+      $entity = (int) $mqttPath[1];
+      $serial = $mqttPath[2];
+      if (strlen($serial) <= 0) {
+         return false;
+      }
+      if (method_exists($this, 'getFromDBByRequest')) {
+         return $this->getFromDbByRequest([
+            'LEFT JOIN' => [
+               Computer::getTable() => [
+                  'FKEY' => [
+                     Computer::getTable() => 'id',
+                     self::getTable() => Computer::getForeignKeyField(),
+                  ]
+               ]
+            ],
+            'WHERE' => [
+               'AND' => [
+                  PluginFlyvemdmAgent::getTable() . '.' . Entity::getForeignKeyField() => $entity,
+                  Computer::getTable() . '.serial' => $serial
+               ]
+            ]
+         ]);
+      } else {
+         $computerTable = Computer::getTable();
+         $agentTable = self::getTable();
+         return $this->getFromDBByQuery("LEFT JOIN `$computerTable` `c` ON (
+                                    `c`.`id` = `$agentTable`.`computers_id`
+                                 )
+                                 WHERE `$agentTable`.`entities_id`='$entity' AND `c`.`serial` = '$serial'");
+      }
    }
 
    /**
@@ -1107,7 +1126,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
-      $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
+      if (version_compare(GLPI_VERSION, '9.3-dev') < 0) {
+         $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
+      } else {
+         $condition = [User::getTable() . '.id' => $invitation->getField('users_id')];
+      }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
@@ -1288,7 +1311,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       //// Find an entity matching the given token
       //$entity = new PluginFlyvemdmEntityconfig();
-      //if (! $entity->getFromDBByQuery("WHERE `enroll_token`='$token'")) {
+      //if (!$entity->getFromDBByCrit(['enroll_token' => $token])) {
       //   $errorMessage = "no entity token not found";
       //   return false;
       //}
@@ -1768,11 +1791,31 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Update MQTT account
       $computerId = $this->getField('computers_id');
       $mqttUser = new PluginFlyvemdmMqttuser();
-      if ($mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'")) {
+      if (method_exists($this, 'getFromDBByRequest')) {
+         $request = [
+            'LEFT JOIN' => [
+               Computer::getTable() => [
+                  'FKEY' => [
+                     Computer::getTable() => 'serial',
+                     PluginFlyvemdmMqttuser::getTable() => 'user'
+                  ]
+               ]
+            ],
+            'WHERE' => [Computer::getTable() . '.id' => $computerId]
+         ];
+         $success = $mqttUser->getFromDBByRequest($request);
+      } else {
+         $success = $mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'");
+      }
+      if ($success) {
          $mqttAcl = new PluginFlyvemdmMqttacl();
          if ($old->getField('is_default') == '0') {
-            $mqttAcl->getFromDBByQuery("WHERE `topic`='" . $old->getTopic() . "/#'
-                  AND `plugin_flyvemdm_mqttusers_id`='" . $mqttUser->getID() . "'");
+            $mqttAcl->getFromDBByCrit([
+               'AND' => [
+                  'topic' => $old->getTopic() . '/#',
+                  PluginFlyvemdmMqttuser::getForeignKeyField() => $mqttUser->getID()
+               ]
+            ]);
             if ($new->getField('is_default') != '0') {
                $mqttAcl->delete(['id' => $mqttAcl->getID()]);
 

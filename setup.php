@@ -258,9 +258,10 @@ function plugin_flyvemdm_check_prerequisites() {
 
 /**
  * Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+ * @param boolean $verbose Whether to display message on failure. Defaults to false
  * @return bool
  */
-function plugin_flyvemdm_check_config() {
+function plugin_flyvemdm_check_config($verbose = false) {
    return true;
 }
 

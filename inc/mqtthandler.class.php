@@ -135,7 +135,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
             $this->updateAgentVersion($topic, $message);
          } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
             if ($topic == '/FlyvemdmManifest/Status/Version') {
-               $this->publishFlyveManifest();
+               $this->publishFlyveManifest($mqtt);
             }
          }
       }
@@ -162,12 +162,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Publishes the current version of Flyve
+    * @param \sskaje\mqtt\MQTT $mqtt
     * @return mixed $mqtt the current version
     */
-   protected function publishFlyveManifest() {
+   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('flyvemdm', 'version');
+      $config = Config::getConfigurationValues('flyvemdm', ['version']);
       $version = $config['version'];
 
       // TODO: check for $message & $mqtt values, both are undefined.
@@ -191,7 +192,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $entityId = $mqttPath[1];
       $serial = $DB->escape($mqttPath[3]);
       $computer = new Computer();
-      if ($computer->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `serial` = '$serial'")) {
+      $request = [
+         'AND' => [
+            Entity::getForeignKeyField() => $entityId,
+            'serial' => $serial,
+         ]
+      ];
+      if ($computer->getFromDBByCrit($request)) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
          $communication = new \PluginFusioninventoryCommunication();
@@ -315,8 +322,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
                   return;
                }
                $taskStatus = new PluginFlyvemdmTaskstatus();
-               $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
-                                              AND `plugin_flyvemdm_tasks_id` = '$taskId'");
+               $request = [
+                  'AND' => [
+                     PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
+                     PluginFlyvemdmTask::getForeignKeyField() => $taskId
+                  ]
+               ];
+               $taskStatus->getFromDBByCrit($request);
                if ($taskStatus->isNewItem()) {
                   return;
                }

@@ -108,7 +108,7 @@ class Entity extends CommonTestCase {
             'application_105.apk',
             ''
             )");
-      $package->getFromDBByQuery("WHERE `name`='$packageName'");
+      $package->getFromDBByCrit(['name' => $packageName]);
       $file = new \PluginFlyvemdmFile();
       $fileName = 'flyve-user-manual.pdf';
       $fileTable = \PluginFlyvemdmFile::getTable();
@@ -122,7 +122,7 @@ class Entity extends CommonTestCase {
             '2/12345678_flyve-user-manual.pdf',
             '$entityId'
          )");
-      $file->getFromDBByQuery("WHERE `name`='$fileName'");
+      $file->getFromDBByCrit(['name' => $fileName]);
 
       $entity->delete(['id' => $entity->getID()]);
       $this->boolean($invitation->getFromDB($invitation->getID()))->isFalse();
