@@ -224,13 +224,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return false;
       }
 
-      if (!$this->policy->apply($this->fleet, $input['value'], $input['itemtype'],
-         $input['items_id'])) {
-         Session::addMessageAfterRedirect(__('Failed to apply the policy', 'flyvemdm'), false,
-            ERROR);
-         return false;
-      }
-
       return $input;
    }
 

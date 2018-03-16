@@ -79,7 +79,8 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
       $fleetId = $fleet->getID();
       $task = new PluginFlyvemdmTask();
       $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
-            AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'", "", "1");
+            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "' 
+            AND `value` = '$value'", "", "1");
       return (count($rows) == 0);
    }
 
@@ -90,12 +91,12 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
     * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
-      if (! $this->integrityCheck($value, $itemtype, $itemId)) {
+      if (!$this->integrityCheck($value, $itemtype, $itemId)) {
          return false;
       }
 
       $array = [
-            $this->symbol  => $value
+         $this->symbol  => $value,
       ];
       return $array;
    }
@@ -108,41 +109,18 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
     * @return bool
     */
    public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      // force the itemtype for packages
-      if (!($itemtype instanceof PluginFlyvemdmPackage)) {
-         $itemtype = new PluginFlyvemdmPackage();
-      }
+      $this->canApply = false;
 
-      // the itemId wasn't send and the itemtype is new
-      if ($itemtype->isNewItem() && !$itemId) {
-         Session::addMessageAfterRedirect(__('An application ID is required', 'flyvemdm'),
-            false, ERROR);
-         return false;
-      }
-
-      // the itemid is send but the itemtype is new, lest's try to load the info of the package
-      if ($itemtype->isNewItem() && $itemId) {
-         if (!$itemtype->getFromDB($itemId)) {
-            Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'),
-               false, ERROR);
-            return false;
-         }
-      }
-
-      // the package is loaded, let's create the task
-      $packageName = $itemtype->getField('package_name');
-      $packageName = ($packageName) ? $packageName : $itemtype->getField('name');
-      $value = json_encode(['package' => $packageName, 'id' => $itemtype->getID()]);
       $task = new PluginFlyvemdmTask();
       if (!$task->add([
          'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $this->getPolicyData()->getID(),
          'value'                       => $value,
-         '_silent'                     => true,
       ])) {
          return false;
       }
 
+      $this->canApply = true;
       return true;
    }
 
