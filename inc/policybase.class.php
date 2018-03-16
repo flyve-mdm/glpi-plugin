@@ -39,7 +39,12 @@ if (!defined('GLPI_ROOT')) {
 abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * @var bool $unicityRequired if true The policy cannot be applied more than once to a fleet
+    * @var bool $canApply if true the policy can be applied
+    */
+   protected $canApply = true;
+
+   /**
+    * @var bool $unicityRequired if true the policy cannot be applied more than once to a fleet
     */
    protected $unicityRequired = true;
 
@@ -122,7 +127,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @return bool
     */
    public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      return true;
+      return $this->canApply;
    }
 
    /**

@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
 
@@ -50,7 +50,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
     * @return array
     */
    private function createNewPolicyInstance($policyData = null) {
-      if(null === $policyData){
+      if (null === $policyData) {
          $policyData = new \PluginFlyvemdmPolicy();
          $policyData->fields = $this->dataField;
       }
@@ -61,40 +61,42 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    /**
     * @return array
     */
-   protected function validationProvider() {
+   protected function policyInputProvider() {
       return [
-         'Check ID exist'            => [
-            'data'     => ['', '', 0],
-            'expected' => [false, 'An application ID is required'],
+         'Check Invalid arguments 1' => [
+            'data'     => ['value' => '', 'itemType' => '', 'itemId' => ''],
+            'expected' => ['return' => false, 'message' => 'An application ID is required'],
          ],
-         'Check itemtype is empty 1' => [
-            'data'     => ['lorem', 'Bad Value', 0],
-            'expected' => [false],
+         'Check Invalid arguments 2' => [
+            'data'     => ['value' => 'fake.lorem.package', 'itemType' => 'ipsum', 'itemId' => 0],
+            'expected' => ['return' => false],
          ],
-         'Check itemtype is empty 2' => [
-            'data'     => ['lorem', '', 1],
-            'expected' => [false],
+         'Check Invalid arguments 3' => [
+            'data'     => ['value' => 'fake.lorem.package', 'itemType' => '', 'itemId' => 1],
+            'expected' => ['return' => false],
          ],
          'Valid check 1'             => [
-            'data'     => ['any value', '', 0],
-            'expected' => [true],
+            'data'     => ['value' => 'fake.lorem.package', 'itemType' => '', 'itemId' => 0],
+            'expected' => ['return' => true],
          ],
       ];
    }
 
    /**
-    * @dataProvider validationProvider
+    * @dataProvider policyInputProvider
     * @tags testIntegrityCheck
+    *
     * @param array $data
     * @param array $expected
     */
    public function testIntegrityCheck(array $data, array $expected) {
       list($policy) = $this->createNewPolicyInstance();
-      $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
-      $this->boolean($success)->isEqualTo($expected[0]);
-      if (!$expected[0] && isset($expected[1])) {
-         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected[1]);
+      $success = $policy->integrityCheck($data['value'], $data['itemType'], $data['itemId']);
+      $this->boolean($success)->isEqualTo($expected['return']);
+      if (!$expected['return'] && isset($expected['message'])) {
+         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected['message']);
       }
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]);
    }
 
    /**
@@ -102,14 +104,14 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
     */
    public function unicityCheckProvider() {
       return [
-         'Check for invalid package'            => [
-            'data'     => ['package_name', 'id'],
-            'expected' => [true],
+         'Check for invalid package' => [
+            'data'     => ['value' => 'not_existing_package'],
+            'expected' => ['return' => true],
          ],
-         // TODO: For test this case a fleet must be created first
+         // TODO: For test this case a task must be created first
          /*'Check for valid package' => [
-            'data'     => ['package_name', 'id'],
-            'expected' => [false],
+            'data'     => ['value' => 'package_name'],
+            'expected' => ['return' => false],
          ],*/
       ];
    }
@@ -117,20 +119,20 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    /**
     * @dataProvider unicityCheckProvider
     * @tags testUnicityCheck
+    *
     * @param array $data
     * @param array $expected
     */
    public function testUnicityCheck(array $data, array $expected) {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
-      $mockInstance->getMockController()->getID = 1;
-      if(!$expected[0]){
+      $mockInstance->getMockController()->getID = 2;
+      if (!$expected['return']) {
          $application = $this->createAppInDB();
-         $data[0] = $application->getName();
-         $data[1] = $application->getID();
+         $data['value'] = $application->getField('package_name');
       }
-      $this->boolean($policy->unicityCheck($data[0], \PluginFlyvemdmPackage::class, $data[1],
-         $mockInstance))->isEqualTo($expected[0]);
+      $this->boolean($policy->unicityCheck($data['value'], '', '',
+         $mockInstance))->isEqualTo($expected['return']);
    }
 
    /**
@@ -140,19 +142,11 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       $package = $this->createAppInDB();
       return [
          'Check for invalid arguments 1' => [
-            'data'     => [null, null, null],
-            'expected' => ['return' => false],
+            'data'     => ['value' => 'fake.lorem.package'],
+            'expected' => ['return' => false, 'message' => 'Policy not found'],
          ],
-         'Check for invalid arguments 2' => [
-            'data'     => [null, null, ''],
-            'expected' => ['return' => false, 'message'=>'An application ID is required'],
-         ],
-         'Check for invalid arguments 3' => [
-            'data'     => [null, null, -10],
-            'expected' => ['return' => false, 'message'=>'The application does not exists'],
-         ],
-         'Check for correct value' => [
-            'data'     => [null, $package, $package->getID()],
+         'Check for correct value'       => [
+            'data'     => ['value' => $package->getField('package_name')],
             'expected' => ['return' => true],
          ],
       ];
@@ -161,6 +155,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    /**
     * @dataProvider applyProvider
     * @tags testApply
+    *
     * @param array $data
     * @param array $expected
     */
@@ -173,12 +168,16 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance($policyData);
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $result = $policy->apply($mockInstance, $data[0], $data[1], $data[2]);
+      if (true == $expected['return']) {
+         // the fleet must exist if we expect a true action.
+         $mockInstance = $this->createFleetInDB();
+      }
+      $result = $policy->apply($mockInstance, $data['value'], '', '');
       $this->boolean($result)->isEqualTo($expected['return']);
       if (!$expected['return'] && isset($expected['message'])) {
          $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])->isEqualTo($expected['message']);
-         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
       }
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
    }
 
    /**
@@ -187,11 +186,9 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();
       $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
-      $item = $this->createAppInDB();
-      $packageName = $item->getField('package_name');
-      $result = $policy->getMqttMessage($packageName, '', 0);
-      $this->array($result)->hasKeys(['id', $this->dataField['symbol']])
-         ->string($result['id'])->isEqualTo($item->getID())
+
+      $result = $policy->getMqttMessage($packageName = 'fake.lorem.ipsum.package', '', 0);
+      $this->array($result)->hasKeys([$this->dataField['symbol']])
          ->string($result[$this->dataField['symbol']])->isEqualTo($packageName);
    }
 
@@ -229,5 +226,29 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       $this->boolean($file->isNewItem())->isFalse();
 
       return $file;
+   }
+
+   /**
+    * Create an application (directly in DB) because we are not uploading any file
+    * @return \PluginFlyvemdmPackage
+    */
+   private function createFleetInDB() {
+      global $DB;
+
+      $uniqid = 'packages_fleet_' . uniqid();
+      $table_file = \PluginFlyvemdmFleet::getTable();
+      $query = "INSERT INTO `$table_file` (
+        `name`
+        ) VALUES (
+        '" . $uniqid . "'
+        )";
+      $result = $DB->query($query);
+      $this->boolean($result)->isTrue();
+
+      $itemType = new \PluginFlyvemdmFleet();
+      $itemType->getFromDB($DB->insert_id());
+      $this->boolean($itemType->isNewItem())->isFalse();
+
+      return $itemType;
    }
 }
