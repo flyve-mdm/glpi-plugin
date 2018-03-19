@@ -75,11 +75,7 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {
          return false;
       }
-      if ($value == '0') {
-         $value = 'false';
-      } else {
-         $value = 'true';
-      }
+      $value = $value == '0' ? 'false' : 'true';
       $array = [
          $this->symbol => $value
       ];
