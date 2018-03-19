@@ -172,26 +172,35 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;
       }
-      if ($decodedValue['remove_on_delete'] !=  '0') {
-         $policyData = new PluginFlyvemdmPolicy();
-         if (!$policyData->getFromDBBySymbol('removeApp')) {
-            Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
-            return false;
-         }
-         $task = new PluginFlyvemdmTask();
-         $package = new PluginFlyvemdmPackage();
-         if ($package->getFromDB($itemId)) {
-            $packageName = $package->getField('package_name');
-            $packageName = ($packageName)? $packageName: $package->getField('name');
-            if (!$task->add([
-                  'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-                  'plugin_flyvemdm_policies_id' => $policyData->getID(),
-                  'value'                       => $packageName,
-                  '_silent'                     => true,
-            ])) {
-               return false;
-            }
-         }
+
+      if ($decodedValue['remove_on_delete'] == '0') {
+         return true;
+      }
+
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeApp')) {
+         Toolbox::logInFile('php-errors',
+            'Plugin FlyveMDM: Application removal policy not found\n');
+         return false;
+      }
+
+      $package = new PluginFlyvemdmPackage();
+      if (!$package->getFromDB($itemId)) {
+         Toolbox::logInFile('php-errors',
+            'Plugin FlyveMDM: Package info not found\n');
+         return true;
+      }
+
+      $task = new PluginFlyvemdmTask();
+      $packageName = $package->getField('package_name');
+      $packageName = ($packageName) ? $packageName : $package->getField('name');
+      if (!$task->add([
+         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'plugin_flyvemdm_policies_id' => $policyData->getID(),
+         'value'                       => $packageName,
+         '_silent'                     => true,
+      ])) {
+         return false;
       }
 
       return true;

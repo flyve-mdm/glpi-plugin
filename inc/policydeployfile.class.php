@@ -208,36 +208,38 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @return bool
     */
    public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
-      if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
+      $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+      if ($this->integrityCheck($value, $itemtype, $itemId) === false) {
          return false;
       }
-      $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
-      if ($value['remove_on_delete'] !=  '0') {
-         $policyData = new PluginFlyvemdmPolicy();
-         if (!$policyData->getFromDBBySymbol('removeFile')) {
-            Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
-            return false;
-         }
-         $file = new $itemtype();
-         if (!$file->getFromDB($itemId)) {
-            return false;
-         }
 
-         $task = new PluginFlyvemdmTask();
-         // Ensure there is a trailing slash
-         if (strrpos($decodedValue['destination'], '/') != strlen($decodedValue['destination']) - 1) {
-            $decodedValue['destination'] .= '/';
-         }
+      if ($value['remove_on_delete'] == '0') {
+         return true;
+      }
 
-         if (!$task->add([
-               'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-               'plugin_flyvemdm_policies_id' => $policyData->getID(),
-               'value'                       => $decodedValue['destination'] . $file->getField('name'),
-               '_silent'                     => true,
-         ])) {
-            return false;
-         }
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeFile')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
+         return false;
+      }
+
+      $file = new $itemtype();
+      if (!$file->getFromDB($itemId)) {
+         return false;
+      }
+
+      $task = new PluginFlyvemdmTask();
+      // Ensure there is a trailing slash
+      if (strrpos($value['destination'], '/') != strlen($value['destination']) - 1) {
+         $value['destination'] .= '/';
+      }
+      if (!$task->add([
+         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'plugin_flyvemdm_policies_id' => $policyData->getID(),
+         'value'                       => $value['destination'] . $file->getField('name'),
+         '_silent'                     => true,
+      ])) {
+         return false;
       }
 
       return true;
