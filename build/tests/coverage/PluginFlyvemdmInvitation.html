@@ -1919,7 +1919,7 @@ layout: coverage
                     <th id="L224" class="number covered">224</th>
 
                     <td class="covered" >
-                        <pre>      return $this-&gt;getFromDBByQuery(&quot;WHERE `invitation_token`=&#039;$token&#039;&quot;);</pre>
+                        <pre>      return $this-&gt;getFromDBByCrit([&#039;invitation_token&#039; =&gt; $token]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
