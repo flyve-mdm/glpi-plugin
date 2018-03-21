@@ -207,7 +207,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				</textarea></p>
 				<p>{{ __('- Restart Mosquitto', 'flyvemdm') }}</p>
 				<p>{{ __('- Test you can successfully connect to Mosquitto', 'flyvemdm') }}</p>
-				<p>mosquitto_sub -h ip_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
+				<p>mosquitto_sub -h host_name_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
 				<p>{{ __('- Check the ports that Mosquitto listens. You should see only the port 8883.', 'flyvemdm') }}</p>
 				<p>netstat -taupen | grep mosquitto</p>
 			</td>
