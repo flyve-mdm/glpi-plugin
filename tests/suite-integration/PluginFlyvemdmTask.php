@@ -88,13 +88,12 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-      $fleetId = $fleet->getID();
 
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task = $this->newTestedInstance();
       $taskId = $task->add([
-         $fleetFk  => $fleetId,
+         $fleetFk  => $$fleet->getID(),
          $policyFk => $policy->getID(),
          'value'   => '0',
       ]);
@@ -157,6 +156,48 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(0);
+
+      // Test tassk status is created when an agent joins a fleet having policies
+      // Create a 2nd fleet
+      $fleet2 = $this->createFleet();
+
+      // Apply a policy
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'disableWifi']);
+      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
+
+      $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+      $task2 = $this->newTestedInstance();
+      $taskId2 = $task->add([
+         $fleetFk  => $fleet2->getID(),
+         $policyFk => $policy->getID(),
+         'value'   => '0',
+      ]);
+      $this->boolean($task->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      // Join the 2nd fleet
+      $this->boolean($agent->update([
+         'id'                        => $agent->getID(),
+         'plugin_flyvemdm_fleets_id' => $fleet2->getID(),
+      ]))->isTrue();
+
+      // Check a task status is created for the agent
+      $taskStatus2 = new \PluginFlyvemdmTaskstatus();
+      $taskFk = $task::getForeignKeyField();
+      $rows = $taskStatus2->find("`$taskFk` = '$taskId2'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('pending');
+      }
+
+      // Check the old task status is canceled
+      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('canceled');
+      }
    }
 
    /**
