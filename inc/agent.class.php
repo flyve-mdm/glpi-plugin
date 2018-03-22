@@ -42,7 +42,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    const ENROLL_INVITATION_TOKEN = 1;
    const ENROLL_ENTITY_TOKEN     = 2;
 
-   const DEFAULT_TOKEN_LIFETIME  = "P7D";
+   const DEFAULT_TOKEN_LIFETIME  = 'P7D';
+
+   const MINIMUM_ANDROID_VERSION = '2.0';
+   const MINIMUM_APPLE_VERSION = '1.0';
 
    /**
     * @var string $rightname name of the right in DB
@@ -75,11 +78,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    private function getMinVersioForType($mdmType) {
       switch ($mdmType) {
          case 'android':
-            return '2.0';
+            return self::MINIMUM_ANDROID_VERSION;
             break;
 
          case 'apple':
-            return '1.0';
+            return self::MINIMUM_APPLE_VERSION;
             break;
       }
 
@@ -658,6 +661,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             }
          }
 
+         // update tasks for the agent from already applied policies in the old fleet
          $this->updateSubscription();
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
             $oldFleet = new PluginFlyvemdmFleet();
@@ -1018,7 +1022,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
          ENT_COMPAT | ENT_XML1) : null;
       $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
-      // For non-android agents, system permssion might be forced to 1 depending on the lack of such cosntraint
+      // For non-android agents, system permssion might be forced to 1 depending on the lack of such constraint
 
       $input = [];
 

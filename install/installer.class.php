@@ -118,7 +118,7 @@ class PluginFlyvemdmInstaller {
 
          $this->createInitialConfig();
       } else {
-         if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION,
+         if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION,
                "-dev") || (version_compare(self::getCurrentVersion(),
                   PLUGIN_FLYVEMDM_VERSION) != 0)) {
             // TODO : Upgrade (or downgrade)
@@ -503,7 +503,7 @@ Regards,
 
          default:
       }
-      if ($this->endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
+      if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
          $this->upgradeOneStep('dev');
       }
 
@@ -547,34 +547,11 @@ Regards,
    }
 
    /**
-    * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-    * @param string $haystack
-    * @param string $needle
-    * @return bool
-    */
-   protected function startsWith($haystack, $needle) {
-      // search backwards starting from haystack length characters from the end
-      return $needle === '' || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-   }
-
-   /**
-    * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
-    * @param string $haystack
-    * @param string $needle
-    * @return bool
-    */
-   protected function endsWith($haystack, $needle) {
-      // search forward starting from end minus needle length characters
-      return $needle === '' || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack,
-               $needle, $temp) !== false);
-   }
-
-   /**
     * Uninstall the plugin
     * @return boolean true (assume success, needs enhancement)
     */
    public function uninstall() {
-      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . "/flyvemdm");
+      $this->rrmdir(GLPI_PLUGIN_DOC_DIR . '/flyvemdm');
 
       $this->deleteRelations();
       $this->deleteNotificationTargetInvitation();
