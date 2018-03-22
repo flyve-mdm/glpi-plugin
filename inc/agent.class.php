@@ -644,25 +644,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
-         // create tasks for the agent from already applied policies
-         $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
+         $this->updateSubscription();
          $newFleet = new PluginFlyvemdmFleet();
-         if ($newFleet->getFromDB($fleetId)) {
+         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Create task status for the agent and the applied policies
-            $task = new PluginFlyvemdmTask();
-            $tasks = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
-            foreach ($tasks as $row) {
-               $taskStatus = new PluginFlyvemdmTaskstatus();
-               $taskStatus->add([
-                  'plugin_flyvemdm_agents_id' => $this->getID(),
-                  'plugin_flyvemdm_tasks_id'  => $row['id'],
-                  'status'                    => 'pending',
-               ]);
-            }
+            $this->createTaskStatuses($newFleet);
          }
 
          // update tasks for the agent from already applied policies in the old fleet
-         $this->updateSubscription();
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
             $oldFleet = new PluginFlyvemdmFleet();
             $oldFleet->getFromDB($this->oldvalues['plugin_flyvemdm_fleets_id']);
@@ -684,6 +673,55 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if (in_array('enroll_status', $this->updates) && $this->fields['enroll_status'] == 'unenrolling') {
          $this->sendUnenrollQuery();
+      }
+   }
+
+   /**
+    * creates task statuses for the agent and the associated fleet
+    * @param PluginFlyvemdmFleet $fleet
+    */
+   private function createTaskStatuses(PluginFlyvemdmFleet $fleet) {
+      $fleetId = $fleet->getID();
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+      foreach ($rows as $row) {
+         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $taskStatus->add([
+            'plugin_flyvemdm_agents_id' => $this->getID(),
+            'plugin_flyvemdm_tasks_id'  => $row['id'],
+            'status'                    => 'pending',
+         ]);
+      }
+   }
+
+   /**
+    * cancels task statuses for the agent anf the given fleet
+    * @param PluginFlyvemdmFleet $fleet
+    */
+   private function cancelTaskStatuses(PluginFlyvemdmFleet $fleet) {
+      global $DB;
+
+      $fleetId = $fleet->getID();
+      $request = [
+         'FROM' =>  PluginFlyvemdmTaskstatus::getTable(),
+         'INNER JOIN' => [
+            PluginFlyvemdmTask::getTable() => [
+               'FKEY' => [
+                  PluginFlyvemdmTask::getTable() => 'id',
+                  PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField()
+               ]
+            ]
+         ],
+         'WHERE' => [
+            PluginFlyvemdmFleet::getForeignKeyField() => [$fleetId]
+         ]
+      ];
+      $status = new PluginFlyvemdmTaskstatus();
+      foreach ($DB->request($request) as $row) {
+         $status->update([
+            'id' => $row['id'],
+            'status' => 'canceled',
+         ]);
       }
    }
 
