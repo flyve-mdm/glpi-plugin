@@ -64,7 +64,7 @@ $request = [
    'WHERE' => ['is_default' => ['<>' => '0']]
 ];
 $fleet = new PluginFlyvemdmFleet();
-foreach($DB->request($request) as $row) {
+foreach ($DB->request($request) as $row) {
    $fleet->getFromDB($row['id']);
    $fleet->refreshPersistedNotifications();
 }

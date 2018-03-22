@@ -28,19 +28,8 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+namespace Glpi\Tests;
 
-namespace tests\units;
+use Exception;
 
-use Glpi\Tests\CommonTestCase;
-
-class PluginFlyvemdmPolicyCategory extends CommonTestCase {
-
-   /**
-    * @tags testGetTypeName
-    */
-   public function testGetTypeName() {
-      $class = $this->testedClass->getClass();
-      $this->given($class)->string($class::getTypeName(1))->isEqualTo('Policy category')
-         ->string($class::getTypeName(3))->isEqualTo('Policy categories');
-   }
-}
+class ApiExitException extends Exception {}

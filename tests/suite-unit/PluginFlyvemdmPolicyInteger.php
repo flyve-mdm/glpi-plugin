@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Glpi\Tests\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmPolicyInteger extends CommonTestCase {

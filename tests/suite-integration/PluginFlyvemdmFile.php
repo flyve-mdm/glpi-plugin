@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Flyvemdm\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use PluginFlyvemdmFile as FlyvemdmFile;
 use PluginFlyvemdmFleet;
 use PluginFlyvemdmPolicy;

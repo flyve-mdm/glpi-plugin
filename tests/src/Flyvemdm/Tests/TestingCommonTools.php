@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace Flyvemdm\Tests\Src;
+namespace Flyvemdm\Tests;
 
 
 class TestingCommonTools {
