@@ -110,6 +110,8 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Handle MQTT publish messages
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param \sskaje\mqtt\Message\PUBLISH $publish_object PUBLISH message received
     * @see \sskaje\mqtt\MessageHandler::publish()
     */
    public function publish(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PUBLISH $publish_object) {
@@ -304,44 +306,37 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
 
       $feedback = json_decode($message, true);
-      if (!isset($feedback['updateStatus'])) {
+      if (!isset($feedback['status'])) {
          return;
       }
 
-      foreach ($feedback['updateStatus'] as $statusData) {
-         if (isset($statusData['taskId']) && isset($statusData['status'])) {
-            $taskId = $statusData['taskId'];
-            $status = $statusData['status'];
-            $agentId = $agent->getID();
-
-            // Find the task the device wants to update
-            $task = new PluginFlyvemdmTask();
-            if (!$task->getFromDB($taskId)) {
-               return;
-            }
-            if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
-               return;
-            }
-            $taskStatus = new PluginFlyvemdmTaskstatus();
-            $request = [
-               'AND' => [
-                  PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
-                  PluginFlyvemdmTask::getForeignKeyField() => $taskId
-               ]
-            ];
-            $taskStatus->getFromDBByCrit($request);
-            if ($taskStatus->isNewItem()) {
-               return;
-            }
-
-            // Update the task
-            $policyFactory = new PluginFlyvemdmPolicyFactory();
-            $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
-            $taskStatus->updateStatus($policy, $status);
-         }
-
-         $this->updateLastContact($topic, '!');
+      // Find the task the device wants to update
+      $taskId = (int) array_pop(explode('/', $topic));
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($taskId)) {
+         return;
       }
+      if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
+         return;
+      }
+
+      // Get the current status of the task for the agent
+      $request = [
+         'AND' => [
+            PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
+            PluginFlyvemdmTask::getForeignKeyField() => $taskId
+         ]
+      ];
+      if (!$taskStatus->getFromDBByCrit($request)) {
+         return;
+      }
+
+      // Update the task
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
+      $taskStatus->updateStatus($policy, $status);
+
+      $this->updateLastContact($topic, '!');
    }
 
    /**

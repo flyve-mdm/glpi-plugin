@@ -31,7 +31,7 @@ before_script:
 - "./tests/before_script.sh"
 script:
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
-  - php scripts/mqtt.php --tests > /dev/null 2>&1 &
+  - #php scripts/mqtt.php --tests > /dev/null 2>&1 &
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
