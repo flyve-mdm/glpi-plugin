@@ -147,4 +147,10 @@ interface PluginFlyvemdmPolicyInterface {
     */
    public function preprocessFormData($input);
 
+   /**
+    * filters statuses for a policy
+    * @param string $status
+    * @return null|string
+    */
+   public function filterStatus($status);
 }

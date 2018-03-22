@@ -33,7 +33,7 @@
         "atoum/atoum": "^3.1",
         "consolidation/robo": "dev-master",
         "glpi-project/tools": "^0.1.2",
-        "flyve-mdm/test": "dev-develop",
+        "flyve-mdm/test": "dev-refactor",
         "atoum/stubs": "^2.5",
         "atoum/reports-extension": "^3.0"
     },

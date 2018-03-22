@@ -35,7 +35,7 @@ chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 include (__DIR__ . "/../vendor/docopt/docopt/src/docopt.php");
 
 $doc = <<<DOC
-cli_install.php
+mqtt.php
 
 Usage:
    cli_install.php [ --tests ] [ --debug ]

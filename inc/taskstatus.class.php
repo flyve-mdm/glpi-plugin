@@ -41,10 +41,58 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
-    * @return protected|string
+    * @return string
     */
    public static function getTypeName($nb = 0) {
       return __s('Task status', 'flyvemdm');
+   }
+
+   public function prepareInputForAdd($input) {
+      if (!isset($input['status'])) {
+         return false;
+      }
+
+      $task = new PluginFlyvemdmTask();
+      if (!isset($input[$task::getForeignKeyField()])) {
+         return false;
+      }
+      if (!$task->getFromDB($input[$task::getForeignKeyField()])) {
+         return false;
+      }
+
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
+
+      $input['status'] = $policy->filterStatus($input['status']);
+      if ($input['status'] === null) {
+         return false;
+      }
+
+      return $input;
+   }
+
+   public function prepareInputForUpdate($input) {
+      if (!isset($input['status'])) {
+         return false;
+      }
+
+      unset($input[PluginFlyvemdmPolicy::getForeignKeyField()]);
+      unset($input[PluginFlyvemdmTask::getForeignKeyField()]);
+
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($this->fields[$task::getForeignKeyField()])) {
+         return false;
+      }
+
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
+
+      $input['status'] = $policy->filterStatus($input['status']);
+      if ($input['status'] === null) {
+         return false;
+      }
+
+      return $input;
    }
 
    /**
@@ -55,6 +103,10 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
     */
    public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {
       $status = $policy->filterStatus($status);
+
+      if ($status === null) {
+         return;
+      }
 
       $this->update([
          'id'     => $this->getID(),

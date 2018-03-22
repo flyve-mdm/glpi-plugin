@@ -38,6 +38,12 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
+   }
+
    /**
     * PluginFlyvemdmPolicyRemoveapplication constructor.
     * @param PluginFlyvemdmPolicy $policy
