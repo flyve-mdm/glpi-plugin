@@ -99,4 +99,10 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
       ];
       return $array;
    }
+
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
+   }
 }

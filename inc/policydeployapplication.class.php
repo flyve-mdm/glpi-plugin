@@ -241,4 +241,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       }
       return NOT_AVAILABLE;
    }
+
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
+   }
 }

@@ -88,12 +88,11 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task = $this->newTestedInstance();
       $taskId = $task->add([
-         $fleetFk  => $$fleet->getID(),
+         $fleetFk  => $fleet->getID(),
          $policyFk => $policy->getID(),
          'value'   => '0',
       ]);
@@ -144,7 +143,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
          'id' => $taskId,
       ], 1);
 
-      // CHeck a mqtt message is sent to remove the applied policy from MQTT
+      // Check a mqtt message is sent to remove the applied policy from MQTT
       $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
       $this->array($rows)->size->isEqualTo(1);
       $row = array_pop($rows);
@@ -165,7 +164,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByCrit(['symbol' => 'disableWifi']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task2 = $this->newTestedInstance();
@@ -192,8 +190,39 @@ class PluginFlyvemdmTask extends CommonTestCase {
          $this->string($row['status'])->isEqualTo('pending');
       }
 
+      // Create a 3rd fleet
+      $fleet3 = $this->createFleet();
+
+      // Apply a policy
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'disableGps']);
+      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
+      $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+      $task3 = $this->newTestedInstance();
+      $taskId3 = $task->add([
+         $fleetFk  => $fleet3->getID(),
+         $policyFk => $policy->getID(),
+         'value'   => '0',
+      ]);
+
+      // Join the 3rd fleet
+      $this->boolean($agent->update([
+         'id'                        => $agent->getID(),
+         'plugin_flyvemdm_fleets_id' => $fleet3->getID(),
+      ]))->isTrue();
+
+      // Check a task status is created for the agent
+      $taskStatus3 = new \PluginFlyvemdmTaskstatus();
+      $taskFk = $task::getForeignKeyField();
+      $rows = $taskStatus3->find("`$taskFk` = '$taskId3'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('pending');
+      }
+
       // Check the old task status is canceled
-      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      $rows = $taskStatus->find("`$taskFk` = '$taskId2'");
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('canceled');

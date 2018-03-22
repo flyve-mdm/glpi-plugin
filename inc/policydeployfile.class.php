@@ -321,4 +321,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
 
       return $input;
    }
+
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
+   }
+
 }
