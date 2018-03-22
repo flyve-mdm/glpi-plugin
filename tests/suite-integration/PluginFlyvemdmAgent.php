@@ -31,8 +31,8 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\Src\TestingCommonTools;
-use Flyvemdm\Test\CommonTestCase;
+use Flyvemdm\Tests\TestingCommonTools;
+use Flyvemdm\Tests\CommonTestCase;
 
 /**
  * TODO: testDeviceCountLimit should go to Entity unit test, remove inline engine when change that.

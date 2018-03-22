@@ -30,7 +30,7 @@
  */
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Glpi\Tests\CommonTestCase;
 class PluginFlyvemdmConfig extends CommonTestCase {
 
    public function setUp() {
