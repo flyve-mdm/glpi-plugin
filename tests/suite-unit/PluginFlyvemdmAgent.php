@@ -197,9 +197,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowForFleet
     */
    public function testShowForFleet() {
-      $class = $this->testedClass->getClass();
       ob_start();
-      $class::showForFleet(new \PluginFlyvemdmFleet());
+      \PluginFlyvemdmAgent::showForFleet(new \PluginFlyvemdmFleet());
       $result = ob_get_contents();
       ob_end_clean();
       $this->string($result)->contains('There is no agent yet');

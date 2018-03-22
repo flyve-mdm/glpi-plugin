@@ -41,7 +41,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
-    * @return protected|string
+    * @return string
     */
    public static function getTypeName($nb = 0) {
       return __s('Task status', 'flyvemdm');

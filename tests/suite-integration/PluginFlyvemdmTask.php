@@ -32,7 +32,7 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\Src\TestingCommonTools;
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Test\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
 
@@ -159,51 +159,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
       $this->integer(count($rows))->isEqualTo(0);
-   }
-
-   /**
-    * Create a new invitation
-    *
-    * @param string $guestEmail
-    * @return \PluginFlyvemdmInvitation
-    * @internal param array $input invitation data
-    */
-   private function createInvitation($guestEmail) {
-      $invitation = new \PluginFlyvemdmInvitation();
-      $invitation->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
-      ]);
-      $this->boolean($invitation->isNewItem())->isFalse();
-
-      return $invitation;
-   }
-
-   /**
-    *
-    * Try to enroll an device by creating an agent. If the enrollment fails
-    * the agent returned will not contain an ID. To ensore the enrollment succeeded
-    * use isNewItem() method on the returned object.
-    *
-    * @param \User $user
-    * @param array $input enrollment data for agent creation
-    * @return \PluginFlyvemdmAgent The agent instance
-    */
-   private function enrollFromInvitation(\User $user, array $input) {
-      // Close current session
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
-      \Session::destroy();
-      $this->setupGLPIFramework();
-
-      // login as invited user
-      $this->boolean($this->login('', '', false))->isTrue();
-      unset($_REQUEST['user_token']);
-
-      // Try to enroll
-      $agent = new \PluginFlyvemdmAgent();
-      $agent->add($input);
-
-      return $agent;
    }
 
    /**

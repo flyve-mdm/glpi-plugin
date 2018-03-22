@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Test\CommonTestCase;
 
 class PluginFlyvemdmPackage extends CommonTestCase {
 

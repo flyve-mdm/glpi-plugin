@@ -30,12 +30,12 @@
  */
 
 // Ensure current directory when run from crontab
-chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
+chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 
-include (__DIR__ . "/../vendor/docopt/docopt/src/docopt.php");
+include (__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
 
 $doc = <<<DOC
-cli_install.php
+mqtt.php
 
 Usage:
    cli_install.php [ --tests ] [ --debug ]
@@ -49,9 +49,9 @@ DOC;
 $docopt = new \Docopt\Handler();
 $args = $docopt->handle($doc);
 if (isset($args['--tests']) && $args['--tests'] !== false) {
-   echo "running in testing environment" . PHP_EOL;
+   echo 'running in testing environment' . PHP_EOL;
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
+   define('GLPI_CONFIG_DIR', GLPI_ROOT . '/tests');
 }
 
 include (__DIR__ . '/../../../inc/includes.php');

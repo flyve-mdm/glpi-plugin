@@ -135,7 +135,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $value = get_object_vars($input['value']);
          $input['value'] = json_encode($input['value'], JSON_UNESCAPED_SLASHES);
       } else if (is_array($input['value'])) {
-         // Newer versions of GLPi 9.1 send an array instead if an object
+         // Newer versions of GLPi 9.1 send an array instead of an object
          $value = $input['value'];
          $input['value'] = json_encode($input['value'], JSON_UNESCAPED_SLASHES);
       } else {

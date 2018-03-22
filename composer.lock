@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcfb3b081b996636c6c3a1fb3ef172b0",
+    "content-hash": "2b0ad014175f9eb53f07e413b30ac0e9",
     "packages": [
         {
             "name": "docopt/docopt",
@@ -713,12 +713,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "2be39e66cb2ea5570b2ccb5e38cd0d4f12a45fe5"
+                "reference": "bd1ec91e657c231884e0bf2b397567a691b63a28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/2be39e66cb2ea5570b2ccb5e38cd0d4f12a45fe5",
-                "reference": "2be39e66cb2ea5570b2ccb5e38cd0d4f12a45fe5",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/bd1ec91e657c231884e0bf2b397567a691b63a28",
+                "reference": "bd1ec91e657c231884e0bf2b397567a691b63a28",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2018-02-07T21:16:48+00:00"
+            "time": "2018-02-20 01:35:52"
         },
         {
             "name": "container-interop/container-interop",
@@ -1149,23 +1149,23 @@
         },
         {
             "name": "flyve-mdm/test",
-            "version": "dev-develop",
+            "version": "dev-refactor",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
-                "reference": "e0ca3e48f332c32730bb4ebb4fa1c96405fba8ad"
+                "reference": "8bcdb17f33fac05f40effca827f43f83ce750c6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flyve-mdm/flyve-mdm-glpi-test/zipball/e0ca3e48f332c32730bb4ebb4fa1c96405fba8ad",
-                "reference": "e0ca3e48f332c32730bb4ebb4fa1c96405fba8ad",
+                "url": "https://api.github.com/repos/flyve-mdm/flyve-mdm-glpi-test/zipball/8bcdb17f33fac05f40effca827f43f83ce750c6a",
+                "reference": "8bcdb17f33fac05f40effca827f43f83ce750c6a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.6 || ^6.0"
+                "atoum/atoum": "^3.0"
             },
             "type": "library",
             "autoload": {
@@ -1179,7 +1179,7 @@
             ],
             "authors": [
                 {
-                    "name": "Thierry Bugier Pineau",
+                    "name": "Thierry Bugier",
                     "email": "tbugier@teclib.com",
                     "role": "Developer"
                 }
@@ -1190,29 +1190,29 @@
                 "test",
                 "unit"
             ],
-            "time": "2018-02-09T16:27:12+00:00"
+            "time": "2018-02-23T15:49:28+00:00"
         },
         {
             "name": "glpi-project/coding-standard",
-            "version": "0.6",
+            "version": "0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/glpi-project/coding-standard.git",
-                "reference": "66f7dd920c3572d8d4a03371997c3a635045f196"
+                "reference": "8aa0395b7e77598a69bfe5a8fd8d77529a87dade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/glpi-project/coding-standard/zipball/66f7dd920c3572d8d4a03371997c3a635045f196",
-                "reference": "66f7dd920c3572d8d4a03371997c3a635045f196",
+                "url": "https://api.github.com/repos/glpi-project/coding-standard/zipball/8aa0395b7e77598a69bfe5a8fd8d77529a87dade",
+                "reference": "8aa0395b7e77598a69bfe5a8fd8d77529a87dade",
                 "shasum": ""
             },
             "require": {
-                "squizlabs/php_codesniffer": "~2.0"
+                "squizlabs/php_codesniffer": "^3.2"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPLv3"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -1227,25 +1227,25 @@
                 "glpi",
                 "phpcs"
             ],
-            "time": "2017-06-27T13:38:52+00:00"
+            "time": "2018-02-23T15:15:02+00:00"
         },
         {
             "name": "glpi-project/tools",
-            "version": "0.1.3.1",
+            "version": "0.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/glpi-project/tools.git",
-                "reference": "a1b8b6a713d0a662ad4872cd2424877fd988acd4"
+                "reference": "02104ebd98bd842d449a42f744ff01f1c650f14c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/glpi-project/tools/zipball/a1b8b6a713d0a662ad4872cd2424877fd988acd4",
-                "reference": "a1b8b6a713d0a662ad4872cd2424877fd988acd4",
+                "url": "https://api.github.com/repos/glpi-project/tools/zipball/02104ebd98bd842d449a42f744ff01f1c650f14c",
+                "reference": "02104ebd98bd842d449a42f744ff01f1c650f14c",
                 "shasum": ""
             },
             "require": {
                 "consolidation/robo": "dev-master@dev",
-                "glpi-project/coding-standard": "0.6",
+                "glpi-project/coding-standard": "^0.7.0",
                 "natxet/cssmin": "~3.0",
                 "patchwork/jsqueeze": "~1.0"
             },
@@ -1262,7 +1262,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPLv3"
+                "GPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -1277,7 +1277,7 @@
                 "plugins",
                 "tools"
             ],
-            "time": "2018-01-05T08:38:58+00:00"
+            "time": "2018-02-23T15:19:41+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -2616,63 +2616,36 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.9.1",
+            "version": "3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62"
+                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dcbed1074f8244661eecddfc2a675430d8d33f62",
-                "reference": "dcbed1074f8244661eecddfc2a675430d8d33f62",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4842476c434e375f9d3182ff7b89059583aa8b27",
+                "reference": "4842476c434e375f9d3182ff7b89059583aa8b27",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "ext-xmlwriter": "*",
-                "php": ">=5.1.2"
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "bin": [
-                "scripts/phpcs",
-                "scripts/phpcbf"
+                "bin/phpcs",
+                "bin/phpcbf"
             ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "3.x-dev"
                 }
-            },
-            "autoload": {
-                "classmap": [
-                    "CodeSniffer.php",
-                    "CodeSniffer/CLI.php",
-                    "CodeSniffer/Exception.php",
-                    "CodeSniffer/File.php",
-                    "CodeSniffer/Fixer.php",
-                    "CodeSniffer/Report.php",
-                    "CodeSniffer/Reporting.php",
-                    "CodeSniffer/Sniff.php",
-                    "CodeSniffer/Tokens.php",
-                    "CodeSniffer/Reports/",
-                    "CodeSniffer/Tokenizers/",
-                    "CodeSniffer/DocGenerators/",
-                    "CodeSniffer/Standards/AbstractPatternSniff.php",
-                    "CodeSniffer/Standards/AbstractScopeSniff.php",
-                    "CodeSniffer/Standards/AbstractVariableSniff.php",
-                    "CodeSniffer/Standards/IncorrectPatternException.php",
-                    "CodeSniffer/Standards/Generic/Sniffs/",
-                    "CodeSniffer/Standards/MySource/Sniffs/",
-                    "CodeSniffer/Standards/PEAR/Sniffs/",
-                    "CodeSniffer/Standards/PSR1/Sniffs/",
-                    "CodeSniffer/Standards/PSR2/Sniffs/",
-                    "CodeSniffer/Standards/Squiz/Sniffs/",
-                    "CodeSniffer/Standards/Zend/Sniffs/"
-                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2690,7 +2663,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-05-22T02:43:20+00:00"
+            "time": "2018-02-20T21:35:23+00:00"
         },
         {
             "name": "symfony/config",
