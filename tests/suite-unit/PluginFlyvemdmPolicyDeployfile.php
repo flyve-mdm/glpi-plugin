@@ -330,4 +330,45 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
          'value'            => ['destination' => 'targetString'],
       ]))->string($output['value']['destination'])->isEqualTo('%SDCARD%targetString');
    }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'waiting',
+            'expected' => 'waiting'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyDeployfile($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+   }
 }

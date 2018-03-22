@@ -655,6 +655,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
             $oldFleet = new PluginFlyvemdmFleet();
             $oldFleet->getFromDB($this->oldvalues['plugin_flyvemdm_fleets_id']);
+            $this->cancelTaskStatuses($oldFleet);
          }
       }
 
@@ -703,6 +704,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $fleetId = $fleet->getID();
       $request = [
+         'SELECT' => PluginFlyvemdmTaskstatus::getTable() . '.*',
          'FROM' =>  PluginFlyvemdmTaskstatus::getTable(),
          'INNER JOIN' => [
             PluginFlyvemdmTask::getTable() => [

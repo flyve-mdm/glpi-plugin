@@ -59,6 +59,34 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    protected $policyData;
 
    /**
+    * @var array list of statuses specific to a policy type. To be overrided in child class
+    */
+   protected $specificStatuses = [];
+
+    /**
+     * get common task statuses
+     * @return array
+     */
+   public static final function getEnumBaseTaskStatus() {
+      return [
+         'pending'   => __('Pending', 'flyvemdm'),
+         'received'  => __('Received', 'flyvemdm'),
+         'done'      => __('Done', 'flyvemdm'),
+         'failed'    => __('Failed', 'flyvemdm'),
+         'canceled'  => __('Canceled', 'flyvemdm'),
+      ];
+   }
+
+    /**
+     * get specific task statuses
+     * To be overriden in child class
+     * @return array
+     */
+   public static function getEnumSpecificStatus() {
+      return [];
+   }
+
+    /**
     * PluginFlyvemdmPolicyBase constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
@@ -210,6 +238,11 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @return mixed
     */
    public function filterStatus($status) {
+      $allStatuses = array_merge(self::getEnumBaseTaskStatus(), static::getEnumSpecificStatus());
+      if (!in_array($status, array_keys($allStatuses))) {
+         return null;
+      }
+
       return $status;
    }
 
@@ -257,5 +290,4 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_form.html.twig', ['form' => $form]);
    }
-
 }

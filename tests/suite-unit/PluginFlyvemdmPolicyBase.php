@@ -149,7 +149,8 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testFilterStatus() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->string($policy->filterStatus($status = 'value'))->isEqualTo($status);
+      $this->string($policy->filterStatus($status = 'done'))->isEqualTo($status);
+      $this->variable($policy->filterStatus($status = 'invalid status'))->isNull();
    }
 
    /**

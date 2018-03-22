@@ -74,4 +74,41 @@ class PluginFlyvemdmPolicyString extends CommonTestCase {
       $symbol = $policyData->fields['symbol'];
       $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('a little string');
    }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyString($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+   }
 }

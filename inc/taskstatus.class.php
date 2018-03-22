@@ -47,7 +47,55 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       return __s('Task status', 'flyvemdm');
    }
 
-   /**
+   public function prepareInputForAdd($input) {
+      if (!isset($input['status'])) {
+         return false;
+      }
+
+      if (!isset($input[PluginFlyvemdmTask::getForeignKeyField()])) {
+         return false;
+      }
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($input[PluginFlyvemdmTask::getForeignKeyField()])) {
+         return false;
+      }
+
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
+
+      $input['status'] = $policy->filterStatus($input['status']);
+      if ($input['status'] === null) {
+         return false;
+      }
+
+      return $input;
+   }
+
+   public function prepareInputForUpdate($input) {
+      if (!isset($input['status'])) {
+         return false;
+      }
+
+      unset($input[PluginFlyvemdmPolicy::getForeignKeyField()]);
+      unset($input[PluginFlyvemdmTask::getForeignKeyField()]);
+
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($this->fields[PluginFlyvemdmTask::getForeignKeyField()])) {
+         return false;
+      }
+
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
+
+      $input['status'] = $policy->filterStatus($input['status']);
+      if ($input['status'] === null) {
+         return false;
+      }
+
+      return $input;
+   }
+
+    /**
     * Update status of a task
     *
     * @param PluginFlyvemdmPolicyBase $policy
@@ -55,6 +103,10 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
     */
    public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {
       $status = $policy->filterStatus($status);
+
+      if ($status === null) {
+         return;
+      }
 
       $this->update([
          'id'     => $this->getID(),
