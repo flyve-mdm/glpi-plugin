@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    54%
-                                            <small>of 37</small>
+                    50%
+                                            <small>of 40</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -94,6 +94,20 @@ layout: coverage
             <tr>
             <td><a href="#getMax">PluginFlyvemdmCommon::getMax()</a></td>
                                         <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#startsWith">PluginFlyvemdmCommon::startsWith()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#endsWith">PluginFlyvemdmCommon::endsWith()</a></td>
+                                        <td style="text-align: center">2</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -1239,6 +1253,191 @@ layout: coverage
                 </tr>
                             <tr class="line" id="">
                     <th id="L148" class="number ">148</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L149" class="number ">149</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L150" class="number ">150</th>
+
+                    <td class="" >
+                        <pre>    * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L151" class="number ">151</th>
+
+                    <td class="" >
+                        <pre>    * @param string $haystack
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L152" class="number ">152</th>
+
+                    <td class="" >
+                        <pre>    * @param string $needle
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L153" class="number ">153</th>
+
+                    <td class="" >
+                        <pre>    * @return bool
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L154" class="number ">154</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="startsWith">
+                    <th id="L155" class="number ">155</th>
+
+                    <td class="" id="startsWith">
+                        <pre>   public static function startsWith($haystack, $needle) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L156" class="number ">156</th>
+
+                    <td class="" >
+                        <pre>      // search backwards starting from haystack length characters from the end
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L157" class="number uncovered">157</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $needle === &#039;&#039; || strrpos($haystack, $needle, -strlen($haystack)) !== false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L158" class="number unreach">158</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L159" class="number ">159</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L160" class="number ">160</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L161" class="number ">161</th>
+
+                    <td class="" >
+                        <pre>    * http://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L162" class="number ">162</th>
+
+                    <td class="" >
+                        <pre>    * @param string $haystack
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L163" class="number ">163</th>
+
+                    <td class="" >
+                        <pre>    * @param string $needle
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L164" class="number ">164</th>
+
+                    <td class="" >
+                        <pre>    * @return bool
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L165" class="number ">165</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="endsWith">
+                    <th id="L166" class="number ">166</th>
+
+                    <td class="" id="endsWith">
+                        <pre>   public static function endsWith($haystack, $needle) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L167" class="number ">167</th>
+
+                    <td class="" >
+                        <pre>      // search forward starting from end minus needle length characters
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L168" class="number uncovered">168</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $needle === &#039;&#039; || (($temp = strlen($haystack) - strlen($needle)) &gt;= 0 &amp;&amp; strpos($haystack,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L169" class="number uncovered">169</th>
+
+                    <td class="uncovered" >
+                        <pre>         $needle, $temp) !== false);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L170" class="number unreach">170</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L171" class="number ">171</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L172" class="number ">172</th>
 
                     <td class="" >
                         <pre>}
