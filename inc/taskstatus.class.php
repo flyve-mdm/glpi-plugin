@@ -47,6 +47,39 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       return __s('Task status', 'flyvemdm');
    }
 
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      if (static::canView()) {
+         switch ($item->getType()) {
+            case PluginFlyvemdmAgent::class:
+               if (!$withtemplate) {
+                  $nb = 0;
+                  $pluralNumber = Session::getPluralNumber();
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     $DbUtil = new DbUtils();
+                     $nb = $DbUtil->countElementsInTable(
+                        static::getTable(),
+                        [
+                           PluginFlyvemdmAgent::getForeignKeyField() => $item->getID()
+                        ]
+                     );
+                  }
+                  return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+               }
+               break;
+         }
+      }
+      return '';
+   }
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      switch (get_class($item)) {
+         case PluginFlyvemdmAgent::class:
+            self::showForAgent($item);
+            return true;
+            break;
+      }
+   }
+
    public function prepareInputForAdd($input) {
       if (!isset($input['status'])) {
          return false;
@@ -112,5 +145,77 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
          'id'     => $this->getID(),
          'status' => $status,
       ]);
+   }
+
+   /**
+    * Gets task statuses for a given agent
+    * @param PluginFlyvemdmAgent $agent an agent from which get the policies statuses
+    * @return DBIterator
+    */
+   public function getStatusesForAgent(PluginFlyvemdmAgent $agent) {
+      global $DB;
+
+      $request = [
+         'FIELDS' => [
+            PluginFlyvemdmTaskstatus::getTable() => '*',
+            PluginFlyvemdmPolicy::getTable() => 'name',
+         ],
+         'FROM' => [
+            PluginFlyvemdmTaskstatus::getTable(),
+         ],
+         'INNER JOIN' => [
+            PluginFlyvemdmTask::getTable() => [
+               'FKEY' => [
+                  PluginFlyvemdmTask::getTable() => 'id',
+                  PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField()
+               ]
+            ],
+            PluginFlyvemdmPolicy::getTable() => [
+               'FKEY' => [
+                  PluginFlyvemdmTask::getTable() => PluginFlyvemdmPolicy::getForeignKeyField(),
+                  PluginFlyvemdmPolicy::getTable() => 'id'
+               ]
+            ]
+         ],
+         'WHERE' =>  [
+            PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
+         ]
+      ];
+
+      return $DB->request($request);
+   }
+
+   public static function showForAgent(PluginFlyvemdmAgent $item) {
+      if (!PluginFlyvemdmAgent::canView()) {
+         return false;
+      }
+
+      if (isset($_GET["start"])) {
+         $start = intval($_GET["start"]);
+      } else {
+         $start = 0;
+      }
+
+      // get items
+      $status = new PluginFlyvemdmTaskstatus();
+      $items_id = $item->getField('id');
+      $itemFk = $item::getForeignKeyField();
+      $condition = "`$itemFk` = '$items_id' ";
+      $rows = $status->getStatusesForAgent($item);
+      $number = count($rows);
+
+      // get the pager
+      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+
+      $data = [
+         'number'       => $number,
+         'pager'        => $pager,
+         'taskstatuses' => $rows,
+         'start'        => $start,
+         'stop'         => $start + $_SESSION['glpilist_limit']
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent_taskstatus.html.twig', $data);
    }
 }

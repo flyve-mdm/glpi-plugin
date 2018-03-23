@@ -1,0 +1,39 @@
+{% if number < 1 %}
+   <div class='center'>
+      <table class='tab_cadre_fixe'>
+      <tr><th>{{ __('There is no task status yet', 'flyvemdm') }}</th></tr>
+      </table>
+   </div>
+   <br>
+{% else %}
+   {{ pager|raw }}
+   <div class='center'>
+      <table class='tab_cadre_fixehov'>
+         <tr>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('Policy', 'flyvemdm') }}</th>
+            <th>{{ __('Status', 'flyvemdm') }}</th>
+            <th>{{ __('Application date', 'flyvemdm') }}</th>
+            <th>{{ __('Last change date', 'flyvemdm') }}</th>
+         </tr>
+         {% for taskstatus in taskstatuses %}
+         {% if loop.index > start and loop.index <= stop %}
+            <tr class='tab_bg_2'>
+               <td ><center>{{ taskstatus.id }}</center></td>
+               <td><center>{{ __(taskstatus.name, 'flyvemdm') }}</center></td>
+               <td><center>{{ taskstatus.status }}</center></td>
+               <td><center>{{ taskstatus.date_creation }}</center></td>
+               <td><center>{{ taskstatus.date_mod }}</center></td>
+            </tr>
+         {% endif %}
+         {% endfor %}
+         <tr>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('Policy', 'flyvemdm') }}</th>
+            <th>{{ __('Status', 'flyvemdm') }}</th>
+            <th>{{ __('Application date', 'flyvemdm') }}</th>
+            <th>{{ __('Last change date', 'flyvemdm') }}</th>
+         </tr>
+      </table>
+   </div>
+{% endif %}

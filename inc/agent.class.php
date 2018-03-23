@@ -136,6 +136,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addDefaultFormTab($tab);
       $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
       $this->addStandardTab(__CLASS__, $tab, $options);
+      if (!$this->isNewItem()) {
+         $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
+      }
       $this->addStandardTab(Notepad::class, $tab, $options);
       $this->addStandardTab(Log::class, $tab, $options);
 
@@ -151,7 +154,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|string
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-
       if (static::canView()) {
          switch ($item->getType()) {
             case __CLASS__ :
@@ -165,7 +167,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                   $fleetId = $item->getID();
                   $pluralNumber = Session::getPluralNumber();
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
+                     $DbUtil = new DbUtils();
+                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
                   }
                   return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
                }
@@ -176,6 +179,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                break;
          }
       }
+
+      return '';
    }
 
    /**
@@ -298,6 +303,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string an html with the agents
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
+      if (!PluginFlyvemdmFleet::canView()) {
+         return false;
+      }
+
       if (isset($_GET["start"])) {
          $start = intval($_GET["start"]);
       } else {
@@ -306,27 +315,23 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $dbUtils = new DbUtils();
 
-      // Total Number of agents
+      // get items
+      $agent = new PluginFlyvemdmAgent();
       $items_id = $item->getField('id');
       $itemFk = $item::getForeignKeyField();
-      $number = $dbUtils->countElementsInTableForMyEntities(
-         static::getTable(),
-         [$itemFk => $items_id]
-      );
+      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
+      $rows = $agent->find($condition);
+      $number = count($rows);
 
       // get the pager
       $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
-      $pager = ''; // disabled because the results are not paged yet
-
-      // get items
-      $agent = new static();
-      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
-      $rows = $agent->find($condition, '', '');
 
       $data = [
-            'number' => $number,
-            'pager'  => $pager,
-            'agents' => $rows,
+         'number' => $number,
+         'pager'  => $pager,
+         'agents' => $rows,
+         'start'  => $start,
+         'stop'   => $start + $_SESSION['glpilist_limit']
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();

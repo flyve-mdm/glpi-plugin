@@ -87,6 +87,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @return string the tab name
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      global $DB;
       if (static::canView()) {
          switch ($item->getType()) {
             case PluginFlyvemdmFleet::class:
@@ -94,10 +95,30 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                   $nb = 0;
                   $fleetId = $item->getID();
                   $pluralNumber = Session::getPluralNumber();
-                  $nb = countElementsInTable(static::getTable(),
+                  $nb1 = countElementsInTable(static::getTable(),
                      ['plugin_flyvemdm_fleets_id' => $fleetId]);
+                  $request = [
+                     'COUNT' => 'c',
+                     'FROM' => PluginFlyvemdmTaskstatus::getTable(),
+                     'INNER JOIN' => [
+                        PluginFlyvemdmTask::getTable() => [
+                           'FKEY' => [
+                              PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField(),
+                              PluginFlyvemdmTask::getTable() => 'id'
+                           ]
+                        ]
+                     ],
+                     'WHERE' => [
+                        PluginFlyvemdmTask::getTable() . '.' . PluginFlyvemdmFleet::getForeignKeyField() => $fleetId,
+                     ]
+                  ];
+                  $result = $DB->request($request)->next();
+                  $nb2 = array_pop($result);
                }
-               return self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb);
+               return [
+                  1 => self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb1),
+                  2 => self::createTabEntry(__('Tasks statuses', 'flyvemdm'), $nb2),
+               ];
          }
       }
    }
@@ -663,7 +684,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       switch (get_class($item)) {
          case PluginFlyvemdmFleet::class:
-            static::showForFleet($item, $withtemplate);
+            switch ($tabnum) {
+               case 1:
+                  static::showForFleet($item, $withtemplate);
+                  break;
+               case 2:
+                  static::showTaskStatusesForItem($item, $withtemplate);
+                  break;
+            }
       }
    }
 
@@ -703,7 +731,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policy = new PluginFlyvemdmPolicy();
       $policies = $policy->find();
 
-      // Get aplied policies
+      // Get applied policies
       $task = new PluginFlyvemdmTask();
       $appliedPolicies = $task->find("`plugin_flyvemdm_fleets_id` = '$itemId'");
 
@@ -758,6 +786,75 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('fleet_policy.html.twig', $data);
+
+      Html::closeForm();
+   }
+
+   public static function showTaskStatusesForItem(CommonDBTM $item, $withTemplate = '') {
+      global $DB;
+
+      if (!$item->canView()) {
+         return false;
+      }
+
+      if (isset($_GET["start"])) {
+         $start = intval($_GET["start"]);
+      } else {
+         $start = 0;
+      }
+
+      $fleetId = $item->getID();
+      $canedit = Session::haveRightsOr('flyvemdm:fleet', [CREATE, UPDATE, DELETE, PURGE]);
+      $rand = mt_rand();
+
+      $request = [
+         'COUNT' => 'c',
+         'FIELDS' => [
+            PluginFlyvemdmTask::getTable() => PluginFlyvemdmPolicy::getForeignKeyField(),
+            PluginFlyvemdmPolicy::getTable() => 'name',
+            PluginFlyvemdmTaskstatus::getTable() => 'status',
+         ],
+         'FROM' => PluginFlyvemdmTaskstatus::getTable(),
+         'INNER JOIN' => [
+            PluginFlyvemdmTask::getTable() => [
+               'FKEY' => [
+                  PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField(),
+                  PluginFlyvemdmTask::getTable() => 'id'
+               ]
+            ],
+            PluginFlyvemdmPolicy::getTable() => [
+               'FKEY' => [
+                  PluginFlyvemdmTask::getTable() => PluginFlyvemdmPolicy::getForeignKeyField(),
+                  PluginFlyvemdmPolicy::getTable() => 'id'
+               ]
+            ]
+         ],
+         'GROUPBY' => [
+            PluginFlyvemdmPolicy::getTable() . '.' . 'id',
+            PluginFlyvemdmTaskstatus::getTable() . '.' . 'status'
+         ],
+         'WHERE' => [
+            PluginFlyvemdmTask::getTable() . '.' . PluginFlyvemdmFleet::getForeignKeyField() => $fleetId,
+         ],
+         'ORDER' => [
+            PluginFlyvemdmPolicy::getTable() .'.name ASC'
+         ]
+      ];
+      $rows = $DB->request($request);
+      $number = $rows->count();
+
+      // get the pager
+      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+
+      $data = [
+         'number'       => $number,
+         'pager'        => $pager,
+         'taskstatuses' => $rows,
+         'start'        => $start,
+         'stop'         => $start + $_SESSION['glpilist_limit']
+      ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('fleet_taskstatus.html.twig', $data);
 
       Html::closeForm();
    }
