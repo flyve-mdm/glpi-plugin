@@ -137,8 +137,8 @@ abstract class CommonTestCase extends CommonDBTestCase {
       self::resetGLPILogs();
 
       // Test content
-      $this->variable($fileSqlContent)->isEqualTo('', 'sql-errors.log not empty');
-      $this->variable($filePhpContent)->isEqualTo('', 'php-errors.log not empty');
+      $this->variable($fileSqlContent)->isEqualTo('', 'sql-errors.log not empty' . PHP_EOL . $fileSqlContent);
+      $this->variable($filePhpContent)->isEqualTo('', 'php-errors.log not empty' . PHP_EOL . $filePhpContent);
    }
 
    protected function loginWithUserToken($userToken) {
