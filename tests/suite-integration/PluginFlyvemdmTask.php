@@ -36,8 +36,6 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
 
-   private $minAndroidVersion = '2.0.0';
-
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
@@ -69,7 +67,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
             'csr'               => '',
             'firstname'         => 'John',
             'lastname'          => 'Doe',
-            'version'           => $this->minAndroidVersion,
+            'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
             'type'              => 'android',
             'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
          ]
