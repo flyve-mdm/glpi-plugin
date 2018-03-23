@@ -647,33 +647,34 @@ Regards,
       $mqttUser = new PluginFlyvemdmMqttuser();
 
       // Check the MQTT user account for the plugin exists
-      if (!$mqttUser->getFromDBByCrit(['user' => $MdmMqttUser])) {
-         // Create the MQTT user account for the plugin
-         if (!$mqttUser->add([
-            'user'     => $MdmMqttUser,
-            'password' => $MdmMqttPassword,
-            'enabled'  => '1',
-            '_acl'     => [
-               [
-                  'topic'        => '#',
-                  'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ_WRITE,
-               ],
+      if ($mqttUser->getFromDBByCrit(['user' => $MdmMqttUser])) {
+         return;
+      }
+      // Create the MQTT user account for the plugin
+      if (!$mqttUser->add([
+         'user'     => $MdmMqttUser,
+         'password' => $MdmMqttPassword,
+         'enabled'  => '1',
+         '_acl'     => [
+            [
+               'topic'        => '#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ_WRITE,
             ],
-         ])) {
-            // Failed to create the account
-            $this->migration->displayWarning('Unable to create the MQTT account for FlyveMDM : ' . $DB->error());
-         } else {
-            // Check the ACL has been created
-            $aclList = $mqttUser->getACLs();
-            $mqttAcl = array_shift($aclList);
-            if ($mqttAcl === null) {
-               $this->migration->displayWarning('Unable to create the MQTT ACL for FlyveMDM : ' . $DB->error());
-            }
-
-            // Save MQTT credentials in configuration
-            Config::setConfigurationValues("flyvemdm",
-               ['mqtt_user' => $MdmMqttUser, 'mqtt_passwd' => $MdmMqttPassword]);
+         ],
+      ])) {
+         // Failed to create the account
+         $this->migration->displayWarning('Unable to create the MQTT account for FlyveMDM : ' . $DB->error());
+      } else {
+         // Check the ACL has been created
+         $aclList = $mqttUser->getACLs();
+         $mqttAcl = array_shift($aclList);
+         if ($mqttAcl === null) {
+            $this->migration->displayWarning('Unable to create the MQTT ACL for FlyveMDM : ' . $DB->error());
          }
+
+         // Save MQTT credentials in configuration
+         Config::setConfigurationValues('flyvemdm',
+            ['mqtt_user' => $MdmMqttUser, 'mqtt_passwd' => $MdmMqttPassword]);
       }
    }
 
