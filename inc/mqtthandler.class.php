@@ -84,7 +84,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       if ($this->flyveManifestMissing) {
          if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
-            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
+            $mqtt->publish_async("FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
             $this->flyveManifestMissing = false;
          }
       }
@@ -121,23 +121,19 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       if (isset($mqttPath[3])) {
          if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[3] == "Status/Geolocation"  && $message != "?") {
+         } else if ($mqttPath[3] === "Status/Geolocation"  && $message != "?") {
             $this->saveGeolocationPosition($topic, $message);
-         } else if ($mqttPath[3] == "Status/Unenroll") {
+         } else if ($mqttPath[3] === "Status/Unenroll") {
             $this->deleteAgent($topic, $message);
-         } else if ($mqttPath[3] == "Status/Inventory") {
+         } else if ($mqttPath[3] === "Status/Inventory") {
             $this->updateInventory($topic, $message);
-         } else if ($mqttPath[3] == "Status/Online") {
+         } else if ($mqttPath[3] === "Status/Online") {
             $this->updateOnlineStatus($topic, $message);
-         } else if ($mqttPath[3] == "Status/Task") {
+         } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
             $this->updateTaskStatus($topic, $message);
-         } else if ($mqttPath[3] == "FlyvemdmManifest/Status/Version") {
-            $this->updateAgentVersion($topic, $message);
-         } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
-            if ($topic == '/FlyvemdmManifest/Status/Version') {
-               $this->publishFlyveManifest($mqtt);
-            }
          }
+      } else if ($topic === 'FlyvemdmManifest/Status/Version') {
+         $this->publishFlyveManifest($mqtt, $message);
       }
    }
 
@@ -162,19 +158,20 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Publishes the current version of Flyve
-    * @param \sskaje\mqtt\MQTT $mqtt
-    * @return mixed $mqtt the current version
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param string $message
     */
-   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt) {
+   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt, $message) {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
       $config = Config::getConfigurationValues('flyvemdm', ['version']);
-      $version = $config['version'];
-
-      // TODO: check for $message & $mqtt values, both are undefined.
-      $matches = null;
-      preg_match('/^([\d\.]+)/', $version, $matches);
-      if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
+      $actualVersion = $config['version'];
+      $detectedVersion = json_decode($message, JSON_OBJECT_AS_ARRAY);
+      $detectedVersion = isset($detectedVersion['version'])
+                         ? $detectedVersion['version']
+                         : null;
+      echo "$detectedVersion | $actualVersion \n";
+      if ($actualVersion != $detectedVersion) {
          $this->flyveManifestMissing = true;
          $this->publishManifest($mqtt);
       }
