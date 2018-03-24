@@ -63,7 +63,7 @@ if ($key) {
 }
 
 include (GLPI_ROOT . '/inc/includes.php');
-$_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;
+$_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
 Toolbox::setDebugMode();
 
 // need to set theses in DB, because tests for API use http call and this bootstrap file is not called
