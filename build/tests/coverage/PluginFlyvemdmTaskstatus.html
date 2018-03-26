@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    17%
-                                            <small>of 6</small>
+                    1%
+                                            <small>of 84</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -64,8 +64,50 @@ layout: coverage
 </td>
                                             </tr>
             <tr>
-            <td><a href="#updateStatus">PluginFlyvemdmTaskstatus::updateStatus()</a></td>
+            <td><a href="#getTabNameForItem">PluginFlyvemdmTaskstatus::getTabNameForItem()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForItem">PluginFlyvemdmTaskstatus::displayTabContentForItem()</a></td>
                                         <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForAdd">PluginFlyvemdmTaskstatus::prepareInputForAdd()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForUpdate">PluginFlyvemdmTaskstatus::prepareInputForUpdate()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#updateStatus">PluginFlyvemdmTaskstatus::updateStatus()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getStatusesForAgent">PluginFlyvemdmTaskstatus::getStatusesForAgent()</a></td>
+                                        <td style="text-align: center">12</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showForAgent">PluginFlyvemdmTaskstatus::showForAgent()</a></td>
+                                        <td style="text-align: center">20</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -471,70 +513,280 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getTabNameForItem">
                     <th id="L50" class="number ">50</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="" id="getTabNameForItem">
+                        <pre>   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L51" class="number ">51</th>
+                    <th id="L51" class="number uncovered">51</th>
 
-                    <td class="" >
-                        <pre>    * Update status of a task
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if (static::canView()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L52" class="number ">52</th>
+                    <th id="L52" class="number uncovered">52</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>         switch ($item-&gt;getType()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L53" class="number ">53</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmPolicyBase $policy
+                        <pre>            case PluginFlyvemdmAgent::class:
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L54" class="number ">54</th>
+                    <th id="L54" class="number uncovered">54</th>
 
-                    <td class="" >
-                        <pre>    * @param string $status
-</pre>
+                    <td class="uncovered" >
+                        <pre>               if (!$withtemplate) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L55" class="number ">55</th>
+                    <th id="L55" class="number uncovered">55</th>
 
-                    <td class="" >
-                        <pre>    */
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $nb = 0;</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="updateStatus">
-                    <th id="L56" class="number ">56</th>
+                            <tr class="line" id="">
+                    <th id="L56" class="number uncovered">56</th>
 
-                    <td class="" id="updateStatus">
-                        <pre>   public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="uncovered" >
+                        <pre>                  $pluralNumber = Session::getPluralNumber();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L57" class="number uncovered">57</th>
 
                     <td class="uncovered" >
-                        <pre>      $status = $policy-&gt;filterStatus($status);</pre>
+                        <pre>                  if ($_SESSION[&#039;glpishow_count_on_tabs&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L58" class="number ">58</th>
+                    <th id="L58" class="number uncovered">58</th>
+
+                    <td class="uncovered" >
+                        <pre>                     $DbUtil = new DbUtils();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L59" class="number uncovered">59</th>
+
+                    <td class="uncovered" >
+                        <pre>                     $nb = $DbUtil-&gt;countElementsInTable(</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L60" class="number uncovered">60</th>
+
+                    <td class="uncovered" >
+                        <pre>                        static::getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L61" class="number ">61</th>
+
+                    <td class="" >
+                        <pre>                        [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L62" class="number uncovered">62</th>
+
+                    <td class="uncovered" >
+                        <pre>                           PluginFlyvemdmAgent::getForeignKeyField() =&gt; $item-&gt;getID()</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L63" class="number ">63</th>
+
+                    <td class="" >
+                        <pre>                        ]
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L64" class="number ">64</th>
+
+                    <td class="" >
+                        <pre>                     );
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L65" class="number ">65</th>
+
+                    <td class="" >
+                        <pre>                  }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L66" class="number uncovered">66</th>
+
+                    <td class="uncovered" >
+                        <pre>                  return self::createTabEntry(self::getTypeName($pluralNumber), $nb);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L67" class="number ">67</th>
+
+                    <td class="" >
+                        <pre>               }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L68" class="number uncovered">68</th>
+
+                    <td class="uncovered" >
+                        <pre>               break;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L69" class="number ">69</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L70" class="number ">70</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L71" class="number uncovered">71</th>
+
+                    <td class="uncovered" >
+                        <pre>      return &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L72" class="number unreach">72</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L73" class="number ">73</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="displayTabContentForItem">
+                    <th id="L74" class="number ">74</th>
+
+                    <td class="" id="displayTabContentForItem">
+                        <pre>   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L75" class="number uncovered">75</th>
+
+                    <td class="uncovered" >
+                        <pre>      switch (get_class($item)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L76" class="number ">76</th>
+
+                    <td class="" >
+                        <pre>         case PluginFlyvemdmAgent::class:
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L77" class="number uncovered">77</th>
+
+                    <td class="uncovered" >
+                        <pre>            self::showForAgent($item);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L78" class="number uncovered">78</th>
+
+                    <td class="uncovered" >
+                        <pre>            return true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L79" class="number uncovered">79</th>
+
+                    <td class="uncovered" >
+                        <pre>            break;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L80" class="number ">80</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L81" class="number uncovered">81</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L82" class="number ">82</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="prepareInputForAdd">
+                    <th id="L83" class="number ">83</th>
+
+                    <td class="" id="prepareInputForAdd">
+                        <pre>   public function prepareInputForAdd($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L84" class="number uncovered">84</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!isset($input[&#039;status&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L85" class="number uncovered">85</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L86" class="number ">86</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L87" class="number ">87</th>
 
                     <td class="" >
                         <pre>
@@ -542,28 +794,445 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L59" class="number uncovered">59</th>
+                    <th id="L88" class="number uncovered">88</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!isset($input[PluginFlyvemdmTask::getForeignKeyField()])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L89" class="number uncovered">89</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L90" class="number ">90</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L91" class="number uncovered">91</th>
+
+                    <td class="uncovered" >
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L92" class="number uncovered">92</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!$task-&gt;getFromDB($input[PluginFlyvemdmTask::getForeignKeyField()])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L93" class="number uncovered">93</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L94" class="number ">94</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L95" class="number ">95</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L96" class="number uncovered">96</th>
+
+                    <td class="uncovered" >
+                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L97" class="number uncovered">97</th>
+
+                    <td class="uncovered" >
+                        <pre>      $policy = $policyFactory-&gt;createFromDBByID($task-&gt;getField(PluginFlyvemdmPolicy::getForeignKeyField()));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L98" class="number ">98</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L99" class="number uncovered">99</th>
+
+                    <td class="uncovered" >
+                        <pre>      $input[&#039;status&#039;] = $policy-&gt;filterStatus($input[&#039;status&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L100" class="number uncovered">100</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($input[&#039;status&#039;] === null) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L101" class="number uncovered">101</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L102" class="number ">102</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L103" class="number ">103</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L104" class="number uncovered">104</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L105" class="number unreach">105</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L106" class="number ">106</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="prepareInputForUpdate">
+                    <th id="L107" class="number ">107</th>
+
+                    <td class="" id="prepareInputForUpdate">
+                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L108" class="number uncovered">108</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!isset($input[&#039;status&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L109" class="number uncovered">109</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L110" class="number ">110</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L111" class="number ">111</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L112" class="number uncovered">112</th>
+
+                    <td class="uncovered" >
+                        <pre>      unset($input[PluginFlyvemdmPolicy::getForeignKeyField()]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L113" class="number uncovered">113</th>
+
+                    <td class="uncovered" >
+                        <pre>      unset($input[PluginFlyvemdmTask::getForeignKeyField()]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L114" class="number ">114</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L115" class="number uncovered">115</th>
+
+                    <td class="uncovered" >
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L116" class="number uncovered">116</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!$task-&gt;getFromDB($this-&gt;fields[PluginFlyvemdmTask::getForeignKeyField()])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L117" class="number uncovered">117</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L118" class="number ">118</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L119" class="number ">119</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L120" class="number uncovered">120</th>
+
+                    <td class="uncovered" >
+                        <pre>      $policyFactory = new PluginFlyvemdmPolicyFactory();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L121" class="number uncovered">121</th>
+
+                    <td class="uncovered" >
+                        <pre>      $policy = $policyFactory-&gt;createFromDBByID($task-&gt;getField(PluginFlyvemdmPolicy::getForeignKeyField()));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L122" class="number ">122</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L123" class="number uncovered">123</th>
+
+                    <td class="uncovered" >
+                        <pre>      $input[&#039;status&#039;] = $policy-&gt;filterStatus($input[&#039;status&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L124" class="number uncovered">124</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($input[&#039;status&#039;] === null) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L125" class="number uncovered">125</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L126" class="number ">126</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L127" class="number ">127</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L128" class="number uncovered">128</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $input;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L129" class="number unreach">129</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L130" class="number ">130</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L131" class="number ">131</th>
+
+                    <td class="" >
+                        <pre>    /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L132" class="number ">132</th>
+
+                    <td class="" >
+                        <pre>    * Update status of a task
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L133" class="number ">133</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L134" class="number ">134</th>
+
+                    <td class="" >
+                        <pre>    * @param PluginFlyvemdmPolicyBase $policy
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L135" class="number ">135</th>
+
+                    <td class="" >
+                        <pre>    * @param string $status
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L136" class="number ">136</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="updateStatus">
+                    <th id="L137" class="number ">137</th>
+
+                    <td class="" id="updateStatus">
+                        <pre>   public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L138" class="number uncovered">138</th>
+
+                    <td class="uncovered" >
+                        <pre>      $status = $policy-&gt;filterStatus($status);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L139" class="number ">139</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L140" class="number uncovered">140</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($status === null) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L141" class="number uncovered">141</th>
+
+                    <td class="uncovered" >
+                        <pre>         return;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L142" class="number ">142</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L143" class="number ">143</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L144" class="number uncovered">144</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;update([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L60" class="number uncovered">60</th>
+                    <th id="L145" class="number uncovered">145</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;     =&gt; $this-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L61" class="number uncovered">61</th>
+                    <th id="L146" class="number uncovered">146</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;status&#039; =&gt; $status,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L62" class="number ">62</th>
+                    <th id="L147" class="number ">147</th>
 
                     <td class="" >
                         <pre>      ]);
@@ -571,14 +1240,555 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L63" class="number uncovered">63</th>
+                    <th id="L148" class="number uncovered">148</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L64" class="number ">64</th>
+                    <th id="L149" class="number ">149</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L150" class="number ">150</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L151" class="number ">151</th>
+
+                    <td class="" >
+                        <pre>    * Gets task statuses for a given agent
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L152" class="number ">152</th>
+
+                    <td class="" >
+                        <pre>    * @param PluginFlyvemdmAgent $agent an agent from which get the policies statuses
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L153" class="number ">153</th>
+
+                    <td class="" >
+                        <pre>    * @return DBIterator
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L154" class="number ">154</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getStatusesForAgent">
+                    <th id="L155" class="number ">155</th>
+
+                    <td class="" id="getStatusesForAgent">
+                        <pre>   public function getStatusesForAgent(PluginFlyvemdmAgent $agent) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L156" class="number uncovered">156</th>
+
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L157" class="number ">157</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L158" class="number ">158</th>
+
+                    <td class="" >
+                        <pre>      $request = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L159" class="number ">159</th>
+
+                    <td class="" >
+                        <pre>         &#039;FIELDS&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L160" class="number uncovered">160</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmTaskstatus::getTable() =&gt; &#039;*&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L161" class="number uncovered">161</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmPolicy::getTable() =&gt; &#039;name&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L162" class="number ">162</th>
+
+                    <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L163" class="number ">163</th>
+
+                    <td class="" >
+                        <pre>         &#039;FROM&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L164" class="number uncovered">164</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmTaskstatus::getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L165" class="number ">165</th>
+
+                    <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L166" class="number ">166</th>
+
+                    <td class="" >
+                        <pre>         &#039;INNER JOIN&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L167" class="number uncovered">167</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmTask::getTable() =&gt; [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L168" class="number ">168</th>
+
+                    <td class="" >
+                        <pre>               &#039;FKEY&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L169" class="number uncovered">169</th>
+
+                    <td class="uncovered" >
+                        <pre>                  PluginFlyvemdmTask::getTable() =&gt; &#039;id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L170" class="number uncovered">170</th>
+
+                    <td class="uncovered" >
+                        <pre>                  PluginFlyvemdmTaskstatus::getTable() =&gt; PluginFlyvemdmTask::getForeignKeyField()</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L171" class="number ">171</th>
+
+                    <td class="" >
+                        <pre>               ]
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L172" class="number ">172</th>
+
+                    <td class="" >
+                        <pre>            ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L173" class="number uncovered">173</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmPolicy::getTable() =&gt; [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L174" class="number ">174</th>
+
+                    <td class="" >
+                        <pre>               &#039;FKEY&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L175" class="number uncovered">175</th>
+
+                    <td class="uncovered" >
+                        <pre>                  PluginFlyvemdmTask::getTable() =&gt; PluginFlyvemdmPolicy::getForeignKeyField(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L176" class="number uncovered">176</th>
+
+                    <td class="uncovered" >
+                        <pre>                  PluginFlyvemdmPolicy::getTable() =&gt; &#039;id&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L177" class="number ">177</th>
+
+                    <td class="" >
+                        <pre>               ]
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L178" class="number ">178</th>
+
+                    <td class="" >
+                        <pre>            ]
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L179" class="number ">179</th>
+
+                    <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L180" class="number ">180</th>
+
+                    <td class="" >
+                        <pre>         &#039;WHERE&#039; =&gt;  [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L181" class="number uncovered">181</th>
+
+                    <td class="uncovered" >
+                        <pre>            PluginFlyvemdmAgent::getForeignKeyField() =&gt; $agent-&gt;getID(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L182" class="number ">182</th>
+
+                    <td class="" >
+                        <pre>         ]
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L183" class="number ">183</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L184" class="number ">184</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L185" class="number uncovered">185</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $DB-&gt;request($request);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L186" class="number unreach">186</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L187" class="number ">187</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="showForAgent">
+                    <th id="L188" class="number ">188</th>
+
+                    <td class="" id="showForAgent">
+                        <pre>   public static function showForAgent(PluginFlyvemdmAgent $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L189" class="number uncovered">189</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!PluginFlyvemdmAgent::canView()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L190" class="number uncovered">190</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L191" class="number ">191</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L192" class="number ">192</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L193" class="number uncovered">193</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (isset($_GET[&quot;start&quot;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L194" class="number uncovered">194</th>
+
+                    <td class="uncovered" >
+                        <pre>         $start = intval($_GET[&quot;start&quot;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L195" class="number ">195</th>
+
+                    <td class="" >
+                        <pre>      } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L196" class="number uncovered">196</th>
+
+                    <td class="uncovered" >
+                        <pre>         $start = 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L197" class="number ">197</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L198" class="number ">198</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L199" class="number ">199</th>
+
+                    <td class="" >
+                        <pre>      // get items
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L200" class="number uncovered">200</th>
+
+                    <td class="uncovered" >
+                        <pre>      $status = new PluginFlyvemdmTaskstatus();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L201" class="number uncovered">201</th>
+
+                    <td class="uncovered" >
+                        <pre>      $items_id = $item-&gt;getField(&#039;id&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L202" class="number uncovered">202</th>
+
+                    <td class="uncovered" >
+                        <pre>      $itemFk = $item::getForeignKeyField();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L203" class="number uncovered">203</th>
+
+                    <td class="uncovered" >
+                        <pre>      $condition = &quot;`$itemFk` = &#039;$items_id&#039; &quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L204" class="number uncovered">204</th>
+
+                    <td class="uncovered" >
+                        <pre>      $rows = $status-&gt;getStatusesForAgent($item);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L205" class="number uncovered">205</th>
+
+                    <td class="uncovered" >
+                        <pre>      $number = count($rows);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L206" class="number ">206</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L207" class="number ">207</th>
+
+                    <td class="" >
+                        <pre>      // get the pager
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L208" class="number uncovered">208</th>
+
+                    <td class="uncovered" >
+                        <pre>      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, &#039;&#039;, false);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L209" class="number ">209</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L210" class="number ">210</th>
+
+                    <td class="" >
+                        <pre>      $data = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L211" class="number uncovered">211</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;number&#039;       =&gt; $number,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L212" class="number uncovered">212</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;pager&#039;        =&gt; $pager,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L213" class="number uncovered">213</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;taskstatuses&#039; =&gt; $rows,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L214" class="number uncovered">214</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;start&#039;        =&gt; $start,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L215" class="number uncovered">215</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;stop&#039;         =&gt; $start + $_SESSION[&#039;glpilist_limit&#039;]</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L216" class="number ">216</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L217" class="number ">217</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L218" class="number uncovered">218</th>
+
+                    <td class="uncovered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L219" class="number uncovered">219</th>
+
+                    <td class="uncovered" >
+                        <pre>      echo $twig-&gt;render(&#039;agent_taskstatus.html.twig&#039;, $data);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L220" class="number uncovered">220</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L221" class="number ">221</th>
 
                     <td class="" >
                         <pre>}</pre>
