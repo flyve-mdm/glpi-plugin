@@ -53,22 +53,17 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
-   Config::setConfigurationValues('flyvemdm', [
+   $migration->setContext('flyvemdm');
+   $migration->addConfig([
       'default_agent_url'     => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
       'show_wizard'           => '0',
       'debug_save_inventory'  => '0',
+      'android_bugcollecctor_url' => '',
+      'android_bugcollector_login' => '',
+      'android_bugcollector_passwd' => '',
+      'invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK,
    ]);
 
-   // Update configuration
-   $config = Config::getConfigurationValues('flyvemdm', ['android_bugcollecctor']);
-   if (!isset($config['android_bugcollecctor_url'])) {
-      $config = [
-         'android_bugcollecctor_url' => '',
-         'android_bugcollector_login' => '',
-         'android_bugcollector_passwd' => '',
-      ];
-      Config::setConfigurationValues('flyvemdm', $config);
-   }
    $config = Config::getConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    if (isset($config['mqtt_broker_tls'])) {
       if ($config['mqtt_broker_tls'] !== '0') {
@@ -83,9 +78,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       Config::setConfigurationValues('flyvemdm', $config);
       Config::deleteConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    }
-
-   // Add parameter for deeplink
-   Config::setConfigurationValues('flyvemdm', ['invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK]);
 
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
