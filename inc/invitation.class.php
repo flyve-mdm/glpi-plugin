@@ -305,23 +305,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected function createQRCodeDocument(User $user, $invitationToken, $entities_id) {
       global $CFG_GLPI;
 
-      $entityConfig = new PluginFlyvemdmEntityConfig();
-      $entityConfig->getFromDBByCrit(['entities_id' => $entities_id]);
-
-      $personalToken = User::getToken($user->getID(), 'api_token');
-      $enrollmentData = [
-         'url'              => rtrim($CFG_GLPI["url_base_api"], '/'),
-         'user_token'       => $personalToken,
-         'invitation_token' => $invitationToken,
-         'support_name'     => $entityConfig->getField('support_name'),
-         'support_phone'    => $entityConfig->getField('support_phone'),
-         'support_website'  => $entityConfig->getField('support_website'),
-         'support_email'    => $entityConfig->getField('support_email'),
-         //'support_address'    => $entityConfig->getField('support_address'),
-      ];
-
-      $encodedRequest = PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
-         . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
+      $encodedRequest = $this->getEnrollmentUrl($user, $invitationToken, $entities_id);
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
@@ -359,6 +343,42 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $documentId = $document->add($input);
 
       return $documentId;
+   }
+
+   /**
+    * Generates the enrollment URL for the invitation
+    * @param User $user Recipient of the QR code
+    * @param string $invitationToken Invitation token
+    * @param $entities_id
+    * @return string
+    */
+   public function getEnrollmentUrl(User $user, $invitationToken, $entities_id) {
+      global $CFG_GLPI;
+
+      // Get the general config of Flyve MDM
+      $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
+
+      // Get the entitiy configuration data
+      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig->getFromDBByCrit([
+         'entities_id' => $entities_id
+      ]);
+
+      // Build the data of the deeplink
+      $personalToken = User::getToken($user->getID(), 'api_token');
+      $enrollmentData = [
+         'url'                => rtrim($CFG_GLPI['url_base_api'], '/'),
+         'user_token'         => $personalToken,
+         'invitation_token'   => $invitationToken,
+         'support_name'       => $entityConfig->getField('support_name'),
+         'support_phone'      => $entityConfig->getField('support_phone'),
+         'support_website'    => $entityConfig->getField('support_website'),
+         'support_email'      => $entityConfig->getField('support_email'),
+         //'support_address'    => $entityConfig->getField('support_address'),
+      ];
+
+      return $config['invitation_deeplink'] . PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
+                        . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
    }
 
    /**
