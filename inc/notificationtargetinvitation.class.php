@@ -109,7 +109,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
 
                $user = new User();
                $user->getFromDB($invitation->getField('users_id'));
-               $encodedRequest = $invitation->getEnrollmentUrl($user, $invitation->getField('invitatoin_token'), $invitation->getField('entities_id'));
+               $encodedRequest = $invitation->getEnrollmentUrl($user, $invitation->getField('invitation_token'), $invitation->getField('entities_id'));
 
                // Fill the template
                $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
