@@ -63,14 +63,6 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   public function createNewInstance() {
-      $instance = $this->newTestedInstance();
-      return $instance;
-   }
-
-   /**
     * @tags testClass
     */
    public function testClass() {
@@ -83,7 +75,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetEnumInvitationStatus
     */
    public function testGetEnumInvitationStatus() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getEnumInvitationStatus())
          ->hasKeys(['pending', 'done'])
          ->string($result['pending'])->isEqualTo('Pending')
@@ -112,7 +104,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetRights
     */
    public function testGetRights() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getRights())->containsValues([
          'Create',
          'Read',
@@ -132,7 +124,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          'Document move succeeded.',
          'The user already exists and has been deleted. You must restore or purge him first.',
       ];
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
 
       // empty array
       $this->boolean($instance->prepareInputForAdd([]))->isFalse();
@@ -190,7 +182,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testPrepareInputForUpdate
     */
    public function testPrepareInputForUpdate() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($instance->prepareInputForUpdate([]));
    }
 
@@ -198,7 +190,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetFromDBByToken
     */
    public function testGetFromDBByToken() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->boolean($instance->getFromDBByToken('invalidToken'))->isFalse();
    }
 
@@ -206,7 +198,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testShowForm
     */
    public function testShowForm() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       $instance->showForm(0);
       $result = ob_get_contents();
