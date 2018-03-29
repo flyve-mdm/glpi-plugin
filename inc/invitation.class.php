@@ -173,15 +173,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $expirationDate->add(new DateInterval($tokenExpire));
       $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 
-      // Generate the QR code
-      $documentId = $this->createQRCodeDocument($user, $input['invitation_token'], $entityId);
-      if ($documentId === false) {
-         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'flyvemdm'),
-            false, INFO, true);
-         return false;
-      }
-
-      $input['documents_id'] = $documentId;
       return $input;
    }
 
@@ -249,6 +240,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
+      $this->createQRCodeDocument();
       $this->sendInvitation();
    }
 
@@ -297,14 +289,15 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
    /**
     * get the enrollment URL of the agent
-    * @param User $user Recipient of the QR code
-    * @param string $invitationToken Invitation token
-    * @param $entities_id
     * @return string URL to enroll a mobile Device
     */
-   protected function createQRCodeDocument(User $user, $invitationToken, $entities_id) {
+   protected function createQRCodeDocument() {
       global $CFG_GLPI;
 
+      $user = new User();
+      $user->getFromDB($this->fields['users_id']);
+      $invitationToken = $this->fields['invitation_token'];
+      $entities_id = $this->fields['entities_id'];
       $encodedRequest = $this->getEnrollmentUrl($user, $invitationToken, $entities_id);
 
       // Generate a QRCode
@@ -342,21 +335,32 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['_only_if_upload_succeed'] = true;
       $documentId = $document->add($input);
 
+      $documentItem = new Document_Item();
+      $documentItem->add([
+         'entities_id'  => $entityId,
+         'is_recursive' => 0,
+         'itemtype'     => PluginFlyvemdmInvitation::class,
+         'items_id'     => $this->fields['id'],
+         'documents_id' => $documentId,
+      ]);
+
       return $documentId;
    }
 
    /**
     * Generates the enrollment URL for the invitation
-    * @param User $user Recipient of the QR code
-    * @param string $invitationToken Invitation token
-    * @param $entities_id
     * @return string
     */
-   public function getEnrollmentUrl(User $user, $invitationToken, $entities_id) {
+   public function getEnrollmentUrl() {
       global $CFG_GLPI;
 
       // Get the general config of Flyve MDM
       $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
+
+      $user = new User();
+      $user->getFromDB($this->fields['users_id']);
+      $invitationToken = $this->fields['invitation_token'];
+      $entities_id = $this->fields['entities_id'];
 
       // Get the entitiy configuration data
       $entityConfig = new PluginFlyvemdmEntityConfig();
