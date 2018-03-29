@@ -297,8 +297,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $user = new User();
       $user->getFromDB($this->fields['users_id']);
       $invitationToken = $this->fields['invitation_token'];
-      $entities_id = $this->fields['entities_id'];
-      $encodedRequest = $this->getEnrollmentUrl($user, $invitationToken, $entities_id);
+      $entityId = $this->fields['entities_id'];
+      $encodedRequest = $this->getEnrollmentUrl($user, $invitationToken, $entityId);
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
@@ -328,7 +328,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       // Generate a document with the QR code
       $input = [];
       $document = new Document();
-      $input['entities_id'] = $entities_id;
+      $input['entities_id'] = $entityId;
       $input['is_recursive'] = '0';
       $input['name'] = addslashes(__('Enrollment QR code', 'flyvemdm'));
       $input['_filename'] = [$tmpFile];

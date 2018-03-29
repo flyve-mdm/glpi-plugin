@@ -78,9 +78,15 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->boolean($queuedNotification->isNewItem())->isFalse();
 
       // Check a QR code is created
+      $documentItem = new \Document_Item();
+      $documentItem->getFromDBByCrit([
+         'itemtype' => \PluginFlyvemdmInvitation::class,
+         'items_id' => $invitation->getID(),
+      ]);
+      $this->boolean($documentItem->isNewItem())->isFalse();
       $document = new \Document();
       $documentFk = \Document::getForeignKeyField();
-      $document->getFromDB($invitation->getField($documentFk));
+      $document->getFromDB($documentItem->getField($documentFk));
       $this->boolean($document->isNewItem())->isFalse();
 
       // Check the pending email has the QR code as attachment
