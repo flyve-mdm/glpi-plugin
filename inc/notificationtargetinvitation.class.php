@@ -97,8 +97,13 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $invitation = $event->obj;
 
                // Get the document containing the QR code
+               $documentItem = new Document_Item();
+               $documentItem->getFromDBByCrit([
+                  'itemtype' => PluginFlyvemdmInvitation::class,
+                  'items_id' => $invitation->getID()
+               ]);
                $document = new Document();
-               $document->getFromDB($invitation->getField('documents_id'));
+               $document->getFromDB($documentItem->getField('documents_id'));
 
                // Get the general config of Flyve MDM
                $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
@@ -107,9 +112,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $entityConfig = new PluginFlyvemdmEntityConfig();
                $entityConfig->getFromDBByCrit(['entities_id' => $invitation->getField('entities_id')]);
 
-               $user = new User();
-               $user->getFromDB($invitation->getField('users_id'));
-               $encodedRequest = $invitation->getEnrollmentUrl($user, $invitation->getField('invitation_token'), $invitation->getField('entities_id'));
+               $encodedRequest = $invitation->getEnrollmentUrl();
 
                // Fill the template
                $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
