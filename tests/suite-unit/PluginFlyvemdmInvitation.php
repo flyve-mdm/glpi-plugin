@@ -115,6 +115,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
 
    /**
     * @tags testPrepareInputForAdd
+    * @engine inline
     */
    public function testPrepareInputForAdd() {
       $uniqueEmail = $this->getUniqueEmail();
@@ -152,18 +153,16 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          \PluginFlyvemdmCommon::recursiveRmdir($destination);
       }
       $result = $instance->prepareInputForAdd($input);
-      $this->boolean($instance->isNewItem())->isTrue()->array($result)->hasKeys([
-         '_useremails',
-         'entities_id',
-         'users_id',
-         'invitation_token',
-         'expiration_date',
-         'documents_id',
-      ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
-         ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])
-         ->isEqualTo($sessionMessages[2], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], 128));
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
+      $this->boolean($instance->isNewItem())->isTrue()
+         ->array($result)->hasKeys([
+            '_useremails',
+            'entities_id',
+            'users_id',
+            'invitation_token',
+            'expiration_date',])
+         ->string($result['_useremails'])->isEqualTo($uniqueEmail)
+         ->string($result['invitation_token'])
+         ->string($expiration = $result['expiration_date']);
 
       // check if expiration date is valid
       $this->if($expiration = new \DateTime($expiration))

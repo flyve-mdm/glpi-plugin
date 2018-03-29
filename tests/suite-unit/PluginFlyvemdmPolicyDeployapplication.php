@@ -219,7 +219,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @tags testShowValueInput
-    * @engine inline
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
