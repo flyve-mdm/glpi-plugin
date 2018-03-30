@@ -97,6 +97,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $this->given($class)->string($class::getMenuPicture())->isEqualTo('fa-group');
    }
 
+   public function testPurgeteItem() {
+      $instance = \PluginFlyvemdmFleet::getDefaultFleet(0);
+      $this->variable($instance)->isNotNull();
+      $_SESSION['glpiactiveentities'] = [0];
+      $this->boolean($instance->canPurgeItem())->isFalse();
+   }
+
    /**
     * @tags testShowForm
     */
