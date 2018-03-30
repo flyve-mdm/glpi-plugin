@@ -102,6 +102,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $tab;
    }
 
+   function canPurgeItem() {
+      if ($this->fields['is_default'] == '1') {
+         return false;
+      }
+      return parent::checkEntity();
+   }
+
    /**
     * Show form for edition
     * @param $ID
@@ -461,8 +468,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param string $entityId ID of the entoty to search in
     * @return PluginFlyvemdmFleet|null
     */
-   public static function getDefaultFleet($entityId = '') {
-      if ($entityId == '') {
+   public static function getDefaultFleet($entityId = null) {
+      if ($entityId === null) {
          $entityId = $_SESSION['glpiactive_entity'];
       }
       $defaultFleet = new PluginFlyvemdmFleet();
