@@ -92,6 +92,16 @@ class Config extends CommonTestCase {
          'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
+      $config = \Config::getConfigurationValues('flyvemdm');
+
+      // Test an agent's user profile exists
+      $this->integer((int) $config['agent_profiles_id'])->isGreaterThan(0);
+      $agentProfileId = $config['agent_profiles_id'];
+      $profile = new \Profile();
+      $profile->getFromDB($agentProfileId);
+      $this->boolean($profile->isNewItem())->isFalse();
+      $this->string($profile->getField('name'))->isEqualTo('Flyve MDM device agent users');
+
       // Force the MQTT backend's credentials
       // Useful to force the credientials to be the same as a development database
       // and not force broker's reconfiguration when launching tests on the test-dedicates DB
@@ -117,7 +127,7 @@ class Config extends CommonTestCase {
    }
 
    /**
-    * Configure GLPI to isntall the plugin
+    * Configure GLPI to install the plugin
     */
    private function configureGLPI() {
       global $CFG_GLPI;
