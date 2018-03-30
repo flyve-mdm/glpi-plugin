@@ -162,16 +162,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      // check if fleet being deleted is the default one
-      if ($this->fields['is_default'] == '1' && $this->deleteDefaultFleet !== true) {
-
-         $config = Config::getConfigurationValues('flyvemdm', ['service_profiles_id']);
-         //if ( !Entity::canPurge() && $_SESSION['glpiactiveprofile']['id'] != $config['service_profiles_id']) {
-            //Session::addMessageAfterRedirect(__('Cannot delete the default fleet', 'flyvemdm'));
-            //return false;
-         //}
-      }
-
       // move agents in the fleet into the default one
       $fleetId = $this->getID();
       $agent = new PluginFlyvemdmAgent();
