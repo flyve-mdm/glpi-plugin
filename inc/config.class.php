@@ -316,6 +316,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          -1,
          ['display' => false]
       );
+      $fields['revision'] = PLUGIN_FLYVEMDM_VERSION;
+      if (file_exists(PLUGIN_FLYVEMDM_ROOT . '/.git') && function_exists('exec')) {
+         $fields['revision'] = exec('cd "' . __DIR__ . '" && git describe --tags');
+      }
 
       $data = [
          'config' => $fields

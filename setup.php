@@ -205,7 +205,7 @@ function plugin_version_flyvemdm() {
       'version'        => PLUGIN_FLYVEMDM_VERSION,
       'author'         => $author,
       'license'        => 'AGPLv3+',
-      'homepage'       => '',
+      'homepage'       => 'https://flyve-mdm.com/',
       'minGlpiVersion' => $glpiVersion,
       'requirements'   => [
          'glpi' => [
