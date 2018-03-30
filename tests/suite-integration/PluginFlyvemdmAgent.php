@@ -106,6 +106,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testEnrollAgent
     */
    public function testEnrollAgent() {
+      global $DB;
+
       // Set a computer type
       $computerTypeId = 3;
       \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $computerTypeId]);
@@ -240,6 +242,26 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Test the agent user does not have a password
       $this->boolean(empty($agentUser->getField('password')))->isTrue();
+
+      // Test the agent's user has the expected DEFAULT profile
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $this->integer((int) $agentUser->getField('profiles_id'))->isEqualTo($config['agent_profiles_id']);
+
+      // Test the agent's user has the expected profile
+      $iterator = $DB->request([
+         'FROM'  => \Profile_User::getTable(),
+         'WHERE' => [
+            \User::getForeignKeyField() => $agentUser->getID(),
+         ],
+      ]);
+      $this->integer($iterator->count())->isEqualTo(1);
+      // We know that only 1 row wil be found, then the following must succeed
+      $profileUser = new \Profile_User();
+      $profileUser->getFromDBByCrit([
+         \User::getForeignKeyField() => $agentUser->getID(),
+      ]);
+      $this->boolean($profileUser->isNewItem())->isFalse();
+      $this->integer((int) $profileUser->getField('profiles_id'))->isEqualTo($config['agent_profiles_id']);
 
       // Test the agent user has an api token
       $this->string($agentUser->getField('api_token'))->isNotEmpty();

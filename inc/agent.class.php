@@ -1053,7 +1053,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|bool
     */
    protected function enrollByInvitationToken($input) {
-      global $LOADED_PLUGINS;
+      global $LOADED_PLUGINS, $DB;
 
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
@@ -1305,6 +1305,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
+
+      // Awful hack because the current user profile does not
+      // have more rights than the profile of the agent.
+      // @see User::post_addItem
+      $profileId = $config['agent_profiles_id'];
+      $agentUserId = $agentAccount->getID();
+      $DB->query("UPDATE `glpi_profiles_users` SET `profiles_id` = '$profileId'
+                  WHERE `users_id` = '$agentUserId'");
 
       $agentToken = User::getToken($agentAccount->getID(), 'api_token');
       if ($agentToken === false) {
