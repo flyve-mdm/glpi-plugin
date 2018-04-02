@@ -361,7 +361,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $request = [
       'FIELDS' => [
-         'glpi_plugin_flyvemdm_tasks' => ['id', 'plugin_flyvemdm_fleets_id'],
+         'glpi_plugin_flyvemdm_tasks' => ['id', 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_policies_id', 'itemtype', 'items_id', 'value'],
          'glpi_plugin_flyvemdm_policies' => ['symbol'],
          'glpi_plugin_flyvemdm_fleets' => ['entities_id']
       ],
@@ -387,7 +387,16 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
          'Policy',
          $row['symbol'],
       ]);
-      $mqttClient->publish("$topic/Task/" . $row['id'], json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $appliedPolicy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
+      $policyMessage = $appliedPolicy->getMqttMessage(
+         $row['value'],
+         $row['itemtype'],
+         $row['items_id']
+      );
+      $policyMessage['taskId'] = $row['id'];
+      $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $mqttClient->publish("$topic/Task/" . $row['id'], $encodedMessage, 0, 1);
       $mqttClient->publish('/' . $topic, null, 0, 1);
    }
 }
