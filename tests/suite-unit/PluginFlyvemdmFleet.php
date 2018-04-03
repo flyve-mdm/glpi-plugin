@@ -150,13 +150,25 @@ class PluginFlyvemdmFleet extends CommonTestCase {
 
    protected function inputUpdateProvider() {
       return [
-         'default values' => [
-            ['is_default' => 0, 'entities_id' => 0],
-            ['entities_id' => 0],
+         [
+            'initial'   => ['is_default' => 0],
+            'input'     => ['is_default' => 0, 'entities_id' => 0],
+            'expected'  => ['entities_id' => 0],
          ],
-         'changed values' => [
-            ['is_default' => 1, 'entities_id' => 0],
-            ['entities_id' => 0],
+         [
+            'initial'   => ['is_default' => 0],
+            'input'     => ['is_default' => 1, 'entities_id' => 0],
+            'expected'  => ['entities_id' => 0],
+         ],
+         [
+            'initial'   => ['is_default' => 0, 'is_recursive' => 0],
+            'input'     => ['is_default' => 1, 'entities_id' => 0, 'is_recursive' => 1],
+            'expected'  => ['entities_id' => 0, 'is_recursive' => 1],
+         ],
+         [
+            'initial'   => ['is_default' => 1, 'is_recursive' => 0],
+            'input'     => ['is_default' => 1, 'entities_id' => 0, 'is_recursive' => 1],
+            'expected'  => ['entities_id' => 0],
          ],
       ];
    }
@@ -165,8 +177,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @dataProvider inputUpdateProvider
     * @tags testPrepareInputForUpdate
     */
-   public function testPrepareInputForUpdate($input, $expected) {
+   public function testPrepareInputForUpdate($initial, $input, $expected) {
       $instance = $this->createInstance();
+      $instance->fields = $initial;
       $keys = array_keys($expected);
       $result = $instance->prepareInputForUpdate($input);
       $this->array($result)->hasKeys($keys);

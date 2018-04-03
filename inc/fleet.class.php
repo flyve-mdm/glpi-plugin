@@ -155,7 +155,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
-      if (isset($input['is_recursive']) && $this->fields['is_recursive'] != $input['is_recursive']) {
+      if ($this->fields['is_default'] == '1'
+          && isset($input['is_recursive'])
+          && $this->fields['is_recursive'] != $input['is_recursive']) {
          // Do not change recursivity of default fleet
          unset($input['is_recursive']);
       }
