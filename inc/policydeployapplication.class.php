@@ -118,7 +118,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       $fleetId = $fleet->getID();
       $task = new PluginFlyvemdmTask();
       $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
-            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "' 
+            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
             AND `items_id` = '$itemId'", '', '1');
       if (count($rows) > 0) {
          return false;
@@ -192,11 +192,25 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return true;
       }
 
-      $package = new PluginFlyvemdmPackage();
-      if ($package->getFromDB($itemId)) {
-         $policyFactory = new PluginFlyvemdmPolicyFactory();
-         $removeApp = $policyFactory->createFromPolicy($policyData);
-         $removeApp->apply($fleet, $package->getField('package_name'), '', 0);
+      $package = new $itemtype();
+      if (!$package->getFromDB($itemId)) {
+         return false;
+      }
+
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeApp')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
+         return false;
+      }
+
+      $task = new PluginFlyvemdmTask();
+      if (!$task->add([
+         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'plugin_flyvemdm_policies_id' => $policyData->getID(),
+         'value'                       => $package->getField('package_name'),
+         '_silent'                     => true,
+      ])) {
+         return false;
       }
 
       return true;
