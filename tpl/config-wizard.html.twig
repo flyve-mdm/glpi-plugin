@@ -196,6 +196,10 @@ auth_opt_cacheseconds 300</textarea></p>
 				<p>{{ __('- Refresh hash and symlinks to your certificates', 'flyvemdm') }}</p>
 				<p>c_rehash /etc/mosquitto/certs</p>
 				<p>{{ __('Use a certificate signed by a certified authority or you may have trouble with the android devices, using them with custom certification authorities might not work (not tested).', 'flyvemdm') }}</p>
+				<blockquote><p>{{ __('After sending the certification request, the CA will very likely send back several files.') }}</p>
+				<p>{{ __('One is the certificate, signed by the CA, and the others are intermediate certificates.') }}</p>
+				<p>{{ __('In Mosquitto the certificate must be the concatenation of the certificate delivered + the intermediate certificates.') }}</p>
+				<p>{{ __('The client operating system must contain more certificates to establish a trust chain to the root certificate.') }}</p></blockquote>
 				<p>{{ __('Append the following to /etc/mosquitto/conf.d/flyvemdm.conf.', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="12" cols="120">listener 8883
 	
@@ -210,7 +214,10 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>mosquitto_sub -h host_name_of_mosquitto -t "#"  -p 8883 -i test-client --cafile /tmp/mycert.pem --capath /etc/ssl/certs/</p>
 				<p>{{ __('- Check the ports that Mosquitto listens. You should see only the port 8883.', 'flyvemdm') }}</p>
 				<p>netstat -taupen | grep mosquitto</p>
-			</td>
+				<p>{{ __('You can also use OpenSSL to test the configuration') }}</p>
+				<p>{{ __('openssl s_connect -connect fqdn.of.mosquitto:8883') }}</p>
+				<p>{{ __('This will launch openssl as a client using the TLS protocol and leave the terminal in a state similar to telnet') }}</p>
+				<p>{{ __('Many debug information is displayed during TLS negociation, useful to diagnose TLS problems') }}</p>			</td>
 		</tr>
 		{% endif %} {% if step == 109 %}
 		<tr>
