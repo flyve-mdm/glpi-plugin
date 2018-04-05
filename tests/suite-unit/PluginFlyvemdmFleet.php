@@ -65,14 +65,6 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   private function createInstance() {
-      $this->newTestedInstance();
-      return $this->testedInstance;
-   }
-
-   /**
     * @tags testClass
     */
    public function testClass() {
@@ -84,7 +76,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getTypeName(1))->isEqualTo('Fleet')
          ->string($instance->getTypeName(3))->isEqualTo('Fleets');
    }
@@ -108,7 +100,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testShowForm
     */
    public function testShowForm() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       $instance->showForm(1);
       $result = ob_get_contents();
@@ -139,7 +131,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testPrepareInputForAdd
     */
    public function testPrepareInputForAdd($input, $expected) {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $keys = array_keys($expected);
       $result = $instance->prepareInputForAdd($input);
       $this->array($result)->hasKeys($keys);
@@ -178,7 +170,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testPrepareInputForUpdate
     */
    public function testPrepareInputForUpdate($initial, $input, $expected) {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $instance->fields = $initial;
       $keys = array_keys($expected);
       $result = $instance->prepareInputForUpdate($input);
@@ -193,7 +185,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     */
    public function testDefineTabs() {
       // Test a managed fleet shows the policies tab
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $tabs = $instance->defineTabs();
       $key = 'PluginFlyvemdmFleet$main';
       $this->array($tabs)->hasKeys([$key, 1])
@@ -224,7 +216,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testGetTopic
     */
    public function testGetTopic() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->variable($instance->getTopic())->isNull();
    }
 
@@ -232,7 +224,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testGetFleet
     */
    public function testGetFleet() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->variable($instance->getFleet())->isNull();
    }
 
@@ -240,7 +232,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testGetPackages
     */
    public function testGetPackages() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->array($instance->getPackages())->isEmpty();
    }
 
@@ -248,7 +240,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testGetFiles
     */
    public function testGetFiles() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->array($instance->getFiles())->isEmpty();
    }
 
@@ -256,7 +248,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
     * @tags testFromDBByDefaultForEntity
     */
    public function testFromDBByDefaultForEntity() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getFromDBByDefaultForEntity())->isEqualTo('1');
    }
 
