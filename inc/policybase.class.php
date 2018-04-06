@@ -126,7 +126,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param integer $itemId
     * @return bool
     */
-   public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       return $this->canApply;
    }
 

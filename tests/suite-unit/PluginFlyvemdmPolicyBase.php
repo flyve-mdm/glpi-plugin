@@ -52,7 +52,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testCanApply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->canApply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->canApply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**

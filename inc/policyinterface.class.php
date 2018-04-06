@@ -51,7 +51,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
     */
-   public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
+   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
 
    /**
     * Check the unicity of the policy
