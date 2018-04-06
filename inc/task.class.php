@@ -217,8 +217,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Check the policy may be applied to the fleet and the value matches requirements
-      if (!$this->policy->canApply($this->fleet, $input['value'], $input['itemtype'],
-         $input['items_id'])) {
+      if (!$this->policy->canApply($input['value'], $input['itemtype'],
+         $input['items_id'], $this->fleet)) {
          Session::addMessageAfterRedirect(__('The requirements for this policy are not met',
             'flyvemdm'), false, ERROR);
          return false;
@@ -297,7 +297,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          }
       }
 
-      if (!$this->policy->canApply($this->fleet, $value, $itemtype, $itemId)) {
+      if (!$this->policy->canApply($value, $itemtype, $itemId, $this->fleet)) {
          Session::addMessageAfterRedirect(__('The requirements for this policy are not met',
             'flyvemdm'), false, ERROR);
          return false;
