@@ -103,9 +103,6 @@ class PluginFlyvemdmInstaller {
       $this->migration = new Migration(PLUGIN_FLYVEMDM_VERSION);
       $this->migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
-      // Load non-itemtype classes
-      require_once PLUGIN_FLYVEMDM_ROOT . '/inc/notifiable.class.php';
-
       // adding DB model from sql file
       // TODO : migrate in-code DB model setup here
       if (self::getCurrentVersion() == '') {
