@@ -178,7 +178,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
     */
    public function testConflictCheck() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
       $packageClass = \PluginFlyvemdmPackage::class;
       $this->boolean($policy->conflictCheck(null, $packageClass, -1, $mockInstance))->isFalse();
@@ -196,7 +196,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
     */
    public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
       $appInDB = $this->createAppInDB();
 
@@ -244,7 +244,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $name = 'appName';
       $alias = 'appAlias';
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmTask');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmTask::class);
       $mockInstance->getMockController()->getField = 0;
       $mockInstance->getMockController()->getField[2] = 1;
       $mockInstance->getMockController()->getField[3] = $alias;
