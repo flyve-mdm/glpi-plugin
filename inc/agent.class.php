@@ -137,6 +137,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
       $this->addStandardTab(__CLASS__, $tab, $options);
       if (!$this->isNewItem()) {
+         $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
          $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
       }
       $this->addStandardTab(Notepad::class, $tab, $options);
@@ -339,10 +340,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
+    * Shows informations about the agent linhked to a computer
+    *
     * @param CommonDBTM $item
     */
    public static function displayTabContentForComputer(CommonDBTM $item) {
-
       $agent = new static();
       if (!$agent->getFromDBByCrit(['computers_id' => $item->getID()])) {
          return;
@@ -684,12 +686,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * creates task statuses for the agent and the associated fleet
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   private function createTaskStatuses(PluginFlyvemdmFleet $fleet) {
-      $fleetId = $fleet->getID();
+   private function createTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+      $rows = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'");
       foreach ($rows as $row) {
          $taskStatus = new PluginFlyvemdmTaskstatus();
          $taskStatus->add([
@@ -702,12 +705,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * cancels task statuses for the agent anf the given fleet
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   private function cancelTaskStatuses(PluginFlyvemdmFleet $fleet) {
+   private function cancelTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
       global $DB;
 
-      $fleetId = $fleet->getID();
+      $notifiableId = $notifiable->getID();
       $request = [
          'SELECT' => PluginFlyvemdmTaskstatus::getTable() . '.*',
          'FROM' =>  PluginFlyvemdmTaskstatus::getTable(),
@@ -720,7 +723,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             ]
          ],
          'WHERE' => [
-            PluginFlyvemdmFleet::getForeignKeyField() => [$fleetId]
+            'items_id_applied' => [$notifiableId]
          ]
       ];
       $status = new PluginFlyvemdmTaskstatus();
@@ -1966,5 +1969,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($this->fields['enroll_status'] != 'unenrolling') {
          $this->sendUnenrollQuery();
       }
+   }
+
+   public function isNotifiable() {
+      return true;
    }
 }

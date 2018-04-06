@@ -49,18 +49,18 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $value
     * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
+   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
     * Check the unicity of the policy
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
     * Check the value used to apply a policy is valid, and check the the item to link
@@ -76,10 +76,10 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
-    * @return boolean False if there is a conflict with an already applied policy
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    * @return boolean False if there is a conflict with an already applied
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
     * Returns an array describing the policy applied vith the given value and item
@@ -102,22 +102,22 @@ interface PluginFlyvemdmPolicyInterface {
    public function getGroup();
 
    /**
-    * Actions done before a policy is applied to a fleet
+    * Actions done before a policy is applied to a notifiable
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
+   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
-    * Actions done after a policy is unapplied to a fleet
+    * Actions done after a policy is unapplied to a notifiable
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
     * return HTML input to set policy value
@@ -148,5 +148,4 @@ interface PluginFlyvemdmPolicyInterface {
     * @return array
     */
    public function preprocessFormData($input);
-
 }

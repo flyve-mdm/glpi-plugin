@@ -92,7 +92,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          'name'        => __CLASS__ . '::'. __FUNCTION__,
       ]);
       $task = $this->applyAddPackagePolicy($policyDataDeploy, $package, $fleet);
-      $this->boolean($task->isNewItem())->isFalse();
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // delete the application
       $this->boolean($package->delete([
@@ -131,7 +131,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $fleet->getType(),
+         'items_id_applied'            => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value,
          'itemtype'                    => get_class($package),

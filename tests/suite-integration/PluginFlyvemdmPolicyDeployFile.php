@@ -81,10 +81,11 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'itemtype' => get_class($file),
-         'items_id' => $file->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'itemtype'           => get_class($file),
+         'items_id'           => $file->getID(),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -129,11 +130,12 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'itemtype' => get_class($file),
-         'items_id' => $file->getID(),
-         'value'    => json_encode($value, JSON_UNESCAPED_SLASHES),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'itemtype'           => get_class($file),
+         'items_id'           => $file->getID(),
+         'value'              => json_encode($value, JSON_UNESCAPED_SLASHES),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -146,15 +148,16 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'items_id' => $file->getID(),
-         'value'    => json_encode($value, JSON_UNESCAPED_SLASHES),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'items_id'           => $file->getID(),
+         'value'              => json_encode($value, JSON_UNESCAPED_SLASHES),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      // Check add the policy to fleet with correct parameters suceeds
+      // Check add the policy to fleet with correct parameters succeeds
       $task = $this->applyAddFilePolicy($policyDataDeploy, $file, $fleet);
       $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -190,7 +193,8 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $fleet->getType(),
+         'items_id_applied'            => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value,
          'itemtype'                    => get_class($file),
