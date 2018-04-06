@@ -135,20 +135,18 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
-    * @return bool
+    * @return boolean
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      if ($this->unicityRequired) {
-         $policyId            = $this->policyData->getID();
-         $fleetId             = $fleet->getID();
-         $task = new PluginFlyvemdmTask();
-         $relationCollection  = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
-         if (count($relationCollection) > 0) {
-            // A relation already exists for this policy and this fleet
-            return false;
-         }
+      if (!$this->unicityRequired) {
+         return true;
       }
-      return true;
+
+      $policyId            = $this->policyData->getID();
+      $fleetId             = $fleet->getID();
+      $task                = new PluginFlyvemdmTask();
+      $relationCollection  = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
+      return (count($relationCollection) === 0);
    }
 
    /**
@@ -156,7 +154,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
-    * @return bool
+    * @return boolean
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       return true;
