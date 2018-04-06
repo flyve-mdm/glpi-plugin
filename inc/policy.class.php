@@ -83,7 +83,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return string
     */
    static function getTypeName($nb = 0) {
-      return _n('Policy', 'Policies', $nb, "flyvemdm");
+      return _n('Policy', 'Policies', $nb, 'flyvemdm');
    }
 
    /**

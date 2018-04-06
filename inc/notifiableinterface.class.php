@@ -81,4 +81,10 @@ interface PluginFlyvemdmNotifiableInterface {
     * Used to regenerate messages stored by the broker if they are lost
     */
    public function refreshPersistedNotifications();
+
+   /**
+    * is the notifiable actually notifiable ?
+    * @return boolean True if message may be sent
+    */
+    public function isNotifiable();
 }

@@ -95,8 +95,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task = $this->newTestedInstance();
       $taskId = $task->add([
-         $fleetFk  => $fleet->getID(),
-         $policyFk => $policy->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policy->getID(),
          'value'   => '0',
       ]);
       $this->boolean($task->isNewItem())
@@ -135,9 +136,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $task = $this->newTestedInstance();
 
       $task->add([
-         $fleetFk  => $fleet->getID(),
-         $policyFk => $policy->getID(),
-         'value'   => '0',
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policy->getID(),
+         'value'              => '0',
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
@@ -173,12 +175,13 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task2 = $this->newTestedInstance();
-      $taskId2 = $task->add([
-         $fleetFk  => $fleet2->getID(),
+      $taskId2 = $task2->add([
+         'itemtype_applied'   => $fleet2->getType(),
+         'items_id_applied'   => $fleet2->getID(),
          $policyFk => $policy->getID(),
          'value'   => '0',
       ]);
-      $this->boolean($task->isNewItem())
+      $this->boolean($task2->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Join the 2nd fleet
@@ -210,9 +213,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task3 = $this->newTestedInstance();
       $taskId3 = $task->add([
-         $fleetFk  => $fleet3->getID(),
-         $policyFk => $policy->getID(),
-         'value'   => '0',
+         'itemtype_applied'   => $fleet3->getType(),
+         'items_id_applied'   => $fleet3->getID(),
+         $policyFk            => $policy->getID(),
+         'value'              => '0',
       ]);
 
       // Join the 3rd fleet

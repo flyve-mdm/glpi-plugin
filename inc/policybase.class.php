@@ -123,10 +123,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return $this->canApply;
    }
 
@@ -134,18 +134,19 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return boolean
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       if (!$this->unicityRequired) {
          return true;
       }
 
       $policyId            = $this->policyData->getID();
-      $fleetId             = $fleet->getID();
-      $task                = new PluginFlyvemdmTask();
-      $relationCollection  = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
+      $notifiableType      = $notifiable->getType();
+      $notifiableId        = $notifiable->getID();
+      $task = new PluginFlyvemdmTask();
+      $relationCollection  = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied`='$notifiableId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
       return (count($relationCollection) === 0);
    }
 
@@ -153,10 +154,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return boolean
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
@@ -189,9 +190,9 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @return bool
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
-   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
@@ -199,10 +200,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;
