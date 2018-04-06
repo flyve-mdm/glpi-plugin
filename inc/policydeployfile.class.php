@@ -201,13 +201,13 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
     * @return bool
     */
-   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($value, $itemtype, $itemId) === false) {
          return false;

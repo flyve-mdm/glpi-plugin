@@ -304,7 +304,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // TODO : What if the fleet changes, or the value changes ?
-      if (!$this->policy->pre_apply($this->fleet, $value, $itemtype, $itemId)) {
+      if (!$this->policy->pre_apply($value, $itemtype, $itemId, $this->fleet)) {
          Session::addMessageAfterRedirect(__('Failed to apply the policy', 'flyvemdm'), false,
             ERROR);
          return false;
@@ -335,8 +335,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          Session::addMessageAfterRedirect(__('Fleet not found', 'flyvemdm'), false, ERROR);
          return false;
       }
-      return $this->policy->pre_unapply($this->fleet, $this->fields['value'], $this->fields['itemtype'],
-         $this->fields['items_id']);
+      return $this->policy->pre_unapply($this->fields['value'], $this->fields['itemtype'],
+         $this->fields['items_id'], $this->fleet);
    }
 
    /**

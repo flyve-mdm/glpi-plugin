@@ -120,10 +120,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
     * @return bool
     */
    public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -187,24 +187,24 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
     * @return bool
+    * @param PluginFlyvemdmFleet $fleet
     */
-   public function pre_apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       return true;
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
     * @return bool
     */
-   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;

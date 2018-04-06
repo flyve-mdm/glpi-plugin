@@ -107,7 +107,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testPre_apply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->pre_apply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->pre_apply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**
@@ -115,7 +115,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->pre_unapply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->pre_unapply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**
