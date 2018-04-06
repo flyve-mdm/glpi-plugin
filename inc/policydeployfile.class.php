@@ -207,7 +207,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @param integer $itemId
     * @return bool
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($value, $itemtype, $itemId) === false) {
          return false;

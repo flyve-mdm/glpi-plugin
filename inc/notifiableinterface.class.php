@@ -36,7 +36,7 @@ if (! defined('GLPI_ROOT')) {
 /**
  * @since 0.1.31
  */
-interface PluginFlyvemdmNotifiable {
+interface PluginFlyvemdmNotifiableInterface {
 
    /**
     * Gets the topic related to the notifiable

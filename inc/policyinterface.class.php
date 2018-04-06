@@ -106,7 +106,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $itemtype
     * @param integer $itemId
     */
-   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
+   public function pre_apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * Actions done after a policy is unapplied to a fleet
@@ -115,7 +115,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $itemtype
     * @param integer $itemId
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
+   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId);
 
    /**
     * return HTML input to set policy value
