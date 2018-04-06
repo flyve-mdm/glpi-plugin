@@ -67,6 +67,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $value
     * @param mixed $itemtype the itemtype of an item
     * @param integer $itemId the id of an item
+    * @return boolean False if integrity not satisfyed
     */
    public function integrityCheck($value, $itemtype, $itemId);
 
@@ -76,6 +77,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmFleet $fleet
+    * @return boolean False if there is a conflict with an already applied policy
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
 
