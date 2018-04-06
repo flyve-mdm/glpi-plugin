@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable {
+class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiableInterface {
 
    const ENROLL_DENY             = 0;
    const ENROLL_INVITATION_TOKEN = 1;
@@ -1645,14 +1645,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getAgents()
+    * @see PluginFlyvemdmNotifiableInterface::getAgents()
     */
    public function getAgents() {
       return [$this];
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getPackages()
+    * @see PluginFlyvemdmNotifiableInterface::getPackages()
     */
    public function getPackages() {
       if ($this->getID() > 0) {
@@ -1667,7 +1667,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getFiles()
+    * @see PluginFlyvemdmNotifiableInterface::getFiles()
     */
    public function getFiles() {
       if ($this->getID() > 0) {
@@ -1681,7 +1681,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getFleet()
+    * @see PluginFlyvemdmNotifiableInterface::getFleet()
     */
    public function getFleet() {
       $fleet = null;
@@ -1963,4 +1963,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->sendUnenrollQuery();
       }
    }
+
+
 }

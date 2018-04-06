@@ -304,7 +304,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // TODO : What if the fleet changes, or the value changes ?
-      if (!$this->policy->apply($this->fleet, $value, $itemtype, $itemId)) {
+      if (!$this->policy->pre_apply($this->fleet, $value, $itemtype, $itemId)) {
          Session::addMessageAfterRedirect(__('Failed to apply the policy', 'flyvemdm'), false,
             ERROR);
          return false;
@@ -335,7 +335,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          Session::addMessageAfterRedirect(__('Fleet not found', 'flyvemdm'), false, ERROR);
          return false;
       }
-      return $this->policy->unapply($this->fleet, $this->fields['value'], $this->fields['itemtype'],
+      return $this->policy->pre_unapply($this->fleet, $this->fields['value'], $this->fields['itemtype'],
          $this->fields['items_id']);
    }
 
@@ -361,11 +361,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * MQTT publish a policy applying to the fleet
     *
-    * @param PluginFlyvemdmNotifiable $item
+    * @param PluginFlyvemdmNotifiableInterface $item
     * @throws TaskPublishPolicyBadFleetException
     * @throws TaskPublishPolicyPolicyNotFoundException
     */
-   public function publishPolicy(PluginFlyvemdmNotifiable $item) {
+   public function publishPolicy(PluginFlyvemdmNotifiableInterface $item) {
       if ($this->silent) {
          return;
       }
@@ -405,9 +405,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    /**
     * Creates task status for all agents in the fleet linked to this task
-    * @param PluginFlyvemdmNotifiable $item
+    * @param PluginFlyvemdmNotifiableInterface $item
     */
-   public function createTaskStatuses(PluginFlyvemdmNotifiable $item) {
+   public function createTaskStatuses(PluginFlyvemdmNotifiableInterface $item) {
       $fleet = $item->getFleet();
       if ($fleet === null || $fleet->getField('is_default') != '0') {
          return;
@@ -434,9 +434,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * MQTT unpublish a policy from the fleet
     *
-    * @param PluginFlyvemdmNotifiable $item
+    * @param PluginFlyvemdmNotifiableInterface $item
     */
-   public function unpublishPolicy(PluginFlyvemdmNotifiable $item) {
+   public function unpublishPolicy(PluginFlyvemdmNotifiableInterface $item) {
       if ($this->silent) {
          return;
       }
@@ -586,10 +586,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * Removes persisted MQTT messages for groups of policies
     *
-    * @param PluginFlyvemdmNotifiable $item a notifiable item
+    * @param PluginFlyvemdmNotifiableInterface $item a notifiable item
     * @param array $groups array of groups to delete
     */
-   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {
+   public static function cleanupPolicies(PluginFlyvemdmNotifiableInterface $item, $groups = []) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {

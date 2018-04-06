@@ -266,20 +266,20 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    /**
     * @tags testUnApply
     */
-   public function testUnApply() {
+   public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
       $fileInDb = $this->createFile();
 
-      $this->boolean($policy->unapply($mockInstance, null, null, null))->isFalse();
+      $this->boolean($policy->pre_unapply($mockInstance, null, null, null))->isFalse();
 
       $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
-      $this->boolean($policy->unapply($mockInstance, $value, \PluginFlyvemdmFile::class,
+      $this->boolean($policy->pre_unapply($mockInstance, $value, \PluginFlyvemdmFile::class,
          $fileInDb->getID()))->isTrue();
 
       $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":1}';
-      $this->boolean($policy->unapply($mockInstance, $value, \PluginFlyvemdmFile::class,
+      $this->boolean($policy->pre_unapply($mockInstance, $value, \PluginFlyvemdmFile::class,
          -1))->isFalse();
       // TODO: finish this test
    }

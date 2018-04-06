@@ -79,7 +79,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
       $fleetId = $fleet->getID();
       $task = new PluginFlyvemdmTask();
       $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
-            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "' 
+            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
             AND `value` = '$value'", "", "1");
       return (count($rows) == 0);
    }
@@ -99,29 +99,6 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
          $this->symbol  => $value,
       ];
       return $array;
-   }
-
-   /**
-    * @param PluginFlyvemdmFleet $fleet
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param int $itemId
-    * @return bool
-    */
-   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      $this->canApply = false;
-
-      $task = new PluginFlyvemdmTask();
-      if (!$task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-         'plugin_flyvemdm_policies_id' => $this->getPolicyData()->getID(),
-         'value'                       => $value,
-      ])) {
-         return false;
-      }
-
-      $this->canApply = true;
-      return true;
    }
 
    public static function getEnumSpecificStatus() {

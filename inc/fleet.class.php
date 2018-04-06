@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable {
+class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiableInterface {
 
    /**
     * @var string $rightname name of the right in DB
@@ -287,7 +287,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * @see PluginFlyvemdmNotifiable::getTopic()
+    * @see PluginFlyvemdmNotifiableInterface::getTopic()
     */
    public function getTopic() {
       if (!isset($this->fields['id'])) {
@@ -392,7 +392,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getFleet()
+    * @see PluginFlyvemdmNotifiableInterface::getFleet()
     */
    public function getFleet() {
       if ($this->isNewItem()) {
@@ -423,7 +423,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiable::getFiles()
+    * @see PluginFlyvemdmNotifiableInterface::getFiles()
     */
    public function getFiles() {
       $files = [];
@@ -489,7 +489,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     *
-    * @see PluginFlyvemdmNotifiable::notify()
+    * @see PluginFlyvemdmNotifiableInterface::notify()
     * @param string $topic
     * @param string $mqttMessage
     * @param integer $qos

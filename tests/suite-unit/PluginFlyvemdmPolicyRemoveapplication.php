@@ -153,34 +153,6 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    }
 
    /**
-    * @dataProvider applyProvider
-    * @tags testApply
-    *
-    * @param array $data
-    * @param array $expected
-    */
-   public function testApply(array $data, array $expected) {
-      $policyData = null;
-      if (true === $expected['return']) {
-         $policyData = new \PluginFlyvemdmPolicy();
-         $policyData->getFromDBBySymbol('removeApp');
-      }
-      list($policy) = $this->createNewPolicyInstance($policyData);
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
-      $mockInstance->getMockController()->getID = 1;
-      if (true == $expected['return']) {
-         // the fleet must exist if we expect a true action.
-         $mockInstance = $this->createFleetInDB();
-      }
-      $result = $policy->apply($mockInstance, $data['value'], '', '');
-      $this->boolean($result)->isEqualTo($expected['return']);
-      if (!$expected['return'] && isset($expected['message'])) {
-         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])->isEqualTo($expected['message']);
-      }
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
-   }
-
-   /**
     * @tags testGetMqttMessage
     */
    public function testGetMqttMessage() {

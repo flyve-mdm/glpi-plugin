@@ -193,7 +193,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param integer $itemId
     * @return bool
     */
-   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       return true;
    }
 
@@ -204,7 +204,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param integer $itemId
     * @return bool
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;
