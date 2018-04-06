@@ -18,7 +18,7 @@
          {% if loop.index > start and loop.index <= stop %}
             <tr class='tab_bg_2'>
                <td><center>{{ __(taskstatus.name, 'flyvemdm') }}</center></td>
-               <td><center>{{ taskstatus.status }}</center></td>
+               <td><center>{{ __(taskstatus.status, 'flyvemdm') }}</center></td>
                <td><center>{{ taskstatus.c }}</center></td>
             </tr>
          {% endif %}

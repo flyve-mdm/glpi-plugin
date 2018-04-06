@@ -92,6 +92,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->addStandardTab(PluginFlyvemdmAgent::class, $tab, $options);
          if ($this->fields['is_default'] == '0') {
             $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
+            $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
          }
          $this->addStandardTab(Notepad::class, $tab, $options);
          $this->addStandardTab(Log::class, $tab, $options);
@@ -196,10 +197,14 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      //Delete policies on the fleet
+      // Delete policies on the fleet
+      $itemtype = $this->getType();
       $fleetId = $this->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'");
+      $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
+
+      // Disable replacement of a task by an other for app or file deployment
+      // TODO : needs a better implementation relying on instances of PolicyInterface
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], JSON_OBJECT_AS_ARRAY);
          if (isset($decodedValue['remove_on_delete']) && $decodedValue['remove_on_delete'] != '0') {
@@ -208,7 +213,14 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             $task->update($row);
          }
       }
-      if (!$task->deleteByCriteria(['plugin_flyvemdm_fleets_id' => $fleetId], true)) {
+
+      $deleteSuccess = $task->deleteByCriteria([
+         'AND' => [
+            'itemtype_applied'  => $itemtype,
+            'items_id_applied' => $fleetId,
+         ]
+      ], true);
+      if (!$deleteSuccess) {
          Session::addMessageAfterRedirect(__('Could not delete policies on the fleet', 'flyvemdm'));
          return false;
       }
@@ -362,8 +374,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Force deletion regardless a file or application removal policy should take place
       $taskTable = PluginFlyvemdmTask::getTable();
+      $itemtype = $this->getType();
       $itemId = $this->getID();
-      $query = "DELETE FROM `$taskTable` WHERE `plugin_flyvemdm_fleets_id`='$itemId'";
+      $query = "DELETE FROM `$taskTable` WHERE `itemtype_applied` = '$itemtype' AND `items_id_applied` = '$itemId'";
       $DB->query($query);
    }
 
@@ -408,10 +421,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getPackages() {
       $packages = [];
 
+      $itemtype = $this->getType();
       $fleetId = $this->getID();
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId' AND `itemtype`='" . PluginFlyvemdmPackage::class . "'");
+         $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId' AND `itemtype`='" . PluginFlyvemdmPackage::class . "'");
          foreach ($rows as $row) {
             $package = new PluginFlyvemdmPackage();
             $package->getFromDB($row['plugin_flyvemdm_packages_id']);
@@ -428,10 +442,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getFiles() {
       $files = [];
 
+      $itemtype = $this->getType();
       $fleetId = $this->getID();
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `itemtype`='" . PluginFlyvemdmFile::class . "'");
+         $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied`='$fleetId' AND `itemtype`='" . PluginFlyvemdmFile::class . "'");
          foreach ($rows as $row) {
             $file = new PluginFlyvemdmPackage();
             $file->getFromDB($row['plugin_flyvemdm_packages_id']);
@@ -539,5 +554,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $task->getFromDB($row['id']);
          $task->publishPolicy($this);
       }
+   }
+
+   public function isNotifiable() {
+      if ($this->isNewItem()) {
+         return false;
+      }
+
+      return ($this->fields['is_default'] === '0');
    }
 }

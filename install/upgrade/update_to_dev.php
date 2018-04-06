@@ -403,4 +403,11 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $mqttClient->publish("$topic/Task/" . $row['id'], $encodedMessage, 0, 1);
       $mqttClient->publish('/' . $topic, null, 0, 1);
    }
+
+   // Upgrade schema t oapply policies on agents
+   $table = 'glpi_plugin_flyvemdm_tasks';
+   $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
+   $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
+   // All tasks already created were applied on fleets
+   $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
 }

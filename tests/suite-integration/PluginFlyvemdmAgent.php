@@ -58,11 +58,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     */
    public function testDeviceCountLimit() {
       $entity = new \Entity();
-      $activeEntity = $entity->import(['completename' => 'device count limit']);
+      $activeEntity = $entity->import(['completename' => 'device count limit ' . $this->getUniqueString()]);
+      $this->integer($activeEntity);
       $this->boolean($entity->isNewItem())->isFalse();
       $entityConfig = new \PluginFlyvemdmEntityConfig();
       $DbUtils = new \DBUtils();
-      $agents = $DbUtils->countElementsInTable(\PluginFlyvemdmAgent::getTable());
+      $agents = $DbUtils->countElementsInTable(\PluginFlyvemdmAgent::getTable(), "`entities_id` = '$activeEntity'");
       $this->given(
          $deviceLimit = ($agents + 5),
          $entityConfig,
@@ -91,7 +92,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ->isGreaterThan(0, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       }
 
-      // One nore ienrollment
+      // One nore enrollment
       $agentId = $this->loginAndAddAgent($invitationData[$i]);
       // Device limit reached : agent creation should fail
       $this->boolean($agentId)->isFalse();

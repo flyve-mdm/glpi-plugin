@@ -120,9 +120,10 @@ class PluginFlyvemdmFleet extends CommonTestCase {
 
       $Task = new \PluginFlyvemdmTask();
       $Task->add([
-         $policyFk => $policyData->getID(),
-         $fleetFk  => $fleet->getID(),
-         'value'   => '0',
+         $policyFk            => $policyData->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         'value'              => '0',
       ]);
 
       // Check the policy is applied
@@ -131,12 +132,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
 
       // Purge the fleet
       $this->boolean($fleet->delete(['id' => $fleet->getID()], 1))->isTrue();
+      $fleetType = $fleet->getType();
       $fleetId = $fleet->getID();
       $rows = $agent->find("`$fleetFk`='$fleetId'");
       $this->integer(count($rows))->isEqualTo(0);
 
       // Check the policies are unlinked to the fleet
-      $rows = $Task->find("`$fleetFk`='$fleetId'");
+      $rows = $Task->find("`itemtype_applied`='$fleetType' AND `items_id_applied`='$fleetId'");
       $this->integer(count($rows))->isEqualTo(0);
    }
 }

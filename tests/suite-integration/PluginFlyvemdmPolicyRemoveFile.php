@@ -72,7 +72,8 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       // Apply the policy with bad data
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk  => $fleet->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
          $policyFk => '-1',
          'value'   => $destination,
       ]);
@@ -81,11 +82,12 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       // Apply the policy to the fleet
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk  => $fleet->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
          $policyFk => $policyData->getID(),
          'value'   => $destination,
       ]);
-      $this->boolean($task->isNewItem())->isFalse();
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
    }
 }

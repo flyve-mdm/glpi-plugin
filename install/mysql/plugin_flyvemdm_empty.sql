@@ -201,13 +201,14 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_tasks`;
 CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
   `id`                                         int(11)      NOT NULL AUTO_INCREMENT,
-  `plugin_flyvemdm_fleets_id`                  int(11)      NOT NULL DEFAULT '0',
+  `itemtype_applied`                           varchar(255) DEFAULT NULL,
+  `items_id_applied`                           int(11)      NOT NULL DEFAULT '0',
   `plugin_flyvemdm_policies_id`                int(11)      NOT NULL DEFAULT '0',
   `value`                                      varchar(255) NOT NULL DEFAULT '',
   `itemtype`                                   varchar(255) DEFAULT NULL,
   `items_id`                                   int(11)      NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `plugin_flyvemdm_fleets_id` (`plugin_flyvemdm_fleets_id`),
+  KEY `FK_applied` (`items_id_applied`, `itemtype_applied`),
   KEY `plugin_flyvemdm_policies_id` (`plugin_flyvemdm_policies_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

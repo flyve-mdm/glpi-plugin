@@ -53,7 +53,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return bool
+    * @return boolean
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       if ($value == '') {
@@ -69,17 +69,19 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     *
-    * @return bool
+    * @return boolean
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      $fleetId = $fleet->getID();
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+            AND `items_id_applied` = '$notifiableId'
             AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
             AND `value` = '$value'", "", "1");
       return (count($rows) == 0);
@@ -89,7 +91,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return array|bool
+    * @return array|boolean
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {

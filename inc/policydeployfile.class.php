@@ -152,17 +152,19 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     *
     * @return bool
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      $fleetId = $fleet->getID();
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+            AND `items_id_applied` = '$notifiableId'
             AND `itemtype` = '$itemtype'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
@@ -174,23 +176,25 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     *
     * @return bool
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $policyData = new PluginFlyvemdmPolicy();
       if (!$policyData->getFromDBBySymbol('removeFile')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
          // Give up this check
       } else {
-         $fleetId = $fleet->getID();
          $policyId = $policyData->getID();
+         $notifiableType = $notifiable->getType();
+         $notifiableId = $notifiable->getID();
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $rows = $task->find("`itemtype_applied` = '$notifiableType'
+               AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId'");
          foreach ($rows as $row) {
             if ($row['value'] == $value['destination']) {
@@ -203,13 +207,14 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet        $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($value, $itemtype, $itemId) === false) {
          return false;
@@ -236,7 +241,8 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $value['destination'] .= '/';
       }
       if (!$task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $notifiable->getType(),
+         'items_id_applied'            => $notifiable->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value['destination'] . $file->getField('name'),
          '_silent'                     => true,

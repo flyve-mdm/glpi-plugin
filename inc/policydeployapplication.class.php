@@ -53,7 +53,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return bool
+    * @return boolean
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check the value exists
@@ -88,7 +88,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return array|bool
+    * @return array|boolean
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -107,18 +107,19 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet $fleet
-    *
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Check the policy is already applied
-      $fleetId = $fleet->getID();
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+            AND `items_id_applied` = '$notifiableId'
             AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
             AND `items_id` = '$itemId'", '', '1');
       if (count($rows) > 0) {
@@ -128,14 +129,13 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet $fleet
-    *
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Check there is not already a removal policy (to avoid opposite policy)
       $package = new PluginFlyvemdmPackage();
       if (!$package->getFromDB($itemId)) {
@@ -151,8 +151,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          // Give up this check
       } else {
          $policyId = $policyData->getID();
-         $fleetId = $fleet->getID();
-         $count = countElementsInTable(PluginFlyvemdmTask::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $notifiableType = $notifiable->getType();
+         $notifiableId = $notifiable->getID();
+         $count = countElementsInTable(PluginFlyvemdmTask::getTable(), "`itemtype_applied` = '$notifiableType'
+               AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
          if ($count > 0) {
             Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'flyvemdm'), false, ERROR);
@@ -164,14 +166,14 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed                      $value
-    * @param mixed                      $itemtype
-    * @param integer                    $itemId
-    * @param PluginFlyvemdmFleet        $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     *
     * @return bool
     */
-   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;
@@ -208,7 +210,8 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
 
       $task = new PluginFlyvemdmTask();
       if (!$task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $notifiable->getType(),
+         'items_id_applied'            => $notifiable->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $package->getField('package_name'),
          '_silent'                     => true,
