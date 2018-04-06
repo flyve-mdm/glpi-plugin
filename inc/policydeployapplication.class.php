@@ -134,7 +134,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      // Check there is not already a removal policy (to avoind opposite policy)
+      // Check there is not already a removal policy (to avoid opposite policy)
       $package = new PluginFlyvemdmPackage();
       if (!$package->getFromDB($itemId)) {
          // Cannot apply a non existing applciation
@@ -162,13 +162,13 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmFleet $fleet
     * @return bool
     */
-   public function pre_unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;

@@ -201,18 +201,18 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $appInDB = $this->createAppInDB();
 
       // check integrity
-      $this->boolean($policy->pre_unapply($mockInstance, null, null, null))->isFalse();
+      $this->boolean($policy->pre_unapply(null, null, null, $mockInstance))->isFalse();
 
       // check for task to delete
       $value = '{"remove_on_delete":0}';
       $packageClass = \PluginFlyvemdmPackage::class;
-      $this->boolean($policy->pre_unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+      $this->boolean($policy->pre_unapply($value, $packageClass, $appInDB->getID(), $mockInstance))
          ->isTrue();
 
       $value = '{"remove_on_delete":1}';
-      $this->boolean($policy->pre_unapply($mockInstance, $value, $packageClass, -1))->isFalse();
+      $this->boolean($policy->pre_unapply($value, $packageClass, -1, $mockInstance))->isFalse();
       /*
-      $this->boolean($policy->pre_unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+      $this->boolean($policy->pre_unapply($value, $packageClass, $appInDB->getID(), $mockInstance))
          ->isTrue(); // TODO: fix this, Cannot apply a policy on a not managed fleet
       */
    }
