@@ -92,7 +92,7 @@ layout: coverage
 </td>
                                             </tr>
             <tr>
-            <td><a href="#unapply">PluginFlyvemdmPolicyDeployapplication::unapply()</a></td>
+            <td><a href="#pre_unapply">PluginFlyvemdmPolicyDeployapplication::pre_unapply()</a></td>
                                         <td style="text-align: center">29</td>
                 <td style="text-align: center">    
     <span class="label label-danger">17%</span>
@@ -1179,7 +1179,7 @@ layout: coverage
                     <th id="L137" class="number ">137</th>
 
                     <td class="" >
-                        <pre>      // Check there is not already a removal policy (to avoind opposite policy)
+                        <pre>      // Check there is not already a removal policy (to avoid opposite policy)
 </pre>
                     </td>
                 </tr>
@@ -1386,7 +1386,7 @@ layout: coverage
                     <th id="L165" class="number ">165</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmFleet $fleet
+                        <pre>    * @param mixed $value
 </pre>
                     </td>
                 </tr>
@@ -1394,7 +1394,7 @@ layout: coverage
                     <th id="L166" class="number ">166</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $value
+                        <pre>    * @param mixed $itemtype
 </pre>
                     </td>
                 </tr>
@@ -1402,7 +1402,7 @@ layout: coverage
                     <th id="L167" class="number ">167</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $itemtype
+                        <pre>    * @param integer $itemId
 </pre>
                     </td>
                 </tr>
@@ -1410,7 +1410,7 @@ layout: coverage
                     <th id="L168" class="number ">168</th>
 
                     <td class="" >
-                        <pre>    * @param integer $itemId
+                        <pre>    * @param PluginFlyvemdmFleet $fleet
 </pre>
                     </td>
                 </tr>
@@ -1430,11 +1430,11 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="unapply">
+                            <tr class="line" id="pre_unapply">
                     <th id="L171" class="number ">171</th>
 
-                    <td class="" id="unapply">
-                        <pre>   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {<span class="label label-danger">17%</span><div class="btn-group"></div></pre>
+                    <td class="" id="pre_unapply">
+                        <pre>   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {<span class="label label-danger">17%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">

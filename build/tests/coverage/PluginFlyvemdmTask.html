@@ -1896,14 +1896,14 @@ layout: coverage
                     <th id="L220" class="number covered">220</th>
 
                     <td class="covered" >
-                        <pre>      if (!$this-&gt;policy-&gt;canApply($this-&gt;fleet, $input[&#039;value&#039;], $input[&#039;itemtype&#039;],</pre>
+                        <pre>      if (!$this-&gt;policy-&gt;canApply($input[&#039;value&#039;], $input[&#039;itemtype&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L221" class="number covered">221</th>
 
                     <td class="covered" >
-                        <pre>         $input[&#039;items_id&#039;])) {</pre>
+                        <pre>         $input[&#039;items_id&#039;], $this-&gt;fleet)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2485,7 +2485,7 @@ layout: coverage
                     <th id="L300" class="number uncovered">300</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!$this-&gt;policy-&gt;canApply($this-&gt;fleet, $value, $itemtype, $itemId)) {</pre>
+                        <pre>      if (!$this-&gt;policy-&gt;canApply($value, $itemtype, $itemId, $this-&gt;fleet)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2537,7 +2537,7 @@ layout: coverage
                     <th id="L307" class="number uncovered">307</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!$this-&gt;policy-&gt;apply($this-&gt;fleet, $value, $itemtype, $itemId)) {</pre>
+                        <pre>      if (!$this-&gt;policy-&gt;pre_apply($value, $itemtype, $itemId, $this-&gt;fleet)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2761,14 +2761,14 @@ layout: coverage
                     <th id="L338" class="number covered">338</th>
 
                     <td class="covered" >
-                        <pre>      return $this-&gt;policy-&gt;unapply($this-&gt;fleet, $this-&gt;fields[&#039;value&#039;], $this-&gt;fields[&#039;itemtype&#039;],</pre>
+                        <pre>      return $this-&gt;policy-&gt;pre_unapply($this-&gt;fields[&#039;value&#039;], $this-&gt;fields[&#039;itemtype&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L339" class="number covered">339</th>
 
                     <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;items_id&#039;]);</pre>
+                        <pre>         $this-&gt;fields[&#039;items_id&#039;], $this-&gt;fleet);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2956,7 +2956,7 @@ layout: coverage
                     <th id="L364" class="number ">364</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmNotifiable $item
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item
 </pre>
                     </td>
                 </tr>
@@ -2988,7 +2988,7 @@ layout: coverage
                     <th id="L368" class="number ">368</th>
 
                     <td class="" id="publishPolicy">
-                        <pre>   public function publishPolicy(PluginFlyvemdmNotifiable $item) {<span class="label label-success">71%</span><div class="btn-group"></div></pre>
+                        <pre>   public function publishPolicy(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-success">71%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3279,7 +3279,7 @@ layout: coverage
                     <th id="L408" class="number ">408</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmNotifiable $item
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item
 </pre>
                     </td>
                 </tr>
@@ -3295,7 +3295,7 @@ layout: coverage
                     <th id="L410" class="number ">410</th>
 
                     <td class="" id="createTaskStatuses">
-                        <pre>   public function createTaskStatuses(PluginFlyvemdmNotifiable $item) {<span class="label label-success">94%</span><div class="btn-group"></div></pre>
+                        <pre>   public function createTaskStatuses(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-success">94%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3494,7 +3494,7 @@ layout: coverage
                     <th id="L437" class="number ">437</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmNotifiable $item
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item
 </pre>
                     </td>
                 </tr>
@@ -3510,7 +3510,7 @@ layout: coverage
                     <th id="L439" class="number ">439</th>
 
                     <td class="" id="unpublishPolicy">
-                        <pre>   public function unpublishPolicy(PluginFlyvemdmNotifiable $item) {<span class="label label-success">91%</span><div class="btn-group"></div></pre>
+                        <pre>   public function unpublishPolicy(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-success">91%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4623,7 +4623,7 @@ layout: coverage
                     <th id="L589" class="number ">589</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmNotifiable $item a notifiable item
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item a notifiable item
 </pre>
                     </td>
                 </tr>
@@ -4647,7 +4647,7 @@ layout: coverage
                     <th id="L592" class="number ">592</th>
 
                     <td class="" id="cleanupPolicies">
-                        <pre>   public static function cleanupPolicies(PluginFlyvemdmNotifiable $item, $groups = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   public static function cleanupPolicies(PluginFlyvemdmNotifiableInterface $item, $groups = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
