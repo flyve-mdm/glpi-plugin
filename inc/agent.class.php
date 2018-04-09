@@ -1490,20 +1490,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    protected function sendGeolocationQuery(&$errorMessage) {
       $topic = $this->getTopic();
-      if ($topic !== null) {
-         $computerId = $this->fields['computers_id'];
-         $geolocation = new PluginFlyvemdmGeolocation();
-         $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-         $lastPosition = array_pop($lastPositionRows);
-
-         $mqttMessage = ['query' => 'Geolocate'];
-         $this->notify("$topic/Command/Geolocate", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 0);
-
-         return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
+      if ($topic === null) {
+         $errorMessage = __('Timeout requesting position', 'flyvemdm');
+         return false;
       }
 
-      $errorMessage = __('Timeout requesting position', 'flyvemdm');
-      return false;
+      $computerId = $this->fields['computers_id'];
+      $geolocation = new PluginFlyvemdmGeolocation();
+      $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+      $lastPosition = array_pop($lastPositionRows);
+
+      $mqttMessage = ['query' => 'Geolocate'];
+      $this->notify("$topic/Command/Geolocate", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 0);
+
+      return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
    }
 
    /**
@@ -1515,25 +1515,27 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    protected function pollGeolocationAnswer($lastPosition, &$errorMessage) {
       $topic = $this->getTopic();
-      if ($topic !== null) {
-         $geolocation = new PluginFlyvemdmGeolocation();
-         $computerId = $this->fields['computers_id'];
+      if ($topic === null) {
+         return false;
+      }
 
-         // Wait for a reply within a short delay
-         $loopCount = 25;
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-            $updatedPosition = array_pop($updatedPositionRows);
-            if ($lastPosition === null && $updatedPosition !== null
-                  || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
-               if ($updatedPosition['latitude'] == 'na') {
-                  $errorMessage = __('GPS is turned off or is not ready', 'flyvemdm');
-                  return false;
-               } else {
-                  return true;
-               }
+      $geolocation = new PluginFlyvemdmGeolocation();
+      $computerId = $this->fields['computers_id'];
+
+      // Wait for a reply within a short delay
+      $loopCount = 25;
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+         $updatedPosition = array_pop($updatedPositionRows);
+         if ($lastPosition === null && $updatedPosition !== null
+               || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
+            if ($updatedPosition['latitude'] == 'na') {
+               $errorMessage = __('GPS is turned off or is not ready', 'flyvemdm');
+               return false;
+            } else {
+               return true;
             }
          }
       }
@@ -1545,16 +1547,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    protected function sendInventoryQuery() {
       $topic = $this->getTopic();
-      if ($topic !== null) {
-
-         $message = [
-            'query'  => 'Inventory'
-         ];
-         $this->notify("$topic/Command/Inventory", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
-         return $this->pollInventoryAnswer();
+      if ($topic === null) {
+         return false;
       }
 
-      return false;
+      $message = ['query'  => 'Inventory'];
+      $this->notify("$topic/Command/Inventory", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
+      return $this->pollInventoryAnswer();
    }
 
    /**
@@ -1590,12 +1589,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    protected function sendPingQuery() {
       $topic = $this->getTopic();
-      if ($topic !== null) {
-         $message = [
-               'query'  => 'Ping'
-         ];
-         $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
+      if ($topic === null) {
+         return false;
       }
+
+      $message = ['query'  => 'Ping'];
+      $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
 
       return $this->pollPingAnswer();
    }
@@ -1655,29 +1654,32 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @see PluginFlyvemdmNotifiableInterface::getPackages()
     */
    public function getPackages() {
-      if ($this->getID() > 0) {
-
-         $fleet = new PluginFlyvemdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
-            return $fleet->getPackages();
-         }
+      if ($this->isNewItem()) {
+         return [];
       }
 
-      return [];
+      $fleet = new PluginFlyvemdmFleet();
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return [];
+      }
+
+      return $fleet->getPackages();
    }
 
    /**
     * @see PluginFlyvemdmNotifiableInterface::getFiles()
     */
    public function getFiles() {
-      if ($this->getID() > 0) {
-         $fleet = new PluginFlyvemdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
-            return $fleet->getFiles();
-         }
+      if ($this->isNewItem()) {
+         return [];
       }
 
-      return [];
+      $fleet = new PluginFlyvemdmFleet();
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return [];
+      }
+
+      return $fleet->getFiles();
    }
 
    /**
@@ -1686,16 +1688,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getFleet() {
       $fleet = null;
 
-      if (! $this->isNewItem()) {
-         // The agent exists in DB
-         $fleet = new PluginFlyvemdmFleet();
-         if ($fleet->isNewID($this->fields['plugin_flyvemdm_fleets_id'])) {
-            $fleet = null;
-         } else {
-            if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
-               $fleet = null;
-            }
-         }
+      if ($this->isNewItem()) {
+         return null;
+      }
+
+      // The agent exists in DB
+      $fleet = new PluginFlyvemdmFleet();
+      if ($fleet->isNewID($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return null;
+      }
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return null;
       }
 
       return $fleet;
@@ -1706,14 +1709,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function getOwner() {
       $computer = new Computer();
-      if ($computer->getFromDB($this->fields['computers_id'])) {
-         $user = new User();
-         if ($user->getFromDB($computer->getField('users_id'))) {
-            return $user;
-         }
+      if (!$computer->getFromDB($this->fields['computers_id'])) {
+         return null;
+      }
+      $user = new User();
+      if (!$user->getFromDB($computer->getField('users_id'))) {
+         return null;
       }
 
-      return null;
+      return $user;
    }
 
    /**
@@ -1963,6 +1967,4 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->sendUnenrollQuery();
       }
    }
-
-
 }
