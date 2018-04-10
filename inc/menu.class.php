@@ -114,13 +114,13 @@ class PluginFlyvemdmMenu extends CommonGLPI {
             ],
             __('Configuration', 'flyvemdm') => [
                __('General')       => [
-                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$1',
-               ],
-               __('Message queue', 'flyvemdm') => [
                   'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$2',
                ],
-               __('Debug', 'flyvemdm') => [
+               __('Message queue', 'flyvemdm') => [
                   'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$3',
+               ],
+               __('Debug', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$4',
                ]
             ]
          ],

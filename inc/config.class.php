@@ -174,7 +174,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                break;
          }
       }
-
    }
 
    /**
