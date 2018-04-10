@@ -398,6 +398,13 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          }
       }
 
+      if (isset($input['mqtt_prefix']) && strlen($input['mqtt_prefix']) > 0) {
+         // Ensure there is a trailing slash
+         if (strrpos($input['mqtt_prefix'], '/') != strlen($input['mqtt_prefix']) - 1) {
+            $input['mqtt_prefix'] .= '/';
+         }
+      }
+
       if (isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
          $input = static::processStep($input);
          if (count($input) > 0 && $input !== false) {

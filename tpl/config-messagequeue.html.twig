@@ -21,6 +21,11 @@
          <td>{{ __('A port number between 1025 and 65535, standard port is 1883', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
+         <td>{{ __('MQTT prefix', 'flyvemdm') }}</td>
+         <td><input type="text" name="mqtt_prefix" value="{{ config.mqtt_prefix }}"></td>
+         <td>{{ __('Prepend all topics with a prefix (useful if a MQTT broker is mutualized). The mqtt daemon must be restarted.', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
          <td>{{ __('MQTT broker port for TLS', 'flyvemdm') }}</td>
          <td><input type="number" name="mqtt_broker_tls_port" value="{{ config.mqtt_broker_tls_port }}"
             min="1" max="65535"></td>

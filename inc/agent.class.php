@@ -991,6 +991,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool
     */
    public function getByTopic($topic) {
+      $topic = PluginFlyvemdmCommon::removeMqttPrefix($topic);
+
       $mqttPath = explode('/', $topic);
       if (!isset($mqttPath[2])) {
          return false;

@@ -62,6 +62,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'android_bugcollector_login' => '',
       'android_bugcollector_passwd' => '',
       'invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK,
+      'mqtt_prefix'         => '',
    ]);
 
    $config = Config::getConfigurationValues('flyvemdm', ['mqtt_broker_tls']);

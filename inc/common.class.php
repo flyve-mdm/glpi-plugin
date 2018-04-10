@@ -207,4 +207,27 @@ class PluginFlyvemdmCommon
              ? GLPI_PREVER
              : GLPI_VERSION;
    }
+
+   /**
+    * Removes the mqtt prefix from
+    *
+    * @param string  $topic Topic to modify
+    * @param boolean $readConfig set to True to force reading the configuration
+    *
+    * @return string|false the topic without its prefix, or false if an error occured
+    */
+   public static function removeMqttPrefix($topic, $readConfig = false) {
+      static $prefix = null;
+      if ($prefix === null || $readConfig) {
+         $config = Config::getConfigurationValues('flyvemdm', ['mqtt_prefix']);
+         $prefix = $config['mqtt_prefix'];
+      }
+
+      if (!PluginFlyvemdmCommon::startsWith($topic, $prefix)) {
+         return false;
+      }
+      $topic = substr($topic, strlen($prefix));
+
+      return $topic;
+   }
 }

@@ -210,4 +210,53 @@ class PluginFlyvemdmCommon extends atoum {
       $class::recursiveRmdir(FLYVEMDM_INVENTORY_PATH);
       $this->string($inventoryExists)->isEqualTo($fileContent);
    }
+   public function providerRemoveMqttPrefix() {
+      return [
+         [
+            'prefix'    => '/',
+            'topic'     => '/1/agent/42/some/sub/topic',
+            'expected'  => '1/agent/42/some/sub/topic',
+         ],
+         [
+            'prefix'    => '/',
+            'topic'     => '1/agent/42/some/sub/topic',
+            'expected'  => false,
+         ],
+         [
+            'prefix'    => 'some/prefix/',
+            'topic'     => 'some/prefix/1/agent/42/some/sub/topic',
+            'expected'  => '1/agent/42/some/sub/topic',
+         ],
+         [
+            'prefix'    => 'some/prefix/',
+            'topic'     => 'some/invalid/prefix/1/agent/42/some/sub/topic',
+            'expected'  => false,
+         ],
+
+         // Tests with empty prefix msut be at the end to not impact next tests
+         [
+            'prefix'    => '',
+            'topic'     => '1/agent/42/some/sub/topic',
+            'expected'  => '1/agent/42/some/sub/topic',
+         ],
+         [
+            'prefix'    => '',
+            'topic'     => '/1/agent/42/some/sub/topic',
+            'expected'  => '/1/agent/42/some/sub/topic',
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider providerRemoveMqttPrefix
+    */
+   public function testRemoveMqttPrefix($prefix, $topic, $expected) {
+      \Config::setConfigurationValues('flyvemdm', ['mqtt_prefix' => $prefix]);
+      $output = \PluginFlyvemdmCommon::removeMqttPrefix($topic, true);
+      if ($expected === false) {
+         $this->boolean($output)->isFalse();
+      } else {
+         $this->string($output)->isEqualTo($expected);
+      }
+   }
 }

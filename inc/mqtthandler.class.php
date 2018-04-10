@@ -123,6 +123,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     */
    public function publish(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PUBLISH $publish_object) {
       $topic = $publish_object->getTopic();
+      $topic = PluginFlyvemdmCommon::removeMqttPrefix($topic);
       $message = $publish_object->getMessage();
       $this->log->saveIngoingMqttMessage($topic, $message);
 
@@ -143,6 +144,8 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          }
       } else if ($topic === 'FlyvemdmManifest/Status/Version') {
          $this->publishFlyveManifest($mqtt, $message);
+         // Force update of mqtt prefix, in case of configuration change
+         PluginFlyvemdmCommon::removeMqttPrefix('', true);
       }
    }
 
