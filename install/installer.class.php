@@ -273,7 +273,7 @@ class PluginFlyvemdmInstaller {
          $fleet->add([
             'name'         => __('not managed fleet', 'flyvemdm'),
             'entities_id'  => '0',
-            'is_recursive' => '1',
+            'is_recursive' => '0',
             'is_default'   => '1',
          ]);
       }

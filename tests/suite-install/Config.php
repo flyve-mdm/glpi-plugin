@@ -92,6 +92,14 @@ class Config extends CommonTestCase {
          'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
+      $fleet = new \PluginFlyvemdmFleet();
+      $dbUtils = new \DBUtils();
+      $count = $dbUtils->countElementsInTable($fleet::getTable());
+      $this->integer($count)->isEqualTo(1);
+      $fleet->getFromDB(1);
+      $this->boolean($fleet->isNewItem())->isFalse();
+      $this->integer((int) $fleet->isRecursive())->isEqualTo(0);
+
       $config = \Config::getConfigurationValues('flyvemdm');
 
       // Test an agent's user profile exists
