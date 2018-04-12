@@ -42,7 +42,7 @@ if (!isset($_POST['value'])) {
 }
 
 $policyId = (int) $_POST['value'];
-$mode = (isset($_POST['mode'])) ? $_POST['mode'] : null;
+$mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'add';
 
 $factory = new PluginFlyvemdmPolicyFactory();
 $policy = $factory->createFromDBByID($policyId);
@@ -50,6 +50,7 @@ if ($policy !== null) {
    echo $policy->formGenerator($mode, [
       'policyId' => $policyId,
       'task'  => (int) ((isset($_POST['task'])) ? $_POST['task'] : 0),
-      'fleet' => (int) ((isset($_POST['fleet'])) ? $_POST['fleet'] : 0),
+      'itemtype_applied' => ((isset($_POST['itemtype_applied'])) ? $_POST['itemtype_applied'] : ''),
+      'items_id_applied' => (int) ((isset($_POST['items_id_applied'])) ? $_POST['items_id_applied'] : 0),
    ]);
 }

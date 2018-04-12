@@ -5,9 +5,9 @@
       <tr class='tab_bg_2'><th colspan='2'>{{ __('apply a policy', 'flyvemdm') }}</th></tr>
       <tr>
          <td>{{ __('Policy', 'flyvemdm') }}</td>
-         <td>{{ fleet_policy.policy|raw }}</td>
+         <td>{{ task.policy|raw }}</td>
          <script type="text/javascript">
-            
+
          </script>
       </tr>
       <tr>
@@ -18,7 +18,8 @@
       </tr>
       <tr>
          <td colspan="2" class="center">
-            <input type="hidden" name="plugin_flyvemdm_fleets_id" value="{{ fleet_policy.plugin_flyvemdm_fleets_id }}">
+            <input type="hidden" name="itemtype_applied" value="{{ task.itemtype_applied }}">
+            <input type="hidden" name="items_id_applied" value="{{ task.items_id_applied }}">
             <input type="submit" class="submit" name="add" value="{{ _x('button', 'Add') }}">
          </td>
       </tr>
@@ -61,7 +62,7 @@
          <th>{{ __('Policy', 'flyvemdm') }}</th>
          <th>{{ __('Value', 'flyvemdm') }}</th>
       </tr>
-      
+
    </table>
    {% if canEdit %}
      {{ massiveActionForm.end|raw }}
@@ -79,16 +80,17 @@
               });
           });
 
-          function editPolicy($policyId, $taskId) {
+          function editPolicy(policyId, taskId) {
               $('#policy_editor').dialog('open');
               $.ajax({
                   url: '../ajax/policyValue.php',
                   method: 'POST',
                   data: {
                       mode: 'update',
-                      fleet: '{{ fleet_policy.plugin_flyvemdm_fleets_id }}',
-                      task: $taskId,
-                      value: $policyId
+                      itemtype_applied: '{{ task.itemtype_applied }}',
+                      items_id_applied: '{{ task.items_id_applied }}',
+                      task: taskId,
+                      value: policyId
                   },
                   success: function (response) {
                       $('#policy_editor_form').html(response);

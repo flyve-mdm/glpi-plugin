@@ -79,6 +79,12 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
          'done'      => __('Done', 'flyvemdm'),
          'failed'    => __('Failed', 'flyvemdm'),
          'canceled'  => __('Canceled', 'flyvemdm'),
+
+         // when a policy is applied on a fleet and an agent in the fleet
+         // only the policy on the agent must apply
+         // the conflicting policy on the fleet won't apply, and the agent
+         // must feedback the status 'overriden'
+         'overriden' => __('Overriden', 'flyvemdm'),
       ];
    }
 
@@ -287,7 +293,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
          $form['rand'] = mt_rand();
          $form['taskId'] = $_input['task'];
          $form['policyId'] = $_input['policyId'];
-         $form['fleetId'] = $_input['fleet'];
+         $form['itemtype_applied'] = $_input['itemtype_applied'];
+         $form['items_id_applied'] = $_input['items_id_applied'];
          $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
             ['value' => Session::getNewCSRFToken()]) : '';
       }
