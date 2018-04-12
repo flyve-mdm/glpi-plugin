@@ -322,7 +322,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('items_id_applied')) {
             return;
          }
-      } elseif ($task->getField('itemtype_applied') === PluginFlyvemdmAgent::class) {
+      } else if ($task->getField('itemtype_applied') === PluginFlyvemdmAgent::class) {
          if ($agent->getID() != $task->getField('items_id_applied')) {
             return;
          }

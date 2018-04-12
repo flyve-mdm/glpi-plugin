@@ -267,7 +267,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       global $DB;
 
       if (!$item->canView()) {
-         return false;
+         return;
       }
 
       if (isset($_GET["start"])) {

@@ -287,7 +287,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
          $form['rand'] = mt_rand();
          $form['taskId'] = $_input['task'];
          $form['policyId'] = $_input['policyId'];
-         $form['fleetId'] = $_input['fleet'];
+         $form['itemtype_applied'] = $_input['itemtype_applied'];
+         $form['items_id_applied'] = $_input['items_id_applied'];
          $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
             ['value' => Session::getNewCSRFToken()]) : '';
       }

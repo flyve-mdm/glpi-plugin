@@ -556,6 +556,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * Is the fleet notifiable ?
+    *
+    * @return boolean
+    */
    public function isNotifiable() {
       if ($this->isNewItem()) {
          return false;

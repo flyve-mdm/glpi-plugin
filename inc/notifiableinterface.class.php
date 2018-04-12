@@ -86,5 +86,5 @@ interface PluginFlyvemdmNotifiableInterface {
     * is the notifiable actually notifiable ?
     * @return boolean True if message may be sent
     */
-    public function isNotifiable();
+   public function isNotifiable();
 }

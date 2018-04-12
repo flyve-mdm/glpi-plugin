@@ -7,7 +7,8 @@
    {{ form._csrf|raw }}
    <input type='hidden' name='id' value='{{ form.taskId }}'>
    <input type='hidden' name='plugin_flyvemdm_policies_id' value='{{ form.policyId }}'>
-   <input type='hidden' name='plugin_flyvemdm_fleets_id' value='{{ form.fleetId }}'>
+   <input type='hidden' name='itemtype_applied' value='{{ form.itemtype_applied }}'>
+   <input type='hidden' name='items_id_applied' value='{{ form.items_id_applied }}'>
    <br><br><input type='submit' class='submit' name='update' value='{{ _x("button", "Update") }}'>
 </form>
 {% endif %}

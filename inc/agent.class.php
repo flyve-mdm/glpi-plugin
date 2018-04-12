@@ -1971,6 +1971,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * Is the agent notifiable ?
+    *
+    * @return boolean
+    */
    public function isNotifiable() {
       return true;
    }
