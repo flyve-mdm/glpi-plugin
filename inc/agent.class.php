@@ -1730,6 +1730,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                      'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
                   ],
                   [
+                     'topic'        => $this->getTopic() . '/Policy/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+                  [
                      'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
                      'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
                   ],
@@ -1921,6 +1925,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
+   /**
+    * Is the agent notifiable ?
+    *
+    * @return boolean
+    */
    public function isNotifiable() {
       return true;
    }

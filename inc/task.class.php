@@ -80,7 +80,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    protected $silent;
 
-   public static function getTypeName() {
+   public static function getTypeName($nb = 0) {
       return _n('Task', 'Tasks', $nb, 'flyvemdm');
    }
 
@@ -262,20 +262,23 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       //Check the fleet exists
-      $fleetId = $this->fields['plugin_flyvemdm_fleets_id'];
-      if (isset($input['plugin_flyvemdm_fleets_id'])) {
-         $fleetId = $input['plugin_flyvemdm_fleets_id'];
+      $notifiableType = $this->fields['itemtype_applied'];
+      $notifiableId = $this->fields['items_id_applied'];
+      if (isset($input['items_id_applied'])) {
+         $notifiableId = $input['items_id_applied'];
       }
-      $this->notifiable = new PluginFlyvemdmFleet();
-      if (!$this->notifiable->getFromDB($fleetId)) {
-         Session::addMessageAfterRedirect(__('Cannot find the target fleet', 'flyvemdm'), false,
+      $this->notifiable = new $notifiableType();
+      if (!$this->notifiable->getFromDB($notifiableId)) {
+         // TRANS: %1$s is the type of the item on which a policy is applied
+         Session::addMessageAfterRedirect(sprintf(__('Cannot find the target %1$s', 'flyvemdm'), $this->notifiable->getTypeName()), false,
             ERROR);
          return false;
       }
 
-      // default fleet check
-      if ($this->notifiable->getField('is_default')) {
-         Session::addMessageAfterRedirect(__('Cannot apply a policy on a not managed fleet',
+      // Check the notifiable can receive tasks
+      if (!$this->notifiable->isNotifiable()) {
+         // TRANS: %1$s is the type of the item on which one attempds to apply a policy
+         Session::addMessageAfterRedirect(sprintf(__('Cannot apply a policy on this %1$s', $this->notifiable->getTypeName()),
             'flyvemdm'), false, ERROR);
          return false;
       }
@@ -332,7 +335,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $notifiableType = $this->fields['itemtype_applied'];
       $this->notifiable = new $notifiableType();
       if (!$this->notifiable->getFromDB($this->fields['items_id_applied'])) {
-         Session::addMessageAfterRedirect(__('Fleet not found', 'flyvemdm'), false, ERROR);
+         Session::addMessageAfterRedirect(sprintf(__('%1$s not found', 'flyvemdm'), $this->notifiable->getTypeName()), false, ERROR);
          return false;
       }
       return $this->policy->pre_unapply($this->fields['value'], $this->fields['itemtype'],
@@ -371,16 +374,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $fleet = $item->getFleet();
-      if ($fleet === null || $fleet->getField('is_default') != '0') {
-         $notifiableItemtype = get_class($item);
-         $exceptionMessage = "Plugin Flyvemdm : no fleet for the notifiable item $notifiableItemtype, or has a default fleet";
-         Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
-         throw new TaskPublishPolicyBadFleetException($exceptionMessage);
-      }
-
-      $topic = $item->getTopic();
-
       $policy = new PluginFlyvemdmPolicy();
       $policyFk = $policy::getForeignKeyField();
       $policyFactory = new PluginFlyvemdmPolicyFactory();
@@ -401,7 +394,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       );
       $policyMessage['taskId'] = $this->getID();
       $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
-      $fleet->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
+      $topic = $item->getTopic();
+      $item->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
    }
 
    /**
@@ -409,16 +403,19 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param PluginFlyvemdmNotifiableInterface $item
     */
    public function createTaskStatuses(PluginFlyvemdmNotifiableInterface $item) {
-      $fleet = $item->getFleet();
-      if ($fleet === null || $fleet->getField('is_default') != '0') {
+      if (!$item->isNotifiable()) {
          return;
       }
 
       // Initialize a task status for each agent in the fleet
-      $fleetId = $fleet->getID();
+      $notifiableId = $item->getID();
       $agent = new PluginFlyvemdmAgent();
-      $fleetFk = $fleet::getForeignKeyField();
-      $rows = $agent->find("`$fleetFk` = '$fleetId'");
+      if ($item instanceof PluginFlyvemdmFleet) {
+         $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
+         $rows = $agent->find("`$fleetFk` = '$notifiableId'");
+      } else if ($item instanceof PluginFlyvemdmAgent) {
+         $rows = $agent->find("`id` = '$notifiableId'");
+      }
       foreach ($rows as $row) {
          $agent = new PluginFlyvemdmAgent();
          if ($agent->getFromDB($row['id'])) {
@@ -442,16 +439,17 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $fleet = $item->getFleet();
-      if ($fleet !== null && $fleet->getField('is_default') == '0') {
-         $topic = $item->getTopic();
-
-         $policy = new PluginFlyvemdmPolicy();
-         $taskId = $this->getID();
-         $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
-         $policyName = $policy->getField('symbol');
-         $fleet->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
+      if (!$item->isNotifiable()) {
+         return;
       }
+
+      $topic = $item->getTopic();
+
+      $policy = new PluginFlyvemdmPolicy();
+      $taskId = $this->getID();
+      $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
+      $policyName = $policy->getField('symbol');
+      $item->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
    }
 
    /**
@@ -683,6 +681,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       switch (get_class($item)) {
          case PluginFlyvemdmFleet::class:
+         case PluginFlyvemdmAgent::class:
             static::showForFleet($item, $withtemplate);
             break;
       }
@@ -693,13 +692,12 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     *
     * @param CommonDBTM $item
     * @param string $withtemplate
-    * @return bool
     */
    static function showForFleet(CommonDBTM $item, $withtemplate = '') {
       global $CFG_GLPI;
 
       if (!$item->canView()) {
-         return false;
+         return;
       }
 
       $itemtype = $item->getType();
@@ -772,9 +770,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                . Html::closeForm(false),
          ],
          'checkAll'          => Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand),
-         'fleet_policy'      => [
-            'policy'                    => $policyDropdown,
-            'plugin_flyvemdm_fleets_id' => $itemId,
+         'task'      => [
+            'policy'           => $policyDropdown,
+            'itemtype_applied' => $itemtype,
+            'items_id_applied' => $itemId,
          ],
          'policies'          => $appliedPolicies,
       ];

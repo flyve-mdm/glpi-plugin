@@ -56,7 +56,10 @@ class PluginFlyvemdmFile extends CommonTestCase {
 
       // Apply a policy on a file
       $deployPolicyData = $this->getFileDeploymentPolicy();
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $task = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
       $this->boolean($task->isNewItem())

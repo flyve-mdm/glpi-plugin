@@ -153,10 +153,38 @@ class CommonTestCase extends GlpiCommonTestCase {
    protected function createFleet($input) {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add($input);
+      $fleetId = $fleet->add($input);
       $this->boolean($fleet->isNewItem())->isFalse();
 
+      $fleet = new \PluginFlyvemdmFleet();
+      $fleet->getFromDB($fleetId);
+
       return $fleet;
+   }
+
+   public function createAgent($input) {
+      $guestEmail = $this->getUniqueEmail();
+      $invitation = $this->createInvitation($guestEmail);
+      $this->variable($invitation)->isNotNull();
+      $user = new \User();
+      $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
+      $serial = $this->getUniqueString();
+      $input = [
+         '_email'            => $guestEmail,
+         '_invitation_token' => $invitation->getField('invitation_token'),
+         '_serial'           => $serial,
+         'csr'               => '',
+         'firstname'         => 'John',
+         'lastname'          => 'Doe',
+         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
+         'type'              => 'android',
+         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
+      ] + $input;
+      $agent = $this->enrollFromInvitation($user, $input);
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      return $agent;
    }
 
    /**

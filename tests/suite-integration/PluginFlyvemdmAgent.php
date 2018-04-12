@@ -279,7 +279,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // Check the user has ACLs
       $mqttACLs = $mqttUser->getACLs();
-      $this->integer(count($mqttACLs))->isEqualTo(4);
+      $this->integer(count($mqttACLs))->isEqualTo(5);
 
       // Check the ACLs
       $validated = 0;
@@ -291,6 +291,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          } else if (preg_match("~/agent/$serial/Status/#$~", $acl->getField('topic')) == 1) {
             $this->integer((int) $acl->getField('access_level'))
                ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_WRITE);
+            $validated++;
+         } else if (preg_match("~/agent/$serial/Policy/#$~", $acl->getField('topic')) == 1) {
+            $this->integer((int) $acl->getField('access_level'))
+               ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
             $validated++;
          } else if (preg_match("~^/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
             $this->integer((int) $acl->getField('access_level'))
