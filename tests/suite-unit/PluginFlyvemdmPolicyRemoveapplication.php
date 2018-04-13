@@ -199,28 +199,4 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
 
       return $file;
    }
-
-   /**
-    * Create an application (directly in DB) because we are not uploading any file
-    * @return \PluginFlyvemdmPackage
-    */
-   private function createFleetInDB() {
-      global $DB;
-
-      $uniqid = 'packages_fleet_' . uniqid();
-      $table_file = \PluginFlyvemdmFleet::getTable();
-      $query = "INSERT INTO `$table_file` (
-        `name`
-        ) VALUES (
-        '" . $uniqid . "'
-        )";
-      $result = $DB->query($query);
-      $this->boolean($result)->isTrue();
-
-      $itemType = new \PluginFlyvemdmFleet();
-      $itemType->getFromDB($DB->insert_id());
-      $this->boolean($itemType->isNewItem())->isFalse();
-
-      return $itemType;
-   }
 }

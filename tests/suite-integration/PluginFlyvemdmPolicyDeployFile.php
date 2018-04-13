@@ -69,7 +69,10 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployFile'))->isTrue();
 
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $this->defaultEntity,
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
@@ -168,21 +171,6 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       $this->boolean($task->delete([
          'id' => $task->getID(),
       ]))->isTrue();
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $this->defaultEntity,
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 
    /**

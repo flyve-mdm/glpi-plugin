@@ -58,7 +58,10 @@ class PluginFlyvemdmFile extends CommonTestCase {
 
       // Applya a policy on a file
       $deployPolicyData = $this->getFileDeploymentPolicy();
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $fleet_policy = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
       $this->boolean($fleet_policy->isNewItem())
@@ -134,21 +137,6 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $this->boolean($policyData->getFromDBBySymbol('removeFile'))->isTrue();
 
       return $policyData;
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => $this->getUniqueString(),
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 
    /**

@@ -144,4 +144,18 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
 
       return $this->enrollFromInvitation($user, $input);
    }
+
+   /**
+    * @return object PluginFlyvemdmFleet mocked
+    *
+    * @param array $input input data
+    */
+   protected function createFleet($input) {
+      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
+      $fleet->getMockController()->post_addItem = function () {};
+      $fleet->add($input);
+      $this->boolean($fleet->isNewItem())->isFalse();
+
+      return $fleet;
+   }
 }
