@@ -127,19 +127,32 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     * @return array|false
     */
    public function prepareInputForUpdate($input) {
+      $failure = false;
+
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
          unset($input['device_limit']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the device limit', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
+         Session::addMessageAfterRedirect(__('You are not allowed to download URL of the MDM agent', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
          unset($input['agent_token_life']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the invitation token life', 'flyvemdm'), false, WARNING);
+         $failure = true;
+      }
+
+      // If the request is done from the API and changing a field is forbidden then fail
+      if (isAPI() && $failure) {
+         return false;
       }
 
       unset($input['entities_id']);

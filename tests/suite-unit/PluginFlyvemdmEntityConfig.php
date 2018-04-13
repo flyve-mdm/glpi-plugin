@@ -45,7 +45,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
    }
 
    /**
-    * @engine inline
+    *
     */
    public function testCanAddAgent() {
       global $DB;
@@ -87,5 +87,67 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
 
       // Device count limit is reached now
       $this->boolean($entityConfig->canAddAgent($entityId))->isFalse();
+   }
+
+   public function providerPrepareInputForUpdate() {
+      return [
+         [
+            'credentials' => ['glpi', 'glpi'],
+            'input' => [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            'output' => [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            'message' => ''
+         ],
+         [
+            ['normal', 'normal'],
+            [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            [],
+            [
+               'You are not allowed to change the device limit',
+               'You are not allowed to download URL of the MDM agent',
+               'You are not allowed to change the invitation token life',
+            ]
+         ]
+      ];
+   }
+
+   /**
+    * @engine inline
+    * @dataProvider providerPrepareInputForUpdate
+    *
+    * @param array $credentials credentials used for login
+    * @param array $input input of the tested method
+    * @param array|boolean $output expected output
+    * @param string $message expected output message (if $output === false or $output === [])
+    */
+   public function testPrepareInputForUpdate(array $credentials, array $input, $output, $message) {
+      // Login
+      $loginSuccess = $this->login($credentials[0], $credentials[1]);
+      $this->boolean($loginSuccess)->isTrue('Failed to login');
+
+      $instance = $this->newTestedInstance();
+      $actualOutput = $instance->prepareInputForUpdate($input);
+      if ($output === false) {
+         $this->boolean($actualOutput)->isFalse();
+         $this->sessionHasMessage($message, WARNING);
+      } else if ($output === []) {
+         $this->array($actualOutput)->isEmpty();
+         $this->sessionHasMessage($message, WARNING);
+      } else {
+         $this->array($actualOutput)->size->isEqualTo(count($output));
+         $this->array($actualOutput)->hasKeys(array_keys($output));
+         $this->array($actualOutput)->containsValues($output);
+      }
    }
 }
