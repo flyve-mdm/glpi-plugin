@@ -504,39 +504,36 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       //Send a connection status request to the device
-      if (isset($input['_ping'])) {
+      if (isset($input['_ping']) || isset($input['_geolocate']) || isset($input['_inventory'])) {
          if ($this->getTopic() === null) {
             Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
+      }
 
-         if (!$this->sendPingQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device", 'flyvemdm'));
+      if (isset($input['_ping'])) {
+         try {
+            $this->sendPingQuery();
+         } catch (Exception $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
 
       if (isset($input['_geolocate'])) {
-         if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
-            return false;
-         }
-
-         $errorMessage = '';
-         if (!$this->sendGeolocationQuery($errorMessage)) {
-            Session::addMessageAfterRedirect($errorMessage);
+         try {
+            $this->sendGeolocationQuery();
+         } catch (Exception $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
 
       if (isset($input['_inventory'])) {
-         if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
-            return false;
-         }
-
-         if (!$this->sendInventoryQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device inventory", 'flyvemdm'));
+         try {
+            $this->sendInventoryQuery();
+         } catch (Exception $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
@@ -1485,42 +1482,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Send an geolocation request to the agent
-    * @param $errorMessage
+    *
     * @return bool
+    * @throws Exception
     */
-   protected function sendGeolocationQuery(&$errorMessage) {
-      $topic = $this->getTopic();
-      if ($topic === null) {
-         $errorMessage = __('Timeout requesting position', 'flyvemdm');
-         return false;
-      }
+   private function sendGeolocationQuery() {
 
       $computerId = $this->fields['computers_id'];
       $geolocation = new PluginFlyvemdmGeolocation();
       $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
       $lastPosition = array_pop($lastPositionRows);
 
-      $mqttMessage = ['query' => 'Geolocate'];
-      $this->notify("$topic/Command/Geolocate", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 0);
-
-      return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
-   }
-
-   /**
-    * Polls in the DB for a new geolocation entry with ID higher than the given one
-    * Timeouts if no new entry after a few seconds
-    * @param array $lastPosition
-    * @param string $errorMessage the error message to return to the caller
-    * @return boolean true if a new position found before timeout
-    */
-   protected function pollGeolocationAnswer($lastPosition, &$errorMessage) {
-      $topic = $this->getTopic();
-      if ($topic === null) {
-         return false;
-      }
-
-      $geolocation = new PluginFlyvemdmGeolocation();
-      $computerId = $this->fields['computers_id'];
+      $this->notify($this->topic . "/Command/Geolocate",
+         json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES), 0, 0);
 
       // Wait for a reply within a short delay
       $loopCount = 25;
@@ -1530,38 +1504,26 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
          $updatedPosition = array_pop($updatedPositionRows);
          if ($lastPosition === null && $updatedPosition !== null
-               || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
+            || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
             if ($updatedPosition['latitude'] == 'na') {
-               $errorMessage = __('GPS is turned off or is not ready', 'flyvemdm');
-               return false;
-            } else {
-               return true;
+               throw new Exception(__('GPS is turned off or is not ready', 'flyvemdm'));
             }
+            return true;
          }
       }
+      throw new Exception(__('Timeout requesting position', 'flyvemdm'));
    }
 
    /**
     * Send an inventory request to the device
-    * @return boolean
+    *
+    * @return bool
+    * @throws Exception
     */
-   protected function sendInventoryQuery() {
-      $topic = $this->getTopic();
-      if ($topic === null) {
-         return false;
-      }
+   private function sendInventoryQuery() {
+      $this->notify($this->topic . "/Command/Inventory",
+         json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES), 0, 0);
 
-      $message = ['query'  => 'Inventory'];
-      $this->notify("$topic/Command/Inventory", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
-      return $this->pollInventoryAnswer();
-   }
-
-   /**
-    * Polls in the DB for the inventory of the agent
-    * @return boolean true if succeed
-    */
-   protected function pollInventoryAnswer() {
-      // Wait for a reply within a short delay
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
       $inventory = new PluginFusioninventoryInventoryComputerComputer();
@@ -1575,36 +1537,23 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
          $updatedInventory = array_pop($inventoryRows);
          if ($lastInventory === null && $updatedInventory !== null
-             || $lastInventory !== null && $lastInventory != $updatedInventory) {
+            || $lastInventory !== null && $lastInventory != $updatedInventory) {
             return true;
          }
       }
-
-      return false;
+      throw new Exception(__("Timeout querying the device inventory", 'flyvemdm'));
    }
 
    /**
     * Sends a message on the subtopic dedicated to ping requests
-    * @return boolean
+    *
+    * @return bool
+    * @throws Exception
     */
-   protected function sendPingQuery() {
-      $topic = $this->getTopic();
-      if ($topic === null) {
-         return false;
-      }
+   private function sendPingQuery() {
+      $this->notify($this->topic . "/Command/Ping",
+         json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES), 0, 0);
 
-      $message = ['query'  => 'Ping'];
-      $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
-
-      return $this->pollPingAnswer();
-   }
-
-   /**
-    * Polls the ping answer
-    * @return boolean true if succeed
-    */
-   protected function pollPingAnswer() {
-      // Wait for a reply within a short delay
       $loopCount = 25;
       $updatedAgent = new self();
       while ($loopCount > 0) {
@@ -1615,8 +1564,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return true;
          }
       }
-
-      return false;
+      throw new Exception(__("Timeout querying the device", 'flyvemdm'));
    }
 
    /**
