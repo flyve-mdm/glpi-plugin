@@ -223,6 +223,25 @@ $configurationUserInterface = [
       'apple_min_version'                   => '0',
       'apple_max_version'                   => '0',
    ],
+
+   [
+      'name'                                => __('Disable notifications', 'flyvemdm'),
+      'symbol'                              => 'disableNotifications',
+      'group'                               => 'ui',
+      'type'                                => 'bool',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Disable phone notifications.',
+         'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '0',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '7.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
 ];
 
 return array_merge($securityUserInterface, $configurationUserInterface);
