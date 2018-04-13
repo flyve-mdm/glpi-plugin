@@ -269,6 +269,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'Policy/disableSpeakerphone',
          'Policy/disableCreateVpnProfiles',
          'Policy/inventoryFrequency',
+         'Policy/disableAllSounds',
        ];
 
       $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
