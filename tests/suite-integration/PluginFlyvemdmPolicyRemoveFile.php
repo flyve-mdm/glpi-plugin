@@ -66,7 +66,10 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       $this->boolean($file->isNewItem())->isFalse($mysqlError);
 
       // Create a fleet
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $this->defaultEntity,
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $policyData = new \PluginFlyvemdmPolicy();
       $this->boolean($policyData->getFromDBBySymbol('removeFile'))->isTrue();
@@ -105,20 +108,5 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       ]);
       $this->boolean($task->isNewItem())->isFalse();
 
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $this->defaultEntity,
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 }

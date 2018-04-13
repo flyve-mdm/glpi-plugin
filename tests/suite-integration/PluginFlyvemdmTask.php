@@ -76,7 +76,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // Create a fleet
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __FUNCTION__
+      ]);
 
       // Move the agent to the fleet
       $this->boolean($agent->update([
@@ -158,7 +161,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
       // Test tassk status is created when an agent joins a fleet having policies
       // Create a 2nd fleet
-      $fleet2 = $this->createFleet();
+      $fleet2 = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __FUNCTION__
+      ]);
 
       // Apply a policy
       $policy = new \PluginFlyvemdmPolicy();
@@ -191,7 +197,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
       }
 
       // Create a 3rd fleet
-      $fleet3 = $this->createFleet();
+      $fleet3 = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       // Apply a policy
       $policy = new \PluginFlyvemdmPolicy();
@@ -227,20 +236,5 @@ class PluginFlyvemdmTask extends CommonTestCase {
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('canceled');
       }
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => $this->getUniqueString(),
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 }

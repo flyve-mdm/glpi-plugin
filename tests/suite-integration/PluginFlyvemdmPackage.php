@@ -87,7 +87,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $policyDataRemove = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataRemove->getFromDBBySymbol('removeApp'))->isTrue();
 
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
       $task = $this->applyAddPackagePolicy($policyDataDeploy, $package, $fleet);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -110,21 +113,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       // Check adding a deploy policy conflicts with removal one
       $task = $this->applyAddPackagePolicy($policyDataDeploy, $package, $fleet);
       $this->boolean($task->isNewItem())->isTrue();
-   }
-
-   /**
-    * @return object \PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 
    /**

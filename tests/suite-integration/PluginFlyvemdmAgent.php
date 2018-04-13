@@ -751,7 +751,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
       $fleetFk = $fleet::getForeignKeyField();
 
       // add the agent in the fleet
@@ -787,22 +790,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       ]);
       $this->mock($mockedAgent)->call('notify')->never();
 
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    * @tags createFleet
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => $this->getUniqueString(),
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 
    /**
