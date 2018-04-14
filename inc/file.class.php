@@ -70,6 +70,10 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       return 'fa-file';
    }
 
+   public function getAdditionalLinks() {
+      return [];
+   }
+
    public function addNeededInfoToInput($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
@@ -251,9 +255,6 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       ]);
    }
 
-   /**
-    * Actions done after the getFromFB method
-    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if (!$this->canView() || !$this->canViewItem()) {
@@ -303,7 +304,6 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
-      $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
       $fields['filesize'] = '';
       if (!$this->isNewID($ID)) {
@@ -318,6 +318,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
          'comment'      => $fields['comment'],
       ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('file.html.twig', $data);
 
       $this->showFormButtons($options);

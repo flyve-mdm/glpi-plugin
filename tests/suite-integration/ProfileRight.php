@@ -98,6 +98,8 @@ class ProfileRight extends CommonTestCase {
          \PluginFlyvemdmInvitationLog::$rightname  => READ,
          \PluginFlyvemdmTaskstatus::$rightname     => READ,
          \PluginFlyvemdmMqttlog::$rightname        => READ,
+         \PluginFlyvemdmFDroidApplication::$rightname  => READ | UPDATE | READNOTE | UPDATENOTE,
+         \PluginFlyvemdmFDroidMarket::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
       ];
 
       $profileRight = $this->newTestedInstance();

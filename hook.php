@@ -139,6 +139,9 @@ function plugin_Flyvemdm_addDefaultJoin($itemtype, $ref_table, $already_link_tab
 
       case PluginFlyvemdmAgent::class:
          return PluginFlyvemdmAgent::addDefaultJoin($ref_table, $already_link_tables);
+
+      case PluginFlyvemdmFDroidApplication::class:
+         return PluginFlyvemdmFDroidApplication::addDefaultJoin($ref_table, $already_link_tables);
    }
 }
 
@@ -154,8 +157,10 @@ function plugin_Flyvemdm_addDefaultWhere($itemtype) {
 
       case PluginFlyvemdmAgent::class:
          return PluginFlyvemdmAgent::addDefaultWhere();
-   }
 
+      case PluginFlyvemdmFDroidApplication::class:
+         return PluginFlyvemdmFDroidApplication::addDefaultWhere();
+   }
 }
 
 /**

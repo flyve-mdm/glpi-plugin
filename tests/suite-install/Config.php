@@ -52,6 +52,7 @@ class Config extends CommonTestCase {
             $this->olddb = new \DB();
             $this->string(getenv('OLDDBNAME'));
             $this->olddb->dbdefault = getenv('OLDDBNAME');
+            $this->string($this->olddb->dbdefault)->isNotEmpty();
             $this->olddb->connect();
             $this->boolean($this->olddb->connected)->isTrue();
             break;

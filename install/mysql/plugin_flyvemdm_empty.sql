@@ -259,3 +259,40 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   INDEX `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),
   INDEX `plugin_flyvemdm_tasks_id` (`plugin_flyvemdm_tasks_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_fdroidapplications
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fdroidapplications`;
+CREATE TABLE `glpi_plugin_flyvemdm_fdroidapplications` (
+  `id`                          int(11)                                  NOT NULL AUTO_INCREMENT,
+  `name`                        varchar(255)                             NOT NULL DEFAULT '',
+  `package_name`                varchar(255)                             NOT NULL DEFAULT '',
+  `entities_id`                 int(11)                                  NOT NULL DEFAULT '0',
+  `is_recursive`                tinyint(1)                               NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_fdroidmarkets_id` int(11)                             NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_packages_id` int(11)                                  NOT NULL DEFAULT '0',
+  `alias`                       varchar(255)                             NOT NULL DEFAULT '',
+  `version`                     varchar(255)                             NOT NULL DEFAULT '',
+  `version_code`                varchar(255)                             NOT NULL DEFAULT '',
+  `date_mod`                    datetime                                 NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `desc`                        text                                     NOT NULL,
+  `filename`                    varchar(255)                             NOT NULL DEFAULT '',
+  `filesize`                    int(11)                                  NOT NULL DEFAULT '0',
+  `import_status`               enum('no_import','to_import','imported') NOT NULL DEFAULT 'no_import',
+  `is_available`                tinyint(1)                               NOT NULL DEFAULT '1' COMMENT 'Does the application exists in the store ?',
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`),
+  KEY `plugin_flyvemdm_fdroidmarkets_id` (`plugin_flyvemdm_fdroidmarkets_id`),
+  KEY `plugin_flyvemdm_packages_id` (`plugin_flyvemdm_packages_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_fdroidmarkets
+DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_fdroidmarkets`;
+CREATE TABLE `glpi_plugin_flyvemdm_fdroidmarkets` (
+  `id`                               int(11)                             NOT NULL AUTO_INCREMENT,
+  `name`                             varchar(255)                        NOT NULL DEFAULT '',
+  `entities_id`                      int(11)                             NOT NULL DEFAULT '0',
+  `is_recursive`                     tinyint(1)                          NOT NULL DEFAULT '0',
+  `url`                              varchar(255)                        NOT NULL DEFAULT '' COMMENT 'URL to index.xml of the market',
+  PRIMARY KEY (`id`),
+  KEY `entities_id` (`entities_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
