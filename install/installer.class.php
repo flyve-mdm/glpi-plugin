@@ -198,9 +198,10 @@ class PluginFlyvemdmInstaller {
       }
 
       // Create cache directory for the template engine
-      PluginFlyvemdmCommon::recursiveRmdir(FLYVEMDM_TEMPLATE_CACHE_PATH);
-      if (!mkdir(FLYVEMDM_TEMPLATE_CACHE_PATH, 0770, true)) {
-         $this->migration->displayWarning("Cannot create " . FLYVEMDM_TEMPLATE_CACHE_PATH . " directory");
+      if (!file_exists(FLYVEMDM_TEMPLATE_CACHE_PATH)) {
+         if (!mkdir(FLYVEMDM_TEMPLATE_CACHE_PATH, 0770, true)) {
+            $this->migration->displayWarning("Cannot create " . FLYVEMDM_TEMPLATE_CACHE_PATH . " directory");
+         }
       }
    }
 
@@ -257,6 +258,8 @@ class PluginFlyvemdmInstaller {
             PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
             PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
+         PluginFlyvemdmFDroidApplication::$rightname  => READ | UPDATE | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFDroidMarket::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -543,6 +546,18 @@ Regards,
             'comment' => __('Parse uploaded applications to collect metadata', 'flyvemdm'),
             'mode'    => CronTask::MODE_EXTERNAL,
          ]);
+
+      CronTask::Register(PluginFlyvemdmFDroidMarket::class, 'UpdateRepositories', DAY_TIMESTAMP,
+         [
+            'comment'   => __('Update the list of applications available from F-Droid like repositories', 'flyvemdm'),
+            'mode'      => CronTask::MODE_EXTERNAL
+         ]);
+
+      CronTask::Register(PluginFlyvemdmFDroidApplication::class, 'DownloadApplications', DAY_TIMESTAMP,
+         [
+            'comment'   => __('Imports applications for deployment', 'flyvemdm'),
+            'mode'      => CronTask::MODE_EXTERNAL
+         ]);
    }
 
    /**
@@ -812,6 +827,8 @@ Regards,
          PluginFlyvemdmPolicyCategory::getTable(),
          PluginFlyvemdmWellknownpath::getTable(),
          PluginFlyvemdmTaskstatus::getTable(),
+         PluginFlyvemdmFDroidApplication::getTable(),
+         PluginFlyvemdmFDroidMarket::getTable(),
       ];
 
       foreach ($tables as $table) {

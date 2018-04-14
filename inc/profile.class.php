@@ -54,6 +54,12 @@ class PluginFlyvemdmProfile extends Profile {
       $plugprof->deleteByCriteria(['profiles_id' => $prof->getField("id")]);
    }
 
+   function getRights($interface = 'central') {
+      $values = [self::RIGHT_FLYVEMDM_USE => __('Use Flyve MDM')];
+
+      return $values;
+   }
+
    /**
     * @see Profile::showForm()
     */
@@ -103,7 +109,10 @@ class PluginFlyvemdmProfile extends Profile {
    }
 
    /**
-    * @see Profile::displayTabContentForItem
+    * @param CommonGLPI $item
+    * @param number $tabnum
+    * @param number $withtemplate
+    * @return boolean
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
       if ($item->getType() == 'Profile') {
@@ -161,6 +170,8 @@ class PluginFlyvemdmProfile extends Profile {
          PluginFlyvemdmPolicy::class,
          PluginFlyvemdmPolicyCategory::class,
          PluginFlyvemdmWellknownpath::class,
+         PluginFlyvemdmFDroidMarket::class,
+         PluginFlyvemdmFDroidApplication::class,
       ];
 
       $rights = [];

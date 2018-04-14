@@ -1,0 +1,33 @@
+{% if number < 1 %}
+   <div class='center'>
+      <table class='tab_cadre_fixe'>
+      <tr><th>{{ __('There is no application yet', 'flyvemdm') }}</th></tr>
+      </table>
+   </div>
+   <br>
+{% else %}
+   {{ pager|raw }}
+   <div class='center'>
+      <table class='tab_cadre_fixehov'>
+         <tr>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('Name', 'flyvemdm') }}</th>
+            <th>{{ __('Version', 'flyvemdm') }}</th>
+         </tr>
+         {% for fdroidapplication in fdroidapplications %}
+         {% if loop.index > start and loop.index <= stop %}
+            <tr class='tab_bg_2'>
+               <td ><center>{{ fdroidapplication.id }}</center></td>
+               <td><center><a href="{{ fdroidapplication.itemUrl }}">{{ __(fdroidapplication.name, 'flyvemdm') }}</a></center></td>
+               <td><center>{{ fdroidapplication.version }}</center></td>
+            </tr>
+         {% endif %}
+         {% endfor %}
+         <tr>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('Name', 'flyvemdm') }}</th>
+            <th>{{ __('Version', 'flyvemdm') }}</th>
+         </tr>
+      </table>
+   </div>
+{% endif %}
