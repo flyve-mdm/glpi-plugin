@@ -90,6 +90,17 @@
 		</tr>
 		{% endif %} {% if step == 104 %}
 		<tr>
+			<th colspan="3" class="">{{ __('Document Types', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('You must add the APK and UPK document types in order to upload Android and Uhuru packages.', 'flyvemdm') }}</p>
+                <p>{{ __('Just click in the following button and they will be automatically added', 'flyvemdm') }}</p>
+			    <input type="submit" class="submit" name="addDocTypes" value="{{ __('add document types', 'flyvemdm') }}">
+			</td>
+		</tr>
+		{% endif %} {% if step == 105 %}
+		<tr>
 			<th colspan="3" class="">{{ __('Server Configuration', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
@@ -112,7 +123,7 @@ upload_max_filesize = 8M
 </textarea></p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 105 %}
+		{% endif %} {% if step == 106 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Fusion Inventory Configuration', 'flyvemdm') }}</th>
 		</tr>
@@ -125,7 +136,7 @@ upload_max_filesize = 8M
 				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 106 %}
+		{% endif %} {% if step == 107 %}
 		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -153,7 +164,7 @@ bind-address = 0.0.0.0
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-flyvemdm-92\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 107 %}
+		{% endif %} {% if step == 108 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -180,7 +191,7 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 108 %}
+		{% endif %} {% if step == 109 %}
 		<tr>
 			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
 		</tr>
@@ -219,7 +230,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('This will launch openssl as a client using the TLS protocol and leave the terminal in a state similar to telnet') }}</p>
 				<p>{{ __('Many debug information is displayed during TLS negociation, useful to diagnose TLS problems') }}</p>			</td>
 		</tr>
-		{% endif %} {% if step == 109 %}
+		{% endif %} {% if step == 110 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
