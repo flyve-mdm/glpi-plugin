@@ -138,4 +138,12 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       }
    }
 
+   public function testGetSpecificValueToDisplay() {
+      // @see http://png-pixel.com/
+      $png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+
+      $instance = $this->newTestedInstance();
+      $output = $instance::getSpecificValueToDisplay('icon', ['icon' => $png]);
+      $this->string($output)->isEqualTo('<img style="height: 14px" src="data:image/png;base64,'. $png .'">');
+   }
 }
