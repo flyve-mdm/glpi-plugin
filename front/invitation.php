@@ -42,7 +42,7 @@ Html::header(
       PluginFlyvemdmInvitation::getTypeName(Session::getPluralNumber()),
       '',
       'admin',
-      'PluginFlyvemdmMenu',
+      PluginFlyvemdmMenu::class,
       'invitation'
       );
 

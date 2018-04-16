@@ -94,8 +94,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public static function getEnumMdmType() {
       return [
-         'android'   => __("Android", 'flyvemdm'),
-         'apple'     => __("Apple", 'flyvemdm'),
+         'android'   => __('Android', 'flyvemdm'),
+         'apple'     => __('Apple', 'flyvemdm'),
       ];
    }
 

@@ -36,4 +36,4 @@ if (!$plugin->isActivated('flyvemdm')) {
 }
 
 $dropdown = new PluginFlyvemdmPolicyCategory();
-include (GLPI_ROOT . "/front/dropdown.common.form.php");
+include (GLPI_ROOT . '/front/dropdown.common.form.php');

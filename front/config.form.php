@@ -53,7 +53,7 @@ if (isset($_POST['update']) || isset($_POST['back'])) {
       __('Configuration'),
       '',
       'admin',
-      'PluginFlyvemdmMenu',
+      PluginFlyvemdmMenu::class,
       'config'
    );
 

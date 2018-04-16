@@ -39,11 +39,11 @@ Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_U
 Session::checkRight('flyvemdm:agent', READ);
 
 Html::header(
-      PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
-      '',
-      'admin',
-      PluginFlyvemdmMenu::class,
-      'agent'
+   PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
+   '',
+   'admin',
+   PluginFlyvemdmMenu::class,
+   'agent'
 );
 
 $menu = new PluginFlyvemdmMenu();

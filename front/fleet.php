@@ -42,7 +42,7 @@ Html::header(
       PluginFlyvemdmFleet::getTypeName(Session::getPluralNumber()),
       '',
       'admin',
-      'PluginFlyvemdmMenu',
+      PluginFlyvemdmMenu::class,
       'fleet'
 );
 
