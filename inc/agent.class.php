@@ -217,7 +217,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $canUpdate = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
 
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
+      $objectName          = (new DbUtils)->autoName($this->fields['name'], 'name',
                              (isset($options['withtemplate']) && $options['withtemplate'] == 2),
                              $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
