@@ -96,7 +96,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (!$DB->fieldExists($table, 'enroll_status')) {
       $query = "ALTER TABLE `$table`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
-      $DB->query($query) or die("Could upgrade table $table" . $DB->error());
+      $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
    }
    $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
@@ -148,9 +148,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
                KEY `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),
                KEY `plugin_flyvemdm_tasks_id` (`plugin_flyvemdm_tasks_id`)
              ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-   if (!$DB->query($query)) {
-      plugin_flyvemdm_upgrade_error($migration);
-   }
+   $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
+
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
 
@@ -273,7 +272,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
               INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`),
               INDEX `date_creation` (`date_creation`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-   $DB->query($query) or die("Could not create invitation logs table " . $DB->error());
+   $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
    $migration->addKey($table, 'plugin_flyvemdm_invitations_id', 'plugin_flyvemdm_invitations_id');
 
    $table = 'glpi_plugin_flyvemdm_invitations';

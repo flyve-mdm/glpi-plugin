@@ -36,4 +36,4 @@ if (!$plugin->isActivated('flyvemdm')) {
 }
 
 $dropdown = new PluginFlyvemdmWellknownpath();
-include (GLPI_ROOT . "/front/dropdown.common.php");
+include (GLPI_ROOT . '/front/dropdown.common.php');

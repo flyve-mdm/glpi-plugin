@@ -67,7 +67,7 @@ if (isset($_POST["add"])) {
          PluginFlyvemdmFleet::getTypeName(Session::getPluralNumber()),
          '',
          'admin',
-         'PluginFlyvemdmMenu',
+         PluginFlyvemdmMenu::class,
          'fleet'
    );
 

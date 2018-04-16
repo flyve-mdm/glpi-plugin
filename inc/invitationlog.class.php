@@ -55,8 +55,6 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
     */
    public function getRights($interface = 'central') {
       $rights = parent::getRights();
-      /// For additional righrs if needed
-      //$rights[self::RIGHTS] = self::getTypeName();
 
       return $rights;
    }
