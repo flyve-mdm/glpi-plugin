@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Tests\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmPolicyDropdown extends CommonTestCase {

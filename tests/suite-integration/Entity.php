@@ -87,42 +87,8 @@ class Entity extends CommonTestCase {
          'name'        => 'a fleet',
          'entities_id' => $entityId,
       ]);
-      $package = new \PluginFlyvemdmPackage();
-      $packageName = 'com.domain.author.application';
-      $packageTable = \PluginFlyvemdmPackage::getTable();
-      $DB->query("INSERT INTO $packageTable (
-            `package_name`,
-            `alias`,
-            `version`,
-            `filename`,
-            `entities_id`,
-            `dl_filename`,
-            `icon`
-         )
-         VALUES (
-            '$packageName',
-            'application',
-            '1.0.5',
-            '$entityId/123456789_application_105.apk',
-            '$entityId',
-            'application_105.apk',
-            ''
-            )");
-      $package->getFromDBByCrit(['name' => $packageName]);
-      $file = new \PluginFlyvemdmFile();
-      $fileName = 'flyve-user-manual.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $DB->query("INSERT INTO $fileTable (
-            `name`,
-            `source`,
-            `entities_id`
-         )
-         VALUES (
-            '$fileName',
-            '2/12345678_flyve-user-manual.pdf',
-            '$entityId'
-         )");
-      $file->getFromDBByCrit(['name' => $fileName]);
+      $package = $this->createFlyvemdmDumbPackage($entityId);
+      $file = $this->createFlyvemdmDumbFile($entityId);
 
       $entity->delete(['id' => $entity->getID()]);
       $this->boolean($invitation->getFromDB($invitation->getID()))->isFalse();

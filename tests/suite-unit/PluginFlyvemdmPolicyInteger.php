@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Tests\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmPolicyInteger extends CommonTestCase {
@@ -116,8 +116,8 @@ class PluginFlyvemdmPolicyInteger extends CommonTestCase {
 
    /**
     * @dataProvider filterStatusProvider
-    * @param unknown $status
-    * @param unknown $expected
+    * @param mixed $status
+    * @param mixed $expected
     */
    public function testFilterStatus($status, $expected) {
       $policy = new \PluginFlyvemdmPolicy();

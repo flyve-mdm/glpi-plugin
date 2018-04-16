@@ -42,9 +42,6 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       'unicity'   => 0,
    ];
 
-   private $packageName = 'com.domain.author.application.apk';
-   private $filename = 'application.apk';
-
    /**
     * @param null|\PluginFlyvemdmPolicy $policyData
     * @return array
@@ -128,7 +125,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 2;
       if (!$expected['return']) {
-         $application = $this->createAppInDB();
+         $application = $this->createFlyvemdmDumbPackage();
          $data['value'] = $application->getField('package_name');
       }
       $this->boolean($policy->unicityCheck($data['value'], '', '',
@@ -139,7 +136,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
     * @return array
     */
    public function applyProvider() {
-      $package = $this->createAppInDB();
+      $package = $this->createFlyvemdmDumbPackage();
       return [
          'Check for invalid arguments 1' => [
             'data'     => ['value' => 'fake.lorem.package'],
@@ -164,39 +161,4 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
          ->string($result[$this->dataField['symbol']])->isEqualTo($packageName);
    }
 
-   /**
-    * Create an application (directly in DB) because we are not uploading any file
-    * @return \PluginFlyvemdmPackage
-    */
-   private function createAppInDB() {
-      global $DB;
-
-      $uniqid = uniqid();
-      $table_file = \PluginFlyvemdmPackage::getTable();
-      $query = "INSERT INTO `$table_file` (
-        `package_name`,
-        `alias`,
-        `version`,
-        `filename`,
-        `entities_id`,
-        `dl_filename`,
-        `icon`
-        ) VALUES (
-        '" . $uniqid . $this->packageName . "',
-        'application',
-        '1.0.5',
-        '0/" . $uniqid . $this->filename . "',
-        '0',
-        '" . $this->filename . "',
-        ''
-        )";
-      $result = $DB->query($query);
-      $this->boolean($result)->isTrue();
-
-      $file = new \PluginFlyvemdmPackage();
-      $file->getFromDB($DB->insert_id());
-      $this->boolean($file->isNewItem())->isFalse();
-
-      return $file;
-   }
 }

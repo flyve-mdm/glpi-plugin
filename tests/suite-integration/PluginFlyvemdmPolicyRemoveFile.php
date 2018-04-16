@@ -41,29 +41,11 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
     * @tags testDeployRemoveFilePolicy
     */
    public function testDeployRemoveFilePolicy() {
-      global $DB;
 
       $destination = '%SDCARD%/path/to/file.pdf';
 
       // Create a file (directly in DB)
-      $fileName = 'flyve-user-manual' . uniqid() . '.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $entityId = $this->defaultEntity;
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_flyve-user-manual.pdf',
-         '$entityId'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = new \PluginFlyvemdmFile();
-      $file->getFromDBByCrit(['name' => $fileName]);
-      $this->boolean($file->isNewItem())->isFalse($mysqlError);
+      $this->createFlyvemdmDumbFile($this->defaultEntity);
 
       // Create a fleet
       $fleet = $this->createFleet([
@@ -95,9 +77,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
          'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
-
-      $groupName = $policyData->getField('group');
-      $fleetId = $fleet->getID();
 
       // Apply the policy to the fleet
       $task = new \PluginFlyvemdmTask();
