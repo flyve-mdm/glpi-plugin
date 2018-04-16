@@ -62,7 +62,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Gets the instance of the PluginFlyvemdmMqtthandler
-    * @return the instance of this class
+    * @return self instance of this class
     */
    public static function getInstance() {
       if (self::$instance === null) {
@@ -75,6 +75,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Maintains a MQTT topic to publish the current version of the backend
     *
     * @param \sskaje\mqtt\MQTT $mqtt
+    * @throws \sskaje\mqtt\Exception
     */
    protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
@@ -94,6 +95,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Handle MQTT Ping response
     * @param sskaje\mqtt\MQTT $mqtt
     * @param sskaje\mqtt\Message\PINGRESP $pingresp_object
+    * @throws \sskaje\mqtt\Exception
     */
    public function pingresp(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       global $DB;

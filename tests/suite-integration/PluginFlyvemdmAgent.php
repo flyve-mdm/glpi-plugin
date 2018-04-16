@@ -924,7 +924,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          'lastname'          => 'Doe',
          'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
          'type'              => 'android',
-         'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
+         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
       ]);
       return $agentId;
    }

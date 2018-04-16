@@ -41,30 +41,9 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
     * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
-      global $DB;
-
       // Create an application (directly in DB) because we are not uploading any file
       // Create an file (directly in DB)
-      $fileName = 'flyve-user-manual-' . uniqid() . '.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $entityId = $this->defaultEntity;
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`,
-         `version`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_flyve-user-manual.pdf',
-         '$entityId',
-         '1'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = new \PluginFlyvemdmFile();
-      $file->getFromDBByCrit(['name' => $fileName]);
-      $this->boolean($file->isNewItem())->isFalse($mysqlError);
+      $file = $this->createFlyvemdmDumbFile($this->defaultEntity);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployFile'))->isTrue();

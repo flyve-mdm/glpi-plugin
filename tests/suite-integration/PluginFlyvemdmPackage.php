@@ -53,33 +53,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $uniqueString = $this->getUniqueString();
-      $packageName = 'com.domain.' . $uniqueString . '.application';
-      $packageTable = \PluginFlyvemdmPackage::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
-      $query = "INSERT INTO $packageTable (
-         `package_name`,
-         `alias`,
-         `version`,
-         `filename`,
-         `entities_id`,
-         `dl_filename`,
-         `icon`
-      )
-      VALUES (
-         '$packageName',
-         'application',
-         '1.0.5',
-         '$entityId/123456789_application_" . $uniqueString . ".apk',
-         '$entityId',
-         'application_" . $uniqueString . ".apk',
-         ''
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $package = $this->newTestedinstance();
-      $package->getFromDBByCrit(['package_name' => $packageName]);
-      $this->boolean($package->isNEwItem())->isFalse($mysqlError);
+      $package = $this->createFlyvemdmDumbPackage($_SESSION['glpiactive_entity']);
+      $packageName = $package->getField('package_name');
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();

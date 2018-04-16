@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Tests\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmFile extends CommonTestCase {
 
@@ -42,44 +42,6 @@ class PluginFlyvemdmFile extends CommonTestCase {
             $this->login('glpi', 'glpi');
             break;
       }
-   }
-
-   /**
-    * @param string $fileTable
-    * @param null|string $userFilename
-    * @param int $version
-    * @return object
-    */
-   private function createFile($fileTable, $userFilename = null, $version = 1) {
-      global $DB;
-
-      // Create an file (directly in DB)
-      $entityId = $_SESSION['glpiactive_entity'];
-      $fileName = ((null !== $userFilename) ? $userFilename : $this->getUniqueString());
-      $destination = $entityId . '/dummy_file_' . $fileName;
-      if (!is_dir($directory = FLYVEMDM_FILE_PATH . "/" . $entityId)) {
-         @mkdir($directory);
-      }
-      $fileSize = file_put_contents(FLYVEMDM_FILE_PATH . '/' . $destination, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`,
-         `version`
-      ) VALUES (
-         '$fileName',
-         '$destination',
-         '$entityId',
-         '$version'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = $this->newTestedInstance();
-      $file->getFromDBByCrit(['name' => $fileName]);
-      $this->boolean($file->isNewItem())->isFalse($mysqlError);
-
-      return $file;
    }
 
    public function providerPrepareInputForAdd() {
@@ -238,8 +200,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
       $this->calling($common)->isAPI = $isApi;
 
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $file = $this->createFile($fileTable, null, $input['version']);
+      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity'], null, $input['version']);
 
       $output = $file->prepareInputForUpdate($input);
       if ($expected === false) {
@@ -277,7 +238,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $file = $this->createFile(\PluginFlyvemdmFile::getTable());
+      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity']);
       if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
       } else if ($isApi) {

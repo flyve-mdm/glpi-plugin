@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Tests\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPackage extends CommonTestCase {
 
@@ -170,7 +170,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $file = $this->createPackage(\PluginFlyvemdmPackage::getTable());
+      $file = $this->createFlyvemdmDumbPackage($_SESSION['glpiactive_entity']);
       if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
       } else if ($isApi) {

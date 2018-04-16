@@ -53,7 +53,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
     * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
-      $file = $this->createFile();
+      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity']);
       $fileDestination = '%SDCARD%/path/to/';
 
       // Applya a policy on a file
@@ -93,7 +93,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
    /**
     * @return object
     */
-   private function createFile() {
+   private function createFlyvemdmDumbFile() {
       global $DB;
 
       // Create an file (directly in DB)

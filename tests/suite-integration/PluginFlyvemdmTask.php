@@ -69,7 +69,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
             'lastname'          => 'Doe',
             'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
             'type'              => 'android',
-            'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
+            'inventory'         => CommonTestCase::AgentXmlInventory($serial),
          ]
       );
       $this->boolean($agent->isNewItem())
