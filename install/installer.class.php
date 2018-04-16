@@ -238,8 +238,6 @@ class PluginFlyvemdmInstaller {
       $profileRight = new ProfileRight();
 
       $newRights = [
-         PluginFlyvemdmProfile::$rightname        => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
-         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          PluginFlyvemdmAgent::$rightname          => READ | UPDATE | PURGE | READNOTE | UPDATENOTE,
          PluginFlyvemdmFleet::$rightname          => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
          PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
@@ -248,11 +246,13 @@ class PluginFlyvemdmInstaller {
          PluginFlyvemdmPolicy::$rightname         => READ,
          PluginFlyvemdmPolicyCategory::$rightname => READ,
          PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
+         PluginFlyvemdmProfile::$rightname        => PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
          PluginFlyvemdmEntityConfig::$rightname   => READ
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-         PluginFlyvemdmInvitationLog::$rightname  => READ,
+            PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
+            PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
       ];
 
