@@ -92,6 +92,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
          'support_website' => '',
          'support_email'   => '',
          'support_address' => '',
+         'download_url'    => '',
       ];
       foreach ($fieldsToRecurse as $field => $default) {
          if (empty($this->fields[$field])) {
@@ -111,9 +112,6 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    public function prepareInputForAdd($input) {
       if (!isset($input['id'])) {
          return false;
-      }
-      if (!isset($input['download_url'])) {
-         $input['download_url'] = PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL;
       }
       $input['entities_id'] = $input['id'];
 
@@ -374,6 +372,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
             'support_website' => self::CONFIG_PARENT,
             'support_email'   => self::CONFIG_PARENT,
             'support_address' => self::CONFIG_PARENT,
+            'download_url'    => self::CONFIG_PARENT,
          ]);
          // To set virtual fields about inheritance
          $this->post_getFromDB();
