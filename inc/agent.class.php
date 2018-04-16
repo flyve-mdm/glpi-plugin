@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -1484,7 +1486,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Send an geolocation request to the agent
     *
     * @return bool
-    * @throws Exception
+    * @throws AgentSendQueryException
     */
    private function sendGeolocationQuery() {
 
@@ -1506,19 +1508,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          if ($lastPosition === null && $updatedPosition !== null
             || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
             if ($updatedPosition['latitude'] == 'na') {
-               throw new Exception(__('GPS is turned off or is not ready', 'flyvemdm'));
+               throw new AgentSendQueryException(__('GPS is turned off or is not ready', 'flyvemdm'));
             }
             return true;
          }
       }
-      throw new Exception(__('Timeout requesting position', 'flyvemdm'));
+      throw new AgentSendQueryException(__('Timeout requesting position', 'flyvemdm'));
    }
 
    /**
     * Send an inventory request to the device
     *
     * @return bool
-    * @throws Exception
+    * @throws AgentSendQueryException
     */
    private function sendInventoryQuery() {
       $this->notify($this->topic . "/Command/Inventory",
@@ -1541,14 +1543,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return true;
          }
       }
-      throw new Exception(__("Timeout querying the device inventory", 'flyvemdm'));
+      throw new AgentSendQueryException(__("Timeout querying the device inventory", 'flyvemdm'));
    }
 
    /**
     * Sends a message on the subtopic dedicated to ping requests
     *
     * @return bool
-    * @throws Exception
+    * @throws AgentSendQueryException
     */
    private function sendPingQuery() {
       $this->notify($this->topic . "/Command/Ping",
@@ -1564,7 +1566,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return true;
          }
       }
-      throw new Exception(__("Timeout querying the device", 'flyvemdm'));
+      throw new AgentSendQueryException(__("Timeout querying the device", 'flyvemdm'));
    }
 
    /**
