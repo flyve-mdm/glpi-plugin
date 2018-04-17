@@ -39,7 +39,7 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev]
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
@@ -47,6 +47,7 @@ Options:
    --enable-api         Enable GLPI's API
    --enable-email       Enable GLPI's email notification
    --tests              Use GLPI test database
+   --dev                Change the Agent download URL for the Beta testing url
 
 DOC;
 
@@ -118,6 +119,7 @@ $auth->user = $user;
 Session::init($auth);
 
 $apiUserToken = $args['--api-user-token'];
+$dev = $args['--dev'];
 
 /*---------------------------------------------------------------------*/
 
@@ -155,6 +157,17 @@ $apiClientQuery = "UPDATE glpi_apiclients
                        `ipv4_range_end` = null
                    WHERE `name` like 'full access from localhost'";
 $DB->query($apiClientQuery);
+
+if($dev) {
+$entityConfig = new PluginFlyvemdmEntityConfig();
+$entityConfig->getFromDBByCrit([
+      'entities_id' => '0',
+]);
+$devquery = "UPDATE `glpi_plugin_flyvemdm_entityconfigs` 
+            SET `download_url` = '" . PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL . "'
+            WHERE `glpi_plugin_flyvemdm_entityconfigs`.`entities_id` = 0";
+$DB->query($devquery);
+}
 
 // Enable the plugin
 print("Activating Plugin...\n");
