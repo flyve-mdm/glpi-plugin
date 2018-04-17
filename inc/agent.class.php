@@ -516,7 +516,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (isset($input['_ping'])) {
          try {
             $this->sendPingQuery();
-         } catch (Exception $exception) {
+         } catch (AgentSendQueryException $exception) {
             Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
@@ -525,7 +525,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (isset($input['_geolocate'])) {
          try {
             $this->sendGeolocationQuery();
-         } catch (Exception $exception) {
+         } catch (AgentSendQueryException $exception) {
             Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
@@ -534,7 +534,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (isset($input['_inventory'])) {
          try {
             $this->sendInventoryQuery();
-         } catch (Exception $exception) {
+         } catch (AgentSendQueryException $exception) {
             Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
