@@ -125,7 +125,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 2;
       if (!$expected['return']) {
-         $application = $this->createFlyvemdmDumbPackage();
+         $application = $this->createDummyPackage();
          $data['value'] = $application->getField('package_name');
       }
       $this->boolean($policy->unicityCheck($data['value'], '', '',
@@ -136,7 +136,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
     * @return array
     */
    public function applyProvider() {
-      $package = $this->createFlyvemdmDumbPackage();
+      $package = $this->createDummyPackage();
       return [
          'Check for invalid arguments 1' => [
             'data'     => ['value' => 'fake.lorem.package'],

@@ -94,7 +94,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();
       if ($data[2] === true) {
-         $item = $this->createFlyvemdmDumbPackage(0);
+         $item = $this->createDummyPackage(0);
          $data[2] = $item->getID();
       }
       $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
@@ -112,7 +112,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
 
       $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
-      $item = $this->createFlyvemdmDumbPackage(0);
+      $item = $this->createDummyPackage(0);
       $value = '{"remove_on_delete":0}';
       $result = $policy->getMqttMessage($value, $item->getType(), $item->getID());
       $this->array($result)->hasKeys(['id', 'versionCode', $this->dataField['symbol']])
@@ -128,7 +128,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $application = $this->createFlyvemdmDumbPackage(0);
+      $application = $this->createDummyPackage(0);
       $this->boolean($policy->unicityCheck(null, \PluginFlyvemdmPackage::class, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
@@ -146,7 +146,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])
          ->isEqualTo('The application does not exists');
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
-      $application = $this->createFlyvemdmDumbPackage(0);
+      $application = $this->createDummyPackage(0);
       $this->boolean($policy->conflictCheck(null, $packageClass, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
@@ -159,7 +159,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
-      $appInDB = $this->createFlyvemdmDumbPackage(0);
+      $appInDB = $this->createDummyPackage(0);
 
       // check integrity
       $this->boolean($policy->pre_unapply(null, null, null, $mockInstance))->isFalse();

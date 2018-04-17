@@ -200,7 +200,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
       $this->calling($common)->isAPI = $isApi;
 
-      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity'], null, $input['version']);
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity'], null, $input['version']);
 
       $output = $file->prepareInputForUpdate($input);
       if ($expected === false) {
@@ -238,7 +238,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity']);
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity']);
       if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
       } else if ($isApi) {

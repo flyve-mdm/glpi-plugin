@@ -53,7 +53,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
     * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
-      $file = $this->createFlyvemdmDumbFile($_SESSION['glpiactive_entity']);
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity']);
       $fileDestination = '%SDCARD%/path/to/';
 
       // Applya a policy on a file
@@ -88,35 +88,6 @@ class PluginFlyvemdmFile extends CommonTestCase {
       // Test add policy fails when a removal policy exists
       $fleet_policy = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
       $this->boolean($fleet_policy->isNewItem())->isTrue();
-   }
-
-   /**
-    * @return object
-    */
-   private function createFlyvemdmDumbFile() {
-      global $DB;
-
-      // Create an file (directly in DB)
-      $fileName = $this->getUniqueString() . '.pdf';
-      $fileTable = FlyvemdmFile::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_$fileName.pdf',
-         '$entityId'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = $this->newTestedInstance();
-      $file->getFromDBByCrit(['name' => $fileName]);
-      $this->boolean($file->isNewItem())->isFalse($mysqlError);
-
-      return $file;
    }
 
    /**

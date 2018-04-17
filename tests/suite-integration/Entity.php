@@ -42,8 +42,6 @@ class Entity extends CommonTestCase {
    }
 
    public function testDeleteEntity() {
-      global $DB;
-
       $entity = $this->newTestedInstance();
       $entityId = $entity->add([
          'name' => 'to be deleted',
@@ -87,8 +85,8 @@ class Entity extends CommonTestCase {
          'name'        => 'a fleet',
          'entities_id' => $entityId,
       ]);
-      $package = $this->createFlyvemdmDumbPackage($entityId);
-      $file = $this->createFlyvemdmDumbFile($entityId);
+      $package = $this->createDummyPackage($entityId);
+      $file = $this->createDummyFile($entityId);
 
       $entity->delete(['id' => $entity->getID()]);
       $this->boolean($invitation->getFromDB($invitation->getID()))->isFalse();

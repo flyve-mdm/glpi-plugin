@@ -30,7 +30,9 @@
  */
 namespace Flyvemdm\Tests;
 
-class CommonTestCase extends \Glpi\Tests\CommonTestCase {
+use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
+
+class CommonTestCase extends GlpiCommonTestCase {
 
    /**
     * Try to enroll an device by creating an agent. If the enrollment fails
@@ -120,7 +122,7 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
          $finalVersion = null;
       }
 
-      $finalInventory = (null !== $inventory) ? $inventory : CommonTestCase::AgentXmlInventory($serial);
+      $finalInventory = (null !== $inventory) ? $inventory : self::AgentXmlInventory($serial);
 
       $input = [
          'entities_id'       => $_SESSION['glpiactive_entity'],
@@ -165,7 +167,7 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
     * @param int $version
     * @return \PluginFlyvemdmFile
     */
-   function createFlyvemdmDumbFile($entityId, $userFilename = null, $version = 1) {
+   function createDummyFile($entityId, $userFilename = null, $version = 1) {
       global $DB;
 
       // Create an file (directly in DB)
@@ -196,7 +198,7 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
          $flyvemdmFile->getFromDBByCrit(['name' => $fileName]);
          $this->boolean($flyvemdmFile->isNewItem())->isFalse($mysqlError);
          return $flyvemdmFile;
-      } catch (\Exception $e){
+      } catch (\Exception $e) {
          echo $e->getMessage();
          $this->stop();
       }
@@ -407,7 +409,7 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
     * Create an application (directly in DB) because we are not uploading any file
     * @return \PluginFlyvemdmPackage
     */
-   protected function createFlyvemdmDumbPackage($entityId, $filename = null, $version = '1.0.5') {
+   protected function createDummyPackage($entityId, $filename = null, $version = '1.0.5') {
       global $DB;
 
       // Create an file (directly in DB)
@@ -445,7 +447,7 @@ class CommonTestCase extends \Glpi\Tests\CommonTestCase {
          $flyvemdmPackage->getFromDBByCrit(['package_name' => $dumbPackageName]);
          $this->boolean($flyvemdmPackage->isNewItem())->isFalse($mysqlError);
          return $flyvemdmPackage;
-      } catch (\Exception $e){
+      } catch (\Exception $e) {
          echo $e->getMessage();
          $this->stop();
       }
