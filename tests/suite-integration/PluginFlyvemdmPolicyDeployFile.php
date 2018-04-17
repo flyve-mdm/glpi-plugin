@@ -43,7 +43,7 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
    public function testApplyPolicy() {
       // Create an application (directly in DB) because we are not uploading any file
       // Create an file (directly in DB)
-      $file = $this->createFlyvemdmDumbFile($this->defaultEntity);
+      $file = $this->createDummyFile($this->defaultEntity);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployFile'))->isTrue();

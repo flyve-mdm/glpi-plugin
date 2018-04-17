@@ -31,6 +31,7 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
+
 class PluginFlyvemdmConfig extends CommonTestCase {
 
    public function setUp() {

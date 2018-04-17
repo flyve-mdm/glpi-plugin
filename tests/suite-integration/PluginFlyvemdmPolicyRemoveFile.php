@@ -45,7 +45,7 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       $destination = '%SDCARD%/path/to/file.pdf';
 
       // Create a file (directly in DB)
-      $this->createFlyvemdmDumbFile($this->defaultEntity);
+      $this->createDummyFile($this->defaultEntity);
 
       // Create a fleet
       $fleet = $this->createFleet([

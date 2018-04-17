@@ -188,7 +188,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();
       if ($data[2] === true) {
-         $item = $this->createFlyvemdmDumbFile(0);
+         $item = $this->createDummyFile(0);
          $data[2] = $item->getID();
       }
       $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
@@ -213,7 +213,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
 
       $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
-      $item = $this->createFlyvemdmDumbFile(0);
+      $item = $this->createDummyFile(0);
       $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
       $result = $policy->getMqttMessage($value, $item->getType(), $item->getID());
       $this->array($result)->hasKeys(['id', 'version', $this->dataField['symbol']])
@@ -229,7 +229,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $fileInDb = $this->createFlyvemdmDumbFile(0);
+      $fileInDb = $this->createDummyFile(0);
       $this->boolean($policy->unicityCheck(['destination' => 'filename.ext'],
          \PluginFlyvemdmFile::class, $fileInDb->getID(), $mockInstance))->isTrue();
       // TODO: finish this test
@@ -242,7 +242,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $fileInDb = $this->createFlyvemdmDumbFile(0);
+      $fileInDb = $this->createDummyFile(0);
       $this->boolean($policy->conflictCheck(['destination' => 'filename.ext'],
          \PluginFlyvemdmFile::class, $fileInDb->getID(), $mockInstance))->isTrue();
       // TODO: finish this test
@@ -255,7 +255,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $fileInDb = $this->createFlyvemdmDumbFile(0);
+      $fileInDb = $this->createDummyFile(0);
 
       $this->boolean($policy->pre_unapply(null, null, null, $mockInstance))->isFalse();
 

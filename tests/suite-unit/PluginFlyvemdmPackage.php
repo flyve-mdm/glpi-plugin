@@ -170,7 +170,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
       }
 
-      $file = $this->createFlyvemdmDumbPackage($_SESSION['glpiactive_entity']);
+      $file = $this->createDummyPackage($_SESSION['glpiactive_entity']);
       if ($isApi && $argument['download']) {
          $this->resource($file)->isStream();
       } else if ($isApi) {

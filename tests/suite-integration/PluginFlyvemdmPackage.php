@@ -53,7 +53,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $package = $this->createFlyvemdmDumbPackage($_SESSION['glpiactive_entity']);
+      $package = $this->createDummyPackage($_SESSION['glpiactive_entity']);
       $packageName = $package->getField('package_name');
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
