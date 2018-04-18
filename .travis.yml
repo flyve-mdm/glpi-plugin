@@ -4,7 +4,7 @@ sudo: required
 
 env:
   global:
-    - GLPI_SOURCE="https://github.com/glpi-project/glpi" 
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi"
     - FI_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi"
     - CS=7.2
     - DBNAME=glpitest
@@ -14,7 +14,7 @@ env:
     - GLPI_BRANCH=9.2/bugfixes FI_BRANCH=glpi9.2+1.0
     - GLPI_BRANCH=master FI_BRANCH=master
 
-php: 
+php:
   - 5.6
   - 7.0
   - 7.1
@@ -26,7 +26,7 @@ allow_failures:
 
 before_install:
   - "./tests/before_install.sh"
-      
+
 before_script:
 - "./tests/before_script.sh"
 script:

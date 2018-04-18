@@ -116,9 +116,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @param \PluginFlyvemdmPolicy $policyData
-    * @param \PluginFlyvemdmPackage $package
-    * @param \PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy       $policyData
+    * @param \PluginFlyvemdmPackage      $package
+    * @param \PluginFlyvemdmFleet        $fleet
+    *
     * @return \PluginFlyvemdmTask
     */
    private function applyAddPackagePolicy(

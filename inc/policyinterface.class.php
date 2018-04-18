@@ -46,18 +46,20 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Check the policy may apply with respect of unicity constraint
-    * @param mixed $value
-    * @param mixed $itemtype the itemtype of an item
-    * @param integer $itemId the id of an item
-    * @param PluginFlyvemdmFleet $fleet
+    *
+    * @param mixed                      $value
+    * @param mixed                      $itemtype the itemtype of an item
+    * @param integer                    $itemId the id of an item
+    * @param PluginFlyvemdmFleet        $fleet
     */
    public function canApply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
 
    /**
     * Check the unicity of the policy
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    *
+    * @param mixed                      $value
+    * @param mixed                      $itemtype
+    * @param integer                    $itemId
     * @param PluginFlyvemdmFleet $fleet
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet);
@@ -73,6 +75,7 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Check there is not a conflict with an already applied policy
+    *
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
@@ -103,6 +106,7 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Actions done before a policy is applied to a fleet
+    *
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
@@ -112,6 +116,7 @@ interface PluginFlyvemdmPolicyInterface {
 
    /**
     * Actions done after a policy is unapplied to a fleet
+    *
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId

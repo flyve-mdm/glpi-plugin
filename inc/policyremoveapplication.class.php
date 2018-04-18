@@ -69,10 +69,11 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    * @param mixed                      $value
+    * @param mixed                      $itemtype
+    * @param integer                    $itemId
     * @param PluginFlyvemdmFleet $fleet
+    *
     * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
