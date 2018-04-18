@@ -159,14 +159,14 @@ $apiClientQuery = "UPDATE glpi_apiclients
 $DB->query($apiClientQuery);
 
 if($dev) {
-$entityConfig = new PluginFlyvemdmEntityConfig();
-$entityConfig->getFromDBByCrit([
+   $entityConfig = new PluginFlyvemdmEntityConfig();
+   $entityConfig->getFromDBByCrit([
       'entities_id' => '0',
-]);
-$devquery = "UPDATE `glpi_plugin_flyvemdm_entityconfigs` 
-            SET `download_url` = '" . PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL . "'
-            WHERE `glpi_plugin_flyvemdm_entityconfigs`.`entities_id` = 0";
-$DB->query($devquery);
+   ]);
+   $devquery = "UPDATE `glpi_plugin_flyvemdm_entityconfigs`
+               SET `download_url` = '" . PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL . "'
+               WHERE `glpi_plugin_flyvemdm_entityconfigs`.`entities_id` = 0";
+   $DB->query($devquery);
 }
 
 // Enable the plugin
