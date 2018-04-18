@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use DI\ContainerBuilder;
+
 define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-rc.2');
 // is or is not an official release of the plugin
 define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
@@ -97,14 +99,10 @@ function plugin_init_flyvemdm() {
 
    $state = $plugin->getField('state');
    if ($state != Plugin::NOTACTIVATED) {
-      require_once(__DIR__ . '/vendor/autoload.php');
+      plugin_flyvemdm_setupDependencies();
    }
 
    if ($state == Plugin::ACTIVATED) {
-      if (!class_exists('GlpiLocalesExtension')) {
-         require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
-      }
-
       plugin_flyvemdm_registerClasses();
       plugin_flyvemdm_addHooks();
 
@@ -196,6 +194,25 @@ function plugin_flyvemdm_addHooks() {
    $PLUGIN_HOOKS['use_massive_action']['flyvemdm'] = 1;
 
    $PLUGIN_HOOKS['import_item']['flyvemdm'] = [Computer::class => ['Plugin']];
+}
+
+function plugin_flyvemdm_setupDependencies() {
+   require_once(__DIR__ . '/vendor/autoload.php');
+   if (!class_exists('GlpiLocalesExtension')) {
+      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
+   }
+   plugin_flyvemdm_setupDiContainer();
+}
+
+function plugin_flyvemdm_setupDiContainer() {
+   global $pluginFlyvemdmContainer;
+
+   $containerBuilder = new ContainerBuilder();
+   $containerBuilder->addDefinitions(__DIR__ . '/di_define.php');
+   /*if ($_SESSION['glpi_use_mode'] != Session::DEBUG_MODE) {
+      $containerBuilder->enableDefinitionCache();
+   }*/
+   $pluginFlyvemdmContainer = $containerBuilder->build();
 }
 
 /**

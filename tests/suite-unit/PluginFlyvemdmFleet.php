@@ -45,6 +45,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          case 'testPrepareInputForAdd':
          case 'testFromDBByDefaultForEntity':
          case 'testGetAgents':
+         case 'testPurgeteItem':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -60,6 +61,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          case 'testPrepareInputForAdd':
          case 'testFromDBByDefaultForEntity':
          case 'testGetAgents':
+         case 'testPurgeteItem':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -91,6 +93,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $this->given($class)->string($class::getMenuPicture())->isEqualTo('fa-group');
    }
 
+   /**
+    * @tags testPurgeteItem
+    */
    public function testPurgeteItem() {
       $instance = \PluginFlyvemdmFleet::getDefaultFleet(0);
       $this->variable($instance)->isNotNull();

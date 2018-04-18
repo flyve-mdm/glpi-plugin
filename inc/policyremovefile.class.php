@@ -79,7 +79,7 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
             AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'", "", "1");

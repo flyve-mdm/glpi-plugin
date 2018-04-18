@@ -68,6 +68,19 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
    }
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * @see CommonGLPI::getTabNameForItem()
     *
     * @since version 9.1
@@ -268,10 +281,12 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @return string an html with the geolocation of the agent
     */
    public static function showForAgent(CommonDBTM $item) {
+      global $pluginFlyvemdmContainer;
+
       $beginDate = $endDate = date('Y-m-d');
       $computerId = $item->getField('computers_id');
 
-      $geolocation = new PluginFlyvemdmGeolocation();
+      $geolocation = $pluginFlyvemdmContainer->make(PluginFlyvemdmGeolocation::class);
       if ($rows = $geolocation->find('computers_id = ' . $computerId, 'date ASC')) {
          $beginDate = date('Y-m-d H:i:s', strtotime(reset($rows)['date']));
          if (count($rows) > 1) {

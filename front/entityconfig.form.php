@@ -45,7 +45,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$entityConfig = new PluginFlyvemdmEntityConfig();
+$entityConfig = $pluginFlyvemdmContainer->make(PluginFlyvemdmEntityConfig::class);
 if (isset($_POST["update"])) {
    Session::checkRight('entity', UPDATE);
    $entityConfig->update($_POST);

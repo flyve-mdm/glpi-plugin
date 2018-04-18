@@ -587,4 +587,17 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/defaultStreamType',
       ];
    }
+
+   /**
+    * Prepares the dependency container
+    * @param array $definition the definitions of the DI
+    */
+   public function setupDiContainer($definition) {
+      global $pluginFlyvemdmContainer;
+
+      $containerBuilder = new \DI\ContainerBuilder();
+      $containerBuilder->useAnnotations(true);
+      $containerBuilder->addDefinitions($definition);
+      $pluginFlyvemdmContainer = $containerBuilder->build();
+   }
 }

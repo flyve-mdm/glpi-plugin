@@ -45,7 +45,7 @@ if (!isset($_GET['withtemplate'])) {
    $_GET['withtemplate'] = '';
 }
 
-$invitation = new PluginFlyvemdmInvitation();
+$invitation = $pluginFlyvemdmContainer->make(PluginFlyvemdmInvitation::class);
 if (isset($_POST['add'])) {
    $invitation->check(-1, CREATE, $_POST);
    $invitation->add($_POST);
@@ -69,7 +69,7 @@ if (isset($_POST['add'])) {
          'invitation'
          );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
 
    $invitation->display([

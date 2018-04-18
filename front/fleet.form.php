@@ -44,7 +44,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$fleet = new PluginFlyvemdmFleet();
+$fleet = $pluginFlyvemdmContainer->make(PluginFlyvemdmFleet::class);
 if (isset($_POST["add"])) {
    $fleet->check(-1, CREATE, $_POST);
    if ($newID = $fleet->add($_POST)) {
@@ -71,7 +71,7 @@ if (isset($_POST["add"])) {
          'fleet'
    );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
 
    $fleet->display([

@@ -54,6 +54,19 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
    protected $usenotepadRights = false;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Finds the symbol that matches the argument
     * @param string $symbol
     * @return boolean true if the symbol is found
@@ -71,7 +84,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       $this->fields['comment'] = __($this->fields['comment'], 'flyvemdm');
 
       // Internationalize type_data field depending on the type of policy
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policyFactory = $this->container->make(PluginFlyvemdmPolicyFactory::class);
       $policy = $policyFactory->createFromPolicy($this);
       $translatedTypeData = $policy->translateData();
       $this->fields['type_data'] = json_encode($translatedTypeData, JSON_UNESCAPED_SLASHES);

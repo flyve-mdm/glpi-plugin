@@ -33,10 +33,11 @@
  * Entry point for installation process
  */
 function plugin_flyvemdm_install() {
-   global $DB;
+   global $DB, $pluginFlyvemdmContainer;
 
+   plugin_flyvemdm_setupDependencies();
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginFlyvemdmInstaller();
+   $installer = $pluginFlyvemdmContainer->make(PluginFlyvemdmInstaller::class);
 
    return $installer->install();
 }
@@ -46,8 +47,10 @@ function plugin_flyvemdm_install() {
  * @return boolean True if success
  */
 function plugin_flyvemdm_uninstall() {
+   global $pluginFlyvemdmContainer;
+
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginFlyvemdmInstaller();
+   $installer = $pluginFlyvemdmContainer->make(PluginFlyvemdmInstaller::class);
 
    return $installer->uninstall();
 }
@@ -86,11 +89,13 @@ function plugin_flyvemdm_MassiveActions($type) {
  * @param CommonDBTM $item
  */
 function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
+   global $pluginFlyvemdmContainer;
+
    $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id', 'registered_profiles_id']);
    $guestProfileId = $config['guest_profiles_id'];
 
    if ($item->getField('profiles_id') == $guestProfileId) {
-      $invitation = new PluginFlyvemdmInvitation();
+      $invitation = $pluginFlyvemdmContainer->make(PluginFlyvemdmInvitation::class);
       if (!$invitation->deleteByCriteria(['users_id' => $item->getField('users_id')])) {
          $item->input = false;
       }
@@ -167,11 +172,13 @@ function plugin_flyvemdm_getDatabaseRelations() {
  * @param CommonDBTM $item
  */
 function plugin_flyvemdm_hook_entity_add(CommonDBTM $item) {
+   global $pluginFlyvemdmContainer;
+
    if ($item instanceof Entity) {
-      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig = $pluginFlyvemdmContainer->make(PluginFlyvemdmEntityConfig::class);
       $entityConfig->hook_entity_add($item);
 
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $pluginFlyvemdmContainer->make(PluginFlyvemdmFleet::class);
       $fleet->hook_entity_add($item);
    }
 }
@@ -203,9 +210,11 @@ function plugin_flyvemdm_hook_entity_purge(CommonDBTM $item) {
  * @param CommonDBTM $item
  */
 function plugin_flyvemdm_hook_computer_purge(CommonDBTM $item) {
-   $geolocation = new PluginFlyvemdmGeolocation();
+   global $pluginFlyvemdmContainer;
+
+   $geolocation = $pluginFlyvemdmContainer->make(PluginFlyvemdmGeolocation::class);
    $geolocation->hook_computer_purge($item);
-   $agent = new PluginFlyvemdmAgent();
+   $agent = $pluginFlyvemdmContainer->make(PluginFlyvemdmAgent::class);
    $agent->hook_computer_purge($item);
 }
 

@@ -50,6 +50,13 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
     */
    public function testCanAddAgent() {
       global $DB;
+      global $pluginFlyvemdmContainer;
+
+      $this->setupDiContainer([
+         'PluginFlyvemdmMqttClient' => \DI\Factory(function() {
+            return new \mock\PluginFlyvemdmMqttClient();
+         }),
+      ]);
 
       $entity = new \Entity();
       $entityId = $entity->add([

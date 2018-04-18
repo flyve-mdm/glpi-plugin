@@ -55,7 +55,7 @@ if (isset($_REQUEST['endDate']) && !empty(trim($_REQUEST['endDate']))) {
    $endDate = $endDate->format('Y-m-d H:i:s');
 }
 
-$geolocation = new PluginFlyvemdmGeolocation();
+$geolocation = $pluginFlyvemdmContainer->make(PluginFlyvemdmGeolocation::class);
 $condition = "`computers_id`='$computerId' AND `date` BETWEEN '$beginDate' AND '$endDate'";
 $limit = '';
 if ($beginDate == '0000-00-00 00:00:00') {

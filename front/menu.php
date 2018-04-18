@@ -39,7 +39,7 @@ Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_U
 
 Html::header(PluginFlyvemdmMenu::getTypeName(Session::getPluralNumber()), '', 'admin', 'PluginFlyvemdmMenu', 'Menu');
 
-$menu = new PluginFlyvemdmMenu();
+$menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
 $menu->displayMenu();
 Html::footer();
 

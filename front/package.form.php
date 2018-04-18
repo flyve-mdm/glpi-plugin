@@ -45,7 +45,7 @@ if (!isset($_GET['withtemplate'])) {
    $_GET['withtemplate'] = '';
 }
 
-$package = new PluginFlyvemdmPackage();
+$package = $pluginFlyvemdmContainer->make(PluginFlyvemdmPackage::class);
 if (isset($_POST['add'])) {
    $package->check(-1, CREATE, $_POST);
    $package->add($_POST);
@@ -67,7 +67,7 @@ if (isset($_POST['add'])) {
          'package'
          );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
 
    $package->display([

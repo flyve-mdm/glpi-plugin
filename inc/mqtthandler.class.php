@@ -53,10 +53,19 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected static $instance = null;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   /**
     * PluginFlyvemdmMqtthandler constructor.
     */
    protected function __construct() {
-      $this->log = new \PluginFlyvemdmMqttlog();
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      $this->log = $this->container->make(PluginFlyvemdmMqttlog::class);
       $this->startTime = time();
    }
 
@@ -274,7 +283,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
             // No GPS geolocation available at this time, log it anyway
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginFlyvemdmGeolocation();
+               $geolocation = $this->container->make(PluginFlyvemdmGeolocation::class);
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -295,7 +304,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateTaskStatus($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       if (!$agent->getByTopic($topic)) {
          return;
       }
@@ -307,7 +316,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       // Find the task the device wants to update
       $taskId = (int) array_pop(explode('/', $topic));
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       if (!$task->getFromDB($taskId)) {
          return;
       }
@@ -336,7 +345,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
 
       // Update the task
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policyFactory = $this->container->make(PluginFlyvemdmPolicyFactory::class);
       $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
       $taskStatus->updateStatus($policy, $feedback['status']);
 
@@ -350,7 +359,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateOnlineStatus($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       if ($agent->getByTopic($topic)) {
          $feedback = json_decode($message, true);
          if (!isset($feedback['online'])) {

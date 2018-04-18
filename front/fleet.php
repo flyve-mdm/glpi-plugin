@@ -46,7 +46,7 @@ Html::header(
       'fleet'
 );
 
-$menu = new PluginFlyvemdmMenu();
+$menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
 $menu->displayMenu('mini');
 
 Search::show(PluginFlyvemdmFleet::class);

@@ -54,6 +54,19 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    protected $usenotepadRights = true;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
@@ -191,7 +204,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       }
       try {
          $uploadedFile = $preparedFile['uploadedFile'];
-         $input['filename'] = 'flyvemdm/package/' . $input['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
          $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
@@ -275,7 +288,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    private function createOrionReport() {
       $plugin = new Plugin();
       if ($plugin->isActivated('orion')) {
-         $orionReport = new PluginOrionReport();
+         $orionReport = $this->container->make(PluginOrionReport::class);
          $orionReport->add([
             'itemtype' => $this->getType(),
             'items_id' => $this->getID(),
@@ -291,7 +304,8 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          return;
       }
 
-      $this->deployNotification(new PluginFlyvemdmTask);
+      $task = $this->container->make(PluginFlyvemdmTask::class);
+      $this->deployNotification($task);
 
       // File updated, then scan it again
       $this->createOrionReport();
@@ -301,7 +315,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       return $task->deleteByCriteria([
          'itemtype' => $this->getType(),
          'items_id' => $this->getID(),
@@ -320,6 +334,11 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
+
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __s('Package', 'flyvemdm'),
+      ];
 
       $tab[] = [
          'id'            => '2',
@@ -355,14 +374,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          'name'          => __('icon'),
          'massiveaction' => false,
          'datatype'      => 'image',
-      ];
-
-      $tab[] = [
-         'id'                 => '6',
-         'table'              => 'glpi_entities',
-         'field'              => 'completename',
-         'name'               => __('Entity'),
-         'datatype'           => 'dropdown'
       ];
 
       return $tab;
@@ -433,7 +444,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
             return false;
          }
       } else if ($fileExtension == 'upk') {
-         $upkParser = new PluginFlyvemdmUpkparser($destination);
+         $upkParser = $this->container->make(PluginFlyvemdmUpkparser::class, $destination);
          $apk = $upkParser->getApkParser();
          if (!($apk instanceof \ApkParser\Parser)) {
             $this->update([
@@ -569,28 +580,5 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $isFile = is_file($filename);
       $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
       $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
-   }
-
-   /**
-    * Define how to display a specific value in search result table
-    *
-    * @param  string $field   Name of the field as define in $this->getSearchOptions()
-    * @param  string $values  The value as it is stored in DB
-    * @param  array  $options Options (optional)
-    * @return string          Value to be displayed
-    */
-   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
-      if (!is_array($values)) {
-         $values = [$field => $values];
-      }
-      switch ($field) {
-         case 'icon':
-            if (!isAPI()) {
-               $output = '<img style="height: 14px" src="data:image/png;base64,'. $values[$field] .'">';
-               return $output;
-            }
-            break;
-      }
-      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }

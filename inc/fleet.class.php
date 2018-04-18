@@ -68,6 +68,19 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    ];
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
@@ -94,7 +107,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->addStandardTab(PluginFlyvemdmAgent::class, $tab, $options);
          if ($this->fields['is_default'] == '0') {
             $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
-            $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
          }
          $this->addStandardTab(Notepad::class, $tab, $options);
          $this->addStandardTab(Log::class, $tab, $options);
@@ -129,7 +141,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
                              ['value' => $objectName, 'display' => false]);
-      $fields['is_default'] = $fields['is_default'] ? __('No') : __('Yes');
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
             'fleet'        => $fields,
@@ -202,7 +213,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Delete policies on the fleet
       $itemtype = $this->getType();
       $fleetId = $this->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
 
       // Disable replacement of a task by an other for app or file deployment
@@ -296,7 +307,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
-      $policy = new PluginFlyvemdmPolicy();
+      $policy = $this->container->make(PluginFlyvemdmPolicy::class);
       foreach ($policy->find() as $row) {
          $policyName = $row['symbol'];
          $topic = $this->getTopic();
@@ -348,7 +359,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          ],
       ];
       foreach ($DB->request($query) as $row) {
-         $agent = new PluginFlyvemdmAgent();
+         $agent = $this->container->make(PluginFlyvemdmAgent::class);
          if ($agent->getFromDB($row['id'])) {
             $agent->unsubscribe();
          }
@@ -372,12 +383,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          return [];
       }
       $agents = [];
-      $agent = new PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       $id = $this->getID();
       $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$id'");
 
       foreach ($rows as $row) {
-         $agent = new PluginFlyvemdmAgent();
+         $agent = $this->container->make(PluginFlyvemdmAgent::class);
          if ($agent->getFromDB($row['id'])) {
             $agents[] = $agent;
          }
@@ -406,10 +417,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = $this->getType();
       $fleetId = $this->getID();
       if ($fleetId > 0) {
-         $task = new PluginFlyvemdmTask();
+         $task = $this->container->make(PluginFlyvemdmTask::class);
          $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId' AND `itemtype`='" . PluginFlyvemdmPackage::class . "'");
          foreach ($rows as $row) {
-            $package = new PluginFlyvemdmPackage();
+            $package = $this->container->make(PluginFlyvemdmPackage::class);
             $package->getFromDB($row['plugin_flyvemdm_packages_id']);
             $packages[] = $package;
          }
@@ -427,10 +438,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = $this->getType();
       $fleetId = $this->getID();
       if ($fleetId > 0) {
-         $task = new PluginFlyvemdmTask();
+         $task = $this->container->make(PluginFlyvemdmTask::class);
          $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied`='$fleetId' AND `itemtype`='" . PluginFlyvemdmFile::class . "'");
          foreach ($rows as $row) {
-            $file = new PluginFlyvemdmPackage();
+            $file = $this->container->make(PluginFlyvemdmPackage::class);
             $file->getFromDB($row['plugin_flyvemdm_packages_id']);
             $files[] = $file;
          }
@@ -468,10 +479,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return PluginFlyvemdmFleet|null
     */
    public static function getDefaultFleet($entityId = null) {
+      global $pluginFlyvemdmContainer;
+
       if ($entityId === null) {
          $entityId = $_SESSION['glpiactive_entity'];
       }
-      $defaultFleet = new PluginFlyvemdmFleet();
+      $defaultFleet = $pluginFlyvemdmContainer->make(PluginFlyvemdmFleet::class);
       $request = [
          'AND' => [
             'is_default' => '1',
@@ -493,7 +506,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      $mqttClient = $this->container->make(PluginFlyvemdmMqttClient::class);
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
 
@@ -527,7 +540,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          return;
       }
 
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $request = [
          'FROM' => $task::getTable(),
          'WHERE' => [$this::getForeignKeyField() => $this->getID()]

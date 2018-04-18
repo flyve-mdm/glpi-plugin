@@ -44,7 +44,7 @@ if (!isset($_POST['value'])) {
 $policyId = (int) $_POST['value'];
 $mode = (isset($_POST['mode'])) ? $_POST['mode'] : 'add';
 
-$factory = new PluginFlyvemdmPolicyFactory();
+$factory = $pluginFlyvemdmContainer->make(PluginFlyvemdmPolicyFactory::class);
 $policy = $factory->createFromDBByID($policyId);
 if ($policy !== null) {
    echo $policy->formGenerator($mode, [

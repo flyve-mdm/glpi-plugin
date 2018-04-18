@@ -39,7 +39,7 @@ Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_U
 Session::checkRight('config', UPDATE);
 
 $config = new Config();
-$pluginConfig = new PluginFlyvemdmConfig();
+$pluginConfig = $pluginFlyvemdmContainer->make(PluginFlyvemdmConfig::class);
 if (isset($_POST['update']) || isset($_POST['back'])) {
    $config->update($_POST);
    Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class));
@@ -57,7 +57,7 @@ if (isset($_POST['update']) || isset($_POST['back'])) {
       'config'
    );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
    // To add vertical space after the menu
    echo '<div class="navigationheader">&nbsp;</div>';

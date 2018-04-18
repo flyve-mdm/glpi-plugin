@@ -68,6 +68,11 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     */
    protected $specificStatuses = [];
 
+   /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
     /**
      * get common task statuses
      *
@@ -105,6 +110,9 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
       $this->policyData = $policy;
    }
 
@@ -157,7 +165,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $policyId            = $this->policyData->getID();
       $notifiableType      = $notifiable->getType();
       $notifiableId        = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $relationCollection  = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied`='$notifiableId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
       return (count($relationCollection) === 0);
    }
@@ -300,7 +308,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $mode = 'add',
       array $_input = []
    ) {
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $value = '';
       $itemtype = '';
       $itemId = 0;

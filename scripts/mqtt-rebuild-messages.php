@@ -56,14 +56,14 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
 
 include (__DIR__ . '/../../../inc/includes.php');
 
-$mqttClient = PluginFlyvemdmMqttClient::getInstance();
+$mqttClient = $pluginFlyvemdmContainer->make(PluginFlyvemdmMqttClient::class);
 $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
 $request = [
    'SELECT' => ['id'],
    'FROM' => PluginFlyvemdmFleet::getTable(),
    'WHERE' => ['is_default' => ['<>' => '0']]
 ];
-$fleet = new PluginFlyvemdmFleet();
+$fleet = $pluginFlyvemdmContainer->make(PluginFlyvemdmFleet::class);
 foreach ($DB->request($request) as $row) {
    $fleet->getFromDB($row['id']);
    $fleet->refreshPersistedNotifications();

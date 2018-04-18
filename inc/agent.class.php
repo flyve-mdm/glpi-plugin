@@ -72,6 +72,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected $topic = null;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     *
     * Returns the minimum version of the agent accepted by the backend
     * @param string $mdmType the type of the agent.
@@ -139,7 +152,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
       $this->addStandardTab(__CLASS__, $tab, $options);
       if (!$this->isNewItem()) {
-         $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
          $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
       }
       $this->addStandardTab(Notepad::class, $tab, $options);
@@ -306,6 +318,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string an html with the agents
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
+      global $pluginFlyvemdmContainer;
       if (!PluginFlyvemdmFleet::canView()) {
          return false;
       }
@@ -315,7 +328,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $dbUtils = new DbUtils();
 
       // get items
-      $agent = new PluginFlyvemdmAgent();
+      $agent = $pluginFlyvemdmContainer->make(PluginFlyvemdmAgent::class);
       $items_id = $item->getField('id');
       $itemFk = $item::getForeignKeyField();
       $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
@@ -343,7 +356,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param CommonDBTM $item
     */
    public static function displayTabContentForComputer(CommonDBTM $item) {
-      $agent = new static();
+      global $pluginFlyvemdmContainer;
+
+      $agent = $pluginFlyvemdmContainer->make(PluginFlyvemdmAgent::class);
       if (!$agent->getFromDBByCrit(['computers_id' => $item->getID()])) {
          return;
       }
@@ -427,7 +442,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    public function prepareInputForAdd($input) {
       // Get the maximum quantity of devices allowed for the current entity
-      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig = $this->container->make(PluginFlyvemdmEntityConfig::class);
       if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
          $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'flyvemdm')));
          return false;
@@ -466,14 +481,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function prepareInputForUpdate($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
-         $oldFleet = new PluginFlyvemdmFleet();
+         $oldFleet = $this->container->make(PluginFlyvemdmFleet::class);
          if (!$oldFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Unable to load fleet currently associated to  the agent
             Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists", 'flyvemdm'));
             return false;
          }
 
-         $newFleet = new PluginFlyvemdmFleet();
+         $newFleet = $this->container->make(PluginFlyvemdmFleet::class);
          if (!$newFleet->getFromDB($input['plugin_flyvemdm_fleets_id'])) {
             //Unable to load the new fleet
             Session::addMessageAfterRedirect(__("The target fleet does not exists", 'flyvemdm'));
@@ -613,7 +628,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
-         $mqttUser = new PluginFlyvemdmMqttuser();
+         $mqttUser = $this->container->make(PluginFlyvemdmMqttuser::class);
          if ($mqttUser->getFromDBByCrit(['user' => $serial])) {
             if (!$mqttUser->delete(['id' => $mqttUser->getID()], true)) {
                Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'flyvemdm'));
@@ -644,7 +659,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          $this->updateSubscription();
-         $newFleet = new PluginFlyvemdmFleet();
+         $newFleet = $this->container->make(PluginFlyvemdmFleet::class);
          if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Create task status for the agent and the applied policies
             $this->createTaskStatuses($newFleet);
@@ -652,7 +667,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
          // update tasks for the agent from already applied policies in the old fleet
          if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
-            $oldFleet = new PluginFlyvemdmFleet();
+            $oldFleet = $this->container->make(PluginFlyvemdmFleet::class);
             $oldFleet->getFromDB($this->oldvalues['plugin_flyvemdm_fleets_id']);
             $this->cancelTaskStatuses($oldFleet);
          }
@@ -683,10 +698,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    private function createTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'");
       foreach ($rows as $row) {
-         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $taskStatus = $this->container->make(PluginFlyvemdmTaskStatus::class);
          $taskStatus->add([
             'plugin_flyvemdm_agents_id' => $this->getID(),
             'plugin_flyvemdm_tasks_id'  => $row['id'],
@@ -720,7 +735,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'items_id_applied' => [$notifiableId],
          ],
       ];
-      $status = new PluginFlyvemdmTaskstatus();
+      $status = $this->container->make(PluginFlyvemdmTaskStatus::class);
       foreach ($DB->request($request) as $row) {
          $status->update([
             'id' => $row['id'],
@@ -737,7 +752,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $computer = $this->getComputer();
       if ($computer !== null) {
-         $mqttUser = new PluginFlyvemdmMqttuser();
+         $mqttUser = $this->container->make(PluginFlyvemdmMqttuser::class);
          if ($mqttUser->getFromDB($this->fields['computers_id'])) {
             $mqttUser->update([
                   'id'        => $mqttUser->getID(),
@@ -851,7 +866,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'wipe',
          'name'               => __('Wipe requested', 'flyvemdm'),
-         'datatype'           => 'bool',
+         'datatype'           => 'boolean',
          'massiveaction'      => false
       ];
 
@@ -937,7 +952,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     */
    public function getSubscribedTopic() {
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $this->container->make(PluginFlyvemdmFleet::class);
       $subscribedTopic = null;
       if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
          if (! $fleet->fields['is_default']) {
@@ -1104,7 +1119,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ]);
 
       // Find the invitation
-      $invitation = new PluginFlyvemdmInvitation();
+      $invitation = $this->container->make(PluginFlyvemdmInvitation::class);
       if (!$invitation->getFromDBByToken($invitationToken)) {
          $this->filterMessages(__('Invitation token invalid', 'flyvemdm'));
          return false;
@@ -1259,7 +1274,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Create the device
-      $pfCommunication = new PluginFusioninventoryCommunication();
+      $pfCommunication = $this->container->make(PluginFusioninventoryCommunication::class);
       $_SESSION['glpi_fusionionventory_nolock'] = true;
       ob_start();
       if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',
@@ -1285,7 +1300,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      $pfAgent = new PluginFusioninventoryAgent();
+      $pfAgent = $this->container->make(PluginFusioninventoryAgent::class);
       if (!$pfAgent->getFromDBByCrit(['device_id' => $parsedXml->DEVICEID])) {
          $event = __('FusionInventory agent not created', 'flyvemdm');
          $this->filterMessages($event);
@@ -1403,7 +1418,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       //$token = $DB->escape($authFactors['entityToken']);
 
       //// Find an entity matching the given token
-      //$entity = new PluginFlyvemdmEntityconfig();
+      //$entity = $this->container->make(PluginFlyvemdmEntityconfig::class);
       //if (!$entity->getFromDBByCrit(['enroll_token' => $token])) {
       //   $errorMessage = "no entity token not found";
       //   return false;
@@ -1448,7 +1463,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       //}
 
       //// Create an agent for this device, linked to the new computer
-      //$agent = new PluginFlyvemdmAgent();
+      //$agent = $this->container->make(PluginFlyvemdmAgent::class);
       //$condition = "`computers_id`='$computerId'";
       //$agentCollection = $agent->find($condition);
       //if (count($agentCollection) > 1) {
@@ -1494,7 +1509,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string[]
     */
    public static function getTopicsToCleanup() {
-      $policy = new PluginFlyvemdmPolicy();
+      global $pluginFlyvemdmContainer;
+
+      $policy = $pluginFlyvemdmContainer->make(PluginFlyvemdmPolicy::class);
       $rows = $policy->find();
 
       // get all policies sub topics
@@ -1515,14 +1532,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Send an geolocation request to the agent
-    *
     * @return bool
     * @throws AgentSendQueryException
     */
    private function sendGeolocationQuery() {
 
       $computerId = $this->fields['computers_id'];
-      $geolocation = new PluginFlyvemdmGeolocation();
+      $geolocation = $this->container->make(PluginFlyvemdmGeolocation::class);
       $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
       $lastPosition = array_pop($lastPositionRows);
 
@@ -1560,7 +1576,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
-      $inventory = new PluginFusioninventoryInventoryComputerComputer();
+      $inventory = $this->container->make(PluginFusioninventoryInventoryComputerComputer::class);
       $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
       $lastInventory = array_pop($inventoryRows);
 
@@ -1642,7 +1658,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return [];
       }
 
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $this->container->make(PluginFlyvemdmFleet::class);
       if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
          return [];
       }
@@ -1658,7 +1674,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return [];
       }
 
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $this->container->make(PluginFlyvemdmFleet::class);
       if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
          return [];
       }
@@ -1667,7 +1683,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @see PluginFlyvemdmNotifiableInterface::getFleet()
+    * @see PluginFlyvemdmNotifiable::getFleet()
     */
    public function getFleet() {
       $fleet = null;
@@ -1677,7 +1693,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // The agent exists in DB
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $this->container->make('PluginFlyvemdmFleet');
       if ($fleet->isNewID($this->fields['plugin_flyvemdm_fleets_id'])) {
          return null;
       }
@@ -1696,7 +1712,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (!$computer->getFromDB($this->fields['computers_id'])) {
          return null;
       }
-      $user = new User();
+      $user = $this->container->make(User::class);
       if (!$user->getFromDB($computer->getField('users_id'))) {
          return null;
       }
@@ -1774,7 +1790,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                   ],
                ];
 
-               $mqttUser = new PluginFlyvemdmMqttuser();
+               $mqttUser = $this->container->make(PluginFlyvemdmMqttuser::class);
                $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
                // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
                if (!$mqttUser->getByUser($serial)) {
@@ -1830,7 +1846,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param string $event
     */
    protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
-      $invitationLog = new PluginFlyvemdmInvitationlog();
+      $invitationLog = $this->container->make(PluginFlyvemdmInvitationlog::class);
       $invitationLog->add([
             'plugin_flyvemdm_invitations_id' => $invitation->getID(),
             'event'                          => $event
@@ -1845,7 +1861,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
-      $mqttUser = new PluginFlyvemdmMqttuser();
+      $mqttUser = $this->container->make(PluginFlyvemdmMqttuser::class);
       if (method_exists($this, 'getFromDBByRequest')) {
          $request = [
             'LEFT JOIN' => [
@@ -1863,7 +1879,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $success = $mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'");
       }
       if ($success) {
-         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
          if ($old->getField('is_default') == '0') {
             $mqttAcl->getFromDBByCrit([
                'AND' => [
@@ -1915,7 +1931,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      $mqttClient = $this->container->make(PluginFlyvemdmMqttClient::class);
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
    }
 

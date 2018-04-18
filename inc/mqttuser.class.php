@@ -39,6 +39,19 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -73,13 +86,13 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
     */
    public function post_addItem() {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
          foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginFlyvemdmMqttacl();
+               $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
                $mqttAcl->add([
                   'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
                   'topic'                        => $acl['topic'],
@@ -95,13 +108,13 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
     */
    public function post_updateItem($history = 1) {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
          foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginFlyvemdmMqttacl();
+               $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
                $mqttAcl->add([
                   'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
                   'topic'                        => $acl['topic'],
@@ -176,7 +189,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $mqttAcl = new PluginFlyvemdmMqttacl();
+      $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
       $mqttAcl->deleteByCriteria([
          'plugin_flyvemdm_mqttusers_id' => $this->getID(),
       ]);
@@ -205,11 +218,11 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       }
 
       $aclList = [];
-      $mqttAcl = new PluginFlyvemdmMqttacl();
+      $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
       $userId = $this->fields['id'];
       $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
       foreach ($rows as $row) {
-         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl = $this->container->make(PluginFlyvemdmMqttacl::class);
          $mqttAcl->getFromDB($row['id']);
          if (!$mqttAcl->isNewItem()) {
             $aclList[] = $mqttAcl;

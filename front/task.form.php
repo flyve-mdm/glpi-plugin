@@ -45,7 +45,7 @@ if (!isset($_GET['withtemplate'])) {
    $_GET['withtemplate'] = '';
 }
 
-$task = new PluginFlyvemdmTask();
+$task = $pluginFlyvemdmContainer->make(PluginFlyvemdmTask::class);
 if (isset($_POST['add'])) {
    $task->check(-1, CREATE, $_POST);
    $_POST = $task->preprocessInput($_POST);

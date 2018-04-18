@@ -63,6 +63,19 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    ];
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Returns the name of the type
     * @param integer $nb number of item in the type
     * @return string
@@ -210,7 +223,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
       // Create entity configuration
-      $entityconfig = new PluginFlyvemdmEntityConfig();
+      $entityconfig = $this->container->make(PluginFlyvemdmEntityConfig::class);
       $entityconfig->add([
          'id'           => $item->getID(),
          'managed'      => $managed,

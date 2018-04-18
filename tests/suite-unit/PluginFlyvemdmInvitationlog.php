@@ -34,13 +34,8 @@ namespace tests\units;
 use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmInvitationlog extends CommonTestCase {
-
-   /**
-    * @return object
-    */
-   private function createInstance() {
-      $this->newTestedInstance();
-      return $this->testedInstance;
+   public function beforeTestMethod($method) {
+      $_SESSION['glpi_use_mode'] = \Session::NORMAL_MODE;
    }
 
    /**
@@ -55,7 +50,7 @@ class PluginFlyvemdmInvitationlog extends CommonTestCase {
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getTypeName(1))->isEqualTo('Invitation log')
          ->string($instance->getTypeName(3))->isEqualTo('Invitation logs');
    }
@@ -64,7 +59,7 @@ class PluginFlyvemdmInvitationlog extends CommonTestCase {
     * @tags testGetRights
     */
    public function testGetRights() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getRights())->containsValues([
          'Create',
          'Read',

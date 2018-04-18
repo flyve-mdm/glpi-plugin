@@ -45,7 +45,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET['withtemplate'] = '';
 }
 
-$agent = new PluginFlyvemdmAgent();
+$agent = $pluginFlyvemdmContainer->make(PluginFlyvemdmAgent::class);
 if (isset($_POST["add"])) {
    $agent->check(-1, CREATE, $_POST);
    if ($newID = $agent->add($_POST)) {
@@ -100,7 +100,7 @@ if (isset($_POST["add"])) {
       'agent'
    );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
 
    $agent->display([

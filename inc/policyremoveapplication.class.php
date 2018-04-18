@@ -79,7 +79,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends PluginFlyvemdmPolicyBase imp
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
             AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'

@@ -48,6 +48,19 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    protected $user;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Gets the possibles statuses that an invitation can have
     * @return array the possibles statuses of the invitation
     */
@@ -182,7 +195,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $input['invitation_token'] = $this->setInvitationToken();
 
       // Get the default expiration delay
-      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig = $this->container->make(PluginFlyvemdmEntityConfig::class);
       $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       if ($entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
          $tokenExpire = $entityConfig->getField('agent_token_life');
@@ -256,7 +269,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    }
 
    public function pre_deleteItem() {
-      $invitationLog = new PluginFlyvemdmInvitationlog();
+      $invitationLog = $this->container->make(PluginFlyvemdmInvitationlog::class);
       return $invitationLog->deleteByCriteria(['plugin_flyvemdm_invitations_id' => $this->getID()]);
    }
 
@@ -405,7 +418,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $entities_id = $this->fields['entities_id'];
 
       // Get the entitiy configuration data
-      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig = $this->container->make(PluginFlyvemdmEntityConfig::class);
       $entityConfig->getFromDBByCrit([
          'entities_id' => $entities_id
       ]);
@@ -570,6 +583,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       CommonDBTM $item,
       array $ids
    ) {
+      global $pluginFlyvemdmContainer;
+
       switch ($ma->getAction()) {
          case 'InviteUser':
             if ($item->getType() == User::class) {
@@ -602,7 +617,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                   if ($reject) {
                      $result = MassiveAction::ACTION_KO;
                   } else {
-                     $invitation = new PluginFlyvemdmInvitation();
+                     $invitation = $pluginFlyvemdmContainer->make(PluginFlyvemdmInvitation::class);
                      $success = $invitation->add([
                         '_useremails' => $emailAddress,
                         'entities_id' => $_SESSION['glpiactive_entity'],

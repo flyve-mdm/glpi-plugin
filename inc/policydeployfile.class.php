@@ -78,7 +78,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       }
 
       // Check the file exists
-      $file = new PluginFlyvemdmFile();
+      $file = $this->container->make(PluginFlyvemdmFile::class);
       if (!$file->getFromDB($itemId)) {
          Session::addMessageAfterRedirect(__('The file does not exists', 'flyvemdm'));
          return false;
@@ -97,7 +97,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       }
 
       // Check base path against well known paths
-      $wellKnownPath = new PluginFlyvemdmWellknownpath();
+      $wellKnownPath = $this->container->make(PluginFlyvemdmWellknownpath::class);
       $rows = $wellKnownPath->find('1');
       $basePathIsValid = false;
       foreach ($rows as $row) {
@@ -143,7 +143,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $decodedValue['destination'] .= '/';
       }
 
-      $file = new PluginFlyvemdmFile();
+      $file = $this->container->make(PluginFlyvemdmFile::class);
       $file->getFromDB($itemId);
       $array = [
             $this->symbol  => $decodedValue['destination'],
@@ -165,7 +165,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
             AND `itemtype` = '$itemtype'");
@@ -187,7 +187,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDBBySymbol('removeFile')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
          // Give up this check
@@ -195,7 +195,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $policyId = $policyData->getID();
          $notifiableType = $notifiable->getType();
          $notifiableId = $notifiable->getID();
-         $task = new PluginFlyvemdmTask();
+         $task = $this->container->make(PluginFlyvemdmTask::class);
          $rows = $task->find("`itemtype_applied` = '$notifiableType'
                AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId'");
@@ -227,7 +227,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          return true;
       }
 
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDBBySymbol('removeFile')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
          return false;
@@ -279,7 +279,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $destination = substr($value['destination'], $cut);
          $destination_base = substr($value['destination'], 0, $cut);
       }
-      $path = new PluginFlyvemdmWellknownpath();
+      $path = $this->container->make(PluginFlyvemdmWellknownpath::class);
       $path->getFromDBByPath($destination_base);
       $data['destination'] = $destination;
       $data['typeTmpl'] = $itemtype;
@@ -306,7 +306,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @return string
     */
    public function showValue(PluginFlyvemdmTask $task) {
-      $file = new PluginFlyvemdmFile();
+      $file = $this->container->make(PluginFlyvemdmFile::class);
       if ($file->getFromDB($task->getField('items_id'))) {
          $path = json_decode($task->getField('value'), JSON_OBJECT_AS_ARRAY);
          $path = $path['destination'];
@@ -322,7 +322,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function preprocessFormData($input) {
       if (isset($input['destination_base']) && isset($input['value']['destination'])) {
-         $basePath = new PluginFlyvemdmWellknownpath();
+         $basePath = $this->container->make(PluginFlyvemdmWellknownpath::class);
          if ($basePath->getFromDB(intval($input['destination_base']))) {
             $input['value']['destination'] = $basePath->getField('name') . $input['value']['destination'];
          }

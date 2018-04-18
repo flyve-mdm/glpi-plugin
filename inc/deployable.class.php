@@ -139,7 +139,7 @@ abstract class PluginFlyvemdmDeployable extends CommonDBTM {
       $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       foreach ($tasks as $taskId => $taskRow) {
          $notifiableType = $taskRow['itemtype_applied'];
-         $notifiable = new $notifiableType();
+         $notifiable = new $notifiableType(); // TODO: handle this with DI container
          $notifiableId = $taskRow['items_id_applied'];
          if ($notifiable->getFromDB($notifiableId)) {
             Toolbox::logInFile('php-errors',

@@ -35,5 +35,5 @@ if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-$dropdown = new PluginFlyvemdmWellknownpath();
+$dropdown = $pluginFlyvemdmContainer->make(PluginFlyvemdmWellknownpath::class);
 include (GLPI_ROOT . '/front/dropdown.common.php');

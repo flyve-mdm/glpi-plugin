@@ -43,7 +43,7 @@ if (!isset($_GET["withtemplate"])) {
    $_GET["withtemplate"] = "";
 }
 
-$flyveFile = new PluginFlyvemdmFile();
+$flyveFile = $pluginFlyvemdmContainer->make(PluginFlyvemdmFile::class);
 if (isset($_POST['add'])) {
    $flyveFile->check(-1, CREATE, $_POST);
    $flyveFile->add($_POST);
@@ -62,7 +62,7 @@ if (isset($_POST['add'])) {
          'file'
    );
 
-   $menu = new PluginFlyvemdmMenu();
+   $menu = $pluginFlyvemdmContainer->make(PluginFlyvemdmMenu::class);
    $menu->displayMenu('mini');
 
    $flyveFile->display([

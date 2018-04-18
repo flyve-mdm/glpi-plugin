@@ -40,43 +40,56 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmPolicyFactory {
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+   }
+
+   /**
     * Create an empty policy by type
     *
     * @param PluginFlyvemdmPolicy $policyData
     * @return null|PluginFlyvemdmPolicyBase depending on the field type.
     */
    public function createFromPolicy(PluginFlyvemdmPolicy $policyData) {
+      $parameters = ['policy' => $policyData];
       switch ($policyData->getField('type')) {
          case 'string':
-            $policy = new PluginFlyvemdmPolicyString($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyString::class, $parameters);
             break;
 
          case 'bool':
-            $policy = new PluginFlyvemdmPolicyBoolean($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyBoolean::class, $parameters);
             break;
 
          case 'int':
-            $policy = new PluginFlyvemdmPolicyInteger($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyInteger::class, $parameters);
             break;
 
          case 'dropdown':
-            $policy = new PluginFlyvemdmPolicyDropdown($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyDropdown::class, $parameters);
             break;
 
          case 'deployapp':
-            $policy = new PluginFlyvemdmPolicyDeployapplication($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyDeployapplication::class, $parameters);
             break;
 
          case 'removeapp':
-            $policy = new PluginFlyvemdmPolicyRemoveapplication($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyRemoveapplication::class, $parameters);
             break;
 
          case 'deployfile':
-            $policy = new PluginFlyvemdmPolicyDeployfile($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyDeployfile::class, $parameters);
             break;
 
          case 'removefile':
-            $policy = new PluginFlyvemdmPolicyRemovefile($policyData);
+            $policy = $this->container->make(PluginFlyvemdmPolicyRemovefile::class, $parameters);
             break;
 
          default:
@@ -93,7 +106,7 @@ class PluginFlyvemdmPolicyFactory {
     * @return PluginFlyvemdmPolicyBase
     */
    public function createFromDBByID($id) {
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDB($id)) {
          return null;
       }

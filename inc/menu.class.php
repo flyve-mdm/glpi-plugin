@@ -42,6 +42,18 @@ class PluginFlyvemdmMenu extends CommonGLPI {
    const TEMPLATE = 'menu.html.twig';
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+   }
+
+   /**
     * Displays the menu name
     * @return string the menu name
     */
@@ -54,8 +66,10 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     * @return boolean
     */
    static function canView() {
+      global $pluginFlyvemdmContainer;
+
       $can_display = false;
-      $profile     = new PluginFlyvemdmProfile();
+      $profile     = $pluginFlyvemdmContainer->make(PluginFlyvemdmProfile::class);
 
       foreach ($profile->getAllRights() as $right) {
          if (Session::haveRight($right['field'], READ)) {
@@ -82,7 +96,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
    public function displayMenu($type = 'dashboard') {
       $pluralNumber = Session::getPluralNumber();
 
-      $config = new PluginFlyvemdmConfig();
+      $config = $this->container->make(PluginFlyvemdmConfig::class);
       $isGlpiConfigured = $config->isGlpiConfigured();
 
       $twig = plugin_flyvemdm_getTemplateEngine();

@@ -54,6 +54,19 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
    protected $usenotepadRights = true;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
@@ -157,7 +170,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
     */
    private function getUploadedFile($uploadMandatory = false) {
       // Find the added file
-      $common = new PluginFlyvemdmCommon();
+      $common = $this->container->make(PluginFlyvemdmCommon::class);
       if (!$common->isAPI()) {
          // from GLPI UI
          if (isset($_POST['_file'][0]) && is_string($_POST['_file'][0])) {
@@ -238,7 +251,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
    }
 
    public function pre_deleteItem() {
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       return $task->deleteByCriteria([
          'itemtype' => $this->getType(),
          'items_id' => $this->getID(),
@@ -270,7 +283,8 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
          return;
       }
 
-      $this->deployNotification(new PluginFlyvemdmTask);
+      $task = $this->container->make(PluginFlyvemdmTask::class);
+      $this->deployNotification($task);
    }
 
    public function post_purgeItem() {

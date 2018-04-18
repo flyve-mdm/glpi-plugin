@@ -74,6 +74,18 @@ class PluginFlyvemdmInstaller {
    protected $migration;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+   }
+
+   /**
     * Autoloader for installation
     * @param string $classname
     * @return bool
@@ -217,7 +229,7 @@ class PluginFlyvemdmInstaller {
    }
 
    protected function createRootEntityConfig() {
-      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig = $this->container->make(PluginFlyvemdmEntityConfig::class);
       $entityConfig->getFromDBByCrit([
          'entities_id' => '0',
       ]);
@@ -262,7 +274,7 @@ class PluginFlyvemdmInstaller {
    }
 
    protected function createDefaultFleet() {
-      $fleet = new PluginFlyvemdmFleet();
+      $fleet = $this->container->make(PluginFlyvemdmFleet::class);
       $request = [
          'AND' => [
             'is_default' => '1',
@@ -321,10 +333,10 @@ class PluginFlyvemdmInstaller {
     * Create policies in DB
     */
    protected function createPolicies() {
-      $policy = new PluginFlyvemdmPolicy();
+      $policy = $this->container->make(PluginFlyvemdmPolicy::class);
       foreach (self::getPolicies() as $policyData) {
          // Import the policy category or find the existing one
-         $category = new PluginFlyvemdmPolicyCategory();
+         $category = $this->container->make(PluginFlyvemdmPolicyCategory::class);
          $categoryId = $category->import([
             'completename' => $policyData['plugin_flyvemdm_policycategories_id'],
          ]);
@@ -340,7 +352,7 @@ class PluginFlyvemdmInstaller {
             $policy->add($policyData);
          } else {
             // Update default value and recommended value for existing policy objects
-            $policy2 = new PluginFlyvemdmPolicy();
+            $policy2 = $this->container->make(PluginFlyvemdmPolicy::class);
             $policy2->getFromDBBySymbol($symbol);
             $policy2->update([
                'id'                                  => $policy2->getID(),
@@ -435,7 +447,7 @@ Regards,
       $notification = new Notification();
       $template = new NotificationTemplate();
       $translation = new NotificationTemplateTranslation();
-      $notificationTarget = new PluginFlyvemdmNotificationTargetInvitation();
+      $notificationTarget = $this->container->make(PluginFlyvemdmNotificationTargetInvitation::class);
       $notification_notificationTemplate = new Notification_NotificationTemplate();
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
@@ -640,7 +652,7 @@ Regards,
       global $DB;
 
       // Create mqtt credentials for the plugin
-      $mqttUser = new PluginFlyvemdmMqttuser();
+      $mqttUser = $this->container->make(PluginFlyvemdmMqttuser::class);
 
       // Check the MQTT user account for the plugin exists
       if ($mqttUser->getFromDBByCrit(['user' => $MdmMqttUser])) {

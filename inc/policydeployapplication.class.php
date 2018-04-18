@@ -78,7 +78,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       }
 
       //check the item exists
-      $package = new PluginFlyvemdmPackage();
+      $package = $this->container->make(PluginFlyvemdmPackage::class);
       if (!$package->getFromDB($itemId)) {
          Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'));
          return false;
@@ -98,7 +98,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
       }
-      $package = new PluginFlyvemdmPackage();
+      $package = $this->container->make(PluginFlyvemdmPackage::class);
       $package->getFromDB($itemId);
       $array = [
             $this->symbol  => $package->getField('package_name'),
@@ -120,7 +120,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       // Check the policy is already applied
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $rows = $task->find("`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
             AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
@@ -140,7 +140,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Check there is not already a removal policy (to avoid opposite policy)
-      $package = new PluginFlyvemdmPackage();
+      $package = $this->container->make(PluginFlyvemdmPackage::class);
       if (!$package->getFromDB($itemId)) {
          // Cannot apply a non existing applciation
          Session::addMessageAfterRedirect(__('The application does not exists', 'flyvemdm'), false, ERROR);
@@ -148,7 +148,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       }
       $packageName = $package->getField('name');
 
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDBBySymbol('removeApp')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
          // Give up this check
@@ -187,26 +187,26 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return true;
       }
 
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDBBySymbol('removeApp')) {
          Toolbox::logInFile('php-errors',
             'Plugin FlyveMDM: Application removal policy not found\n');
          return false;
       }
 
-      $package = new PluginFlyvemdmPackage();
+      $package = $this->container->make(PluginFlyvemdmPackage::class);
       if (!$package->getFromDB($itemId)) {
          Toolbox::logInFile('php-errors',
             'Plugin FlyveMDM: Package info not found\n');
          return true;
       }
 
-      $package = new $itemtype();
+      $package = $this->container->make($itemtype);
       if (!$package->getFromDB($itemId)) {
          return false;
       }
 
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = $this->container->make(PluginFlyvemdmPolicy::class);
       if (!$policyData->getFromDBBySymbol('removeApp')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
          return false;
@@ -256,7 +256,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @return string
     */
    public function showValue(PluginFlyvemdmTask $task) {
-      $package = new PluginFlyvemdmPackage();
+      $package = $this->container->make(PluginFlyvemdmPackage::class);
       if ($package->getFromDB($task->getField('items_id'))) {
          $alias = $package->getField('alias');
          $name  = $package->getField('name');

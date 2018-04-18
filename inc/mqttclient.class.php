@@ -61,15 +61,24 @@ class PluginFlyvemdmMqttclient {
    private static $instance = null;
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   /**
     * PluginFlyvemdmMqttclient constructor.
     */
    private function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
       self::$mqtt = $this->getMQTTConnection();
    }
 
    /**
     * Get the unique instance of PluginFlyvemdmMqttclient
-    * @return PluginFlyvemdmMqttclient instance of this class (singleton)
+    * @return self instance of this class (singleton)
     */
    public static function getInstance() {
       if (self::$instance === null) {
@@ -145,7 +154,7 @@ class PluginFlyvemdmMqttclient {
    public function publish($topic, $message, $qos = 0, $retain = 0) {
       try {
          if (self::$mqtt !== false) {
-            $log = new PluginFlyvemdmMqttlog();
+            $log = $this->container->make(PluginFlyvemdmMqttlog::class);
             if (self::$mqtt->publish_sync($topic, $message, $qos, $retain)) {
                $log->saveOutgoingMqttMessage($topic, $message);
                return true;
@@ -210,7 +219,7 @@ class PluginFlyvemdmMqttclient {
          $mqtt = $this->buildMqtt($address, $port, $isTls, $sslCipher);
          $mqtt->setAuth($config['mqtt_user'], $config['mqtt_passwd']);
          if ($mqtt->connect()) {
-            $log = new PluginFlyvemdmMqttlog();
+            $log = $this->container->make(PluginFlyvemdmMqttlog::class);
             $topic = "/testtopic";
             $message =  "Hello, MQTT Broker !";
             $mqtt->publish_sync($topic, $message, 0, 0);

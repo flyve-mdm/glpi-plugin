@@ -42,6 +42,19 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
    const DEEPLINK = '?data=';
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+
+   public function __construct($entity = '', $event = '', $object = null, $options = []) {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct($entity, $event, $object, $options);
+   }
+
+   /**
     * Define plugins notification events
     * @return array Events ids => names
     */
@@ -89,6 +102,8 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @param NotificationTarget $event
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
+      global $pluginFlyvemdmContainer;
+
       switch ($event->raiseevent) {
          case self::EVENT_GUEST_INVITATION:
             if (isset($event->obj)) {
@@ -104,7 +119,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                $document->getFromDB($documentItem->getField('documents_id'));
 
                // Get the entitiy configuration data
-               $entityConfig = new PluginFlyvemdmEntityConfig();
+               $entityConfig = $pluginFlyvemdmContainer->make(PluginFlyvemdmEntityConfig::class);
                $entityConfig->getFromDBByCrit(['entities_id' => $invitation->getField('entities_id')]);
 
                $encodedRequest = $invitation->getEnrollmentUrl();

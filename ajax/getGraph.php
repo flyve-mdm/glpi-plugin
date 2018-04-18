@@ -41,7 +41,7 @@ if (!isset($_REQUEST['graph'])) {
    die();
 }
 
-$graph = new PluginFlyvemdmGraph();
+$graph = $pluginFlyvemdmContainer->make(PluginFlyvemdmGraph::class);
 
 switch ($_REQUEST['graph']) {
    case 'invitations':
