@@ -46,7 +46,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       '.settings/',
       '.project',
       '.buildpath/',
-      'tools/',
+      'tools/dev/',
       'tests/',
       'screenshot*.png',
       'RoboFile*.php',
@@ -541,7 +541,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
     */
    protected function getHeaderTemplate() {
       if (empty($this->headerTemplate)) {
-         $this->headerTemplate = file_get_contents(__DIR__ . '/tools/HEADER');
+         $this->headerTemplate = file_get_contents(__DIR__ . '/tools/dev/HEADER');
          if (empty($this->headerTemplate)) {
             throw new Exception('Header template file not found');
          }
