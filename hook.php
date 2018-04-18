@@ -103,7 +103,7 @@ function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
 
 /**
  * Define Dropdown tables to be managed in GLPI
- * @return translated[]
+ * @return array
  */
 function plugin_flyvemdm_getDropdown() {
 

@@ -140,10 +140,11 @@ class PluginFlyvemdmFile extends CommonTestCase {
    }
 
    /**
-    * @param PluginFlyvemdmPolicy $policyData
-    * @param FlyvemdmFile $file
-    * @param PluginFlyvemdmFleet $fleet
+    * @param PluginFlyvemdmPolicy       $policyData
+    * @param FlyvemdmFile               $file
+    * @param PluginFlyvemdmFleet        $fleet
     * @param $filedestination
+    *
     * @return \PluginFlyvemdmTask
     */
    private function ApplyAddFilePolicy(

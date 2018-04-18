@@ -152,10 +152,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    * @param mixed                      $value
+    * @param mixed                      $itemtype
+    * @param integer                    $itemId
     * @param PluginFlyvemdmFleet $fleet
+    *
     * @return bool
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -173,10 +174,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    * @param mixed                      $value
+    * @param mixed                      $itemtype
+    * @param integer                    $itemId
     * @param PluginFlyvemdmFleet $fleet
+    *
     * @return bool
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
@@ -201,10 +203,10 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                      $value
+    * @param mixed                      $itemtype
+    * @param integer                    $itemId
+    * @param PluginFlyvemdmFleet        $fleet
     * @return bool
     */
    public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {

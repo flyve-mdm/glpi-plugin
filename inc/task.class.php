@@ -88,6 +88,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       global $DB;
+
       if (static::canView()) {
          switch ($item->getType()) {
             case PluginFlyvemdmFleet::class:
@@ -362,6 +363,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * MQTT publish a policy applying to the fleet
     *
     * @param PluginFlyvemdmNotifiableInterface $item
+    *
     * @throws TaskPublishPolicyBadFleetException
     * @throws TaskPublishPolicyPolicyNotFoundException
     */
@@ -491,8 +493,9 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    /**
     * Builds a group of policies using the value of an applied policy for a fleet, and the default value of
     * non applied policies of the same group
-    * @param string $group name of a group of policies
-    * @param PluginFlyvemdmFleet $fleet fleet the group will built for
+    *
+    * @param string                     $group name of a group of policies
+    * @param PluginFlyvemdmFleet        $fleet fleet the group will built for
     *
     * @return array
     */
@@ -553,8 +556,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    /**
+    *
     * @param array $policiesToApply
+    *
     * @return array
+    *
     * @throws PolicyApplicationException
     */
    protected function buildMqttMessage($policiesToApply) {
