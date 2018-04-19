@@ -163,6 +163,10 @@ if($dev) {
    $entityConfig->getFromDBByCrit([
       'entities_id' => '0',
    ]);
+   $entityConfig->update([
+      'id'           => $entityConfig->getID(),
+      'download_url' => PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL
+   ]);
    $devquery = "UPDATE `glpi_plugin_flyvemdm_entityconfigs`
                SET `download_url` = '" . PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL . "'
                WHERE `glpi_plugin_flyvemdm_entityconfigs`.`entities_id` = 0";
