@@ -39,6 +39,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
    public function beforeTestMethod($method) {
       switch ($method) {
          case 'testCanAddAgent':
+         case 'testHook_entity_add':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -149,5 +150,40 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
          $this->array($actualOutput)->hasKeys(array_keys($output));
          $this->array($actualOutput)->containsValues($output);
       }
+   }
+
+   public function testHook_entity_add() {
+      $config = \Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
+      $defaultDeviceLimit = $config['default_device_limit'];
+
+      // Create an entity in DB
+      // This must run hook_entity_add
+      $entity = new \Entity();
+      $entityId = $entity->import([
+         'name' => __FUNCTION__,
+         'entities_id' => 0
+      ]);
+      // The root entity (id 0) already exists then it cannot be returned or retrieved
+      $this->integer($entityId)->isGreaterThan(0);
+
+      $instance = $this->newTestedInstance();
+      $instance->getFromDBByCrit([
+         \Entity::getForeignKeyField() => $entityId
+      ]);
+      $this->boolean($instance->isNewItem())->isFalse();
+      $this->string($instance->getField('agent_token'))->isNotEmpty();
+      $this->string($instance->getField('agent_token_life'))->isEqualTo('P7D');
+      $this->string($instance->getField('support_name'))->isEqualTo('');
+      $this->string($instance->getField('support_phone'))->isEqualTo('');
+      $this->string($instance->getField('support_website'))->isEqualTo('');
+      $this->string($instance->getField('support_email'))->isEqualTo('');
+      $this->string($instance->getField('support_address'))->isEqualTo('');
+      $this->integer((int) $instance->getField('managed'))->isEqualTo(0);
+      $this->string($instance->getField('download_url'))->isEqualTo(PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL);
+      $this->integer((int) $instance->getField('device_limit'))->isEqualTo((int) $defaultDeviceLimit);
+
+      // Test directories are created
+      $this->boolean(is_dir(FLYVEMDM_PACKAGE_PATH . '/' . $entityId));
+      $this->boolean(is_dir(FLYVEMDM_FILE_PATH . '/' . $entityId));
    }
 }
