@@ -111,7 +111,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '3',
          'table'         => 'glpi_plugin_flyvemdm_policycategories',
          'field'         => 'completename',
-         'name'          => __('Policy category'),
+         'name'          => __('Policy category', 'flyvemdm'),
          'datatype'      => 'dropdown',
          'massiveaction' => false,
       ];
@@ -128,7 +128,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '5',
          'table'         => $this->getTable(),
          'field'         => 'type_data',
-         'name'          => __('Enumeration data'),
+         'name'          => __('Enumeration data', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
@@ -146,7 +146,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '7',
          'table'         => $this->getTable(),
          'field'         => 'default_value',
-         'name'          => __('Default value'),
+         'name'          => __('Default value', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
@@ -155,7 +155,34 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '8',
          'table'         => $this->getTable(),
          'field'         => 'recommended_value',
-         'name'          => __('Recommended value'),
+         'name'          => __('Recommended value', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
+
+      $tab[] = [
+         'id'            => '9',
+         'table'         => $this->getTable(),
+         'field'         => 'is_android_policy',
+         'name'          => __('For Android', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
+
+      $tab[] = [
+         'id'            => '10',
+         'table'         => $this->getTable(),
+         'field'         => 'is_android_system',
+         'name'          => __('Requires system permission', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
+
+      $tab[] = [
+         'id'            => '11',
+         'table'         => $this->getTable(),
+         'field'         => 'is_apple_policy',
+         'name'          => __('For iOS', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
