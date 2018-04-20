@@ -40,6 +40,7 @@
          <th width="10">{% if canEdit %}{{ checkAll|raw }}{% endif %}</th>
          <th>{{ __('Policy', 'flyvemdm') }}</th>
          <th>{{ __('Value', 'flyvemdm') }}</th>
+         <th>{{ __('Agent', 'flyvemdm') }}</th>
       </tr>
       {% for policy in policies %}
       <tr>
@@ -54,12 +55,14 @@
             {{ policy.value }}
             {% endif %}
          </td>
+         <td>{{ policy.agentName }}</td>
       </tr>
       {% endfor %}
       <tr>
          <th width="10">{% if canEdit %}{{ checkAll|raw }}{% endif %}</th>
          <th>{{ __('Policy', 'flyvemdm') }}</th>
          <th>{{ __('Value', 'flyvemdm') }}</th>
+         <th>{{ __('Agent', 'flyvemdm') }}</th>
       </tr>
       
    </table>

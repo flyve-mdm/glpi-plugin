@@ -160,6 +160,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'integer');
    $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
    $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
+   $migration->addField($table, 'plugin_flyvemdm_agents_id', 'integer', ['after' => 'items_id']);
+   $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
 
    // update Policy table
    $table = 'glpi_plugin_flyvemdm_policies';

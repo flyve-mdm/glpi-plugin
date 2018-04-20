@@ -90,12 +90,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       global $DB;
 
       if (static::canView()) {
+         $pluralNumber = Session::getPluralNumber();
          switch ($item->getType()) {
             case PluginFlyvemdmFleet::class:
                if ($_SESSION['glpishow_count_on_tabs']) {
-                  $nb = 0;
                   $fleetId = $item->getID();
-                  $pluralNumber = Session::getPluralNumber();
                   $nb1 = countElementsInTable(static::getTable(),
                      ['plugin_flyvemdm_fleets_id' => $fleetId]);
                   $request = [
@@ -120,6 +119,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                   1 => self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb1),
                   2 => self::createTabEntry(__('Tasks statuses', 'flyvemdm'), $nb2),
                ];
+               break;
+
+            case PluginFlyvemdmAgent::class:
+               $agentId = $item->getID();
+               $nb = countElementsInTable(static::getTable(),
+                  ['plugin_flyvemdm_agents_id' => $agentId]);
+               return self::createTabEntry(PluginFlyvemdmPolicy::getTypeName($pluralNumber), $nb);
+               break;
          }
       }
    }
@@ -692,6 +699,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
                   static::showTaskStatusesForItem($item, $withtemplate);
                   break;
             }
+            break;
+         case PluginFlyvemdmAgent::class:
+            static::showForFleet($item, $withtemplate);
+            break;
       }
    }
 
@@ -740,11 +751,18 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       foreach ($appliedPolicies as $id => &$appliedPolicyData) {
          $appliedPolicyData['checkbox'] = Html::getMassiveActionCheckBox(__CLASS__, $id);
          $appliedPolicyData['policyName'] = $policies[$appliedPolicyData['plugin_flyvemdm_policies_id']]['name'];
+         $appliedPolicyData['agentName'] = '-';
          $policyItem = $factory->createFromDBByID($appliedPolicyData['plugin_flyvemdm_policies_id']);
          if ($policyItem !== null) {
             $task = new PluginFlyvemdmTask();
             $task->getFromDB($id);
             $appliedPolicyData['value'] = $policyItem->showValue($task);
+         }
+
+         if($appliedPolicyData['plugin_flyvemdm_agents_id'] != 0){
+            $agent = new PluginFlyvemdmAgent();
+            $agent->getFromDB($id);
+            $appliedPolicyData['agentName'] = $agent->getName();
          }
       }
 
@@ -857,6 +875,16 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       echo $twig->render('fleet_taskstatus.html.twig', $data);
 
       Html::closeForm();
+   }
+
+   public static function showTaskForAgent(CommonDBTM $item, $withTemplate = '') {
+      if (!$item->canView()) {
+         return false;
+      }
+
+      $itemId = $item->getID();
+      $canedit = Session::haveRightsOr('flyvemdm:fleet', [CREATE, UPDATE, DELETE, PURGE]);
+      $rand = mt_rand();
    }
 
    /**
