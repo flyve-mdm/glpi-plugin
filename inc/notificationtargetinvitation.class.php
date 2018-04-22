@@ -71,7 +71,7 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
          'user.realname'            => __('Last name of the Flyve MDM fleets manager', 'flyvemdm'),
          'support.name'             => __('Name of the helpdesk', 'flyvemdm'),
          'support.phone'            => __('Phone number of the helpdesk', 'flyvemdm'),
-         'support.website'          => __('Website if the helpdesk', 'flyvemdm'),
+         'support.website'          => __('Website of the helpdesk', 'flyvemdm'),
          'support.email'            => __('Email address of the helpdesk', 'flyvemdm'),
          'support.address'          => __('Address of the helpdesk', 'flyvemdm'),
       ];
