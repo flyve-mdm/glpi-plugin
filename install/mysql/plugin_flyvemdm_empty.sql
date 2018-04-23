@@ -206,9 +206,11 @@ CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
   `value`                                      varchar(255) NOT NULL DEFAULT '',
   `itemtype`                                   varchar(255) DEFAULT NULL,
   `items_id`                                   int(11)      NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_agents_id`                  int(11)      NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `plugin_flyvemdm_fleets_id` (`plugin_flyvemdm_fleets_id`),
-  KEY `plugin_flyvemdm_policies_id` (`plugin_flyvemdm_policies_id`)
+  KEY `plugin_flyvemdm_policies_id` (`plugin_flyvemdm_policies_id`),
+  KEY `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 

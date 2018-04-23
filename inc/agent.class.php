@@ -139,6 +139,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
       $this->addStandardTab(__CLASS__, $tab, $options);
       if (!$this->isNewItem()) {
+         $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
          $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
       }
       $this->addStandardTab(Notepad::class, $tab, $options);
