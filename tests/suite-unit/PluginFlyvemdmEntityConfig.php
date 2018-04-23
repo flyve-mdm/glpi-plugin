@@ -138,6 +138,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
       $this->boolean($loginSuccess)->isTrue('Failed to login');
 
       $instance = $this->newTestedInstance();
+      $instance->getFromDB(0);
       $actualOutput = $instance->prepareInputForUpdate($input);
       if ($output === false) {
          $this->boolean($actualOutput)->isFalse();

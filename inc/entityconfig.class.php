@@ -53,6 +53,15 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
 
    public static $rightname = 'flyvemdm:entity';
 
+   private $inheritableFields = [
+      'support_name',
+      'support_phone',
+      'support_website',
+      'support_email',
+      'support_address',
+      'download_url',
+   ];
+
    /**
     * Returns the name of the type
     * @param integer $nb number of item in the type
@@ -86,17 +95,9 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       $entity->getFromDB($this->fields['entities_id']);
       $parentEntityId = $entity->getField('entities_id');
 
-      $fieldsToRecurse = [
-         'support_name'    => '',
-         'support_phone'   => '',
-         'support_website' => '',
-         'support_email'   => '',
-         'support_address' => '',
-         'download_url'    => '',
-      ];
-      foreach ($fieldsToRecurse as $field => $default) {
+      foreach ($this->inheritableFields as $field) {
          if (empty($this->fields[$field])) {
-            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, $default);
+            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, '');
             $this->fields["_$field"] = self::CONFIG_PARENT;
          } else {
             $this->fields["_$field"] = self::CONFIG_DEFINED;
@@ -151,6 +152,15 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       // If the request is done from the API and changing a field is forbidden then fail
       if (isAPI() && $failure) {
          return false;
+      }
+
+      // If a value has the same content as the parent entity, then enable inheritance
+      foreach ($this->inheritableFields as $inheritableField) {
+         if (isset($input[$inheritableField])) {
+            if ($input[$inheritableField] == $this->fields[$inheritableField]) {
+               $input[$inheritableField] = '';
+            }
+         }
       }
 
       unset($input['entities_id']);
@@ -365,15 +375,8 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
       if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
-         $this->add([
-            'id'              => $ID,
-            'support_name'    => self::CONFIG_PARENT,
-            'support_phone'   => self::CONFIG_PARENT,
-            'support_website' => self::CONFIG_PARENT,
-            'support_email'   => self::CONFIG_PARENT,
-            'support_address' => self::CONFIG_PARENT,
-            'download_url'    => self::CONFIG_PARENT,
-         ]);
+         $toAdd = array_flip($this->inheritableFields);
+         $this->add(['id' => $ID]);
          // To set virtual fields about inheritance
          $this->post_getFromDB();
       }

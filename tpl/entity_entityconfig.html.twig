@@ -3,23 +3,19 @@
       {{ __('Support name', 'flyvemdm')  }}
    </td>
    <td>
-    {% if entityConfig._support_name == -2 %}
-      <input name="support_name" />
-      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
       <input name="support_name" value="{{ entityConfig.support_name }}" />
-    {% endif %}
+      {% if entityConfig._support_name == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
    </td>
    <td rowspan="4">
       {{ __('Support address', 'flyvemdm')  }}
    </td>
    <td rowspan="4">
-    {% if entityConfig._support_address == -2 %}
-      <textarea cols="45" rows="8" name="support_address"></textarea>
-      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
       <textarea cols="45" rows="8" name="support_address">{{ entityConfig.support_address }}</textarea>
-    {% endif %}
+      {% if entityConfig._support_address == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
    </td>
 </tr>
 <tr class='tab_bg_1'>
@@ -27,12 +23,10 @@
       {{ __('Support phone', 'flyvemdm')  }}
    </td>
    <td>
-    {% if entityConfig._support_phone == -2 %}
-      <input name="support_phone" />
-      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
       <input name="support_phone" value="{{ entityConfig.support_phone }}" />
-    {% endif %}
+      {% if entityConfig._support_phone == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
    </td>
 </tr>
 <tr class='tab_bg_1'>
@@ -40,12 +34,10 @@
       {{ __('Support website', 'flyvemdm')  }}
    </td>
    <td>
-    {% if entityConfig._support_website == -2 %}
-      <input name="support_website" />
-      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
       <input name="support_website" value="{{ entityConfig.support_website }}" />
-    {% endif %}
+      {% if entityConfig._support_website == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
    </td>
 </tr>
 <tr class='tab_bg_1'>
@@ -53,27 +45,22 @@
       {{ __('Support email', 'flyvemdm')  }}
    </td>
    <td>
-    {% if entityConfig._support_email == -2 %}
-      <input name="support_email" />
-      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
       <input name="support_email" value="{{ entityConfig.support_email }}" />
-    {% endif %}
+      {% if entityConfig._support_email == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
    </td>
    <td>
    </td>
-</tr>
-<tr class="tab_bg_1">
-    <th colspan="5" class="">{{ __('Configuration', 'flyvemdm') }}</th>
+   <td>
+   </td>
 </tr>
 <tr class="tab_bg_1">
    <td>{{ __('MDM Agent URL', 'flyvemdm') }}</td>
    <td>
+    <input name="download_url" value="{{ entityConfig.download_url }}" />
     {% if entityConfig._download_url == -2 %}
-      <input name="download_url" value="" />
       <div class="green">{{ __('Inheritance of the parent entity') }}</div>
-    {% else %}
-      <input name="download_url" value="{{ entityConfig.download_url }}" />
     {% endif %}
    </td>
     <td></td>
