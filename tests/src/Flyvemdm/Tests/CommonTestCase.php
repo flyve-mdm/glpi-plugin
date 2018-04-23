@@ -538,6 +538,15 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableCreateVpnProfiles',
          'Policy/inventoryFrequency',
          'Policy/disableUnknownAppSources',
+         'Policy/disableStreamMusic',
+         'Policy/disableStreamRing',
+         'Policy/disableStreamAlarm',
+         'Policy/disableStreamNotification',
+         'Policy/disableStreamAccessibility',
+         'Policy/disableStreamDTMF',
+         'Policy/disableStreamVoiceCall',
+         'Policy/disableStreamSystem',
+         'Policy/defaultStreamType',
       ];
    }
 }
