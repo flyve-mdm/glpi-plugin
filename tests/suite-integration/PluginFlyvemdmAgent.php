@@ -943,4 +943,26 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $this->array($expected)->contains($aMessage['message']);
       }
    }
+
+   public function testGetByTopic() {
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial,
+         $invitation->getField('invitation_token'));
+
+      // Test the agent is created
+      $this->boolean($agent->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      $computer = new \Computer();
+      $computer->getFromDB($agent->getField(\Computer::getForeignKeyField()));
+      $entityId = $computer->getField(\Entity::getForeignKeyField());
+      $serial = $computer->getField('serial');
+
+      $emptyAgent = new \PluginFlyvemdmAgent();
+      $emptyAgent->getByTopic("$entityId/agent/$serial");
+
+      $this->boolean($emptyAgent->isNewItem())->isFalse();
+      $this->integer((int) $emptyAgent->getField(\Computer::getForeignKeyField()))
+         ->isEqualTo($computer->getID());
+   }
 }

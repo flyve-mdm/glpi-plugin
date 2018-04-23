@@ -964,7 +964,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * get an agent from DB by topic
     *
-    * @param string|false $topic
+    * @param string $topic a M2M topic
     * @return bool
     */
    public function getByTopic($topic) {
@@ -975,7 +975,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($mqttPath[1] != 'agent') {
          return false;
       }
-      $entity = (int) $mqttPath[1];
+      $entity = (int) $mqttPath[0];
       $serial = $mqttPath[2];
       if (strlen($serial) <= 0) {
          return false;
