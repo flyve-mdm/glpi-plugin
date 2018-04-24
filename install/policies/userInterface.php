@@ -34,7 +34,7 @@ if (!defined('GLPI_ROOT')) {
 }
 
 $category = 'Security > User interface';
-return [
+$securityUserInterface = [
    [
       'name'                                => __('Disable status bar', 'flyvemdm'),
       'symbol'                              => 'disableStatusBar',
@@ -68,7 +68,10 @@ return [
       'is_android_system'                   => '1',
       'is_apple_policy'                     => '0',
    ],
+];
 
+$category = 'Configuration > User interface';
+$configurationUserInterface = [
    [
       'name'                                => __('Disable media sounds', 'flyvemdm'),
       'symbol'                              => 'disableStreamMusic',
@@ -217,3 +220,5 @@ return [
       'is_apple_policy'                     => '0',
    ],
 ];
+
+return array_merge($securityUserInterface, $configurationUserInterface);
