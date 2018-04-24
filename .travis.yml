@@ -39,8 +39,8 @@ script:
 
 after_success:
   # let's update the documentation
-  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then .github/push_ghpages.sh; fi
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then tests/update_locales.sh; fi
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then .github/push_ghpages.sh; fi
 
 cache:
   directories:
