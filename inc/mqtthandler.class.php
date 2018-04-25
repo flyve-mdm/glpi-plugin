@@ -189,17 +189,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
    protected function updateInventory($topic, $message) {
       global $DB;
 
-      $mqttPath = explode('/', $topic);
-      $entityId = $mqttPath[1];
-      $serial = $DB->escape($mqttPath[3]);
-      $computer = new Computer();
-      $request = [
-         'AND' => [
-            Entity::getForeignKeyField() => $entityId,
-            'serial' => $serial,
-         ]
-      ];
-      if ($computer->getFromDBByCrit($request)) {
+      $agent = new PluginFlyvemdmAgent();
+      $agent->getByTopic($topic);
+      if ($agent->getComputer()) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
          $communication = new \PluginFusioninventoryCommunication();
