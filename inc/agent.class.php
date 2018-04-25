@@ -1510,6 +1510,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             if ($updatedPosition['latitude'] == 'na') {
                throw new AgentSendQueryException(__('GPS is turned off or is not ready', 'flyvemdm'));
             }
+            Session::addMessageAfterRedirect(__('The device sent its position', 'flyvemdm'));
             return true;
          }
       }
@@ -1540,6 +1541,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $updatedInventory = array_pop($inventoryRows);
          if ($lastInventory === null && $updatedInventory !== null
             || $lastInventory !== null && $lastInventory != $updatedInventory) {
+            Session::addMessageAfterRedirect(__('Inventory received', 'flyvemdm'));
             return true;
          }
       }
@@ -1563,6 +1565,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $loopCount--;
          $updatedAgent->getFromDB($this->getID());
          if ($updatedAgent->getField('last_contact') != $this->fields['last_contact']) {
+            Session::addMessageAfterRedirect(__('The device answered', 'flyvemdm'));
             return true;
          }
       }
