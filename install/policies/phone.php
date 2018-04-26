@@ -34,4 +34,35 @@ if (!defined('GLPI_ROOT')) {
 
 $category = 'Security > Phone';
 return [
+   [
+      'name'                                => __('Set a SIM card PIN', 'flyvemdm'),
+      'symbol'                              => 'setSimCardPin',
+      'group'                               => 'phone',
+      'type'                                => 'int',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => 'Security > Phone',
+      'comment'                             => __('Set a SIM card PIN', 'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '0',
+      'is_android_policy'                   => '1',
+      'is_android_system'                   => '1',
+      'is_apple_policy'                     => '0',
+   ],
+
+   [
+      'name'                                => __('Set a SIM card PIN2', 'flyvemdm'),
+      'symbol'                              => 'setSimCardPin2',
+      'group'                               => 'phone',
+      'type'                                => 'int',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => 'Security > Phone',
+      'comment'                             => __('Set a SIM card PIN2', 'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '0',
+      'is_android_policy'                   => '1',
+      'is_android_system'                   => '1',
+      'is_apple_policy'                     => '0',
+   ],
 ];
