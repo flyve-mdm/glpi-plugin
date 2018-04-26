@@ -1099,6 +1099,9 @@ msgid ""
 " settings and other screen overlays that allow escaping from a single use "
 "device."
 msgstr ""
+"Deshabilitar la barra de estado. Al deshabilitar la barra de estado se bloquean"
+" las notificaciones, la configuración rápida y otras superposiciones de pantalla"
+" que permiten el escape desde un dispositivo de un solo uso."
 
 #: install/installer.class.php:1298
 msgid "Disable screen capture"
@@ -1109,10 +1112,13 @@ msgid ""
 "Disable screen capture. Disabling screen capture also prevents the content "
 "from being shown on display devices that do not have a secure video output."
 msgstr ""
+"Desactivar la captura de pantalla. La desactivación de la captura de pantalla"
+" también evita que el contenido se muestre en dispositivos de visualización"
+" que no tienen una salida de video segura."
 
 #: install/installer.class.php:1315
 msgid "Reset password"
-msgstr ""
+msgstr "Restablecer la contraseña"
 
 #: install/installer.class.php:1322
 msgid ""
@@ -1120,6 +1126,9 @@ msgid ""
 "entire device) or the work profile challenge on the current user. This takes"
 " effect immediately."
 msgstr ""
+"Forzar una nueva contraseña para desbloquear el dispositivo (la contraseña"
+" necesaria para acceder a todo el dispositivo) o el desafío del perfil de"
+" trabajo en el usuario actual. Esto toma efecto inmediatamente."
 
 #: install/installer.class.php:1332
 msgid "Disable speakerphone"
@@ -1160,7 +1169,7 @@ msgstr "Acciones"
 #: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
 #: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
 msgid "There is no task status yet"
-msgstr ""
+msgstr "Aún no hay un estado de tarea"
 
 #: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:45
 #: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:112
@@ -1187,6 +1196,8 @@ msgid ""
 "An IP address or a hostname used by the client devices to communicate with "
 "the broker"
 msgstr ""
+"Una dirección IP o un nombre de host utilizado por los dispositivos del"
+" cliente para comunicarse con el intermediario"
 
 #: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:44
 msgid "MQTT broker address for backend"
@@ -1233,7 +1244,7 @@ msgstr "Usar TLS para el backend"
 
 #: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:113
 msgid "Use TLS for MQTT communication between the broker and the backend"
-msgstr ""
+msgstr "Usar TLS para la comunicación MQTT entre el intermediario y el backend"
 
 #: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:119
 msgid "CA certificate"
@@ -1289,6 +1300,8 @@ msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
 "settings and the notification settings."
 msgstr ""
+"GLPI no está configurado correctamente. Verifique la configuración general,"
+" la configuración de API y la configuración de notificación."
 
 #: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:23
 msgid "Lock"
@@ -1476,7 +1489,7 @@ msgstr "Sitio web de soporte"
 
 #: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
 msgid "Support email"
-msgstr "Correo eléctronico de soporte"
+msgstr "Correo electrónico de soporte"
 
 #: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
 msgid "Update the file"
@@ -1500,6 +1513,8 @@ msgid ""
 "To setup Flyve MDM please connect to your server with a command line "
 "interface. Some operations require a root access."
 msgstr ""
+"Para configurar Flyve MDM, conéctese a su servidor con una interfaz"
+" de línea de comando. Algunas operaciones requieren un acceso raíz."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:78
 msgid "This wizard will guide you through the steps to setup Flyve MDM."
@@ -1518,6 +1533,8 @@ msgid ""
 "As root in a terminal, execute the following command. Adapt www-data to the "
 "user running your HTTP server."
 msgstr ""
+"Como root en un terminal, ejecute el siguiente comando."
+" Adapte www-data al usuario que ejecuta su servidor HTTP."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:106
 msgid "crontab -e -u www-data"
@@ -1528,6 +1545,7 @@ msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
 "to GLPI:"
 msgstr ""
+"Agregue, si falta, la siguiente línea. Adapte la ruta a php CLI binary y ruta a GLPI:"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:115
 msgid ""
@@ -1545,6 +1563,9 @@ msgid ""
 "Flyve MDM requires email notifications. The following link will open a new "
 "tab to the email notifications settings."
 msgstr ""
+"Flyve MDM requiere notificaciones por correo electrónico."
+" El siguiente enlace abrirá una nueva pestaña en la"
+" configuración de notificaciones de correo electrónico."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:143
 msgid ""
@@ -1552,6 +1573,9 @@ msgid ""
 "triggered by the cron job. The following link will open a new tab to the "
 "Automatic actions list"
 msgstr ""
+"La notificación en cola debe haber configurado el modo de ejecución en CLI."
+" Esta acción será activada por el trabajo cron. El siguiente enlace abrirá"
+" una nueva pestaña en la lista de acciones automáticas."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:147
 msgid "Automatic actions"
@@ -1562,6 +1586,9 @@ msgid ""
 "Ensure the cron job is properly configure by checking the log "
 "glpi/files/_log/cron.log. The entry should contain the word External"
 msgstr ""
+"Asegúrese de que la tarea cron esté configurada correctamente"
+" al verificar el registro glpi/files/_log/cron.log. La entrada"
+" debe contener la palabra externa"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:167
 msgid "REST API"
@@ -1572,6 +1599,8 @@ msgid ""
 "Flyve MDM requires REST API enabled. The following link will open a new tab "
 "to the REST API settings."
 msgstr ""
+"Flyve MDM requiere la API REST habilitada. El siguiente enlace "
+"abrirá una nueva pestaña para la configuración de la API REST."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:178
 msgid "Make sure the following setting is populated:"
@@ -1602,6 +1631,8 @@ msgid ""
 "- Add an API client leaving empty IPv4 address range, IPv6 address and "
 "application token."
 msgstr ""
+"- Agregue un cliente API que deje el rango de direcciones IPv4 vacías,"
+" la dirección IPv6 y el token de la aplicación."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:206
 msgid "API"
@@ -1617,6 +1648,8 @@ msgid ""
 "Flyve MDM needs to know the public URL of GLPI. The following link will open"
 " a new tab to the general setup."
 msgstr ""
+"Flyve MDM necesita conocer la URL pública de GLPI. El siguiente "
+"enlace abrirá una nueva pestaña para la configuración general."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:230
 msgid "Make sure the following settings is populated:"
@@ -1635,6 +1668,8 @@ msgid ""
 "You must add the APK and UPK document types in order to upload Android and "
 "Uhuru packages."
 msgstr ""
+"Debe agregar los tipos de documento APK y UPK para cargar"
+" los paquetes de Android y Uhuru."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:262
 msgid ""
@@ -1651,6 +1686,8 @@ msgid ""
 "Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
 "php.ini allows reasonable upload sizes."
 msgstr ""
+"Flyve MDM permite cargar archivos, paquetes de Android y Uhuru Mobile."
+" Asegúrese de que php.ini permita tamaños de carga razonables."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:290
 msgid "For example:"
@@ -1669,12 +1706,16 @@ msgid ""
 "It is required to deactivate the Computer constraint (name) rule in the "
 "Equipment import and link rules menu."
 msgstr ""
+"Se requiere desactivar la regla de restricciones informáticas (nombre)"
+" en el menú de reglas Importar y vincular equipos."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:332
 msgid ""
 "The following link will open a new tab to the Rules section of "
 "FusionInventory "
 msgstr ""
+"El siguiente enlace abrirá una nueva pestaña en la sección"
+" Reglas de FusionInventory"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:336
 msgid "Rules"
@@ -1690,19 +1731,23 @@ msgstr ""
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:353
 msgid "DBMS access for Mosquitto"
-msgstr ""
+msgstr "Acceso SGBD para Mosquitto"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:360
 msgid ""
 "Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
 "is for the authentication process of its clients."
 msgstr ""
+"Flyve MDM requiere que Mosquitto tenga acceso a la base de datos de GLPI,"
+" esto es para el proceso de autenticación de sus clientes."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:364
 msgid ""
 "It is recommended to create a dedicated user for Mosquitto allowed to "
 "connect only from its specific IP."
 msgstr ""
+"Se recomienda crear un usuario dedicado para Mosquitto a quien"
+" se le permita conectarse solo desde su IP específica."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:368
 msgid ""
@@ -1719,6 +1764,8 @@ msgid ""
 "Run the following commands on your MySQL host, and adapt the name of the "
 "database and the mqtt.server.ip"
 msgstr ""
+"Ejecute los siguientes comandos en su host MySQL y adapte"
+" el nombre de la base de datos y el mqtt.server.ip"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:385
 msgid "Create the file"
@@ -1729,16 +1776,20 @@ msgid ""
 "Insert the following content, and adapt the bind address to the interface "
 "used by Mosquitto to connect to your DBMS."
 msgstr ""
+"Inserte el siguiente contenido y adapte la dirección de vinculación"
+" a la interfaz utilizada por Mosquitto para conectarse a su SGBD."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:396
 msgid ""
 "Restart your DBMS daemon and check it listens to the expected interface."
 msgstr ""
+"Reinicie su daemon SGBD y verifique que escucha la interfaz esperada."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:401
 msgid ""
 "Check you can login to your DBMD from the host which will run Mosquitto."
 msgstr ""
+"Compruebe que puede iniciar sesión en su SGBD desde el host que ejecutará Mosquitto."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:405
 msgid "The following command will ask for the password you choosed earlier"
@@ -1776,13 +1827,15 @@ msgstr "Verificar que Mosquitto este escuchando el puerto (inseguro) 1883."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:472
 msgid "TLS Listener setup"
-msgstr ""
+msgstr "Configuración de TLS Listener"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:479
 msgid ""
 "TLS provides security to the communication, through authentication of server"
 " and client, besides data encryption."
 msgstr ""
+"TLS proporciona seguridad a la comunicación, a través de la autenticación"
+" de servidor y cliente, además del cifrado de datos."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:483
 msgid "Use TLS version 1.2, lower versions are no longer considered safe."
@@ -1801,6 +1854,8 @@ msgid ""
 "- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
 "chain and private key."
 msgstr ""
+"- Copie en /etc/mosquitto/certs su certificado, su cadena"
+" de autoridad certificadora y clave privada."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:495
 msgid "- Secure your private key"
@@ -1816,10 +1871,13 @@ msgid ""
 "with the android devices, using them with custom certification authorities "
 "might not work (not tested)."
 msgstr ""
+"Utilice un certificado firmado por una autoridad certificada o puede tener"
+" problemas con los dispositivos Android, utilizándolos con las autoridades"
+" de certificación personalizadas que podrían no funcionar (no probadas)."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:526
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
-msgstr ""
+msgstr "Agregue lo siguiente a /etc/mosquitto/conf.d/flyvemdm.conf."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:538
 msgid "- Restart Mosquitto"
@@ -1845,7 +1903,7 @@ msgstr "Flyve MDM requiere conectarse a Mosquitto."
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:587
 msgid "For SYSV systems, link the init script in /etc/init.d/"
-msgstr ""
+msgstr "Para los sistemas SYSV, vincule el script de inicio en /etc/init.d/"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:592
 msgid "Check the user configured in the script and adapt it if needed."
