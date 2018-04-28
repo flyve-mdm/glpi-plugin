@@ -12,6 +12,7 @@ env:
   matrix:
     - GLPI_BRANCH=9.2.1 FI_BRANCH=glpi9.2+1.0
     - GLPI_BRANCH=9.2/bugfixes FI_BRANCH=glpi9.2+1.0
+    - GLPI_BRANCH=9.3/bugfixes FI_BRANCH=master
     - GLPI_BRANCH=master FI_BRANCH=master
 
 php:

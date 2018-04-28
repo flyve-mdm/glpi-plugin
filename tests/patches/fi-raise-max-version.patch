@@ -1,0 +1,26 @@
+diff --git a/inc/communication.class.php b/inc/communication.class.php
+index 11fc28c64..35b0351b9 100644
+--- a/inc/communication.class.php
++++ b/inc/communication.class.php
+@@ -26,7 +26,7 @@
+  * GNU Affero General Public License for more details.
+  *
+  * You should have received a copy of the GNU Affero General Public License
+- * along with FusionInventory. If not, see <http://www.gnu.org/licenses/>.
++ * along with FusionInventory. If not, see <http://www.gnu.org/licenses/>.fv
+  *
+  * ------------------------------------------------------------------------
+  *
+diff --git a/setup.php b/setup.php
+index 17cedcc1d..03028c628 100644
+--- a/setup.php
++++ b/setup.php
+@@ -485,7 +485,7 @@ function plugin_version_fusioninventory() {
+            'requirements'   => [
+               'glpi' => [
+                  'min' => '9.2',
+-                  'max' => '9.3',
++                  'max' => '9.4',
+                   'dev' => PLUGIN_FUSIONINVENTORY_OFFICIAL_RELEASE == 0
+                ],
+                'php' => [
