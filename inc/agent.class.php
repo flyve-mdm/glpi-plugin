@@ -1101,6 +1101,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
+      // @see fusioninventory/inc/communication.class.php
+      $parsedXml = @simplexml_load_string($inventory, 'SimpleXMLElement', LIBXML_NOCDATA);
+      if (!$parsedXml) {
+         $event = __('Inventory XML is not well formed', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
       if (empty($version)) {
          $event = __('Agent version missing', 'flyvemdm');
          $this->filterMessages($event);
@@ -1784,9 +1793,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function filterMessages($error) {
       $config = Config::getConfigurationValues('flyvemdm', ['debug_enrolment']);
       if ($config['debug_enrolment'] == 0) {
-         Session::addMessageAfterRedirect(__('Enrollment failed', 'flyvemdm'));
+         Session::addMessageAfterRedirect(__('Enrollment failed', 'flyvemdm'), false, ERROR);
       } else {
-         Session::addMessageAfterRedirect($error);
+         Session::addMessageAfterRedirect($error, false, ERROR);
       }
    }
    /**

@@ -119,9 +119,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $inviationId = $invitation->getID();
 
       // Test enrollment with bad token
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token');
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('Invitation token invalid');
 
       // Test the invitation log did not increased
       // this happens because the enrollment failed without identifying the invitation
@@ -130,31 +132,23 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // Test enrollment without MDM type
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token');
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, null);
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('MDM type missing');
 
-      // Test the invitation log did not increased
-      // this happens because the enrollment failed without identifying the invitation
       $invitationLog = new \PluginFlyvemdmInvitationlog();
+      $expectedLogCount++;
       $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // Test enrollment with bad MDM type
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, 'bad token', 'alien MDM');
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'alien MDM');
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
-
-      // Test the invitation log did not increased
-      // this happens because the enrollment failed without identifying the invitation
-      $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $rows = $invitationLog->find("`plugin_flyvemdm_invitations_id` = '$inviationId'");
-      $this->integer(count($rows))->isEqualTo($expectedLogCount);
-
-      // Test enrollment without version
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
-         null);
-      $this->boolean($agent->isNewItem())->isTrue();
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('unknown MDM type');
 
       $invitationLog = new \PluginFlyvemdmInvitationlog();
       $expectedLogCount++;
@@ -162,10 +156,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // Test enrollment with bad version
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $rows = $invitationLog->find("1");
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
          'bad version');
       $this->boolean($agent->isNewItem())->isTrue();
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('Bad agent version');
 
       $invitationLog = new \PluginFlyvemdmInvitationlog();
       $expectedLogCount++;
@@ -173,10 +169,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // Test enrollment with a too low version
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $rows = $invitationLog->find("1");
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
          '1.9.0');
       $this->boolean($agent->isNewItem())->isTrue();
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('The agent version is too low');
 
       $invitationLog = new \PluginFlyvemdmInvitationlog();
       $expectedLogCount++;
@@ -184,8 +182,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // test enrollment without serial or uuid
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $agent = $this->agentFromInvitation($user, $guestEmail, null, $invitationToken);
       $this->boolean($agent->isNewItem())->isTrue();
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('One of serial and uuid is mandatory');
 
       $invitationLog = new \PluginFlyvemdmInvitationlog();
       $expectedLogCount++;
@@ -193,11 +193,25 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->integer(count($rows))->isEqualTo($expectedLogCount);
 
       // Test enrollment without inventory
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
          \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0', '');
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $expectedLogCount++;
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('Device inventory XML is mandatory');
+
+      // Test enrollment with invalid inventory
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $inventory = base64_decode(self::AgentXmlInventory($serial));
+      $inventory = "invalidXml!" . $inventory;
+      $inventory = base64_encode($inventory);
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
+         \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0', $inventory);
+      $this->boolean($agent->isNewItem())
+         ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $expectedLogCount++;
+      $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains('Inventory XML is not well formed');
 
       // Test successful enrollment
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
