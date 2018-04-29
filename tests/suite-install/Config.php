@@ -29,6 +29,9 @@
  * ------------------------------------------------------------------------------
  */
 
+ /**
+  * @engine inline
+  */
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
@@ -92,6 +95,7 @@ class Config extends CommonTestCase {
          'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
+      // Test thre is an initial default fleet
       $fleet = new \PluginFlyvemdmFleet();
       $dbUtils = new \DBUtils();
       $count = $dbUtils->countElementsInTable($fleet::getTable());
@@ -110,20 +114,10 @@ class Config extends CommonTestCase {
       $this->boolean($profile->isNewItem())->isFalse();
       $this->string($profile->getField('name'))->isEqualTo('Flyve MDM device agent users');
 
-      // Force the MQTT backend's credentials
-      // Useful to force the credientials to be the same as a development database
-      // and not force broker's reconfiguration when launching tests on the test-dedicates DB
-      /*
-      $mqttUser = new \PluginFlyvemdmMqttuser();
-      if (!empty(PHPUNIT_FLYVEMDM_MQTT_PASSWD)) {
-         $mqttUser->getByUser('flyvemdm-backend');
-         $mqttUser->update([
-            'id'        => $mqttUser->getID(),
-            'password'  => PHPUNIT_FLYVEMDM_MQTT_PASSWD
-         ]);
-         \Config::setConfigurationValues('flyvemdm', ['mqtt_passwd' => PHPUNIT_FLYVEMDM_MQTT_PASSWD]);
-      }
-      */
+      // Test policies are populated
+      $policy = new \PluginFlyvemdmPolicy();
+      $count = $dbUtils->countElementsInTable($policy::getTable());
+      $this->integer($count)->isEqualTo(37);
 
       // Take a snapshot of the database before any test
       $this->mysql_dump($DB->dbuser, $DB->dbhost, $DB->dbpassword, $DB->dbdefault, './save.sql');
