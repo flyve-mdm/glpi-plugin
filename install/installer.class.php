@@ -363,9 +363,9 @@ class PluginFlyvemdmInstaller {
       $notifications = [
          PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION => [
             'itemtype'     => PluginFlyvemdmInvitation::class,
-            'name'         => __('User invitation', "flyvemdm"),
-            'subject'      => __('You have been invited to join Flyve MDM', 'flyvemdm'),
-            'content_text' => __('Hi,
+            'name'         => __('User invitation', 'flyvemdm'),
+            'subject'      => 'You have been invited to join Flyve MDM', 'flyvemdm',
+            'content_text' => 'Hi,
 
 ##user.firstname## ##user.realname## invited you to enroll your mobile device
 in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
@@ -388,8 +388,8 @@ following link or copy it to your browser.
 
 Regards,
 
-', 'flyvemdm'),
-            'content_html' => __('Hi,
+',
+            'content_html' => 'Hi,
 
 ##user.firstname## ##user.realname## invited you to enroll your mobile device
 in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators
@@ -415,7 +415,7 @@ following link or copy it to your browser.
 
 Regards,
 
-', 'flyvemdm'),
+',
          ],
       ];
 
