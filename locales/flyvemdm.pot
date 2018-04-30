@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-22 20:48+0200\n"
+"POT-Creation-Date: 2018-04-30 08:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Policy Categories"
 msgstr ""
 
-#: setup.php:204
+#: setup.php:206
 msgid "Flyve Mobile Device Management"
 msgstr ""
 
@@ -242,19 +242,31 @@ msgstr ""
 msgid "GPS is turned off or is not ready"
 msgstr ""
 
-#: inc/agent.class.php:1516
+#: inc/agent.class.php:1513
+msgid "The device sent its position"
+msgstr ""
+
+#: inc/agent.class.php:1517
 msgid "Timeout requesting position"
 msgstr ""
 
-#: inc/agent.class.php:1546
+#: inc/agent.class.php:1544
+msgid "Inventory received"
+msgstr ""
+
+#: inc/agent.class.php:1548
 msgid "Timeout querying the device inventory"
 msgstr ""
 
-#: inc/agent.class.php:1569
+#: inc/agent.class.php:1568
+msgid "The device answered"
+msgstr ""
+
+#: inc/agent.class.php:1572
 msgid "Timeout querying the device"
 msgstr ""
 
-#: inc/agent.class.php:1784
+#: inc/agent.class.php:1787
 msgid "Enrollment failed"
 msgstr ""
 
@@ -288,31 +300,31 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: inc/entityconfig.class.php:135
+#: inc/entityconfig.class.php:134
 msgid "You are not allowed to change the device limit"
 msgstr ""
 
-#: inc/entityconfig.class.php:142
+#: inc/entityconfig.class.php:141
 msgid "You are not allowed to download URL of the MDM agent"
 msgstr ""
 
-#: inc/entityconfig.class.php:149
+#: inc/entityconfig.class.php:148
 msgid "You are not allowed to change the invitation token life"
 msgstr ""
 
-#: inc/entityconfig.class.php:186
+#: inc/entityconfig.class.php:194
 msgid "The agent token life invalid or too long"
 msgstr ""
 
-#: inc/entityconfig.class.php:281
+#: inc/entityconfig.class.php:289
 msgid "Flyve MDM supervision"
 msgstr ""
 
-#: inc/entityconfig.class.php:382
+#: inc/entityconfig.class.php:384
 msgid "Helpdesk information"
 msgstr ""
 
-#: inc/entityconfig.class.php:428 inc/invitation.class.php:67
+#: inc/entityconfig.class.php:430 inc/invitation.class.php:67
 #: inc/invitation.class.php:407 inc/notificationtargetinvitation.class.php:50
 #: inc/notificationtargetinvitation.class.php:59
 msgid "Invitation"
@@ -386,6 +398,23 @@ msgstr ""
 
 #: inc/geolocation.class.php:182 inc/geolocation.class.php:204
 msgid "Device not found"
+msgstr ""
+
+#: inc/googleapplication.class.php:245
+msgid "Import the package"
+msgstr ""
+
+#: inc/googleapplication.class.php:299
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
+msgid "Alias"
+msgstr ""
+
+#: inc/googleapplication.class.php:308
+msgid "Version"
+msgstr ""
+
+#: inc/googleapplication.class.php:326
+msgid "Import status"
 msgstr ""
 
 #: inc/graph.class.php:64
@@ -1290,10 +1319,6 @@ msgstr ""
 msgid "Unenroll"
 msgstr ""
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
-msgid "Alias"
-msgstr ""
-
 #: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
 msgid "Package name"
 msgstr ""
@@ -1303,62 +1328,50 @@ msgid "Update the package"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:24
 msgid "Enrollment"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:30
 msgid "Enable explicit enrolment failures"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:41
 msgid "Disable token expiration on successful enrolment"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:52
 msgid "Save initial inventory in file"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:63
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:63
 msgid "Bug collector"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:69
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:69
 msgid "Android bug collector URL"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:77
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:77
 msgid "https://bugreport.flyvemdm.com/path/to/service"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:83
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:83
 msgid "Android bug collector user"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:95
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:95
 msgid "Android bug collector password"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:109
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:109
 msgid "Configuration wizard"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:115
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:115
 msgid "Enable configuration wizard"
 msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:123
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:123
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
@@ -1366,8 +1379,6 @@ msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:129
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:135
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:130
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:136
 msgid "Revision information"
 msgstr ""
 
@@ -1444,6 +1455,10 @@ msgstr ""
 
 #: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
 msgid "Support email"
+msgstr ""
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
+msgid "MDM Agent URL"
 msgstr ""
 
 #: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
@@ -1823,18 +1838,6 @@ msgstr ""
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
 msgid "Wizard page:"
-msgstr ""
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:146
-msgid "Development Push Notification Server"
-msgstr ""
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:152
-msgid "Use Development APNS"
-msgstr ""
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:160
-msgid "For development use only"
 msgstr ""
 
 #: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
