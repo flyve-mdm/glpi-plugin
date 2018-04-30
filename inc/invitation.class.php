@@ -229,20 +229,20 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       return $token;
    }
 
-   /**
-    *
-    * @see CommonDBTM::pre_deleteItem()
-    */
    public function pre_deleteItem() {
       $invitationLog = new PluginFlyvemdmInvitationlog();
       return $invitationLog->deleteByCriteria(['plugin_flyvemdm_invitations_id' => $this->getID()]);
    }
 
-   /**
-    * @see CommonDBTM::post_addItem()
-    */
    public function post_addItem() {
+      // Create / update import to entity rule
+      $fi = new PluginFlyvemdmFusionInventory();
+      $fi->addInvitationRule($this);
+
+      // Generate QR code
       $this->createQRCodeDocument();
+
+      // Sent invitation email
       $this->sendInvitation();
    }
 
@@ -251,9 +251,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param CommonDBTM $item
     * @return bool
     */
-   public static function hook_pre_self_purge(CommonDBTM $item) {
+   public function hook_pre_invitation_purge(CommonDBTM $item) {
+      $fi = new PluginFlyvemdmFusionInventory();
+      $fi->deleteInvitationRuleCriteria($item);
       $document = new Document();
-      $document->getFromDB($item->getField('documents_id'));
       return $document->delete([
          'id' => $item->getField('documents_id'),
       ], 1);

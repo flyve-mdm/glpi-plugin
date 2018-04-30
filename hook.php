@@ -208,3 +208,12 @@ function plugin_flyvemdm_hook_computer_purge(CommonDBTM $item) {
    $agent = new PluginFlyvemdmAgent();
    $agent->hook_computer_purge($item);
 }
+
+function plugin_flyvemdm_hook_pre_invitation_purge(CommonDBTM $item) {
+   $success = true;
+
+   $invitation = new PluginFlyvemdmInvitation();
+   $success = $success && $invitation->hook_pre_invitation_purge($item);
+
+   return $success;
+}

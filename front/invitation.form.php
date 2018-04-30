@@ -55,6 +55,10 @@ if (isset($_POST['add'])) {
    $_POST['_notify'] = '';
    $invitation->update($_POST);
    Html::back();
+} else if (isset($_POST['purge'])) {
+   $invitation->check($_POST['id'], PURGE);
+   $invitation->delete($_POST, 1);
+   $invitation->redirectToList();
 } else {
    $invitation->check($_GET['id'], READ);
    Html::header(
