@@ -177,7 +177,7 @@ $apiClientQuery = "UPDATE glpi_apiclients
                    WHERE `name` like 'full access from localhost'";
 $DB->query($apiClientQuery);
 
-if($dev) {
+if ($dev) {
    $entityConfig = new PluginFlyvemdmEntityConfig();
    $entityConfig->getFromDBByCrit([
       'entities_id' => '0',
