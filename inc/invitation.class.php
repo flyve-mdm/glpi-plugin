@@ -408,25 +408,25 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'            => '1',
-         'table'         => 'glpi_users',
-         'field'         => 'name',
-         'name'          => __('Name'),
-         'massiveaction' => false,
-         'datatype'      => 'string',
-      ];
-
-      $tab[] = [
          'id'            => '2',
          'table'         => $this->getTable(),
          'field'         => 'id',
          'name'          => __('ID'),
          'massiveaction' => false,
-         'datatype'      => 'number',
+         'datatype'      => 'itemlink',
       ];
 
       $tab[] = [
          'id'            => '3',
+         'table'         => 'glpi_users',
+         'field'         => 'name',
+         'name'          => __('User'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '4',
          'table'         => $this->getTable(),
          'field'         => 'status',
          'name'          => __('Status'),
@@ -435,7 +435,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'            => '4',
+         'id'            => '5',
          'table'         => $this->getTable(),
          'field'         => 'expiration_date',
          'name'          => __('Expiration date'),
