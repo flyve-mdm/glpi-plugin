@@ -246,6 +246,21 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $this->sendInvitation();
    }
 
+   public function post_updateItem($history = 1) {
+      // Update the dynamic import entity rules
+      if (in_array('status', $this->updates)) {
+         $fi = new PluginFlyvemdmFusionInventory();
+         switch ($this->fields['status']) {
+            case  'done':
+               $fi->deleteInvitationRuleCriteria($this);
+               break;
+            case 'pending':
+               $fi->addInvitationRule($this);
+               break;
+         }
+      }
+   }
+
    /**
     * @see CommonDBTM::pre_deleteItem()
     * @param CommonDBTM $item
