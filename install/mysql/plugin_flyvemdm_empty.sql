@@ -216,6 +216,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_invitations`;
 CREATE TABLE `glpi_plugin_flyvemdm_invitations` (
   `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
+  `name`                             varchar(255)              NOT NULL DEFAULT '',
   `invitation_token`                 varchar(255)              NOT NULL DEFAULT '',
   `users_id`                         int(11)                   NOT NULL DEFAULT '0',
   `entities_id`                      int(11)                   NOT NULL DEFAULT '0',

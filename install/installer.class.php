@@ -897,6 +897,37 @@ Regards,
             User::getForeignKeyField() => '0'
          ]);
       }
+
+      $itemtype = PluginFlyvemdmInvitation::class;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'num'                      => '3',
+            'rank'                     => '2',
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'num'                      => '4',
+            'rank'                     => '2',
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'num'                      => '5',
+            'rank'                     => '2',
+            User::getForeignKeyField() => '0'
+         ]);
+      }
    }
 
    protected function deleteDisplayPreferences() {

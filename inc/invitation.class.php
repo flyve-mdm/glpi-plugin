@@ -64,7 +64,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return string
     */
    public static function getTypeName($nb = 0) {
-      return _n('Invitation', 'Invitations', $nb, "flyvemdm");
+      return _n('Invitation', 'Invitations', $nb, 'flyvemdm');
    }
 
    /**
@@ -173,6 +173,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $expirationDate->add(new DateInterval($tokenExpire));
       $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 
+      // Set a name for the invitation
+      $input['name'] = self::getTypeName(1);
       return $input;
    }
 
@@ -408,12 +410,21 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       ];
 
       $tab[] = [
+         'id'            => '1',
+         'table'         => $this->getTable(),
+         'field'         => 'name',
+         'name'          => __('name'),
+         'massiveaction' => false,
+         'datatype'      => 'itemlink',
+      ];
+
+      $tab[] = [
          'id'            => '2',
          'table'         => $this->getTable(),
          'field'         => 'id',
          'name'          => __('ID'),
          'massiveaction' => false,
-         'datatype'      => 'itemlink',
+         'datatype'      => 'integer',
       ];
 
       $tab[] = [
