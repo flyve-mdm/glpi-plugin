@@ -276,6 +276,11 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'plugin_flyvemdm_invitations_id', 'plugin_flyvemdm_invitations_id');
 
    $table = 'glpi_plugin_flyvemdm_invitations';
+   if (!$DB->fieldExists($table, 'name')) {
+      $invitationName = _n('Invitation', 'Invitations', 1, 'flyvemdm');
+      $migration->addField($table, 'name', 'string', ['after' => 'id']);
+      $migration->addPostQuery("UPDATE `$table` SET `name` = '$invitationName'");
+   }
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addKey($table, 'documents_id', 'documents_id');
