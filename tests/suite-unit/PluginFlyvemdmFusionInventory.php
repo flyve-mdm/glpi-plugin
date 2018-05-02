@@ -49,20 +49,8 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
       $fi->addInvitationRule($invitation);
 
       // Test a rule exists for the entity
-      $entityId = $invitation->fields[\Entity::getForeignKeyField()];
-      $row = $this->findRuleForEntity($entityId);
-
-      // Test the rule criteria for the invitation exists
-      $ruleCriteria = new \RuleCriteria();
-      $ruleCriteria->getFromDBByCrit([
-         'AND' => [
-            \PluginFusioninventoryInventoryRuleEntity::getForeignKeyField() => $row['id'],
-            'criteria'  => 'tag',
-            'condition' => '0',
-            'pattern'   => 'invitation_' . $invitation->fields['invitation_token'],
-         ]
-      ]);
-      $this->boolean($ruleCriteria->isNewItem())->isFalse();
+      $this->checkRuleAndCriteria($invitation);
+      $row = $this->findRuleForEntity($invitation->fields[\Entity::getForeignKeyField()]);
 
       $ruleAction = new \RuleAction();
       $ruleAction->getFromDbByCrit([
@@ -175,5 +163,28 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
       $result = $DB->request($request);
       $this->integer($result->count())->isEqualTo(1);
       return $result->next();
+   }
+
+   /**
+    * Checks a rule exists and matches an invitation
+    *
+    * @param \PluginFlyvemdmInvitation $invitation invitation to  check
+    * @param boolean $hasCriteria true if it is expeccted the criteria exists
+    */
+   public function checkRuleAndCriteria(\PluginFlyvemdmInvitation $invitation, $hasCriteria = true) {
+      $entityId = $invitation->fields[\Entity::getForeignKeyField()];
+      $row = $this->findRuleForEntity($entityId);
+
+      // Test the rule criteria for the invitation exists
+      $ruleCriteria = new \RuleCriteria();
+      $ruleCriteria->getFromDBByCrit([
+         'AND' => [
+            \PluginFusioninventoryInventoryRuleEntity::getForeignKeyField() => $row['id'],
+            'criteria'  => 'tag',
+            'condition' => '0',
+            'pattern'   => 'invitation_' . $invitation->fields['invitation_token'],
+         ]
+      ]);
+      $this->boolean($ruleCriteria->isNewItem())->isEqualTo(!$hasCriteria);
    }
 }

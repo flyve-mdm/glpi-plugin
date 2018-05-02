@@ -43,6 +43,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          case 'testShowForm':
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
+         case 'testPost_updateItem':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -207,5 +208,24 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains('input name="_useremails" value=""')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
+   }
+
+   public function testPost_updateItem() {
+      $instance = $this->newTestedInstance();
+      $instance->add([
+         '_useremails' => 'someone@localhost.local',
+         'entities_id' => 0,
+      ]);
+
+      $this->boolean($instance->isNewItem())->isFalse();
+      $testFusionInventory = new PluginFlyvemdmFusionInventory();
+      $testFusionInventory->checkRuleAndCriteria($instance);
+
+      $instance->update([
+         'id'     => $instance->getID(),
+         'status' => 'done',
+      ]);
+
+      $testFusionInventory->checkRuleAndCriteria($instance, false);
    }
 }
