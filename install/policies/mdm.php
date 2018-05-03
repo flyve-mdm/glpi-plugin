@@ -50,4 +50,20 @@ return [
       'is_android_system'                   => '0',
       'is_apple_policy'                     => '0',
    ],
+
+   [
+      'name'                                => __('Set an inventory frequency', 'flyvemdm'),
+      'symbol'                              => 'inventoryFrequency',
+      'group'                               => 'connectivity',
+      'type'                                => 'int',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Sets the recurrence of inventory in minutes', 'flyvemdm'),
+      'default_value'                       => '1440',
+      'recommended_value'                   => '1440',
+      'is_android_policy'                   => '1',
+      'is_android_system'                   => '0',
+      'is_apple_policy'                     => '1',
+   ],
 ];
