@@ -171,6 +171,15 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
    // All policies exist for Android
    $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
+
+   // Upgrade schema to apply policies on agents
+   $table = 'glpi_plugin_flyvemdm_tasks';
+   $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
+   $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
+   // All tasks already created were applied on fleets
+   $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
+
+   $table = 'glpi_plugin_flyvemdm_policies';
    $policies = [
       'disableFmRadio',
       'disableVoiceMail',
@@ -183,15 +192,20 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $request = [
       'FIELDS'     => [
          $table => ['symbol'],
-         $tasksTable => ['id', 'plugin_flyvemdm_fleets_id'],
+         $tasksTable => ['id', 'itemtype_applied', 'items_id_applied'],
          $fleetTable => ['entities_id'],
       ],
       'FROM'       => $table,
       'INNER JOIN' => [
-         $tasksTable => ['FKEY' => [$tasksTable => 'plugin_flyvemdm_policies_id', $table => 'id']],
+         $tasksTable => [
+            'FKEY' => [
+               $tasksTable => 'plugin_flyvemdm_policies_id',
+               $table => 'id'
+            ]
+         ],
          $fleetTable => [
             'FKEY' => [
-               $tasksTable => 'plugin_flyvemdm_fleets_id',
+               $tasksTable => 'items_id_applied',
                $fleetTable => 'id',
             ],
          ],
@@ -201,8 +215,32 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $result = $DB->request($request);
    if (count($result) > 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      foreach ($result->next() as $data) {
-         $topic = "/" . $data['entities_id'] . "/fleet/" . $data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'] . "/Task/" . $data['id'];
+      foreach ($result as $data) {
+         switch ($data['itemtype_applied']) {
+            case PluginFlyvemdmFleet::class:
+               $type = 'fleet';
+               break;
+
+            case PluginFlyvemdmAgent::class:
+               $type = 'agent';
+               break;
+
+            default:
+               $type = '';
+         }
+         if ($type === '') {
+            continue;
+         }
+         $topic = implode('/', [
+            '/',
+            $data['entities_id'],
+            $type,
+            $data['items_id_applied'],
+            'Policy',
+            $data['symbol'],
+            'Task',
+            $data['id']
+         ]);
          $mqttClient->publish($topic, null, 0, 1);
       }
       $policiesStr = implode("','", $policies);
@@ -360,7 +398,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $request = [
       'FIELDS' => [
-         'glpi_plugin_flyvemdm_tasks' => ['id', 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_policies_id', 'itemtype', 'items_id', 'value'],
+         'glpi_plugin_flyvemdm_tasks' => ['id', 'itemtype_applied', 'items_id_applied', 'plugin_flyvemdm_policies_id', 'itemtype', 'items_id', 'value'],
          'glpi_plugin_flyvemdm_policies' => ['symbol'],
          'glpi_plugin_flyvemdm_fleets' => ['entities_id']
       ],
@@ -368,21 +406,41 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'INNER JOIN' => [
          'glpi_plugin_flyvemdm_policies' => [
             'FKEY' => [
-               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_policies_id', 'glpi_plugin_flyvemdm_policies' => 'id'
+               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_policies_id',
+               'glpi_plugin_flyvemdm_policies' => 'id'
             ]
          ],
          'glpi_plugin_flyvemdm_fleets' => [
             'FKEY' => [
-               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_fleets_id', 'glpi_plugin_flyvemdm_fleets' => 'id'
+               'glpi_plugin_flyvemdm_tasks' => 'items_id_applied',
+               'glpi_plugin_flyvemdm_fleets' => 'id'
             ]
          ]
+      ],
+      'WHERE' => [
+         'glpi_plugin_flyvemdm_tasks.itemtype_applied' => 'PluginFlyvemdmFleet'
       ]
    ];
    foreach ($DB->request($request) as $row) {
+      switch ($row['itemtype_applied']) {
+         case PluginFlyvemdmFleet::class:
+            $type = 'fleet';
+            break;
+
+         case PluginFlyvemdmAgent::class:
+            $type = 'agent';
+            break;
+
+         default:
+            $type = '';
+      }
+      if ($type === '') {
+         continue;
+      }
       $topic = implode('/', [
          $row['entities_id'],
          'fleet',
-         $row['plugin_flyvemdm_fleets_id'],
+         $row['items_id_applied'],
          'Policy',
          $row['symbol'],
       ]);
@@ -398,11 +456,4 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $mqttClient->publish("$topic/Task/" . $row['id'], $encodedMessage, 0, 1);
       $mqttClient->publish('/' . $topic, null, 0, 1);
    }
-
-   // Upgrade schema t oapply policies on agents
-   $table = 'glpi_plugin_flyvemdm_tasks';
-   $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
-   $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
-   // All tasks already created were applied on fleets
-   $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
 }
