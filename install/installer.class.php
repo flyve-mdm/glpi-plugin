@@ -963,6 +963,39 @@ Regards,
             User::getForeignKeyField() => '0'
          ]);
       }
+
+      $itemtype = PluginFlyvemdmAgent::class;
+      $rank = 1;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '11' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '11',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $rank++;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '12' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '12',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $rank++;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '3',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+
    }
 
    protected function deleteDisplayPreferences() {

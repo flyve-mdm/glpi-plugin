@@ -1945,4 +1945,35 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function isNotifiable() {
       return true;
    }
+
+   /**
+    * Define how to display a specific value in search result table
+    *
+    * @param  String $field   Name of the field as define in $this->getSearchOptions()
+    * @param  Mixed  $values  The value as it is stored in DB
+    * @param  Array  $options Options (optional)
+    * @return Mixed           Value to be displayed
+    */
+   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      global $CFG_GLPI;
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'is_online':
+            if (!isAPI()) {
+               if ($values[$field] == 0) {
+                  $class = "plugin-flyvemdm-offline";
+               } else {
+                  $class = "plugin-flyvemdm-online";
+               }
+               $output = '<div style="text-align: center"><i class="fa fa-circle '
+                  . $class
+                  . '" aria-hidden="true" ></i></div>';
+               return $output;
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
+   }
 }
