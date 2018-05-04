@@ -85,11 +85,6 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __('Well known path', 'flyvemdm'),
-      ];
-
       $tab[] = [
          'id'            => '2',
          'table'         => $this->getTable(),
