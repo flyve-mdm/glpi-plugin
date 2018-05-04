@@ -174,10 +174,13 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    // Upgrade schema to apply policies on agents
    $table = 'glpi_plugin_flyvemdm_tasks';
-   $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
-   $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
-   // All tasks already created were applied on fleets
-   $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
+   if (!$DB->fieldExists($table, 'items_id_applied')) {
+      $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
+      $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
+      // All tasks already created were applied on fleets
+      $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
+      $migration->executeMigration();
+   }
 
    $table = 'glpi_plugin_flyvemdm_policies';
    $policies = [
