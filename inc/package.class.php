@@ -190,7 +190,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
       try {
          $uploadedFile = $preparedFile['uploadedFile'];
-         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $input['filename'] = 'flyvemdm/package/' . $input['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
          $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
@@ -349,11 +349,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
-
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __s('Package', 'flyvemdm'),
-      ];
 
       $tab[] = [
          'id'            => '2',
@@ -692,5 +687,28 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $isFile = is_file($filename);
       $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
       $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+   }
+
+   /**
+    * Define how to display a specific value in search result table
+    *
+    * @param  string $field   Name of the field as define in $this->getSearchOptions()
+    * @param  string $values  The value as it is stored in DB
+    * @param  array  $options Options (optional)
+    * @return string          Value to be displayed
+    */
+   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'icon':
+            if (!isAPI()) {
+               $output = '<img style="height: 14px" src="data:image/png;base64,'. $values[$field] .'">';
+               return $output;
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }
