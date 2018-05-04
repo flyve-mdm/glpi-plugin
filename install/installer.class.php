@@ -879,52 +879,87 @@ Regards,
    protected function createDisplayPreferences() {
       $displayPreference = new DisplayPreference();
       $itemtype = PluginFlyvemdmFile::class;
+      $rank = 1;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '1' AND `users_id` = '0'";
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
-            'itemtype'                 => PluginFlyvemdmFile::class,
+            'itemtype'                 => $itemtype,
             'num'                      => '1',
-            'rank'                     => '1',
+            'rank'                     => $rank,
             User::getForeignKeyField() => '0'
          ]);
       }
+      $rank++;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
-            'itemtype'                 => PluginFlyvemdmFile::class,
+            'itemtype'                 => $itemtype,
             'num'                      => '4',
-            'rank'                     => '2',
+            'rank'                     => $rank,
             User::getForeignKeyField() => '0'
          ]);
       }
 
       $itemtype = PluginFlyvemdmInvitation::class;
+      $rank = 1;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
-            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'itemtype'                 => $itemtype,
             'num'                      => '3',
-            'rank'                     => '2',
+            'rank'                     => $rank,
             User::getForeignKeyField() => '0'
          ]);
       }
-
+      $rank++;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
-            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'itemtype'                 => $itemtype,
             'num'                      => '4',
-            'rank'                     => '2',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $rank++;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '5',
+            'rank'                     => $rank,
             User::getForeignKeyField() => '0'
          ]);
       }
 
+      $itemtype = PluginFlyvemdmPackage::class;
+      $rank = 1;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '3',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $rank++;
+      $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (count($displayPreference->find($criteria)) == 0) {
+         $displayPreference->add([
+            'itemtype'                 => $itemtype,
+            'num'                      => '4',
+            'rank'                     => $rank,
+            User::getForeignKeyField() => '0'
+         ]);
+      }
+      $rank++;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
-            'itemtype'                 => PluginFlyvemdmInvitation::class,
+            'itemtype'                 => $itemtype,
             'num'                      => '5',
-            'rank'                     => '2',
+            'rank'                     => $rank,
             User::getForeignKeyField() => '0'
          ]);
       }
