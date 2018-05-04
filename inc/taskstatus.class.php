@@ -335,4 +335,64 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
 
       Html::closeForm();
    }
+
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
+
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
+      ];
+
+      $tab[] = [
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'date_creation',
+         'name'          => __('Creation date'),
+         'datatype'      => 'datetime',
+         'massiveaction' => false
+      ];
+
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'date_mod',
+         'name'          => __('Last update'),
+         'datatype'      => 'datetime',
+         'massiveaction' => false
+      ];
+
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'plugin_flyvemdm_agents_id',
+         'name'          => PluginFlyvemdmAgent::getTypeName(1),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false
+      ];
+
+      $tab[] = [
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'plugin_flyvemdm_tasks_id',
+         'name'          => PluginFlyvemdmTask::getTypeName(1),
+         'datatype'      => 'itemlink',
+         'massiveaction' => false
+      ];
+
+      $tab[] = [
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'status',
+         'name'          => __('Status', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false
+      ];
+
+      return $tab;
+   }
 }

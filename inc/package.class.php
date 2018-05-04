@@ -386,6 +386,14 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          'datatype'      => 'image',
       ];
 
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
+
       return $tab;
    }
 

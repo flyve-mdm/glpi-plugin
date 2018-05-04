@@ -225,11 +225,6 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
-         'id'                 => 'common',
-         'name'               => __s('File', 'flyvemdm'),
-      ];
-
-      $tab[] = [
          'id'            => '2',
          'table'         => $this->getTable(),
          'field'         => 'id',
@@ -255,6 +250,13 @@ class PluginFlyvemdmFile extends CommonDBTM {
          'datetype'           => 'text',
       ];
 
+      $tab[] = [
+         'id'                 => '5',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
       return $tab;
    }
 

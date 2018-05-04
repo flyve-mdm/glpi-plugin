@@ -234,11 +234,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
-      $tab[0] = [
-         'id'                 => 'common',
-         'name'               => __s('Fleet', 'flyvemdm')
-      ];
-
       $tab[] = [
          'id'                 => '2',
          'table'              => $this->getTable(),

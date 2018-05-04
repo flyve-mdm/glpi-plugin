@@ -418,21 +418,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
-
-      $tab[] = [
-         'id'   => 'common',
-         'name' => __s('Invitation', 'flyvemdm'),
-      ];
-
-      $tab[] = [
-         'id'            => '1',
-         'table'         => $this->getTable(),
-         'field'         => 'name',
-         'name'          => __('name'),
-         'massiveaction' => false,
-         'datatype'      => 'itemlink',
-      ];
+      $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
          'id'            => '2',
@@ -440,7 +426,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
          'field'         => 'id',
          'name'          => __('ID'),
          'massiveaction' => false,
-         'datatype'      => 'integer',
+         'datatype'      => 'number'
       ];
 
       $tab[] = [
@@ -468,6 +454,14 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
          'name'          => __('Expiration date'),
          'massiveaction' => false,
          'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
       ];
 
       return $tab;

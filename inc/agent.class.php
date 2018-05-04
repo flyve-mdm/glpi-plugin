@@ -762,11 +762,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
 
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __('Agent', 'flyvemdm'),
-      ];
-
       $tab[] = [
          'id'                 => '2',
          'table'              => $this->getTable(),
@@ -825,7 +820,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'is_online',
          'name'               => __('Is online', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
       ];
 
@@ -834,7 +829,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'mdm_type',
          'name'               => __('MDM type', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
       ];
 
@@ -843,7 +838,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'has_system_permission',
          'name'               => __('Has system permission', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
       ];
 
@@ -852,7 +847,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'enroll_status',
          'name'               => __('Enroll status', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
       ];
 
@@ -861,7 +856,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'wipe',
          'name'               => __('Wipe requested', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
       ];
 
@@ -870,8 +865,16 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'lock',
          'name'               => __('Lock requested', 'flyvemdm'),
-         'datatype'           => 'boolean',
+         'datatype'           => 'bool',
          'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '17',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
       ];
 
       return $tab;

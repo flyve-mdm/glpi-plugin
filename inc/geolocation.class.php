@@ -291,12 +291,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
-
-      $tab[] = [
-         'id'   => 'common',
-         'name' => __s('Geolocation', 'flyvemdm'),
-      ];
+      $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
          'id'            => '2',

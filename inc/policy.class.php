@@ -165,7 +165,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'table'         => $this->getTable(),
          'field'         => 'is_android_policy',
          'name'          => __('For Android', 'flyvemdm'),
-         'datatype'      => 'string',
+         'datatype'      => 'bool',
          'massiveaction' => false,
       ];
 
@@ -174,7 +174,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'table'         => $this->getTable(),
          'field'         => 'is_android_system',
          'name'          => __('Requires system permission', 'flyvemdm'),
-         'datatype'      => 'string',
+         'datatype'      => 'bool',
          'massiveaction' => false,
       ];
 
@@ -183,7 +183,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'table'         => $this->getTable(),
          'field'         => 'is_apple_policy',
          'name'          => __('For iOS', 'flyvemdm'),
-         'datatype'      => 'string',
+         'datatype'      => 'bool',
          'massiveaction' => false,
       ];
 
