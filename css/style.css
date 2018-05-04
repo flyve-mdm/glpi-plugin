@@ -62,6 +62,14 @@ ul#menu ul.ssmenu {
    z-index: 10000;
 }
 
+.plugin-flyvemdm-online {
+   color: #009933;
+}
+
+.plugin-flyvemdm-offline {
+   color: #e62e00;
+}
+
 /*---------------- GEOLOCATION TAB ----------------*/
 
 .plugin_flyvemdm_clear::after {
