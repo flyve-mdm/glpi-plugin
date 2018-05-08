@@ -320,7 +320,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
-      $qrCode = $barcodeobj->getBarcodePngData(4, 4, [0, 0, 0]);
+      $qrCode = $barcodeobj->getBarcodePngData(7, 7, [0, 0, 0]);
 
       // Add border to the QR
       // TCPDF forgets the quiet zone
