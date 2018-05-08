@@ -35,6 +35,8 @@ cd ../..
 
 # patch GLPI when needed
 if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/10f8dabfc5e20bb5a4e7d4ba4b93706871156a8a.diff; fi
+# patch FI when needed
+if [[ $FI_BRANCH == "master" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/fi-master-search-options.patch; fi
 
 # prepare plugin to test
 cd plugins/flyvemdm 
