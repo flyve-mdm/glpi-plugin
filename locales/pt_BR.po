@@ -388,7 +388,9 @@ msgstr "Flyve MDM"
 
 #: inc/policycategory.class.php:60 inc/policy.class.php:106
 msgid "Policy category"
-msgstr "Categoria da Política"
+msgid_plural "Policy categories"
+msgstr[0] "Categoria da política"
+msgstr[1] "Categoria da políticas"
 
 #: inc/policycategory.class.php:76 inc/wellknownpath.class.php:98
 msgid "comment"
