@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-22 20:48+0200\n"
+"POT-Creation-Date: 2018-05-09 12:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Thierry Bugier <tbugier@teclib.com>, 2017\n"
 "Language-Team: French (France) (https://www.transifex.com/flyve-mdm/teams/69665/fr_FR/)\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: hook.php:82
+#: hook.php:78
 msgid "Invite to enroll a device"
 msgstr "Inviter à enrôler un appareil mobile"
 
-#: hook.php:114
+#: hook.php:109
 msgid "Well known Android's FS paths"
 msgstr "Dossiers du système de fichiers Android"
 
-#: hook.php:115
+#: hook.php:110
 msgid "Policy Categories"
 msgstr "Catégories de stratégie"
 
-#: setup.php:204
+#: setup.php:206
 msgid "Flyve Mobile Device Management"
 msgstr "Gestion d'appareil mobile Flyve MDM"
 
@@ -50,212 +50,228 @@ msgstr "Android"
 msgid "Apple"
 msgstr "Apple"
 
-#: inc/agent.class.php:110 inc/agent.class.php:764
+#: inc/agent.class.php:110 inc/agent.class.php:767
 msgid "Agent"
 msgid_plural "Agents"
 msgstr[0] "Agent"
 msgstr[1] "Agents"
 
-#: inc/agent.class.php:162
+#: inc/agent.class.php:163
 msgid "Danger zone !"
 msgstr "Zone de danger !"
 
-#: inc/agent.class.php:180
+#: inc/agent.class.php:181
 msgid "Flyve MDM Agent"
 msgstr "Agent Flyve MDM"
 
-#: inc/agent.class.php:240 inc/agent.class.php:355
+#: inc/agent.class.php:241 inc/agent.class.php:357
 msgid "Never seen online"
 msgstr "Jamais vu en ligne"
 
-#: inc/agent.class.php:274
+#: inc/agent.class.php:275
 msgid "Lock the device as soon as possible"
 msgstr "Verrouiller l'appareil aussi vite que possible"
 
-#: inc/agent.class.php:281
+#: inc/agent.class.php:282
 msgid "Wipe the device as soon as possible"
 msgstr "Effacer l'appareil aussi vite que possible"
 
-#: inc/agent.class.php:434
+#: inc/agent.class.php:436
 msgid "Failed to read configuration of the entity"
 msgstr "La lecture de la configuration de l'entité a échoué"
 
-#: inc/agent.class.php:440
+#: inc/agent.class.php:442
 msgid "Too many devices"
 msgstr "Trop d'appareils"
 
-#: inc/agent.class.php:448
+#: inc/agent.class.php:450
 msgid "Unable to find a enrollment method"
 msgstr "Impossible de trouver une méthode d'enrôlement"
 
-#: inc/agent.class.php:473
+#: inc/agent.class.php:475
 msgid "The fleet of the device does not longer exists"
 msgstr "LA flotte de l'appareil n'existe plus"
 
-#: inc/agent.class.php:480
+#: inc/agent.class.php:482
 msgid "The target fleet does not exists"
 msgstr "LA flotte cible n'existe pas"
 
-#: inc/agent.class.php:511
+#: inc/agent.class.php:513
 msgid "The device is not enrolled yet"
 msgstr "L'appareil n'est pas encore enrôlé"
 
-#: inc/agent.class.php:581
+#: inc/agent.class.php:583
 msgid "Failed to find the guest user profile"
 msgstr "La recherche du pofile invité a échoué"
 
-#: inc/agent.class.php:603
+#: inc/agent.class.php:605
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr ""
 "La suppression du profil invité de l'utilsiateur de l' appareil a échoué"
 
-#: inc/agent.class.php:624
+#: inc/agent.class.php:626
 msgid "Failed to delete MQTT user for the device"
 msgstr "La suppression de l'utilisateur MQTT pour l'appareil a échoué"
 
-#: inc/agent.class.php:637
+#: inc/agent.class.php:639
 msgid "Failed to delete documents attached to the device"
 msgstr "LA suppression des documents liés à l'appareil a échoué"
 
-#: inc/agent.class.php:780 inc/fleet.class.php:74 inc/fleet.class.php:227
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
+#: inc/agent.class.php:783 inc/fleet.class.php:74 inc/fleet.class.php:239
 #: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:62
+#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
 msgid "Fleet"
 msgid_plural "Fleets"
 msgstr[0] "Flotte"
 msgstr[1] "Flottes"
 
-#: inc/agent.class.php:806
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
+#: inc/agent.class.php:809
 #: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:76
+#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
 msgid "Last contact"
 msgstr "Dernier contact"
 
-#: inc/agent.class.php:824
+#: inc/agent.class.php:827
 msgid "Is online"
 msgstr "Est en ligne"
 
-#: inc/agent.class.php:833
+#: inc/agent.class.php:836
 msgid "MDM type"
 msgstr "Tyme de MDM"
 
-#: inc/agent.class.php:842
+#: inc/agent.class.php:845
 msgid "Has system permission"
 msgstr "Possède la permission système"
 
-#: inc/agent.class.php:851
+#: inc/agent.class.php:854
 msgid "Enroll status"
 msgstr "Statut d'enrôlement"
 
-#: inc/agent.class.php:860
+#: inc/agent.class.php:863
 msgid "Wipe requested"
 msgstr "Effacement demandé"
 
-#: inc/agent.class.php:869
+#: inc/agent.class.php:872
 msgid "Lock requested"
 msgstr "Verrouillage demandé"
 
-#: inc/agent.class.php:1086
+#: inc/agent.class.php:1089
 msgid "Invitation token invalid"
 msgstr "Jeton d'invitation invalide"
 
-#: inc/agent.class.php:1091
+#: inc/agent.class.php:1094
 msgid "One of serial and uuid is mandatory"
 msgstr "Le numéro de série ou l'UUID est requis"
 
-#: inc/agent.class.php:1098
+#: inc/agent.class.php:1101
 msgid "Device inventory XML is mandatory"
 msgstr "L'inventaire XML de l'appareil est requis"
 
-#: inc/agent.class.php:1105
+#: inc/agent.class.php:1110
+msgid "Inventory XML is not well formed"
+msgstr "L'Inventaire XML est mal formé"
+
+#: inc/agent.class.php:1117
 msgid "Agent version missing"
 msgstr "Version de l'agent invalide"
 
-#: inc/agent.class.php:1112
+#: inc/agent.class.php:1124
 msgid "MDM type missing"
 msgstr "Type de MDM manquant"
 
-#: inc/agent.class.php:1119
+#: inc/agent.class.php:1131
 msgid "unknown MDM type"
 msgstr "Type de MDM inconnu"
 
-#: inc/agent.class.php:1126
+#: inc/agent.class.php:1138
 msgid "Bad agent version"
 msgstr "Mauvaise version de l'agent"
 
-#: inc/agent.class.php:1135
+#: inc/agent.class.php:1147
 msgid "The agent version is too low"
 msgstr "La v ersion de l'agent est trop ancienne"
 
-#: inc/agent.class.php:1145
+#: inc/agent.class.php:1157
 msgid "The agent does not advertise its system permissions"
 msgstr "L'agent n'indique pas ses permissions système"
 
-#: inc/agent.class.php:1154
+#: inc/agent.class.php:1166
 msgid "Invitation is not pending"
 msgstr "L'invitation n'est pas en attente"
 
-#: inc/agent.class.php:1162
+#: inc/agent.class.php:1174
 msgid "Expiration date of the invitation is not set"
 msgstr "La date d'expiration n'est pas définie"
 
-#: inc/agent.class.php:1170
+#: inc/agent.class.php:1182
 msgid "Invitation token expired"
 msgstr "LE jeton d'invitation a expiré"
 
-#: inc/agent.class.php:1184
+#: inc/agent.class.php:1196
 msgid "Wrong email address"
 msgstr "Mauvaise adresse email"
 
-#: inc/agent.class.php:1198
+#: inc/agent.class.php:1210
 msgid "Failed to sign the certificate"
 msgstr "La signature du certificat a échoué"
 
-#: inc/agent.class.php:1221
+#: inc/agent.class.php:1233
 msgid "Failed to update the invitation"
 msgstr "Echec lors de la mise à jour de l'invitation"
 
-#: inc/agent.class.php:1256
+#: inc/agent.class.php:1268
 msgid "Cannot get the FusionInventory agent"
 msgstr "Impossible d'obtenir l'agent FusionInventory"
 
-#: inc/agent.class.php:1263
+#: inc/agent.class.php:1275
 msgid "FusionInventory agent not created"
 msgstr "Agent FusionInventory non créé"
 
-#: inc/agent.class.php:1271
+#: inc/agent.class.php:1283
 msgid "Cannot create the device"
 msgstr "Impossible de créer l'appareil"
 
-#: inc/agent.class.php:1302
+#: inc/agent.class.php:1314
 msgid "Cannot create a user account for the agent"
 msgstr "Impossible de créer le compte utilisateur pour l'agent"
 
-#: inc/agent.class.php:1318
+#: inc/agent.class.php:1330
 msgid "Cannot create the API token for the agent"
 msgstr "Impossible de créer le jeton d'API pour l'agent"
 
-#: inc/agent.class.php:1327
+#: inc/agent.class.php:1339
 msgid "No default fleet available for the device"
 msgstr "PAs de flotte par défaut disponible pour l'appareil"
 
-#: inc/agent.class.php:1511
+#: inc/agent.class.php:1523
 msgid "GPS is turned off or is not ready"
 msgstr "Le GPS est éteint ou n'est pas prêt"
 
-#: inc/agent.class.php:1516
+#: inc/agent.class.php:1525
+msgid "The device sent its position"
+msgstr ""
+
+#: inc/agent.class.php:1529
 msgid "Timeout requesting position"
 msgstr "Délai d'attente expiré lors de la requête de géolocalisation"
 
-#: inc/agent.class.php:1546
+#: inc/agent.class.php:1556
+msgid "Inventory received"
+msgstr ""
+
+#: inc/agent.class.php:1560
 msgid "Timeout querying the device inventory"
 msgstr "Délai d'attente expiré lors de la requête d'inventaire de l'appareil"
 
-#: inc/agent.class.php:1569
+#: inc/agent.class.php:1580
+msgid "The device answered"
+msgstr ""
+
+#: inc/agent.class.php:1584
 msgid "Timeout querying the device"
 msgstr "Délai d'attente expiré lors de la requête vers l'appareil"
 
-#: inc/agent.class.php:1784
+#: inc/agent.class.php:1803
 msgid "Enrollment failed"
 msgstr "Echec d'enrôlemnt"
 
@@ -289,33 +305,33 @@ msgstr "Terminé"
 msgid "Next"
 msgstr "Suivant"
 
-#: inc/entityconfig.class.php:135
+#: inc/entityconfig.class.php:134
 msgid "You are not allowed to change the device limit"
 msgstr "Vous n'êtes pas autorisé à modifier la limite du nombre d'appareils"
 
-#: inc/entityconfig.class.php:142
+#: inc/entityconfig.class.php:141
 msgid "You are not allowed to download URL of the MDM agent"
 msgstr ""
 
-#: inc/entityconfig.class.php:149
+#: inc/entityconfig.class.php:148
 msgid "You are not allowed to change the invitation token life"
 msgstr ""
 "Vous n'êtes pas autorisé à modifier la durée de vie du jeton d'invitation"
 
-#: inc/entityconfig.class.php:186
+#: inc/entityconfig.class.php:194
 msgid "The agent token life invalid or too long"
 msgstr "La durée de vie du jeton de l'agent est trop grande"
 
-#: inc/entityconfig.class.php:281
+#: inc/entityconfig.class.php:289
 msgid "Flyve MDM supervision"
 msgstr "Supervision Flyve MDM"
 
-#: inc/entityconfig.class.php:382
+#: inc/entityconfig.class.php:384
 msgid "Helpdesk information"
 msgstr "Information de support"
 
-#: inc/entityconfig.class.php:428 inc/invitation.class.php:67
-#: inc/invitation.class.php:407 inc/notificationtargetinvitation.class.php:50
+#: inc/entityconfig.class.php:430 inc/invitation.class.php:67
+#: inc/invitation.class.php:425 inc/notificationtargetinvitation.class.php:50
 #: inc/notificationtargetinvitation.class.php:59
 msgid "Invitation"
 msgid_plural "Invitations"
@@ -328,7 +344,7 @@ msgid_plural "Files"
 msgstr[0] "Fichier"
 msgstr[1] "Fichiers"
 
-#: inc/file.class.php:88 inc/file.class.php:122 inc/package.class.php:613
+#: inc/file.class.php:88 inc/file.class.php:122 inc/package.class.php:609
 msgid "File uploaded without name"
 msgstr "Le fichier a été téléversé sans nom"
 
@@ -336,11 +352,11 @@ msgstr "Le fichier a été téléversé sans nom"
 msgid "Failed to store the uploaded file"
 msgstr "Echec d'enregistrement du fichier téléversé"
 
-#: inc/file.class.php:170 inc/package.class.php:635 inc/package.class.php:643
+#: inc/file.class.php:170 inc/package.class.php:631 inc/package.class.php:639
 msgid "No file uploaded"
 msgstr "Aucun fichier téléversé"
 
-#: inc/file.class.php:176 inc/package.class.php:650
+#: inc/file.class.php:176 inc/package.class.php:646
 msgid "File upload failed"
 msgstr "Le télélversement du ficher a échoué"
 
@@ -348,19 +364,19 @@ msgstr "Le télélversement du ficher a échoué"
 msgid "Temp directory doesn't exist"
 msgstr "Le dossier temporaire n'existe pas"
 
-#: inc/fleet.class.php:184
+#: inc/fleet.class.php:185
 msgid "No default fleet found to move devices"
 msgstr "Pas de flotte par défaut pour déplacer les appareils"
 
-#: inc/fleet.class.php:194
+#: inc/fleet.class.php:195
 msgid "Could not move all devices to the not managed fleet"
 msgstr "Impossible de déplacer tous les appareils vers la flotte non gérée"
 
-#: inc/fleet.class.php:212
+#: inc/fleet.class.php:224
 msgid "Could not delete policies on the fleet"
 msgstr "Impossible de suppriler les stratégies de la flotte"
 
-#: inc/fleet.class.php:459 install/installer.class.php:274
+#: inc/fleet.class.php:474 install/installer.class.php:274
 msgid "not managed fleet"
 msgstr "Flotte non gérée"
 
@@ -424,13 +440,13 @@ msgstr ""
 "L'utilsiateur existe déjà et a été supprimé. Vous devez le restaurer ou le "
 "purger d'abord."
 
-#: inc/invitation.class.php:269
+#: inc/invitation.class.php:287
 msgid "Cannot delete the document. Delete the attached invitation first"
 msgstr ""
 "Impossible de créer le document. Supprimez d'abord les invitations "
 "rattachées"
 
-#: inc/invitation.class.php:333 inc/notificationtargetinvitation.class.php:68
+#: inc/invitation.class.php:351 inc/notificationtargetinvitation.class.php:68
 msgid "Enrollment QR code"
 msgstr "Code QR d'enrôlement"
 
@@ -494,7 +510,7 @@ msgstr "Adresse postale du suport"
 msgid "Guest user"
 msgstr "Utilsiateur invité"
 
-#: inc/package.class.php:62 inc/package.class.php:354
+#: inc/package.class.php:62
 msgid "Package"
 msgid_plural "Packages"
 msgstr[0] "Paquetage"
@@ -514,11 +530,11 @@ msgstr "Impossible de sauvegarder le fichier"
 msgid "Could not parse the APK file"
 msgstr "Could not parse the APK file"
 
-#: inc/package.class.php:502
+#: inc/package.class.php:498
 msgid "Parse an application to find metadata"
 msgstr "Analyse une application pour obtenir ses méta données"
 
-#: inc/package.class.php:619
+#: inc/package.class.php:615
 msgid "Only APK and UPK files are allowed"
 msgstr "Seuls les fichiers APK et UPK sont autorisés"
 
@@ -528,8 +544,8 @@ msgstr "Seuls les fichiers APK et UPK sont autorisés"
 #: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:45
 #: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:128
 #: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:35
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:104
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:169
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
 msgid "Policy"
 msgid_plural "Policies"
 msgstr[0] "Stratégie"
@@ -578,6 +594,10 @@ msgstr "Echoué"
 msgid "Canceled"
 msgstr "Annulé"
 
+#: inc/policybase.class.php:87
+msgid "Overriden"
+msgstr ""
+
 #: inc/policydeployapplication.class.php:61
 msgid "The remove on delete flag is mandatory"
 msgstr "Le témoin de suppression est obligatoire"
@@ -595,22 +615,22 @@ msgstr "Vous devez choisir une application à appliquer à cette stratégie"
 msgid "The application does not exists"
 msgstr "L'application n'existe pas"
 
-#: inc/policydeployapplication.class.php:158
+#: inc/policydeployapplication.class.php:160
 msgid ""
 "A removal policy for this application is applied. Please, remove it first."
 msgstr ""
 "Une stratégie de suppression pour cette application est définie. Supprimez "
 "la d'abord."
 
-#: inc/policydeployapplication.class.php:237
-#: inc/policydeployfile.class.php:289
+#: inc/policydeployapplication.class.php:240
+#: inc/policydeployfile.class.php:295
 msgid "Remove when the policy is removed"
 msgstr "Supprimer quand la statégie est supprimée"
 
-#: inc/policydeployapplication.class.php:260
-#: inc/policydeployfile.class.php:329
-#: inc/policyremoveapplication.class.php:107
-#: inc/policyremovefile.class.php:106
+#: inc/policydeployapplication.class.php:263
+#: inc/policydeployfile.class.php:335
+#: inc/policyremoveapplication.class.php:109
+#: inc/policyremovefile.class.php:108
 msgid "Waiting"
 msgstr "En attente"
 
@@ -631,7 +651,7 @@ msgstr "Le fichier n'existe pas"
 msgid "invalid base path"
 msgstr "Chemin de base non valide"
 
-#: inc/policydeployfile.class.php:197
+#: inc/policydeployfile.class.php:201
 msgid ""
 "A removal policy is applied for this file destination. Please, remove it "
 "first."
@@ -639,7 +659,7 @@ msgstr ""
 "Une stratégie de suppression est appliquée sur ce fichier. Supprimez la "
 "d'abord."
 
-#: inc/policydeployfile.class.php:278
+#: inc/policydeployfile.class.php:284
 msgid "copy to"
 msgstr "copier vers"
 
@@ -651,49 +671,60 @@ msgstr "Un identifiant d'application est requis"
 msgid "Flyve MDM"
 msgstr "Flyve MDM"
 
-#: inc/task.class.php:121
-msgid "Tasks statuses"
-msgstr "Statuts de tâche"
+#: inc/task.class.php:84 inc/task.class.php:612
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] "Tâche"
+msgstr[1] "Tâches"
 
-#: inc/task.class.php:169
-msgid "Fleet and policy must be specified"
-msgstr "Une flotte et une stratégie doivent être spécifiés"
+#: inc/task.class.php:166
+msgid "Notifiable and policy must be specified"
+msgstr ""
 
-#: inc/task.class.php:178 inc/task.class.php:252 inc/task.class.php:331
+#: inc/task.class.php:175 inc/task.class.php:250 inc/task.class.php:332
 msgid "Policy not found"
 msgstr "Stratégie non trouvée"
 
-#: inc/task.class.php:186 inc/task.class.php:287
+#: inc/task.class.php:183 inc/task.class.php:288
 msgid "Incorrect value for this policy"
 msgstr "Valeur incorrecte pour cette stratégie"
 
-#: inc/task.class.php:196 inc/task.class.php:273
-msgid "Cannot find the target fleet"
-msgstr "Impossible de trouver la flotte cible"
+#: inc/task.class.php:194
+msgid "Cannot find the notifiable object"
+msgstr "Impossible de trouver l'objet notifiable"
 
-#: inc/task.class.php:203 inc/task.class.php:280
+#: inc/task.class.php:201
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "Impossible d'appliquer une stratégie sur une flotte non gérée"
 
-#: inc/task.class.php:210 inc/task.class.php:295
+#: inc/task.class.php:208 inc/task.class.php:296
 msgid "Policy already applied"
 msgstr "Stratégie déjà appliquée"
 
-#: inc/task.class.php:223 inc/task.class.php:302
+#: inc/task.class.php:221 inc/task.class.php:303
 msgid "The requirements for this policy are not met"
 msgstr "Les prérequis pour cette stratégie ne sont pas remplis"
 
-#: inc/task.class.php:309
+#. TRANS: %1$s is the type of the item on which a policy is applied
+#: inc/task.class.php:273
+#, php-format
+msgid "Cannot find the target %1$s"
+msgstr "Impossible de trouver la cible de type %1$s"
+
+#. TRANS: %1$s is the type of the item on which one attempds to apply a policy
+#: inc/task.class.php:281
+#, php-format
+msgid "Cannot apply a policy on this %1$s"
+msgstr "Impossible d'appliquer une stratégie sur ce %1$s"
+
+#: inc/task.class.php:310
 msgid "Failed to apply the policy"
 msgstr "L'application de la stratégie a échoué"
 
-#: inc/task.class.php:336
-msgid "Fleet not found"
-msgstr "Flotte non trouvée"
-
-#: inc/task.class.php:615
-msgid "Task"
-msgstr "Tâche"
+#: inc/task.class.php:338
+#, php-format
+msgid "%1$s not found"
+msgstr "%1$s non trouvé"
 
 #: inc/taskstatus.class.php:47
 msgid "Task status"
@@ -730,459 +761,37 @@ msgstr ""
 msgid "User invitation"
 msgstr "Invitation d'utilsaiteur"
 
-#: install/installer.class.php:367
-msgid "You have been invited to join Flyve MDM"
-msgstr "Vous avez été invité à rejoindre Flyve MDM"
-
-#: install/installer.class.php:368
-msgid ""
-"Hi,\n"
-"\n"
-"##user.firstname## ##user.realname## invited you to enroll your mobile device\n"
-"in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators\n"
-"to easily manage and administrate mobile devices. For more information,\n"
-"please contact ##user.firstname## ##user.realname## to his email address\n"
-"##user.email##.\n"
-"\n"
-"Please join the Flyve Mobile Device Management system by downloading\n"
-"and installing the Flyve MDM application for Android from the following link.\n"
-"\n"
-"##flyvemdm.download_app##\n"
-"\n"
-"If you're viewing this email from a computer flash the QR code you see below\n"
-"with the Flyve MDM Application.\n"
-"\n"
-"If you're viewing this email from your device to enroll then tap the\n"
-"following link or copy it to your browser.\n"
-"\n"
-"##flyvemdm.enroll_url##\n"
-"\n"
-"Regards,\n"
-"\n"
-msgstr ""
-
-#: install/installer.class.php:392
-msgid ""
-"Hi,\n"
-"\n"
-"##user.firstname## ##user.realname## invited you to enroll your mobile device\n"
-"in Flyve Mobile Device Managment (Flyve MDM). Flyve MDM allows administrators\n"
-"to easily manage and administrate mobile devices. For more information,\n"
-"please contact ##user.firstname## ##user.realname## to his email address\n"
-"<a href=\"mailto:##user.email##?subject=Questions about Flyve MDM\">\n"
-"##user.email##</a>.\n"
-"\n"
-"Please join the Flyve Mobile Device Management system by downloading\n"
-"and installing the Flyve MDM application for Android from the following link.\n"
-"\n"
-"<a href=\"##flyvemdm.download_app##\">##flyvemdm.download_app##</a>\n"
-"\n"
-"If you're viewing this email from a computer flash the QR code you see below\n"
-"with the Flyve MDM Application.\n"
-"\n"
-"If you're viewing this email from your device to enroll then tap the\n"
-"following link or copy it to your browser.\n"
-"\n"
-"<a href=\"##flyvemdm.enroll_url##\">##flyvemdm.enroll_url##</a>\n"
-"\n"
-"<img src=\"cid:##flyvemdm.qrcode##\" alt=\"Enroll QRCode\" title=\"Enroll QRCode\" >\n"
-"\n"
-"Regards,\n"
-"\n"
-msgstr ""
-
-#: install/installer.class.php:541
+#: install/installer.class.php:535
 msgid "Parse uploaded applications to collect metadata"
 msgstr "Analyse les applications téléversées pour collecter les méta données"
 
-#: install/installer.class.php:703
+#: install/installer.class.php:697
 msgid "Security"
 msgstr "Sécurité"
 
-#: install/installer.class.php:706
+#: install/installer.class.php:700
 msgid "Authentication"
 msgstr "Authentification"
 
-#: install/installer.class.php:709 install/installer.class.php:751
+#: install/installer.class.php:703
 msgid "Password"
 msgstr "Mot de passe"
 
-#: install/installer.class.php:712
+#: install/installer.class.php:706
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: install/installer.class.php:715
+#: install/installer.class.php:709
 msgid "Peripherals"
 msgstr "Périphériques"
 
-#: install/installer.class.php:718
+#: install/installer.class.php:712
 msgid "Deployment"
 msgstr "Déploiement"
 
-#: install/installer.class.php:744
-msgid "Password enabled"
-msgstr "Mot de passe activé"
-
-#: install/installer.class.php:749
-msgid "No"
-msgstr "Non"
-
-#: install/installer.class.php:750
-msgid "Pin"
-msgstr "Pin"
-
-#: install/installer.class.php:755
-msgid "Enable the password"
-msgstr "Active le mot de passe"
-
-#: install/installer.class.php:764
-msgid "Minimum password length"
-msgstr "Lonjgueur minimale de mot de passe"
-
-#: install/installer.class.php:773
-msgid ""
-"Set the required number of characters for the password. For example, you can"
-" require PIN or passwords to have at least six characters"
-msgstr ""
-"Définit le nomvre de caractères requis pour le mot de passe. Par exemple, "
-"vous pouvez exiger que le code PIN ou le mot de passe contiennt au moins six"
-" caractères"
-
-#: install/installer.class.php:783
-msgid "Password quality"
-msgstr "Qualité de mot de passe"
-
-#: install/installer.class.php:788
-msgid "Unspecified"
-msgstr "Non spécifié"
-
-#: install/installer.class.php:789
-msgid "Something"
-msgstr "Quelque chose"
-
-#: install/installer.class.php:790
-msgid "Numeric"
-msgstr "Numérique"
-
-#: install/installer.class.php:791
-msgid "Alphabetic"
-msgstr "Alphabétique"
-
-#: install/installer.class.php:792
-msgid "Alphanumeric"
-msgstr "Alphanumérique"
-
-#: install/installer.class.php:793
-msgid "Complex"
-msgstr "Complexe"
-
-#: install/installer.class.php:797
-msgid "Complexity of allowed password"
-msgstr "Complexité des mots de passe autorisés"
-
-#: install/installer.class.php:807
-msgid "Minimum letters required in password"
-msgstr "Nombre minimum de lettres requis dans le mot de passe"
-
-#: install/installer.class.php:817
-msgid ""
-"The minimum number of letters required in the password for all admins or a "
-"particular one"
-msgstr ""
-"Le nombre minimum de lettres requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:827
-msgid "Minimum lowercase letters required in password"
-msgstr "Nombre minimum de lettres minucsules dans le mot de passe"
-
-#: install/installer.class.php:837
-msgid ""
-"The minimum number of lowercase letters required in the password for all "
-"admins or a particular one"
-msgstr ""
-"Le nombre minimum de lettres minuscules requises dans le mot de passe pour "
-"tous administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:847
-msgid "Minimum non-letter characters required in password"
-msgstr ""
-"Nombre minimum de caractères autres que des lettres requis dans le mot de "
-"passe"
-
-#: install/installer.class.php:857
-msgid ""
-"The minimum number of non-letter characters required in the password for all"
-" admins or a particular one"
-msgstr ""
-"Le nombre minimum de caractères autres que des lettres requis dans le mot de"
-" passe pour tous les administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:867
-msgid "Minimum numerical digits required in password"
-msgstr "Nombre minimum de chiffres requis dans le mot de passe"
-
-#: install/installer.class.php:877
-msgid ""
-"The minimum number of numerical digits required in the password for all "
-"admins or a particular one"
-msgstr ""
-"Le nombre minimum de chiffres requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:887
-msgid "Minimum symbols required in password"
-msgstr "Nombre minimum de symboles dans le mot de passe"
-
-#: install/installer.class.php:897
-msgid ""
-"The minimum number of symbols required in the password for all admins or a "
-"particular one"
-msgstr ""
-"Le nombre minimum de symboiles requis dans le mot de passe pour tous les "
-"administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:907
-msgid "Minimum uppercase letters required in password"
-msgstr "Nombre minimum de lettres majkuscules requises dans lde mot de passe"
-
-#: install/installer.class.php:917
-msgid ""
-"The minimum number of uppercase letters required in the password for all "
-"admins or a particular one"
-msgstr ""
-"Le nombrte minimum de lettres majuscules requises dans le mot de passe pour"
-"  tous les administrateurs ou un administrateur particulier"
-
-#: install/installer.class.php:927
-msgid "Maximum failed password attemps for wipe"
-msgstr "Nombre de t entatives échouées d'authentification avant l'effacement"
-
-#: install/installer.class.php:937
-msgid "Number of consecutive failed attemps of unlock the device to wipe"
-msgstr ""
-"Nombre d'échecs successifs de déverrouillage de l'appareil avant effacement"
-
-#: install/installer.class.php:947
-msgid "Maximum time to lock (milliseconds)"
-msgstr "Temps maximum avant verrouillage (millisecondes)"
-
-#: install/installer.class.php:957
-msgid "Maximum time to lock the device in milliseconds"
-msgstr "Temps maximum pour verrouiller l'appareil en millisecondes"
-
-#: install/installer.class.php:967
-msgid "Internal Storage encryption"
-msgstr "Chiffrement du stockage interne"
-
-#: install/installer.class.php:974
-msgid "Force internal storage encryption"
-msgstr "Force le chiffrement du stockage interne"
-
-#: install/installer.class.php:984
-msgid "Disable Camera"
-msgstr "Désactiver la caméra"
-
-#: install/installer.class.php:991
-msgid "Prevent usage of the Camera"
-msgstr "Empêche l'utilsiation de la caméra"
-
-#: install/installer.class.php:1000
-msgid "Deploy application"
-msgstr "Déployer une application"
-
-#: install/installer.class.php:1007
-msgid "Deploy an application on the device"
-msgstr "Déploie une application sur l'appareil"
-
-#: install/installer.class.php:1017
-msgid "Remove application"
-msgstr "Supprime l'application"
-
-#: install/installer.class.php:1024
-msgid "Uninstall an application on the device"
-msgstr "Désinstalle une application de l'appareil"
-
-#: install/installer.class.php:1034
-msgid "Deploy file"
-msgstr "Déployer un fichier"
-
-#: install/installer.class.php:1041
-msgid "Deploy a file on the device"
-msgstr "Déploie un fichier sur l'appareil"
-
-#: install/installer.class.php:1050
-msgid "Remove file"
-msgstr "Supprimer un fichier"
-
-#: install/installer.class.php:1057
-msgid "Uninstall a file on the device"
-msgstr "Désinstalle un fichier de l'appareil"
-
-#: install/installer.class.php:1067
-msgid "Disable Wifi"
-msgstr "Désactiver le wifi"
-
-#: install/installer.class.php:1074
-msgid "Disable wifi connectivity"
-msgstr "Désactive la connectivité wifi"
-
-#: install/installer.class.php:1083
-msgid "Disable Bluetooth"
-msgstr "Désactiver le bluetooth"
-
-#: install/installer.class.php:1090
-msgid "Disable Bluetooth connectivity"
-msgstr "Désactiver la connectivité bluetooth"
-
-#: install/installer.class.php:1100 install/installer.class.php:1107
-msgid "use TLS"
-msgstr "Utiliser TLS"
-
-#: install/installer.class.php:1116 install/installer.class.php:1123
-msgid "Disable roaming"
-msgstr "Désactiver l'itinérance"
-
-#: install/installer.class.php:1132 install/installer.class.php:1139
-msgid "Disable GPS"
-msgstr "Désactiver le GPS"
-
-#: install/installer.class.php:1148
-msgid "Disable USB MTP"
-msgstr "Désactiver USB MTP"
-
-#: install/installer.class.php:1155
-msgid "Disable USB Media Transfert Protocol"
-msgstr "Désactive le protocole de transfert de médias USB"
-
-#: install/installer.class.php:1165
-msgid "Disable USB PTP"
-msgstr "Désactiver USB PTP"
-
-#: install/installer.class.php:1172
-msgid "Disable USB Picture Transfert Protocol"
-msgstr "Désactive le protocole de transfert d'image USB"
-
-#: install/installer.class.php:1182
-msgid "Disable USB ADB"
-msgstr "Désactiver ADB"
-
-#: install/installer.class.php:1189
-msgid "Disable USB Android Debug Bridge"
-msgstr "Désactive la passerelle de débugage Android USS"
-
-#: install/installer.class.php:1199 install/installer.class.php:1206
-msgid "Disable Mobile line"
-msgstr "Désactiver la ligne mobile"
-
-#: install/installer.class.php:1215
-msgid "Disable NFC"
-msgstr "Désactiver NFC"
-
-#: install/installer.class.php:1222
-msgid "Disable Near Field Contact"
-msgstr "Désactive la communication en champ proche"
-
-#: install/installer.class.php:1231 install/installer.class.php:1239
-msgid "Disable hotspot and tethering"
-msgstr "Désactiver le point d'accès et le partage de connection."
-
-#: install/installer.class.php:1249 install/installer.class.php:1256
-msgid "Disable SMS and MMS"
-msgstr "Désactiver les SMS et les MMS"
-
-#: install/installer.class.php:1265 install/installer.class.php:1272
-msgid "Disable airplane mode"
-msgstr "Désactiver le mode avion"
-
-#: install/installer.class.php:1281
-msgid "Disable status bar"
-msgstr "Désactiver la barre d'état"
-
-#: install/installer.class.php:1288
-msgid ""
-"Disable the status bar. Disabling the status bar blocks notifications, quick"
-" settings and other screen overlays that allow escaping from a single use "
-"device."
-msgstr ""
-"Désactive la barre d'état. Désactiver la bare d'état bloque les "
-"notifications, l'accès rapide à la configuration et les autres organes à "
-"l'affichage permettant de s'échapper des appareils à usage unique."
-
-#: install/installer.class.php:1298
-msgid "Disable screen capture"
-msgstr "Désactiver les captures d'écran"
-
-#: install/installer.class.php:1305
-msgid ""
-"Disable screen capture. Disabling screen capture also prevents the content "
-"from being shown on display devices that do not have a secure video output."
-msgstr ""
-"Désactive les captures d'écran. Désactiver les captures d'écran empêchent "
-"aussi d'afficher ce qui est à l'écran sur des périphériques d'affichage "
-"dénués d'une sortie vidéo sécurisée."
-
-#: install/installer.class.php:1315
-msgid "Reset password"
-msgstr "Réinisialiser le mot de passe"
-
-#: install/installer.class.php:1322
-msgid ""
-"Force a new password for device unlock (the password needed to access the "
-"entire device) or the work profile challenge on the current user. This takes"
-" effect immediately."
-msgstr ""
-"Force un nouveau mot de passe pour le déverrouillage de l'appareil (le mot "
-"de passe requis pour accéder à l'ensemble de l'appareil) ou le mot de passe "
-"de profil de l'utilsaiteur courant. Prend effet immédiatement."
-
-#: install/installer.class.php:1332
-msgid "Disable speakerphone"
-msgstr "Désactiver le haut parleur"
-
-#: install/installer.class.php:1339
-msgid "Disable the speakerphone"
-msgstr "Désactive le haut parleur"
-
-#: install/installer.class.php:1348
-msgid "Disable create VPN profiles"
-msgstr "Désactivef la création de profils VPN"
-
-#: install/installer.class.php:1355
-msgid "Disable creation of VPN profiles"
-msgstr "Désactive la création de profils VPN"
-
-#: install/installer.class.php:1364
-msgid "Set an inventory frequency"
-msgstr "Définir une fréquence d'inventaire"
-
-#: install/installer.class.php:1371
-msgid "Sets the recurrence of inventory in minutes"
-msgstr "Définit la récur rence des inventaires en minutes"
-
-#: install/installer.class.php:1380
-msgid "Disable all sounds"
-msgstr "Désactiver tous les sons"
-
-#: install/installer.class.php:1387
-msgid "Disable all sounds of device"
-msgstr "Désacctive tous les sons de l'appareil"
-
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
-msgid "Invite users to enroll one device."
-msgstr "Inviter des utilisateurs à enrôler un appareil"
-
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
-msgid ""
-"They will receive an message to their default email address containing a QR "
-"Code and instructions to enroll."
-msgstr ""
-"Ils recevront un message dans leur adresse par défaut contenant un ode QR et"
-" les instructions pour s'enrôler."
-
-#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
-msgid "There is no agent yet"
-msgstr "Il n'y a pas encore d'agent"
+#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
+msgid "Actions"
+msgstr "Actions"
 
 #: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
 #: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
@@ -1297,24 +906,21 @@ msgstr "Serveur de cerrtificats SSL pour les clients MQTT"
 msgid "https://cert.domain.com/path/to/service"
 msgstr "https://cert.domaine.com/chemin/vers/service"
 
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
-msgid "file size"
-msgstr "Taille de fichier"
+#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
+msgid "There is no agent yet"
+msgstr "Il n'y a pas encore d'agent"
 
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
-msgid "Update the file"
-msgstr "Mettre à jour le fichier"
+#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
+msgid "Invite users to enroll one device."
+msgstr "Inviter des utilisateurs à enrôler un appareil"
 
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
-msgid "Application date"
-msgstr "Date d'application"
-
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
-msgid "Last change date"
-msgstr "Date de la dernière modification"
+#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Ils recevront un message dans leur adresse par défaut contenant un ode QR et"
+" les instructions pour s'enrôler."
 
 #: /tmp/twig-cache/f9/f95e5fdae58e7d9a3dc74110bc024e6b260312ea4f49d3fbb07e7320b553c888.php:24
 msgid ""
@@ -1336,75 +942,51 @@ msgstr "Effacer"
 msgid "Unenroll"
 msgstr "Désenrôler"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
-msgid "Alias"
-msgstr "Alias"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
-msgid "Package name"
-msgstr "Nom du paquetage"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
-msgid "Update the package"
-msgstr "Mettre à jour un paquetage"
-
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:24
 msgid "Enrollment"
 msgstr "Enrôlement"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:30
 msgid "Enable explicit enrolment failures"
 msgstr "Activer les échecs d'enrôlement explicites"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:41
 msgid "Disable token expiration on successful enrolment"
 msgstr "Désactiver l'expiration de jeton après un enrôlement réussi"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:52
 msgid "Save initial inventory in file"
 msgstr "Sauvegarder l'inventaire initial dans un fichier"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:63
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:63
 msgid "Bug collector"
 msgstr "Collecteur de bugs"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:69
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:69
 msgid "Android bug collector URL"
 msgstr "URL du collecteur de bug Android"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:77
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:77
 msgid "https://bugreport.flyvemdm.com/path/to/service"
 msgstr "https://bugreport.flyvemdm.com/path/to/service"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:83
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:83
 msgid "Android bug collector user"
 msgstr "Utilisateur du collecteur de bug"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:95
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:95
 msgid "Android bug collector password"
 msgstr "Mot de passe du collecteur de bug"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:109
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:109
 msgid "Configuration wizard"
 msgstr "Assistant de configuration"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:115
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:115
 msgid "Enable configuration wizard"
 msgstr "Activer l'assistant de configuration"
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:123
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:123
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
@@ -1415,8 +997,6 @@ msgstr ""
 
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:129
 #: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:135
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:130
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:136
 msgid "Revision information"
 msgstr "Information de révision"
 
@@ -1476,6 +1056,47 @@ msgid ""
 msgstr ""
 "Nombre maximum par défaut d'appareils permis par entité (0 = pas de limite)"
 
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
+msgid "Alias"
+msgstr "Alias"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
+#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
+msgid "file size"
+msgstr "Taille de fichier"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
+msgid "Package name"
+msgstr "Nom du paquetage"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
+msgid "Update the package"
+msgstr "Mettre à jour un paquetage"
+
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
+msgid "Application date"
+msgstr "Date d'application"
+
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
+msgid "Last change date"
+msgstr "Date de la dernière modification"
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
+msgid "apply a policy"
+msgstr "Appliquer une stratégie"
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:112
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:177
+msgid "Value"
+msgstr "Valeur"
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:84
+msgid "Applied policies"
+msgstr "Stratégies appliquées"
+
 #: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:23
 msgid "Support name"
 msgstr "Nom du support"
@@ -1496,19 +1117,13 @@ msgstr "Site internet du support"
 msgid "Support email"
 msgstr "Adresse de messagerie du support"
 
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
-msgid "apply a policy"
-msgstr "Appliquer une stratégie"
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
+msgid "MDM Agent URL"
+msgstr "URL de l'agent MDM"
 
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
-msgid "Value"
-msgstr "Valeur"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:80
-msgid "Applied policies"
-msgstr "Stratégies appliquées"
+#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
+msgid "Update the file"
+msgstr "Mettre à jour le fichier"
 
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:35
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:43
@@ -1937,19 +1552,3 @@ msgstr "Retour"
 #: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
 msgid "Wizard page:"
 msgstr "Page d'assistant :"
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:146
-msgid "Development Push Notification Server"
-msgstr "Serveur de notifications push de développement"
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:152
-msgid "Use Development APNS"
-msgstr ""
-
-#: /tmp/twig-cache/f7/f7a9bc5bacb24c7b69030c21187a6d6035d8ee4a25049c070779e7fb9d2a623b.php:160
-msgid "For development use only"
-msgstr "Pour un usage en développement uniquement"
-
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
-msgid "Actions"
-msgstr "Actions"
