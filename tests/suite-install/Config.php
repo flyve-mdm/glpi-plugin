@@ -117,7 +117,7 @@ class Config extends CommonTestCase {
       // Test policies are populated
       $policy = new \PluginFlyvemdmPolicy();
       $count = $dbUtils->countElementsInTable($policy::getTable());
-      $this->integer($count)->isEqualTo(38);
+      $this->integer($count)->isEqualTo(count(CommonTestCase::policyList()));
 
       // Take a snapshot of the database before any test
       $this->mysql_dump($DB->dbuser, $DB->dbhost, $DB->dbpassword, $DB->dbdefault, './save.sql');

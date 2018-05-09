@@ -480,4 +480,64 @@ class CommonTestCase extends GlpiCommonTestCase {
          $this->stop();
       }
    }
+
+   /**
+    * @return array
+    */
+   public static function commandList() {
+      return [
+         'Command/Subscribe',
+         'Command/Ping',
+         'Command/Geolocate',
+         'Command/Inventory',
+         'Command/Lock',
+         'Command/Wipe',
+         'Command/Unenroll',
+      ];
+   }
+
+   /**
+    * @return array
+    */
+   public static function policyList() {
+      return [
+         'Policy/passwordEnabled',
+         'Policy/passwordMinLength',
+         'Policy/passwordQuality',
+         'Policy/passwordMinLetters',
+         'Policy/passwordMinLowerCase',
+         'Policy/passwordMinNonLetter',
+         'Policy/passwordMinNumeric',
+         'Policy/passwordMinSymbols',
+         'Policy/passwordMinUpperCase',
+         'Policy/maximumFailedPasswordsForWipe',
+         'Policy/maximumTimeToLock',
+         'Policy/storageEncryption',
+         'Policy/disableCamera',
+         'Policy/deployApp',
+         'Policy/removeApp',
+         'Policy/deployFile',
+         'Policy/removeFile',
+         'Policy/disableWifi',
+         'Policy/disableBluetooth',
+         'Policy/useTLS',
+         'Policy/disableRoaming',
+         'Policy/disableGPS',
+         'Policy/disableUsbMtp',
+         'Policy/disableUsbPtp',
+         'Policy/disableUsbAdb',
+         'Policy/disableMobileLine',
+         'Policy/disableNfc',
+         'Policy/disableHostpotTethering',
+         'Policy/disableSmsMms',
+         'Policy/disableAirplaneMode',
+         'Policy/disableStatusBar',
+         'Policy/disableScreenCapture',
+         'Policy/resetPassword',
+         'Policy/disableSpeakerphone',
+         'Policy/disableCreateVpnProfiles',
+         'Policy/inventoryFrequency',
+         'Policy/unknownAppSources',
+      ];
+   }
 }
