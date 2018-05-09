@@ -251,7 +251,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_mod`                            datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
-  `plugin_flyvemdm_tasks_id`  int(11) NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_tasks_id`            int(11) NOT NULL DEFAULT '0',
   `status`                              varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   INDEX `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),
