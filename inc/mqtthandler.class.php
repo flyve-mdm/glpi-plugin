@@ -174,7 +174,6 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $detectedVersion = isset($detectedVersion['version'])
                          ? $detectedVersion['version']
                          : null;
-      echo "$detectedVersion | $actualVersion \n";
       if ($actualVersion != $detectedVersion) {
          $this->flyveManifestMissing = true;
          $this->publishManifest($mqtt);
