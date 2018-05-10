@@ -56,7 +56,9 @@ return [
       'symbol'                              => 'inventoryFrequency',
       'group'                               => 'connectivity',
       'type'                                => 'int',
-      'type_data'                           => '',
+      'type_data'                           => [
+         "min" => 0,
+      ],
       'unicity'                             => 1,
       'plugin_flyvemdm_policycategories_id' => $category,
       'comment'                             => __('Sets the recurrence of inventory in minutes', 'flyvemdm'),
