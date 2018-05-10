@@ -335,7 +335,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       $compiledTemplates = implode(' ', $compiledTemplates);
 
       $potfile = strtolower($this->getPluginName()) . ".pot";
-      $phpSources = "*.php ajax/*.php front/*.php inc/*.php install/*.php";
+      $phpSources = "*.php ajax/*.php front/*.php inc/*.php install/*.php install/policies/*.php";
       // extract locales from source code
       $command = "xgettext $phpSources $compiledTemplates -o locales/$potfile -L PHP --add-comments=TRANS --from-code=UTF-8 --force-po";
       $command .= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
