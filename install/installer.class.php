@@ -323,9 +323,6 @@ class PluginFlyvemdmInstaller {
    protected function createPolicies() {
       $policy = new PluginFlyvemdmPolicy();
       foreach (self::getPolicies() as $policyData) {
-         $symbol = $policyData['symbol'];
-         $rows = $policy->find("`symbol`='$symbol'");
-
          // Import the policy category or find the existing one
          $category = new PluginFlyvemdmPolicyCategory();
          $categoryId = $category->import([
@@ -333,6 +330,8 @@ class PluginFlyvemdmInstaller {
          ]);
          $policyData['plugin_flyvemdm_policycategories_id'] = $categoryId;
 
+         $symbol = $policyData['symbol'];
+         $rows = $policy->find("`symbol`='$symbol'");
          if (count($rows) == 0) {
             // Create only non existing policy objects
             $policyData['type_data'] = json_encode($policyData['type_data'],
