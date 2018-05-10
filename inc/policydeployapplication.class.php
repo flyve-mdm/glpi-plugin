@@ -214,7 +214,6 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          'items_id_applied'            => $notifiable->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $package->getField('package_name'),
-         '_silent'                     => true,
       ])) {
          return false;
       }

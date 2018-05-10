@@ -245,7 +245,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          'items_id_applied'            => $notifiable->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value['destination'] . $file->getField('name'),
-         '_silent'                     => true,
       ])) {
          return false;
       }
