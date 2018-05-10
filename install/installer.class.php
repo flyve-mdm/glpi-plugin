@@ -332,10 +332,11 @@ class PluginFlyvemdmInstaller {
 
          $symbol = $policyData['symbol'];
          $rows = $policy->find("`symbol`='$symbol'");
+         $policyData['type_data'] = json_encode($policyData['type_data'],
+            JSON_UNESCAPED_SLASHES
+         );
          if (count($rows) == 0) {
             // Create only non existing policy objects
-            $policyData['type_data'] = json_encode($policyData['type_data'],
-               JSON_UNESCAPED_SLASHES);
             $policy->add($policyData);
          } else {
             // Update default value and recommended value for existing policy objects
@@ -345,6 +346,7 @@ class PluginFlyvemdmInstaller {
                'id'                                  => $policy2->getID(),
                'default_value'                       => $policyData['default_value'],
                'recommended_value'                   => $policyData['recommended_value'],
+               'type_data'                           => $policyData['type_data'],
                'plugin_flyvemdm_policycategories_id' => $categoryId,
             ]);
          }
