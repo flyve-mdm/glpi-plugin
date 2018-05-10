@@ -161,7 +161,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
       // This must run hook_entity_add
       $entity = new \Entity();
       $entityId = $entity->import([
-         'name' => __FUNCTION__,
+         'name' => __FUNCTION__ . ' '. $this->getUniqueString(),
          'entities_id' => 0
       ]);
       // The root entity (id 0) already exists then it cannot be returned or retrieved
