@@ -322,6 +322,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
    public function post_updateItem($history = 1) {
       $this->publishPolicy($this->notifiable);
+      $this->deleteTaskStatuses();
       $this->createTaskStatuses($this->notifiable);
    }
 
