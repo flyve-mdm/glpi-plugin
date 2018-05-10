@@ -1,0 +1,45 @@
+#prueba{
+
+  background-color: blue;
+
+}
+
+/*CREATES SHADOW EFFECT TO ADD MORE DEPTH*/
+#boxshadow{
+
+  box-shadow: 0px 0px 5px grey;
+  -moz-box-shadow:0 0 5px grey;
+  -webkit-box-shadow:0 0 5px grey;
+  background-color: rgba(0,0,0,0.2);
+
+}
+
+/*ICON'S TRANSITION*/
+.img-pop{
+
+  transition: all .2s ease-in-out;
+
+}
+
+/*INCREASES THE SIZE OF THE ICONS ON HOVER*/
+.img-pop:hover{
+
+  transform: scale(1.1);
+  box-shadow: 0px 0px 5px grey;
+  -moz-box-shadow:0 0 5px grey;
+  -webkit-box-shadow:0 0 5px grey;
+
+}
+
+.icon{
+
+  height: 250px;
+  width: 250px;
+
+}
+
+.footerstyle{
+
+  border-top: 3px #008080 solid;
+
+}
