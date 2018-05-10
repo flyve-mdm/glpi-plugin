@@ -322,9 +322,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
 
       // Get the current status of the task for the agent
+      $taskStatus = new PluginFlyvemdmTaskStatus();
       $request = [
          'AND' => [
-            PluginFlyvemdmAgent::getForeignKeyField() => $agentId,
+            PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
             PluginFlyvemdmTask::getForeignKeyField() => $taskId
          ]
       ];
@@ -335,7 +336,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       // Update the task
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
-      $taskStatus->updateStatus($policy, $status);
+      $taskStatus->updateStatus($policy, $feedback['status']);
 
       $this->updateLastContact($topic, '!');
    }
