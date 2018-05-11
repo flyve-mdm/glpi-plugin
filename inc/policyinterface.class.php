@@ -114,7 +114,7 @@ interface PluginFlyvemdmPolicyInterface {
    public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
-    * Actions done after a policy is unapplied to a notifiable
+    * Actions done before a policy is unapplied to a notifiable
     *
     * @param mixed $value
     * @param mixed $itemtype
@@ -124,6 +124,16 @@ interface PluginFlyvemdmPolicyInterface {
    public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
 
    /**
+    * Actions done after a policy is unapplied to a notifiable
+    *
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    */
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable);
+
+    /**
     * return HTML input to set policy value
     * @param string $value value of the task
     * @param string $itemType type of the item linked to the task

@@ -70,6 +70,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
     /**
      * get common task statuses
+     *
      * @return array
      */
    public static final function getEnumBaseTaskStatus() {
@@ -91,6 +92,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     /**
      * get specific task statuses
      * To be overriden in child class
+     *
      * @return array
      */
    public static function getEnumSpecificStatus() {
@@ -109,6 +111,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * JSON decode properties for the policy and merges them with default values
     * @param string $properties
     * @param array $defaultProperties
+    *
     * @return array
     */
    protected function jsonDecodeProperties($properties, array $defaultProperties) {
@@ -130,6 +133,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
    public function canApply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
@@ -141,6 +145,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return boolean
     */
    public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
@@ -161,6 +166,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return boolean
     */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
@@ -171,6 +177,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    *
     * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -195,8 +202,9 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return bool
     * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
+    * @return bool
     */
    public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
@@ -207,6 +215,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $itemtype
     * @param integer $itemId
     * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
    public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
@@ -216,9 +225,18 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    */
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {}
+
+   /**
     * @param string $value value of the task
     * @param string $itemType type of the item linked to the task
     * @param integer $itemId ID of the item
+    *
     * @return string
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
@@ -229,6 +247,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param PluginFlyvemdmTask $task
+    *
     * @return mixed
     */
    public function showValue(PluginFlyvemdmTask $task) {
@@ -237,6 +256,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param array $input
+    *
     * @return array
     */
    public function preprocessFormData($input) {
@@ -245,6 +265,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param $status
+    *
     * @return mixed
     */
    public function filterStatus($status) {
@@ -268,6 +289,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     *
     * @param string $mode add or update
     * @param array $_input values for update
+    *
     * @return string html
     */
    public function formGenerator(
