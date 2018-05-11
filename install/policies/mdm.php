@@ -36,24 +36,6 @@ if (!defined('GLPI_ROOT')) {
 $category = 'Mobile Device Management';
 return [
    [
-      'name'                                => __('Use TLS', 'flyvemdm'),
-      'symbol'                              => 'useTLS',
-      'group'                               => 'MDM',
-      'type'                                => 'bool',
-      'type_data'                           => '',
-      'unicity'                             => 1,
-      'plugin_flyvemdm_policycategories_id' => $category,
-      'comment'                             => __('Use TLS.', 'flyvemdm'),
-      'default_value'                       => '',
-      'recommended_value'                   => '',
-      'is_android_system'                   => '0',
-      'android_min_version'                 => '4.1',
-      'android_max_version'                 => '0',
-      'apple_min_version'                   => '0',
-      'apple_max_version'                   => '0',
-   ],
-
-   [
       'name'                                => __('Set an inventory frequency', 'flyvemdm'),
       'symbol'                              => 'inventoryFrequency',
       'group'                               => 'connectivity',
