@@ -69,7 +69,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    protected $specificStatuses = [];
 
     /**
-     * get common task statuses
+     * Gets common task statuses
      *
      * @return array
      */
@@ -90,7 +90,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
     /**
-     * get specific task statuses
+     * Gets specific task statuses
      * To be overriden in child class
      *
      * @return array
@@ -117,9 +117,9 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    protected function jsonDecodeProperties($properties, array $defaultProperties) {
       if (empty($properties)) {
          return $defaultProperties;
-      } else {
-         $propertyCollection = json_decode($properties, true);
       }
+
+      $propertyCollection = json_decode($properties, true);
       if (empty($propertyCollection)) {
          return $defaultProperties;
       }

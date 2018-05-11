@@ -566,6 +566,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/removeFile',
          'Policy/disableWifi',
          'Policy/disableBluetooth',
+         'Policy/m2m',
          'Policy/disableRoaming',
          'Policy/disableGPS',
          'Policy/disableUsbMtp',

@@ -35,4 +35,27 @@ if (!defined('GLPI_ROOT')) {
 
 $category = 'Mobile Device Management';
 return [
+   [
+      'name'                                => __('messaging server', 'flyvemdm'),
+      'symbol'                              => 'm2m',
+      'group'                               => 'MDM',
+      'type'                                => 'm2m',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('messaging server', 'flyvemdm'),
+      'default_value'                       => '',
+      'recommended_value'                   => json_encode(
+         [
+            'server' => '',
+            'port'   => '0',
+            'tls'    => '1'
+         ]),
+      'is_android_policy'                   => '1',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '1.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
 ];

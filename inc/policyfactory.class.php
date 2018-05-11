@@ -79,6 +79,10 @@ class PluginFlyvemdmPolicyFactory {
             $policy = new PluginFlyvemdmPolicyRemovefile($policyData);
             break;
 
+         case 'm2m':
+            $policy = new PluginFlyvemdmPolicyM2m($policyData);
+            break;
+
          default:
             return null;
       }

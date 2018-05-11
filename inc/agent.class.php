@@ -1490,7 +1490,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * list of topics to cleanup on unenrollment or on enrollment
     *
-    * @return string[]
+    * @return array
     */
    public static function getTopicsToCleanup() {
       $policy = new PluginFlyvemdmPolicy();

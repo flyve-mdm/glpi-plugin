@@ -33,20 +33,14 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-/**
- * @since 0.1.0.33
- */
-class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
-{
 
-   /**
-    * @var integer|null $minValue Minimum value allowed for the policy
-    */
-   protected $minValue = null;
-   /**
-    * @var integer|null $minValue Maximum value allowed for the policy
-    */
-   protected $maxValue = null;
+class PluginFlyvemdmPolicyM2m extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
+
+   /** @var string $server name or IP of the server to use for M2M */
+
+   /** @var integer $port port to use for M2M */
+
+   /** @var integer $tls use TLS for M2M (1 for true, 0 for false) */
 
    /**
     * PluginFlyvemdmPolicyInteger constructor.
@@ -55,13 +49,15 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
    public function __construct(PluginFlyvemdmPolicy $policy) {
       parent::__construct($policy);
       $defaultProperties = [
-         'min' => null,
-         'max' => null,
+         'server' => '',
+         'port' => '0',
+         'tls'  => '0',
       ];
       $propertyCollection = $this->jsonDecodeProperties($policy->getField('type_data'),
          $defaultProperties);
-      $this->minValue = $propertyCollection['min'];
-      $this->maxValue = $propertyCollection['max'];
+      $this->server = $propertyCollection['server'];
+      $this->port = $propertyCollection['port'];
+      $this->tls = $propertyCollection['tls'];
 
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
@@ -76,34 +72,57 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
     * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
-      if ($value === null || (!strval(intval($value)) == strval($value))) {
+      $keys = [
+         'server',
+         'port',
+         'tls'
+      ];
+      $settingSufficient = false;
+      foreach ($keys as $key) {
+         if (!isset($value[$key])) {
+            Session::addMessageAfterRedirect(__('All parameters must be specified', 'flyvemdm'));
+            return false;
+         }
+      }
+
+      if (empty($value['server']) && empty($value['port'] && $value['tls'] != 0 && $value['tls'] != 1)) {
+         Session::addMessageAfterRedirect(__('At least one parameter must be set', 'flyvemdm'));
          return false;
       }
 
-      if ($this->minValue !== null && ($value < $this->minValue)) {
-         return false;
-      }
-
-      if ($this->maxValue !== null && ($value > $this->maxValue)) {
-         return false;
-      }
-      return true;
-
+      return  true;
    }
 
    /**
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return array|bool
+    *
+    * @return array|boolean
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
-      if (!$this->integrityCheck($value, $itemtype, $itemId)) {
+      $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
+      if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
       }
+
       $array = [
-         $this->symbol => $value,
+         $this->symbol  => $value['server'],
+         'port'         => $value['port'],
+         'tls'          => $value['tls'],
       ];
+
       return $array;
+   }
+
+   public function showValueInput($value = '', $itemType = '', $itemId = 0) {
+      if ($value === '') {
+         $value = json_decode($this->policyData->getField('recommended_value'), JSON_OBJECT_AS_ARRAY);
+      }
+      $out = __('M2M server', 'flyvemdm') . '&nbsp;' . Html::input('value[server]', ['value' => $value['server']]);
+      $out .= '<br>' . __('Port', 'flyvemdm') . '&nbsp;' . Html::input('value[port]', ['value' => $value['port']]);
+      $out .= '<br>' . __('Use TLS', 'flyvemdm') . '&nbsp;' . Dropdown::showYesNo('value[tls]', $value['tls'], -1, ['display' => false]);
+
+      return $out;
    }
 }

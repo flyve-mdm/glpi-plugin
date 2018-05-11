@@ -91,6 +91,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    *
     * @return array|boolean
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
