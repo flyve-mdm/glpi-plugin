@@ -38,6 +38,9 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
+   /** @var array $postUnapplyTask task to add after unapplying the policy */
+   private $postUnapplyTask = null;
+
    /**
     * PluginFlyvemdmPolicyDeployapplication constructor.
     * @param PluginFlyvemdmPolicy $policy
@@ -208,17 +211,19 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return false;
       }
 
-      $task = new PluginFlyvemdmTask();
-      if (!$task->add([
+      $this->postUnapplyTask = [
          'itemtype_applied'            => $notifiable->getType(),
          'items_id_applied'            => $notifiable->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $package->getField('package_name'),
-      ])) {
-         return false;
-      }
+      ];
 
       return true;
+   }
+
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $task = new PluginFlyvemdmTask();
+      $task->add($this->postUnapplyTask);
    }
 
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {

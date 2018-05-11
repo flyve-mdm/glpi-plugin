@@ -261,7 +261,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $itemId = $input['items_id'];
       }
 
-      //Check the fleet exists
+      //Check the notifiable exists
       $notifiableType = $this->fields['itemtype_applied'];
       $notifiableId = $this->fields['items_id_applied'];
       if (isset($input['items_id_applied'])) {
@@ -283,7 +283,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return false;
       }
 
-      // Check the policy may be applied to the fleet and the value is matches requirements
+      // Check the policy may be applied to the notifiable and the value matches requirements
       if (!$this->policy->integrityCheck($value, $itemtype, $itemId)) {
          Session::addMessageAfterRedirect(__('Incorrect value for this policy', 'flyvemdm'), false,
             ERROR);
@@ -347,9 +347,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @see CommonDBTM::post_deleteItem()
     */
    public function post_purgeItem() {
-      //$this->updateQueue($this->notifiable, [$this->policy->getGroup()]);
       $this->unpublishPolicy($this->notifiable);
       $this->deleteTaskStatuses();
+      $this->policy->post_unapply($this->fields['value'], $this->fields['itemtype'],
+         $this->fields['items_id'], $this->notifiable);
    }
 
    /**
