@@ -537,7 +537,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableSpeakerphone',
          'Policy/disableCreateVpnProfiles',
          'Policy/inventoryFrequency',
-         'Policy/unknownAppSources',
+         'Policy/disableUnknownAppSources',
       ];
    }
 }
