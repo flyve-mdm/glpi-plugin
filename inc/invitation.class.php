@@ -270,6 +270,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Sent invitation email
       $this->sendInvitation();
+
+      if (PluginFlyvemdmConfig::canUpdate()) {
+         // Here we must update mqtt_prefix_locked
+      }
    }
 
    public function post_updateItem($history = 1) {

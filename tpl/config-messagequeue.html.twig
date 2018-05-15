@@ -22,8 +22,12 @@
       </tr>
       <tr class="tab_bg_1">
          <td>{{ __('MQTT prefix', 'flyvemdm') }}</td>
-         <td><input type="text" name="mqtt_prefix" value="{{ config.mqtt_prefix }}"></td>
-         <td>{{ __('Prepend all topics with a prefix (useful if a MQTT broker is mutualized). The mqtt daemon must be restarted.', 'flyvemdm') }}</td>
+         <td><input type="text" name="mqtt_prefix" value="{{ config.mqtt_prefix }}"
+                    {% if (config.mqtt_prefix_locked) == 1 %}disabled{% endif %}></td>
+         <td>{{ __('Prepend all topics with a prefix (useful if a MQTT broker is mutualized). The mqtt daemon must be restarted after the change.', 'flyvemdm') }}
+            <br>
+            <span class="red">{{ __('Note: This value can be changed only once and if no new invitation, agent or fleet has been created.', 'flyvemdm') }}</span>
+         </td>
       </tr>
       <tr class="tab_bg_1">
          <td>{{ __('MQTT broker port for TLS', 'flyvemdm') }}</td>

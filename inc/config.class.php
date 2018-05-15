@@ -530,4 +530,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
       return true;
    }
+
+   public function prepareInputForUpdate($input) {
+      if ($input['mqtt_prefix'] != $this->fields['mqtt_prefix'] && $this->fields['mqtt_prefix_locked'] == 0) {
+         $input['mqtt_prefix_locked'] = 1;
+      }
+      return $input;
+   }
 }

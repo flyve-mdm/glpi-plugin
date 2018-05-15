@@ -302,6 +302,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $topic = $this->getTopic();
          $this->notify("$topic/Policy/$policyName", null, 0, 1);
       }
+
+      if (PluginFlyvemdmConfig::canUpdate()) {
+         // Here we must update mqtt_prefix_locked
+      }
    }
 
    /**
