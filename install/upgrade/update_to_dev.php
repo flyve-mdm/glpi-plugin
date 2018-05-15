@@ -158,7 +158,9 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', $table);
    $migration->changeField($table, 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id',
       'integer');
-   $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
+   if ($DB->fieldExists($table, 'plugin_flyvemdm_fleets_id')) {
+      $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
+   }
    $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
 
    // update Policy table
@@ -176,7 +178,10 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_tasks';
    if (!$DB->fieldExists($table, 'items_id_applied')) {
       $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
+      $migration->dropKey($table, 'plugin_flyvemdm_fleets_id');
       $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
+      $migration->addKey($table, 'items_id_applied', 'items_id_applied');
+      $migration->addKey($table, 'itemtype_applied', 'itemtype_applied');
       // All tasks already created were applied on fleets
       $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
       $migration->executeMigration();
