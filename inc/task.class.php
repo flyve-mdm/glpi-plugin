@@ -475,7 +475,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $query = "SELECT DISTINCT `group`
                    FROM `$taskTable` `fp`
                    LEFT JOIN `$policyTable` `p` ON `fp`.`plugin_flyvemdm_policies_id` = `p`.`id`
-                   WHERE `fp`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
+                   WHERE `fp`.`items_id_applied` = '$fleetId'";
          $result = $DB->query($query);
 
          // add groups
@@ -507,7 +507,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policyTable = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT `t`.* FROM `$taskTable` `t`
                 LEFT JOIN `$policyTable` `p` ON `t`.`plugin_flyvemdm_policies_id` = `p`.`id`
-                WHERE `t`.`plugin_flyvemdm_fleets_id`='$fleetId' AND `p`.`group` = '$group'";
+                WHERE `t`.`items_id_applied`='$fleetId' AND `p`.`group` = '$group'";
       $result = $DB->query($query);
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $excludedPolicyIds = [];
