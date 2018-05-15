@@ -303,7 +303,7 @@ class PluginFlyvemdmFile extends CommonDBTM {
       $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       $fleet = new PluginFlyvemdmFleet();
       foreach ($taskCol as $taskId => $taskRow) {
-         $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
+         $fleetId = $taskRow['items_id_applied'];
          if ($fleet->getFromDB($fleetId)) {
             Toolbox::logInFile('php-errors',
                "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
