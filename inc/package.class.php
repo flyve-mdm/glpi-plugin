@@ -293,14 +293,14 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       $itemId = $this->getID();
 
       $task = new PluginFlyvemdmTask();
-      $taskCollection = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-      foreach ($taskCollection as $taskId => $taskRow) {
+      $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      foreach ($tasks as $taskId => $taskRow) {
          $notifiableType = $taskRow['itemtype_applied'];
          $notifiable = new $notifiableType();
          $notifiableId = $taskRow['items_id_applied'];
          if ($notifiable->getFromDB($notifiableId)) {
             Toolbox::logInFile('php-errors',
-               "Plugin Flyvemdm : Could not find fleet id = '$notifiableId'");
+               "Plugin Flyvemdm : Could not find notifiable id = '$notifiableId'");
             continue;
          }
          if ($task->getFromDB($taskId)) {
