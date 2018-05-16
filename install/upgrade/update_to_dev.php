@@ -180,8 +180,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
       $migration->dropKey($table, 'plugin_flyvemdm_fleets_id');
       $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
-      $migration->addKey($table, 'items_id_applied', 'items_id_applied');
-      $migration->addKey($table, 'itemtype_applied', 'itemtype_applied');
+      $migration->addKey($table, 'FK_applied', ['itemtype_applied', 'items_id_applied']);
       // All tasks already created were applied on fleets
       $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
       $migration->executeMigration();
