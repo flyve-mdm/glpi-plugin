@@ -507,42 +507,19 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = [];
-
-      $tab[] = [
-         'id'   => 'common',
-         'name' => __('Task', 'flyvemdm'),
-      ];
-
-      $tab[] = [
-         'id'            => '2',
-         'table'         => $this->getTable(),
-         'field'         => 'id',
-         'name'          => __('ID'),
-         'massiveaction' => false,
-         'datatype'      => 'number',
-      ];
-
-      $tab[] = [
-         'id'            => '3',
-         'table'         => 'glpi_plugin_flyvemdm_fleets',
-         'field'         => 'id',
-         'name'          => __('Fleet ID'),
-         'massiveaction' => false,
-         'datatype'      => 'dropdown',
-      ];
-
-      $tab[] = [
-         'id'            => '4',
-         'table'         => 'glpi_plugin_flyvemdm_policies',
-         'field'         => 'id',
-         'name'          => __('Policy ID'),
-         'massiveaction' => false,
-         'datatype'      => 'dropdown',
-      ];
+      $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
          'id'            => '5',
+         'table'         => 'glpi_plugin_flyvemdm_policies',
+         'field'         => 'id',
+         'name'          => __('Policy ID', 'flyvemdm'),
+         'massiveaction' => false,
+         'datatype'      => 'dropdown',
+      ];
+
+      $tab[] = [
+         'id'            => '6',
          'table'         => $this->getTable(),
          'field'         => 'itemtype',
          'name'          => __('itemtype'),
@@ -552,7 +529,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       ];
 
       $tab[] = [
-         'id'            => '6',
+         'id'            => '7',
          'table'         => $this->getTable(),
          'field'         => 'items_id',
          'name'          => __('item'),
@@ -562,10 +539,30 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       ];
 
       $tab[] = [
-         'id'            => '7',
+         'id'            => '8',
          'table'         => 'glpi_plugin_flyvemdm_policies',
          'field'         => 'name',
-         'name'          => __('policy_name'),
+         'name'          => __('policy name', 'flyvemdm'),
+         'massiveaction' => false,
+         'nodisplay'     => '1',
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '9',
+         'table'         => $this->getTable(),
+         'field'         => 'itemtype_applied',
+         'name'          => __('applied itemtype', 'flyvemdm'),
+         'massiveaction' => false,
+         'nodisplay'     => '1',
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '10',
+         'table'         => $this->getTable(),
+         'field'         => 'items_id_applied',
+         'name'          => __('applied ID', 'flyvemdm'),
          'massiveaction' => false,
          'nodisplay'     => '1',
          'datatype'      => 'string',
