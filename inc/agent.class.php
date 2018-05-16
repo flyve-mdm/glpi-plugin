@@ -545,10 +545,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_addItem() {
       // Notify the agent about its fleets
       $this->updateSubscription();
-
-      if (PluginFlyvemdmConfig::canUpdate()) {
-         // Here we must update mqtt_prefix_locked
-      }
    }
 
    public function post_getFromDB() {

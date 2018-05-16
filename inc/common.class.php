@@ -209,7 +209,7 @@ class PluginFlyvemdmCommon
    }
 
    /**
-    * Removes the mqtt prefix from
+    * Removes the mqtt prefix from a MQTT topic
     *
     * @param string  $topic Topic to modify
     * @param boolean $readConfig set to True to force reading the configuration

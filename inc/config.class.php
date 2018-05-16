@@ -405,6 +405,16 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          }
       }
 
+      //lock mqtt prefix if needed
+      $DbUtil = new DbUtils();
+      $agentsCount = $DbUtil->countElementsInTable('glpi_plugin_flyvemdm_agents');
+      $fleetsCount = $DbUtil->countElementsInTable('glpi_plugin_flyvemdm_fleets');
+      $invitationCount = $DbUtil->countElementsInTable('glpi_plugin_flyvemdm_invitations');
+      if ($agentsCount + $fleetsCount + $invitationCount > 0) {
+         unset($input['mqtt_prefix']);
+         Session::addMessageAfterRedirect(__('Update of MQTT prefix ignored (invitations, agents or fleets created)', 'flyvemdm'), false, WARNING);
+      }
+
       if (isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
          $input = static::processStep($input);
          if (count($input) > 0 && $input !== false) {
@@ -529,12 +539,5 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
 
       return true;
-   }
-
-   public function prepareInputForUpdate($input) {
-      if ($input['mqtt_prefix'] != $this->fields['mqtt_prefix'] && $this->fields['mqtt_prefix_locked'] == 0) {
-         $input['mqtt_prefix_locked'] = 1;
-      }
-      return $input;
    }
 }
