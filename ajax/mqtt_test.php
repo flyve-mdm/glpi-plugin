@@ -31,7 +31,7 @@
 
 // Needs to be removed if this entry point needs to autoload a class from the plugin.
 //$AJAX_INCLUDE = 1;
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 
 //define("PLUGIN_FLYVEMDM_ROOT", $CFG_GLPI['root_doc'] . "/plugins/flyvemdm");
 
