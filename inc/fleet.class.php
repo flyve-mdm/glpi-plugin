@@ -126,6 +126,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
                              ['value' => $objectName, 'display' => false]);
+      $fields['is_default'] = $fields['is_default'] ? __('No') : __('Yes');
       $data = [
             'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
             'fleet'        => $fields,
