@@ -47,9 +47,11 @@ return [
          'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '4.3',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -64,8 +66,10 @@ return [
          'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 ];

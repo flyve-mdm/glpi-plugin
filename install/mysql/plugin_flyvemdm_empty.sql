@@ -188,9 +188,11 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
   `comment`                                    text           DEFAULT NULL,
   `default_value`                              varchar(255)   NOT NULL DEFAULT '',
   `recommended_value`                          varchar(255)   NOT NULL DEFAULT '',
-  `is_android_policy`                          tinyint(1)     NOT NULL DEFAULT '0',
   `is_android_system`                          tinyint(1)     NOT NULL DEFAULT '0',
-  `is_apple_policy`                            tinyint(1)     NOT NULL DEFAULT '0',
+  `android_min_version`                        varchar(255)   NOT NULL DEFAULT '0',
+  `android_max_version`                        varchar(255)   NOT NULL DEFAULT '0',
+  `apple_min_version`                          varchar(255)   NOT NULL DEFAULT '0',
+  `apple_max_version`                          varchar(255)   NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `group` (`group`),
   KEY `plugin_flyvemdm_policycategories_id` (`plugin_flyvemdm_policycategories_id`)
