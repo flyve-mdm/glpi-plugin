@@ -4,10 +4,10 @@ layout: container
 
 <h2>Code Documentation</h2>
 
-{% assign articles = site.posts %}
+{% assign articles = site.posts | sort: 'title' %}
 {% for article in articles %}
     {% if article.code %}
-        <div class="article-wiki">
+        <div class="article-howtos">
             <ul>
                 <li>
                     <h3>
