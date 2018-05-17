@@ -1,10 +1,12 @@
 ---
 layout: post
+code: false
 howtos: true
-published: true
+published: false
 title: Installation
 permalink: howtos/installation
 description: Step by step
+category: user
 ---
 
 ## General view of the infrastructure

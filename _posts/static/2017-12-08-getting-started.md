@@ -6,6 +6,7 @@ published: true
 title: Getting Started
 permalink: howtos/getting-started
 description: Welcome to Flyve MDM
+category: user
 ---
 The Flyve MDM plugin for GLPI integrates the intuitive and outstanding features of Flyve MDM into GLPI platform providing you the security functionality for your IT infrastructure.
 

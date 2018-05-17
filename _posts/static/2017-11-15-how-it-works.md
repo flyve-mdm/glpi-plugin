@@ -1,10 +1,12 @@
 ---
 layout: post
+code: false
 howtos: true
 published: true
 title: How it works
 permalink: howtos/how-it-works
 description: What you need to know
+category: user
 ---
 
 ## General architecture
