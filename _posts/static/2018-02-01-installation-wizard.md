@@ -1,10 +1,12 @@
 ---
 layout: post
+code: false
 howtos: true
 published: true
 title: Installation v2.0.0
 permalink: howtos/installation-wizard
 description: Now with Wizard
+category: user
 ---
 
 ## Server Recommendations

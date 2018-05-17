@@ -6,6 +6,7 @@ published: true
 title: Upgrade Flyve MDM Plugin
 permalink: howtos/upgrade-glpi-plugin
 description: Stay up-to-date
+category: user
 ---
 # Before Updating
 
