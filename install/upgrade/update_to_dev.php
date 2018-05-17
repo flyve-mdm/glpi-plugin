@@ -156,13 +156,13 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    // update Policy table
    $table = 'glpi_plugin_flyvemdm_policies';
    $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
-   $migration->addField($table, 'is_android_policy', 'bool', ['after' => 'recommended_value']);
-   $migration->addField($table, 'is_android_system', 'bool', ['after' => 'is_android_policy']);
-   $migration->addField($table, 'is_apple_policy', 'bool', ['after' => 'is_android_system']);
+   $migration->addField($table, 'is_android_system', 'bool', ['after' => 'recommended_value']);
+   $migration->addField($table, 'android_min_version', 'bool', ['after' => 'is_android_system']);
+   $migration->addField($table, 'android_max_version', 'bool', ['after' => 'android_min_version']);
+   $migration->addField($table, 'apple_min_version', 'bool', ['after' => 'android_max_version']);
+   $migration->addField($table, 'apple_max_version', 'bool', ['after' => 'apple_min_version']);
    $migration->addKey($table, 'group', 'group');
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
-   // All policies exist for Android
-   $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
 
    // Rename and update fleet_policy into task
    $table = 'glpi_plugin_flyvemdm_tasks';

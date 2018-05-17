@@ -163,15 +163,6 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       $tab[] = [
          'id'            => '9',
          'table'         => $this->getTable(),
-         'field'         => 'is_android_policy',
-         'name'          => __('For Android', 'flyvemdm'),
-         'datatype'      => 'bool',
-         'massiveaction' => false,
-      ];
-
-      $tab[] = [
-         'id'            => '10',
-         'table'         => $this->getTable(),
          'field'         => 'is_android_system',
          'name'          => __('Requires system permission', 'flyvemdm'),
          'datatype'      => 'bool',
@@ -179,12 +170,39 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'            => '11',
-         'table'         => $this->getTable(),
-         'field'         => 'is_apple_policy',
-         'name'          => __('For iOS', 'flyvemdm'),
-         'datatype'      => 'bool',
-         'massiveaction' => false,
+        'id'            => '10',
+        'table'         => $this->getTable(),
+        'field'         => 'android_min_version',
+        'name'          => __('Android minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '11',
+        'table'         => $this->getTable(),
+        'field'         => 'android_max_version',
+        'name'          => __('Android maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '12',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_min_version',
+        'name'          => __('Apple minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '13',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_max_version',
+        'name'          => __('Apple maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
       ];
 
       return $tab;
