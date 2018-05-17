@@ -48,6 +48,9 @@ class PluginFlyvemdmMosquittoAuth extends PluginFlyvemdmM2mAuth {
       if (!$mqttUser->getByUser($input['username'])) {
          return 404;
       }
+      if ($mqttUser->getField('enabled') == '0') {
+         return 404;
+      }
       $input['password'] = Toolbox::stripslashes_deep($input['password']);
       if ($mqttUser->comparePasswords($input['password'])) {
          return 200;
@@ -57,8 +60,50 @@ class PluginFlyvemdmMosquittoAuth extends PluginFlyvemdmM2mAuth {
    }
 
    public function authorize($input) {
+      $mqttUser = new PluginFlyvemdmMqttUser();
+      if (!$mqttUser->getByUser($input['username'])) {
+         return 403;
+      }
+      if ($mqttUser->getField('enabled') == '0') {
+         return 403;
+      }
 
+      $mqttUserId = $mqttUser->getID();
+      $acc = (int) $input['acc'];
+      $requestedTopic = explode('/', $input['topic']);
+      $mqttAcl = new PluginFlyvemdmMqttAcl();
+      $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id`='$mqttUserId'
+         AND `access_level` & $acc");
+      foreach ($rows as $row) {
+         $topic =  explode('/', $row['topic']);
+         $match = true;
+         foreach ($topic as $index => $pathItem) {
+            if ($pathItem === '+') {
+               // This path item matches a joker
+               continue;
+            }
+            if ($pathItem === '#' && $index === count($topic) - 1) {
+               continue;
+            }
+            if (!isset($requestedTopic[$index])) {
+               $match = false;
+               break;
+            }
+            if ($pathItem !== $requestedTopic[$index]) {
+               // This topic does not match, try the next one
+               $match = false;
+               break;
+            }
+         }
+         if ($match) {
+            return 200;
+         }
+      }
 
-      return 404;
+      return 403;
+   }
+
+   public function isSuperuser($input) {
+      return 403;
    }
 }

@@ -48,6 +48,11 @@ if (isset($_GET['authenticate'])) {
    http_response_code($answer);
    die();
 }
+if (isset($_GET['superuser'])) {
+   $answer = $flyvemdmM2mApi->isSuperuser($_POST);
+   http_response_code($answer);
+   die();
+}
 if (isset($_GET['authorize'])) {
    $answer = $flyvemdmM2mApi->authorize($_POST);
    http_response_code($answer);
