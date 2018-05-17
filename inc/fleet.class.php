@@ -269,7 +269,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'itemtype',
          'name'               => __('Associated item types'),
          'datatype'           => 'itemtypename',
-         'itemtype_list'      => 'fleet_types',
+         'itemtype_list'      => 'notifiable_types',
          'nosort'             => true,
          'additionalfields'   => [
             '0'                  => 'itemtype'
