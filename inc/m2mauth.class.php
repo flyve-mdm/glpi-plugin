@@ -29,16 +29,30 @@
  * ------------------------------------------------------------------------------
  */
 
- // Workaround CSRF checks
-$postData = $_POST;
-unset($_POST);
-include '../../../inc/includes.php';
-$plugin = new Plugin();
-if (!$plugin->isActivated('flyvemdm')) {
-   http_response_code(404);
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
 }
-$_POST = $postData;
-$flyvemdmM2mApi = new PluginFlyvemdmMosquittoAuth();
-$answer = $flyvemdmM2mApi->authenticate($_POST);
 
-http_response_code($answer);
+abstract class PluginFlyvemdmM2mAuth implements PluginFlyvemdmM2mAuthInterface {
+
+   /**
+    * Checks the remote IP address matches the configured M2M server
+    */
+   protected function checkRemote() {
+      $remoteIp = Toolbox::getRemoteIpAddress();
+      $config = Config::getConfigurationValues('flyvemdm', ['mqtt_broker_internal_address']);
+
+      // Try assuming the internal address is an IP Address
+      if ($config['mqtt_broker_internal_address'] == $remoteIp) {
+         return true;
+      }
+
+      foreach (gethostbynamel($config['mqtt_broker_internal_address']) as $validIp) {
+         if ($remoteIp == $validIp) {
+            return true;
+         }
+      }
+
+      return false;
+   }
+}

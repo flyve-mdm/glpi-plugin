@@ -29,36 +29,29 @@
  * ------------------------------------------------------------------------------
  */
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access this file directly");
+ // Workaround CSRF checks
+$postData = $_POST;
+unset($_POST);
+
+include '../../../inc/includes.php';
+$plugin = new Plugin();
+if (!$plugin->isActivated('flyvemdm')) {
+   http_response_code(404);
 }
 
-class PluginFlyvemdmMosquittoAuth extends PluginFlyvemdmM2mAuth {
-   public function authenticate($input) {
-      if (!$this->checkRemote()) {
-         return 403;
-      }
+// Restore POST data
+$_POST = $postData;
+$flyvemdmM2mApi = new PluginFlyvemdmMosquittoAuth();
 
-      if (!isset($input['username']) || !isset($input['password'])) {
-         // No credentials or credentials incomplete
-         return 404;
-      }
-
-      $mqttUser = new PluginFlyvemdmMqttUser();
-      if (!$mqttUser->getByUser($input['username'])) {
-         return 404;
-      }
-      $input['password'] = Toolbox::stripslashes_deep($input['password']);
-      if ($mqttUser->comparePasswords($input['password'])) {
-         return 200;
-      }
-
-      return 404;
-   }
-
-   public function authorize($input) {
-
-
-      return 404;
-   }
+if (isset($_GET['authenticate'])) {
+   $answer = $flyvemdmM2mApi->authenticate($_POST);
+   http_response_code($answer);
+   die();
 }
+if (isset($_GET['authorize'])) {
+   $answer = $flyvemdmM2mApi->authorize($_POST);
+   http_response_code($answer);
+   die();
+}
+
+http_response_code(404);

@@ -43,4 +43,6 @@ interface PluginFlyvemdmM2mAuthInterface {
     * @return integer HTTP response code
     */
    public function authenticate($input);
+
+   public function authorize($input);
 }

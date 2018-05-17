@@ -44,6 +44,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
                'user'      => 'john',
                'password'  => 'doe',
             ]);
+            $this->boolean($this->mqttUser->isNewItem())->isFalse('Failed to create a MQTT user');
             break;
       }
    }
@@ -51,7 +52,11 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
    public function afterTestMethod($method) {
       switch ($method) {
          case 'testAuthenticate':
-            $this->mqttUser->delete($this->mqttUser->fields, 1);
+            $this->mqttUser->delete([
+                  'id' => $this->mqttUser->getID(),
+               ],
+               1
+            );
             break;
       }
    }
@@ -63,7 +68,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
                'username' => 'foo',
                'password' => 'bar',
             ],
-            'repoteIp' => '127.0.0.1',
+            'remoteIp' => '127.0.0.1',
             'expected' => [
                'httpCode' => '404',
             ]
@@ -73,7 +78,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
                'username' => 'john',
                'password' => 'doe',
             ],
-            'repoteIp' => '127.0.0.1',
+            'remoteIp' => '127.0.0.1',
             'expected' => [
                'httpCode' => '200',
             ]
@@ -83,7 +88,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
                'username' => 'john',
                'password' => 'bar',
             ],
-            'repoteIp' => '127.0.0.1',
+            'remoteIp' => '127.0.0.1',
             'expected' => [
                'httpCode' => '404',
             ]
@@ -93,7 +98,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
                'username' => 'john',
                'password' => 'doe',
             ],
-            'repoteIp' => '10.0.0.1',
+            'remoteIp' => '10.0.0.1',
             'expected' => [
                'httpCode' => '403',
             ]
@@ -103,6 +108,7 @@ class PluginFlyvemdmMosquittoAuth extends CommonTestCase {
 
    /**
     * @dataProvider providerAuthenticate
+    * @engine inline
     */
    public function testAuthenticate($input, $remoteIp, $expected) {
       $backupServer = $_SERVER;
