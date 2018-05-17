@@ -243,19 +243,19 @@ class PluginFlyvemdmFile extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'                 => '4',
-         'table'              => $this->getTable(),
-         'field'              => 'comment',
-         'name'               => __('Comment'),
-         'datetype'           => 'text',
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('Comment'),
+         'datetype'      => 'text',
       ];
 
       $tab[] = [
-         'id'                 => '5',
-         'table'              => 'glpi_entities',
-         'field'              => 'completename',
-         'name'               => __('Entity'),
-         'datatype'           => 'dropdown'
+         'id'            => '5',
+         'table'         => 'glpi_entities',
+         'field'         => 'completename',
+         'name'          => __('Entity'),
+         'datatype'      => 'dropdown'
       ];
       return $tab;
    }
