@@ -254,7 +254,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       $task->add($this->postUnapplyTask);
    }
 

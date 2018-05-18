@@ -161,7 +161,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateAgentVersion($topic, $message) {
-      $agent = new \PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       if ($agent->getByTopic($topic) !== false) {
          $sanitized = null;
          preg_match("#^[\d.]+$#", $message, $sanitized);
@@ -200,7 +200,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateInventory($topic, $message) {
-      $agent = new PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       $agent->getByTopic($topic);
       if ($agent->getComputer()) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
@@ -230,7 +230,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       if ($message !== '!') {
          return;
       }
-      $agent = new \PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       if ($agent->getByTopic($topic)) {
 
          $date = new \DateTime("now");
@@ -247,7 +247,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function deleteAgent($topic, $message) {
-      $agent = new \PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       $agent->getByTopic($topic);
       $agent->delete([
             'id'  => $agent->getID(),
@@ -260,7 +260,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function saveGeolocationPosition($topic, $message) {
-      $agent = new \PluginFlyvemdmAgent();
+      $agent = $this->container->make(PluginFlyvemdmAgent::class);
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
          $dateGeolocation = false;
@@ -272,7 +272,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {
-               $geolocation = new \PluginFlyvemdmGeolocation();
+               $geolocation = $this->container->make(PluginFlyvemdmGeolocation::class);
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -333,7 +333,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       }
 
       // Get the current status of the task for the agent
-      $taskStatus = new PluginFlyvemdmTaskStatus();
+      $taskStatus = $this->container->make(PluginFlyvemdmTaskStatus::class);
       $request = [
          'AND' => [
             PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),

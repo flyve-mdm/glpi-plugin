@@ -413,7 +413,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @return integer >0 means done, < 0 means not finished, 0 means nothing to do
     */
    public static function cronParseApplication(CronTask $crontask) {
-      global $DB;
+      global $DB, $pluginFlyvemdmContainer;;
 
       $request = [
          'FROM'  => static::getTable(),

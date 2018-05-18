@@ -39,6 +39,18 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    public static $rightname = 'flyvemdm:taskstatus';
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
     * @return string
@@ -126,12 +138,12 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       if (!isset($input[PluginFlyvemdmTask::getForeignKeyField()])) {
          return false;
       }
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       if (!$task->getFromDB($input[PluginFlyvemdmTask::getForeignKeyField()])) {
          return false;
       }
 
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policyFactory = $this->container->make(PluginFlyvemdmPolicyFactory::class);
       $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
 
       $input['status'] = $policy->filterStatus($input['status']);
@@ -150,12 +162,12 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       unset($input[PluginFlyvemdmPolicy::getForeignKeyField()]);
       unset($input[PluginFlyvemdmTask::getForeignKeyField()]);
 
-      $task = new PluginFlyvemdmTask();
+      $task = $this->container->make(PluginFlyvemdmTask::class);
       if (!$task->getFromDB($this->fields[PluginFlyvemdmTask::getForeignKeyField()])) {
          return false;
       }
 
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policyFactory = $this->container->make(PluginFlyvemdmPolicyFactory::class);
       $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
 
       $input['status'] = $policy->filterStatus($input['status']);
@@ -224,6 +236,8 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    }
 
    public static function showForAgent(PluginFlyvemdmAgent $item) {
+      global $pluginFlyvemdmContainer;
+
       if (!PluginFlyvemdmAgent::canView()) {
          return false;
       }
@@ -231,7 +245,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 
       // get items
-      $status = new PluginFlyvemdmTaskstatus();
+      $status = $pluginFlyvemdmContainer->make(PluginFlyvemdmTaskstatus::class);
       $rows = $status->getStatusesForAgent($item);
       $number = count($rows);
 
