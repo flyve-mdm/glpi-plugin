@@ -153,16 +153,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
 
-   // Rename and update fleet_policy into task
-   $table = 'glpi_plugin_flyvemdm_tasks';
-   $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', $table);
-   $migration->changeField($table, 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id',
-      'integer');
-   if ($DB->fieldExists($table, 'plugin_flyvemdm_fleets_id')) {
-      $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
-   }
-   $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
-
    // update Policy table
    $table = 'glpi_plugin_flyvemdm_policies';
    $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
@@ -174,8 +164,14 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    // All policies exist for Android
    $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
 
-   // Upgrade schema to apply policies on fleets and agents
+   // Rename and update fleet_policy into task
    $table = 'glpi_plugin_flyvemdm_tasks';
+   $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', $table);
+   $migration->changeField($table, 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id',
+      'integer');
+   $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
+
+   // Upgrade schema to apply policies on fleets and agents
    if (!$DB->fieldExists($table, 'items_id_applied')) {
       $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
       $migration->dropKey($table, 'plugin_flyvemdm_fleets_id');
