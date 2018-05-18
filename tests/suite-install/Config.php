@@ -37,14 +37,16 @@ namespace tests\units;
 use Flyvemdm\Tests\CommonTestCase;
 use Plugin;
 
+/**
+ * @engine inline
+ */
 class Config extends CommonTestCase {
-
    public function testInstallPlugin() {
       global $DB;
 
       $pluginName = TEST_PLUGIN_NAME;
 
-      $this->given(self::setupGLPIFramework())
+      $this->given($this->setupGLPIFramework())
          ->and($this->boolean($DB->connected)->isTrue())
          ->and($this->configureGLPI())
          ->and($this->installDependancies());
@@ -95,7 +97,7 @@ class Config extends CommonTestCase {
          'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
-      // Test thre is an initial default fleet
+      // Test there is an initial default fleet
       $fleet = new \PluginFlyvemdmFleet();
       $dbUtils = new \DBUtils();
       $count = $dbUtils->countElementsInTable($fleet::getTable());

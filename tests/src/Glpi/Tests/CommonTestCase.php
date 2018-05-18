@@ -40,6 +40,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
 
    public function beforeTestMethod($method) {
       self::resetGLPILogs();
+      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;       // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
    }
 
    protected function resetState() {
@@ -76,8 +77,10 @@ abstract class CommonTestCase extends CommonDBTestCase {
       $LOADED_PLUGINS = null;
       $PLUGINS_INCLUDED = null;
       $AJAX_INCLUDE = null;
-      $_SESSION = [];
-      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;       // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
+      $_SESSION = [
+         // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
+         'glpi_use_mode' => Session::NORMAL_MODE,
+      ];
       if (is_readable(GLPI_ROOT . "/config/config.php")) {
          $configFile = "/config/config.php";
       } else {
@@ -87,8 +90,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
       require (GLPI_ROOT . "/inc/includes.php");
 
       //To debug php fatal errors. May impact atoum workers communication
-      //$_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;
-      //\Toolbox::setDebugMode();
+      //\Toolbox::setDebugMode(Session::DEBUG_MODE);
 
       $DB = new DB();
 
@@ -96,16 +98,6 @@ abstract class CommonTestCase extends CommonDBTestCase {
 
       // Security of PHP_SELF
       $_SERVER['PHP_SELF'] = Html::cleanParametersURL($_SERVER['PHP_SELF']);
-
-      ini_set("memory_limit", "-1");
-      ini_set("max_execution_time", "0");
-
-      if (session_status() == PHP_SESSION_ACTIVE) {
-         session_write_close();
-      }
-      ini_set('session.use_cookies', 0); //disable session cookies
-      session_start();
-      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
    }
 
    protected function login($name, $password, $noauto = false) {
