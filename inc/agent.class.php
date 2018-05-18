@@ -85,6 +85,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
+    * Used on DI for dynamic call
+    * @return string
+    */
+   public static function fcqn() {
+      return __CLASS__;
+   }
+
+   /**
     *
     * Returns the minimum version of the agent accepted by the backend
     * @param string $mdmType the type of the agent.

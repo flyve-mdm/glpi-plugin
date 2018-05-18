@@ -282,7 +282,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       if (isset($input['items_id_applied'])) {
          $notifiableId = $input['items_id_applied'];
       }
-      $this->notifiable = new $notifiableType();
+      $this->notifiable = $this->container->make($notifiableType::fcqn());
       if (!$this->notifiable->getFromDB($notifiableId)) {
          // TRANS: %1$s is the type of the item on which a policy is applied
          Session::addMessageAfterRedirect(sprintf(__('Cannot find the target %1$s', 'flyvemdm'), $this->notifiable->getTypeName()), false,
@@ -359,7 +359,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return false;
       }
       $notifiableType = $this->fields['itemtype_applied'];
-      $this->notifiable = new $notifiableType();
+      $this->notifiable = $this->container->make($notifiableType::fcqn());
       if (!$this->notifiable->getFromDB($this->fields['items_id_applied'])) {
          Session::addMessageAfterRedirect(sprintf(__('%1$s not found', 'flyvemdm'), $this->notifiable->getTypeName()), false, ERROR);
          return false;

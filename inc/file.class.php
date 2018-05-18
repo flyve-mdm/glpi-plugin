@@ -67,6 +67,14 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
    }
 
    /**
+    * Used on DI for dynamic call
+    * @return string
+    */
+   public static function fcqn() {
+      return __CLASS__;
+   }
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string

@@ -233,7 +233,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          return false;
       }
 
-      $file = new $itemtype();
+      $file = $this->container->make($itemtype::fcqn());
       if (!$file->getFromDB($itemId)) {
          return false;
       }
