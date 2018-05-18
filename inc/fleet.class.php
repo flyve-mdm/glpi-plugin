@@ -246,38 +246,23 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_tasks',
-         'field'              => 'items_id',
-         'name'               => __('Associated elements'),
-         'datatype'           => 'specific',
+         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'field'              => 'name',
+         'name'               => __('Applied policy', 'flyvemdm'),
+         'datatype'           => 'dropdown',
          'comments'           => '1',
          'nosort'             => true,
-         'nosearch'           => true,
-         'additionalfields'   => [
-            '0'                  => 'itemtype'
-         ],
          'joinparams'         => [
-            'jointype'           => 'child'
+            'beforejoin'         => [
+               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'joinparams'      => [
+                  'jointype'     => 'child',
+                  'linkfield'    => 'items_id_applied',
+                  'condition'    => "AND NEWTABLE.`itemtype_applied`='" . PluginFlyvemdmFleet::class . "'",
+               ],
+            ],
+            'jointype'           => 'empty',
          ],
-         'forcegroupby'       => true,
-         'massiveaction'      => false
-      ];
-
-      $tab[] = [
-         'id'                 => '4',
-         'table'              => 'glpi_plugin_flyvemdm_tasks',
-         'field'              => 'itemtype',
-         'name'               => __('Associated item types'),
-         'datatype'           => 'itemtypename',
-         'itemtype_list'      => 'notifiable_types',
-         'nosort'             => true,
-         'additionalfields'   => [
-            '0'                  => 'itemtype'
-         ],
-         'joinparams'         => [
-            'jointype'           => 'child'
-         ],
-         'forcegroupby'       => true,
          'massiveaction'      => false
       ];
 
