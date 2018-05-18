@@ -99,8 +99,6 @@ function plugin_init_flyvemdm() {
       plugin_flyvemdm_registerClasses();
       plugin_flyvemdm_addHooks();
 
-      $CFG_GLPI['notifiable_types'] = [PluginFlyvemdmFleet::class, PluginFlyvemdmAgent::class];
-
       Html::requireJs('charts');
       $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
       // Warning 'pluginflyvemdmmenu' MUST be lower case

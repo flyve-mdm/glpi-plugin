@@ -877,6 +877,28 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'datatype'           => 'dropdown'
       ];
 
+      $tab[] = [
+         'id'                 => '18',
+         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'field'              => 'name',
+         'name'               => __('Applied policy', 'flyvemdm'),
+         'datatype'           => 'dropdown',
+         'comments'           => '1',
+         'nosort'             => true,
+         'joinparams'         => [
+            'beforejoin'         => [
+               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'joinparams'      => [
+                  'jointype'     => 'child',
+                  'linkfield'    => 'items_id_applied',
+                  'condition'    => "AND NEWTABLE.`itemtype_applied`='" . PluginFlyvemdmAgent::class . "'",
+               ],
+            ],
+            'jointype'           => 'empty',
+         ],
+         'massiveaction'      => false
+      ];
+
       return $tab;
    }
 
