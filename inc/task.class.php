@@ -510,6 +510,16 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $tab = parent::getSearchOptionsNew();
 
       $tab[] = [
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'value',
+         'name'          => __('Value'),
+         'massiveaction' => false,
+         'nosearch'      => true,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
          'id'            => '5',
          'table'         => 'glpi_plugin_flyvemdm_policies',
          'field'         => 'id',
