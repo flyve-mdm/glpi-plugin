@@ -179,7 +179,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $migration->addKey($table, 'FK_applied', ['itemtype_applied', 'items_id_applied']);
       // All tasks already created were applied on fleets
       $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
-      $migration->migrationOneTable($table);
+      $migration->executeMigration();
    }
 
    $table = 'glpi_plugin_flyvemdm_policies';
