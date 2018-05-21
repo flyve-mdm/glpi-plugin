@@ -534,7 +534,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          'field'         => 'itemtype',
          'name'          => __('itemtype'),
          'massiveaction' => false,
-         'nodisplay'     => '1',
          'datatype'      => 'string',
       ];
 
@@ -544,7 +543,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          'field'         => 'items_id',
          'name'          => __('item'),
          'massiveaction' => false,
-         'nodisplay'     => '1',
          'datatype'      => 'integer',
       ];
 
@@ -554,7 +552,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          'field'         => 'name',
          'name'          => __('policy name', 'flyvemdm'),
          'massiveaction' => false,
-         'nodisplay'     => '1',
          'datatype'      => 'string',
       ];
 
@@ -564,7 +561,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          'field'         => 'itemtype_applied',
          'name'          => __('applied itemtype', 'flyvemdm'),
          'massiveaction' => false,
-         'nodisplay'     => '1',
          'datatype'      => 'string',
       ];
 
@@ -574,7 +570,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          'field'         => 'items_id_applied',
          'name'          => __('applied ID', 'flyvemdm'),
          'massiveaction' => false,
-         'nodisplay'     => '1',
          'datatype'      => 'string',
       ];
 
