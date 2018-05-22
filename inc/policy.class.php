@@ -109,7 +109,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
 
       $tab[] = [
          'id'            => '3',
-         'table'         => 'glpi_plugin_flyvemdm_policycategories',
+         'table'         => PluginFlyvemdmPolicyCategory::getTable(),
          'field'         => 'completename',
          'name'          => __('Policy category', 'flyvemdm'),
          'datatype'      => 'dropdown',

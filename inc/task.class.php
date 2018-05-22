@@ -521,7 +521,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       $tab[] = [
          'id'            => '5',
-         'table'         => 'glpi_plugin_flyvemdm_policies',
+         'table'         => PluginFlyvemdmPolicy::getTable(),
          'field'         => 'id',
          'name'          => __('Policy ID', 'flyvemdm'),
          'massiveaction' => false,
@@ -548,7 +548,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       $tab[] = [
          'id'            => '8',
-         'table'         => 'glpi_plugin_flyvemdm_policies',
+         'table'         => PluginFlyvemdmPolicy::getTable(),
          'field'         => 'name',
          'name'          => __('policy name', 'flyvemdm'),
          'massiveaction' => false,
