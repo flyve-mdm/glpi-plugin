@@ -412,7 +412,7 @@ following link or copy it to your browser.
 
 <a href="##flyvemdm.enroll_url##">##flyvemdm.enroll_url##</a>
 
-<img src="cid:##flyvemdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode" width="128" height="128">
+<img src="cid:##flyvemdm.qrcode##" alt="Enroll QRCode" title="Enroll QRCode">
 
 Regards,
 
