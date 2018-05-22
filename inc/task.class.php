@@ -316,12 +316,20 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    public function post_addItem() {
-      $this->publishPolicy($this->notifiable);
+      try {
+         $this->publishPolicy($this->notifiable);
+      } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+      }
       $this->createTaskStatuses($this->notifiable);
    }
 
    public function post_updateItem($history = 1) {
-      $this->publishPolicy($this->notifiable);
+      try {
+         $this->publishPolicy($this->notifiable);
+      } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+      }
       $this->deleteTaskStatuses();
       $this->createTaskStatuses($this->notifiable);
    }
@@ -368,7 +376,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     *
     * @param PluginFlyvemdmNotifiableInterface $item
     *
-    * @throws TaskPublishPolicyBadFleetException
     * @throws TaskPublishPolicyPolicyNotFoundException
     */
    public function publishPolicy(PluginFlyvemdmNotifiableInterface $item) {
@@ -381,8 +388,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
       if ($appliedPolicy === null) {
-         $exceptionMessage = "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
-         Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
+         $exceptionMessage = "Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
+         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : '. $exceptionMessage . PHP_EOL);
          throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
       }
 
