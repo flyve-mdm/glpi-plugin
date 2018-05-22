@@ -90,7 +90,7 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
 
       $tab[] = [
          'id'            => '4',
-         'table'         => 'glpi_plugin_flyvemdm_invitations',
+         'table'         => PluginFlyvemdmInvitation::getTable(),
          'field'         => 'id',
          'name'          => __('ID'),
          'massiveaction' => false,

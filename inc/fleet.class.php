@@ -246,7 +246,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
          'field'              => 'name',
          'name'               => __('Applied policy', 'flyvemdm'),
          'datatype'           => 'dropdown',
@@ -254,7 +254,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'nosort'             => true,
          'joinparams'         => [
             'beforejoin'         => [
-               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'table'           => PluginFlyvemdmTask::getTable(),
                'joinparams'      => [
                   'jointype'     => 'child',
                   'linkfield'    => 'items_id_applied',
@@ -340,9 +340,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Unsuscribe all agents from the fleet
       $fleetId = $this->getID();
-      $query = "SELECT `id`
-      FROM `glpi_plugin_flyvemdm_agents`
-      WHERE `glpi_plugin_flyvemdm_agents`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
+      $agentTable = PluginFlyvemdmAgent::getTable();
+      $query = "SELECT `id` FROM `$agentTable` WHERE `$agentTable`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
 
       if ($result = $DB->query($query)) {
          while ($row = $DB->fetch_assoc($result)) {
