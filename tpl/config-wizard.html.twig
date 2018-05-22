@@ -112,11 +112,11 @@
 ; is disabled through enable_post_data_reading.
 ; http://php.net/post-max-size
 post_max_size = 8M
-					
+
 ; Whether to allow HTTP file uploads.
 ; http://php.net/file-uploads
 file_uploads = On
-					
+
 ; Maximum allowed size for uploaded files.
 ; http://php.net/upload-max-filesize
 upload_max_filesize = 8M
@@ -147,7 +147,7 @@ upload_max_filesize = 8M
 			<td>
 				<p>{{ __('Flyve MDM requires that Mosquitto has access to the database of GLPI, this is for the authentication process of its clients.', 'flyvemdm') }}</p>
 				<p>{{ __('It is recommended to create a dedicated user for Mosquitto allowed to connect only from its specific IP.', 'flyvemdm') }}</p>
-				<p>{{ __('Run the following command on your MySQL host, and adapt the mqtt.server.ip', 'flyvemdm') }}</p>
+				<p>{{ __('Run the following command on your MySQL host, adapt mqtt.server.ip and glpi-database-name', 'flyvemdm') }}</p>
 				<p>mysql -e "CREATE USER 'mosquitto'@'mqtt.server.ip' IDENTIFIED BY 'password';"</p>
 				<p>{{ __('This user should be able to only SELECT the following tables:', 'flyvemdm') }}</p>
 				<p>- glpi_plugin_flyvemdm_mqttusers</p>
@@ -164,7 +164,7 @@ bind-address = 0.0.0.0
 				<p>netstat -taupen | grep 3306</p>
 				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
 				<p>{{ __('The following command will ask for the password you choosed earlier', 'flyvemdm') }}</p>
-				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-flyvemdm-92\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
+				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
 		{% endif %} {% if step == 108 %}
@@ -216,7 +216,7 @@ auth_opt_cacheseconds 300</textarea></p>
 				<p>{{ __('The client operating system must contain more certificates to establish a trust chain to the root certificate.') }}</p></blockquote>
 				<p>{{ __('Append the following to /etc/mosquitto/conf.d/flyvemdm.conf.', 'flyvemdm') }}</p>
 				<p><textarea disabled="" rows="12" cols="120">listener 8883
-	
+
 cafile /etc/mosquitto/certs/cachain.pem
 certfile /etc/mosquitto/certs/cachain.pem
 keyfile /etc/mosquitto/certs/private-key.key
