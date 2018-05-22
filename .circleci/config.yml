@@ -4,39 +4,44 @@ shared: &shared
   steps:
     - checkout
     - run:
-      name: M2M dependency
-      command: |
-        tests/before_install.sh
+        name: CI level dependencies
+        command: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client libpng-dev libxml2-dev
+          sudo docker-php-ext-install mysqli gd xmlrpc zip
+          sudo apt-get install -y mosquitto mosquitto-auth-plugin
     - run:
-      name: Dependencies
-      command: |
-        tests/before_script.sh
+        name: M2M dependency
+        command: |
+          tests/before_install.sh
     - run:
-      name: Installation tests
-      command: |
-        vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
+        name: Dependencies
+        command: |
+          tests/before_script.sh
     - run:
-      name: Run MQTT daemon
-      command: |
-        #php scripts/mqtt.php --tests > /dev/null 2>&1 &
+        name: Installation tests
+        command: |
+          vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
     - run:
-      name: Unit tests
-      command: |
-        vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
+        name: Run MQTT daemon
+        command: |
+          #php scripts/mqtt.php --tests > /dev/null 2>&1 &
     - run:
-      name: Integration tests
-      command: |
-        vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
+        name: Unit tests
+        command: |
+          vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
     - run:
-      name: Uninstallation tests
-      command: |
-        vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
+        name: Integration tests
+        command: |
+          vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
     - run:
-      name: Coding standards
-      command: |
-        if [[ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ]] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
-
-
+        name: Uninstallation tests
+        command: |
+          vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
+    - run:
+        name: Coding standards
+        command: |
+          if [[ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ]] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
 
 jobs:
   "php5.6":
