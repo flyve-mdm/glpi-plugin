@@ -163,6 +163,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addField($table, 'apple_max_version', 'bool', ['after' => 'apple_min_version']);
    $migration->addKey($table, 'group', 'group');
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
+   $migration->dropField($table, 'is_android_policy');
+   $migration->dropField($table, 'is_apple_policy');
 
    // Rename and update fleet_policy into task
    $table = 'glpi_plugin_flyvemdm_tasks';
