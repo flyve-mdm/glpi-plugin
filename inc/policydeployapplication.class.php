@@ -234,18 +234,27 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       } else {
          $removeOnDelete = 1;
       }
-      $out = PluginFlyvemdmPackage::dropdown([
+
+      $packageDropdown = PluginFlyvemdmPackage::dropdown([
          'display'      => false,
          'displaywith'  => ['alias'],
          'name'         => 'items_id',
          'value'        => $itemId,
       ]);
-      $out .= '<br>';
-      $out .= __('Remove when the policy is removed', 'flyvemdm');
-      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
-      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
-      return $out;
+      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, 
+                                          -1, ['display' => false]);
+
+      $data = [
+            'package'     => [
+               'dropdown'         => $packageDropdown,
+               'itemtype'         => $itemtype
+            ],
+            'remove'      =>      $removeDropdown
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('policy_deploy_app_form.html.twig', $data);
    }
 
    /**
