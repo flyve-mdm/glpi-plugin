@@ -27,6 +27,6 @@
     "homepage": "https://github.com/flyve-mdm/flyve-mdm-glpi#readme",
     "devDependencies": {
         "conventional-changelog-cli": "^2.0.0",
-        "standard-version": "^4.0.0"
+        "standard-version": "^4.4.0"
     }
 }
