@@ -569,7 +569,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                   // Do not invite service account users (demo mode)
                   if (isset($config['service_profiles_id'])) {
                      if ($profile_user->getFromDBForItems($item, $profile) !== false) {
-
                         $reject = true;
                      }
                   }

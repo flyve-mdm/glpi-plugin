@@ -323,6 +323,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // now the fleet is empty, delete MQTT topcis
+      $groups = [];
+      $result = false;
       $table_policy = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT DISTINCT `group` FROM `$table_policy`";
       try {
@@ -331,7 +333,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
       }
       if ($result) {
-         $groups = [];
          while ($row = $DB->fetch_assoc($result)) {
             $groups[] = $row['group'];
          }
@@ -346,6 +347,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // Unsuscribe all agents from the fleet
+      $result = false;
       $fleetId = $this->getID();
       $agentTable = PluginFlyvemdmAgent::getTable();
       $query = "SELECT `id` FROM `$agentTable` WHERE `$agentTable`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
