@@ -586,7 +586,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       switch (get_class($item)) {
          case PluginFlyvemdmFleet::class:
          case PluginFlyvemdmAgent::class:
-            static::showForFleet($item, $withtemplate);
+            static::showForNotifiable($item, $withtemplate);
             break;
       }
    }
@@ -597,7 +597,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param CommonDBTM $item
     * @param string $withtemplate
     */
-   static function showForFleet(CommonDBTM $item, $withtemplate = '') {
+   static function showForNotifiable(CommonDBTM $item, $withtemplate = '') {
       global $CFG_GLPI;
 
       if (!$item->canView()) {
