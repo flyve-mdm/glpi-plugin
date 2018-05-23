@@ -73,6 +73,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @since version 9.1
     **/
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      $DbUtil = new DbUtils();
 
       if (static::canView()) {
          switch ($item->getType()) {
@@ -81,7 +82,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('computers_id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(),
+                     $nb = $DbUtil->countElementsInTable(static::getTable(),
                         ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
@@ -93,7 +94,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
                   $nb = 0;
                   $computerId = $item->getField('id');
                   if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(),
+                     $nb = $DbUtil->countElementsInTable(static::getTable(),
                         ['computers_id' => $computerId]);
                   }
                   return self::createTabEntry(self::getTypeName(1), $nb);
@@ -251,7 +252,8 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          // Force complete SQL not summary when access to all entities
          $geolocationTable = self::getTable();
          $computerTable = 'c'; // See self::addDefaultJoin
-         $where .= getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
+         $DbUtil = new DbUtils();
+         $where .= $DbUtil->getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
       }
 
       return $where;

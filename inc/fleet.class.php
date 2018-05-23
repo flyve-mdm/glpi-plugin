@@ -118,12 +118,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param array $options
     */
    public function showForm($ID, array $options = []) {
+      $DbUtil = new DbUtils();
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
+      $objectName          = $DbUtil->autoName($this->fields["name"], "name",
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
             $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
