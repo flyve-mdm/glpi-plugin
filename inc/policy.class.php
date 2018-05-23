@@ -190,4 +190,28 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       return $tab;
    }
 
+   public static function dropdown($options = []) {
+      global $DB;
+
+      $request = [
+         'FROM' => PluginFlyvemdmPolicyCategory::getTable(),
+      ];
+
+      $category = [];
+      foreach ($DB->request($request) as $row) {
+         $elements[$row['name']] = [];
+         $category[$row['id']] = $row['completename'];
+      }
+
+      $request = [
+         'FROM' => static::getTable(),
+      ];
+      $currentCategory = '';
+      foreach ($DB->request($request) as $row) {
+         $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
+         $elements[$categoryName][] = $row['name'];
+      }
+      return Dropdown::showFromArray(static::getForeignKeyField(), $elements, $options);
+   }
+
 }
