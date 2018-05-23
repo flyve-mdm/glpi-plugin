@@ -417,6 +417,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Initialize a task status for each agent in the fleet
+      $rows = [];
       $notifiableId = $item->getID();
       $agent = new PluginFlyvemdmAgent();
       if ($item instanceof PluginFlyvemdmFleet) {

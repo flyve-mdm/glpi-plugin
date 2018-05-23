@@ -202,7 +202,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
          if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
             foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
-               $logMessage = "Serial $serial : $logMessage\n";
+               $logMessage = "Import message: $logMessage\n";
                \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
             }
          }
