@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -322,7 +324,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       // now the fleet is empty, delete MQTT topcis
       $table_policy = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT DISTINCT `group` FROM `$table_policy`";
-      $result = $DB->query($query);
+      try {
+         $result = $DB->query($query);
+      } catch (GlpitestSQLError $e) {
+         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
+      }
       if ($result) {
          $groups = [];
          while ($row = $DB->fetch_assoc($result)) {
@@ -342,8 +348,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $fleetId = $this->getID();
       $agentTable = PluginFlyvemdmAgent::getTable();
       $query = "SELECT `id` FROM `$agentTable` WHERE `$agentTable`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
-
-      if ($result = $DB->query($query)) {
+      try {
+         $result = $DB->query($query);
+      } catch (GlpitestSQLError $e) {
+         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
+      }
+      if ($result) {
          while ($row = $DB->fetch_assoc($result)) {
             $agent = new PluginFlyvemdmAgent();
             if ($agent->getFromDB($row['id'])) {
@@ -357,7 +367,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = $this->getType();
       $itemId = $this->getID();
       $query = "DELETE FROM `$taskTable` WHERE `itemtype_applied` = '$itemtype' AND `items_id_applied` = '$itemId'";
-      $DB->query($query);
+      try {
+         $DB->query($query);
+      } catch (GlpitestSQLError $e) {
+         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
+      }
    }
 
    /**
@@ -439,8 +453,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Gets the default fleet for an entity
-    * @param string $entityId ID of the entoty to search in
-    * @return PluginFlyvemdmFleet|null
+    * @param string $entityId ID of the entity to search in
+    * @return integer
     */
    public function getFromDBByDefaultForEntity($entityId = null) {
       if ($entityId === null) {
@@ -532,7 +546,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
       foreach ($DB->request($request) as $row) {
          $task->getFromDB($row['id']);
-         $task->publishPolicy($this);
+         try {
+            $task->publishPolicy($this);
+         } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+            Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+         }
       }
    }
 

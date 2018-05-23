@@ -157,7 +157,7 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       $password = '';
       $max = mb_strlen($keyspace, '8bit') - 1;
       if ($max < 1) {
-         throw new Exception('$keyspace must be at least two characters long');
+         throw new Exception(sprintf(__('%1$s must be at least two characters long', 'flyvemdm'), $keyspace));
       }
 
       for ($i = 0; $i < $length; $i++) {
