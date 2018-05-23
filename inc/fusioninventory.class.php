@@ -46,7 +46,11 @@ class PluginFlyvemdmFusionInventory {
     */
    public function addInvitationRule(PluginFlyvemdmInvitation $invitation) {
       $entityId = $invitation->getField(Entity::getForeignKeyField());
-      $rule = $this->getRule($entityId);
+      try {
+         $rule = $this->getRule($entityId);
+      } catch (FusionInventoryRuleInconsistency $exception) {
+         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+      }
 
       $ruleCriteria = new RuleCriteria();
       $ruleCriteria->add([
@@ -133,6 +137,7 @@ class PluginFlyvemdmFusionInventory {
     * @param boolean $create If the rule does not exists, create it
     *
     * @return PluginFusioninventoryInventoryRuleEntity|null
+    * @throws FusionInventoryRuleInconsistency
     */
    private function getRule($entityId, $create = true) {
       global $DB;

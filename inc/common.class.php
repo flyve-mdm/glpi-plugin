@@ -60,7 +60,12 @@ class PluginFlyvemdmCommon
       global $DB;
 
       $enum = [];
-      if ($res = $DB->query( "SHOW COLUMNS FROM `$table` WHERE Field = '$field'" )) {
+      try {
+         $res = $DB->query("SHOW COLUMNS FROM `$table` WHERE Field = '$field'");
+      } catch (GlpitestSQLError $e) {
+         return $enum;
+      }
+      if ($res) {
          $data = $DB->fetch_array($res);
          $type = $data['Type'];
          $matches = null;

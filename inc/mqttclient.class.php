@@ -281,7 +281,11 @@ class PluginFlyvemdmMqttclient {
     */
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher) {
       $protocol = $isTls ? "ssl://" : "tcp://";
-      $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
+      try {
+         $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
+      } catch (\sskaje\mqtt\Exception $e) {
+         Toolbox::logInFile("mqtt", "problem creating MQTT client, " . $e->getMessage() . PHP_EOL);
+      }
       if ($isTls) {
          Toolbox::logInFile("mqtt", "setting context ssl with $sslCipher");
          $mqtt->setSocketContext(stream_context_create([
