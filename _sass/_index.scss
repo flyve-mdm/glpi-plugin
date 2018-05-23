@@ -1,5 +1,5 @@
 
-/*RESPONSIVE PARAGRAPH STYLE*/
+/***RESPONSIVE PARAGRAPH STYLE***/
 
 .p-size {
 
@@ -15,21 +15,25 @@
 
 .p-size3 {
 
-  max-width: 44%;
+  max-width: 40%;
 
 }
 
-@media (max-width: 412px) {
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
 
   .p-size {max-width: 100%};
   .p-size2 {max-width: 100%};
+  .p-size3 {max-width: 100%};
 
 }
 
+/*MEDIUM SCREEN: Tablets, iPad*/
 @media (max-width: 768px) {
 
-  .p-size {max-width: 45%};
+  .p-size {max-width: 60%};
   .p-size2 {max-width: 80%};
+  .p-size3 {max-width: 70%};
 
 }
 
