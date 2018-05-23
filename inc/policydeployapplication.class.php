@@ -156,7 +156,8 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          $policyId = $policyData->getID();
          $notifiableType = $notifiable->getType();
          $notifiableId = $notifiable->getID();
-         $count = countElementsInTable(PluginFlyvemdmTask::getTable(), "`itemtype_applied` = '$notifiableType'
+         $DbUtil = new DbUtils();
+         $count = $DbUtil->countElementsInTable(PluginFlyvemdmTask::getTable(), "`itemtype_applied` = '$notifiableType'
                AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
          if ($count > 0) {

@@ -122,7 +122,8 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
-      $objectName = autoName(
+      $DbUtil = new DbUtils();
+      $objectName = $DbUtil->autoName(
          $this->fields['name'], 'name',
          (isset($options['withtemplate']) && $options['withtemplate'] == 2),
          $this->getType(), -1

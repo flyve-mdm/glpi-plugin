@@ -97,7 +97,8 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $itemOperatingSystemTable = Item_OperatingSystem::getTable();
       $operatingSystemTable = OperatingSystem::getTable();
       $operatingSystemVersionTable = OperatingSystemVersion::getTable();
-      $entityRestrict = getEntitiesRestrictRequest(" AND ", $computerTable);
+      $DbUtil = new DbUtils();
+      $entityRestrict = $DbUtil->getEntitiesRestrictRequest(" AND ", $computerTable);
       $query = "SELECT
                   `os`.`name` AS `operatingsystem`,
                   `osv`.`name` AS `version`,
