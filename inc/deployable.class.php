@@ -162,6 +162,7 @@ class PluginFlyvemdmDeployable extends CommonDBTM {
 
    /**
     * Get the download URL for the application
+    * @param $deployableItem
     * @return boolean|string
     */
    protected function getFileURL($deployableItem) {

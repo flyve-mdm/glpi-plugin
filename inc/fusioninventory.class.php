@@ -125,6 +125,8 @@ class PluginFlyvemdmFusionInventory {
 
    /**
     * gets a entity identification tag derivated from an invitation
+    * @param PluginFlyvemdmInvitation $invitation
+    * @return string
     */
    private function getRuleCriteriaValue(PluginFlyvemdmInvitation $invitation) {
       return 'invitation_' . $invitation->getField('invitation_token');
