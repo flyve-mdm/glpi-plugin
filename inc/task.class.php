@@ -30,7 +30,6 @@
  */
 
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
-use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyBadFleetException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 
 if (!defined('GLPI_ROOT')) {
@@ -319,7 +318,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       try {
          $this->publishPolicy($this->notifiable);
       } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
-         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+         Session::addMessageAfterRedirect(__("Policy publish action failed.",
+            'flyvemdm'), false, INFO, true);
       }
       $this->createTaskStatuses($this->notifiable);
    }
@@ -328,7 +328,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       try {
          $this->publishPolicy($this->notifiable);
       } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
-         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+         Session::addMessageAfterRedirect(__("Policy publish action failed.",
+            'flyvemdm'), false, INFO, true);
       }
       $this->deleteTaskStatuses();
       $this->createTaskStatuses($this->notifiable);
@@ -417,7 +418,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Initialize a task status for each agent in the fleet
-      $rows = [];
       $notifiableId = $item->getID();
       $agent = new PluginFlyvemdmAgent();
       if ($item instanceof PluginFlyvemdmFleet) {

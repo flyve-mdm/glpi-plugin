@@ -49,7 +49,9 @@ class PluginFlyvemdmFusionInventory {
       try {
          $rule = $this->getRule($entityId);
       } catch (FusionInventoryRuleInconsistency $exception) {
-         Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+         Session::addMessageAfterRedirect(__('Unable to get rule for entity', 'flyvemdm'),
+            true, ERROR);
+         return;
       }
 
       $ruleCriteria = new RuleCriteria();
@@ -175,7 +177,7 @@ class PluginFlyvemdmFusionInventory {
          return $rule;
       }
       if ($result->count() > 1) {
-         throw new FusionInventoryRuleInconsistency('Import to entity rule is not unique');
+         throw new FusionInventoryRuleInconsistency(__('Import rule is not unique'));
       }
 
       if (!$create) {

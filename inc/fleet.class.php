@@ -323,15 +323,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // now the fleet is empty, delete MQTT topcis
-      $groups = [];
-      $result = false;
       $table_policy = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT DISTINCT `group` FROM `$table_policy`";
-      try {
-         $result = $DB->query($query);
-      } catch (GlpitestSQLError $e) {
-         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
-      }
+      $result = $DB->query($query);
+      $groups = [];
       if ($result) {
          while ($row = $DB->fetch_assoc($result)) {
             $groups[] = $row['group'];
@@ -347,16 +342,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // Unsuscribe all agents from the fleet
-      $result = false;
       $fleetId = $this->getID();
       $agentTable = PluginFlyvemdmAgent::getTable();
       $query = "SELECT `id` FROM `$agentTable` WHERE `$agentTable`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
-      try {
-         $result = $DB->query($query);
-      } catch (GlpitestSQLError $e) {
-         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
-      }
-      if ($result) {
+      if ($result = $DB->query($query)) {
          while ($row = $DB->fetch_assoc($result)) {
             $agent = new PluginFlyvemdmAgent();
             if ($agent->getFromDB($row['id'])) {
@@ -370,11 +359,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = $this->getType();
       $itemId = $this->getID();
       $query = "DELETE FROM `$taskTable` WHERE `itemtype_applied` = '$itemtype' AND `items_id_applied` = '$itemId'";
-      try {
-         $DB->query($query);
-      } catch (GlpitestSQLError $e) {
-         Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
-      }
+      $DB->query($query);
    }
 
    /**
@@ -552,7 +537,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          try {
             $task->publishPolicy($this);
          } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
-            Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true, ERROR);
+            Session::addMessageAfterRedirect(__("Persisted notification not updated.",
+               'flyvemdm'), false, INFO, true);
          }
       }
    }

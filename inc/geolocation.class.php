@@ -73,35 +73,40 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @since version 9.1
     **/
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      $DbUtil = new DbUtils();
 
       if (static::canView()) {
          switch ($item->getType()) {
             case PluginFlyvemdmAgent::class:
                if (!$withtemplate) {
-                  $nb = 0;
                   $computerId = $item->getField('computers_id');
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = $DbUtil->countElementsInTable(static::getTable(),
-                        ['computers_id' => $computerId]);
-                  }
+                  $nb = $this->countComputers($computerId);
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
                break;
 
             case Computer::class:
                if (!$withtemplate) {
-                  $nb = 0;
                   $computerId = $item->getField('id');
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = $DbUtil->countElementsInTable(static::getTable(),
-                        ['computers_id' => $computerId]);
-                  }
+                  $nb = $this->countComputers($computerId);
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
                break;
          }
       }
+   }
+
+   /**
+    * @param $computerId
+    * @return int
+    */
+   public function countComputers($computerId) {
+      $nb = 0;
+      if ($_SESSION['glpishow_count_on_tabs']) {
+         $DbUtil = new DbUtils();
+         $nb = $DbUtil->countElementsInTable(static::getTable(),
+            ['computers_id' => $computerId]);
+      }
+      return $nb;
    }
 
    /**

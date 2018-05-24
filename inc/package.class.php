@@ -44,6 +44,16 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    static $rightname = 'flyvemdm:package';
 
    /**
+    * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
+    */
+   protected $usenotepad = true;
+
+   /**
+    * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
+    */
+   protected $usenotepadRights = true;
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
@@ -281,10 +291,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          return;
       }
 
-      $itemtype = $this->getType();
-      $itemId = $this->getID();
-
-      $this->publishTaskAction($itemtype, $itemId, new PluginFlyvemdmTask);
+      $this->deployNotification(new PluginFlyvemdmTask);
 
       // File updated, then scan it again
       $this->createOrionReport();
