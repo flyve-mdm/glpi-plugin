@@ -72,17 +72,11 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
       $input[\PluginFusioninventoryInventoryRuleEntity::getForeignKeyField()] = $rule->getID();
       unset($input['id']);
       $ruleAction->add($input);
-      $this->exception(
-         function() use ($fi, $invitation) {
-            $fi->addInvitationRule($invitation);
-         }
-      );
+      $fi->addInvitationRule($invitation);
+      $this->string($_SESSION['MESSAGE_AFTER_REDIRECT'][1][0])->isEqualTo('Unable to get rule for entity');
 
       // Cleanup inconsistency in DB
       $ruleAction->delete(['id' => $ruleAction->getID()]);
-
-      $this->object($this->exception)->isInstanceOf(\GlpiPlugin\Flyvemdm\Exception\FusionInventoryRuleInconsistency::class);
-      $this->string($this->exception->getMessage())->isEqualTo('Import to entity rule is not unique');
 
       // Create an invitation again
       $invitation = $this->newMockInstance(\PluginFlyvemdmInvitation::class);
@@ -137,27 +131,28 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
    private function findRuleForEntity($entityId) {
       global $DB;
 
+      $fiRuleEntity = \PluginFusioninventoryInventoryRuleEntity::getTable();
       $request = [
-         'SELECT' => \PluginFusioninventoryInventoryRuleEntity::getTable() . '.*',
-         'FROM' => \PluginFusioninventoryInventoryRuleEntity::getTable(),
+         'SELECT'     => $fiRuleEntity . '.*',
+         'FROM'       => $fiRuleEntity,
          'INNER JOIN' => [
             \RuleAction::getTable() => [
                'FKEY' => [
-                  \PluginFusioninventoryInventoryRuleEntity::getTable() => 'id',
-                  \RuleAction::getTable() => \PluginFusioninventoryInventoryRuleEntity::getForeignKeyField()
+                  $fiRuleEntity           => 'id',
+                  \RuleAction::getTable() => \PluginFusioninventoryInventoryRuleEntity::getForeignKeyField(),
                ],
-            ]
+            ],
          ],
-         'WHERE'  => [
+         'WHERE'      => [
             'AND' => [
-               \PluginFusioninventoryInventoryRuleEntity::getTable() . '.name'
-                  => \PluginFlyvemdmFusionInventory::RULE_NAME . " $entityId",
-               'sub_type'     => \PluginFusioninventoryInventoryRuleEntity::class,
-               'action_type'  => 'assign',
-               'field'        => \Entity::getForeignKeyField(),
-               'value'        => $entityId,
-            ]
-         ]
+               $fiRuleEntity . '.name'
+                             => \PluginFlyvemdmFusionInventory::RULE_NAME . " $entityId",
+               'sub_type'    => \PluginFusioninventoryInventoryRuleEntity::class,
+               'action_type' => 'assign',
+               'field'       => \Entity::getForeignKeyField(),
+               'value'       => $entityId,
+            ],
+         ],
       ];
 
       $result = $DB->request($request);

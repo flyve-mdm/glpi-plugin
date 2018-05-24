@@ -193,7 +193,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
     * @param \PluginFlyvemdmNotifiableInterface $notifiableItem
     * @return array
     */
-   private function checkNotifiableMqttMessage($notifiableItem) {
+   private function checkNotifiableMqttMessage(\PluginFlyvemdmNotifiableInterface $notifiableItem) {
       $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
