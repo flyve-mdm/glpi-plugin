@@ -4,6 +4,8 @@ category: blog
 published: true
 title: Flyve MDM plugin for GLPI
 ---
+
+
 We present you the Flyve MDM Plugin for GLPI
 
 We integrated the outstanding features of Flyve MDM into GLPI platform providing you security functionalities for your IT infrastructure.
@@ -15,6 +17,7 @@ As GLPI is a Free Asset and IT Management Software package, we wanted to provide
 * [Fleet management](#fc)
 * [Security Policies](#sp)
 * [Deployment of applications and files](#ac)
+
 
 # <a name="fc"></a> Fleet Control
 
