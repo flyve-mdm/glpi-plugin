@@ -44,6 +44,16 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
    static $rightname = 'flyvemdm:file';
 
    /**
+    * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
+    */
+   protected $usenotepad = true;
+
+   /**
+    * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
+    */
+   protected $usenotepadRights = true;
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
@@ -260,10 +270,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
          return;
       }
 
-      $itemtype = $this->getType();
-      $itemId = $this->getID();
-
-      $this->publishTaskAction($itemtype, $itemId, new PluginFlyvemdmTask);
+      $this->deployNotification(new PluginFlyvemdmTask);
    }
 
    public function post_purgeItem() {

@@ -89,7 +89,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
    public function showDevicesPerOSVersion() {
       global $DB;
 
-      $out = $result = '';
+      $out = '';
 
       $config = Config::getConfigurationValues('flyvemdm', ['computertypes_id']);
       $computerTypeId = $config['computertypes_id'];
@@ -112,11 +112,7 @@ class PluginFlyvemdmGraph extends CommonDBTM
                   ON (`osv`.`id` = `i_os`.`operatingsystemversions_id`)
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
                 GROUP BY `operatingsystem`, `version`";
-      try {
-         $result = $DB->query($query);
-      } catch (GlpitestSQLError $e) {
-         return $out;
-      }
+      $result = $DB->query($query);
       if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
          $versionNames = [];

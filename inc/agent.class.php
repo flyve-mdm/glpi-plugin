@@ -1346,13 +1346,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // @see User::post_addItem
       $profileId = $config['agent_profiles_id'];
       $agentUserId = $agentAccount->getID();
-      try {
-         $DB->query("UPDATE `glpi_profiles_users` SET `profiles_id` = '$profileId'
-                     WHERE `users_id` = '$agentUserId'");
-      } catch (GlpitestSQLError $e) {
-         Toolbox::logInFile('php-errors',
-            "Plugin Flyvemdm : Could not update profile id = '$profileId'");
-      }
+      $DB->query("UPDATE `glpi_profiles_users` SET `profiles_id` = '$profileId'
+                  WHERE `users_id` = '$agentUserId'");
 
       $agentToken = User::getToken($agentAccount->getID(), 'api_token');
       if ($agentToken === false) {
@@ -1785,12 +1780,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                ];
 
                $mqttUser = new PluginFlyvemdmMqttuser();
-               try {
-                  $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
-               } catch (Exception $e) {
-                  Session::addMessageAfterRedirect($e->getMessage(), true, ERROR);
-                  return;
-               }
+               $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
                if (!$mqttUser->getByUser($serial)) {
                   // The user does not exists
                   $mqttUser->add([

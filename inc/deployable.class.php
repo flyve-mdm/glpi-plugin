@@ -1,7 +1,4 @@
 <?php
-
-use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
-
 /**
  * LICENSE
  *
@@ -32,17 +29,16 @@ use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
  * ------------------------------------------------------------------------------
  */
 
-class PluginFlyvemdmDeployable extends CommonDBTM {
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 
-   /**
-    * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
-    */
-   protected $usenotepadRights = true;
-   /**
-    * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
-    */
-   protected $usenotepad = true;
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
 
+/**
+ * @since 2.0
+ */
+abstract class PluginFlyvemdmDeployable extends CommonDBTM {
 
    /**
     * Sends a file
@@ -133,11 +129,13 @@ class PluginFlyvemdmDeployable extends CommonDBTM {
    }
 
    /**
-    * @param string $itemtype
-    * @param integer $itemId
+    * Publish MQTT message for each deploy task
+    *
     * @param PluginFlyvemdmTask $task
     */
-   protected function publishTaskAction($itemtype, $itemId, PluginFlyvemdmTask $task) {
+   protected function deployNotification(PluginFlyvemdmTask $task) {
+      $itemtype = $this->getType();
+      $itemId = $this->getID();
       $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       foreach ($tasks as $taskId => $taskRow) {
          $notifiableType = $taskRow['itemtype_applied'];
@@ -153,8 +151,8 @@ class PluginFlyvemdmDeployable extends CommonDBTM {
                $task->publishPolicy($notifiable);
                $task->createTaskStatuses($notifiable);
             } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
-               Session::addMessageAfterRedirect(__($exception->getMessage(), 'flyvemdm'), true,
-                  ERROR);
+               Session::addMessageAfterRedirect(__("Deploy notification failed", 'flyvemdm'),
+                  false, INFO, true);
             }
          }
       }
