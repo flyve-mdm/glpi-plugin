@@ -540,7 +540,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableStreamNotification',
          'Policy/disableStreamAccessibility',
          'Policy/disableStreamDTMF',
-         'Policy/disableStreamVoiceCall',
          'Policy/disableStreamSystem',
          'Policy/defaultStreamType',
       ];
