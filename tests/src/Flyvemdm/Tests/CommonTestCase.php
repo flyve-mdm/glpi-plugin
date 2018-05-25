@@ -528,7 +528,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableMobileLine',
          'Policy/disableNfc',
          'Policy/disableHostpotTethering',
-         'Policy/disableSmsMms',
          'Policy/disableAirplaneMode',
          'Policy/disableStatusBar',
          'Policy/disableScreenCapture',

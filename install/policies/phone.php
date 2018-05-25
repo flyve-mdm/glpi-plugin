@@ -35,21 +35,4 @@ if (!defined('GLPI_ROOT')) {
 
 $category = 'Security > Phone';
 return [
-   [
-      'name'                                => __('Disable SMS and MMS', 'flyvemdm'),
-      'symbol'                              => 'disableSmsMms',
-      'group'                               => 'phone',
-      'type'                                => 'bool',
-      'type_data'                           => '',
-      'unicity'                             => 1,
-      'plugin_flyvemdm_policycategories_id' => $category,
-      'comment'                             => __('Disable SMS and MMS.', 'flyvemdm'),
-      'default_value'                       => '0',
-      'recommended_value'                   => '0',
-      'is_android_system'                   => '1',
-      'android_min_version'                 => '1.6',
-      'android_max_version'                 => '0',
-      'apple_min_version'                   => '0',
-      'apple_max_version'                   => '0',
-   ],
 ];
