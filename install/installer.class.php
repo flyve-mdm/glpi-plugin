@@ -347,6 +347,10 @@ class PluginFlyvemdmInstaller {
                'default_value'                       => $policyData['default_value'],
                'recommended_value'                   => $policyData['recommended_value'],
                'type_data'                           => $policyData['type_data'],
+               'android_min_version'                 => $policyData['android_min_version'],
+               'android_max_version'                 => $policyData['android_max_version'],
+               'apple_min_version'                   => $policyData['apple_min_version'],
+               'apple_max_version'                   => $policyData['apple_max_version'],
                'plugin_flyvemdm_policycategories_id' => $categoryId,
             ]);
          }
