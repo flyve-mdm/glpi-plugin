@@ -45,9 +45,11 @@ return [
       'comment'                             => __('Set a SIM card PIN', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '1.6',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -61,8 +63,10 @@ return [
       'comment'                             => __('Set a SIM card PIN2', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '1.6',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 ];
