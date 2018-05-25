@@ -534,7 +534,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableScreenCapture',
          'Policy/disableSpeakerphone',
          'Policy/disableCreateVpnProfiles',
-         'Policy/inventoryFrequency',
          'Policy/disableUnknownAppSources',
          'Policy/disableStreamMusic',
          'Policy/disableStreamRing',
