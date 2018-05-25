@@ -87,9 +87,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable all media sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -103,9 +105,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable all ringer sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -119,9 +123,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable alarm sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -135,9 +141,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable notifications sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -151,9 +159,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable accessibility prompts sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -167,9 +177,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable DTMF tones sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -183,9 +195,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable voice call sound from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -199,9 +213,11 @@ $configurationUserInterface = [
       'comment'                             => __('Disable system sounds from device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 
    [
@@ -219,9 +235,11 @@ $configurationUserInterface = [
       'comment'                             => __('Audio profile mode used for device', 'flyvemdm'),
       'default_value'                       => '0',
       'recommended_value'                   => '0',
-      'is_android_policy'                   => '1',
       'is_android_system'                   => '1',
-      'is_apple_policy'                     => '0',
+      'android_min_version'                 => '5.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
    ],
 ];
 
