@@ -532,7 +532,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableAirplaneMode',
          'Policy/disableStatusBar',
          'Policy/disableScreenCapture',
-         'Policy/resetPassword',
          'Policy/disableSpeakerphone',
          'Policy/disableCreateVpnProfiles',
          'Policy/inventoryFrequency',
