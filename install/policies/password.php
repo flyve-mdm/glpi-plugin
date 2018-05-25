@@ -279,23 +279,4 @@ return [
       'apple_min_version'                   => '0',
       'apple_max_version'                   => '0',
    ],
-
-   [
-      'name'                                => __('Reset password', 'flyvemdm'),
-      'symbol'                              => 'resetPassword',
-      'group'                               => 'policies',
-      'type'                                => 'string',
-      'type_data'                           => '',
-      'unicity'                             => 1,
-      'plugin_flyvemdm_policycategories_id' => $category,
-      'comment'                             => __('Force a new password for device unlock (the password needed to access the entire device) or the work profile challenge on the current user. This takes effect immediately.',
-         'flyvemdm'),
-      'default_value'                       => '0',
-      'recommended_value'                   => '0',
-      'is_android_system'                   => '1',
-      'android_min_version'                 => '3.0',
-      'android_max_version'                 => '0',
-      'apple_min_version'                   => '0',
-      'apple_max_version'                   => '0',
-   ],
 ];
