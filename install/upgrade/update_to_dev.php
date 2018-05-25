@@ -157,10 +157,10 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $table = 'glpi_plugin_flyvemdm_policies';
    $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
    $migration->addField($table, 'is_android_system', 'bool', ['after' => 'recommended_value']);
-   $migration->addField($table, 'android_min_version', 'bool', ['after' => 'is_android_system']);
-   $migration->addField($table, 'android_max_version', 'bool', ['after' => 'android_min_version']);
-   $migration->addField($table, 'apple_min_version', 'bool', ['after' => 'android_max_version']);
-   $migration->addField($table, 'apple_max_version', 'bool', ['after' => 'apple_min_version']);
+   $migration->addField($table, 'android_min_version', 'string', ['after' => 'is_android_system', 'value' => '0']);
+   $migration->addField($table, 'android_max_version', 'string', ['after' => 'android_min_version', 'value' => '0']);
+   $migration->addField($table, 'apple_min_version', 'string', ['after' => 'android_max_version', 'value' => '0']);
+   $migration->addField($table, 'apple_max_version', 'string', ['after' => 'apple_min_version', 'value' => '0']);
    $migration->addKey($table, 'group', 'group');
    $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
    $migration->dropField($table, 'is_android_policy');
