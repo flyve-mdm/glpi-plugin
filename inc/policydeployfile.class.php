@@ -297,7 +297,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          'value'     => $path->getID(),
       ]);
 
-      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, 
+      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
                                                 -1, ['display' => false]);
 
       $data = [
@@ -311,7 +311,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('policy_deploy_file_form.html.twig', $data);
+      return $twig->render('policy_deploy_file_form.html.twig', $data);
    }
 
    /**
