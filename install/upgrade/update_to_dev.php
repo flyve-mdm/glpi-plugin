@@ -199,28 +199,41 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    ];
    $tasksTable = 'glpi_plugin_flyvemdm_tasks';
    $fleetTable = 'glpi_plugin_flyvemdm_fleets';
+   $agentsTable = 'glpi_plugin_flyvemdm_agents';
    $request = [
       'FIELDS'     => [
-         $table => ['symbol'],
-         $tasksTable => ['id', 'itemtype_applied', 'items_id_applied'],
-         $fleetTable => ['entities_id'],
+         $table       => ['symbol'],
+         $tasksTable  => ['id', 'itemtype_applied', 'items_id_applied'],
+         $fleetTable  => ['entities_id'],
       ],
       'FROM'       => $table,
       'INNER JOIN' => [
          $tasksTable => [
             'FKEY' => [
                $tasksTable => 'plugin_flyvemdm_policies_id',
-               $table => 'id'
-            ]
+               $table      => 'id',
+            ],
          ],
-         $fleetTable => [
-            'FKEY' => [
+      ],
+      'LEFT JOIN'  => [
+         $fleetTable  => [
+            'itemtype_applied' => 'PluginFlyvemdmFleet',
+            'FKEY'             => [
                $tasksTable => 'items_id_applied',
                $fleetTable => 'id',
             ],
          ],
+         $agentsTable => [
+            'itemtype_applied' => 'PluginFlyvemdmAgent',
+            'FKEY'             => [
+               $tasksTable  => 'items_id_applied',
+               $agentsTable => 'id',
+            ],
+         ],
       ],
-      'WHERE'      => ['symbol' => $policies],
+      'WHERE'      => [
+         'symbol' => $policies,
+      ],
    ];
    $result = $DB->request($request);
    if (count($result) > 0) {
@@ -229,10 +242,14 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
          switch ($data['itemtype_applied']) {
             case PluginFlyvemdmFleet::class:
                $type = 'fleet';
+               $entityId = $data['entities_id'];
                break;
 
             case PluginFlyvemdmAgent::class:
+               $agent = new PluginFlyvemdmAgent();
+               $agent->getFromDB($data['items_id_applied']);
                $type = 'agent';
+               $entityId = $agent->getEntityID();
                break;
 
             default:
@@ -243,7 +260,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
          }
          $topic = implode('/', [
             '/',
-            $data['entities_id'],
+            $entityId,
             $type,
             $data['items_id_applied'],
             'Policy',
