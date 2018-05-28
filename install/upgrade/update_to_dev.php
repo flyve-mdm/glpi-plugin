@@ -191,6 +191,11 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'disableCallAutoAnswer',
       'disableVoiceDictation',
       'disableUsbOnTheGo',
+      'resetPassword',
+      'inventoryFrequency',
+      'disableSmsMms',
+      'disableStreamVoiceCall',
+      'disableCreateVpnProfiles',
    ];
    $tasksTable = 'glpi_plugin_flyvemdm_tasks';
    $fleetTable = 'glpi_plugin_flyvemdm_fleets';
@@ -248,9 +253,9 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
          ]);
          $mqttClient->publish($topic, null, 0, 1);
       }
-      $policiesStr = implode("','", $policies);
-      $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('" . $policiesStr . "')");
    }
+   $policiesStr = implode("','", $policies);
+   $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('" . $policiesStr . "')");
 
    // update Applications table
    $table = 'glpi_plugin_flyvemdm_packages';
