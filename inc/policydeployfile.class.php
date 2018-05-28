@@ -281,29 +281,25 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $destination_base = '';
          $destination = '';
       }
-      $out = PluginFlyvemdmFile::dropdown([
-         'display'   => false,
-         'name'      => 'items_id',
-         'value'     => $itemId,
-      ]);
-      $out .= '<br>';
-      $out .= __('copy to', 'flyvemdm');
-      $out .= '<br>';
       $path = new PluginFlyvemdmWellknownpath();
       $path->getFromDBByPath($destination_base);
-      $out .= PluginFlyvemdmWellknownpath::dropdown([
-         'display'   => false,
-         'name'      => 'destination_base',
-         'value'     => $path->getID(),
-      ]);
-      $out .= '<input type="text" name="value[destination]" value="' . $destination . '" />';
-      $out .= '<br>';
-      $out .= __('Remove when the policy is removed', 'flyvemdm');
-      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
-      //$out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
-      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
-
-      return $out;
+      $input['destination'] = $destination;
+      $input['itemtype'] = $itemtype;
+      $input['dropdown'] = [
+            PluginFlyvemdmFile::dropdown([
+                  'display'   => false,
+                  'name'      => 'items_id',
+                  'value'     => $itemId,
+               ]),
+            PluginFlyvemdmWellknownpath::dropdown([
+            'display'   => false,
+            'name'      => 'destination_base',
+            'value'     => $path->getID(),
+            ]),
+            Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false])
+      ];       
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('tmpl_policy_value.html.twig', ['input' => $input]);
    }
 
    /**

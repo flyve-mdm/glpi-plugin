@@ -1,0 +1,59 @@
+    <script type="text/javascript">
+       var editorId = "#policy_editor";
+    </script>
+{% if input.itemtype is same as("PluginFlyvemdmFile") %}
+    <!-- Template Deploy file -->
+    <div class="plugin_flyvemdm_policy_value">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            {{ input.dropdown[0]|raw }}
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 text-padding-top">{{ __('copy to', 'flyvemdm') }}</div>
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            {{ input.dropdown[1]|raw }}
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+            <input type="text" name="value[destination]" value="{{ input.destination }}">
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">{{ __('Remove when the policy is removed', 'flyvemdm') }}</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                {{ input.dropdown[2]|raw }}
+            </div>
+        </div>
+        <input type="hidden" name="itemtype" value="{{ input.itemtype }}">
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 1000);
+    </script>
+{% elseif input.itemtype is same as("PluginFlyvemdmPackage") %}
+    <!-- Template Package -->
+    <div class="plugin_flyvemdm_policy_value">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            {{ input.dropdown[0]|raw }}
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-padding-top">{{ __('Remove when the policy is removed', 'flyvemdm') }}</div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            {{ input.dropdown[1]|raw }}
+        </div>
+        <input type="hidden" name="itemtype" value="{{ input.itemtype }}">
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 900);
+    </script>
+{% elseif input.itemtype is same as("PluginFlyvemdmPolicyBoolean") or input.itemtype is same as("PluginFlyvemdmPolicyDropdown") %}
+    <!-- Template Boolean || Dropdown -->
+    <div class="plugin_flyvemdm_policy_value">
+            {{ input.dropdown[0]|raw }}
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 200);
+    </script>
+{% elseif input.itemtype is same as("PluginFlyvemdmPolicyBase") %}
+    <!-- Template Base -->
+    <div class="plugin_flyvemdm_policy_value">
+            <input name="value" value="{{ input.value }}" >
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 200);
+    </script>
+{% endif %}

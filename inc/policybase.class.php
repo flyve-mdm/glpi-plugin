@@ -240,9 +240,11 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @return string
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
-      $html = '<input name="value" value="' . $value . '" >';
 
-      return $html;
+      $input['itemtype'] = 'PluginFlyvemdmPolicyBase';      
+      $input['value'] = $value;      
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('tmpl_policy_value.html.twig', ['input' => $input]);
    }
 
    /**

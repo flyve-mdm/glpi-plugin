@@ -102,7 +102,12 @@ class PluginFlyvemdmPolicyDropdown extends PluginFlyvemdmPolicyBase implements P
     * @return int|string
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
-      return Dropdown::showFromArray('value', $this->valueList, ['display' => false, 'value' => $value]);
+    $input['itemtype'] = 'PluginFlyvemdmPolicyDropdown';
+    $input['dropdown'] = [
+        Dropdown::showFromArray('value', $this->valueList, ['display' => false, 'value' => $value])
+    ];       
+    $twig = plugin_flyvemdm_getTemplateEngine();
+    return $twig->render('tmpl_policy_value.html.twig', ['input' => $input]);
    }
 
    /**
