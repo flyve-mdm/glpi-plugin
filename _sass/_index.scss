@@ -19,12 +19,19 @@
 
 }
 
+.p-size4 {
+
+  max-width: 43%;
+
+}
+
 /*SMALL SCREEN: Smart phones*/
 @media (max-width: 414px) {
 
   .p-size {max-width: 100%};
   .p-size2 {max-width: 100%};
   .p-size3 {max-width: 100%};
+  .p-size4 {max-width: 100%};
 
 }
 
@@ -34,6 +41,7 @@
   .p-size {max-width: 60%};
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
+  .p-size4 {max-width: 80%};
 
 }
 
