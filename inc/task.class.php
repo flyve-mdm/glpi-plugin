@@ -614,12 +614,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       if ((empty($withtemplate) || ($withtemplate != 2))
          && $canedit) {
          $policyDropdown = PluginFlyvemdmPolicy::dropdown([
-            'display'  => false,
-            'name'     => 'plugin_flyvemdm_policies_id',
-            'toupdate' => [
-               'value_fieldname' => 'value',
-               'to_update'       => 'plugin_flyvemdm_policy_value',
-               'url'             => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php",
+            'display'             => false,
+            'name'                => 'plugin_flyvemdm_policies_id',
+            'display_emptychoice' => true,
+            'toupdate'            => [
+               'value_fieldname'    => 'value',
+               'to_update'          => 'plugin_flyvemdm_policy_value',
+               'url'                => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php",
             ],
          ]);
       }
