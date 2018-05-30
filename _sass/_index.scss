@@ -25,6 +25,12 @@
 
 }
 
+ul.p-size3 {
+
+  margin-left: 30px;
+
+}
+
 /*SMALL SCREEN: Smart phones*/
 @media (max-width: 414px) {
 
@@ -52,6 +58,12 @@
   -moz-box-shadow:0 0 5px grey;
   -webkit-box-shadow:0 0 5px grey;
   background-color: rgba(0,0,0,0.2);
+
+}
+
+Blockquote {
+
+  margin-bottom: 10px;
 
 }
 
