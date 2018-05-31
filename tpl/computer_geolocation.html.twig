@@ -28,7 +28,7 @@
       }
 
       function onLocationFound(e) {
-          map.setView(e.latlng, 13); 
+          map.setView(e.latlng, 13);
       }
 
       function onLocationError(e) {
@@ -80,18 +80,18 @@
                   var fromDate = new Date(ui.values[0] * 1000);
                   var toDate = new Date(ui.values[1] * 1000);
                   $('#fromDateRange').html(fromDate.toDateString());
-                  $('#showdate'  + randBegin).val(fromDate.toString().slice(0, 33));
+                  $('#showdate'  + randBegin).val(fromDate.toISOString());
                   $('#toDateRange').html(toDate.toDateString());
-                  $('#showdate' + randEnd).val(toDate.toString().slice(0, 33));
+                  $('#showdate' + randEnd).val(toDate.toISOString());
                   loadMarkers();
               }
           });
           var fromDate = new Date(sliderRange.slider("values", 0) * 1000);
           var toDate = new Date(sliderRange.slider("values", 1) * 1000);
           $('#fromDateRange').html(fromDate.toDateString());
-          $('#showdate'  + randBegin).val(fromDate.toString().slice(0, 33));
+          $('#showdate'  + randBegin).val(fromDate.toISOString());
           $('#toDateRange').html(toDate.toDateString());
-          $('#showdate' + randEnd).val(toDate.toString().slice(0, 33));
+          $('#showdate' + randEnd).val(toDate.toISOString());
           loadMarkers();
       }
 
