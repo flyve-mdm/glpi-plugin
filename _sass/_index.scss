@@ -1,0 +1,98 @@
+
+/***RESPONSIVE PARAGRAPH STYLE***/
+
+.p-size {
+
+  max-width: 32%;
+
+}
+
+.p-size2 {
+
+  max-width: 60%;
+
+}
+
+.p-size3 {
+
+  max-width: 40%;
+
+}
+
+.p-size4 {
+
+  max-width: 43%;
+
+}
+
+ul.p-size3 {
+
+  margin-left: 30px;
+
+}
+
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
+
+  .p-size {max-width: 100%};
+  .p-size2 {max-width: 100%};
+  .p-size3 {max-width: 100%};
+  .p-size4 {max-width: 100%};
+
+}
+
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (max-width: 768px) {
+
+  .p-size {max-width: 60%};
+  .p-size2 {max-width: 80%};
+  .p-size3 {max-width: 70%};
+  .p-size4 {max-width: 80%};
+
+}
+
+/*CREATES SHADOW EFFECT TO ADD MORE DEPTH*/
+.boxshadow {
+
+  box-shadow: 0px 0px 5px grey;
+  -moz-box-shadow:0 0 5px grey;
+  -webkit-box-shadow:0 0 5px grey;
+  background-color: rgba(0,0,0,0.2);
+
+}
+
+Blockquote {
+
+  margin-bottom: 10px;
+
+}
+
+/*ICON'S TRANSITION*/
+.img-pop {
+
+  transition: all .2s ease-in-out;
+
+}
+
+/*INCREASES THE SIZE OF THE ICONS ON HOVER*/
+.img-pop:hover {
+
+  transform: scale(1.1);
+  box-shadow: 0px 0px 5px grey;
+  -moz-box-shadow:0 0 5px grey;
+  -webkit-box-shadow:0 0 5px grey;
+
+}
+
+.icon {
+
+  height: 250px;
+  width: 250px;
+
+}
+
+.footerstyle {
+
+  border-top: 3px #158784 solid;
+
+}

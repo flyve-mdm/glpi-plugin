@@ -1,8 +1,8 @@
 title: glpi plugin
 email: ml-flyvemdm@teclib.com
 twitter: flyvemdm
-baseurl: "/glpi-plugin"
-url: "http://flyve.org"   
+baseurl: "/glpi-plugin-fork"
+url: "http://flyve.org"
 image: http://flyve.org/glpi-plugin/images/logo2.png
 
 # Build settings
@@ -17,8 +17,8 @@ repository: flyve-mdm/glpi-plugin
 
 prose:
 
-  rooturl: '_posts' 
-  
+  rooturl: '_posts'
+
   ignore:
     - .keep
 
@@ -46,7 +46,7 @@ prose:
           value: false
       - name: "hackerNewsURL"
         field:
-          element: "text" 
+          element: "text"
           label: Hacker News URL
           value: ""
       - name: "redditURL"
@@ -96,7 +96,7 @@ prose:
           value: ""
       - name: "redditURL"
         field:
-          element: "text" 
+          element: "text"
           label: Reddit URL
           value: ""
 
