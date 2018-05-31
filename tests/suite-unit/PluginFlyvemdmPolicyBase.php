@@ -123,7 +123,11 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->string($policy->showValueInput())->isEqualTo('<input name="value" value="" >');
+      $data['itemtype'] = '';
+      $data['value'] = '';
+      $data['typeTmpl'] = \PluginFlyvemdmPolicyBase::class;
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $this->string($policy->showValueInput())->isEqualTo($twig->render('policy_value.html.twig', ['data' => $data]));
    }
 
    /**

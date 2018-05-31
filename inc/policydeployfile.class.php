@@ -279,37 +279,26 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $destination = substr($value['destination'], $cut);
          $destination_base = substr($value['destination'], 0, $cut);
       }
-      $filesDropdown = PluginFlyvemdmFile::dropdown([
-         'display'   => false,
-         'name'      => 'items_id',
-         'value'     => $itemId,
-      ]);
-
-      //Copy to
       $path = new PluginFlyvemdmWellknownpath();
       $path->getFromDBByPath($destination_base);
-
-      $knownPathDropdown = PluginFlyvemdmWellknownpath::dropdown([
-         'display'   => false,
-         'name'      => 'destination_base',
-         'value'     => $path->getID(),
-      ]);
-
-      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
-                                                -1, ['display' => false]);
-
-      $data = [
-            'files'         => [
-                  'dropdown'        => $filesDropdown,
-                  'itemtype'        => $itemtype,
-                  'knownPath'       => $knownPathDropdown,
-                  'destination'     => $destination,
-            ],
-            'remove'       =>  $removeDropdown,
+      $data['destination'] = $destination;
+      $data['typeTmpl'] = $itemtype;
+      $data['itemtype'] = $itemtype;
+      $data['dropdown'] = [
+            PluginFlyvemdmFile::dropdown([
+                  'display'   => false,
+                  'name'      => 'items_id',
+                  'value'     => $itemId,
+               ]),
+            PluginFlyvemdmWellknownpath::dropdown([
+            'display'   => false,
+            'name'      => 'destination_base',
+            'value'     => $path->getID(),
+            ]),
+            Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false])
       ];
-
       $twig = plugin_flyvemdm_getTemplateEngine();
-      return $twig->render('policy_deploy_file_form.html.twig', $data);
+      return $twig->render('policy_value.html.twig', ['data' => $data]);
    }
 
    /**

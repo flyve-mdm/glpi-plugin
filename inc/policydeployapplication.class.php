@@ -235,26 +235,20 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          $removeOnDelete = $value['remove_on_delete'];
       }
 
-      $packageDropdown = PluginFlyvemdmPackage::dropdown([
-         'display'      => false,
-         'displaywith'  => ['alias'],
-         'name'         => 'items_id',
-         'value'        => $itemId,
-      ]);
-
-      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
-                                          -1, ['display' => false]);
-
-      $data = [
-            'package'     => [
-               'dropdown'         => $packageDropdown,
-               'itemtype'         => $itemtype
-            ],
-            'remove'      =>      $removeDropdown
+      $data['typeTmpl'] = $itemtype;
+      $data['itemtype'] = $itemtype;
+      $data['dropdown'] = [
+            PluginFlyvemdmPackage::dropdown([
+                  'display'      => false,
+                  'displaywith'  => ['alias'],
+                  'name'         => 'items_id',
+                  'value'        => $itemId,
+               ]),
+            Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false])
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      return $twig->render('policy_deploy_app_form.html.twig', $data);
+      return $twig->render('policy_value.html.twig', ['data' => $data]);
    }
 
    /**
