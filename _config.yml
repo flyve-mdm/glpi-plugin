@@ -1,7 +1,7 @@
 title: glpi plugin
 email: ml-flyvemdm@teclib.com
 twitter: flyvemdm
-baseurl: "/glpi-plugin-fork"
+baseurl: "/glpi-plugin"
 url: "http://flyve.org"
 image: http://flyve.org/glpi-plugin/images/logo2.png
 
