@@ -94,3 +94,30 @@ ul#menu ul.ssmenu {
    background: #FEC95C;
    cursor: pointer;
 }
+
+/*---------------- POLICY VALUE ----------------*/
+.plugin_flyvemdm_policy_value{
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
+}
+
+.plugin_flyvemdm_policy_value table{
+    width: 100%
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap a{
+    margin-right: .5em;
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap{
+    margin-right: 3em;
+}
+.plugin_flyvemdm_policy_value table .select2-container{
+    width: 90%
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap span.fa {
+    padding: 0;
+}
+.plugin_flyvemdm_policy_value table .select2-container .select2-choice {
+    max-width: none;
+}

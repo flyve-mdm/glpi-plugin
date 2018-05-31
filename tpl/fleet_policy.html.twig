@@ -81,7 +81,8 @@
           });
 
           function editPolicy(policyId, taskId) {
-              $('#policy_editor').dialog('open');
+              var editorId = "#policy_editor";
+              $(editorId).dialog('option', 'position', 'center');
               $.ajax({
                   url: '../ajax/policyValue.php',
                   method: 'POST',
@@ -94,6 +95,7 @@
                   },
                   success: function (response) {
                       $('#policy_editor_form').html(response);
+                      $(editorId).dialog('open');
                   }
               });
           }
