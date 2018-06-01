@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Before install  for Travis CI
+# Before install for CI
 #
 
 #
