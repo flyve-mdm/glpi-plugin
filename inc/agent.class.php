@@ -1129,8 +1129,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      // @see fusioninventory/inc/communication.class.php
-      $parsedXml = @simplexml_load_string($inventory, 'SimpleXMLElement', LIBXML_NOCDATA);
+      $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
          $this->filterMessages($event);
