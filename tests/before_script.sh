@@ -29,7 +29,7 @@ mkdir plugins/fusioninventory && git clone --depth=1 $FI_SOURCE -b $FI_BRANCH pl
 IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
 mv ../${repo[1]} plugins/flyvemdm
 cd plugins/fusioninventory
-patch -p1 < ../flyvemdm/tests/patches/fi-fix-obsolete-query.patch
+if [[ $FI_BRANCH == "glpi9.2+1.0" ]] ; then patch -p1 < ../flyvemdm/tests/patches/fi-fix-obsolete-query.patch; fi
 patch -p1 < ../flyvemdm/tests/patches/fi-raise-max-version.patch
 cd ../..
 
