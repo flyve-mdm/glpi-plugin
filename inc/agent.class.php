@@ -1129,6 +1129,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
+      if ($config['debug_save_inventory'] != '0') {
+         PluginFlyvemdmCommon::saveInventoryFile($inventory, $invitationToken);
+      }
       $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
@@ -1262,12 +1265,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Create the device
-      if ($config['debug_save_inventory'] != '0') {
-         if (!is_dir(FLYVEMDM_INVENTORY_PATH)) {
-            @mkdir(FLYVEMDM_INVENTORY_PATH, 0770, true);
-         }
-         file_put_contents(FLYVEMDM_INVENTORY_PATH . "/$invitationToken.xml", $inventory);
-      }
       $pfCommunication = new PluginFusioninventoryCommunication();
       $pfAgent = new PluginFusioninventoryAgent();
       $_SESSION['glpi_fusionionventory_nolock'] = true;
