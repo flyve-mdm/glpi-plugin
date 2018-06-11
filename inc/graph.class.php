@@ -114,33 +114,19 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $result = $DB->query($query);
       if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
-         $versionNames = [];
-         $versionPerOS = [];
+         $quantityPerOs = [];
          while ($row = $DB->fetch_assoc($result)) {
-            $osNames[$row['operatingsystem']] = $row['operatingsystem'];
-            $versionNames[$row['version']] = $row['version'];
-            $versionPerOS[$row['version']][$row['operatingsystem']] = $row['cpt'];
-         }
-         foreach ($osNames as $osName) {
-            foreach ($versionNames as $versionName) {
-               if (!isset($versionPerOS[$versionName][$osName])) {
-                  $versionPerOS[$versionName][$osName] = '0';
-               }
+            $osNames[] = $row['operatingsystem'];
+            if (isset($quantityPerOs[$row['operatingsystem']])) {
+               $quantityPerOs[$row['operatingsystem']] += $row['cpt'];
+            } else {
+               $quantityPerOs[$row['operatingsystem']] = $row['cpt'];
             }
-         }
-         ksort($versionPerOS);
-         $series = [];
-         foreach ($versionPerOS as $osName => $serie) {
-            ksort($serie);
-            $series[] = [
-               'name'   => $osName,
-               'data'   => array_values($serie),
-            ];
          }
          $out = $this->displayStackedBarGraph(
             __('Devices per operating system version', 'flyvemdm'),
             array_values($osNames),
-            $series,
+            array_values($quantityPerOs),
             [
                'width'     => '100%',
             ],
@@ -164,14 +150,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
     * @param string[] $options  array of options
     * @param boolean  $display  Whether to display directly; defauts to true
     *
-    * @return void
+    * @return string|void
     */
    public function displayStackedBarGraph($title, $labels, $series, $options = null, $display = true) {
       $param = [
          'width'   => 900,
          'height'  => 300,
          'tooltip' => true,
-         'legend'  => true,
+         'legend'  => false,
          'animate' => true
       ];
 
@@ -189,40 +175,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
                   $(function() {
                      var chart_$slug = new Chartist.Bar('#$slug', {
                         labels: ['" . implode('\', \'', Toolbox::addslashes_deep($labels))  . "'],
-                        series: [";
-
-      $first = true;
-      foreach ($series as $serie) {
-         if ($first === true) {
-            $first = false;
-         } else {
-            $out .= ",\n";
-         }
-         if (isset($serie['name'])) {
-            $out .= "{'name': '{$serie['name']}', 'data': [" . implode(', ', $serie['data']) . "]}";
-         } else {
-            $out .= "[" . implode(', ', $serie['data']) . "]";
-         }
-      }
-
-      $out .= "
-                        ]
+                        series: [". implode(', ', $series)  ."]
                      }, {
                         low: 0,
                         showArea: true,
                         width: '{$param['width']}',
                         height: '{$param['height']}',
                         fullWidth: true,
-                        lineSmooth: Chartist.Interpolation.simple({
-                           divisor: 10,
-                           fillHoles: false
-                        }),
-                        stackBars: true,
-                        axisX: {
-                           labelOffset: {
-                              x: -" . mb_strlen($labels[0]) * 7  . "
-                           }
-                        }";
+                        distributeSeries: true";
 
       if ($param['legend'] === true || $param['tooltip'] === true) {
          $out .= ", plugins: [";
