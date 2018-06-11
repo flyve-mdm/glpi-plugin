@@ -195,10 +195,9 @@ function plugin_flyvemdm_addHooks() {
  */
 function plugin_version_flyvemdm() {
    $author = '<a href="http://www.teclib.com">Teclib</a>';
+   $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
       $glpiVersion = version_compare(GLPI_PREVER, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt');
-   } else {
-      $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    }
    return [
       'name'           => __s('Flyve Mobile Device Management', 'flyvemdm'),
@@ -210,7 +209,7 @@ function plugin_version_flyvemdm() {
       'requirements'   => [
          'glpi' => [
             'min' => $glpiVersion,
-            'max' => '9.3',
+            'max' => PLUGIN_FLYVEMDM_GLPI_MAX_VERSION,
             'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
             'plugins'   => [
                'fusioninventory',

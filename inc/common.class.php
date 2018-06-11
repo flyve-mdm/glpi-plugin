@@ -169,4 +169,24 @@ class PluginFlyvemdmCommon
          $needle, $temp) !== false);
    }
 
+   /**
+    * Check XML format using part of the logic from FusionInventory
+    *
+    * @see PluginFusioninventoryCommunication::handleOCSCommunication()
+    *
+    * @param mixed $xml
+    * @return SimpleXMLElement|boolean
+    */
+   public static function parseXML($xml) {
+      if (($pxml = @simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA))) {
+         return $pxml;
+      }
+      if (($pxml = @simplexml_load_string(utf8_encode($xml), 'SimpleXMLElement', LIBXML_NOCDATA))) {
+         return $pxml;
+      }
+
+      $xml = preg_replace('/<FOLDER>.*?<\/SOURCE>/', '', $xml);
+      $pxml = @simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+      return $pxml;
+   }
 }

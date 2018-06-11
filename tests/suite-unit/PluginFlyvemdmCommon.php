@@ -32,6 +32,7 @@
 namespace tests\units;
 
 use atoum;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmCommon extends atoum {
 
@@ -67,4 +68,15 @@ class PluginFlyvemdmCommon extends atoum {
          ->matches('/\w{8}-\w{4}-4\w{3}-[8,9,A,B]\w{3}-\w{12}/i');
    }
 
+   /**
+    * @tags testParseXML
+    */
+   public function testParseXML() {
+      $class = $this->testedClass->getClass();
+      $this->boolean($class::parseXML(''))->isFalse();
+      $xml = base64_decode(CommonTestCase::AgentXmlInventory(uniqid('sn')));
+      $this->object($class::parseXML(iconv("UTF-8", "ISO-8859-1",
+         $xml)))->isInstanceOf('\SimpleXMLElement');
+      $this->object($class::parseXML($xml))->isInstanceOf('\SimpleXMLElement');
+   }
 }
