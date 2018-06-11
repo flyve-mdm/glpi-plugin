@@ -1,0 +1,22 @@
+{% for input in inputs %}
+    <tr>
+        <td for="{{ input.id }}">{{ __(input.label) }}</td>
+        <td><input id="{{ input.id }}" type="{{ input.type }}" value="{{ input.value }}"></td>
+    </tr>
+{% endfor %}
+<tr>
+    <td>
+        <label>{{ apnAuthType.label }}</label>
+    </td>
+    <td>
+        {{ apnAuthType.dropdown|raw }}
+    </td>
+</tr>
+<tr>
+    <td>
+        <label>{{ apnType.label }}</label>
+    </td>
+    <td>
+        {{ apnType.dropdown|raw }}
+    </td>
+</tr>
