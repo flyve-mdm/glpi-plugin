@@ -10,6 +10,7 @@
 .p-size2 {
 
   max-width: 60%;
+  /*background-color: #00ff00*/
 
 }
 
@@ -22,6 +23,33 @@
 .p-size4 {
 
   max-width: 43%;
+
+}
+
+.p-size5 {
+
+  /*background-color: red;*/
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.6;
+  padding-left: 12px;
+  padding-bottom: 12px;
+  border-left: 5px solid #D9D9D9;
+
+}
+
+.p-size5 span{
+
+  vertical-align: top;
+  /*background-color: yellow;*/
+
+}
+
+.p-size5:hover {
+
+  overflow: visible;
 
 }
 
@@ -38,6 +66,7 @@ ul.p-size3 {
   .p-size2 {max-width: 100%};
   .p-size3 {max-width: 100%};
   .p-size4 {max-width: 100%};
+  .p-size5 {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
@@ -48,6 +77,7 @@ ul.p-size3 {
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
+  .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
 
 }
 
