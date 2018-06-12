@@ -225,7 +225,7 @@ return [
       'type_data'                           => '',
       'unicity'                             => 0,
       'plugin_flyvemdm_policycategories_id' => $category,
-      'comment'                             => __('Set-up you APN values manually','flyvemdm'),
+      'comment'                             => __('Set-up you APN values manually', 'flyvemdm'),
       'default_value'                       => '',
       'recommended_value'                   => '',
       'is_android_policy'                   => '1',

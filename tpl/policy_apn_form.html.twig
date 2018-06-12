@@ -1,22 +1,26 @@
-{% for input in inputs %}
+<table>
+    {% for input in inputs %}
+        {% if loop.index0 is even %}
+            <tr>
+        {% endif %}
+        <td><label for="{{ input.name }}">{{ input.label }}</label></td>
+        <td><input type="{{ input.type }}" name="{{ input.name }}" value="{{ input.value }}"></td>
+        {% if loop.index0 is odd %}
+            </tr>
+        {% endif %}
+    {% endfor %}
     <tr>
-        <td for="{{ input.id }}">{{ __(input.label) }}</td>
-        <td><input id="{{ input.id }}" type="{{ input.type }}" value="{{ input.value }}"></td>
+        <td>
+            <label>{{ apnAuthType.label }}</label>
+        </td>
+        <td>
+            {{ apnAuthType.dropdown|raw }}
+        </td>
+        <td>
+            <label>{{ apnType.label }}</label>
+        </td>
+        <td>
+            {{ apnType.dropdown|raw }}
+        </td>
     </tr>
-{% endfor %}
-<tr>
-    <td>
-        <label>{{ apnAuthType.label }}</label>
-    </td>
-    <td>
-        {{ apnAuthType.dropdown|raw }}
-    </td>
-</tr>
-<tr>
-    <td>
-        <label>{{ apnType.label }}</label>
-    </td>
-    <td>
-        {{ apnType.dropdown|raw }}
-    </td>
-</tr>
+</table>

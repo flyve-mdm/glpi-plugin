@@ -39,11 +39,31 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmPolicyApn extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
+   private $formFields = [];
+   private $apnAuthType = [];
+   private $apnType = [];
+
    /**
     * PluginFlyvemdmPolicyApn constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
    public function __construct(PluginFlyvemdmPolicy $policy) {
+      $this->formFields = [
+         'apn_name'           => ['label' => __('Name', 'flyvemdm'), 'type' => 'text'],
+         'apn_fqn'            => ['label' => __('APN', 'flyvemdm'), 'type' => 'text'],
+         'apn_proxy'          => ['label' => __('Proxy', 'flyvemdm'), 'type' => 'text'],
+         'apn_port'           => ['label' => __('Port', 'flyvemdm'), 'type' => 'text'],
+         'apn_username'       => ['label' => __('Username', 'flyvemdm'), 'type' => 'text'],
+         'apn_password'       => ['label' => __('Password', 'flyvemdm'), 'type' => 'password'],
+         'apn_server'         => ['label' => __('Server', 'flyvemdm'), 'type' => 'text'],
+         'apn_mmsc'           => ['label' => __('MMSC', 'flyvemdm'), 'type' => 'text'],
+         'apn_proxy_mms'      => ['label' => __('Proxy MMS', 'flyvemdm'), 'type' => 'text'],
+         'apn_proxy_mms_port' => ['label' => __('Proxy MMC port', 'flyvemdm'), 'type' => 'text'],
+         'apn_mmc'            => ['label' => __('MMC', 'flyvemdm'), 'type' => 'text'],
+         'apn_mnc'            => ['label' => __('MNC', 'flyvemdm'), 'type' => 'text'],
+      ];
+      $this->apnType = [__('Default'), 'MMS', 'SUPL', 'DUN', 'HIPRI', 'FOTA'];
+      $this->apnAuthType = [__('No authentication'), 'PAP', 'CHAP', 'CHAP/PAP'];
       parent::__construct($policy);
       $this->symbol = $policy->getField('symbol');
       $this->unicityRequired = ($policy->getField('unicity') != '0');
@@ -58,12 +78,13 @@ class PluginFlyvemdmPolicyApn extends PluginFlyvemdmPolicyBase implements Plugin
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check the value exists
-      $inputNames = ['name', 'apn'];
-      foreach ($inputNames as $key){
-         if (!isset($value[$key])) {
-            Session::addMessageAfterRedirect(sprintf(__('A value for "%s" is mandatory', 'flyvemdm'), $value));
-            return false;
-         }
+      if (!isset($value['apn_name']) || !$value['apn_name']) {
+         Session::addMessageAfterRedirect(__('APN name is mandatory', 'flyvemdm'));
+         return false;
+      }
+      if (!isset($value['apn_fqn']) || !$value['apn_fqn']) {
+         Session::addMessageAfterRedirect(__('APN value is mandatory', 'flyvemdm'));
+         return false;
       }
       return true;
    }
@@ -75,11 +96,12 @@ class PluginFlyvemdmPolicyApn extends PluginFlyvemdmPolicyBase implements Plugin
     * @return array|bool
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
-      if (!$this->integrityCheck($value, $itemtype, $itemId)) {
+      $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
+      if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
       }
       $array = [
-         $this->symbol => $value
+         $this->symbol => $value,
       ];
       return $array;
    }
@@ -88,47 +110,39 @@ class PluginFlyvemdmPolicyApn extends PluginFlyvemdmPolicyBase implements Plugin
 
       $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
 
-      $fields = [
-         'apn_name'           => ['label' => 'Name', 'type' => 'text'],
-         'apn_apn'            => ['label' => 'APN', 'type' => 'text'],
-         'apn_proxy'          => ['label' => 'Proxy', 'type' => 'text'],
-         'apn_port'           => ['label' => 'Port', 'type' => 'text'],
-         'apn_username'       => ['label' => 'Username', 'type' => 'text'],
-         'apn_password'       => ['label' => 'Password', 'type' => 'password'],
-         'apn_server'         => ['label' => 'Server', 'type' => 'text'],
-         'apn_mmsc'           => ['label' => 'MMSC', 'type' => 'text'],
-         'apn_proxy_mms'      => ['label' => 'Proxy MMS', 'type' => 'text'],
-         'apn_proxy_mms_port' => ['label' => 'Proxy MMC port', 'type' => 'text'],
-         'apn_mmc'            => ['label' => 'MMC', 'type' => 'text'],
-         'apn_mnc'            => ['label' => 'MNC', 'type' => 'text'],
-      ];
-
       $data = [];
-      foreach ($fields as $inputName => $inputOptions) {
+      foreach ($this->formFields as $inputName => $inputOptions) {
          $data['inputs'][] = [
-            'id'    => $inputName,
+            'name'  => "value[$inputName]",
             'label' => $inputOptions['label'],
             'type'  => $inputOptions['type'],
             'value' => ($value[$inputName]) ? $value[$inputName] : '',
          ];
       }
 
-      $apnAuthType = Dropdown::showFromArray('apn_auth_type',
-         ['No authentication', 'PAP', 'CHAP', 'CHAP/PAP'], ['display' => false]);
-      $apnType = Dropdown::showFromArray('apn_type',
-         ['default', 'mms', 'supl', 'dun', 'hipri', 'fota'], ['display' => false]);
+      $apnAuthType = ($value['apn_auth_type']) ? $value['apn_auth_type'] : 0;
+      $apnType = ($value['apn_type']) ? $value['apn_type'] : 0;
 
       $data['apnAuthType'] = [
-         'label' => 'Authentication Type',
-         'dropdown' => $apnAuthType,
+         'label'    => 'Authentication Type',
+         'dropdown' => Dropdown::showFromArray('value[apn_auth_type]',
+            $this->apnAuthType,
+            ['display' => false, 'value' => $apnAuthType]),
       ];
       $data['apnType'] = [
-         'label' => 'APN Type',
-         'dropdown' => $apnType,
+         'label'    => 'APN Type',
+         'dropdown' => Dropdown::showFromArray('value[apn_type]',
+            $this->apnType,
+            ['display' => false, 'value' => $apnType]),
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_apn_form.html.twig', $data);
    }
 
+   public function showValue(PluginFlyvemdmTask $task) {
+      $values = json_decode($task->getField('value'), JSON_OBJECT_AS_ARRAY);
+      $stringValues = $values['apn_name'];
+      return $stringValues;
+   }
 }
