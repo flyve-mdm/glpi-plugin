@@ -78,29 +78,35 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          switch ($item->getType()) {
             case PluginFlyvemdmAgent::class:
                if (!$withtemplate) {
-                  $nb = 0;
                   $computerId = $item->getField('computers_id');
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(),
-                        ['computers_id' => $computerId]);
-                  }
+                  $nb = $this->countComputers($computerId);
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
                break;
 
             case Computer::class:
                if (!$withtemplate) {
-                  $nb = 0;
                   $computerId = $item->getField('id');
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $nb = countElementsInTable(static::getTable(),
-                        ['computers_id' => $computerId]);
-                  }
+                  $nb = $this->countComputers($computerId);
                   return self::createTabEntry(self::getTypeName(1), $nb);
                }
                break;
          }
       }
+   }
+
+   /**
+    * @param $computerId
+    * @return int
+    */
+   public function countComputers($computerId) {
+      $nb = 0;
+      if ($_SESSION['glpishow_count_on_tabs']) {
+         $DbUtil = new DbUtils();
+         $nb = $DbUtil->countElementsInTable(static::getTable(),
+            ['computers_id' => $computerId]);
+      }
+      return $nb;
    }
 
    /**
@@ -251,7 +257,8 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          // Force complete SQL not summary when access to all entities
          $geolocationTable = self::getTable();
          $computerTable = 'c'; // See self::addDefaultJoin
-         $where .= getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
+         $DbUtil = new DbUtils();
+         $where .= $DbUtil->getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
       }
 
       return $where;

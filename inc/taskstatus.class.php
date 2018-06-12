@@ -188,7 +188,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    /**
     * Gets task statuses for a given agent
     * @param PluginFlyvemdmAgent $agent an agent from which get the policies statuses
-    * @return DBIterator
+    * @return DBmysqlIterator
     */
    public function getStatusesForAgent(PluginFlyvemdmAgent $agent) {
       global $DB;
@@ -261,7 +261,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
     * Shows task statuses for a fleet
     *
     * @param CommonDBTM $item
-    * @param string $withtemplate
+    * @param string $withTemplate
     */
    public static function showForFleet(CommonDBTM $item, $withTemplate = '') {
       global $DB;

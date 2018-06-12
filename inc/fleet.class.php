@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -116,12 +118,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param array $options
     */
    public function showForm($ID, array $options = []) {
+      $DbUtil = new DbUtils();
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
+      $objectName          = $DbUtil->autoName($this->fields["name"], "name",
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
             $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
@@ -246,7 +249,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
          'field'              => 'name',
          'name'               => __('Applied policy', 'flyvemdm'),
          'datatype'           => 'dropdown',
@@ -254,7 +257,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'nosort'             => true,
          'joinparams'         => [
             'beforejoin'         => [
-               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'table'           => PluginFlyvemdmTask::getTable(),
                'joinparams'      => [
                   'jointype'     => 'child',
                   'linkfield'    => 'items_id_applied',
@@ -323,8 +326,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $table_policy = PluginFlyvemdmPolicy::getTable();
       $query = "SELECT DISTINCT `group` FROM `$table_policy`";
       $result = $DB->query($query);
+      $groups = [];
       if ($result) {
-         $groups = [];
          while ($row = $DB->fetch_assoc($result)) {
             $groups[] = $row['group'];
          }
@@ -440,8 +443,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Gets the default fleet for an entity
-    * @param string $entityId ID of the entoty to search in
-    * @return PluginFlyvemdmFleet|null
+    * @param string $entityId ID of the entity to search in
+    * @return integer
     */
    public function getFromDBByDefaultForEntity($entityId = null) {
       if ($entityId === null) {
@@ -533,7 +536,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
       foreach ($DB->request($request) as $row) {
          $task->getFromDB($row['id']);
-         $task->publishPolicy($this);
+         try {
+            $task->publishPolicy($this);
+         } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+            Session::addMessageAfterRedirect(__("Persisted notification not updated.",
+               'flyvemdm'), false, INFO, true);
+         }
       }
    }
 

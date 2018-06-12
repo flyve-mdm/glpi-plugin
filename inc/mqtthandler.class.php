@@ -75,7 +75,6 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Maintains a MQTT topic to publish the current version of the backend
     *
     * @param \sskaje\mqtt\MQTT $mqtt
-    * @throws \sskaje\mqtt\Exception
     */
    protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
@@ -85,7 +84,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       if ($this->flyveManifestMissing) {
          if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
-            $mqtt->publish_async("FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
+            try {
+               $mqtt->publish_async("FlyvemdmManifest/Status/Version",
+                  json_encode(['version' => $version]), 0, 1);
+            } catch (\sskaje\mqtt\Exception $e) {
+               Toolbox::logInFile("mqtt",
+                  "error publishing MQTT message, " . $e->getMessage() . PHP_EOL);
+            }
             $this->flyveManifestMissing = false;
          }
       }
@@ -197,7 +202,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
          if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
             foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
-               $logMessage = "Serial $serial : $logMessage\n";
+               $logMessage = "Import message: $logMessage\n";
                \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
             }
          }
