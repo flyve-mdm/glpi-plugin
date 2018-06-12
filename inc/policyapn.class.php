@@ -21,9 +21,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
@@ -95,7 +94,7 @@ class PluginFlyvemdmPolicyApn extends PluginFlyvemdmPolicyBase implements Plugin
     * @param int $itemId
     * @return array|bool
     */
-   public function getMqttMessage($value, $itemtype, $itemId) {
+   public function getBrokerMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
