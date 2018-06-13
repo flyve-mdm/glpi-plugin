@@ -9,7 +9,7 @@
 
 .p-size2 {
 
-  max-width: 60%;
+  max-width: 58%;
   /*background-color: #00ff00*/
 
 }
@@ -26,10 +26,11 @@
 
 }
 
+/*USE THIS CLASS ON "ROGUE LINES" (those lines that depic code with more than 60 characters per line), adds a grey border to the left to stay true to the original style */
 .p-size5 {
 
   /*background-color: red;*/
-  max-width: 50%;
+  max-width: 47%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
