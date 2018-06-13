@@ -215,7 +215,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'FROM' => PluginFlyvemdmPolicyCategory::getTable(),
       ];
 
-      $category = [];
+      $elements = $category = [];
       foreach ($DB->request($request) as $row) {
          $elements[$row['name']] = [];
          $category[$row['id']] = $row['completename'];
@@ -224,7 +224,6 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       $request = [
          'FROM' => static::getTable(),
       ];
-      $currentCategory = '';
       foreach ($DB->request($request) as $row) {
          $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
          $elements[$categoryName][$row['id']] = $row['name'];

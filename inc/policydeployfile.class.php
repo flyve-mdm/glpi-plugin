@@ -238,7 +238,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          return false;
       }
 
-      $task = new PluginFlyvemdmTask();
       // Ensure there is a trailing slash
       if (strrpos($value['destination'], '/') != strlen($value['destination']) - 1) {
          $value['destination'] .= '/';
@@ -267,6 +266,9 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmFile::class;
+      $removeOnDelete = 1;
+      $destination_base = '';
+      $destination = '';
       if ($value !== '') {
          $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
          $removeOnDelete = $value['remove_on_delete'];
@@ -276,10 +278,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          }
          $destination = substr($value['destination'], $cut);
          $destination_base = substr($value['destination'], 0, $cut);
-      } else {
-         $removeOnDelete = 1;
-         $destination_base = '';
-         $destination = '';
       }
       $filesDropdown = PluginFlyvemdmFile::dropdown([
          'display'   => false,

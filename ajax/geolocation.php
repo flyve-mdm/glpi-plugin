@@ -43,16 +43,14 @@ if (!isset($_REQUEST['computers_id'])) {
 }
 $computerId = intval($_REQUEST['computers_id']);
 
-if (!isset($_REQUEST['beginDate']) || empty(trim($_REQUEST['beginDate']))) {
-   $beginDate = '0000-00-00 00:00:00';
-} else {
+$beginDate = '0000-00-00 00:00:00';
+if (isset($_REQUEST['beginDate']) && !empty(trim($_REQUEST['beginDate']))) {
    $beginDate = new DateTime($_REQUEST['beginDate']);
    $beginDate = $beginDate->format('Y-m-d H:i:s');
 }
 
-if (!isset($_REQUEST['endDate']) || empty(trim($_REQUEST['endDate']))) {
-   $endDate = date('Y-m-d H:i:s');
-} else {
+$endDate = date('Y-m-d H:i:s');
+if (isset($_REQUEST['endDate']) && !empty(trim($_REQUEST['endDate']))) {
    $endDate = new DateTime($_REQUEST['endDate']);
    $endDate = $endDate->format('Y-m-d H:i:s');
 }

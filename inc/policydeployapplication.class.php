@@ -229,11 +229,10 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
 
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmPackage::class;
+      $removeOnDelete = 1;
       if ($value !== '') {
          $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
          $removeOnDelete = $value['remove_on_delete'];
-      } else {
-         $removeOnDelete = 1;
       }
 
       $packageDropdown = PluginFlyvemdmPackage::dropdown([

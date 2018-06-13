@@ -41,8 +41,6 @@ class PluginFlyvemdmGraph extends CommonDBTM
     * @return string HTML snippet for Pie graph
     */
    public function showInvitationsGraph() {
-      $out = '';
-
       $dbUtils = new DbUtils();
 
       $pendingCount = $dbUtils->countElementsInTableForMyEntities(

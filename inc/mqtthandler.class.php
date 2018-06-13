@@ -191,8 +191,6 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateInventory($topic, $message) {
-      global $DB;
-
       $agent = new PluginFlyvemdmAgent();
       $agent->getByTopic($topic);
       if ($agent->getComputer()) {
@@ -256,13 +254,12 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
+         $dateGeolocation = false;
          if (isset($position['datetime'])) {
             // The datetime sent by the device is expected to be on UTC timezone
             $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
             // Shift the datetime to the timezone of the server
             $dateGeolocation->setTimezone(date_default_timezone_get());
-         } else {
-            $dateGeolocation = false;
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {

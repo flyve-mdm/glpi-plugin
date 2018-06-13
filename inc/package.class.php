@@ -396,8 +396,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    public static function cronParseApplication(CronTask $crontask) {
       global $DB;
 
-      $cronStatus = 0;
-
       $request = [
          'FROM'  => static::getTable(),
          'WHERE' => [

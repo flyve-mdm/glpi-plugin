@@ -228,17 +228,10 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
          return false;
       }
 
-      if (isset($_GET["start"])) {
-         $start = intval($_GET["start"]);
-      } else {
-         $start = 0;
-      }
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 
       // get items
       $status = new PluginFlyvemdmTaskstatus();
-      $items_id = $item->getField('id');
-      $itemFk = $item::getForeignKeyField();
-      $condition = "`$itemFk` = '$items_id' ";
       $rows = $status->getStatusesForAgent($item);
       $number = count($rows);
 
@@ -270,16 +263,10 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
          return;
       }
 
-      if (isset($_GET["start"])) {
-         $start = intval($_GET["start"]);
-      } else {
-         $start = 0;
-      }
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 
       $notifiableType = $item->getType();
       $notifiableId = $item->getID();
-      $canedit = Session::haveRightsOr('flyvemdm:fleet', [CREATE, UPDATE, DELETE, PURGE]);
-      $rand = mt_rand();
 
       $request = [
          'COUNT' => 'c',
