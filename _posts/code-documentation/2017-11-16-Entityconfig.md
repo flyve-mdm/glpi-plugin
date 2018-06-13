@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmEntityconfig
 ---
 
 * Class name: PluginFlyvemdmEntityconfig
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBTM
 
 
@@ -145,8 +145,9 @@ Actions done after the getFromDB method
 
 ### prepareInputForUpdate
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::prepareInputForUpdate($input)
-
+</p>
 
 
 
@@ -161,7 +162,9 @@ Actions done after the getFromDB method
 
 ### sanitizeTokenLifeTime
 
+<p class="p-size5">
     array|false PluginFlyvemdmEntityconfig::sanitizeTokenLifeTime(string $input)
+</p>
 
 Sanitizes the token life time of the agent
 
@@ -177,10 +180,13 @@ Sanitizes the token life time of the agent
 
 ### hook_entity_add
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::hook_entity_add(\CommonDBTM $item)
+</p>
 
+<p class="p-size2">
 create folders and initial setup of the entity related to MDM
-
+</p>
 
 
 * Visibility: **public**
@@ -193,7 +199,9 @@ create folders and initial setup of the entity related to MDM
 
 ### hook_entity_purge
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::hook_entity_purge(\CommonDBTM $item)
+</p>
 
 Cleanup MDM related data for the entity being deleted
 
@@ -222,7 +230,9 @@ Generate a displayable token for enrollment
 
 ### getFromDBOrCreate
 
+<p class="p-size5">
     boolean PluginFlyvemdmEntityconfig::getFromDBOrCreate(string $ID)
+</p>
 
 Retrieve the entity or create it
 
@@ -238,7 +248,9 @@ Retrieve the entity or create it
 
 ### getTabNameForItem
 
+<p class="p-size5">
     array PluginFlyvemdmEntityconfig::getTabNameForItem(\CommonGLPI $item, integer $withtemplate)
+</p>
 
 Gets the tabs name
 
@@ -248,14 +260,21 @@ Gets the tabs name
 
 
 #### Arguments
-* $item **CommonGLPI**
-* $withtemplate **integer** - if it is showed with a template (default 0)
 
+<p class="p-size2">
 
+  <ul>
+   <li>  $item <b>CommonGLPI</b> </li>
+   <li>  $withtemplate <b>integer</b> - if it is showed with a template (default 0) </li>
+  </ul>
+
+</p>
 
 ### getUsedConfig
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::getUsedConfig($fieldref, $entities_id, $fieldval, $default_value)
+</p>
 
 Retrieve data of current entity or parent entity
 
@@ -266,16 +285,24 @@ Retrieve data of current entity or parent entity
 
 
 #### Arguments
-* $fieldref **mixed** - string   name of the referent field to know if we look at parent entity
-* $entities_id **mixed**
-* $fieldval **mixed** - string   name of the field that we want value (default &#039;&#039;)
-* $default_value **mixed** - value to return (default -2)
 
+<p class="p-size2">
+
+  <ul>
+   <li> $fieldref <b>mixed</b> - string   name of the referent field to know if we look at parent entity </li>
+   <li> $entities_id <b>mixed</b> </li>
+   <li> $fieldval <b>mixed</b> - string   name of the field that we want value (default &#039;&#039;) </li>
+   <li> $default_value <b>mixed</b> - value to return (default -2) </li>
+  </ul>
+
+</p>
 
 
 ### displayTabContentForItem
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::displayTabContentForItem(\CommonGLPI $item, integer $tabnum, integer $withtemplate)
+</p>
 
 Shows the tab content
 
@@ -311,7 +338,9 @@ is the parameter ID must be considered as new one ?
 
 ### showFormForEntity
 
+<p class="p-size5">
     mixed PluginFlyvemdmEntityconfig::showFormForEntity(\Entity $item)
+</p>
 
 Displays form when the item is displayed from a related entity
 
@@ -334,6 +363,3 @@ Displays form when the item is displayed from a related entity
 
 
 * Visibility: **public**
-
-
-

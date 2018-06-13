@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmFleet_Policy
 ---
 
 * Class name: PluginFlyvemdmFleet_Policy
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBRelation
 
 ## Properties
@@ -99,8 +99,9 @@ permalink: development/devdocs/PluginFlyvemdmFleet_Policy
 
 ### getTabNameForItem
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::getTabNameForItem(\CommonGLPI $item, $withtemplate)
-
+</p>
 
 
 
@@ -116,8 +117,9 @@ permalink: development/devdocs/PluginFlyvemdmFleet_Policy
 
 ### addNeededInfoToInput
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::addNeededInfoToInput($input)
-
+</p>
 
 
 
@@ -148,8 +150,9 @@ permalink: development/devdocs/PluginFlyvemdmFleet_Policy
 
 ### prepareInputForUpdate
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::prepareInputForUpdate($input)
-
+</p>
 
 
 
@@ -219,8 +222,9 @@ $this->policy->field['group']
 
 ### updateQueue
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::updateQueue(\PluginFlyvemdmNotifiable $item, $groups)
-
+</p>
 
 
 
@@ -236,7 +240,9 @@ $this->policy->field['group']
 
 ### publishPolicies
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::publishPolicies(\PluginFlyvemdmNotifiable $item, array $groups)
+</p>
 
 MQTT publish all policies applying to the fleet
 
@@ -246,18 +252,27 @@ MQTT publish all policies applying to the fleet
 
 
 #### Arguments
-* $item **[PluginFlyvemdmNotifiable](PluginFlyvemdmNotifiable)**
-* $groups **array** - the notifiable is updated only for the following policies groups
+
+
+
+*  $item **[PluginFlyvemdmNotifiable](PluginFlyvemdmNotifiable)**
+  <ul class="p-size2">  
+    <li> $groups <b>array</b> - the notifiable is updated only for the following policies groups </li>
+  </ul>
+
 
 
 
 ### buildGroupOfPolicies
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::buildGroupOfPolicies(string $group, \PluginFlyvemdmFleet $fleet)
+</p>
 
+<p class="type-p2 p-size2">
 Builds a group of policies using the value of an applied policy for a fleet, and the default value of
 non applied policies of the same group
-
+</p>
 
 
 * Visibility: **protected**
@@ -271,7 +286,9 @@ non applied policies of the same group
 
 ### cleanupPolicies
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::cleanupPolicies(\PluginFlyvemdmNotifiable $item, array $groups)
+</p>
 
 Removes persisted MQTT messages for groups of policies
 
@@ -302,8 +319,9 @@ Removes persisted MQTT messages for groups of policies
 
 ### displayTabContentForItem
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::displayTabContentForItem(\CommonGLPI $item, $tabnum, $withtemplate)
-
+</p>
 
 
 
@@ -321,8 +339,9 @@ Removes persisted MQTT messages for groups of policies
 
 ### showForFleet
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::showForFleet(\CommonDBTM $item, $withtemplate)
-
+</p>
 
 
 
@@ -355,8 +374,9 @@ Processes
 
 ### getAppliedPolicies
 
+<p class="p-size5">
     mixed PluginFlyvemdmFleet_Policy::getAppliedPolicies(\PluginFlyvemdmFleet $fleet)
-
+</p>
 
 
 
