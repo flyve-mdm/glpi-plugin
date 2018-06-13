@@ -488,12 +488,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // send wipe to the agent
       if (isset($input['wipe']) && $input['wipe'] != '0') {
-         $input['wipe'] == '1';
+         $input['wipe'] = '1';
       }
 
       // send lock to the agent
       if (isset($input['lock']) && $input['lock'] != '0') {
-         $input['lock'] == '1';
+         $input['lock'] = '1';
       }
 
       if (array_key_exists('lock', $input)
