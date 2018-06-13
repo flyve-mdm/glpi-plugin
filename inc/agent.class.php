@@ -710,20 +710,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       $notifiableId = $notifiable->getID();
+      $taskStatusTable = PluginFlyvemdmTaskstatus::getTable();
+      $taskTable = PluginFlyvemdmTask::getTable();
       $request = [
-         'SELECT' => PluginFlyvemdmTaskstatus::getTable() . '.*',
-         'FROM' =>  PluginFlyvemdmTaskstatus::getTable(),
+         'SELECT'     => $taskStatusTable . '.*',
+         'FROM'       => $taskStatusTable,
          'INNER JOIN' => [
-            PluginFlyvemdmTask::getTable() => [
+            $taskTable => [
                'FKEY' => [
-                  PluginFlyvemdmTask::getTable() => 'id',
-                  PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField()
-               ]
-            ]
+                  $taskTable       => 'id',
+                  $taskStatusTable => PluginFlyvemdmTask::getForeignKeyField(),
+               ],
+            ],
          ],
-         'WHERE' => [
-            'items_id_applied' => [$notifiableId]
-         ]
+         'WHERE'      => [
+            'items_id_applied' => [$notifiableId],
+         ],
       ];
       $status = new PluginFlyvemdmTaskstatus();
       foreach ($DB->request($request) as $row) {

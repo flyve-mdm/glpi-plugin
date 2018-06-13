@@ -77,31 +77,33 @@ class PluginFlyvemdmFusionInventory {
    public function deleteInvitationRuleCriteria(PluginFlyvemdmInvitation $invitation) {
       global $DB;
 
-      $entityId = $invitation->getField(Entity::getForeignKeyField());
       $ruleFk = PluginFusioninventoryInventoryRuleEntity::getForeignKeyField();
+      $ruleCriteriaTable = RuleCriteria::getTable();
+      $ruleEntityTable = PluginFusioninventoryInventoryRuleEntity::getTable();
+      $ruleActionTable = RuleAction::getTable();
       $request = [
-         'SELECT' => RuleCriteria::getTable() . '.*',
-         'FROM' => RuleCriteria::getTable(),
+         'SELECT'     => $ruleCriteriaTable . '.*',
+         'FROM'       => $ruleCriteriaTable,
          'INNER JOIN' => [
-            PluginFusioninventoryInventoryRuleEntity::getTable() => [
+            $ruleEntityTable => [
                'FKEY' => [
-                  PluginFusioninventoryInventoryRuleEntity::getTable() => 'id',
-                  RuleCriteria::getTable() => $ruleFk,
-               ]
+                  $ruleEntityTable   => 'id',
+                  $ruleCriteriaTable => $ruleFk,
+               ],
             ],
-            RuleAction::getTable() => [
+            $ruleActionTable => [
                'FKEY' => [
-                  PluginFusioninventoryInventoryRuleEntity::getTable() => 'id',
-                  RuleAction::getTable() => $ruleFk,
-               ]
-            ]
+                  $ruleEntityTable => 'id',
+                  $ruleActionTable => $ruleFk,
+               ],
+            ],
          ],
-         'WHERE' => [
+         'WHERE'      => [
             'AND' => [
-               'pattern'   => $this->getRuleCriteriaValue($invitation),
-               'criteria'  => 'tag',
-            ]
-         ]
+               'pattern'  => $this->getRuleCriteriaValue($invitation),
+               'criteria' => 'tag',
+            ],
+         ],
       ];
       $result = $DB->request($request);
       if ($result->count() !== 1) {
@@ -146,27 +148,26 @@ class PluginFlyvemdmFusionInventory {
    private function getRule($entityId, $create = true) {
       global $DB;
 
+      $ruleEntityTable = PluginFusioninventoryInventoryRuleEntity::getTable();
+      $ruleActionTable = RuleAction::getTable();
       $request = [
-         'SELECT' => PluginFusioninventoryInventoryRuleEntity::getTable() . '.*',
-         'FROM' => PluginFusioninventoryInventoryRuleEntity::getTable(),
+         'SELECT'     => $ruleEntityTable . '.*',
+         'FROM'       => $ruleEntityTable,
          'INNER JOIN' => [
-            RuleAction::getTable() => [
+            $ruleActionTable => [
                'FKEY' => [
-                  PluginFusioninventoryInventoryRuleEntity::getTable() => 'id',
-                  RuleAction::getTable() => PluginFusioninventoryInventoryRuleEntity::getForeignKeyField()
+                  $ruleEntityTable => 'id',
+                  $ruleActionTable => PluginFusioninventoryInventoryRuleEntity::getForeignKeyField(),
                ],
-            ]
+            ],
          ],
-         'WHERE'  => [
-            'AND' => [
-               PluginFusioninventoryInventoryRuleEntity::getTable() . '.name'
-                  => self::RULE_NAME . " $entityId",
-               'sub_type'     => PluginFusioninventoryInventoryRuleEntity::class,
-               'action_type'  => 'assign',
-               'field'        => Entity::getForeignKeyField(),
-               'value'        => $entityId,
-            ]
-         ]
+         'WHERE'      => [
+            $ruleEntityTable . '.name' => self::RULE_NAME . " $entityId",
+            'sub_type'                 => PluginFusioninventoryInventoryRuleEntity::class,
+            'action_type'              => 'assign',
+            'field'                    => Entity::getForeignKeyField(),
+            'value'                    => $entityId,
+         ],
       ];
 
       $result = $DB->request($request);
