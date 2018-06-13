@@ -30,7 +30,6 @@
  */
 
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
-use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyBadFleetException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 
 if (!defined('GLPI_ROOT')) {
@@ -316,12 +315,22 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    public function post_addItem() {
-      $this->publishPolicy($this->notifiable);
+      try {
+         $this->publishPolicy($this->notifiable);
+      } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+         Session::addMessageAfterRedirect(__("Policy publish action failed.",
+            'flyvemdm'), false, INFO, true);
+      }
       $this->createTaskStatuses($this->notifiable);
    }
 
    public function post_updateItem($history = 1) {
-      $this->publishPolicy($this->notifiable);
+      try {
+         $this->publishPolicy($this->notifiable);
+      } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+         Session::addMessageAfterRedirect(__("Policy publish action failed.",
+            'flyvemdm'), false, INFO, true);
+      }
       $this->deleteTaskStatuses();
       $this->createTaskStatuses($this->notifiable);
    }
@@ -368,7 +377,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     *
     * @param PluginFlyvemdmNotifiableInterface $item
     *
-    * @throws TaskPublishPolicyBadFleetException
     * @throws TaskPublishPolicyPolicyNotFoundException
     */
    public function publishPolicy(PluginFlyvemdmNotifiableInterface $item) {
@@ -381,8 +389,8 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policyFactory = new PluginFlyvemdmPolicyFactory();
       $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
       if ($appliedPolicy === null) {
-         $exceptionMessage = "Plugin Flyvemdm : Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
-         Toolbox::logInFile('php-errors', $exceptionMessage . PHP_EOL);
+         $exceptionMessage = "Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
+         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : '. $exceptionMessage . PHP_EOL);
          throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
       }
 
@@ -521,7 +529,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       $tab[] = [
          'id'            => '5',
-         'table'         => 'glpi_plugin_flyvemdm_policies',
+         'table'         => PluginFlyvemdmPolicy::getTable(),
          'field'         => 'id',
          'name'          => __('Policy ID', 'flyvemdm'),
          'massiveaction' => false,
@@ -548,7 +556,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       $tab[] = [
          'id'            => '8',
-         'table'         => 'glpi_plugin_flyvemdm_policies',
+         'table'         => PluginFlyvemdmPolicy::getTable(),
          'field'         => 'name',
          'name'          => __('policy name', 'flyvemdm'),
          'massiveaction' => false,
@@ -614,12 +622,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       if ((empty($withtemplate) || ($withtemplate != 2))
          && $canedit) {
          $policyDropdown = PluginFlyvemdmPolicy::dropdown([
-            'display'  => false,
-            'name'     => 'plugin_flyvemdm_policies_id',
-            'toupdate' => [
-               'value_fieldname' => 'value',
-               'to_update'       => 'plugin_flyvemdm_policy_value',
-               'url'             => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php",
+            'display'             => false,
+            'name'                => 'plugin_flyvemdm_policies_id',
+            'display_emptychoice' => true,
+            'toupdate'            => [
+               'value_fieldname'    => 'value',
+               'to_update'          => 'plugin_flyvemdm_policy_value',
+               'url'                => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php",
             ],
          ]);
       }

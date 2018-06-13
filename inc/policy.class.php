@@ -109,7 +109,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
 
       $tab[] = [
          'id'            => '3',
-         'table'         => 'glpi_plugin_flyvemdm_policycategories',
+         'table'         => PluginFlyvemdmPolicyCategory::getTable(),
          'field'         => 'completename',
          'name'          => __('Policy category', 'flyvemdm'),
          'datatype'      => 'dropdown',
@@ -227,7 +227,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
       $currentCategory = '';
       foreach ($DB->request($request) as $row) {
          $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
-         $elements[$categoryName][] = $row['name'];
+         $elements[$categoryName][$row['id']] = $row['name'];
       }
       return Dropdown::showFromArray(static::getForeignKeyField(), $elements, $options);
    }

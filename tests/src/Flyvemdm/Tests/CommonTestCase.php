@@ -428,6 +428,46 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <HEALTH>Good</HEALTH>
                   <STATUS>Not charging</STATUS>
                 </BATTERIES>
+                <SOFTWARES>
+                  <NAME><![CDATA[Bluetooth Pairing Utility]]></NAME>
+                  <COMMENTS>com.symbol.btapp</COMMENTS>
+                  <VERSION>3.10</VERSION>
+                  <FILESIZE>0</FILESIZE>
+                  <FROM>Android</FROM>
+                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                </SOFTWARES>
+                <SOFTWARES>
+                  <NAME><![CDATA[com.android.cts.priv.ctsshim]]></NAME>
+                  <COMMENTS>com.android.cts.priv.ctsshim</COMMENTS>
+                  <VERSION>7.0-2996264</VERSION>
+                  <FILESIZE>0</FILESIZE>
+                  <FROM>Android</FROM>
+                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                </SOFTWARES>
+                <SOFTWARES>
+                  <NAME><![CDATA[YouTube]]></NAME>
+                  <COMMENTS>com.google.android.youtube</COMMENTS>
+                  <VERSION>12.43.52</VERSION>
+                  <FILESIZE>0</FILESIZE>
+                  <FROM>Android</FROM>
+                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                </SOFTWARES>
+                <SOFTWARES>
+                  <NAME><![CDATA[SampleExtAuthService]]></NAME>
+                  <COMMENTS>com.qualcomm.qti.auth.sampleextauthservice</COMMENTS>
+                  <VERSION>1.0</VERSION>
+                  <FILESIZE>0</FILESIZE>
+                  <FROM>Android</FROM>
+                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                </SOFTWARES>
+                <SOFTWARES>
+                  <NAME><![CDATA[Kingdoms &amp; Lords]]></NAME>
+                  <COMMENTS>com.gameloft.android.GloftKLMF</COMMENTS>
+                  <VERSION>1.0.0</VERSION>
+                  <FILESIZE>0</FILESIZE>
+                  <FROM>Android</FROM>
+                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                </SOFTWARES>
               </CONTENT>
             </REQUEST>";
       return base64_encode($xml);
@@ -520,7 +560,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/removeFile',
          'Policy/disableWifi',
          'Policy/disableBluetooth',
-         'Policy/useTLS',
          'Policy/disableRoaming',
          'Policy/disableGPS',
          'Policy/disableUsbMtp',
@@ -529,14 +568,10 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableMobileLine',
          'Policy/disableNfc',
          'Policy/disableHostpotTethering',
-         'Policy/disableSmsMms',
          'Policy/disableAirplaneMode',
          'Policy/disableStatusBar',
          'Policy/disableScreenCapture',
-         'Policy/resetPassword',
          'Policy/disableSpeakerphone',
-         'Policy/disableCreateVpnProfiles',
-         'Policy/inventoryFrequency',
          'Policy/disableUnknownAppSources',
          'Policy/disableStreamMusic',
          'Policy/disableStreamRing',
@@ -544,7 +579,6 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableStreamNotification',
          'Policy/disableStreamAccessibility',
          'Policy/disableStreamDTMF',
-         'Policy/disableStreamVoiceCall',
          'Policy/disableStreamSystem',
          'Policy/defaultStreamType',
       ];

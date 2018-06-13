@@ -773,7 +773,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'table'              => PluginFlyvemdmFleet::getTable(),
          'field'              => 'name',
          'name'               => __('Fleet', 'flyvemdm'),
          'datatype'           => 'dropdown'
@@ -781,7 +781,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '4',
-         'table'              => 'glpi_computers',
+         'table'              => Computer::getTable(),
          'field'              => 'id',
          'name'               => __('Computer'),
          'datatype'           => 'dropdown',
@@ -790,7 +790,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '7',
-         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'table'              => PluginFlyvemdmFleet::getTable(),
          'field'              => 'id',
          'name'               => __('Fleet - ID'),
          'massiveaction'      => false,
@@ -871,7 +871,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '17',
-         'table'              => 'glpi_entities',
+         'table'              => Entity::getTable(),
          'field'              => 'completename',
          'name'               => __('Entity'),
          'datatype'           => 'dropdown'
@@ -879,7 +879,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '18',
-         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
          'field'              => 'name',
          'name'               => __('Applied policy', 'flyvemdm'),
          'datatype'           => 'dropdown',
@@ -887,7 +887,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'nosort'             => true,
          'joinparams'         => [
             'beforejoin'         => [
-               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'table'           => PluginFlyvemdmTask::getTable(),
                'joinparams'      => [
                   'jointype'     => 'child',
                   'linkfield'    => 'items_id_applied',
@@ -1129,8 +1129,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      // @see fusioninventory/inc/communication.class.php
-      $parsedXml = @simplexml_load_string($inventory, 'SimpleXMLElement', LIBXML_NOCDATA);
+      if ($config['debug_save_inventory'] != '0') {
+         PluginFlyvemdmCommon::saveInventoryFile($inventory, $invitationToken);
+      }
+      $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
          $this->filterMessages($event);
@@ -1263,12 +1265,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Create the device
-      if ($config['debug_save_inventory'] != '0') {
-         if (!is_dir(FLYVEMDM_INVENTORY_PATH)) {
-            @mkdir(FLYVEMDM_INVENTORY_PATH, 0770, true);
-         }
-         file_put_contents(FLYVEMDM_INVENTORY_PATH . "/$invitationToken.xml", $inventory);
-      }
       $pfCommunication = new PluginFusioninventoryCommunication();
       $pfAgent = new PluginFusioninventoryAgent();
       $_SESSION['glpi_fusionionventory_nolock'] = true;
@@ -1782,6 +1778,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
                $mqttUser = new PluginFlyvemdmMqttuser();
                $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
                if (!$mqttUser->getByUser($serial)) {
                   // The user does not exists
                   $mqttUser->add([

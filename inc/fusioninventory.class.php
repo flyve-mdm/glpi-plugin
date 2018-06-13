@@ -46,7 +46,13 @@ class PluginFlyvemdmFusionInventory {
     */
    public function addInvitationRule(PluginFlyvemdmInvitation $invitation) {
       $entityId = $invitation->getField(Entity::getForeignKeyField());
-      $rule = $this->getRule($entityId);
+      try {
+         $rule = $this->getRule($entityId);
+      } catch (FusionInventoryRuleInconsistency $exception) {
+         Session::addMessageAfterRedirect(__('Unable to get rule for entity', 'flyvemdm'),
+            true, ERROR);
+         return;
+      }
 
       $ruleCriteria = new RuleCriteria();
       $ruleCriteria->add([
@@ -121,6 +127,8 @@ class PluginFlyvemdmFusionInventory {
 
    /**
     * gets a entity identification tag derivated from an invitation
+    * @param PluginFlyvemdmInvitation $invitation
+    * @return string
     */
    private function getRuleCriteriaValue(PluginFlyvemdmInvitation $invitation) {
       return 'invitation_' . $invitation->getField('invitation_token');
@@ -133,6 +141,7 @@ class PluginFlyvemdmFusionInventory {
     * @param boolean $create If the rule does not exists, create it
     *
     * @return PluginFusioninventoryInventoryRuleEntity|null
+    * @throws FusionInventoryRuleInconsistency
     */
    private function getRule($entityId, $create = true) {
       global $DB;
@@ -168,7 +177,7 @@ class PluginFlyvemdmFusionInventory {
          return $rule;
       }
       if ($result->count() > 1) {
-         throw new FusionInventoryRuleInconsistency('Import to entity rule is not unique');
+         throw new FusionInventoryRuleInconsistency(__('Import rule is not unique'));
       }
 
       if (!$create) {

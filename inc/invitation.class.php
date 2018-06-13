@@ -170,7 +170,13 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Compute the expiration date of the invitation
       $expirationDate = new DateTime("now");
-      $expirationDate->add(new DateInterval($tokenExpire));
+      try {
+         $expirationDate->add(new DateInterval($tokenExpire));
+      } catch (Exception $e) {
+         Session::addMessageAfterRedirect(__("Invalid token expiration date interval",
+            'flyvemdm'), false, ERROR, true);
+         return false;
+      }
       $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 
       // Set a name for the invitation
@@ -563,7 +569,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                   // Do not invite service account users (demo mode)
                   if (isset($config['service_profiles_id'])) {
                      if ($profile_user->getFromDBForItems($item, $profile) !== false) {
-
                         $reject = true;
                      }
                   }

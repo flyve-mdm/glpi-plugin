@@ -169,4 +169,37 @@ class PluginFlyvemdmCommon
          $needle, $temp) !== false);
    }
 
+   /**
+    * Check XML format using part of the logic from FusionInventory
+    *
+    * @see PluginFusioninventoryCommunication::handleOCSCommunication()
+    *
+    * @param mixed $xml the xml string
+    * @return SimpleXMLElement|boolean
+    */
+   public static function parseXML($xml) {
+      if (($pxml = @simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA))) {
+         return $pxml;
+      }
+      if (($pxml = @simplexml_load_string(utf8_encode($xml), 'SimpleXMLElement', LIBXML_NOCDATA))) {
+         return $pxml;
+      }
+
+      $xml = preg_replace('/<FOLDER>.*?<\/SOURCE>/', '', $xml);
+      $pxml = @simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+      return $pxml;
+   }
+
+   /**
+    * @param mixed $content the xml string
+    * @param string $filename the filename to be saved
+    */
+   public static function saveInventoryFile($content, $filename) {
+      if (!is_dir(FLYVEMDM_INVENTORY_PATH)) {
+         @mkdir(FLYVEMDM_INVENTORY_PATH, 0770, true);
+      }
+      $filename = ($filename) ? $filename : date("Ymd_Hi");
+      file_put_contents(FLYVEMDM_INVENTORY_PATH . "/debug_" . $filename . ".xml", $content);
+   }
+
 }

@@ -32,6 +32,7 @@
 namespace tests\units;
 
 use atoum;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmCommon extends atoum {
 
@@ -67,4 +68,35 @@ class PluginFlyvemdmCommon extends atoum {
          ->matches('/\w{8}-\w{4}-4\w{3}-[8,9,A,B]\w{3}-\w{12}/i');
    }
 
+   /**
+    * @tags testParseXML
+    */
+   public function testParseXML() {
+      $class = $this->testedClass->getClass();
+
+      // invalid XML
+      $this->boolean($class::parseXML('loremIpsum'))->isFalse();
+
+      $xml = base64_decode(CommonTestCase::AgentXmlInventory(uniqid('sn')));
+
+      // using non UTF8 charset
+      $this->object($class::parseXML(iconv("UTF-8", "ISO-8859-1",
+         $xml)))->isInstanceOf('\SimpleXMLElement');
+      $this->object($class::parseXML($xml))->isInstanceOf('\SimpleXMLElement');
+
+      // valid XML
+      $this->object($class::parseXML($xml))->isInstanceOf('\SimpleXMLElement');
+   }
+
+   /**
+    * @tags testSaveInventoryFile
+    */
+   public function testSaveInventoryFile() {
+      $class = $this->testedClass->getClass();
+      $filename = uniqid('invitation');
+      $fileContent = 'loremIpsum';
+      $class::saveInventoryFile($fileContent, $filename);
+      $inventoryExists = file_get_contents(FLYVEMDM_INVENTORY_PATH . "/debug_" . $filename . ".xml");
+      $this->string($inventoryExists)->isEqualTo($fileContent);
+   }
 }
