@@ -820,7 +820,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'is_online',
          'name'               => __('Is online', 'flyvemdm'),
-         'datatype'           => 'bool',
+         'datatype'           => 'specific',
          'massiveaction'      => false
       ];
 
