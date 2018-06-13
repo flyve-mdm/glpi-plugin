@@ -177,8 +177,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function pre_deleteItem() {
       // move agents in the fleet into the default one
-      $fleetId = $this->getID();
-      $agent = new PluginFlyvemdmAgent();
       $entityId = $this->fields['entities_id'];
       $defaultFleet = self::getDefaultFleet($entityId);
       $agents = $this->getAgents();
@@ -327,12 +325,9 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'SELECT DISTINCT' => 'group',
          'FROM'            => PluginFlyvemdmPolicy::getTable(),
       ];
-      $result = $DB->query($query);
       $groups = [];
-      if ($result) {
-         while ($row = $DB->fetch_assoc($result)) {
-            $groups[] = $row['group'];
-         }
+      foreach ($DB->request($query) as $row) {
+         $groups[] = $row['group'];
       }
       PluginFlyvemdmTask::cleanupPolicies($this, $groups);
    }
@@ -352,12 +347,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
             'plugin_flyvemdm_fleets_id' => $fleetId,
          ],
       ];
-      if ($result = $DB->query($query)) {
-         while ($row = $DB->fetch_assoc($result)) {
-            $agent = new PluginFlyvemdmAgent();
-            if ($agent->getFromDB($row['id'])) {
-               $agent->unsubscribe();
-            }
+      foreach ($DB->request($query) as $row) {
+         $agent = new PluginFlyvemdmAgent();
+         if ($agent->getFromDB($row['id'])) {
+            $agent->unsubscribe();
          }
       }
 

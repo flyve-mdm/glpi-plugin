@@ -90,8 +90,6 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @return string the tab name
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      global $DB;
-
       if (static::canView()) {
          switch ($item->getType()) {
             case PluginFlyvemdmFleet::class:
@@ -418,6 +416,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Initialize a task status for each agent in the fleet
+      $rows = [];
       $notifiableId = $item->getID();
       $agent = new PluginFlyvemdmAgent();
       if ($item instanceof PluginFlyvemdmFleet) {

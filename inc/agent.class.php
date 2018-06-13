@@ -310,11 +310,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      if (isset($_GET["start"])) {
-         $start = intval($_GET["start"]);
-      } else {
-         $start = 0;
-      }
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 
       $dbUtils = new DbUtils();
 
@@ -565,10 +561,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      global $DB;
-
-      $success = false;
-
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -1216,10 +1208,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
-      if (version_compare(GLPI_VERSION, '9.3-dev') < 0) {
-         $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
-      } else {
-         $condition = [User::getTable() . '.id' => $invitation->getField('users_id')];
+      $userTable = User::getTable();
+      $condition = $userTable.".`id`='" . $invitation->getField('users_id') . "'";
+      if (version_compare(GLPI_VERSION, '9.3-dev') >= 0) {
+         $condition = [$userTable . '.id' => $invitation->getField('users_id')];
       }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
@@ -1232,6 +1224,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $entityId = $invitation->getField('entities_id');
 
       //sign the agent's certificate (if TLS enabled)
+      $input['certificate'] = '';
       if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
@@ -1242,8 +1235,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
          $input['certificate'] = $crt;
-      } else {
-         $input['certificate'] = '';
       }
 
       // Prepare invitation update
@@ -1824,10 +1815,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function filterMessages($error) {
       $config = Config::getConfigurationValues('flyvemdm', ['debug_enrolment']);
       if ($config['debug_enrolment'] == 0) {
-         Session::addMessageAfterRedirect(__('Enrollment failed', 'flyvemdm'), false, ERROR);
-      } else {
-         Session::addMessageAfterRedirect($error, false, ERROR);
+         $error = __('Enrollment failed', 'flyvemdm');
       }
+      Session::addMessageAfterRedirect($error, false, ERROR);
    }
    /**
     * Logs invitation events
@@ -1979,18 +1969,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return Mixed           Value to be displayed
     */
    public static function getSpecificValueToDisplay($field, $values, array $options = []) {
-      global $CFG_GLPI;
       if (!is_array($values)) {
          $values = [$field => $values];
       }
       switch ($field) {
          case 'is_online':
             if (!isAPI()) {
-               if ($values[$field] == 0) {
-                  $class = "plugin-flyvemdm-offline";
-               } else {
-                  $class = "plugin-flyvemdm-online";
-               }
+               $class = $values[$field] == 0 ? "plugin-flyvemdm-offline" : "plugin-flyvemdm-online";
                $output = '<div style="text-align: center"><i class="fa fa-circle '
                   . $class
                   . '" aria-hidden="true" ></i></div>';

@@ -129,7 +129,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    /**
     * @param CommonGLPI $item
     * @param integer $withtemplate
-    * @return string
+    * @return array|string
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       switch ($item->getType()) {
@@ -343,7 +343,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
          $texts = [];
          $data = [];
-         $paragraph = 1;
          switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
             default:
                // Nothing here for now

@@ -255,8 +255,6 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       // Entities
       if (isset($_SESSION["glpiactiveentities"]) && count($_SESSION["glpiactiveentities"])) {
          // Force complete SQL not summary when access to all entities
-         $geolocationTable = self::getTable();
-         $computerTable = 'c'; // See self::addDefaultJoin
          $DbUtil = new DbUtils();
          $where .= $DbUtil->getEntitiesRestrictRequest('', "c", "entities_id", '', false, true);
       }

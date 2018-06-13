@@ -298,13 +298,8 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
-      $DbUtil = new DbUtils();
-      $objectName = $DbUtil->autoName($this->fields["name"], "name",
-         (isset($options['withtemplate']) && $options['withtemplate'] == 2),
-         $this->getType(), -1);
-      if ($this->isNewID($ID)) {
-         $fields['filesize'] = '';
-      } else {
+      $fields['filesize'] = '';
+      if (!$this->isNewID($ID)) {
          $fields['filesize'] = fileSize(FLYVEMDM_FILE_PATH . '/' . $fields['source']);
          $fields['filesize'] = Toolbox::getSize($fields['filesize']);
       }

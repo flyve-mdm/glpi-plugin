@@ -316,13 +316,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return string URL to enroll a mobile Device
     */
    protected function createQRCodeDocument() {
-      global $CFG_GLPI;
 
       $user = new User();
       $user->getFromDB($this->fields['users_id']);
-      $invitationToken = $this->fields['invitation_token'];
       $entityId = $this->fields['entities_id'];
-      $encodedRequest = $this->getEnrollmentUrl($user, $invitationToken, $entityId);
+      $encodedRequest = $this->getEnrollmentUrl();
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
@@ -580,8 +578,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                      $reject = true;
                   }
 
+                  $result = MassiveAction::ACTION_OK;
                   if ($reject) {
-                     $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                     $result = MassiveAction::ACTION_KO;
                   } else {
                      $invitation = new PluginFlyvemdmInvitation();
                      $success = $invitation->add([
@@ -589,11 +588,10 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
                         'entities_id' => $_SESSION['glpiactive_entity'],
                      ]);
                      if (!$success) {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
-                     } else {
-                        $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
+                        $result = MassiveAction::ACTION_KO;
                      }
                   }
+                  $ma->itemDone($item->getType(), $id, $result);
                }
             } else {
                $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
