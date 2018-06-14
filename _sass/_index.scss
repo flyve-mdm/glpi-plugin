@@ -1,5 +1,6 @@
-
-/***RESPONSIVE PARAGRAPH STYLE***/
+/********************************/
+/***RESPONSIVE PARAGRAPH STYLE TEMPLATE***/
+/*******************************/
 
 .p-size {
 
@@ -68,6 +69,7 @@ ul.p-size3 {
   .p-size3 {max-width: 100%};
   .p-size4 {max-width: 100%};
   .p-size5 {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
@@ -79,8 +81,13 @@ ul.p-size3 {
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
   .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
-
+  .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
 }
+
+/*************************************/
+/*****GENERAL DECORATIVE EFFECTS******/
+/*************************************/
+
 
 /*CREATES SHADOW EFFECT TO ADD MORE DEPTH*/
 .boxshadow {
@@ -126,4 +133,39 @@ Blockquote {
 
   border-top: 3px #158784 solid;
 
+}
+
+/**********************************/
+/**CODE DOCUMENTATION POSTS STYLE**/
+/**********************************/
+
+
+.post-content .highlighter-rouge pre code{
+
+  max-width: 66%;
+  white-space: nowrap;
+  overflow: hidden;
+  /*background-color: blue;*/
+
+}
+
+.post-content p{
+
+  max-width: 58%;
+
+}
+
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
+
+  .post-content p {max-width: 100%};
+  .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+
+}
+
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (max-width: 768px) {
+
+  .post-content p {max-width: 100%};
+  .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
 }
