@@ -6,7 +6,7 @@ published: true
 title: GLPI Locales Extension
 permalink: development/devdocs/GlpiLocalesExtension
 ---
-<p class="type-p2 p-size2">
+
 LICENSE<br/><br/>
 
 Copyright © 2016-2017 Teclib'<br/>
@@ -27,7 +27,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Affero General Public License for more details.<br/><br/>
 You should have received a copy of the GNU Affero General Public License
 along with Flyve MDM Plugin for GLPI. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
-</p>
+
 ------------------------------------------------------------------------------
 
 * Class name: GlpiLocalesExtension
