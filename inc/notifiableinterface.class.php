@@ -87,4 +87,11 @@ interface PluginFlyvemdmNotifiableInterface {
     * @return boolean True if message may be sent
     */
    public function isNotifiable();
+
+   /**
+    * Find agents to be notified
+    * @param integer $notifiableId
+    * @return array
+    */
+   public function findNotifiableAgents($notifiableId);
 }

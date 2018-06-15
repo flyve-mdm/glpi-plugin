@@ -416,25 +416,15 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       // Initialize a task status for each agent in the fleet
-      $rows = [];
       $notifiableId = $item->getID();
-      $agent = new PluginFlyvemdmAgent();
-      if ($item instanceof PluginFlyvemdmFleet) {
-         $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
-         $rows = $agent->find("`$fleetFk` = '$notifiableId'");
-      } else if ($item instanceof PluginFlyvemdmAgent) {
-         $rows = $agent->find("`id` = '$notifiableId'");
-      }
+      $rows = $item->findNotifiableAgents($notifiableId);
       foreach ($rows as $row) {
-         $agent = new PluginFlyvemdmAgent();
-         if ($agent->getFromDB($row['id'])) {
-            $taskStatus = new PluginFlyvemdmTaskstatus();
-            $taskStatus->add([
-               $agent::getForeignKeyField()  => $row['id'],
-               $this::getForeignKeyField()   => $this->getID(),
-               'status'                      => 'pending',
-            ]);
-         }
+         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $taskStatus->add([
+            PluginFlyvemdmAgent::getForeignKeyField() => $row['id'],
+            $this::getForeignKeyField()               => $this->getID(),
+            'status'                                  => 'pending',
+         ]);
       }
    }
 

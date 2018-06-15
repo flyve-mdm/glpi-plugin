@@ -555,4 +555,16 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       return ($this->fields['is_default'] === '0');
    }
+
+   /**
+    * Find agents to be notified
+    * @param integer $notifiableId
+    * @return array
+    */
+   public function findNotifiableAgents($notifiableId) {
+      $agent = new PluginFlyvemdmAgent();
+      $fleetFk = $this->getForeignKeyField();
+      $rows = $agent->find("`$fleetFk` = '$notifiableId'");
+      return $rows;
+   }
 }
