@@ -162,6 +162,12 @@ class CommonTestCase extends GlpiCommonTestCase {
       return $fleet;
    }
 
+   /**
+    * Create a new enrolled agent in the database
+    *
+    * @param array $input
+    * @return \PluginFlyvemdmAgent
+    */
    public function createAgent($input) {
       $guestEmail = $this->getUniqueEmail();
       $invitation = $this->createInvitation($guestEmail);

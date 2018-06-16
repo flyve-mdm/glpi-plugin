@@ -44,6 +44,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          case 'testShowForm':
          case 'testPrepareInputForAdd':
          case 'testFromDBByDefaultForEntity':
+         case 'testGetAgents':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -58,6 +59,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          case 'testShowForm':
          case 'testPrepareInputForAdd':
          case 'testFromDBByDefaultForEntity':
+         case 'testGetAgents':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -259,5 +261,29 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $class = $this->testedClass->getClass();
       $this->given($class)->variable($class::getDefaultFleet(-1))->isNull();
       $this->given($class)->object($class::getDefaultFleet())->isInstanceOf('\PluginFlyvemdmFleet');
+   }
+
+   public function testGetAgents() {
+      $instance = $this->newTestedInstance();
+      $instance->add([
+         'name' => __FUNCTION__,
+      ]);
+      $this->boolean($instance->isNewItem())->isFalse();
+
+      $agents = [];
+      for ($i = 0; $i < 3; $i++) {
+         $agent = $this->createAgent([]);
+         $agent->update([
+            'id' => $agent->getID(),
+            'plugin_flyvemdm_fleets_id' => $instance->getID(),
+         ]);
+         $agents[$agent->getID()] = $agent;
+      }
+      $output = $instance->getAgents();
+      $this->array($output)->size->isEqualTo(count($agents));
+      foreach ($output as $agent) {
+         $this->object($agent)->isInstanceOf(\PluginFlyvemdmAgent::class);
+         $this->boolean(isset($agents[$agent->getID()]))->isTrue();
+      }
    }
 }

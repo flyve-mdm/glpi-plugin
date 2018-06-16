@@ -1985,9 +1985,4 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       return parent::getSpecificValueToDisplay($field, $values, $options);
    }
-
-   public function findNotifiableAgents($notifiableId) {
-      $rows = $this->find("`id` = '$notifiableId'");
-      return $rows;
-   }
 }

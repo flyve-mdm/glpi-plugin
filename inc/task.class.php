@@ -417,11 +417,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       // Initialize a task status for each agent in the fleet
       $notifiableId = $item->getID();
-      $rows = $item->findNotifiableAgents($notifiableId);
-      foreach ($rows as $row) {
+      $agents = $item->getAgents($notifiableId);
+      foreach ($agents as $agent) {
          $taskStatus = new PluginFlyvemdmTaskstatus();
          $taskStatus->add([
-            PluginFlyvemdmAgent::getForeignKeyField() => $row['id'],
+            PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
             $this::getForeignKeyField()               => $this->getID(),
             'status'                                  => 'pending',
          ]);
