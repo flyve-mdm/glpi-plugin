@@ -368,12 +368,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array instances of agents belonging to the fleet
     */
    public function getAgents() {
-      $id = $this->getID();
-      if (! ($id > 0)) {
+      if ($this->isNewItem()) {
          return [];
       }
       $agents = [];
       $agent = new PluginFlyvemdmAgent();
+      $id = $this->getID();
       $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$id'");
 
       foreach ($rows as $row) {
@@ -554,17 +554,5 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       return ($this->fields['is_default'] === '0');
-   }
-
-   /**
-    * Find agents to be notified
-    * @param integer $notifiableId
-    * @return array
-    */
-   public function findNotifiableAgents($notifiableId) {
-      $agent = new PluginFlyvemdmAgent();
-      $fleetFk = $this->getForeignKeyField();
-      $rows = $agent->find("`$fleetFk` = '$notifiableId'");
-      return $rows;
    }
 }
