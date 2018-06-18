@@ -45,6 +45,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
          case 'testGetAgents':
+         case 'testAddDefaultJoin':
+         case 'testAddDefaultWhere':
+         case 'testGetTopic':
+         case 'testGetFleet':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -60,6 +64,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
          case 'testGetAgents':
+         case 'testAddDefaultJoin':
+         case 'testAddDefaultWhere':
+         case 'testGetTopic':
+         case 'testGetFleet':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -162,39 +170,43 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowForm
     * @engine inline
     */
-   /*public function testShowForm() {
+   public function testShowForm() {
+      $agent = $this->createAgent([]);
       $instance = $this->newTestedInstance();
       ob_start();
-      // TODO: have a fake agent registered in DB before this.
-      $instance->showForm(1);
+      $instance->showForm($agent->getID());
       $result = ob_get_contents();
       ob_end_clean();
+      $formAction = preg_quote("/plugins/flyvemdm/front/agent.form.php", '/');
       $this->string($result)
-         ->contains("method='post' action='-/plugins/flyvemdm/front/agent.form.php'")
+         ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains("type='text' name='name'")
-         ->contains('input type="hidden" name="computers_id"')
-         ->contains('input type="hidden" name="plugin_flyvemdm_fleets_id"')
+         ->matches('#(?:input type="hidden"|select) .*?name="computers_id"#')
+         ->matches('#(?:input type="hidden"|select) .*?name="plugin_flyvemdm_fleets_id"#')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
-   }*/
+   }
 
    /**
     * @tags testShowDangerZone
+    * @engine inline
     */
-   /*public function testShowDangerZone() {
+   public function testShowDangerZone() {
+      $agent = $this->createAgent([]);
       $instance = $this->newTestedInstance();
       ob_start();
-      // TODO: have a fake agent registered in DB before this.
-      $instance->showDangerZone(1);
+      $instance->showDangerZone($agent);
       $result = ob_get_contents();
       ob_end_clean();
+      $formAction = preg_quote("/plugins/flyvemdm/front/agent.form.php", '/');
       $this->string($result)
-         ->contains("method='post' action='/plugins/flyvemdm/front/agent.form.php'")
-         ->contains("input type='checkbox' class='new_checkbox' name='lock'")
-         ->contains("input type='checkbox' class='new_checkbox' name='wipe'")
+         ->matches("#method='post' action='.+?" . $formAction . "'#")
+         ->contains("input type='hidden' name='entities_id'")
+         ->matches("#input type='checkbox' .+? name='lock'#")
+         ->matches("#input type='checkbox' .+? name='wipe'#")
          ->contains('input type="submit" value="Unenroll" name="unenroll"')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
-   }*/
+   }
 
    /**
     * @tags testShowForFleet
@@ -252,4 +264,104 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $this->boolean(isset($agents[$agent->getID()]))->isTrue();
       }
    }
+
+   /**
+    * @tags testAddDefaultJoin
+    */
+   public function testAddDefaultJoin() {
+      $instance = $this->newTestedInstance();
+      $result = $instance::addDefaultJoin();
+      $this->string($result)->isEmpty();
+   }
+
+   /**
+    * @tags testAddDefaultWhere
+    */
+   public function testAddDefaultWhere() {
+      $instance = $this->newTestedInstance();
+      $result = $instance::addDefaultWhere();
+      $this->string($result)->isEmpty();
+   }
+
+   /**
+    * @tags testGetTopic
+    * @engine inline
+    */
+   public function testGetTopic() {
+      $instance = $this->newTestedInstance();
+      $this->variable($instance->getTopic())->isNull();
+
+      $instance = $this->createAgent([]);
+      $serial = $instance->getComputer()->getField('serial');
+      $entityId = $instance->getField('entities_id');
+      $this->string($instance->getTopic())->isEqualTo($entityId . '/agent/' . $serial);
+   }
+
+   /**
+    * @tags testGetPackages
+    */
+   public function testGetPackages() {
+      $instance = $this->newTestedInstance();
+      $this->array($instance->getPackages())->isEmpty();
+   }
+
+   /**
+    * @tags testGetFiles
+    */
+   public function testGetFiles() {
+      $instance = $this->newTestedInstance();
+      $this->array($instance->getFiles())->isEmpty();
+   }
+
+   /**
+    * @tags testGetFleet
+    * @engine inline
+    */
+   public function testGetFleet() {
+      $instance = $this->newTestedInstance();
+      $this->variable($instance->getFleet())->isNull();
+
+      $instance = $this->createAgent([]);
+      $this->object($instance->getFleet())->isInstanceOf('PluginFlyvemdmFleet');
+   }
+
+   /**
+    * @tags testGetComputer
+    */
+   public function testGetComputer() {
+      $instance = $this->newTestedInstance();
+      $this->variable($instance->getComputer())->isNull();
+   }
+
+   /**
+    * @tags testRefreshPersistedNotifications
+    */
+   public function testRefreshPersistedNotifications() {
+      $instance = $this->newTestedInstance();
+      $this->variable($instance->refreshPersistedNotifications())->isNull();
+      // TODO: complete this test
+   }
+
+   /**
+    * @tags testIsNotifiable
+    */
+   public function testIsNotifiable() {
+      $instance = $this->newTestedInstance();
+      $this->boolean($instance->isNotifiable())->isTrue();
+   }
+
+   /**
+    * @tags testGetSpecificValueToDisplay
+    */
+   public function testGetSpecificValueToDisplay() {
+      $instance = $this->newTestedInstance();
+      $this->string($instance->getSpecificValueToDisplay('', ''))->isEqualTo('');
+      $this->string($instance->getSpecificValueToDisplay('is_online',
+         0))->contains('plugin-flyvemdm-offline');
+      $this->string($instance->getSpecificValueToDisplay('is_online',
+         1))->contains('plugin-flyvemdm-online');
+      $this->string($instance->getSpecificValueToDisplay('mdm_type',
+         'android'))->contains('Android');
+   }
+
 }

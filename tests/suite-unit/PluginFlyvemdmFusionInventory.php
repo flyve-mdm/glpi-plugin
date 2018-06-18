@@ -36,6 +36,31 @@ use Flyvemdm\Tests\CommonTestCase;
 class PluginFlyvemdmFusionInventory extends CommonTestCase {
 
    /**
+    * @param $method
+    */
+   public function beforeTestMethod($method) {
+      switch ($method) {
+         case 'testAddInvitationRule':
+         case 'testDeleteInvitationRuleCriteria':
+            $this->login('glpi', 'glpi');
+            break;
+      }
+   }
+
+   /**
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testAddInvitationRule':
+         case 'testDeleteInvitationRuleCriteria':
+            parent::afterTestMethod($method);
+            \Session::destroy();
+            break;
+      }
+   }
+
+   /**
     * Run without concurrency, becauase it tests an inconsistency in DB
     * @engine inline
     */

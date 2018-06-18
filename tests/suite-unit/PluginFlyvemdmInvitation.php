@@ -116,7 +116,6 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
 
    /**
     * @tags testPrepareInputForAdd
-    * @engine inline
     */
    public function testPrepareInputForAdd() {
       $uniqueEmail = $this->getUniqueEmail();
@@ -203,18 +202,26 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $instance->showForm(0);
       $result = ob_get_contents();
       ob_end_clean();
+      $formAction = preg_quote("/plugins/flyvemdm/front/invitation.form.php", '/');
       $this->string($result)
-         ->matches("#method='post' action='.+?\/plugins\/flyvemdm\/front\/invitation\.form\.php'#")
+         ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains('input name="_useremails" value=""')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
 
+   /**
+    * @tags testPost_updateItem
+    */
    public function testPost_updateItem() {
+      $entity = new \Entity();
+      $entity->import([
+         'completename' => 'post update invitation ' . $this->getUniqueString(),
+      ]);
       $instance = $this->newTestedInstance();
       $instance->add([
          '_useremails' => 'someone@localhost.local',
-         'entities_id' => 0,
+         'entities_id' => $entity->getID(),
       ]);
 
       $this->boolean($instance->isNewItem())->isFalse();

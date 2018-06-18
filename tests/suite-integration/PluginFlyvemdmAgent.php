@@ -64,6 +64,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testDeviceCountLimit
+    * @engine inline
     */
    public function testDeviceCountLimit() {
       $entity = new \Entity();
@@ -213,7 +214,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       global $DB;
 
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
-
       $invitationToken = $invitation->getField('invitation_token');
       $inviationId = $invitation->getID();
 
