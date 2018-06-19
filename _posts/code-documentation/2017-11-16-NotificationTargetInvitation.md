@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmNotificationTargetInvitation
 ---
 
 * Class name: PluginFlyvemdmNotificationTargetInvitation
-* Namespace: 
+* Namespace:
 * Parent class: NotificationTarget
 
 
@@ -132,5 +132,3 @@ Can be overwitten (like dbconnection)
 #### Arguments
 * $data **array**
 * $options **array**
-
-

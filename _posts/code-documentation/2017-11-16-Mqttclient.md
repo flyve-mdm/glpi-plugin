@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmMqttclient
 ---
 
 * Class name: PluginFlyvemdmMqttclient
-* Namespace: 
+* Namespace:
 
 
 
@@ -291,5 +291,3 @@ Builds a MQTT
 * $port **TCP**
 * $isTls **string**
 * $sslCipher **string**
-
-

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmMqttupdatequeue
 ---
 
 * Class name: PluginFlyvemdmMqttupdatequeue
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBTM
 
 
@@ -116,5 +116,3 @@ Update MQTT topics in the update queue
 
 #### Arguments
 * $cronTask **mixed**
-
-

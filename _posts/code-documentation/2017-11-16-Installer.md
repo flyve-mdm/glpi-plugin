@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmInstaller
 ---
 
 * Class name: PluginFlyvemdmInstaller
-* Namespace: 
+* Namespace:
 
 ## Constants
 
@@ -507,6 +507,3 @@ Add anchor to URLs
 
 
 * Visibility: **protected**
-
-
-

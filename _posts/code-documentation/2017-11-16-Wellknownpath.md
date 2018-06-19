@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmWellknownpath
 ---
 
 * Class name: PluginFlyvemdmWellknownpath
-* Namespace: 
+* Namespace:
 * Parent class: CommonDropdown
 
 
@@ -93,6 +93,3 @@ Prepare input datas for updating the item
 
 
 * Visibility: **public**
-
-
-

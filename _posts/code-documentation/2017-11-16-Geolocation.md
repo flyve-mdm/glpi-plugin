@@ -98,9 +98,7 @@ Localized name of the type
 
 ### getTabNameForItem
 
-<p class="p-size5">
     mixed PluginFlyvemdmGeolocation::getTabNameForItem(\CommonGLPI $item, $withtemplate)
-</p>
 
 
 
@@ -116,9 +114,7 @@ Localized name of the type
 
 ### displayTabContentForItem
 
-<p class="p-size5">
     mixed PluginFlyvemdmGeolocation::displayTabContentForItem($item, $tabnum, $withtemplate)
-</p>
 
 
 
@@ -168,9 +164,7 @@ Localized name of the type
 
 ### prepareInputForUpdate
 
-<p class="p-size5">
     array|false PluginFlyvemdmGeolocation::prepareInputForUpdate(array $input)
-</p>
 
 Prepares data before update
 
@@ -214,9 +208,7 @@ Prepares data before update
 
 ### showForAgent
 
-<p class="p-size5">
     string PluginFlyvemdmGeolocation::showForAgent(\CommonDBTM $item)
-</p>
 
 Displays the agents according the datetime
 
@@ -246,9 +238,7 @@ Displays the agents according the datetime
 
 ### hook_computer_purge
 
-<p class="p-size5">
     mixed PluginFlyvemdmGeolocation::hook_computer_purge(\CommonDBTM $item)
-</p>
 
 Deletes the geolocation related with the computer
 

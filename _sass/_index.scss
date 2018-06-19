@@ -99,9 +99,17 @@ ul.p-size3 {
 
 }
 
+/*CODE-DOCUMENTATION FILES'S FOOTER STYLE*/
 Blockquote {
 
   margin-bottom: 10px;
+
+}
+
+Blockquote.type-p2 {
+
+  padding: 4px 0 4px 21px;
+  margin: 24px 0 0;
 
 }
 
@@ -145,7 +153,15 @@ Blockquote {
   max-width: 66%;
   white-space: nowrap;
   overflow: hidden;
-  /*background-color: blue;*/
+  text-overflow: ellipsis;
+
+}
+
+.post-content .highlighter-rouge pre code:hover{
+
+  white-space: normal;
+  max-width: 95%;
+  overflow: visible;
 
 }
 

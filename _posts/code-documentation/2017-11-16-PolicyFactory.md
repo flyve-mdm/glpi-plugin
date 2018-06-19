@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmPolicyFactory
 ---
 
 * Class name: PluginFlyvemdmPolicyFactory
-* Namespace: 
+* Namespace:
 
 
 
@@ -49,5 +49,3 @@ Create and returns a policy from DB
 
 #### Arguments
 * $id **integer**
-
-
