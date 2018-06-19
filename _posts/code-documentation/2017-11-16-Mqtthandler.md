@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmMqtthandler
 ---
 
 * Class name: PluginFlyvemdmMqtthandler
-* Namespace: 
+* Namespace:
 * Parent class: sskaje\mqtt\MessageHandler
 
 
@@ -285,5 +285,3 @@ Update the status of a task from a notification sent by a device
 #### Arguments
 * $topic **string**
 * $message **mixed**
-
-

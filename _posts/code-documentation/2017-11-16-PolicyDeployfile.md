@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmPolicyDeployfile
 ---
 
 * Class name: PluginFlyvemdmPolicyDeployfile
-* Namespace: 
+* Namespace:
 * Parent class: [PluginFlyvemdmPolicyBase](PluginFlyvemdmPolicyBase)
 * This class implements: [PluginFlyvemdmPolicyInterface](PluginFlyvemdmPolicyInterface)
 
@@ -333,5 +333,3 @@ get a status from a device and filters it to update a task
 
 #### Arguments
 * $status **string**
-
-

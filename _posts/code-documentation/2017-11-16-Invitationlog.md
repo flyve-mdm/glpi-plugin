@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmInvitationlog
 ---
 
 * Class name: PluginFlyvemdmInvitationlog
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBTM
 
 
@@ -77,6 +77,3 @@ Localized name of the type
 
 
 * Visibility: **public**
-
-
-

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmTaskstatus
 ---
 
 * Class name: PluginFlyvemdmTaskstatus
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBTM
 
 
@@ -66,5 +66,3 @@ Update status of a task
 #### Arguments
 * $policy **[PluginFlyvemdmPolicyBase](PluginFlyvemdmPolicyBase)**
 * $status **string**
-
-

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmPolicyInterface
 ---
 
 * Interface name: PluginFlyvemdmPolicyInterface
-* Namespace: 
+* Namespace:
 * This is an **interface**
 
 
@@ -238,5 +238,3 @@ Does nothing by default, override if needed
 
 #### Arguments
 * $input **array**
-
-

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmInvitation
 ---
 
 * Class name: PluginFlyvemdmInvitation
-* Namespace: 
+* Namespace:
 * Parent class: CommonDBTM
 
 
@@ -371,5 +371,3 @@ Executes the code to process the massive actions
 * $ma **MassiveAction**
 * $item **CommonDBTM**
 * $ids **array**
-
-

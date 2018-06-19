@@ -7,26 +7,26 @@ title: GLPI Locales Extension
 permalink: development/devdocs/GlpiLocalesExtension
 ---
 
-LICENSE<br/><br/>
+LICENSE
 
-Copyright © 2016-2017 Teclib'<br/>
-Copyright © 2010-2016 by the FusionInventory Development Team.<br/><br/>
+Copyright © 2016-2017 Teclib'
+Copyright © 2010-2016 by the FusionInventory Development Team.
 
-This file is part of Flyve MDM Plugin for GLPI.<br/><br/>
+This file is part of Flyve MDM Plugin for GLPI.
 
 Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.<br/><br/>
+device management software.
 
 Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
 modify it under the terms of the GNU Affero General Public License as published
 by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.<br/><br/>
+(at your option) any later version.
 Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.<br/><br/>
+GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+along with Flyve MDM Plugin for GLPI. If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
 
 ------------------------------------------------------------------------------
 

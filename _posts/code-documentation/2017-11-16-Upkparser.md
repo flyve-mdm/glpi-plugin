@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmUpkparser
 ---
 
 * Class name: PluginFlyvemdmUpkparser
-* Namespace: 
+* Namespace:
 
 
 
@@ -82,6 +82,3 @@ destructor
 
 
 * Visibility: **public**
-
-
-

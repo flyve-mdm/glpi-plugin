@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -356,5 +356,3 @@ get a status from a device and filters it to update a task
 
 #### Arguments
 * $status **string**
-
-

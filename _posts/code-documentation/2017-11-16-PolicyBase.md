@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmPolicyBase
 ---
 
 * Class name: PluginFlyvemdmPolicyBase
-* Namespace: 
+* Namespace:
 * This is an **abstract** class
 * This class implements: [PluginFlyvemdmPolicyInterface](PluginFlyvemdmPolicyInterface)
 
@@ -331,5 +331,3 @@ Returns an array describing the policy applied vith the given value and item
 * $value **string**
 * $itemtype **string** - the itemtype of an item
 * $itemId **integer** - the id of an item
-
-

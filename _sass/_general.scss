@@ -9,10 +9,7 @@ body {
   margin: 0 0 72px;
 }
 
-code {
-  /*white-space: pre;*/
-  white-space: nowrap;
-}
+
 
 /*CHANGES THE LENGTH OF THE CODE LINES CONTAINED IN THE "PRE" SELECTORS TO AROUND 60 CHARACTERS PER LINE*/
 pre {
@@ -20,15 +17,18 @@ pre {
   max-width: 66%;
   white-space: nowrap;
   overflow: hidden;
+  word-break: break-all;
   text-overflow: ellipsis;
 
 }
 
 pre:hover{
 
-  overflow: visible;
+  white-space: normal;
+  max-width: 95%;
 
 }
+
 
 @media (max-width: 414px){
 

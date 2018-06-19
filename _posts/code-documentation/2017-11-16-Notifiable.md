@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: code-documentation
 code: true
 howtos: false
 published: true
@@ -8,7 +8,7 @@ permalink: development/devdocs/PluginFlyvemdmNotifiable
 ---
 
 * Interface name: PluginFlyvemdmNotifiable
-* Namespace: 
+* Namespace:
 * This is an **interface**
 
 
@@ -101,5 +101,3 @@ Send a MQTT message
 * $mqttMessage **string**
 * $qos **number**
 * $retain **number**
-
-
