@@ -11,7 +11,7 @@
 .p-size2 {
 
   max-width: 58%;
-  /*background-color: #00ff00*/
+
 
 }
 
@@ -45,13 +45,19 @@
 .p-size5 span{
 
   vertical-align: top;
-  /*background-color: yellow;*/
 
 }
 
 .p-size5:hover {
 
   overflow: visible;
+
+}
+
+.p-size6 {
+
+  max-width: 58%;
+
 
 }
 
@@ -70,6 +76,7 @@ ul.p-size3 {
   .p-size4 {max-width: 100%};
   .p-size5 {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
   .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  .p-size6 {max-width: 100%};
 
 }
 
@@ -82,6 +89,7 @@ ul.p-size3 {
   .p-size4 {max-width: 80%};
   .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
   .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
+  .p-size6 {max-width: 63%};
 }
 
 /*************************************/
