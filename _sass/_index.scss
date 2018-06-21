@@ -61,6 +61,12 @@
 
 }
 
+.p-size6 li{
+
+  max-width: 72%;
+
+}
+
 ul.p-size3 {
 
   margin-left: 30px;
@@ -77,6 +83,7 @@ ul.p-size3 {
   .p-size5 {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
   .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
   .p-size6 {max-width: 100%};
+  .p-size6 li{max-width: 100%};
 
 }
 
@@ -90,6 +97,7 @@ ul.p-size3 {
   .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
   .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {max-width: 63%};
+  .p-size6 li{max-width: 75%};
 }
 
 /*************************************/

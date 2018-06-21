@@ -2,7 +2,7 @@
 layout: container
 ---
 
-<h2>How tos</h2>
+<h2><b>How tos</b></h2>
 
 {% assign articles = site.posts %}
 {% for article in articles %}
@@ -21,7 +21,7 @@ layout: container
 {% endfor %}
 
 <div class="article-howtos">
-    <h3>User Documentation</h3>
+    <h3><b>User Documentation</b></h3>
         {% for post in site.categories.user %}
             <h4>
                 <a class="post-link" href="{{ post.url | absolute_url }}">{{ post.title | escape }}</a>
@@ -31,7 +31,7 @@ layout: container
             </h4>
         {% endfor %}
 
-    <h3>Want to Contribute?</h3>
+    <h3><b>Want to Contribute?</b></h3>
         {% for post in site.categories.contributing %}
             <h4>
                 <a class="post-link" href="{{ post.url | absolute_url }}">{{ post.title | escape }}</a>
