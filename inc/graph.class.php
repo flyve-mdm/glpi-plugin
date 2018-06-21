@@ -99,17 +99,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $entityRestrict = $DbUtil->getEntitiesRestrictRequest(" AND ", $computerTable);
       $query = "SELECT
                   `os`.`name` AS `operatingsystem`,
-                  `osv`.`name` AS `version`,
                   COUNT(*) AS `cpt`
                 FROM `$computerTable`
                 LEFT JOIN `$itemOperatingSystemTable` AS `i_os`
                   ON (`i_os`.itemtype = 'Computer' AND `i_os`.`items_id` = `$computerTable`.`id`)
                 LEFT JOIN `$operatingSystemTable` AS `os`
                   ON (`os`.`id` = `i_os`.`operatingsystems_id`)
-                LEFT JOIN `$operatingSystemVersionTable` AS `osv`
-                  ON (`osv`.`id` = `i_os`.`operatingsystemversions_id`)
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
-                GROUP BY `operatingsystem`, `version`";
+                GROUP BY `operatingsystem`";
       $result = $DB->query($query);
       if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
