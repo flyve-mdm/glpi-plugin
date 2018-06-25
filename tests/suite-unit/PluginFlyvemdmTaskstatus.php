@@ -58,4 +58,29 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $instance = $this->createInstance();
       $this->string($instance->getTypeName())->isEqualTo('Task status');
    }
+
+   /**
+    * @tags testUpdateStatus
+    */
+   public function testUpdateStatus() {
+      $class = $this->testedClass->getClass();
+      $instance = $this->createInstance();
+      list($policy) = $class->createNewPolicyInstance();
+      $status = $policy->filterStatus("pending");
+      $this->notNull($status);
+      $instance->update([
+          'id'     => $instance->getID(),
+          'status' => $status,
+      ]);
+      $this->string($status)->isEqualTo($instance->getField('status'));
+   }
+
+   /**
+    * @tags testPrepareInputForUpdate
+    */
+    public function testPrepareInputForUpdate() {
+      $instance = $this->createInstance();
+      $this->array($instance->prepareInputForUpdate([]));
+    }
+
 }
