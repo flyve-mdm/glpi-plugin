@@ -1,5 +1,5 @@
 ---
-layout: container
+layout: container2
 ---
 
 # MQTT Specifications
@@ -36,7 +36,7 @@ MQTT messages are JSON strings
 |  |  +- Command/Wipe
 |  |  +- Command/Inventory
 |  |  +- Command/Unenroll
-|  | 
+|  |
 |  |  +- Status/Ping
 |  |  +- Status/Geolocation
 |  |  +- Status/Inventory
@@ -264,7 +264,7 @@ Topic: 0/fleet/1/Policy/removeApp/Task/16
 
 ```json
 {
-   "removeApp" : "org.fdroid.fdroid", 
+   "removeApp" : "org.fdroid.fdroid",
    "taskId": "16"
 }
 ```
@@ -289,8 +289,8 @@ Topic: 0/fleet/1/Policy/removeApp/Task/23
 Topic: 0/fleet/1/Policy/removeApp/Task/25
 
 ```json
-{ 
-	"disableCamera" : "true|false", 
+{
+	"disableCamera" : "true|false",
 	"taskId": "25"
 }
 ```
@@ -336,7 +336,7 @@ QoS of the message = 2
 Topic: 0/fleet/1/Policy/removeApp/Task/25
 
 ```json
-{ 
+{
    "disableWifi" : "true|false",
    "taskId": "25"
 }
@@ -345,7 +345,7 @@ Topic: 0/fleet/1/Policy/removeApp/Task/25
 Topic: 0/fleet/1/Policy/removeApp/Task/27
 
 ```json
-{ 
+{
 	"disableGPS" : "true|false",
 	"taskId": "27"
 }
@@ -354,7 +354,7 @@ Topic: 0/fleet/1/Policy/removeApp/Task/27
 Topic: 0/fleet/1/Policy/removeApp/Task/28
 
 ```json
-{ 
+{
 	"disableBluetooth" : "true|false",
 	"taskId": "28"
 }
