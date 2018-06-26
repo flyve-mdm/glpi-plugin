@@ -67,11 +67,14 @@
 
 }
 
+
+/*
 ul.p-size3 {
 
   margin-left: 30px;
 
 }
+*/
 
 /*SMALL SCREEN: Smart phones*/
 @media (max-width: 414px) {
@@ -98,6 +101,7 @@ ul.p-size3 {
   .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {max-width: 63%};
   .p-size6 li{max-width: 75%};
+
 }
 
 /*************************************/
@@ -200,4 +204,49 @@ Blockquote.type-p2 {
 
   .post-content p {max-width: 100%};
   .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
+}
+
+
+/***************************************/
+/** "SPECIFICATIONS" (INDEX.MD) FILE **/
+/**************************************/
+
+#p-size6 p {
+
+  max-width: 33%;
+
+}
+
+#p-size6 .highlighter-rouge pre code{
+
+  max-width: 36%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+#p-size6 .highlighter-rouge pre code:hover{
+
+  white-space: normal;
+  max-width: 95%;
+  overflow: visible;
+
+}
+
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
+
+  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  #p-size6 p {max-width: 100%};
+
+}
+
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (max-width: 768px) {
+
+
+  #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
+  #p-size6 p {max-width: 55%};
+
 }

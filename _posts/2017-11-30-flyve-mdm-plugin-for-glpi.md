@@ -32,31 +32,25 @@ Through the fleet configuration you will be able to manage the enrolled devices,
 
 ## <a name="sp"></a> Security Policies
 
-<p class="type-p1 p-size3">
 
 As part of Teclib' Security Suite, Flyve MDM provides several policies focusing on the security of your mobile fleet, such as:
 
- <ul class="type-p1 p-size3">
 
-  <li>Password specification: set quality, length, type of characters</li>
-  <li>Internal Storage Encryption</li>
-  <li>Peripherals control: disable Bluetooth, Camera, GPS, WiFi</li>
-  <li>Erase data: wipe the device in case of theft or lost</li>
-  <li>And many more!</li>
+  * Password specification: set quality, length, type of characters.
+  * Internal Storage Encryption.
+  * Peripherals control: disable Bluetooth, Camera, GPS, WiFi.
+  * Erase data: wipe the device in case of theft or lost.
+  * And many more!.
 
- </ul>
 
-</p>
 
 ![Fleet management](https://i.imgur.com/JPwZnHH.png)
 
 ## <a name="ac"></a> App & File management
 
-<p class="type-p1 p-size3">
 
 With the Flyve MDM plugin you will be able to install or remove the apps and files you require in the mobile devices of your infrastructure.
 
-</p>
 
 ![Package section](https://i.imgur.com/KyUoIsN.png)
 
