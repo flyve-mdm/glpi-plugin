@@ -234,6 +234,7 @@ Blockquote.type-p2 {
 
 }
 
+
 /*SMALL SCREEN: Smart phones*/
 @media (max-width: 414px) {
 
@@ -248,5 +249,49 @@ Blockquote.type-p2 {
 
   #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
   #p-size6 p {max-width: 55%};
+
+}
+
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (max-width: 1024px) {
+
+
+  #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
+  #p-size6 p {max-width: 47%};
+
+}
+
+
+/*********************************/
+/**PROJECTS FILE (projects.html)**/
+/*********************************/
+
+.product p {
+
+  /*background-color: blue;*/
+  max-width: 44%;
+
+}
+
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
+
+  .product p {max-width: 100%};
+
+}
+
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (max-width: 768px) {
+
+
+  .product p {max-width: 60%};
+
+}
+
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (max-width: 1024px) {
+
+
+  .product p {max-width: 42%};
 
 }
