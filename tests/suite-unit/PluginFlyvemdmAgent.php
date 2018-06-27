@@ -233,6 +233,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       );
    }
 
+   /**
+    * @tags testGetAgents
+    */
    public function testGetAgents() {
       $instance = $this->createAgent([]);
       $agents = [$instance->getID() => $instance];
