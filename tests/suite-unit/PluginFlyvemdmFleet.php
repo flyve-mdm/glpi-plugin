@@ -263,6 +263,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $this->given($class)->object($class::getDefaultFleet())->isInstanceOf('\PluginFlyvemdmFleet');
    }
 
+   /**
+    * @tags testGetAgents
+    */
    public function testGetAgents() {
       $instance = $this->newTestedInstance();
       $instance->add([
