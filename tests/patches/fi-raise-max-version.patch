@@ -1,5 +1,5 @@
 diff --git a/setup.php b/setup.php
-index f5b24a143..413a52768 100644
+index cf08f90..8a016b9 100644
 --- a/setup.php
 +++ b/setup.php
 @@ -486,7 +486,7 @@ function plugin_version_fusioninventory() {
@@ -12,17 +12,17 @@ index f5b24a143..413a52768 100644
                 ],
                 'php' => [
 @@ -523,11 +523,11 @@ function plugin_fusioninventory_check_prerequisites() {
- 
-    if (version_compare(GLPI_VERSION, '9.2-dev', '!=')
-       && version_compare(GLPI_VERSION, '9.2', 'lt')
--      || version_compare(GLPI_VERSION, '9.3', 'ge')) {
+
+    if (version_compare(GLPI_VERSION, '9.3-dev', '!=')
+       && version_compare(GLPI_VERSION, '9.3', 'lt')
+-      || version_compare(GLPI_VERSION, '9.4', 'ge')) {
 +      || version_compare(GLPI_VERSION, '9.5', 'ge')) {
        if (method_exists('Plugin', 'messageIncompatible')) {
--         echo Plugin::messageIncompatible('core', '9.2', '9.3');
-+         echo Plugin::messageIncompatible('core', '9.2', '9.5');
+-         echo Plugin::messageIncompatible('core', '9.3', '9.4');
++         echo Plugin::messageIncompatible('core', '9.3', '9.5');
        } else {
--         echo __('Your GLPI version not compatible, require >= 9.2 and < 9.3', 'fusioninventory');
-+         echo __('Your GLPI version not compatible, require >= 9.2 and < 9.5', 'fusioninventory');
+-         echo __('Your GLPI version not compatible, require >= 9.3 and < 9.4', 'fusioninventory');
++         echo __('Your GLPI version not compatible, require >= 9.3 and < 9.5', 'fusioninventory');
        }
        return false;
     }
