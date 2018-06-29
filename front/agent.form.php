@@ -29,20 +29,20 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
-Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
-if (!isset($_GET["id"])) {
-   $_GET["id"] = "";
+if (!isset($_GET['id'])) {
+   $_GET['id'] = '';
 }
 
 if (!isset($_GET["withtemplate"])) {
-   $_GET["withtemplate"] = "";
+   $_GET['withtemplate'] = '';
 }
 
 $agent = new PluginFlyvemdmAgent();
@@ -50,55 +50,59 @@ if (isset($_POST["add"])) {
    $agent->check(-1, CREATE, $_POST);
    if ($newID = $agent->add($_POST)) {
       if ($_SESSION['glpibackcreated']) {
-         Html::redirect($agent->getFormURL() . "?id=" . $newID);
+         Html::redirect($agent->getFormURL() . '?id=' . $newID);
       }
    }
    Html::back();
-} else if (isset($_POST["update"])) {
+} else if (isset($_POST['update'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update($_POST);
    Html::back();
-} else if (isset($_POST["ping"])) {
+} else if (isset($_POST['ping'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-         'id'        => $_POST['id'],
-         '_ping'     => '',
+      'id'        => $_POST['id'],
+      '_ping'     => '',
    ]);
    Html::back();
-} else if (isset($_POST["geolocate"])) {
+} else if (isset($_POST['geolocate'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-         'id'           => $_POST['id'],
-         '_geolocate'   => '',
+      'id'           => $_POST['id'],
+      '_geolocate'   => '',
    ]);
    Html::back();
-} else if (isset($_POST["inventory"])) {
+} else if (isset($_POST['inventory'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-         'id'           => $_POST['id'],
-         '_inventory'   => '',
+      'id'           => $_POST['id'],
+      '_inventory'   => '',
    ]);
    Html::back();
-} else if (isset($_POST["purge"])) {
+} else if (isset($_POST['purge'])) {
    $agent->check($_POST['id'], PURGE);
    $agent->delete($_POST, 1);
    $agent->redirectToList();
 } else if (isset($_POST['unenroll'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-         'id'           => $_POST['id'],
-         '_unenroll'   => '',
+      'id'           => $_POST['id'],
+      '_unenroll'   => '',
    ]);
    Html::back();
 } else {
    $agent->check($_GET['id'], READ);
    Html::header(
-         PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
-         '',
-         'admin',
-         'PluginFlyvemdmMenu',
-         'agent'
+      PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
+      '',
+      'admin',
+      PluginFlyvemdmMenu::class,
+      'agent'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $agent->display([
       'id' => $_GET['id'],
       'withtemplate' => $_GET['withtemplate']

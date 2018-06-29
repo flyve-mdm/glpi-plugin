@@ -38,6 +38,9 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
+   /** @var array $postUnapplyTask task to add after unapplying the policy */
+   private $postUnapplyTask = null;
+
    /**
     * PluginFlyvemdmPolicyDeployapplication constructor.
     * @param PluginFlyvemdmPolicy $policy
@@ -53,7 +56,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return bool
+    * @return boolean
     */
    public function integrityCheck($value, $itemtype, $itemId) {
       // Check the value exists
@@ -88,7 +91,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @return array|bool
+    * @return array|boolean
     */
    public function getMqttMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
@@ -107,18 +110,21 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Check the policy is already applied
-      $fleetId = $fleet->getID();
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
-            AND `itemtype` = '$itemtype' AND `items_id` = '$itemId'", '', '1');
+      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+            AND `items_id_applied` = '$notifiableId'
+            AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
+            AND `items_id` = '$itemId'", '', '1');
       if (count($rows) > 0) {
          return false;
       }
@@ -126,14 +132,14 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
     * @return bool
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      // Check there is not already a removal policy (to avoind opposite policy)
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      // Check there is not already a removal policy (to avoid opposite policy)
       $package = new PluginFlyvemdmPackage();
       if (!$package->getFromDB($itemId)) {
          // Cannot apply a non existing applciation
@@ -148,8 +154,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          // Give up this check
       } else {
          $policyId = $policyData->getID();
-         $fleetId = $fleet->getID();
-         $count = countElementsInTable(PluginFlyvemdmTask::getTable(), "`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $notifiableType = $notifiable->getType();
+         $notifiableId = $notifiable->getID();
+         $DbUtil = new DbUtils();
+         $count = $DbUtil->countElementsInTable(PluginFlyvemdmTask::getTable(), "`itemtype_applied` = '$notifiableType'
+               AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
          if ($count > 0) {
             Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'flyvemdm'), false, ERROR);
@@ -161,62 +170,91 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
          return false;
       }
-      if ($decodedValue['remove_on_delete'] !=  '0') {
-         $policyData = new PluginFlyvemdmPolicy();
-         if (!$policyData->getFromDBBySymbol('removeApp')) {
-            Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
-            return false;
-         }
-         $task = new PluginFlyvemdmTask();
-         $package = new PluginFlyvemdmPackage();
-         if ($package->getFromDB($itemId)) {
-            $packageName = $package->getField('package_name');
-            $packageName = ($packageName)? $packageName: $package->getField('name');
-            if (!$task->add([
-                  'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-                  'plugin_flyvemdm_policies_id' => $policyData->getID(),
-                  'value'                       => $packageName,
-                  '_silent'                     => true,
-            ])) {
-               return false;
-            }
-         }
+
+      if ($decodedValue['remove_on_delete'] == '0') {
+         return true;
       }
+
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeApp')) {
+         Toolbox::logInFile('php-errors',
+            'Plugin FlyveMDM: Application removal policy not found\n');
+         return false;
+      }
+
+      $package = new PluginFlyvemdmPackage();
+      if (!$package->getFromDB($itemId)) {
+         Toolbox::logInFile('php-errors',
+            'Plugin FlyveMDM: Package info not found\n');
+         return true;
+      }
+
+      $package = new $itemtype();
+      if (!$package->getFromDB($itemId)) {
+         return false;
+      }
+
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeApp')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: Application removal policy not found\n');
+         return false;
+      }
+
+      $this->postUnapplyTask = [
+         'itemtype_applied'            => $notifiable->getType(),
+         'items_id_applied'            => $notifiable->getID(),
+         'plugin_flyvemdm_policies_id' => $policyData->getID(),
+         'value'                       => $package->getField('package_name'),
+      ];
 
       return true;
    }
 
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $task = new PluginFlyvemdmTask();
+      $task->add($this->postUnapplyTask);
+   }
+
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmPackage::class;
+      $removeOnDelete = 1;
       if ($value !== '') {
          $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
          $removeOnDelete = $value['remove_on_delete'];
-      } else {
-         $removeOnDelete = 1;
       }
-      $out = PluginFlyvemdmPackage::dropdown([
+
+      $packageDropdown = PluginFlyvemdmPackage::dropdown([
          'display'      => false,
          'displaywith'  => ['alias'],
          'name'         => 'items_id',
          'value'        => $itemId,
       ]);
-      $out .= '<br>';
-      $out .= __('Remove when the policy is removed', 'flyvemdm');
-      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
-      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
-      return $out;
+      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
+                                          -1, ['display' => false]);
+
+      $data = [
+            'package'     => [
+               'dropdown'         => $packageDropdown,
+               'itemtype'         => $itemtype
+            ],
+            'remove'      =>      $removeDropdown
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('policy_deploy_app_form.html.twig', $data);
    }
 
    /**
@@ -231,5 +269,11 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          return "$alias ($name)";
       }
       return NOT_AVAILABLE;
+   }
+
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
    }
 }

@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
 
@@ -41,31 +41,17 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
     * @tags testDeployRemoveFilePolicy
     */
    public function testDeployRemoveFilePolicy() {
-      global $DB;
 
       $destination = '%SDCARD%/path/to/file.pdf';
 
       // Create a file (directly in DB)
-      $fileName = 'flyve-user-manual' . uniqid() . '.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $entityId = $this->defaultEntity;
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_flyve-user-manual.pdf',
-         '$entityId'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = new \PluginFlyvemdmFile();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $this->createDummyFile($this->defaultEntity);
 
       // Create a fleet
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $this->defaultEntity,
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $policyData = new \PluginFlyvemdmPolicy();
       $this->boolean($policyData->getFromDBBySymbol('removeFile'))->isTrue();
@@ -86,38 +72,22 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
       // Apply the policy with bad data
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk  => $fleet->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
          $policyFk => '-1',
          'value'   => $destination,
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
-      $groupName = $policyData->getField('group');
-      $fleetId = $fleet->getID();
-
       // Apply the policy to the fleet
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk  => $fleet->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
          $policyFk => $policyData->getID(),
          'value'   => $destination,
       ]);
-      $this->boolean($task->isNewItem())->isFalse();
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $this->defaultEntity,
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
    }
 }

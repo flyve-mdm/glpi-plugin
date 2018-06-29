@@ -38,7 +38,7 @@ class GlpiLocalesExtension extends \Twig_Extension
     * @return array
     */
    public function getFunctions() {
-      return array(
+      return [
             new \Twig_SimpleFunction('__', '__'),
             new \Twig_SimpleFunction('__s', '__s'),
             new \Twig_SimpleFunction('_e', '_e'),
@@ -48,7 +48,7 @@ class GlpiLocalesExtension extends \Twig_Extension
             new \Twig_SimpleFunction('_sn', '_sn'),
             new \Twig_SimpleFunction('_sx', '_sx'),
             new \Twig_SimpleFunction('_x', '_x'),
-      );
+      ];
    }
 
    /**
@@ -60,5 +60,20 @@ class GlpiLocalesExtension extends \Twig_Extension
     */
    public function getName() {
       return 'glpi_locales_extension';
+   }
+
+   public function getFilters() {
+      return [
+         new \Twig_SimpleFilter('fileSize', [$this, 'fileSizeFilter']),
+      ];
+   }
+
+   /**
+    * Format a size passing a size in octet
+    * @param int $number
+    * @return string
+    */
+   public function fileSizeFilter($number) {
+      return Toolbox::getSize($number);
    }
 }

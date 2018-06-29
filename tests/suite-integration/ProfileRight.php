@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class ProfileRight extends CommonTestCase {
 
@@ -72,6 +72,8 @@ class ProfileRight extends CommonTestCase {
     * @tags testSuperAdminProfileRights
     */
    public function testSuperAdminProfileRights() {
+      global $DB;
+
       $profileId = 4;      // Super admin profile ID
 
       // Expected rights
@@ -81,9 +83,9 @@ class ProfileRight extends CommonTestCase {
          \PluginFlyvemdmPackage::$rightname        => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
          \PluginFlyvemdmFile::$rightname           => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
          \PluginFlyvemdmGeolocation::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
-         \PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
          \PluginFlyvemdmPolicy::$rightname         => READ,
          \PluginFlyvemdmPolicyCategory::$rightname => READ,
+         \PluginFlyvemdmWellknownpath::$rightname  => ALLSTANDARDRIGHT,
          \PluginFlyvemdmProfile::$rightname        => \PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE,
          \PluginFlyvemdmEntityConfig::$rightname   => READ
             | \PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
@@ -91,6 +93,7 @@ class ProfileRight extends CommonTestCase {
             | \PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
          \PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          \PluginFlyvemdmInvitationLog::$rightname  => READ,
+         \PluginFlyvemdmTaskstatus::$rightname     => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
@@ -103,6 +106,16 @@ class ProfileRight extends CommonTestCase {
       foreach ($rightsSet as $key => $value) {
          $this->integer((int) $rights[$key])->isEqualTo($value);
       }
+
+      $request = [
+         'FROM' => $profileRight::getTable(),
+         'WHERE' => ['AND' =>
+            ['name' => ['LIKE', 'flyvemdm:%']],
+            ['profiles_id' => $profileId],
+         ]
+      ];
+      $result = $DB->request($request);
+      $this->integer($result->count())->isEqualTo(count($rightsSet));
    }
 
    public function testGuestProfileRights() {

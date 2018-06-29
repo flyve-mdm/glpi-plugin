@@ -31,9 +31,19 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmFile extends CommonTestCase {
+
+   public function beforeTestMethod($method) {
+      switch ($method) {
+         case 'testPrepareInputForUpdate':
+         case 'testPostGetFromDB':
+            $this->login('glpi', 'glpi');
+            break;
+      }
+   }
+
    public function providerPrepareInputForAdd() {
       return [
          /*
@@ -55,18 +65,18 @@ class PluginFlyvemdmFile extends CommonTestCase {
          ],
          */
          [
-            'isApi' => false,
-            'input' => [
+            'isApi'    => false,
+            'input'    => [
                'entities_id' => '0',
             ],
-            'upload' => [
+            'upload'   => [
                '_file' => [
                   0 => 'document.pdf',
-               ]
+               ],
             ],
             'expected' => [
                'version' => 1,
-            ]
+            ],
          ],
       ];
    }
@@ -92,29 +102,30 @@ class PluginFlyvemdmFile extends CommonTestCase {
           ],
           */
          [
-            'isApi' => false,
-            'input' => [
+            'isApi'    => false,
+            'input'    => [
                'entities_id' => '0',
+               'version'     => '5',
             ],
-            'upload' => [
+            'upload'   => [
                '_file' => [
                   0 => 'document.pdf',
-               ]
+               ],
             ],
             'expected' => [
                'version' => 6,
-            ]
+            ],
          ],
       ];
    }
 
    /**
+    * @tags testPrepareInputForAdd
     * @dataProvider providerPrepareInputForAdd
     * @param boolean $isApi
     * @param array $input
     * @param array $upload
     * @param array|boolean $expected
-    * @engine inline
     */
    public function testPrepareInputForAdd($isApi, $input, $upload, $expected) {
       // backup altered superglobals
@@ -144,7 +155,8 @@ class PluginFlyvemdmFile extends CommonTestCase {
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
-         $this->integer((int) $output['version'])->isEqualTo($expected['version'], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->integer((int)$output['version'])->isEqualTo($expected['version'],
+            json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
          $this->array($output)->hasKey('source');
       }
 
@@ -157,7 +169,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
    }
 
    /**
-    * @engine inline
+    * @tags testPrepareInputForUpdate
     * @dataProvider providerPrepareInputForUpdate
     * @param boolean $isApi
     * @param array $input
@@ -165,8 +177,6 @@ class PluginFlyvemdmFile extends CommonTestCase {
     * @param array|boolean $expected
     */
    public function testPrepareInputForUpdate($isApi, $input, $upload, $expected) {
-      global $DB;
-
       // backup altered superglobals
       if ($isApi) {
          $backupFiles = $_FILES;
@@ -190,29 +200,14 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $common = $this->newMockInstance(\PluginFlyvemdmCommon::class);
       $this->calling($common)->isAPI = $isApi;
 
-      $file = $this->newTestedInstance();
-      $fileTable = $file::getTable();
-      $fileName = $this->getUniqueString() . '.pdf';
-      $DB->query("INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`,
-         `version`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_$fileName',
-         '0',
-         '5'
-      )");
-      $mysqlError = $DB->error();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity'], null, $input['version']);
 
       $output = $file->prepareInputForUpdate($input);
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
-         $this->integer((int) $output['version'])->isEqualTo($expected['version'], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+         $this->integer($output['version'])->isEqualTo($expected['version'],
+               json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
          $this->array($output)->hasKey('source');
       }
 
@@ -221,6 +216,37 @@ class PluginFlyvemdmFile extends CommonTestCase {
          $_FILES = $backupFiles;
       } else {
          $_POST = $backupPost;
+      }
+   }
+
+   public function providerPostGetFromDB() {
+      return [
+         [['isApi' => false, 'download' => false]],
+         [['isApi' => true, 'download' => false]],
+         //[['isApi' => true, 'download' => true]], // this assert needs mocking the isAPI function
+      ];
+   }
+
+   /**
+    * @tags testPostGetFromDB
+    * @dataProvider providerPostGetFromDB
+    * @param $argument
+    */
+   public function testPostGetFromDB($argument) {
+      $isApi = $argument['isApi'];
+      if ($isApi && $argument['download']) {
+         $_SERVER['HTTP_ACCEPT'] = 'application/octet-stream';
+      }
+
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity']);
+      if ($isApi && $argument['download']) {
+         $this->resource($file)->isStream();
+      } else if ($isApi) {
+         $this->array($fields = $file->fields)->hasKeys(['filesize', 'mime_type'])
+            ->integer($fields['filesize'])->isGreaterThan(0)
+            ->string($fields['mime_type'])->isEqualTo('text/plain');
+      } else {
+         $this->object($file)->isInstanceOf('PluginFlyvemdmFile');
       }
    }
 }

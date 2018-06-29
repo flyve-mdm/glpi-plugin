@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
@@ -53,9 +53,15 @@ if (isset($_POST['update']) || isset($_POST['back'])) {
       __('Configuration'),
       '',
       'admin',
-      'PluginFlyvemdmMenu',
+      PluginFlyvemdmMenu::class,
       'config'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+   // To add vertical space after the menu
+   echo '<div class="navigationheader">&nbsp;</div>';
+
    $pluginConfig->display(['id' => 1]);
    // Footer
 

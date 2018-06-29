@@ -55,8 +55,6 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
     */
    public function getRights($interface = 'central') {
       $rights = parent::getRights();
-      /// For additional righrs if needed
-      //$rights[self::RIGHTS] = self::getTypeName();
 
       return $rights;
    }
@@ -92,7 +90,7 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
 
       $tab[] = [
          'id'            => '4',
-         'table'         => 'glpi_plugin_flyvemdm_invitations',
+         'table'         => PluginFlyvemdmInvitation::getTable(),
          'field'         => 'id',
          'name'          => __('ID'),
          'massiveaction' => false,

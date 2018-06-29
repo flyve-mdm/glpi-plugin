@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class Entity extends CommonTestCase {
 
@@ -42,8 +42,6 @@ class Entity extends CommonTestCase {
    }
 
    public function testDeleteEntity() {
-      global $DB;
-
       $entity = $this->newTestedInstance();
       $entityId = $entity->add([
          'name' => 'to be deleted',
@@ -87,44 +85,8 @@ class Entity extends CommonTestCase {
          'name'        => 'a fleet',
          'entities_id' => $entityId,
       ]);
-      $package = new \PluginFlyvemdmPackage();
-      $packageName = 'com.domain.author.application';
-      $packageTable = \PluginFlyvemdmPackage::getTable();
-      $DB->query("INSERT INTO $packageTable (
-            `package_name`,
-            `alias`,
-            `version`,
-            `filename`,
-            `filesize`,
-            `entities_id`,
-            `dl_filename`,
-            `icon`
-         )
-         VALUES (
-            '$packageName',
-            'application',
-            '1.0.5',
-            '$entityId/123456789_application_105.apk',
-            '1048576',
-            '$entityId',
-            'application_105.apk',
-            ''
-            )");
-      $package->getFromDBByQuery("WHERE `name`='$packageName'");
-      $file = new \PluginFlyvemdmFile();
-      $fileName = 'flyve-user-manual.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $DB->query("INSERT INTO $fileTable (
-            `name`,
-            `source`,
-            `entities_id`
-         )
-         VALUES (
-            '$fileName',
-            '2/12345678_flyve-user-manual.pdf',
-            '$entityId'
-         )");
-      $file->getFromDBByQuery("WHERE `name`='$fileName'");
+      $package = $this->createDummyPackage($entityId);
+      $file = $this->createDummyFile($entityId);
 
       $entity->delete(['id' => $entity->getID()]);
       $this->boolean($invitation->getFromDB($invitation->getID()))->isFalse();
@@ -136,6 +98,5 @@ class Entity extends CommonTestCase {
 
       $entityConfig = new \PluginFlyvemdmEntityConfig();
       $this->integer(count($entityConfig->find("`entities_id` = '$entityId'")))->isEqualTo(0);
-
    }
 }

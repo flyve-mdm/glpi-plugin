@@ -58,11 +58,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    // first and last steps of requirement pages of wizard
    const WIZARD_REQUIREMENT_BEGIN = 100;
-   const WIZARD_REQUIREMENT_END = 105;
+   const WIZARD_REQUIREMENT_END = 106;
 
    // first and last steps of the MQTT pages of wizard
-   const WIZARD_MQTT_BEGIN = 106;
-   const WIZARD_MQTT_END = 109;
+   const WIZARD_MQTT_BEGIN = 107;
+   const WIZARD_MQTT_END = 110;
 
    const WIZARD_FINISH = -1;
    static $config = [];
@@ -129,7 +129,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    /**
     * @param CommonGLPI $item
     * @param integer $withtemplate
-    * @return string
+    * @return array|string
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       switch ($item->getType()) {
@@ -174,7 +174,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                break;
          }
       }
-
    }
 
    /**
@@ -188,7 +187,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
       foreach ($extensions as $extension => $name) {
          $documentType = new DocumentType();
-         if (!$documentType->getFromDBByQuery("WHERE LOWER(`ext`)='$extension'")) {
+         if (!$documentType->getFromDBByCrit(['ext' => $extension])) {
             $documentType->add([
                   'name'            => $name,
                   'ext'             => $extension,
@@ -229,7 +228,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config.html', $data);
+      echo $twig->render('config.html.twig', $data);
 
       Html::closeForm();
    }
@@ -275,7 +274,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config-messagequeue.html', $data);
+      echo $twig->render('config-messagequeue.html.twig', $data);
 
       Html::closeForm();
    }
@@ -304,19 +303,29 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          -1,
          ['display' => false]
       );
+      $fields['debug_save_inventory'] = Dropdown::showYesNo(
+         'debug_save_inventory',
+         $fields['debug_save_inventory'],
+         -1,
+         ['display' => false]
+      );
       $fields['show_wizard'] = Dropdown::showYesNo(
          'show_wizard',
          $fields['show_wizard'],
          -1,
          ['display' => false]
       );
+      $fields['revision'] = PLUGIN_FLYVEMDM_VERSION;
+      if (file_exists(PLUGIN_FLYVEMDM_ROOT . '/.git') && function_exists('exec')) {
+         $fields['revision'] = exec('cd "' . __DIR__ . '" && git describe --tags');
+      }
 
       $data = [
          'config' => $fields
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('config-debug.html', $data);
+      echo $twig->render('config-debug.html.twig', $data);
 
       Html::closeForm();
    }
@@ -334,7 +343,6 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
          $texts = [];
          $data = [];
-         $paragraph = 1;
          switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
             default:
                // Nothing here for now
@@ -346,7 +354,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
          ];
          $twig = plugin_flyvemdm_getTemplateEngine();
-         echo $twig->render('config-wizard.html', $data);
+         echo $twig->render('config-wizard.html.twig', $data);
 
          Html::closeForm();
       }

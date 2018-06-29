@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
 
@@ -44,6 +44,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowForFleet':
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
+         case 'testGetAgents':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -58,6 +59,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowForFleet':
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
+         case 'testGetAgents':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -197,9 +199,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testShowForFleet
     */
    public function testShowForFleet() {
-      $class = $this->testedClass->getClass();
       ob_start();
-      $class::showForFleet(new \PluginFlyvemdmFleet());
+      \PluginFlyvemdmAgent::showForFleet(new \PluginFlyvemdmFleet());
       $result = ob_get_contents();
       ob_end_clean();
       $this->string($result)->contains('There is no agent yet');
@@ -223,60 +224,23 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @engine inline
     */
    public function testGetTopicsToCleanup() {
-      $expected = [
-         // Commands
-         'Command/Subscribe',
-         'Command/Ping',
-         'Command/Geolocate',
-         'Command/Inventory',
-         'Command/Lock',
-         'Command/Wipe',
-         'Command/Unenroll',
-
-         // Policies
-         'Policy/passwordEnabled',
-         'Policy/passwordMinLength',
-         'Policy/passwordQuality',
-         'Policy/passwordMinLetters',
-         'Policy/passwordMinLowerCase',
-         'Policy/passwordMinNonLetter',
-         'Policy/passwordMinNumeric',
-         'Policy/passwordMinSymbols',
-         'Policy/passwordMinUpperCase',
-         'Policy/maximumFailedPasswordsForWipe',
-         'Policy/maximumTimeToLock',
-         'Policy/storageEncryption',
-         'Policy/disableCamera',
-         'Policy/deployApp',
-         'Policy/removeApp',
-         'Policy/deployFile',
-         'Policy/removeFile',
-         'Policy/disableWifi',
-         'Policy/disableBluetooth',
-         'Policy/useTLS',
-         'Policy/disableRoaming',
-         'Policy/disableGPS',
-         'Policy/disableUsbMtp',
-         'Policy/disableUsbPtp',
-         'Policy/disableUsbAdb',
-         'Policy/disableMobileLine',
-         'Policy/disableNfc',
-         'Policy/disableHostpotTethering',
-         'Policy/disableSmsMms',
-         'Policy/disableAirplaneMode',
-         'Policy/disableStatusBar',
-         'Policy/disableScreenCapture',
-         'Policy/resetPassword',
-         'Policy/disableSpeakerphone',
-         'Policy/disableCreateVpnProfiles',
-         'Policy/inventoryFrequency',
-       ];
-
+      $expected = array_merge(CommonTestCase::commandList(), CommonTestCase::policyList());
       $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
       $this->array($topics)->size->isEqualTo(count($expected));
       $this->array($topics)->containsValues(
          $expected,
          "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
       );
+   }
+
+   public function testGetAgents() {
+      $instance = $this->createAgent([]);
+      $agents = [$instance->getID() => $instance];
+      $output = $instance->getAgents();
+      $this->array($output)->size->isEqualTo(count($agents));
+      foreach ($output as $agent) {
+         $this->object($agent)->isInstanceOf(\PluginFlyvemdmAgent::class);
+         $this->boolean(isset($agents[$agent->getID()]))->isTrue();
+      }
    }
 }

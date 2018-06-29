@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmInvitation extends CommonTestCase {
 
@@ -43,6 +43,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          case 'testShowForm':
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
+         case 'testPost_updateItem':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -63,14 +64,6 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   public function createNewInstance() {
-      $instance = $this->newTestedInstance();
-      return $instance;
-   }
-
-   /**
     * @tags testClass
     */
    public function testClass() {
@@ -83,7 +76,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetEnumInvitationStatus
     */
    public function testGetEnumInvitationStatus() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getEnumInvitationStatus())
          ->hasKeys(['pending', 'done'])
          ->string($result['pending'])->isEqualTo('Pending')
@@ -112,7 +105,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetRights
     */
    public function testGetRights() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($result = $instance->getRights())->containsValues([
          'Create',
          'Read',
@@ -123,6 +116,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
 
    /**
     * @tags testPrepareInputForAdd
+    * @engine inline
     */
    public function testPrepareInputForAdd() {
       $uniqueEmail = $this->getUniqueEmail();
@@ -132,7 +126,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          'Document move succeeded.',
          'The user already exists and has been deleted. You must restore or purge him first.',
       ];
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
 
       // empty array
       $this->boolean($instance->prepareInputForAdd([]))->isFalse();
@@ -160,18 +154,16 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          \PluginFlyvemdmCommon::recursiveRmdir($destination);
       }
       $result = $instance->prepareInputForAdd($input);
-      $this->boolean($instance->isNewItem())->isTrue()->array($result)->hasKeys([
-         '_useremails',
-         'entities_id',
-         'users_id',
-         'invitation_token',
-         'expiration_date',
-         'documents_id',
-      ])->string($result['_useremails'])->isEqualTo($uniqueEmail)->integer($result['documents_id'])
-         ->string($result['invitation_token'])->string($expiration = $result['expiration_date']);
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][1])
-         ->isEqualTo($sessionMessages[2], json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], 128));
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
+      $this->boolean($instance->isNewItem())->isTrue()
+         ->array($result)->hasKeys([
+            '_useremails',
+            'entities_id',
+            'users_id',
+            'invitation_token',
+            'expiration_date',])
+         ->string($result['_useremails'])->isEqualTo($uniqueEmail)
+         ->string($result['invitation_token'])
+         ->string($expiration = $result['expiration_date']);
 
       // check if expiration date is valid
       $this->if($expiration = new \DateTime($expiration))
@@ -190,7 +182,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testPrepareInputForUpdate
     */
    public function testPrepareInputForUpdate() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->array($instance->prepareInputForUpdate([]));
    }
 
@@ -198,7 +190,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testGetFromDBByToken
     */
    public function testGetFromDBByToken() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       $this->boolean($instance->getFromDBByToken('invalidToken'))->isFalse();
    }
 
@@ -206,7 +198,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testShowForm
     */
    public function testShowForm() {
-      $instance = $this->createNewInstance();
+      $instance = $this->newTestedInstance();
       ob_start();
       $instance->showForm(0);
       $result = ob_get_contents();
@@ -216,5 +208,24 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
          ->contains("input type='hidden' name='entities_id' value='0'")
          ->contains('input name="_useremails" value=""')
          ->contains('input type="hidden" name="_glpi_csrf_token"');
+   }
+
+   public function testPost_updateItem() {
+      $instance = $this->newTestedInstance();
+      $instance->add([
+         '_useremails' => 'someone@localhost.local',
+         'entities_id' => 0,
+      ]);
+
+      $this->boolean($instance->isNewItem())->isFalse();
+      $testFusionInventory = new PluginFlyvemdmFusionInventory();
+      $testFusionInventory->checkRuleAndCriteria($instance);
+
+      $instance->update([
+         'id'     => $instance->getID(),
+         'status' => 'done',
+      ]);
+
+      $testFusionInventory->checkRuleAndCriteria($instance, false);
    }
 }

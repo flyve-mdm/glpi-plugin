@@ -31,7 +31,7 @@
 
 // Needs to be removed if this entry point needs to autoload a class from the plugin.
 //$AJAX_INCLUDE = 1;
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 
 //define("PLUGIN_FLYVEMDM_ROOT", $CFG_GLPI['root_doc'] . "/plugins/flyvemdm");
 
@@ -50,22 +50,19 @@ if (isset($_POST['mqtt_broker_internal_address'])) {
 }
 
 $sslCiphers = $_POST['mqtt_broker_tls_ciphers'];
+$port = 0;
 if (isset($_POST['mqtt_broker_port']) && is_numeric($_POST['mqtt_broker_port'])) {
    $port = $_POST['mqtt_broker_port'];
-} else {
-   $port = 0;
 }
 
+$portTls = 0;
 if (isset($_POST['mqtt_broker_tls_port']) && is_numeric($_POST['mqtt_broker_tls_port'])) {
    $portTls = $_POST['mqtt_broker_tls_port'];
-} else {
-   $portTls = 0;
 }
 
+$isTls = false;
 if (isset($_POST['mqtt_tls_for_backend']) && $_POST['mqtt_tls_for_backend'] != '0') {
    $isTls = true;
-} else {
-   $isTls = false;
 }
 
 if ($isTls) {
@@ -82,8 +79,8 @@ if ($address === false || $port === false) {
 }
 $clientid = "flyvemdm-test";
 $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+$statusMessage = 'Test message not sent';
 if ($mqttClient->sendTestMessage($address, $port, $isTls, $sslCiphers)) {
-   echo json_encode(['status' => __('Test message sent', 'flyvemdm')], JSON_UNESCAPED_SLASHES);
-} else {
-   echo json_encode(['status' => __('Test message not sent', 'flyvemdm')], JSON_UNESCAPED_SLASHES);
+   $statusMessage = 'Test message sent';
 }
+echo json_encode(['status' => __($statusMessage, 'flyvemdm')], JSON_UNESCAPED_SLASHES);

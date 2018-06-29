@@ -35,11 +35,13 @@ define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive
 define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.2');
 // Maximum GLPI version, exclusive
-define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.3');
+define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.4');
 
 define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');
 
-define('PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL', 'https://play.google.com/store/apps/details?id=com.teclib.flyvemdm');
+define('PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL', 'https://play.google.com/store/apps/details?id=org.flyve.mdm.agent');
+
+define('PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL', 'https://play.google.com/apps/testing/org.flyve.mdm.agent');
 
 define('PLUGIN_FLYVEMDM_APPLE_DEVELOPER_ENTERPRISE_URL', 'https://developer.apple.com/programs/enterprise/');
 
@@ -59,6 +61,10 @@ if (!defined('FLYVEMDM_PACKAGE_PATH')) {
 
 if (!defined('FLYVEMDM_FILE_PATH')) {
    define('FLYVEMDM_FILE_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/file');
+}
+
+if (!defined('FLYVEMDM_INVENTORY_PATH')) {
+   define('FLYVEMDM_INVENTORY_PATH', GLPI_PLUGIN_DOC_DIR . '/flyvemdm/inventory');
 }
 
 if (!defined('FLYVEMDM_TEMPLATE_CACHE_PATH')) {
@@ -92,8 +98,6 @@ function plugin_init_flyvemdm() {
 
       plugin_flyvemdm_registerClasses();
       plugin_flyvemdm_addHooks();
-
-      $CFG_GLPI['fleet_types'] = [PluginFlyvemdmFile::class, PluginFlyvemdmPackage::class];
 
       Html::requireJs('charts');
       $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
@@ -164,7 +168,7 @@ function plugin_flyvemdm_addHooks() {
       Computer::class                  => 'plugin_flyvemdm_hook_computer_purge',
    ];
    $PLUGIN_HOOKS['pre_item_purge']['flyvemdm']   = [
-      PluginFlyvemdmInvitation::class => [PluginFlyvemdmInvitation::class, 'hook_pre_self_purge'],
+      PluginFlyvemdmInvitation::class => 'plugin_flyvemdm_hook_pre_invitation_purge',
       Document::class                 => [PluginFlyvemdmInvitation::class, 'hook_pre_document_purge'],
       Profile_User::class             => 'plugin_flyvemdm_hook_pre_profileuser_purge',
    ];
@@ -191,22 +195,21 @@ function plugin_flyvemdm_addHooks() {
  */
 function plugin_version_flyvemdm() {
    $author = '<a href="http://www.teclib.com">Teclib</a>';
+   $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    if (defined('GLPI_PREVER') && PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false) {
       $glpiVersion = version_compare(GLPI_PREVER, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt');
-   } else {
-      $glpiVersion = PLUGIN_FLYVEMDM_GLPI_MIN_VERSION;
    }
    return [
       'name'           => __s('Flyve Mobile Device Management', 'flyvemdm'),
       'version'        => PLUGIN_FLYVEMDM_VERSION,
       'author'         => $author,
       'license'        => 'AGPLv3+',
-      'homepage'       => '',
+      'homepage'       => 'https://flyve-mdm.com/',
       'minGlpiVersion' => $glpiVersion,
       'requirements'   => [
          'glpi' => [
             'min' => $glpiVersion,
-            'max' => '9.3',
+            'max' => PLUGIN_FLYVEMDM_GLPI_MAX_VERSION,
             'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
             'plugins'   => [
                'fusioninventory',
@@ -258,9 +261,10 @@ function plugin_flyvemdm_check_prerequisites() {
 
 /**
  * Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+ * @param boolean $verbose Whether to display message on failure. Defaults to false
  * @return bool
  */
-function plugin_flyvemdm_check_config() {
+function plugin_flyvemdm_check_config($verbose = false) {
    return true;
 }
 

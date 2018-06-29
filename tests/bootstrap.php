@@ -62,9 +62,13 @@ if ($key) {
    unset($_SERVER['argv'][$key]);
 }
 
+ini_set('session.use_cookies', 0); //disable session cookies
+ini_set("memory_limit", "-1");
+ini_set("max_execution_time", "0");
+
 include (GLPI_ROOT . '/inc/includes.php');
-$_SESSION['glpi_use_mode'] = Session::DEBUG_MODE;
-Toolbox::setDebugMode();
+
+Toolbox::setDebugMode(Session::DEBUG_MODE);
 
 // need to set theses in DB, because tests for API use http call and this bootstrap file is not called
 Config::setConfigurationValues('core', [
@@ -73,6 +77,3 @@ Config::setConfigurationValues('core', [
 ]);
 $CFG_GLPI['url_base']      = TEST_GLPI_URI;
 $CFG_GLPI['url_base_api']  = TEST_GLPI_URI . '/apirest.php';
-
-// Mock PluginFlyvemdmMqttClient
-//include __DIR__ . "/inc/MqttClient.php";

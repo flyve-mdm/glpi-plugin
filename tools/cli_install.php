@@ -39,7 +39,7 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev]
 
 Options:
    --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
@@ -47,6 +47,7 @@ Options:
    --enable-api         Enable GLPI's API
    --enable-email       Enable GLPI's email notification
    --tests              Use GLPI test database
+   --dev                Change the Agent download URL for the Beta testing url
 
 DOC;
 
@@ -63,6 +64,11 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
    define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
 }
+
+// Prevent problem of execution time
+ini_set("max_execution_time", "0");
+ini_set("memory_limit", "-1");
+ini_set("session.use_cookies", "0");
 
 include (__DIR__ . "/../../../inc/includes.php");
 
@@ -98,11 +104,6 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
 //set_error_handler('userErrorHandlerDebug');
 
-// Prevent problem of execution time
-ini_set("max_execution_time", "0");
-ini_set("memory_limit", "-1");
-ini_set("session.use_cookies", "0");
-
 $DB = new DB();
 if (!$DB->connected) {
    die("No DB connection\n");
@@ -118,6 +119,7 @@ $auth->user = $user;
 Session::init($auth);
 
 $apiUserToken = $args['--api-user-token'];
+$dev = $args['--dev'];
 
 /*---------------------------------------------------------------------*/
 
@@ -155,6 +157,17 @@ $apiClientQuery = "UPDATE glpi_apiclients
                        `ipv4_range_end` = null
                    WHERE `name` like 'full access from localhost'";
 $DB->query($apiClientQuery);
+
+if($dev) {
+   $entityConfig = new PluginFlyvemdmEntityConfig();
+   $entityConfig->getFromDBByCrit([
+      'entities_id' => '0',
+   ]);
+   $entityConfig->update([
+      'id'           => $entityConfig->getID(),
+      'download_url' => PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL
+   ]);
+}
 
 // Enable the plugin
 print("Activating Plugin...\n");

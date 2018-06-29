@@ -5,4 +5,10 @@
    <td>
       {{ fleet.name|raw }}
    </td>
+   <td>
+      {{ __('Is managed', 'flyvemdm') }}{{ withTemplate }}
+   </td>
+   <td>
+      {{ fleet.is_default }}
+   </td>
 </tr>

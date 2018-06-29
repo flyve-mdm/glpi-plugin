@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmInvitation extends CommonTestCase {
 
@@ -68,14 +68,25 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $invitationType = \PluginFlyvemdmInvitation::class;
       $invitationId = $invitation->getID();
       $queuedNotification = new \QueuedNotification();
-      $this->boolean($queuedNotification->getFromDBByQuery(
-         "WHERE `itemtype`='$invitationType' AND `items_id`='$invitationId'")
-      )->isTrue();
+      $request = [
+         'AND' => [
+            'itemtype' => $invitationType,
+            'items_id' => $invitationId
+         ]
+      ];
+      $queuedNotification->getFromDBByCrit($request);
+      $this->boolean($queuedNotification->isNewItem())->isFalse();
 
       // Check a QR code is created
+      $documentItem = new \Document_Item();
+      $documentItem->getFromDBByCrit([
+         'itemtype' => \PluginFlyvemdmInvitation::class,
+         'items_id' => $invitation->getID(),
+      ]);
+      $this->boolean($documentItem->isNewItem())->isFalse();
       $document = new \Document();
       $documentFk = \Document::getForeignKeyField();
-      $document->getFromDB($invitation->getField($documentFk));
+      $document->getFromDB($documentItem->getField($documentFk));
       $this->boolean($document->isNewItem())->isFalse();
 
       // Check the pending email has the QR code as attachment

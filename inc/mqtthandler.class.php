@@ -62,7 +62,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Gets the instance of the PluginFlyvemdmMqtthandler
-    * @return the instance of this class
+    * @return self instance of this class
     */
    public static function getInstance() {
       if (self::$instance === null) {
@@ -84,7 +84,13 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       if ($this->flyveManifestMissing) {
          if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
-            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", json_encode(['version' => $version]), 0, 1);
+            try {
+               $mqtt->publish_async("FlyvemdmManifest/Status/Version",
+                  json_encode(['version' => $version]), 0, 1);
+            } catch (\sskaje\mqtt\Exception $e) {
+               Toolbox::logInFile("mqtt",
+                  "error publishing MQTT message, " . $e->getMessage() . PHP_EOL);
+            }
             $this->flyveManifestMissing = false;
          }
       }
@@ -94,6 +100,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * Handle MQTT Ping response
     * @param sskaje\mqtt\MQTT $mqtt
     * @param sskaje\mqtt\Message\PINGRESP $pingresp_object
+    * @throws \sskaje\mqtt\Exception
     */
    public function pingresp(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       global $DB;
@@ -110,6 +117,8 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Handle MQTT publish messages
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param \sskaje\mqtt\Message\PUBLISH $publish_object PUBLISH message received
     * @see \sskaje\mqtt\MessageHandler::publish()
     */
    public function publish(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PUBLISH $publish_object) {
@@ -121,23 +130,19 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       if (isset($mqttPath[3])) {
          if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[3] == "Status/Geolocation"  && $message != "?") {
+         } else if ($mqttPath[3] === "Status/Geolocation"  && $message != "?") {
             $this->saveGeolocationPosition($topic, $message);
-         } else if ($mqttPath[3] == "Status/Unenroll") {
+         } else if ($mqttPath[3] === "Status/Unenroll") {
             $this->deleteAgent($topic, $message);
-         } else if ($mqttPath[3] == "Status/Inventory") {
+         } else if ($mqttPath[3] === "Status/Inventory") {
             $this->updateInventory($topic, $message);
-         } else if ($mqttPath[3] == "Status/Online") {
+         } else if ($mqttPath[3] === "Status/Online") {
             $this->updateOnlineStatus($topic, $message);
-         } else if ($mqttPath[3] == "Status/Task") {
+         } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
             $this->updateTaskStatus($topic, $message);
-         } else if ($mqttPath[3] == "FlyvemdmManifest/Status/Version") {
-            $this->updateAgentVersion($topic, $message);
-         } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
-            if ($topic == '/FlyvemdmManifest/Status/Version') {
-               $this->publishFlyveManifest();
-            }
          }
+      } else if ($topic === 'FlyvemdmManifest/Status/Version') {
+         $this->publishFlyveManifest($mqtt, $message);
       }
    }
 
@@ -162,18 +167,19 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
     * Publishes the current version of Flyve
-    * @return mixed $mqtt the current version
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param string $message
     */
-   protected function publishFlyveManifest() {
+   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt, $message) {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('flyvemdm', 'version');
-      $version = $config['version'];
-
-      // TODO: check for $message & $mqtt values, both are undefined.
-      $matches = null;
-      preg_match('/^([\d\.]+)/', $version, $matches);
-      if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
+      $config = Config::getConfigurationValues('flyvemdm', ['version']);
+      $actualVersion = $config['version'];
+      $detectedVersion = json_decode($message, JSON_OBJECT_AS_ARRAY);
+      $detectedVersion = isset($detectedVersion['version'])
+                         ? $detectedVersion['version']
+                         : null;
+      if ($actualVersion != $detectedVersion) {
          $this->flyveManifestMissing = true;
          $this->publishManifest($mqtt);
       }
@@ -185,20 +191,16 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateInventory($topic, $message) {
-      global $DB;
-
-      $mqttPath = explode('/', $topic);
-      $entityId = $mqttPath[1];
-      $serial = $DB->escape($mqttPath[3]);
-      $computer = new Computer();
-      if ($computer->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `serial` = '$serial'")) {
+      $agent = new PluginFlyvemdmAgent();
+      $agent->getByTopic($topic);
+      if ($agent->getComputer()) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
          $communication = new \PluginFusioninventoryCommunication();
          $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
          if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
             foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
-               $logMessage = "Serial $serial : $logMessage\n";
+               $logMessage = "Import message: $logMessage\n";
                \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
             }
          }
@@ -252,13 +254,12 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
+         $dateGeolocation = false;
          if (isset($position['datetime'])) {
             // The datetime sent by the device is expected to be on UTC timezone
             $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
             // Shift the datetime to the timezone of the server
             $dateGeolocation->setTimezone(date_default_timezone_get());
-         } else {
-            $dateGeolocation = false;
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {
@@ -295,41 +296,51 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     */
    protected function updateTaskStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
-      if ($agent->getByTopic($topic)) {
-         $feedback = json_decode($message, true);
-         if (!isset($feedback['updateStatus'])) {
+      if (!$agent->getByTopic($topic)) {
+         return;
+      }
+
+      $feedback = json_decode($message, true);
+      if (!isset($feedback['status'])) {
+         return;
+      }
+
+      // Find the task the device wants to update
+      $taskId = (int) array_pop(explode('/', $topic));
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($taskId)) {
+         return;
+      }
+
+      // Check the task matches the fleet of the agent or the agent itself
+      if ($task->getField('itemtype_applied') === PluginFlyvemdmFleet::class) {
+         if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('items_id_applied')) {
             return;
          }
-         foreach ($feedback['updateStatus'] as $statusData) {
-            if (isset($statusData['taskId']) && isset($statusData['status'])) {
-               $taskId = $statusData['taskId'];
-               $status = $statusData['status'];
-               $agentId = $agent->getID();
-
-               // Find the task the device wants to update
-               $task = new PluginFlyvemdmTask();
-               if (!$task->getFromDB($taskId)) {
-                  return;
-               }
-               if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('plugin_flyvemdm_fleets_id')) {
-                  return;
-               }
-               $taskStatus = new PluginFlyvemdmTaskstatus();
-               $taskStatus->getFromDBByQuery("WHERE `plugin_flyvemdm_agents_id` = '$agentId'
-                                              AND `plugin_flyvemdm_tasks_id` = '$taskId'");
-               if ($taskStatus->isNewItem()) {
-                  return;
-               }
-
-               // Update the task
-               $policyFactory = new PluginFlyvemdmPolicyFactory();
-               $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
-               $taskStatus->updateStatus($policy, $status);
-            }
-
-            $this->updateLastContact($topic, '!');
+      } else if ($task->getField('itemtype_applied') === PluginFlyvemdmAgent::class) {
+         if ($agent->getID() != $task->getField('items_id_applied')) {
+            return;
          }
       }
+
+      // Get the current status of the task for the agent
+      $taskStatus = new PluginFlyvemdmTaskStatus();
+      $request = [
+         'AND' => [
+            PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
+            PluginFlyvemdmTask::getForeignKeyField() => $taskId
+         ]
+      ];
+      if (!$taskStatus->getFromDBByCrit($request)) {
+         return;
+      }
+
+      // Update the task
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
+      $taskStatus->updateStatus($policy, $feedback['status']);
+
+      $this->updateLastContact($topic, '!');
    }
 
    /**

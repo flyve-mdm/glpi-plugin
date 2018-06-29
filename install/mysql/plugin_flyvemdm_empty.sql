@@ -134,7 +134,6 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_packages` (
   `version_code`          varchar(255)                         NOT NULL DEFAULT '',
   `icon`                  text                                 NOT NULL,
   `filename`              varchar(255)                         NOT NULL DEFAULT '',
-  `filesize`              int(11)                              NOT NULL DEFAULT '0',
   `entities_id`           int(11)                              NOT NULL DEFAULT '0',
   `dl_filename`           varchar(255)                         NOT NULL DEFAULT '',
   `parse_status`          enum('pending', 'parsed', 'failed')  NOT NULL DEFAULT 'pending',
@@ -189,9 +188,11 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
   `comment`                                    text           DEFAULT NULL,
   `default_value`                              varchar(255)   NOT NULL DEFAULT '',
   `recommended_value`                          varchar(255)   NOT NULL DEFAULT '',
-  `is_android_policy`                          tinyint(1)     NOT NULL DEFAULT '0',
   `is_android_system`                          tinyint(1)     NOT NULL DEFAULT '0',
-  `is_apple_policy`                            tinyint(1)     NOT NULL DEFAULT '0',
+  `android_min_version`                        varchar(255)   NOT NULL DEFAULT '0',
+  `android_max_version`                        varchar(255)   NOT NULL DEFAULT '0',
+  `apple_min_version`                          varchar(255)   NOT NULL DEFAULT '0',
+  `apple_max_version`                          varchar(255)   NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `group` (`group`),
   KEY `plugin_flyvemdm_policycategories_id` (`plugin_flyvemdm_policycategories_id`)
@@ -202,13 +203,14 @@ CREATE TABLE `glpi_plugin_flyvemdm_policies` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_tasks`;
 CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
   `id`                                         int(11)      NOT NULL AUTO_INCREMENT,
-  `plugin_flyvemdm_fleets_id`                  int(11)      NOT NULL DEFAULT '0',
+  `itemtype_applied`                           varchar(255) DEFAULT NULL,
+  `items_id_applied`                           int(11)      NOT NULL DEFAULT '0',
   `plugin_flyvemdm_policies_id`                int(11)      NOT NULL DEFAULT '0',
   `value`                                      varchar(255) NOT NULL DEFAULT '',
   `itemtype`                                   varchar(255) DEFAULT NULL,
   `items_id`                                   int(11)      NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `plugin_flyvemdm_fleets_id` (`plugin_flyvemdm_fleets_id`),
+  KEY `FK_applied` (`items_id_applied`, `itemtype_applied`),
   KEY `plugin_flyvemdm_policies_id` (`plugin_flyvemdm_policies_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -217,6 +219,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_tasks` (
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_invitations`;
 CREATE TABLE `glpi_plugin_flyvemdm_invitations` (
   `id`                               int(11)                   NOT NULL AUTO_INCREMENT,
+  `name`                             varchar(255)              NOT NULL DEFAULT '',
   `invitation_token`                 varchar(255)              NOT NULL DEFAULT '',
   `users_id`                         int(11)                   NOT NULL DEFAULT '0',
   `entities_id`                      int(11)                   NOT NULL DEFAULT '0',
@@ -250,7 +253,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_taskstatuses` (
   `date_creation`                       datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_mod`                            datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `plugin_flyvemdm_agents_id`           int(11) NOT NULL DEFAULT '0',
-  `plugin_flyvemdm_tasks_id`  int(11) NOT NULL DEFAULT '0',
+  `plugin_flyvemdm_tasks_id`            int(11) NOT NULL DEFAULT '0',
   `status`                              varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   INDEX `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),

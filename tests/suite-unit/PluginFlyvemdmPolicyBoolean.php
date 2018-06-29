@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
 
@@ -110,5 +110,42 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
 
       $this->string($policy->showValueInput('1'))
          ->contains("<option value='0'>No</option><option value='1' selected>Yes</option>");
+   }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param mixed $status
+    * @param mixed $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyBoolean($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
    }
 }

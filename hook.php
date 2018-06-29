@@ -33,14 +33,12 @@
  * Entry point for installation process
  */
 function plugin_flyvemdm_install() {
-
    global $DB;
 
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
    $installer = new PluginFlyvemdmInstaller();
 
    return $installer->install();
-
 }
 
 /**
@@ -48,12 +46,10 @@ function plugin_flyvemdm_install() {
  * @return boolean True if success
  */
 function plugin_flyvemdm_uninstall() {
-
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
    $installer = new PluginFlyvemdmInstaller();
 
    return $installer->uninstall();
-
 }
 
 /**
@@ -103,10 +99,9 @@ function plugin_flyvemdm_hook_pre_profileuser_purge(CommonDBTM $item) {
 
 /**
  * Define Dropdown tables to be managed in GLPI
- * @return translated[]
+ * @return array
  */
 function plugin_flyvemdm_getDropdown() {
-
    $plugin = new Plugin();
    if ($plugin->isActivated('flyvemdm')) {
       // Table => Name
@@ -117,7 +112,6 @@ function plugin_flyvemdm_getDropdown() {
    } else {
       return [];
    }
-
 }
 
 /**
@@ -136,7 +130,6 @@ function plugin_flyvemdm_addDefaultSelect($itemtype) {
  * @return string
  */
 function plugin_Flyvemdm_addDefaultJoin($itemtype) {
-
    switch ($itemtype) {
       case PluginFlyvemdmGeolocation::class:
          return PluginFlyvemdmGeolocation::addDefaultJoin();
@@ -152,7 +145,6 @@ function plugin_Flyvemdm_addDefaultJoin($itemtype) {
  * @return string
  */
 function plugin_Flyvemdm_addDefaultWhere($itemtype) {
-
    switch ($itemtype) {
       case PluginFlyvemdmGeolocation::class:
          return PluginFlyvemdmGeolocation::addDefaultWhere();
@@ -215,4 +207,13 @@ function plugin_flyvemdm_hook_computer_purge(CommonDBTM $item) {
    $geolocation->hook_computer_purge($item);
    $agent = new PluginFlyvemdmAgent();
    $agent->hook_computer_purge($item);
+}
+
+function plugin_flyvemdm_hook_pre_invitation_purge(CommonDBTM $item) {
+   $success = true;
+
+   $invitation = new PluginFlyvemdmInvitation();
+   $success = $success && $invitation->hook_pre_invitation_purge($item);
+
+   return $success;
 }

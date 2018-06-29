@@ -3,9 +3,6 @@
 # Before install  for Travis CI
 #
 
-sudo apt-get -qq update
-sudo apt-get install -y mosquitto mosquitto-clients
-
 #
 # setup Mosquitto
 # mosquitto is an old  version, need to trick to get activity log in a file

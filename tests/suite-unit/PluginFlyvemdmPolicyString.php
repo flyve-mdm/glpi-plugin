@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmPolicyString extends CommonTestCase {
@@ -73,5 +73,42 @@ class PluginFlyvemdmPolicyString extends CommonTestCase {
       $array = $policy->getMqttMessage('a little string', null, '0');
       $symbol = $policyData->fields['symbol'];
       $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('a little string');
+   }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param mixed $status
+    * @param mixed $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyString($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
    }
 }

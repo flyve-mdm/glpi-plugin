@@ -53,6 +53,15 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
 
    public static $rightname = 'flyvemdm:entity';
 
+   private $inheritableFields = [
+      'support_name',
+      'support_phone',
+      'support_website',
+      'support_email',
+      'support_address',
+      'download_url',
+   ];
+
    /**
     * Returns the name of the type
     * @param integer $nb number of item in the type
@@ -86,16 +95,9 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       $entity->getFromDB($this->fields['entities_id']);
       $parentEntityId = $entity->getField('entities_id');
 
-      $fieldsToRecurse = [
-         'support_name'    => '',
-         'support_phone'   => '',
-         'support_website' => '',
-         'support_email'   => '',
-         'support_address' => '',
-      ];
-      foreach ($fieldsToRecurse as $field => $default) {
+      foreach ($this->inheritableFields as $field) {
          if (empty($this->fields[$field])) {
-            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, $default);
+            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, '');
             $this->fields["_$field"] = self::CONFIG_PARENT;
          } else {
             $this->fields["_$field"] = self::CONFIG_DEFINED;
@@ -112,9 +114,6 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       if (!isset($input['id'])) {
          return false;
       }
-      if (!isset($input['download_url'])) {
-         $input['download_url'] = PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL;
-      }
       $input['entities_id'] = $input['id'];
 
       return $input;
@@ -127,19 +126,41 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     * @return array|false
     */
    public function prepareInputForUpdate($input) {
+      $failure = false;
+
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
          unset($input['device_limit']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the device limit', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
+         Session::addMessageAfterRedirect(__('You are not allowed to download URL of the MDM agent', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
          unset($input['agent_token_life']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the invitation token life', 'flyvemdm'), false, WARNING);
+         $failure = true;
+      }
+
+      // If the request is done from the API and changing a field is forbidden then fail
+      if (isAPI() && $failure) {
+         return false;
+      }
+
+      // If a value has the same content as the parent entity, then enable inheritance
+      foreach ($this->inheritableFields as $inheritableField) {
+         if (isset($input[$inheritableField])) {
+            if ($input[$inheritableField] == $this->fields[$inheritableField]) {
+               $input[$inheritableField] = '';
+            }
+         }
       }
 
       unset($input['entities_id']);
@@ -354,14 +375,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
       if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
-         $this->add([
-            'id'              => $ID,
-            'support_name'    => self::CONFIG_PARENT,
-            'support_phone'   => self::CONFIG_PARENT,
-            'support_website' => self::CONFIG_PARENT,
-            'support_email'   => self::CONFIG_PARENT,
-            'support_address' => self::CONFIG_PARENT,
-         ]);
+         $this->add(['id' => $ID]);
          // To set virtual fields about inheritance
          $this->post_getFromDB();
       }
@@ -377,7 +391,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('entity_entityconfig.html', $data);
+      echo $twig->render('entity_entityconfig.html.twig', $data);
 
       $item->showFormButtons(['candel' => false, 'formfooter' => false]);
    }

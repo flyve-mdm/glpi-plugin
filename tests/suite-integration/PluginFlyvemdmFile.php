@@ -31,10 +31,8 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use PluginFlyvemdmFile as FlyvemdmFile;
-use PluginFlyvemdmFleet;
-use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmFile extends CommonTestCase {
 
@@ -53,15 +51,18 @@ class PluginFlyvemdmFile extends CommonTestCase {
     * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
-      $file = $this->createFile();
+      $file = $this->createDummyFile($_SESSION['glpiactive_entity']);
       $fileDestination = '%SDCARD%/path/to/';
 
-      // Applya a policy on a file
+      // Apply a policy on a file
       $deployPolicyData = $this->getFileDeploymentPolicy();
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
-      $fleet_policy = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
-      $this->boolean($fleet_policy->isNewItem())
+      $task = $this->ApplyAddFilePolicy($deployPolicyData, $file, $fleet, $fileDestination);
+      $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // delete the file
@@ -73,13 +74,13 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $removePolicyData = $this->getFileRemovalPolicy();
       $policyId = $removePolicyData->getID();
       $filePath = $fileDestination . $file->getField('name');
-      $rows = $fleet_policy->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
+      $rows = $task->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
       $this->integer(count($rows))->isEqualTo(1);
 
       // Test the applied policies are removed
       $itemtype = $file->getType();
       $itemId = $file->getID();
-      $rows = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      $rows = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       $this->integer(count($rows))->isEqualTo(0);
 
       // Test add policy fails when a removal policy exists
@@ -88,79 +89,36 @@ class PluginFlyvemdmFile extends CommonTestCase {
    }
 
    /**
-    * @return object
-    */
-   private function createFile() {
-      global $DB;
-
-      // Create an file (directly in DB)
-      $fileName = $this->getUniqueString() . '.pdf';
-      $fileTable = FlyvemdmFile::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_$fileName.pdf',
-         '$entityId'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = $this->newTestedInstance();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
-
-      return $file;
-   }
-
-   /**
     * @return PluginFlyvemdmPolicy
     */
    private function getFileDeploymentPolicy() {
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = new \PluginFlyvemdmPolicy();
       $this->boolean($policyData->getFromDBBySymbol('deployFile'))->isTrue();
 
       return $policyData;
    }
 
    /**
-    * @return PluginFlyvemdmPolicy
+    * @return \PluginFlyvemdmPolicy
     */
    private function getFileRemovalPolicy() {
-      $policyData = new PluginFlyvemdmPolicy();
+      $policyData = new \PluginFlyvemdmPolicy();
       $this->boolean($policyData->getFromDBBySymbol('removeFile'))->isTrue();
 
       return $policyData;
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => $this->getUniqueString(),
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
-   }
-
-   /**
-    * @param PluginFlyvemdmPolicy $policyData
-    * @param FlyvemdmFile $file
-    * @param PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy       $policyData
+    * @param \FlyvemdmFile               $file
+    * @param \PluginFlyvemdmFleet        $fleet
     * @param $filedestination
     * @return \PluginFlyvemdmTask
     */
    private function ApplyAddFilePolicy(
-      PluginFlyvemdmPolicy $policyData,
-      FlyvemdmFile $file,
-      PluginFlyvemdmFleet $fleet,
+      \PluginFlyvemdmPolicy $policyData,
+      \PluginFlyvemdmFile $file,
+      \PluginFlyvemdmFleet $fleet,
       $filedestination
    ) {
       $value = new \stdClass();
@@ -168,14 +126,14 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $value->destination = $filedestination;
 
       $task = new \PluginFlyvemdmTask();
-      $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
-      $policyFk = PluginFlyvemdmPolicy::getForeignKeyField();
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyData->getID(),
-         'value'    => $value,
-         'itemtype' => FlyvemdmFile::class,
-         'items_id' => $file->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyData->getID(),
+         'value'              => $value,
+         'itemtype'           => \PluginFlyvemdmFile::class,
+         'items_id'           => $file->getID(),
       ]);
 
       return $task;

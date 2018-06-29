@@ -29,19 +29,24 @@
  * ------------------------------------------------------------------------------
  */
 
+ /**
+  * @engine inline
+  */
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 use Plugin;
 
+/**
+ * @engine inline
+ */
 class Config extends CommonTestCase {
-
    public function testInstallPlugin() {
       global $DB;
 
       $pluginName = TEST_PLUGIN_NAME;
 
-      $this->given(self::setupGLPIFramework())
+      $this->given($this->setupGLPIFramework())
          ->and($this->boolean($DB->connected)->isTrue())
          ->and($this->configureGLPI())
          ->and($this->installDependancies());
@@ -92,20 +97,29 @@ class Config extends CommonTestCase {
          'mqtt_broker_internal_address' => '127.0.0.1',
       ]);
 
-      // Force the MQTT backend's credentials
-      // Useful to force the credientials to be the same as a development database
-      // and not force broker's reconfiguration when launching tests on the test-dedicates DB
-      /*
-      $mqttUser = new \PluginFlyvemdmMqttuser();
-      if (!empty(PHPUNIT_FLYVEMDM_MQTT_PASSWD)) {
-         $mqttUser->getByUser('flyvemdm-backend');
-         $mqttUser->update([
-            'id'        => $mqttUser->getID(),
-            'password'  => PHPUNIT_FLYVEMDM_MQTT_PASSWD
-         ]);
-         \Config::setConfigurationValues('flyvemdm', ['mqtt_passwd' => PHPUNIT_FLYVEMDM_MQTT_PASSWD]);
-      }
-      */
+      // Test there is an initial default fleet
+      $fleet = new \PluginFlyvemdmFleet();
+      $dbUtils = new \DBUtils();
+      $count = $dbUtils->countElementsInTable($fleet::getTable());
+      $this->integer($count)->isEqualTo(1);
+      $fleet->getFromDB(1);
+      $this->boolean($fleet->isNewItem())->isFalse();
+      $this->integer((int) $fleet->isRecursive())->isEqualTo(0);
+
+      $config = \Config::getConfigurationValues('flyvemdm');
+
+      // Test an agent's user profile exists
+      $this->integer((int) $config['agent_profiles_id'])->isGreaterThan(0);
+      $agentProfileId = $config['agent_profiles_id'];
+      $profile = new \Profile();
+      $profile->getFromDB($agentProfileId);
+      $this->boolean($profile->isNewItem())->isFalse();
+      $this->string($profile->getField('name'))->isEqualTo('Flyve MDM device agent users');
+
+      // Test policies are populated
+      $policy = new \PluginFlyvemdmPolicy();
+      $count = $dbUtils->countElementsInTable($policy::getTable());
+      $this->integer($count)->isEqualTo(count(CommonTestCase::policyList()));
 
       // Take a snapshot of the database before any test
       $this->mysql_dump($DB->dbuser, $DB->dbhost, $DB->dbpassword, $DB->dbdefault, './save.sql');
@@ -117,7 +131,7 @@ class Config extends CommonTestCase {
    }
 
    /**
-    * Configure GLPI to isntall the plugin
+    * Configure GLPI to install the plugin
     */
    private function configureGLPI() {
       global $CFG_GLPI;

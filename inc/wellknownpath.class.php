@@ -76,7 +76,7 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
     * @return boolean
     */
    public function getFromDBByPath($path) {
-      return $this->getFromDBByQuery("WHERE `name`='$path'");
+      return $this->getFromDBByCrit(['name' => $path]);
    }
 
    /**
@@ -84,11 +84,6 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
     */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
-
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __('Well known path', 'flyvemdm'),
-      ];
 
       $tab[] = [
          'id'            => '2',

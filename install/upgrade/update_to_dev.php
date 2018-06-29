@@ -53,21 +53,17 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    ]);
    $profileRight->updateProfileRights($profiles_id, $newRights);
 
-   Config::setConfigurationValues('flyvemdm', [
-      'default_agent_url' => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
-      'show_wizard'       => '0',
+   $migration->setContext('flyvemdm');
+   $migration->addConfig([
+      'default_agent_url'     => PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL,
+      'show_wizard'           => '0',
+      'debug_save_inventory'  => '0',
+      'android_bugcollecctor_url' => '',
+      'android_bugcollector_login' => '',
+      'android_bugcollector_passwd' => '',
+      'invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK,
    ]);
 
-   // Update configuration
-   $config = Config::getConfigurationValues('flyvemdm', ['android_bugcollecctor']);
-   if (!isset($config['android_bugcollecctor_url'])) {
-      $config = [
-         'android_bugcollecctor_url' => '',
-         'android_bugcollector_login' => '',
-         'android_bugcollector_passwd' => '',
-      ];
-      Config::setConfigurationValues('flyvemdm', $config);
-   }
    $config = Config::getConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    if (isset($config['mqtt_broker_tls'])) {
       if ($config['mqtt_broker_tls'] !== '0') {
@@ -82,9 +78,6 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       Config::setConfigurationValues('flyvemdm', $config);
       Config::deleteConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    }
-
-   // Add parameter for deeplink
-   Config::setConfigurationValues('flyvemdm', ['invitation_deeplink' => PLUGIN_FLYVEMDM_DEEPLINK]);
 
    // remove download base URL setting
    Config::deleteConfigurationValues('flyvemdm', ['deploy_base_url']);
@@ -103,7 +96,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    if (!$DB->fieldExists($table, 'enroll_status')) {
       $query = "ALTER TABLE `$table`
                 ADD COLUMN `enroll_status` ENUM('enrolled', 'unenrolling', 'unenrolled') NOT NULL DEFAULT 'enrolled' AFTER `lock`";
-      $DB->query($query) or die("Could upgrade table $table" . $DB->error());
+      $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
    }
    $migration->addField($table, 'version', 'string', ['after' => 'name']);
    $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
@@ -155,67 +148,131 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
                KEY `plugin_flyvemdm_agents_id` (`plugin_flyvemdm_agents_id`),
                KEY `plugin_flyvemdm_tasks_id` (`plugin_flyvemdm_tasks_id`)
              ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-   if (!$DB->query($query)) {
-      plugin_flyvemdm_upgrade_error($migration);
-   }
+   $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
+
    $migration->addKey($table, 'plugin_flyvemdm_agents_id', 'plugin_flyvemdm_agents_id');
    $migration->addKey($table, 'plugin_flyvemdm_tasks_id', 'plugin_flyvemdm_tasks_id');
+
+   // update Policy table
+   $table = 'glpi_plugin_flyvemdm_policies';
+   $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
+   $migration->addField($table, 'is_android_system', 'bool', ['after' => 'recommended_value']);
+   $migration->addField($table, 'android_min_version', 'string', ['after' => 'is_android_system', 'value' => '0']);
+   $migration->addField($table, 'android_max_version', 'string', ['after' => 'android_min_version', 'value' => '0']);
+   $migration->addField($table, 'apple_min_version', 'string', ['after' => 'android_max_version', 'value' => '0']);
+   $migration->addField($table, 'apple_max_version', 'string', ['after' => 'apple_min_version', 'value' => '0']);
+   $migration->addKey($table, 'group', 'group');
+   $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
+   $migration->dropField($table, 'is_android_policy');
+   $migration->dropField($table, 'is_apple_policy');
 
    // Rename and update fleet_policy into task
    $table = 'glpi_plugin_flyvemdm_tasks';
    $migration->renameTable('glpi_plugin_flyvemdm_fleets_policies', $table);
    $migration->changeField($table, 'plugin_flyvemdm_fleets_policies_id', 'plugin_flyvemdm_tasks_id',
       'integer');
-   $migration->addKey($table, 'plugin_flyvemdm_fleets_id', 'plugin_flyvemdm_fleets_id');
    $migration->addKey($table, 'plugin_flyvemdm_policies_id', 'plugin_flyvemdm_policies_id');
 
-   // update Policy table
+   // Upgrade schema to apply policies on fleets and agents
+   if (!$DB->fieldExists($table, 'items_id_applied')) {
+      $migration->changeField($table, 'plugin_flyvemdm_fleets_id', 'items_id_applied', 'integer');
+      $migration->dropKey($table, 'plugin_flyvemdm_fleets_id');
+      $migration->addField($table, 'itemtype_applied', 'string', ['after' => 'id']);
+      $migration->addKey($table, 'FK_applied', ['itemtype_applied', 'items_id_applied']);
+      // All tasks already created were applied on fleets
+      $migration->addPostQuery("UPDATE `$table` SET `itemtype_applied` = 'PluginFlyvemdmFleet'");
+      $migration->executeMigration();
+   }
+
    $table = 'glpi_plugin_flyvemdm_policies';
-   $migration->addField($table, 'recommended_value', 'string', ['after' => 'default_value']);
-   $migration->addField($table, 'is_android_policy', 'bool', ['after' => 'recommended_value']);
-   $migration->addField($table, 'is_android_system', 'bool', ['after' => 'is_android_policy']);
-   $migration->addField($table, 'is_apple_policy', 'bool', ['after' => 'is_android_system']);
-   $migration->addKey($table, 'group', 'group');
-   $migration->addKey($table, 'plugin_flyvemdm_policycategories_id', 'plugin_flyvemdm_policycategories_id');
-   // All policies exist for Android
-   $migration->addPostQuery("UPDATE `$table` SET `is_android_policy` = '1'");
    $policies = [
       'disableFmRadio',
       'disableVoiceMail',
       'disableCallAutoAnswer',
       'disableVoiceDictation',
       'disableUsbOnTheGo',
+      'resetPassword',
+      'inventoryFrequency',
+      'disableSmsMms',
+      'disableStreamVoiceCall',
+      'disableCreateVpnProfiles',
    ];
    $tasksTable = 'glpi_plugin_flyvemdm_tasks';
    $fleetTable = 'glpi_plugin_flyvemdm_fleets';
+   $agentsTable = 'glpi_plugin_flyvemdm_agents';
    $request = [
       'FIELDS'     => [
-         $table => ['symbol'],
-         $tasksTable => ['id', 'plugin_flyvemdm_fleets_id'],
-         $fleetTable => ['entities_id'],
+         $table       => ['symbol'],
+         $tasksTable  => ['id', 'itemtype_applied', 'items_id_applied'],
+         $fleetTable  => ['entities_id'],
       ],
       'FROM'       => $table,
       'INNER JOIN' => [
-         $tasksTable => ['FKEY' => [$tasksTable => 'plugin_flyvemdm_policies_id', $table => 'id']],
-         $fleetTable => [
+         $tasksTable => [
             'FKEY' => [
-               $tasksTable => 'plugin_flyvemdm_fleets_id',
-               $fleetTable => 'id',
+               $tasksTable => 'plugin_flyvemdm_policies_id',
+               $table      => 'id',
             ],
          ],
       ],
-      'WHERE'      => ['symbol' => $policies],
+      'LEFT JOIN'  => [
+         $fleetTable  => [
+            'itemtype_applied' => 'PluginFlyvemdmFleet',
+            'FKEY'             => [
+               $tasksTable => 'items_id_applied',
+               $fleetTable => 'id',
+            ],
+         ],
+         $agentsTable => [
+            'itemtype_applied' => 'PluginFlyvemdmAgent',
+            'FKEY'             => [
+               $tasksTable  => 'items_id_applied',
+               $agentsTable => 'id',
+            ],
+         ],
+      ],
+      'WHERE'      => [
+         'symbol' => $policies,
+      ],
    ];
    $result = $DB->request($request);
    if (count($result) > 0) {
       $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      foreach ($DB->request($result) as $row => $data) {
-         $topic = "/" . $data['entities_id'] . "/fleet/" . $data['plugin_flyvemdm_fleets_id'] . "/Policy/" . $data['symbol'] . "/Task/" . $data['id'];
+      foreach ($result as $data) {
+         switch ($data['itemtype_applied']) {
+            case PluginFlyvemdmFleet::class:
+               $type = 'fleet';
+               $entityId = $data['entities_id'];
+               break;
+
+            case PluginFlyvemdmAgent::class:
+               $agent = new PluginFlyvemdmAgent();
+               $agent->getFromDB($data['items_id_applied']);
+               $type = 'agent';
+               $entityId = $agent->getEntityID();
+               break;
+
+            default:
+               $type = '';
+         }
+         if ($type === '') {
+            continue;
+         }
+         $topic = implode('/', [
+            '/',
+            $entityId,
+            $type,
+            $data['items_id_applied'],
+            'Policy',
+            $data['symbol'],
+            'Task',
+            $data['id']
+         ]);
          $mqttClient->publish($topic, null, 0, 1);
       }
-      $policiesStr = implode("','", $policies);
-      $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('" . $policiesStr . "')");
    }
+   $policiesStr = implode("','", $policies);
+   $migration->addPostQuery("DELETE FROM `$table` WHERE `symbol` IN ('" . $policiesStr . "')");
 
    // update Applications table
    $table = 'glpi_plugin_flyvemdm_packages';
@@ -224,6 +281,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
    $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
    $migration->changeField($table, 'name', 'package_name', 'string');
    $migration->migrationOneTable($table);
+   $migration->dropField($table, 'filesize');
    $migration->addField($table, 'name', 'string', ['after' => 'id']);
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addPostQuery("UPDATE `$table` SET `parse_status` = 'parsed'");
@@ -234,7 +292,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       $result->rewind();
       $row = $result->current();
       if (strpos($row['filename'], 'flyvemdm/package/') !== 0) {
-         // It there is at least one package and the path does st arts with the new prefix, then update all the table
+         // If there is at least one package and the path does starts with the new prefix, then update all the table
          $migration->addPostQuery("UPDATE `$table` SET `filename` = CONCAT('flyvemdm/package/', `filename`)");
       }
    }
@@ -279,10 +337,15 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
               INDEX `plugin_flyvemdm_invitations_id` (`plugin_flyvemdm_invitations_id`),
               INDEX `date_creation` (`date_creation`)
             ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-   $DB->query($query) or die("Could not create invitation logs table " . $DB->error());
+   $DB->query($query) or plugin_flyvemdm_upgrade_error($migration);
    $migration->addKey($table, 'plugin_flyvemdm_invitations_id', 'plugin_flyvemdm_invitations_id');
 
    $table = 'glpi_plugin_flyvemdm_invitations';
+   if (!$DB->fieldExists($table, 'name')) {
+      $invitationName = _n('Invitation', 'Invitations', 1, 'flyvemdm');
+      $migration->addField($table, 'name', 'string', ['after' => 'id']);
+      $migration->addPostQuery("UPDATE `$table` SET `name` = '$invitationName'");
+   }
    $migration->addKey($table, 'users_id', 'users_id');
    $migration->addKey($table, 'entities_id', 'entities_id');
    $migration->addKey($table, 'documents_id', 'documents_id');
@@ -367,7 +430,7 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
 
    $request = [
       'FIELDS' => [
-         'glpi_plugin_flyvemdm_tasks' => ['id', 'plugin_flyvemdm_fleets_id'],
+         'glpi_plugin_flyvemdm_tasks' => ['id', 'itemtype_applied', 'items_id_applied', 'plugin_flyvemdm_policies_id', 'itemtype', 'items_id', 'value'],
          'glpi_plugin_flyvemdm_policies' => ['symbol'],
          'glpi_plugin_flyvemdm_fleets' => ['entities_id']
       ],
@@ -375,25 +438,54 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       'INNER JOIN' => [
          'glpi_plugin_flyvemdm_policies' => [
             'FKEY' => [
-               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_policies_id', 'glpi_plugin_flyvemdm_policies' => 'id'
+               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_policies_id',
+               'glpi_plugin_flyvemdm_policies' => 'id'
             ]
          ],
          'glpi_plugin_flyvemdm_fleets' => [
             'FKEY' => [
-               'glpi_plugin_flyvemdm_tasks' => 'plugin_flyvemdm_fleets_id', 'glpi_plugin_flyvemdm_fleets' => 'id'
+               'glpi_plugin_flyvemdm_tasks' => 'items_id_applied',
+               'glpi_plugin_flyvemdm_fleets' => 'id'
             ]
          ]
+      ],
+      'WHERE' => [
+         'glpi_plugin_flyvemdm_tasks.itemtype_applied' => 'PluginFlyvemdmFleet'
       ]
    ];
    foreach ($DB->request($request) as $row) {
+      switch ($row['itemtype_applied']) {
+         case PluginFlyvemdmFleet::class:
+            $type = 'fleet';
+            break;
+
+         case PluginFlyvemdmAgent::class:
+            $type = 'agent';
+            break;
+
+         default:
+            $type = '';
+      }
+      if ($type === '') {
+         continue;
+      }
       $topic = implode('/', [
          $row['entities_id'],
          'fleet',
-         $row['plugin_flyvemdm_fleets_id'],
+         $row['items_id_applied'],
          'Policy',
          $row['symbol'],
       ]);
-      $mqttClient->publish("$topic/Task/" . $row['id'], json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $appliedPolicy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
+      $policyMessage = $appliedPolicy->getMqttMessage(
+         $row['value'],
+         $row['itemtype'],
+         $row['items_id']
+      );
+      $policyMessage['taskId'] = $row['id'];
+      $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $mqttClient->publish("$topic/Task/" . $row['id'], $encodedMessage, 0, 1);
       $mqttClient->publish('/' . $topic, null, 0, 1);
    }
 }

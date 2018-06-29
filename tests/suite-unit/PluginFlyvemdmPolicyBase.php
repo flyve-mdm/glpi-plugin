@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyBase extends CommonTestCase {
 
@@ -52,7 +52,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testCanApply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->canApply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->canApply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**
@@ -105,17 +105,17 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
    /**
     * @tags testApply
     */
-   public function testApply() {
+   public function testPre_apply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->apply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->pre_apply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**
     * @tags testUnapply
     */
-   public function testUnapply() {
+   public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->unapply(new \PluginFlyvemdmFleet(), null, null, null))->isTrue();
+      $this->boolean($policy->pre_unapply(null, null, null, new \PluginFlyvemdmFleet()))->isTrue();
    }
 
    /**
@@ -149,7 +149,8 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     */
    public function testFilterStatus() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->string($policy->filterStatus($status = 'value'))->isEqualTo($status);
+      $this->string($policy->filterStatus($status = 'done'))->isEqualTo($status);
+      $this->variable($policy->filterStatus($status = 'invalid status'))->isNull();
    }
 
    /**

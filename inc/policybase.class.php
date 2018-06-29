@@ -39,7 +39,12 @@ if (!defined('GLPI_ROOT')) {
 abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
    /**
-    * @var bool $unicityRequired if true The policy cannot be applied more than once to a fleet
+    * @var bool $canApply if true the policy can be applied
+    */
+   protected $canApply = true;
+
+   /**
+    * @var bool $unicityRequired if true the policy cannot be applied more than once to a fleet
     */
    protected $unicityRequired = true;
 
@@ -59,6 +64,42 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    protected $policyData;
 
    /**
+    * @var array list of statuses specific to a policy type. To be overrided in child class
+    */
+   protected $specificStatuses = [];
+
+    /**
+     * get common task statuses
+     *
+     * @return array
+     */
+   public static final function getEnumBaseTaskStatus() {
+      return [
+         'pending'   => __('Pending', 'flyvemdm'),
+         'received'  => __('Received', 'flyvemdm'),
+         'done'      => __('Done', 'flyvemdm'),
+         'failed'    => __('Failed', 'flyvemdm'),
+         'canceled'  => __('Canceled', 'flyvemdm'),
+
+         // when a policy is applied on a fleet and an agent in the fleet
+         // only the policy on the agent must apply
+         // the conflicting policy on the fleet won't apply, and the agent
+         // must feedback the status 'overriden'
+         'overriden' => __('Overriden', 'flyvemdm'),
+      ];
+   }
+
+    /**
+     * get specific task statuses
+     * To be overriden in child class
+     *
+     * @return array
+     */
+   public static function getEnumSpecificStatus() {
+      return [];
+   }
+
+    /**
     * PluginFlyvemdmPolicyBase constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
@@ -70,6 +111,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * JSON decode properties for the policy and merges them with default values
     * @param string $properties
     * @param array $defaultProperties
+    *
     * @return array
     */
    protected function jsonDecodeProperties($properties, array $defaultProperties) {
@@ -87,45 +129,47 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function canApply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      return true;
+   public function canApply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      return $this->canApply;
    }
 
    /**
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
-    * @return bool
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
+    * @return boolean
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      if ($this->unicityRequired) {
-         $policyId            = $this->policyData->getID();
-         $fleetId             = $fleet->getID();
-         $task = new PluginFlyvemdmTask();
-         $relationCollection  = $task->find("`plugin_flyvemdm_fleets_id`='$fleetId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
-         if (count($relationCollection) > 0) {
-            // A relation already exists for this policy and this fleet
-            return false;
-         }
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      if (!$this->unicityRequired) {
+         return true;
       }
-      return true;
+
+      $policyId            = $this->policyData->getID();
+      $notifiableType      = $notifiable->getType();
+      $notifiableId        = $notifiable->getID();
+      $task = new PluginFlyvemdmTask();
+      $relationCollection  = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied`='$notifiableId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
+      return (count($relationCollection) === 0);
    }
 
    /**
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
-    * @return bool
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
+    * @return boolean
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
@@ -133,6 +177,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    *
     * @return bool
     */
    public function integrityCheck($value, $itemtype, $itemId) {
@@ -154,33 +199,44 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function apply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
     * @param mixed $value
     * @param mixed $itemtype
     * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;
    }
 
    /**
+    * @param mixed $value
+    * @param mixed $itemtype
+    * @param integer $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    */
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {}
+
+   /**
     * @param string $value value of the task
     * @param string $itemType type of the item linked to the task
     * @param integer $itemId ID of the item
+    *
     * @return string
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
@@ -191,6 +247,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param PluginFlyvemdmTask $task
+    *
     * @return mixed
     */
    public function showValue(PluginFlyvemdmTask $task) {
@@ -199,6 +256,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param array $input
+    *
     * @return array
     */
    public function preprocessFormData($input) {
@@ -207,9 +265,15 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 
    /**
     * @param $status
+    *
     * @return mixed
     */
    public function filterStatus($status) {
+      $allStatuses = array_merge(self::getEnumBaseTaskStatus(), static::getEnumSpecificStatus());
+      if (!in_array($status, array_keys($allStatuses))) {
+         return null;
+      }
+
       return $status;
    }
 
@@ -225,6 +289,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     *
     * @param string $mode add or update
     * @param array $_input values for update
+    *
     * @return string html
     */
    public function formGenerator(
@@ -250,12 +315,12 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
          $form['rand'] = mt_rand();
          $form['taskId'] = $_input['task'];
          $form['policyId'] = $_input['policyId'];
-         $form['fleetId'] = $_input['fleet'];
+         $form['itemtype_applied'] = $_input['itemtype_applied'];
+         $form['items_id_applied'] = $_input['items_id_applied'];
          $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
             ['value' => Session::getNewCSRFToken()]) : '';
       }
       $twig = plugin_flyvemdm_getTemplateEngine();
-      return $twig->render('policy_form.html', ['form' => $form]);
+      return $twig->render('policy_form.html.twig', ['form' => $form]);
    }
-
 }

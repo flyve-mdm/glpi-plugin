@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/github/license/flyve-mdm/glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/glpi-plugin/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/FlyveMDM.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/FlyveMDM)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/flyvemdm)
+[![IRC Chat](https://img.shields.io/badge/IRC-%23flyvemdm-green.svg)](http://webchat.freenode.net/?channels=flyve-mdm)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/glpi-plugin.svg)](https://greenkeeper.io/)
 [![GitHub release](https://img.shields.io/github/release/flyve-mdm/glpi-plugin.svg)](https://github.com/flyve-mdm/glpi-plugin/releases)
@@ -18,32 +19,47 @@ To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
 * [Synopsis](#synopsis)
 * [Build status](#build-status)
+* [Compatibility Matrix](#compatibility-matrix)
 * [Installation](#installation)
 * [Documentation](#documentation)
 * [Versioning](#versioning)
 * [Contribute](#contribute)
 * [Contact](#contact)
+* [Professional Services](#professional-services)
 * [Copying](#copying)
 
 ## Synopsis
 
 This plugin for GLPI is a subproject of Flyve MDM.
 
-It provides a stand alone web based administration and a interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
+It allows the management of mobile devices of your IT infrastructure, providing security policies, files and applications download and many more features.
+
+It provides a stand alone web based administration and an interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
 
 ## Build Status
 
-| **Release channel** | **Beta channel** |
+| **LTS** | **Bleeding Edge** |
 |:---:|:---:|
 | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/glpi-plugin) |
 
+## Compatibility Matrix
+
+|GLPI|9.1.x|9.2.x|
+|:---|:---:|:---:|
+|Flyve MDM|1.x|2.0.0-dev|
+|FusionInventory|9.1+1.0|9.2+1.0|
+|Demo Mode|-|1.0.0-dev|
+|Web MDM Dashboard|-|1.0.0-dev|
+
 ## Installation
 
-Installation instructions are available on the website, see the [How-tos section](http://flyve.org/glpi-plugin/howtos/).
+Installation instructions are available on our documentation, see our [Installation section](http://flyvemdm-doc.readthedocs.io/en/latest/installation/index.html).
 
 ## Documentation
 
-We share long-form content about the project on the website, see the [Development section](http://flyve.org/glpi-plugin/).
+Checkout our [Documentation](http://flyvemdm-doc.readthedocs.io/en/latest/) hosted on Read the Docs.
+
+We also share long-form content about the project on the website, see our [How-tos](http://flyve.org/glpi-plugin/howtos) and [Development](http://flyve.org/glpi-plugin/) sections.
 
 ## Versioning
 
@@ -61,8 +77,14 @@ If you are not a developer you may contribute the project by [translating it](ht
 ## Contact
 
 For notices about major changes and general discussion of Flyve MDM development, subscribe to the [/r/FlyveMDM](http://www.reddit.com/r/FlyveMDM) subreddit.
-You can also chat with us via IRC in [#flyve-mdm on freenode](http://webchat.freenode.net/?channels=flyve-mdm).
+You can also chat with us via IRC in [#flyve-mdm on freenode](http://webchat.freenode.net/?channels=flyve-mdm) or [@flyvemdm on Telegram](https://t.me/flyvemdm).
 Ping me @btry in the IRC chatroom if you get stuck.
+
+## Professional Services
+
+The Flyve MDM and GLPI Network services are available through our [Partner's Network](http://www.teclib-edition.com/en/partners/). We provide special training, bug fixes with editor subscription, contributions for new features, and more.
+
+Obtain a personalized service experience, associated with benefits and opportunities.
 
 ## Copying
 

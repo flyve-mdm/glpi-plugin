@@ -105,5 +105,4 @@ class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements Pl
       ];
       return $array;
    }
-
 }

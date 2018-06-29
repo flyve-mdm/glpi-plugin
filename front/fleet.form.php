@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
@@ -67,9 +67,13 @@ if (isset($_POST["add"])) {
          PluginFlyvemdmFleet::getTypeName(Session::getPluralNumber()),
          '',
          'admin',
-         'PluginFlyvemdmMenu',
+         PluginFlyvemdmMenu::class,
          'fleet'
    );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $fleet->display([
       'id' => $_GET["id"],
       'withtemplate' => $_GET["withtemplate"]

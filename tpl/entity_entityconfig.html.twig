@@ -55,3 +55,13 @@
    <td>
    </td>
 </tr>
+<tr class="tab_bg_1">
+   <td>{{ __('MDM Agent URL', 'flyvemdm') }}</td>
+   <td>
+    <input name="download_url" value="{{ entityConfig.download_url }}" />
+    {% if entityConfig._download_url == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+    {% endif %}
+   </td>
+    <td></td>
+</tr>

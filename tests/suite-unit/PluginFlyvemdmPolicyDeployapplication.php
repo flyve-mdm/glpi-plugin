@@ -31,8 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
-use PluginFlyvemdmPackage;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
@@ -42,9 +41,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       'type_data' => '',
       'unicity'   => 0,
    ];
-
-   private $packageName = 'com.domain.author.application.apk';
-   private $filename = 'application.apk';
 
    /**
     * @return array
@@ -73,7 +69,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
          'Check the app exists'                => [
             'data'     => [
                ['remove_on_delete' => 0],
-               PluginFlyvemdmPackage::class,
+               \PluginFlyvemdmPackage::class,
                '-1',
             ],
             'expected' => [false, 'The application does not exists'],
@@ -81,7 +77,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
          'Valid check 1'                       => [
             'data'     => [
                ['remove_on_delete' => 0],
-               PluginFlyvemdmPackage::class,
+               \PluginFlyvemdmPackage::class,
                true,
             ],
             'expected' => [true],
@@ -98,7 +94,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();
       if ($data[2] === true) {
-         $item = $this->createAppInDB();
+         $item = $this->createDummyPackage(0);
          $data[2] = $item->getID();
       }
       $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
@@ -110,51 +106,13 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    }
 
    /**
-    * Create an application (directly in DB) because we are not uploading any file
-    * @return PluginFlyvemdmPackage
-    */
-   private function createAppInDB() {
-      global $DB;
-
-      $uniqid = uniqid();
-      $table_file = PluginFlyvemdmPackage::getTable();
-      $query = "INSERT INTO `$table_file` (
-        `package_name`,
-        `alias`,
-        `version`,
-        `filename`,
-        `filesize`,
-        `entities_id`,
-        `dl_filename`,
-        `icon`
-        ) VALUES (
-        '" . $uniqid . $this->packageName . "',
-        'application',
-        '1.0.5',
-        '0/" . $uniqid . $this->filename . "',
-        '1048576',
-        '0',
-        '" . $this->filename . "',
-        ''
-        )";
-      $result = $DB->query($query);
-      $this->boolean($result)->isTrue();
-
-      $file = new PluginFlyvemdmPackage();
-      $file->getFromDB($DB->insert_id());
-      $this->boolean($file->isNewItem())->isFalse();
-
-      return $file;
-   }
-
-   /**
     * @tags testGetMqttMessage
     */
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();
 
       $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
-      $item = $this->createAppInDB();
+      $item = $this->createDummyPackage(0);
       $value = '{"remove_on_delete":0}';
       $result = $policy->getMqttMessage($value, $item->getType(), $item->getID());
       $this->array($result)->hasKeys(['id', 'versionCode', $this->dataField['symbol']])
@@ -170,8 +128,8 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
       $mockInstance->getMockController()->getID = 1;
-      $application = $this->createAppInDB();
-      $this->boolean($policy->unicityCheck(null, PluginFlyvemdmPackage::class, $application->getID(),
+      $application = $this->createDummyPackage(0);
+      $this->boolean($policy->unicityCheck(null, \PluginFlyvemdmPackage::class, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
    }
@@ -181,14 +139,14 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
     */
    public function testConflictCheck() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
-      $packageClass = PluginFlyvemdmPackage::class;
+      $packageClass = \PluginFlyvemdmPackage::class;
       $this->boolean($policy->conflictCheck(null, $packageClass, -1, $mockInstance))->isFalse();
       $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])
          ->isEqualTo('The application does not exists');
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
-      $application = $this->createAppInDB();
+      $application = $this->createDummyPackage(0);
       $this->boolean($policy->conflictCheck(null, $packageClass, $application->getID(),
          $mockInstance))->isTrue();
       // TODO: finish this test
@@ -197,32 +155,31 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    /**
     * @tags testUnApply
     */
-   public function testUnApply() {
+   public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
-      $appInDB = $this->createAppInDB();
+      $appInDB = $this->createDummyPackage(0);
 
       // check integrity
-      $this->boolean($policy->unapply($mockInstance, null, null, null))->isFalse();
+      $this->boolean($policy->pre_unapply(null, null, null, $mockInstance))->isFalse();
 
       // check for task to delete
       $value = '{"remove_on_delete":0}';
-      $packageClass = PluginFlyvemdmPackage::class;
-      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+      $packageClass = \PluginFlyvemdmPackage::class;
+      $this->boolean($policy->pre_unapply($value, $packageClass, $appInDB->getID(), $mockInstance))
          ->isTrue();
 
       $value = '{"remove_on_delete":1}';
-      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, -1))->isFalse();
+      $this->boolean($policy->pre_unapply($value, $packageClass, -1, $mockInstance))->isFalse();
       /*
-      $this->boolean($policy->unapply($mockInstance, $value, $packageClass, $appInDB->getID()))
+      $this->boolean($policy->pre_unapply($value, $packageClass, $appInDB->getID(), $mockInstance))
          ->isTrue(); // TODO: fix this, Cannot apply a policy on a not managed fleet
       */
    }
 
    /**
     * @tags testShowValueInput
-    * @engine inline
     */
    public function testShowValueInput() {
       list($policy) = $this->createNewPolicyInstance();
@@ -248,7 +205,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $name = 'appName';
       $alias = 'appAlias';
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmTask');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmTask::class);
       $mockInstance->getMockController()->getField = 0;
       $mockInstance->getMockController()->getField[2] = 1;
       $mockInstance->getMockController()->getField[3] = $alias;
@@ -256,5 +213,46 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       $this->string($policy->showValue($mockInstance))->isEqualTo(NOT_AVAILABLE);
       // TODO: finish this test
       //$this->string($policy->showValue($mockInstance))->isEqualTo("$alias ($name)");
+   }
+
+   public function filterStatusProvider() {
+      return [
+         [
+            'status' => 'received',
+            'expected' => 'received'
+         ],
+         [
+            'status' => 'waiting',
+            'expected' => 'waiting'
+         ],
+         [
+            'status' => 'done',
+            'expected' => 'done'
+         ],
+         [
+            'status' => 'failed',
+            'expected' => 'failed'
+         ],
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->fields = [
+         'symbol' => 'dummy',
+         'unicity' => '1',
+         'group' => 'dummy',
+      ];
+      $policyBoolean = new \PluginFlyvemdmPolicyDeployapplication($policy);
+      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
    }
 }

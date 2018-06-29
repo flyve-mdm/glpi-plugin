@@ -29,11 +29,11 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
 }
 
 $dropdown = new PluginFlyvemdmPolicyCategory();
-include (GLPI_ROOT . "/front/dropdown.common.form.php");
+include (GLPI_ROOT . '/front/dropdown.common.form.php');

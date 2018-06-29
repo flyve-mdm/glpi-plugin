@@ -59,7 +59,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return boolean true if the symbol is found
     */
    public function getFromDBBySymbol($symbol) {
-      return $this->getFromDBByQuery("WHERE `symbol`='$symbol'");
+      return $this->getFromDBByCrit(['symbol' => $symbol]);
    }
 
    /**
@@ -83,7 +83,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
     * @return string
     */
    static function getTypeName($nb = 0) {
-      return _n('Policy', 'Policies', $nb, "flyvemdm");
+      return _n('Policy', 'Policies', $nb, 'flyvemdm');
    }
 
    /**
@@ -109,9 +109,9 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
 
       $tab[] = [
          'id'            => '3',
-         'table'         => 'glpi_plugin_flyvemdm_policycategories',
+         'table'         => PluginFlyvemdmPolicyCategory::getTable(),
          'field'         => 'completename',
-         'name'          => __('Policy category'),
+         'name'          => __('Policy category', 'flyvemdm'),
          'datatype'      => 'dropdown',
          'massiveaction' => false,
       ];
@@ -128,7 +128,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '5',
          'table'         => $this->getTable(),
          'field'         => 'type_data',
-         'name'          => __('Enumeration data'),
+         'name'          => __('Enumeration data', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
@@ -146,7 +146,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '7',
          'table'         => $this->getTable(),
          'field'         => 'default_value',
-         'name'          => __('Default value'),
+         'name'          => __('Default value', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
@@ -155,12 +155,80 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'id'            => '8',
          'table'         => $this->getTable(),
          'field'         => 'recommended_value',
-         'name'          => __('Recommended value'),
+         'name'          => __('Recommended value', 'flyvemdm'),
          'datatype'      => 'string',
          'massiveaction' => false,
       ];
 
+      $tab[] = [
+         'id'            => '9',
+         'table'         => $this->getTable(),
+         'field'         => 'is_android_system',
+         'name'          => __('Requires system permission', 'flyvemdm'),
+         'datatype'      => 'bool',
+         'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '10',
+        'table'         => $this->getTable(),
+        'field'         => 'android_min_version',
+        'name'          => __('Android minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '11',
+        'table'         => $this->getTable(),
+        'field'         => 'android_max_version',
+        'name'          => __('Android maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '12',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_min_version',
+        'name'          => __('Apple minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '13',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_max_version',
+        'name'          => __('Apple maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
       return $tab;
+   }
+
+   public static function dropdown($options = []) {
+      global $DB;
+
+      $request = [
+         'FROM' => PluginFlyvemdmPolicyCategory::getTable(),
+      ];
+
+      $elements = $category = [];
+      foreach ($DB->request($request) as $row) {
+         $elements[$row['name']] = [];
+         $category[$row['id']] = $row['completename'];
+      }
+
+      $request = [
+         'FROM' => static::getTable(),
+      ];
+      foreach ($DB->request($request) as $row) {
+         $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
+         $elements[$categoryName][$row['id']] = $row['name'];
+      }
+      return Dropdown::showFromArray(static::getForeignKeyField(), $elements, $options);
    }
 
 }

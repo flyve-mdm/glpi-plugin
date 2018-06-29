@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmMenu extends CommonGLPI {
    static $rightname = 'plugin_flyve_config';
 
-   const TEMPLATE = 'menu.html';
+   const TEMPLATE = 'menu.html.twig';
 
    /**
     * Displays the menu name
@@ -77,8 +77,9 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
    /**
     * Display the menu
+    * @param string $type type of menu : dashboard to show graphs, anything else to show only the dropdown menu
     */
-   public function displayMenu() {
+   public function displayMenu($type = 'dashboard') {
       $pluralNumber = Session::getPluralNumber();
 
       $config = new PluginFlyvemdmConfig();
@@ -87,43 +88,44 @@ class PluginFlyvemdmMenu extends CommonGLPI {
       $twig = plugin_flyvemdm_getTemplateEngine();
       $data = [
          'configuration' => $isGlpiConfigured,
+         'menuType' => $type,
          'menu'   => [
             __('General', 'flyvemdm') => [
-                  PluginFlyvemdmInvitation::getTypeName($pluralNumber)  => [
+               PluginFlyvemdmInvitation::getTypeName($pluralNumber)   => [
                         'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class),
                         'pic'  => PluginFlyvemdmInvitation::getMenuPicture(),
                   ],
-                  PluginFlyvemdmAgent::getTypeName($pluralNumber)       => [
+               PluginFlyvemdmAgent::getTypeName($pluralNumber)        => [
                         'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class),
                         'pic'  => PluginFlyvemdmAgent::getMenuPicture(),
                   ],
-                  PluginFlyvemdmFleet::getTypeName($pluralNumber)       => [
+               PluginFlyvemdmFleet::getTypeName($pluralNumber) => [
                         'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class),
                         'pic'  => PluginFlyvemdmFleet::getMenuPicture(),
                   ],
-                  PluginFlyvemdmPackage::getTypeName($pluralNumber)     => [
+               PluginFlyvemdmPackage::getTypeName($pluralNumber)      => [
                         'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class),
                         'pic'  => PluginFlyvemdmPackage::getMenuPicture(),
                   ],
-                  PluginFlyvemdmFile::getTypeName($pluralNumber)        => [
+               PluginFlyvemdmFile::getTypeName($pluralNumber)         => [
                         'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class),
                         'pic'  => PluginFlyvemdmFile::getMenuPicture(),
                   ],
             ],
             __('Configuration', 'flyvemdm') => [
                __('General')       => [
-                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$1',
-               ],
-               __('Message queue', 'flyvemdm') => [
                   'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$2',
                ],
-               __('Debug', 'flyvemdm') => [
+               __('Message queue', 'flyvemdm') => [
                   'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$3',
+               ],
+               __('Debug', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$4',
                ]
             ]
          ],
       ];
-      echo $twig->render('menu.html', $data);
+      echo $twig->render('menu.html.twig', $data);
    }
 
    /**
@@ -138,11 +140,11 @@ class PluginFlyvemdmMenu extends CommonGLPI {
       $menu['page']  = "$front_flyvemdm/menu.php";
 
       $itemtypes = [
-         PluginFlyvemdmAgent::class       => 'agent',
-         PluginFlyvemdmPackage::class     => 'package',
-         PluginFlyvemdmFile::class        => 'file',
-         PluginFlyvemdmFleet::class       => 'fleet',
-         PluginFlyvemdmInvitation::class  => 'invitation',
+         PluginFlyvemdmAgent::class        => 'agent',
+         PluginFlyvemdmPackage::class      => 'package',
+         PluginFlyvemdmFile::class         => 'file',
+         PluginFlyvemdmFleet::class        => 'fleet',
+         PluginFlyvemdmInvitation::class   => 'invitation',
       ];
 
       $pluralNumber = Session::getPluralNumber();

@@ -13,6 +13,11 @@
          <td>{{ config.debug_noexpire|raw }}</td>
          <td></td>
       </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Save initial inventory in file', 'flyvemdm') }}</td>
+         <td>{{ config.debug_save_inventory|raw }}</td>
+         <td></td>
+      </tr>
       <tr>
          <th colspan="3" class="">{{ __('Bug collector', 'flyvemdm') }}</th>
       </tr>
@@ -40,6 +45,14 @@
          <td>{{ __('Enable configuration wizard', 'flyvemdm') }}</td>
          <td>{{ config.show_wizard|raw }}</td>
          <td>{{ __('Warning: if the plugin is already configured, re-running the configuration wizard may break communication with already enrolled devices.', 'flyvemdm') }}</td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Revision information', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Revision information', 'flyvemdm') }}</td>
+         <td>{{ config.revision }}</td>
+         <td></td>
       </tr>
       <tr class="tab_bg_1">
          <td class="center" colspan="2">

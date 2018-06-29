@@ -31,12 +31,10 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\Src\TestingCommonTools;
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\TestingCommonTools;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
-
-   private $minAndroidVersion = '2.0.0';
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -50,55 +48,162 @@ class PluginFlyvemdmTask extends CommonTestCase {
    }
 
    /**
-    * @tags testApplyPolicy
+    * @tags testApplyPolicyOnFleet
     */
-   public function testApplyPolicy() {
+   public function testApplyPolicyOnFleet() {
       // Create an agent
-      $guestEmail = $this->getUniqueEmail();
-      $invitation = $this->createInvitation($guestEmail);
-      $this->variable($invitation)->isNotNull();
-      $user = new \User();
-      $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
-      $serial = $this->getUniqueString();
-      $agent = $this->enrollFromInvitation(
-         $user, [
-            'entities_id'       => $_SESSION['glpiactive_entity'],
-            '_email'            => $guestEmail,
-            '_invitation_token' => $invitation->getField('invitation_token'),
-            '_serial'           => $serial,
-            'csr'               => '',
-            'firstname'         => 'John',
-            'lastname'          => 'Doe',
-            'version'           => $this->minAndroidVersion,
-            'type'              => 'android',
-            'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
-         ]
-      );
-      $this->boolean($agent->isNewItem())
-         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+      $agent = $this->createAgent([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+      ]);
 
       // Create a fleet
-      $fleet = $this->createFleet();
+      $notifiableItem = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __FUNCTION__
+      ]);
 
       // Move the agent to the fleet
       $this->boolean($agent->update([
          'id'                        => $agent->getID(),
-         'plugin_flyvemdm_fleets_id' => $fleet->getID(),
+         'plugin_flyvemdm_fleets_id' => $notifiableItem->getID(),
       ]))->isTrue();
 
       // Test apply policy
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->getFromDBByQuery("WHERE `symbol` = 'storageEncryption'");
-      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
-      $fleetId = $fleet->getID();
+      list($task, $taskId, $taskStatus, $taskFk, $policyName, $log, $mqttLogId) = $this->checkNotifiableMqttMessage($notifiableItem);
 
-      $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
+      // Check a mqtt message is sent to remove the applied policy from MQTT
+      $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
+      $this->array($rows)->size->isEqualTo(1);
+      $row = array_pop($rows);
+      // Check the topic of the message
+      $this->string($row['topic'])->isEqualTo($notifiableItem->getTopic() . "/Policy/$policyName/Task/$taskId");
+      // Check the message
+      $this->string($row['message'])->isEqualTo('');
+
+      // Check task statuses are deleted
+      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      $this->integer(count($rows))->isEqualTo(0);
+
+      // Test task status is created when an agent joins a fleet having policies
+      // Create a 2nd fleet
+      $fleet2 = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __FUNCTION__
+      ]);
+
+      // Apply a policy
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'disableWifi']);
+      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
+      //$fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+      $task2 = $this->newTestedInstance();
+      $taskId2 = $task2->add([
+         'itemtype_applied'   => $fleet2->getType(),
+         'items_id_applied'   => $fleet2->getID(),
+         $policyFk => $policy->getID(),
+         'value'   => '0',
+      ]);
+      $this->boolean($task2->isNewItem())
+         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      // Join the 2nd fleet
+      $this->boolean($agent->update([
+         'id'                        => $agent->getID(),
+         'plugin_flyvemdm_fleets_id' => $fleet2->getID(),
+      ]))->isTrue();
+
+      // Check a task status is created for the agent
+      $taskStatus2 = new \PluginFlyvemdmTaskstatus();
+      $taskFk = $task::getForeignKeyField();
+      $rows = $taskStatus2->find("`$taskFk` = '$taskId2'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('pending');
+      }
+
+      // Create a 3rd fleet
+      $fleet3 = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
+
+      // Apply a policy
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'disableGps']);
+      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+      $task3 = $this->newTestedInstance();
+      $taskId3 = $task->add([
+         'itemtype_applied'   => $fleet3->getType(),
+         'items_id_applied'   => $fleet3->getID(),
+         $policyFk            => $policy->getID(),
+         'value'              => '0',
+      ]);
+
+      // Join the 3rd fleet
+      $this->boolean($agent->update([
+         'id'                        => $agent->getID(),
+         'plugin_flyvemdm_fleets_id' => $fleet3->getID(),
+      ]))->isTrue();
+
+      // Check a task status is created for the agent
+      $taskStatus3 = new \PluginFlyvemdmTaskstatus();
+      $taskFk = $task::getForeignKeyField();
+      $rows = $taskStatus3->find("`$taskFk` = '$taskId3'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('pending');
+      }
+
+      // Check the old task status is canceled
+      $rows = $taskStatus->find("`$taskFk` = '$taskId2'");
+      $this->integer(count($rows))->isEqualTo(1);
+      foreach ($rows as $row) {
+         $this->string($row['status'])->isEqualTo('canceled');
+      }
+   }
+
+   /**
+    * @tags testApplyPolicyOnAgent
+    */
+   public function testApplyPolicyOnAgent() {
+      // Create an agent
+      $notifiableItem = $this->createAgent([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+      ]);
+
+      // Test apply policy
+      list($task, $taskId, $taskStatus, $taskFk, $policyName, $log, $mqttLogId, $expectedTopic) = $this->checkNotifiableMqttMessage($notifiableItem);
+
+      // Check a mqtt message is sent to remove the applied policy from MQTT
+      $rows = $log->find("`id` > '$mqttLogId' AND `topic` = '$expectedTopic'");
+      $this->array($rows)->size->isEqualTo(1);
+      $row = array_pop($rows);
+
+      // Check the message
+      $this->string($row['message'])->isEqualTo('');
+
+      // Check task statuses are deleted
+      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      $this->array($rows)->size->isEqualTo(0);
+   }
+
+   /**
+    * @param \PluginFlyvemdmNotifiableInterface $notifiableItem
+    * @return array
+    */
+   private function checkNotifiableMqttMessage(\PluginFlyvemdmNotifiableInterface $notifiableItem) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
+      $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
       $task = $this->newTestedInstance();
       $taskId = $task->add([
-         $fleetFk  => $fleetId,
-         $policyFk => $policy->getID(),
-         'value'   => '0',
+         'itemtype_applied' => $notifiableItem->getType(),
+         'items_id_applied' => $notifiableItem->getID(),
+         $policyFk          => $policy->getID(),
+         'value'            => '0',
       ]);
       $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -115,15 +220,13 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check a MQTT message is sent
       sleep(2);
 
+      $policyName = $policy->getField('symbol');
+      $expectedTopic = $notifiableItem->getTopic() . "/Policy/$policyName/Task/$taskId";
       $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find('', '`date` DESC', '1');
+      $rows = $log->find("`topic` = '$expectedTopic'");
+      $this->array($rows)->size->isEqualTo(1);
       $row = array_pop($rows);
       $mqttLogId = $row['id'];
-
-      $policyName = $policy->getField('symbol');
-
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
 
       // check the message
       $receivedMqttMessage = json_decode($row['message'], JSON_OBJECT_AS_ARRAY);
@@ -134,94 +237,26 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
       // Test apply a policy twice fails
       $task = $this->newTestedInstance();
-
       $task->add([
-         $fleetFk  => $fleet->getID(),
-         $policyFk => $policy->getID(),
-         'value'   => '0',
+         'itemtype_applied' => $notifiableItem->getType(),
+         'items_id_applied' => $notifiableItem->getID(),
+         $policyFk          => $policy->getID(),
+         'value'            => '0',
       ]);
       $this->boolean($task->isNewItem())->isTrue();
 
       // Test purge task
-      $task->delete([
-         'id' => $taskId,
-      ], 1);
+      $task->delete(['id' => $taskId], 1);
 
-      // CHeck a mqtt message is sent to remove the applied policy from MQTT
-      $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
-      $this->array($rows)->size->isEqualTo(1);
-      $row = array_pop($rows);
-      // check the topic of the message
-      $this->string($row['topic'])->isEqualTo($fleet->getTopic() . "/Policy/$policyName/Task/$taskId");
-      // check the message
-      $this->string($row['message'])->isEqualTo('');
-
-      // Check task statuses are deleted
-      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
-      $this->integer(count($rows))->isEqualTo(0);
-   }
-
-   public function testCreateTaskStatuses() {
-
-   }
-
-   /**
-    * Create a new invitation
-    *
-    * @param string $guestEmail
-    * @return \PluginFlyvemdmInvitation
-    * @internal param array $input invitation data
-    */
-   private function createInvitation($guestEmail) {
-      $invitation = new \PluginFlyvemdmInvitation();
-      $invitation->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
-      ]);
-      $this->boolean($invitation->isNewItem())->isFalse();
-
-      return $invitation;
-   }
-
-   /**
-    *
-    * Try to enroll an device by creating an agent. If the enrollment fails
-    * the agent returned will not contain an ID. To ensore the enrollment succeeded
-    * use isNewItem() method on the returned object.
-    *
-    * @param \User $user
-    * @param array $input enrollment data for agent creation
-    * @return \PluginFlyvemdmAgent The agent instance
-    */
-   private function enrollFromInvitation(\User $user, array $input) {
-      // Close current session
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
-      \Session::destroy();
-      $this->setupGLPIFramework();
-
-      // login as invited user
-      $this->boolean($this->login('', '', false))->isTrue();
-      unset($_REQUEST['user_token']);
-
-      // Try to enroll
-      $agent = new \PluginFlyvemdmAgent();
-      $agent->add($input);
-
-      return $agent;
-   }
-
-   /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => $this->getUniqueString(),
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
+      return [
+         $task,
+         $taskId,
+         $taskStatus,
+         $taskFk,
+         $policyName,
+         $log,
+         $mqttLogId,
+         $expectedTopic,
+      ];
    }
 }

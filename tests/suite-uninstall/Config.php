@@ -31,8 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
-use Plugin;
+use Flyvemdm\Tests\CommonTestCase;
 
 class Config extends CommonTestCase
 {
@@ -51,7 +50,7 @@ class Config extends CommonTestCase
 
       $pluginName = TEST_PLUGIN_NAME;
 
-      $plugin = new Plugin();
+      $plugin = new \Plugin();
       $plugin->getFromDBbyDir($pluginName);
 
       // Uninstall the plugin

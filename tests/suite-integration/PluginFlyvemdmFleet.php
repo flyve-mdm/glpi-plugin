@@ -31,15 +31,10 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\Src\TestingCommonTools;
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\TestingCommonTools;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmFleet extends CommonTestCase {
-
-   /**
-    * @var string
-    */
-   private $minAndroidVersion = '2.0.0';
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
@@ -61,7 +56,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $entityId = $entity->import(['completename' => 'delete default fleet']);
 
       $fleet = $this->newTestedInstance();
-      $this->boolean($fleet->getFromDBByQuery("WHERE `is_default`='1' AND `entities_id`='$entityId'"))
+      $request = [
+         'AND' => [
+            'is_default' => '1',
+            \Entity::getForeignKeyField() => $entityId,
+         ]
+      ];
+      $this->boolean($fleet->getFromDBByCrit($request))
          ->isTrue();
 
       $result = $fleet->delete(['id' => $fleet->getID()]);
@@ -89,9 +90,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
             'csr'               => '',
             'firstname'         => 'John',
             'lastname'          => 'Doe',
-            'version'           => $this->minAndroidVersion,
+            'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
             'type'              => 'android',
-            'inventory'         => TestingCommonTools::AgentXmlInventory($serial),
+            'inventory'         => CommonTestCase::AgentXmlInventory($serial),
          ]
       );
       $this->boolean($agent->isNewItem())
@@ -119,9 +120,10 @@ class PluginFlyvemdmFleet extends CommonTestCase {
 
       $Task = new \PluginFlyvemdmTask();
       $Task->add([
-         $policyFk => $policyData->getID(),
-         $fleetFk  => $fleet->getID(),
-         'value'   => '0',
+         $policyFk            => $policyData->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         'value'              => '0',
       ]);
 
       // Check the policy is applied
@@ -130,57 +132,13 @@ class PluginFlyvemdmFleet extends CommonTestCase {
 
       // Purge the fleet
       $this->boolean($fleet->delete(['id' => $fleet->getID()], 1))->isTrue();
+      $fleetType = $fleet->getType();
       $fleetId = $fleet->getID();
       $rows = $agent->find("`$fleetFk`='$fleetId'");
       $this->integer(count($rows))->isEqualTo(0);
 
       // Check the policies are unlinked to the fleet
-      $rows = $Task->find("`$fleetFk`='$fleetId'");
+      $rows = $Task->find("`itemtype_applied`='$fleetType' AND `items_id_applied`='$fleetId'");
       $this->integer(count($rows))->isEqualTo(0);
-   }
-
-   /**
-    * Create a new invitation
-    *
-    * @param $guestEmail
-    * @return \PluginFlyvemdmInvitation
-    */
-   private function createInvitation($guestEmail) {
-      $invitation = new \PluginFlyvemdmInvitation();
-      $invitation->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
-      ]);
-      $this->boolean($invitation->isNewItem())->isFalse();
-
-      return $invitation;
-   }
-
-   /**
-    *
-    * Try to enroll an device by creating an agent. If the enrollment fails
-    * the agent returned will not contain an ID. To ensore the enrollment succeeded
-    * use isNewItem() method on the returned object.
-    *
-    * @param \User $user
-    * @param array $input enrollment data for agent creation
-    *
-    * @return \PluginFlyvemdmAgent The agent instance
-    */
-   private function enrollFromInvitation(\User $user, array $input) {
-      // Close current session
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
-      \Session::destroy();
-      $this->setupGLPIFramework();
-
-      // login as invited user
-      $this->boolean($this->login('', '', false))->isTrue();
-      unset($_REQUEST['user_token']);
-
-      // Try to enroll
-      $agent = new \PluginFlyvemdmAgent();
-      $agent->add($input);
-
-      return $agent;
    }
 }

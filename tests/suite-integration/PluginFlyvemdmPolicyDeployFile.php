@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
@@ -41,34 +41,17 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
     * @tags testApplyPolicy
     */
    public function testApplyPolicy() {
-      global $DB;
-
       // Create an application (directly in DB) because we are not uploading any file
       // Create an file (directly in DB)
-      $fileName = 'flyve-user-manual-' . uniqid() . '.pdf';
-      $fileTable = \PluginFlyvemdmFile::getTable();
-      $entityId = $this->defaultEntity;
-      $query = "INSERT INTO $fileTable (
-         `name`,
-         `source`,
-         `entities_id`,
-         `version`
-      )
-      VALUES (
-         '$fileName',
-         '2/12345678_flyve-user-manual.pdf',
-         '$entityId',
-         '1'
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $file = new \PluginFlyvemdmFile();
-      $this->boolean($file->getFromDBByQuery("WHERE `name`='$fileName'"))->isTrue($mysqlError);
+      $file = $this->createDummyFile($this->defaultEntity);
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployFile'))->isTrue();
 
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $this->defaultEntity,
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
 
       $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
@@ -77,10 +60,11 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'itemtype' => get_class($file),
-         'items_id' => $file->getID(),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'itemtype'           => get_class($file),
+         'items_id'           => $file->getID(),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -125,11 +109,12 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'itemtype' => get_class($file),
-         'items_id' => $file->getID(),
-         'value'    => json_encode($value, JSON_UNESCAPED_SLASHES),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'itemtype'           => get_class($file),
+         'items_id'           => $file->getID(),
+         'value'              => json_encode($value, JSON_UNESCAPED_SLASHES),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -142,15 +127,16 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         $fleetFk   => $fleet->getID(),
-         $policyFk  => $policyDataDeploy->getID(),
-         'items_id' => $file->getID(),
-         'value'    => json_encode($value, JSON_UNESCAPED_SLASHES),
+         'itemtype_applied'   => $fleet->getType(),
+         'items_id_applied'   => $fleet->getID(),
+         $policyFk            => $policyDataDeploy->getID(),
+         'items_id'           => $file->getID(),
+         'value'              => json_encode($value, JSON_UNESCAPED_SLASHES),
       ]);
       $this->boolean($task->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      // Check add the policy to fleet with correct parameters suceeds
+      // Check add the policy to fleet with correct parameters succeeds
       $task = $this->applyAddFilePolicy($policyDataDeploy, $file, $fleet);
       $this->boolean($task->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
@@ -170,24 +156,10 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $this->defaultEntity,
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
-   }
-
-   /**
-    * @param \PluginFlyvemdmPolicy $policyData
-    * @param PluginFlyvemdmFile $file
-    * @param \PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy       $policyData
+    * @param PluginFlyvemdmFile          $file
+    * @param \PluginFlyvemdmFleet        $fleet
+    *
     * @return \PluginFlyvemdmTask
     */
    private function applyAddFilePolicy(
@@ -201,7 +173,8 @@ class PluginFlyvemdmPolicyDeployFile extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $fleet->getType(),
+         'items_id_applied'            => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value,
          'itemtype'                    => get_class($file),

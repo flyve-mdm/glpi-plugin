@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmPackage extends CommonDBTM {
+class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
 
    /**
     * @var string $rightname name of the right in DB
@@ -59,7 +59,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return string
     */
    public static function getTypeName($nb = 0) {
-      return _n('Package', 'Packages', $nb, "flyvemdm");
+      return _n('Package', 'Packages', $nb, 'flyvemdm');
    }
 
    /**
@@ -132,7 +132,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
-      $objectName = autoName(
+      $DbUtil = new DbUtils();
+      $objectName = $DbUtil->autoName(
          $this->fields['name'], 'name',
          (isset($options['withtemplate']) && $options['withtemplate'] == 2),
          $this->getType(), -1
@@ -141,7 +142,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          $this, 'name',
          ['value' => $objectName, 'display' => false]
       );
-      $fields['filesize'] = PluginFlyvemdmCommon::convertToGiB($fields['filesize']);
+      $this->addExtraFileInfo();
+      if ($this->isNewID($ID)) {
+         $fields['filesize'] = '';
+      }
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
          'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
@@ -149,28 +153,9 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          'package'      => $fields,
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
       ];
-      echo $twig->render('package.html', $data);
+      echo $twig->render('package.html.twig', $data);
 
       $this->showFormButtons($options);
-   }
-
-   /**
-    * Gets the maximum file size allowed for uploads from PHP configuration
-    * @return integer maximum file size
-    */
-   protected static function getMaxFileSize() {
-      $val = trim(ini_get('post_max_size'));
-      $last = strtolower($val[strlen($val) - 1]);
-      switch ($last) {
-         case 'g':
-            $val *= 1024;
-         case 'm':
-            $val *= 1024;
-         case 'k':
-            $val *= 1024;
-      }
-
-      return $val;
    }
 
    /**
@@ -206,11 +191,10 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
       try {
          $uploadedFile = $preparedFile['uploadedFile'];
-         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
-         $destination = GLPI_DOC_DIR . '/' . $input['filename'];
+         $input['filename'] = 'flyvemdm/package/' . $input['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $input['filesize'] = fileSize($destination);
             $input['dl_filename'] = basename($uploadedFile);
          } else {
             $this->logErrorIfDirNotWritable($destination);
@@ -244,14 +228,13 @@ class PluginFlyvemdmPackage extends CommonDBTM {
             }
             $uploadedFile = $preparedFile['uploadedFile'];
             $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-            $destination = GLPI_DOC_DIR . '/' . $input['filename'];
+            $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
             $this->createEntityDirectory(dirname($destination));
             if (rename($uploadedFile, $destination)) {
                $filename = pathinfo($destination, PATHINFO_FILENAME);
-               $input['filesize'] = fileSize($destination);
                $input['dl_filename'] = basename($destination);
                if ($filename != $this->fields['filename']) {
-                  unlink(GLPI_DOC_DIR . "/" . $this->fields['filename']);
+                  unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
                }
             } else {
                $this->logErrorIfDirNotWritable($destination);
@@ -272,10 +255,12 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
+         $this->addExtraFileInfo();
          if (isAPI()
             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
-            $this->sendFile(); // and terminate script
+            $this->sendFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'],
+               $this->fields['dl_filename'], $this->fields['filesize']); // and terminate script
          }
       }
    }
@@ -306,24 +291,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          return;
       }
 
-      $itemtype = $this->getType();
-      $itemId = $this->getID();
-
-      $task = new PluginFlyvemdmTask();
-      $taskCol = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-      $fleet = new PluginFlyvemdmFleet();
-      foreach ($taskCol as $taskId => $taskRow) {
-         $fleetId = $taskRow['plugin_flyvemdm_fleets_id'];
-         if ($fleet->getFromDB($fleetId)) {
-            Toolbox::logInFile('php-errors',
-               "Plugin Flyvemdm : Could not find fleet id = '$fleetId'");
-            continue;
-         }
-         if ($task->getFromDB($taskId)) {
-            $task->publishPolicy($fleet);
-            $task->createTaskStatuses($fleet);
-         }
-      }
+      $this->deployNotification(new PluginFlyvemdmTask);
 
       // File updated, then scan it again
       $this->createOrionReport();
@@ -344,20 +312,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = FLYVEMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
-      if (is_writable($filename)) {
-         unlink($filename);
-      }
-   }
-
-   /**
-    * Create a directory
-    * @param string $dir
-    */
-   protected function createEntityDirectory($dir) {
-      if (!is_dir($dir)) {
-         @mkdir($dir, 0770, true);
-      }
+      $this->unlinkLocalFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
    }
 
    /**
@@ -365,11 +320,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public function getSearchOptionsNew() {
       $tab = parent::getSearchOptionsNew();
-
-      $tab[0] = [
-         'id'   => 'common',
-         'name' => __s('Package', 'flyvemdm'),
-      ];
 
       $tab[] = [
          'id'            => '2',
@@ -408,110 +358,14 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       ];
 
       $tab[] = [
-         'id'            => '6',
-         'table'         => $this->getTable(),
-         'field'         => 'filesize',
-         'name'          => __('filesize'),
-         'massiveaction' => false,
-         'datatype'      => 'string',
+         'id'                 => '6',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
       ];
 
       return $tab;
-   }
-
-   /**
-    * Get the download URL for the application
-    * @return boolean|string
-    */
-   public function getFileURL() {
-      $config = Config::getConfigurationValues('flyvemdm', ['deploy_base_url']);
-      $deployBaseURL = $config['deploy_base_url'];
-
-      if ($deployBaseURL === null) {
-         return false;
-      }
-
-      $URL = $deployBaseURL . '/package/' . $this->fields['filename'];
-      return $URL;
-   }
-
-   /**
-    * Sends a file
-    */
-   protected function sendFile() {
-      $streamSource = GLPI_DOC_DIR . "/" . $this->fields['filename'];
-
-      if (!file_exists($streamSource) || !is_file($streamSource)) {
-         header("HTTP/1.0 404 Not Found");
-         exit(0);
-      }
-
-      $size = filesize($streamSource);
-      $begin = 0;
-      $end = $size - 1;
-      $mimeType = 'application/octet-stream';
-      $time = date('r', filemtime($streamSource));
-
-      $fileHandle = @fopen($streamSource, 'rb');
-      if (!$fileHandle) {
-         header("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      if (isset($_SERVER['HTTP_RANGE'])) {
-         $matches = null;
-         if (preg_match('/bytes=\h*(\d+)?-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
-            if (!empty($matches[1])) {
-               $begin = intval($matches[1]);
-            }
-            if (!empty($matches[2])) {
-               $end = min(intval($matches[2]), $end);
-            }
-         }
-      }
-
-      // seek to the begining of the range
-      $currentPosition = $begin;
-      if (fseek($fileHandle, $begin, SEEK_SET) < 0) {
-         header("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      // send headers to ensure the client is able to detect an corrupted download
-      // example : less bytes than the expected range
-      header("Expires: Mon, 26 Nov 1962 00:00:00 GMT");
-      header('Pragma: private'); /// IE BUG + SSL
-      header('Cache-control: private, must-revalidate'); /// IE BUG + SSL
-      header("Content-disposition: attachment; filename=\"" . $this->fields['dl_filename'] . "\"");
-      header("Content-type: $mimeType");
-      header("Last-Modified: $time");
-      header('Accept-Ranges: bytes');
-      header('Content-Length:' . ($end - $begin + 1));
-      header("Content-Range: bytes $begin-$end/$size");
-      header("Content-Transfer-Encoding: binary\n");
-      header('Connection: close');
-
-      $httpStatus = 'HTTP/1.0 200 OK';
-      if ($begin > 0 || $end < $size - 1) {
-         $httpStatus = 'HTTP/1.0 206 Partial Content';
-      }
-      header($httpStatus);
-
-      // Sends bytes until the end of the range or connection closed
-      while (!feof($fileHandle) && $currentPosition < $end && (connection_status() == 0)) {
-         // allow a few seconds to send a few KB.
-         set_time_limit(10);
-         $content = fread($fileHandle, min(1024 * 16, $end - $currentPosition + 1));
-         if ($content === false) {
-            header("HTTP/1.0 500 Internal Server Error", true); // Replace previously sent headers
-            exit(0);
-         }
-         print $content;
-         flush();
-         $currentPosition += 1024 * 16;
-      }
-
-      exit(0);
    }
 
    /**
@@ -542,8 +396,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    public static function cronParseApplication(CronTask $crontask) {
       global $DB;
 
-      $cronStatus = 0;
-
       $request = [
          'FROM'  => static::getTable(),
          'WHERE' => [
@@ -571,7 +423,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @return boolean true if success, false otherwise
     */
    private function parseApplication() {
-      $destination = GLPI_DOC_DIR . '/' . $this->fields['filename'];
+      $destination = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
       $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
       if ($fileExtension == 'apk') {
          try {
@@ -707,5 +559,38 @@ class PluginFlyvemdmPackage extends CommonDBTM {
       }
 
       return null;
+   }
+
+   /**
+    * Adds extra fields to the itemType
+    */
+   protected function addExtraFileInfo() {
+      $filename = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
+      $isFile = is_file($filename);
+      $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+      $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+   }
+
+   /**
+    * Define how to display a specific value in search result table
+    *
+    * @param  string $field   Name of the field as define in $this->getSearchOptions()
+    * @param  string $values  The value as it is stored in DB
+    * @param  array  $options Options (optional)
+    * @return string          Value to be displayed
+    */
+   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'icon':
+            if (!isAPI()) {
+               $output = '<img style="height: 14px" src="data:image/png;base64,'. $values[$field] .'">';
+               return $output;
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }

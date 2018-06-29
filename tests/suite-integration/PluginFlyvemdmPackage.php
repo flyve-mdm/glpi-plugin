@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmPackage extends CommonTestCase {
 
@@ -53,35 +53,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
-      $uniqueString = $this->getUniqueString();
-      $packageName = 'com.domain.' . $uniqueString . '.application';
-      $packageTable = \PluginFlyvemdmPackage::getTable();
-      $entityId = $_SESSION['glpiactive_entity'];
-      $query = "INSERT INTO $packageTable (
-         `package_name`,
-         `alias`,
-         `version`,
-         `filename`,
-         `filesize`,
-         `entities_id`,
-         `dl_filename`,
-         `icon`
-      )
-      VALUES (
-         '$packageName',
-         'application',
-         '1.0.5',
-         '$entityId/123456789_application_" . $uniqueString . ".apk',
-         '1048576',
-         '$entityId',
-         'application_" . $uniqueString . ".apk',
-         ''
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $package = $this->newTestedinstance();
-      $this->boolean($package->getFromDBByQuery("WHERE `package_name`='$packageName'"))
-         ->isTrue($mysqlError);
+      $package = $this->createDummyPackage($_SESSION['glpiactive_entity']);
+      $packageName = $package->getField('package_name');
 
       $policyDataDeploy = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataDeploy->getFromDBBySymbol('deployApp'))->isTrue();
@@ -89,9 +62,12 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $policyDataRemove = new \PluginFlyvemdmPolicy();
       $this->boolean($policyDataRemove->getFromDBBySymbol('removeApp'))->isTrue();
 
-      $fleet = $this->createFleet();
+      $fleet = $this->createFleet([
+         'entities_id' => $_SESSION['glpiactive_entity'],
+         'name'        => __CLASS__ . '::'. __FUNCTION__,
+      ]);
       $task = $this->applyAddPackagePolicy($policyDataDeploy, $package, $fleet);
-      $this->boolean($task->isNewItem())->isFalse();
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       // delete the application
       $this->boolean($package->delete([
@@ -115,24 +91,10 @@ class PluginFlyvemdmPackage extends CommonTestCase {
    }
 
    /**
-    * @return object \PluginFlyvemdmFleet mocked
-    */
-   private function createFleet() {
-      $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
-      $fleet->getMockController()->post_addItem = function () {};
-      $fleet->add([
-         'entities_id' => $_SESSION['glpiactive_entity'],
-         'name'        => 'a fleet',
-      ]);
-      $this->boolean($fleet->isNewItem())->isFalse();
-
-      return $fleet;
-   }
-
-   /**
-    * @param \PluginFlyvemdmPolicy $policyData
-    * @param \PluginFlyvemdmPackage $package
-    * @param \PluginFlyvemdmFleet $fleet
+    * @param \PluginFlyvemdmPolicy       $policyData
+    * @param \PluginFlyvemdmPackage      $package
+    * @param \PluginFlyvemdmFleet        $fleet
+    *
     * @return \PluginFlyvemdmTask
     */
    private function applyAddPackagePolicy(
@@ -145,7 +107,8 @@ class PluginFlyvemdmPackage extends CommonTestCase {
 
       $task = new \PluginFlyvemdmTask();
       $task->add([
-         'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
+         'itemtype_applied'            => $fleet->getType(),
+         'items_id_applied'            => $fleet->getID(),
          'plugin_flyvemdm_policies_id' => $policyData->getID(),
          'value'                       => $value,
          'itemtype'                    => get_class($package),

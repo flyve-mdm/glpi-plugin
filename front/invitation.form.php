@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
@@ -55,15 +55,23 @@ if (isset($_POST['add'])) {
    $_POST['_notify'] = '';
    $invitation->update($_POST);
    Html::back();
+} else if (isset($_POST['purge'])) {
+   $invitation->check($_POST['id'], PURGE);
+   $invitation->delete($_POST, 1);
+   $invitation->redirectToList();
 } else {
    $invitation->check($_GET['id'], READ);
    Html::header(
          PluginFlyvemdmInvitation::getTypeName(Session::getPluralNumber()),
          '',
          'admin',
-         'PluginFlyvemdmMenu',
+         PluginFlyvemdmMenu::class,
          'invitation'
          );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
    $invitation->display([
       'id' => $_GET['id'],
       'withtemplate' => $_GET['withtemplate']

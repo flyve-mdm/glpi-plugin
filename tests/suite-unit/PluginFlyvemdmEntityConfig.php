@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 
 class PluginFlyvemdmEntityConfig extends CommonTestCase {
@@ -39,13 +39,14 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
    public function beforeTestMethod($method) {
       switch ($method) {
          case 'testCanAddAgent':
+         case 'testHook_entity_add':
             $this->login('glpi', 'glpi');
             break;
       }
    }
 
    /**
-    * @engine inline
+    *
     */
    public function testCanAddAgent() {
       global $DB;
@@ -87,5 +88,103 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
 
       // Device count limit is reached now
       $this->boolean($entityConfig->canAddAgent($entityId))->isFalse();
+   }
+
+   public function providerPrepareInputForUpdate() {
+      return [
+         [
+            'credentials' => ['glpi', 'glpi'],
+            'input' => [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            'output' => [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            'message' => ''
+         ],
+         [
+            ['normal', 'normal'],
+            [
+               'device_limit' => 42,
+               'download_url' => 'https://nothing.local/id=com.nothing.local',
+               'agent_token_life' => 'P99D',
+            ],
+            [],
+            [
+               'You are not allowed to change the device limit',
+               'You are not allowed to download URL of the MDM agent',
+               'You are not allowed to change the invitation token life',
+            ]
+         ]
+      ];
+   }
+
+   /**
+    * @engine inline
+    * @dataProvider providerPrepareInputForUpdate
+    *
+    * @param array $credentials credentials used for login
+    * @param array $input input of the tested method
+    * @param array|boolean $output expected output
+    * @param string $message expected output message (if $output === false or $output === [])
+    */
+   public function testPrepareInputForUpdate(array $credentials, array $input, $output, $message) {
+      // Login
+      $loginSuccess = $this->login($credentials[0], $credentials[1]);
+      $this->boolean($loginSuccess)->isTrue('Failed to login');
+
+      $instance = $this->newTestedInstance();
+      $instance->getFromDB(0);
+      $actualOutput = $instance->prepareInputForUpdate($input);
+      if ($output === false) {
+         $this->boolean($actualOutput)->isFalse();
+         $this->sessionHasMessage($message, WARNING);
+      } else if ($output === []) {
+         $this->array($actualOutput)->isEmpty();
+         $this->sessionHasMessage($message, WARNING);
+      } else {
+         $this->array($actualOutput)->size->isEqualTo(count($output));
+         $this->array($actualOutput)->hasKeys(array_keys($output));
+         $this->array($actualOutput)->containsValues($output);
+      }
+   }
+
+   public function testHook_entity_add() {
+      $config = \Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
+      $defaultDeviceLimit = $config['default_device_limit'];
+
+      // Create an entity in DB
+      // This must run hook_entity_add
+      $entity = new \Entity();
+      $entityId = $entity->import([
+         'name' => __FUNCTION__ . ' '. $this->getUniqueString(),
+         'entities_id' => 0
+      ]);
+      // The root entity (id 0) already exists then it cannot be returned or retrieved
+      $this->integer($entityId)->isGreaterThan(0);
+
+      $instance = $this->newTestedInstance();
+      $instance->getFromDBByCrit([
+         \Entity::getForeignKeyField() => $entityId
+      ]);
+      $this->boolean($instance->isNewItem())->isFalse();
+      $this->string($instance->getField('agent_token'))->isNotEmpty();
+      $this->string($instance->getField('agent_token_life'))->isEqualTo('P7D');
+      $this->string($instance->getField('support_name'))->isEqualTo('');
+      $this->string($instance->getField('support_phone'))->isEqualTo('');
+      $this->string($instance->getField('support_website'))->isEqualTo('');
+      $this->string($instance->getField('support_email'))->isEqualTo('');
+      $this->string($instance->getField('support_address'))->isEqualTo('');
+      $this->integer((int) $instance->getField('managed'))->isEqualTo(0);
+      $this->string($instance->getField('download_url'))->isEqualTo(PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL);
+      $this->integer((int) $instance->getField('device_limit'))->isEqualTo((int) $defaultDeviceLimit);
+
+      // Test directories are created
+      $this->boolean(is_dir(FLYVEMDM_PACKAGE_PATH . '/' . $entityId));
+      $this->boolean(is_dir(FLYVEMDM_FILE_PATH . '/' . $entityId));
    }
 }

@@ -31,7 +31,7 @@
 
 namespace tests\units;
 
-use Glpi\Test\CommonTestCase;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmMqttuser extends CommonTestCase {
 
@@ -59,7 +59,7 @@ class PluginFlyvemdmMqttuser extends CommonTestCase {
       // Delete user
       $name = $input['user'];
       $mqttuser = $this->newTestedInstance();
-      $mqttuser->getFromDBByQuery("WHERE `user`='$name'");
+      $mqttuser->getFromDBByCrit(['user' => $name]);
       $this->boolean($mqttuser->isNewItem())->isFalse();
 
       $this->boolean($mqttuser->delete(['id' => $mqttuser->getID()]))

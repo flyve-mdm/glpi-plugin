@@ -38,6 +38,9 @@ if (!defined('GLPI_ROOT')) {
  */
 class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface {
 
+   /** @var array $postUnapplyTask task to add after unapplying the policy */
+   private $postUnapplyTask = null;
+
    /**
     * @param PluginFlyvemdmPolicy $policy
     * @internal param string $properties
@@ -152,16 +155,19 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
-      $fleetId = $fleet->getID();
+   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+            AND `items_id_applied` = '$notifiableId'
             AND `itemtype` = '$itemtype'");
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
@@ -173,22 +179,25 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmFleet $fleet
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {
+   public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       $policyData = new PluginFlyvemdmPolicy();
       if (!$policyData->getFromDBBySymbol('removeFile')) {
          Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
          // Give up this check
       } else {
-         $fleetId = $fleet->getID();
          $policyId = $policyData->getID();
+         $notifiableType = $notifiable->getType();
+         $notifiableId = $notifiable->getID();
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`plugin_flyvemdm_fleets_id` = '$fleetId'
+         $rows = $task->find("`itemtype_applied` = '$notifiableType'
+               AND `items_id_applied` = '$notifiableId'
                AND `plugin_flyvemdm_policies_id` = '$policyId'");
          foreach ($rows as $row) {
             if ($row['value'] == $value['destination']) {
@@ -201,46 +210,52 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
    }
 
    /**
-    * @param PluginFlyvemdmFleet $fleet
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
+    * @param mixed                             $value
+    * @param mixed                             $itemtype
+    * @param integer                           $itemId
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    *
     * @return bool
     */
-   public function unapply(PluginFlyvemdmFleet $fleet, $value, $itemtype, $itemId) {
-      $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
-      if ($this->integrityCheck($decodedValue, $itemtype, $itemId) === false) {
+   public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+      if ($this->integrityCheck($value, $itemtype, $itemId) === false) {
          return false;
       }
-      $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
-      if ($value['remove_on_delete'] !=  '0') {
-         $policyData = new PluginFlyvemdmPolicy();
-         if (!$policyData->getFromDBBySymbol('removeFile')) {
-            Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
-            return false;
-         }
-         $file = new $itemtype();
-         if (!$file->getFromDB($itemId)) {
-            return false;
-         }
 
-         $task = new PluginFlyvemdmTask();
-         // Ensure there is a trailing slash
-         if (strrpos($decodedValue['destination'], '/') != strlen($decodedValue['destination']) - 1) {
-            $decodedValue['destination'] .= '/';
-         }
-
-         if (!$task->add([
-               'plugin_flyvemdm_fleets_id'   => $fleet->getID(),
-               'plugin_flyvemdm_policies_id' => $policyData->getID(),
-               'value'                       => $decodedValue['destination'] . $file->getField('name'),
-               '_silent'                     => true,
-         ])) {
-            return false;
-         }
+      if ($value['remove_on_delete'] == '0') {
+         return true;
       }
 
+      $policyData = new PluginFlyvemdmPolicy();
+      if (!$policyData->getFromDBBySymbol('removeFile')) {
+         Toolbox::logInFile('php-errors', 'Plugin FlyveMDM: File removal policy not found\n');
+         return false;
+      }
+
+      $file = new $itemtype();
+      if (!$file->getFromDB($itemId)) {
+         return false;
+      }
+
+      // Ensure there is a trailing slash
+      if (strrpos($value['destination'], '/') != strlen($value['destination']) - 1) {
+         $value['destination'] .= '/';
+      }
+
+      $this->postUnapplyTask = [
+         'itemtype_applied'            => $notifiable->getType(),
+         'items_id_applied'            => $notifiable->getID(),
+         'plugin_flyvemdm_policies_id' => $policyData->getID(),
+         'value'                       => $value['destination'] . $file->getField('name'),
+      ];
+
       return true;
+   }
+
+   public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
+      $task = new PluginFlyvemdmTask();
+      $task->add($this->postUnapplyTask);
    }
 
    /**
@@ -251,6 +266,9 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmFile::class;
+      $removeOnDelete = 1;
+      $destination_base = '';
+      $destination = '';
       if ($value !== '') {
          $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
          $removeOnDelete = $value['remove_on_delete'];
@@ -260,34 +278,38 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          }
          $destination = substr($value['destination'], $cut);
          $destination_base = substr($value['destination'], 0, $cut);
-      } else {
-         $removeOnDelete = 1;
-         $destination_base = '';
-         $destination = '';
       }
-      $out = PluginFlyvemdmFile::dropdown([
+      $filesDropdown = PluginFlyvemdmFile::dropdown([
          'display'   => false,
          'name'      => 'items_id',
          'value'     => $itemId,
       ]);
-      $out .= '<br>';
-      $out .= __('copy to', 'flyvemdm');
-      $out .= '<br>';
+
+      //Copy to
       $path = new PluginFlyvemdmWellknownpath();
       $path->getFromDBByPath($destination_base);
-      $out .= PluginFlyvemdmWellknownpath::dropdown([
+
+      $knownPathDropdown = PluginFlyvemdmWellknownpath::dropdown([
          'display'   => false,
          'name'      => 'destination_base',
          'value'     => $path->getID(),
       ]);
-      $out .= '<input type="text" name="value[destination]" value="' . $destination . '" />';
-      $out .= '<br>';
-      $out .= __('Remove when the policy is removed', 'flyvemdm');
-      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
-      //$out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
-      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
-      return $out;
+      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
+                                                -1, ['display' => false]);
+
+      $data = [
+            'files'         => [
+                  'dropdown'        => $filesDropdown,
+                  'itemtype'        => $itemtype,
+                  'knownPath'       => $knownPathDropdown,
+                  'destination'     => $destination,
+            ],
+            'remove'       =>  $removeDropdown,
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('policy_deploy_file_form.html.twig', $data);
    }
 
    /**
@@ -319,4 +341,11 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
 
       return $input;
    }
+
+   public static function getEnumSpecificStatus() {
+      return [
+         'waiting' => __('Waiting', 'flyvemdm'),
+      ];
+   }
+
 }

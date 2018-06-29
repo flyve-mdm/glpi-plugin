@@ -1,0 +1,1491 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-09 12:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Domingo Oropeza, 2017\n"
+"Language-Team: Spanish (Mexico) (https://www.transifex.com/flyve-mdm/teams/69665/es_MX/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_MX\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: hook.php:78
+msgid "Invite to enroll a device"
+msgstr "Invitan a inscribir a un dispositivo"
+
+#: hook.php:109
+msgid "Well known Android's FS paths"
+msgstr "Rutas del sistema Android conocidas"
+
+#: hook.php:110
+msgid "Policy Categories"
+msgstr "Categorías de política"
+
+#: setup.php:206
+msgid "Flyve Mobile Device Management"
+msgstr "Administración de dispositivos móviles flyve"
+
+#: ajax/mqtt_test.php:86
+msgid "Test message sent"
+msgstr "Mensaje de prueba enviado"
+
+#: ajax/mqtt_test.php:88
+msgid "Test message not sent"
+msgstr "Mensaje de prueba enviado no"
+
+#: inc/agent.class.php:99
+msgid "Android"
+msgstr ""
+
+#: inc/agent.class.php:100
+msgid "Apple"
+msgstr ""
+
+#: inc/agent.class.php:110 inc/agent.class.php:767
+msgid "Agent"
+msgid_plural "Agents"
+msgstr[0] "Agente"
+msgstr[1] "Agentes"
+
+#: inc/agent.class.php:163
+msgid "Danger zone !"
+msgstr "¡Zona de peligro!"
+
+#: inc/agent.class.php:181
+msgid "Flyve MDM Agent"
+msgstr "Agente Flyve MDM"
+
+#: inc/agent.class.php:241 inc/agent.class.php:357
+msgid "Never seen online"
+msgstr "Nunca visto en línea"
+
+#: inc/agent.class.php:275
+msgid "Lock the device as soon as possible"
+msgstr "Bloquear el dispositivo tan pronto como sea posible"
+
+#: inc/agent.class.php:282
+msgid "Wipe the device as soon as possible"
+msgstr "Limpie el dispositivo tan pronto como sea posible"
+
+#: inc/agent.class.php:436
+msgid "Failed to read configuration of the entity"
+msgstr "No se pudo leer la configuración de la entidad"
+
+#: inc/agent.class.php:442
+msgid "Too many devices"
+msgstr "Demasiados dispositivos"
+
+#: inc/agent.class.php:450
+msgid "Unable to find a enrollment method"
+msgstr "Incapaz de encontrar un método de inscripción"
+
+#: inc/agent.class.php:475
+msgid "The fleet of the device does not longer exists"
+msgstr "La flota del dispositivo ya no existe"
+
+#: inc/agent.class.php:482
+msgid "The target fleet does not exists"
+msgstr "La flota de destino no existe"
+
+#: inc/agent.class.php:513
+msgid "The device is not enrolled yet"
+msgstr "El dispositivo no está inscrito todavía"
+
+#: inc/agent.class.php:583
+msgid "Failed to find the guest user profile"
+msgstr "No se pudo encontrar el perfil de usuario invitado"
+
+#: inc/agent.class.php:605
+msgid "Failed to remove guest habilitation for the user of the device"
+msgstr ""
+"No se pudo quitar la habilitación de la huésped para el usuario del "
+"dispositivo"
+
+#: inc/agent.class.php:626
+msgid "Failed to delete MQTT user for the device"
+msgstr "Error al eliminar usuario MQTT para el dispositivo"
+
+#: inc/agent.class.php:639
+msgid "Failed to delete documents attached to the device"
+msgstr "No se pudo eliminar documentos adjuntos en el dispositivo"
+
+#: inc/agent.class.php:783 inc/fleet.class.php:74 inc/fleet.class.php:239
+#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:62
+#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
+msgid "Fleet"
+msgid_plural "Fleets"
+msgstr[0] "Flota"
+msgstr[1] "Flotas"
+
+#: inc/agent.class.php:809
+#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:76
+#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
+msgid "Last contact"
+msgstr "Último contacto"
+
+#: inc/agent.class.php:827
+msgid "Is online"
+msgstr "Esta en linea"
+
+#: inc/agent.class.php:836
+msgid "MDM type"
+msgstr "Tipo de MDM"
+
+#: inc/agent.class.php:845
+msgid "Has system permission"
+msgstr "Tiene permisos del sistema"
+
+#: inc/agent.class.php:854
+msgid "Enroll status"
+msgstr "Estado de inscripción"
+
+#: inc/agent.class.php:863
+msgid "Wipe requested"
+msgstr "Limpieza solicitada"
+
+#: inc/agent.class.php:872
+msgid "Lock requested"
+msgstr "Bloqueo solicitado"
+
+#: inc/agent.class.php:1089
+msgid "Invitation token invalid"
+msgstr "Invalid token invitación"
+
+#: inc/agent.class.php:1094
+msgid "One of serial and uuid is mandatory"
+msgstr "Un serial y UUID es obligatorio"
+
+#: inc/agent.class.php:1101
+msgid "Device inventory XML is mandatory"
+msgstr "El XML del inventario del dispositivo es obligatorio"
+
+#: inc/agent.class.php:1110
+msgid "Inventory XML is not well formed"
+msgstr ""
+
+#: inc/agent.class.php:1117
+msgid "Agent version missing"
+msgstr "Versión de agente que falta"
+
+#: inc/agent.class.php:1124
+msgid "MDM type missing"
+msgstr "Falta el tipo de MDM"
+
+#: inc/agent.class.php:1131
+msgid "unknown MDM type"
+msgstr "tipo de MDM desconocido"
+
+#: inc/agent.class.php:1138
+msgid "Bad agent version"
+msgstr "Versión de agente mala"
+
+#: inc/agent.class.php:1147
+msgid "The agent version is too low"
+msgstr "La versión del agente es muy inferior"
+
+#: inc/agent.class.php:1157
+msgid "The agent does not advertise its system permissions"
+msgstr "El agente no alerto de sus permisos en el sistema"
+
+#: inc/agent.class.php:1166
+msgid "Invitation is not pending"
+msgstr "Invitación no está pendiente"
+
+#: inc/agent.class.php:1174
+msgid "Expiration date of the invitation is not set"
+msgstr "No se establece fecha de vencimiento de la invitación"
+
+#: inc/agent.class.php:1182
+msgid "Invitation token expired"
+msgstr "Símbolo (token) de invitación caducado"
+
+#: inc/agent.class.php:1196
+msgid "Wrong email address"
+msgstr "Correo electrónico invalido"
+
+#: inc/agent.class.php:1210
+msgid "Failed to sign the certificate"
+msgstr "Se ha podido firmar el certificado"
+
+#: inc/agent.class.php:1233
+msgid "Failed to update the invitation"
+msgstr "No se pudo actualizar la invitación"
+
+#: inc/agent.class.php:1268
+msgid "Cannot get the FusionInventory agent"
+msgstr "No se pudo obtener el agente de FusionInventory"
+
+#: inc/agent.class.php:1275
+msgid "FusionInventory agent not created"
+msgstr "No se creo el agente de FusionInventory"
+
+#: inc/agent.class.php:1283
+msgid "Cannot create the device"
+msgstr "No se puede crear el dispositivo"
+
+#: inc/agent.class.php:1314
+msgid "Cannot create a user account for the agent"
+msgstr "No se puede crear una cuenta de usuario para el agente"
+
+#: inc/agent.class.php:1330
+msgid "Cannot create the API token for the agent"
+msgstr "No se puede crear el API token para el agente"
+
+#: inc/agent.class.php:1339
+msgid "No default fleet available for the device"
+msgstr "Ninguna flota de predeterminado para el dispositivo"
+
+#: inc/agent.class.php:1523
+msgid "GPS is turned off or is not ready"
+msgstr "GPS está apagado o no está listo"
+
+#: inc/agent.class.php:1525
+msgid "The device sent its position"
+msgstr ""
+
+#: inc/agent.class.php:1529
+msgid "Timeout requesting position"
+msgstr "Posición de solicitar tiempo de espera"
+
+#: inc/agent.class.php:1556
+msgid "Inventory received"
+msgstr ""
+
+#: inc/agent.class.php:1560
+msgid "Timeout querying the device inventory"
+msgstr "Tiempo de espera de consulta del inventario de dispositivos"
+
+#: inc/agent.class.php:1580
+msgid "The device answered"
+msgstr ""
+
+#: inc/agent.class.php:1584
+msgid "Timeout querying the device"
+msgstr "Tiempo de espera de consulta el dispositivo"
+
+#: inc/agent.class.php:1803
+msgid "Enrollment failed"
+msgstr "Inscripción no pudiera"
+
+#: inc/config.class.php:140
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:28
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:60
+msgid "Installation wizard"
+msgstr "Ayudante de insalación"
+
+#: inc/config.class.php:142
+msgid "General configuration"
+msgstr "Configuración general"
+
+#: inc/config.class.php:143 inc/menu.class.php:119
+msgid "Message queue"
+msgstr "Cola de mensajes"
+
+#: inc/config.class.php:144 inc/menu.class.php:122
+msgid "Debug"
+msgstr "Depurar"
+
+#: inc/config.class.php:210
+msgid "Bugcollector password"
+msgstr ""
+
+#: inc/config.class.php:354
+msgid "Finish"
+msgstr "Terminar"
+
+#: inc/config.class.php:354
+msgid "Next"
+msgstr "Siguiente"
+
+#: inc/entityconfig.class.php:134
+msgid "You are not allowed to change the device limit"
+msgstr "No le esta permitido cambiar el limite de dispositivos"
+
+#: inc/entityconfig.class.php:141
+msgid "You are not allowed to download URL of the MDM agent"
+msgstr ""
+
+#: inc/entityconfig.class.php:148
+msgid "You are not allowed to change the invitation token life"
+msgstr "No le esta permitido cambiar el token de invitacion"
+
+#: inc/entityconfig.class.php:194
+msgid "The agent token life invalid or too long"
+msgstr "La vida simbólica de agente no válida o demasiada"
+
+#: inc/entityconfig.class.php:289
+msgid "Flyve MDM supervision"
+msgstr "Supervisión de Flyve MDM"
+
+#: inc/entityconfig.class.php:384
+msgid "Helpdesk information"
+msgstr "Información del centro de soporte"
+
+#: inc/entityconfig.class.php:430 inc/invitation.class.php:67
+#: inc/invitation.class.php:425 inc/notificationtargetinvitation.class.php:50
+#: inc/notificationtargetinvitation.class.php:59
+msgid "Invitation"
+msgid_plural "Invitations"
+msgstr[0] "Invitación"
+msgstr[1] "Invitaciones"
+
+#: inc/file.class.php:60 inc/file.class.php:229
+msgid "File"
+msgid_plural "Files"
+msgstr[0] "Archivo"
+msgstr[1] "Archivos"
+
+#: inc/file.class.php:88 inc/file.class.php:122 inc/package.class.php:609
+msgid "File uploaded without name"
+msgstr "Archivo subido sin nombre"
+
+#: inc/file.class.php:100
+msgid "Failed to store the uploaded file"
+msgstr "Fallo al guardar el archivo cargado"
+
+#: inc/file.class.php:170 inc/package.class.php:631 inc/package.class.php:639
+msgid "No file uploaded"
+msgstr "No hay ningún archivo subido"
+
+#: inc/file.class.php:176 inc/package.class.php:646
+msgid "File upload failed"
+msgstr "Error de carga de archivos"
+
+#: inc/file.class.php:185
+msgid "Temp directory doesn't exist"
+msgstr "Directorio Temp no existe"
+
+#: inc/fleet.class.php:185
+msgid "No default fleet found to move devices"
+msgstr "No flota por defecto encontrada para mover dispositivos"
+
+#: inc/fleet.class.php:195
+msgid "Could not move all devices to the not managed fleet"
+msgstr "No pudo pasar todos los dispositivos a la flota no administrada"
+
+#: inc/fleet.class.php:224
+msgid "Could not delete policies on the fleet"
+msgstr "No se puede eliminar las políticas de la flota"
+
+#: inc/fleet.class.php:474 install/installer.class.php:274
+msgid "not managed fleet"
+msgstr "flota no administrada"
+
+#: inc/geolocation.class.php:67 inc/geolocation.class.php:298
+msgid "Geolocation"
+msgid_plural "Geolocations"
+msgstr[0] "Geolocalización"
+msgstr[1] "Geolocalizaciones"
+
+#: inc/geolocation.class.php:157
+msgid "associated device is mandatory"
+msgstr "dispositivo asociado es obligatorio"
+
+#: inc/geolocation.class.php:161 inc/geolocation.class.php:196
+msgid "latitude and longitude are mandatory"
+msgstr "latitud y longitud son obligatorios"
+
+#: inc/geolocation.class.php:171 inc/geolocation.class.php:213
+msgid "latitude is invalid"
+msgstr "latitud no es válido"
+
+#: inc/geolocation.class.php:175 inc/geolocation.class.php:220
+msgid "longitude is invalid"
+msgstr "longitud no es válida"
+
+#: inc/geolocation.class.php:182 inc/geolocation.class.php:204
+msgid "Device not found"
+msgstr "Dispositivo no encontrado"
+
+#: inc/graph.class.php:64
+msgid "Invitations"
+msgstr "Invitaciones"
+
+#: inc/graph.class.php:66 inc/graph.class.php:71 inc/invitation.class.php:57
+#: inc/policybase.class.php:79
+msgid "Done"
+msgstr "Hecho"
+
+#: inc/graph.class.php:67 inc/graph.class.php:75 inc/invitation.class.php:56
+#: inc/policybase.class.php:77
+msgid "Pending"
+msgstr "Pendiente"
+
+#: inc/graph.class.php:141
+msgid "Devices per operating system version"
+msgstr "Dispositivos por cada versión del sistema operativo"
+
+#: inc/invitation.class.php:98 inc/invitation.class.php:104
+msgid "Email address is invalid"
+msgstr "Dirección de correo electrónico no es válida"
+
+#: inc/invitation.class.php:127
+msgid "Cannot create the user"
+msgstr "No se puede crear el usuario"
+
+#: inc/invitation.class.php:135
+msgid ""
+"The user already exists and has been deleted. You must restore or purge him "
+"first."
+msgstr ""
+"El usuario ya existe y se ha eliminado. Debe restaurar o purgarlo primero."
+
+#: inc/invitation.class.php:287
+msgid "Cannot delete the document. Delete the attached invitation first"
+msgstr ""
+"No se puede eliminar el documento. Eliminar primero la invitación adjunta"
+
+#: inc/invitation.class.php:351 inc/notificationtargetinvitation.class.php:68
+msgid "Enrollment QR code"
+msgstr "Código QR de la inscripción"
+
+#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:70
+msgid "Invitation log"
+msgid_plural "Invitation logs"
+msgstr[0] "Registro de invitación"
+msgstr[1] "Registros de invitación"
+
+#: inc/menu.class.php:93
+msgid "General"
+msgstr "General"
+
+#: inc/menu.class.php:115
+msgid "Configuration"
+msgstr "Configuración"
+
+#: inc/mqttlog.class.php:57
+msgid "MQTT subscriber"
+msgid_plural "MQTT subscribers"
+msgstr[0] "Suscriptor MQTT"
+msgstr[1] "Suscriptores MQTT"
+
+#: inc/notificationtargetinvitation.class.php:67
+msgid "Link to download the FlyveMDM Android application"
+msgstr "Enlace para descargar la aplicación FlyveMDM Android"
+
+#: inc/notificationtargetinvitation.class.php:69
+msgid "Enrollment URL"
+msgstr "URL de inscripción"
+
+#: inc/notificationtargetinvitation.class.php:70
+msgid "First name of the Flyve MDM fleets manager"
+msgstr "Nombre del administrador de flotas Flyve MDM"
+
+#: inc/notificationtargetinvitation.class.php:71
+msgid "Last name of the Flyve MDM fleets manager"
+msgstr "Apellido del administrador de flotas Flyve MDM"
+
+#: inc/notificationtargetinvitation.class.php:72
+msgid "Name of the helpdesk"
+msgstr "Nombre del centro de soporte"
+
+#: inc/notificationtargetinvitation.class.php:73
+msgid "Phone number of the helpdesk"
+msgstr "Número de teléfono del centro de soporte"
+
+#: inc/notificationtargetinvitation.class.php:74
+msgid "Website of the helpdesk"
+msgstr "Sitio web del centro de soporte"
+
+#: inc/notificationtargetinvitation.class.php:75
+msgid "Email address of the helpdesk"
+msgstr "Correo electrónico del centro de soporte"
+
+#: inc/notificationtargetinvitation.class.php:76
+msgid "Address of the helpdesk"
+msgstr "Dirección del centro de soporte"
+
+#: inc/notificationtargetinvitation.class.php:154
+msgid "Guest user"
+msgstr "Usuario invitado"
+
+#: inc/package.class.php:62
+msgid "Package"
+msgid_plural "Packages"
+msgstr[0] "Paquete"
+msgstr[1] "Paquetes"
+
+#: inc/package.class.php:99
+msgid "Package Flyve MDM"
+msgid_plural "Packages Flyve MDM"
+msgstr[0] "Paquete Flyve MDM"
+msgstr[1] "Paquetes Flyve MDM"
+
+#: inc/package.class.php:200 inc/package.class.php:240
+msgid "Unable to save the file"
+msgstr "No se puede guardar el archivo"
+
+#: inc/package.class.php:205
+msgid "Could not parse the APK file"
+msgstr "No pudo analizar el archivo APK"
+
+#: inc/package.class.php:498
+msgid "Parse an application to find metadata"
+msgstr "Analizar una aplicación para encontrar su metadata"
+
+#: inc/package.class.php:615
+msgid "Only APK and UPK files are allowed"
+msgstr "Se permiten sólo los archivos APK y UPK"
+
+#: inc/policy.class.php:86 inc/policy.class.php:98
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:41
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:108
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:45
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:128
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:35
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
+msgid "Policy"
+msgid_plural "Policies"
+msgstr[0] "Política"
+msgstr[1] "Políticas"
+
+#: inc/policy.class.php:114 inc/policycategory.class.php:51
+#: inc/policycategory.class.php:63
+msgid "Policy category"
+msgid_plural "Policy categories"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/policy.class.php:131
+msgid "Enumeration data"
+msgstr "Datos de enumeración"
+
+#: inc/policy.class.php:149
+msgid "Default value"
+msgstr "Valor por defecto"
+
+#: inc/policy.class.php:158
+msgid "Recommended value"
+msgstr "Valor recomendado"
+
+#: inc/policy.class.php:167
+msgid "For Android"
+msgstr "Para Android"
+
+#: inc/policy.class.php:176
+msgid "Requires system permission"
+msgstr "Requiere permisos del sistema"
+
+#: inc/policy.class.php:185
+msgid "For iOS"
+msgstr "Para iOS"
+
+#: inc/policybase.class.php:78
+msgid "Received"
+msgstr "Recibida"
+
+#: inc/policybase.class.php:80
+msgid "Failed"
+msgstr "Fallida"
+
+#: inc/policybase.class.php:81
+msgid "Canceled"
+msgstr "Cancelada"
+
+#: inc/policybase.class.php:87
+msgid "Overriden"
+msgstr ""
+
+#: inc/policydeployapplication.class.php:61
+msgid "The remove on delete flag is mandatory"
+msgstr "Quitar eliminar bandera es obligatorio"
+
+#: inc/policydeployapplication.class.php:67 inc/policydeployfile.class.php:67
+msgid "The remove on delete flag must be 0 or 1"
+msgstr "Quitar eliminar bandera debe ser 0 o 1"
+
+#: inc/policydeployapplication.class.php:73
+msgid "You must choose an application to apply this policy"
+msgstr "Usted debe elegir una aplicación para aplicar esta política"
+
+#: inc/policydeployapplication.class.php:80
+#: inc/policydeployapplication.class.php:143
+msgid "The application does not exists"
+msgstr "La aplicación no existe"
+
+#: inc/policydeployapplication.class.php:160
+msgid ""
+"A removal policy for this application is applied. Please, remove it first."
+msgstr ""
+"Se aplica una directiva de remoción para esta aplicación. Por favor, quite "
+"primero."
+
+#: inc/policydeployapplication.class.php:240
+#: inc/policydeployfile.class.php:295
+msgid "Remove when the policy is removed"
+msgstr "Eliminar cuando la política es removida"
+
+#: inc/policydeployapplication.class.php:263
+#: inc/policydeployfile.class.php:335
+#: inc/policyremoveapplication.class.php:109
+#: inc/policyremovefile.class.php:108
+msgid "Waiting"
+msgstr "Esperando"
+
+#: inc/policydeployfile.class.php:61
+msgid "A destination and the remove on delete flag are mandatory"
+msgstr "Un destino y eliminar borrar bandera son obligatorios"
+
+#: inc/policydeployfile.class.php:73
+msgid "You must choose a file to apply this policy"
+msgstr "Usted debe elegir un archivo para aplicar esta política"
+
+#: inc/policydeployfile.class.php:80
+msgid "The file does not exists"
+msgstr "El archivo no existe"
+
+#: inc/policydeployfile.class.php:86 inc/policydeployfile.class.php:92
+#: inc/policydeployfile.class.php:119
+msgid "invalid base path"
+msgstr "Ruta base no válida"
+
+#: inc/policydeployfile.class.php:201
+msgid ""
+"A removal policy is applied for this file destination. Please, remove it "
+"first."
+msgstr ""
+"Se aplica una directiva de eliminación para este destino de archivo. Por "
+"favor, quite primero."
+
+#: inc/policydeployfile.class.php:284
+msgid "copy to"
+msgstr "copiar a"
+
+#: inc/policyremoveapplication.class.php:60
+msgid "An application ID is required"
+msgstr "Se requiere un ID de aplicación"
+
+#: inc/profile.class.php:100
+msgid "Flyve MDM"
+msgstr "Flyve MDM"
+
+#: inc/task.class.php:84 inc/task.class.php:612
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/task.class.php:166
+msgid "Notifiable and policy must be specified"
+msgstr ""
+
+#: inc/task.class.php:175 inc/task.class.php:250 inc/task.class.php:332
+msgid "Policy not found"
+msgstr "Políticas de no"
+
+#: inc/task.class.php:183 inc/task.class.php:288
+msgid "Incorrect value for this policy"
+msgstr "Valor incorrecto para esta política"
+
+#: inc/task.class.php:194
+msgid "Cannot find the notifiable object"
+msgstr ""
+
+#: inc/task.class.php:201
+msgid "Cannot apply a policy on a not managed fleet"
+msgstr "No se puede aplicar una política con una flota no administrada"
+
+#: inc/task.class.php:208 inc/task.class.php:296
+msgid "Policy already applied"
+msgstr "Política aplicada ya"
+
+#: inc/task.class.php:221 inc/task.class.php:303
+msgid "The requirements for this policy are not met"
+msgstr "No se cumplen los requisitos de esta política"
+
+#. TRANS: %1$s is the type of the item on which a policy is applied
+#: inc/task.class.php:273
+#, php-format
+msgid "Cannot find the target %1$s"
+msgstr ""
+
+#. TRANS: %1$s is the type of the item on which one attempds to apply a policy
+#: inc/task.class.php:281
+#, php-format
+msgid "Cannot apply a policy on this %1$s"
+msgstr ""
+
+#: inc/task.class.php:310
+msgid "Failed to apply the policy"
+msgstr "Al aplicar la política"
+
+#: inc/task.class.php:338
+#, php-format
+msgid "%1$s not found"
+msgstr ""
+
+#: inc/taskstatus.class.php:47
+msgid "Task status"
+msgstr "Estado de la tarea"
+
+#: inc/wellknownpath.class.php:50 inc/wellknownpath.class.php:90
+msgid "Well known path"
+msgstr "Ruta conocida"
+
+#: install/installer.class.php:288
+msgid "Flyve MDM guest users"
+msgstr "Usuarios invitados Flyve MDM"
+
+#: install/installer.class.php:289
+msgid ""
+"guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
+msgstr ""
+"invitados usuarios Flyve MDM. Creado por MDM Flyve - no modifique este "
+"comentario."
+
+#: install/installer.class.php:306
+msgid "Flyve MDM device agent users"
+msgstr "Usuarios de agentes para dispositivos Flyve MDM"
+
+#: install/installer.class.php:307
+msgid ""
+"device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
+"comment."
+msgstr ""
+
+#: install/installer.class.php:366
+msgid "User invitation"
+msgstr "Invitación de usuario"
+
+#: install/installer.class.php:535
+msgid "Parse uploaded applications to collect metadata"
+msgstr ""
+
+#: install/installer.class.php:697
+msgid "Security"
+msgstr "Seguridad"
+
+#: install/installer.class.php:700
+msgid "Authentication"
+msgstr "Autenticación de"
+
+#: install/installer.class.php:703
+msgid "Password"
+msgstr "Contraseña"
+
+#: install/installer.class.php:706
+msgid "Encryption"
+msgstr "Cifrado de"
+
+#: install/installer.class.php:709
+msgid "Peripherals"
+msgstr "Periféricos"
+
+#: install/installer.class.php:712
+msgid "Deployment"
+msgstr "Implementación"
+
+#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
+msgid "Actions"
+msgstr "Acciones"
+
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
+msgid "There is no task status yet"
+msgstr ""
+
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:45
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:112
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:49
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:132
+msgid "Status"
+msgstr "Estatus"
+
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:49
+#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:116
+msgid "Count"
+msgstr ""
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:24
+msgid "MQTT broker"
+msgstr "Corredor MQTT"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:30
+msgid "MQTT broker address for clients"
+msgstr "Dirección del servicio MQTT para clientes"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:38
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:44
+msgid "MQTT broker address for backend"
+msgstr "Dirección del servicio MQTT para el backend"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:53
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"Una dirección IP o un nombre de host usado por el backend para comunicarse "
+"con el agente"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:59
+msgid "MQTT broker port"
+msgstr "Puerto del servicio MQTT"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:68
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 1883 "
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:74
+msgid "MQTT broker port for TLS"
+msgstr "Puerto TLS para el servicio MQTT"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:83
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 8883"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:89
+msgid "Use TLS for clients"
+msgstr "Usar TLS para clientes"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:98
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+"Usar TLS para comunicaciones MQTT entre el servidor y los dispositivos "
+"clientes"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:104
+msgid "Use TLS for backend"
+msgstr "Usar TLS para el backend"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:113
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr ""
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:119
+msgid "CA certificate"
+msgstr "Certificado de la CA"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:130
+msgid "Cipher suite (TLS enabled)"
+msgstr "Suite de cifrado (TLS habilitada)"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:139
+msgid "Mqtt broker cipher suite"
+msgstr "Suite de cifrado MQTT corredor"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:147
+msgid "test"
+msgstr "prueba"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:154
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr ""
+"Servidor de certificados de cliente (intermediario MQTT con TLS habilitada)"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:160
+msgid "Use client certificates"
+msgstr "Utilizar certificados de cliente"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:171
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Servidor de certificados SSL para clientes MQTT"
+
+#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:179
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domain.com/path/to/Service"
+
+#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
+msgid "There is no agent yet"
+msgstr "Todavía no hay ningún agente"
+
+#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
+msgid "Invite users to enroll one device."
+msgstr "Invitamos a los usuarios para inscribir a un dispositivo."
+
+#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Recibirá un mensaje a su dirección de correo electrónico predeterminado que "
+"contiene un código QR e instrucciones para inscribirse."
+
+#: /tmp/twig-cache/f9/f95e5fdae58e7d9a3dc74110bc024e6b260312ea4f49d3fbb07e7320b553c888.php:24
+msgid ""
+"GLPI is not properly configured. Please check the general settings, the API "
+"settings and the notification settings."
+msgstr ""
+
+#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:23
+msgid "Lock"
+msgstr "Cerradura"
+
+#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:35
+msgid "Wipe"
+msgstr "Limpie"
+
+#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:49
+msgid "Unenroll"
+msgstr "Unenroll"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
+msgid "Enrollment"
+msgstr "Inscripción"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
+msgid "Enable explicit enrolment failures"
+msgstr "Permiten fallas explícita inscripción"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
+msgid "Disable token expiration on successful enrolment"
+msgstr "Desactivar el token vencimiento de inscripción exitosa"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
+msgid "Save initial inventory in file"
+msgstr "Salvar inventario inicial en archivo"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:63
+msgid "Bug collector"
+msgstr "Colector de error"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:69
+msgid "Android bug collector URL"
+msgstr "Bug de Android colector URL"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:77
+msgid "https://bugreport.flyvemdm.com/path/to/service"
+msgstr "https://bugreport.flyvemdm.com/path/to/Service"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:83
+msgid "Android bug collector user"
+msgstr "Usuario de colector bug Android"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:95
+msgid "Android bug collector password"
+msgstr "Contraseña de colector bug Android"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:109
+msgid "Configuration wizard"
+msgstr "Ayudante de configuración"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:115
+msgid "Enable configuration wizard"
+msgstr "Habilitar ayudante de configuración"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:123
+msgid ""
+"Warning: if the plugin is already configured, re-running the configuration "
+"wizard may break communication with already enrolled devices."
+msgstr ""
+"Advertencia: si el plugin esta ya configurado, ejecutar nuevamente el "
+"ayudante de configuración puede hacer perder la comunicación con "
+"dispositivos ya inscritos"
+
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:129
+#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:135
+msgid "Revision information"
+msgstr ""
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:24
+msgid "Document types"
+msgstr "Tipo de documentos"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:30
+msgid "Allow upload of APK and UPK files"
+msgstr "Permite subir archivos de APK y UPK"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:34
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:266
+msgid "add document types"
+msgstr "agregar tipos de documentos"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:41
+msgid "Device type"
+msgstr "Tipo de dispositivo"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:47
+msgid "Computer type for the devices"
+msgstr "Tipo de ordenador para los dispositivos de"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:58
+msgid "Agent account type"
+msgstr "Tipo de cuenta del agente"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:64
+msgid "Account type for the devices"
+msgstr "Tipo de cuenta para los dispositivos"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:75
+msgid "Invitation deeplink"
+msgstr ""
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:81
+msgid "Invitation deeplink URL"
+msgstr ""
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:90
+msgid "Base URL of the deeplink micro service"
+msgstr ""
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:96
+msgid "Restrictions"
+msgstr "Restricciones"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:102
+msgid "Default device limit per entity"
+msgstr "Por defecto el límite de dispositivo por entidad"
+
+#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:111
+msgid ""
+"No more devices than this quantity are allowed per entity by default (0 = no"
+" limitation)"
+msgstr ""
+"No hay más dispositivos que esta cantidad se admiten por entidad por defecto"
+" (0 no = límite)"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
+msgid "Alias"
+msgstr "Alias"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
+#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
+msgid "file size"
+msgstr "tamaño del archivo"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
+msgid "Package name"
+msgstr "Nombre del paquete"
+
+#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
+msgid "Update the package"
+msgstr "El paquete de actualización"
+
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
+msgid "Application date"
+msgstr ""
+
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
+#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
+msgid "Last change date"
+msgstr ""
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
+msgid "apply a policy"
+msgstr "aplicar una política de"
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:112
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:177
+msgid "Value"
+msgstr "Valor"
+
+#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:84
+msgid "Applied policies"
+msgstr "Políticas aplicadas"
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:23
+msgid "Support name"
+msgstr "Nombre de soporte"
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:45
+msgid "Support address"
+msgstr "Dirección de soporte"
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:69
+msgid "Support phone"
+msgstr "Teléfono de soporte"
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:93
+msgid "Support website"
+msgstr "Sitio web de soporte"
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
+msgid "Support email"
+msgstr ""
+
+#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
+msgid "MDM Agent URL"
+msgstr ""
+
+#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
+msgid "Update the file"
+msgstr "Actualizar el archivo"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:35
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:43
+msgid "Wizard complete"
+msgstr "Ayudante completado"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:47
+msgid "This wizard will no longer be accessible."
+msgstr "El ayudante ya no estará disponible"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:66
+msgid "Requirements"
+msgstr "Requerimientos"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:74
+msgid ""
+"To setup Flyve MDM please connect to your server with a command line "
+"interface. Some operations require a root access."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:78
+msgid "This wizard will guide you through the steps to setup Flyve MDM."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:91
+msgid "Cron Job"
+msgstr "Tareas programadas"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:98
+msgid "Flyve MDM requires cron job to run automatic actions."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:102
+msgid ""
+"As root in a terminal, execute the following command. Adapt www-data to the "
+"user running your HTTP server."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:106
+msgid "crontab -e -u www-data"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:110
+msgid ""
+"Add, if missing, the following line. Adapt path to php CLI binary and path "
+"to GLPI:"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:115
+msgid ""
+"Automatic actions registered in the scheduler of GLPI will run every minute."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:128
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:139
+msgid "Email notifications"
+msgstr "Notificaciones por correo electrónico"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:135
+msgid ""
+"Flyve MDM requires email notifications. The following link will open a new "
+"tab to the email notifications settings."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:143
+msgid ""
+"The queuednotification must have set Run mode to CLI. This action will be "
+"triggered by the cron job. The following link will open a new tab to the "
+"Automatic actions list"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:147
+msgid "Automatic actions"
+msgstr "Acciones automáticas"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:151
+msgid ""
+"Ensure the cron job is properly configure by checking the log "
+"glpi/files/_log/cron.log. The entry should contain the word External"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:167
+msgid "REST API"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:174
+msgid ""
+"Flyve MDM requires REST API enabled. The following link will open a new tab "
+"to the REST API settings."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:178
+msgid "Make sure the following setting is populated:"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:182
+msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:186
+msgid "Make sure the following settings are enabled:"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:190
+msgid "- Rest API"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:194
+msgid "- Login with credentials"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:198
+msgid "- Login with external token"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:202
+msgid ""
+"- Add an API client leaving empty IPv4 address range, IPv6 address and "
+"application token."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:206
+msgid "API"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:219
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:238
+msgid "General setup"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:226
+msgid ""
+"Flyve MDM needs to know the public URL of GLPI. The following link will open"
+" a new tab to the general setup."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:230
+msgid "Make sure the following settings is populated:"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:234
+msgid "- URL of the application (example: https://example.com/glpi)"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:251
+msgid "Document Types"
+msgstr "Tipo de documentos"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:258
+msgid ""
+"You must add the APK and UPK document types in order to upload Android and "
+"Uhuru packages."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:262
+msgid ""
+"Just click in the following button and they will be automatically added"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:279
+msgid "Server Configuration"
+msgstr "Configuración del servidor"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:286
+msgid ""
+"Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
+"php.ini allows reasonable upload sizes."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:290
+msgid "For example:"
+msgstr "Por ejemplo:"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:317
+msgid "Fusion Inventory Configuration"
+msgstr "Configuración de Fusion Inventory"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:324
+msgid "For FusionInventory greater than 9.1 + 1.1:"
+msgstr "Para FusionInventory mayor a 9.1 + 1.1:"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:328
+msgid ""
+"It is required to deactivate the Computer constraint (name) rule in the "
+"Equipment import and link rules menu."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:332
+msgid ""
+"The following link will open a new tab to the Rules section of "
+"FusionInventory "
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:336
+msgid "Rules"
+msgstr "Reglas"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:340
+msgid ""
+"Not disabling this rule will make FusionInventory reject inventories from "
+"devices."
+msgstr ""
+"El no deshabilitar esta regla hará que FusionInventory rechace los "
+"inventarios de dispositivos."
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:353
+msgid "DBMS access for Mosquitto"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:360
+msgid ""
+"Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
+"is for the authentication process of its clients."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:364
+msgid ""
+"It is recommended to create a dedicated user for Mosquitto allowed to "
+"connect only from its specific IP."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:368
+msgid ""
+"Run the following command on your MySQL host, and adapt the mqtt.server.ip"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:373
+msgid "This user should be able to only SELECT the following tables:"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:379
+msgid ""
+"Run the following commands on your MySQL host, and adapt the name of the "
+"database and the mqtt.server.ip"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:385
+msgid "Create the file"
+msgstr "Crear el archivo"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:389
+msgid ""
+"Insert the following content, and adapt the bind address to the interface "
+"used by Mosquitto to connect to your DBMS."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:396
+msgid ""
+"Restart your DBMS daemon and check it listens to the expected interface."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:401
+msgid ""
+"Check you can login to your DBMD from the host which will run Mosquitto."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:405
+msgid "The following command will ask for the password you choosed earlier"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:419
+msgid "Mosquitto"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:426
+msgid "Flyve MDM requires a Message queue server."
+msgstr "Flyve MDM requiere un servidor de cola de mensajes"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:430
+msgid "Prefer a dedicated server or VM for running Mosquitto."
+msgstr ""
+"Preferible un servidor dedicado o una máquina virtual para ejecutar "
+"Mosquitto."
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:434
+msgid "As root in a terminal, execute the following command"
+msgstr "Ejecute el siguiente comando desde el terminal como root"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:439
+msgid "Create"
+msgstr "Crear"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:443
+msgid "Add the following content, adapting your DBMS credentials:"
+msgstr "Agregue el siguiente contenido adaptando sus credenciales al SGBD:"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:459
+msgid "Check Mosquitto is listening to port 1883 (insecure)."
+msgstr "Verificar que Mosquitto este escuchando el puerto (inseguro) 1883."
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:472
+msgid "TLS Listener setup"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:479
+msgid ""
+"TLS provides security to the communication, through authentication of server"
+" and client, besides data encryption."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:483
+msgid "Use TLS version 1.2, lower versions are no longer considered safe."
+msgstr ""
+"Use TLS versión 1.2, las versiones anteriores no son consideradas como "
+"seguras."
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:487
+msgid ""
+"Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:491
+msgid ""
+"- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
+"chain and private key."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:495
+msgid "- Secure your private key"
+msgstr "- Asegure su clave privada"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:501
+msgid "- Refresh hash and symlinks to your certificates"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:506
+msgid ""
+"Use a certificate signed by a certified authority or you may have trouble "
+"with the android devices, using them with custom certification authorities "
+"might not work (not tested)."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:526
+msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:538
+msgid "- Restart Mosquitto"
+msgstr "- Reinicie Mosquitto"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:542
+msgid "- Test you can successfully connect to Mosquitto"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:547
+msgid ""
+"- Check the ports that Mosquitto listens. You should see only the port 8883."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:576
+msgid "Mosquitto client for the backend"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:583
+msgid "Flyve MDM requires to connect to Mosquitto."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:587
+msgid "For SYSV systems, link the init script in /etc/init.d/"
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:592
+msgid "Check the user configured in the script and adapt it if needed."
+msgstr ""
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:611
+msgid "Back"
+msgstr "Regresar"
+
+#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
+msgid "Wizard page:"
+msgstr ""

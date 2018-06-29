@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-include ('../../../inc/includes.php');
+include '../../../inc/includes.php';
 $plugin = new Plugin();
 if (!$plugin->isActivated('flyvemdm')) {
    Html::displayNotFoundError();
@@ -39,15 +39,15 @@ Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_U
 Session::checkRight('flyvemdm:agent', READ);
 
 Html::header(
-      PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
-      '',
-      'admin',
-      PluginFlyvemdmMenu::class,
-      'agent'
+   PluginFlyvemdmAgent::getTypeName(Session::getPluralNumber()),
+   '',
+   'admin',
+   PluginFlyvemdmMenu::class,
+   'agent'
 );
 
-// Use later to disable GLPI header
-//Html::nullHeader("test header");
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu('mini');
 
 Search::show(PluginFlyvemdmAgent::class);
 

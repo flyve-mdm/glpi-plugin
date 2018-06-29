@@ -4,7 +4,7 @@ sudo: required
 
 env:
   global:
-    - GLPI_SOURCE="https://github.com/glpi-project/glpi" 
+    - GLPI_SOURCE="https://github.com/glpi-project/glpi"
     - FI_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi"
     - CS=7.2
     - DBNAME=glpitest
@@ -12,9 +12,10 @@ env:
   matrix:
     - GLPI_BRANCH=9.2.1 FI_BRANCH=glpi9.2+1.0
     - GLPI_BRANCH=9.2/bugfixes FI_BRANCH=glpi9.2+1.0
+    - GLPI_BRANCH=9.3/bugfixes FI_BRANCH=master
     - GLPI_BRANCH=master FI_BRANCH=master
 
-php: 
+php:
   - 5.6
   - 7.0
   - 7.1
@@ -26,23 +27,32 @@ allow_failures:
 
 before_install:
   - "./tests/before_install.sh"
-      
+
 before_script:
 - "./tests/before_script.sh"
 script:
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
-  - php scripts/mqtt.php --tests > /dev/null 2>&1 &
+  - #php scripts/mqtt.php --tests > /dev/null 2>&1 &
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 --nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall --ncc
+  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall -ncc
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ]] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/; fi
 
 after_success:
   # let's update the documentation
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then tests/update_locales.sh; fi
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "9.2/bugfixes" ]; then .github/push_ghpages.sh; fi
 
 cache:
   directories:
   - "$HOME/.composer/cache"
+
 notifications:
   webhooks: https://hooks.aethonan.pro/travisci/-1001061475099/
+
+addons:
+  apt:
+    update: true
+    packages:
+      - mosquitto
+      - mosquitto-clients
