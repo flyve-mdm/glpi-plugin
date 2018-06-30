@@ -116,7 +116,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
             [],
             [
                'You are not allowed to change the device limit',
-               'You are not allowed to download URL of the MDM agent',
+               'You are not allowed to change the download URL of the MDM agent',
                'You are not allowed to change the invitation token life',
             ]
          ]
