@@ -39,15 +39,19 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
 
 Options:
-   --as-user USER       Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
-   --api-user-token     APITOKEN    APITOKEN
-   --enable-api         Enable GLPI's API
-   --enable-email       Enable GLPI's email notification
-   --tests              Use GLPI test database
-   --dev                Change the Agent download URL for the Beta testing url
+   --as-user USER                               Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
+   --api-user-token                             APITOKEN    APITOKEN
+   --enable-api                                 Enable GLPI's API
+   --enable-email                               Enable GLPI's email notification
+   --tests                                      Use GLPI test database
+   --dev                                        Change the Agent download URL for the Beta testing url
+   --mqtt-address MQTTADDRESS                   Change the address for Mosquitto MQTTADDRESS. This parameter can be [ IP Address/Hostname ]
+   --mqtt-internal-address MQTTINTERNALADDRESS  Change the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
+   --mqtt-port MQTTPORT                         Change the Lisen Port for Mosquitto MQTTPORT
+   --mqtt-port-tls MQTTPORTTLS                  Change the Lisen Port TLS for Mosquitto MQTTPORTTLS
 
 DOC;
 
@@ -183,3 +187,27 @@ print("Loading Plugin...\n");
 $plugin->load("flyvemdm");
 print("Load Done...\n");
 
+if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
+   $config = [
+      'mqtt_broker_address' => $args['--mqtt-address']
+   ];
+   Config::setConfigurationValues('flyvemdm', $config);
+}
+if (isset($args['--mqtt-internal-address']) && $args['--mqtt-internal-address'] !== false) {
+   $config = [
+      'mqtt_broker_internal_address' => $args['--mqtt-internal-address']
+   ];
+   Config::setConfigurationValues('flyvemdm', $config);
+}
+if (isset($args['--mqtt-port']) && $args['--mqtt-port'] !== false) {
+   $config = [
+      'mqtt_broker_port' => $args['--mqtt-port']
+   ];
+   Config::setConfigurationValues('flyvemdm', $config);
+}
+if (isset($args['--mqtt-port-tls']) && $args['--mqtt-port-tls'] !== false) {
+   $config = [
+      'mqtt_broker_tls_port' => $args['--mqtt-port-tls']
+   ];
+   Config::setConfigurationValues('flyvemdm', $config);
+}
