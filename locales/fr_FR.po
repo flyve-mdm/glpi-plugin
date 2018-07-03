@@ -8,12 +8,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-09 12:29+0000\n"
+"POT-Creation-Date: 2018-05-10 09:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Thierry Bugier <tbugier@teclib.com>, 2017\n"
 "Language-Team: French (France) (https://www.transifex.com/flyve-mdm/teams/69665/fr_FR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -245,7 +245,7 @@ msgstr "Le GPS est éteint ou n'est pas prêt"
 
 #: inc/agent.class.php:1525
 msgid "The device sent its position"
-msgstr ""
+msgstr "L'appareil a envoyé sa position"
 
 #: inc/agent.class.php:1529
 msgid "Timeout requesting position"
@@ -253,7 +253,7 @@ msgstr "Délai d'attente expiré lors de la requête de géolocalisation"
 
 #: inc/agent.class.php:1556
 msgid "Inventory received"
-msgstr ""
+msgstr "Inventaire reçu"
 
 #: inc/agent.class.php:1560
 msgid "Timeout querying the device inventory"
@@ -261,7 +261,7 @@ msgstr "Délai d'attente expiré lors de la requête d'inventaire de l'appareil"
 
 #: inc/agent.class.php:1580
 msgid "The device answered"
-msgstr ""
+msgstr "L'appareil a répondu"
 
 #: inc/agent.class.php:1584
 msgid "Timeout querying the device"
@@ -399,6 +399,22 @@ msgstr "La longitude est invalide"
 #: inc/geolocation.class.php:182 inc/geolocation.class.php:204
 msgid "Device not found"
 msgstr "Appareil non trouvé"
+
+#: inc/googleapplication.class.php:245
+msgid "Import the package"
+msgstr "Importer le paquet"
+
+#: inc/googleapplication.class.php:299
+msgid "Alias"
+msgstr "Alias"
+
+#: inc/googleapplication.class.php:308
+msgid "Version"
+msgstr "Version"
+
+#: inc/googleapplication.class.php:326
+msgid "Import status"
+msgstr "Statut de l'import"
 
 #: inc/graph.class.php:64
 msgid "Invitations"
@@ -583,7 +599,7 @@ msgstr "Annulé"
 
 #: inc/policybase.class.php:87
 msgid "Overriden"
-msgstr ""
+msgstr "Ignoré"
 
 #: inc/policydeployapplication.class.php:61
 msgid "The remove on delete flag is mandatory"
@@ -666,7 +682,7 @@ msgstr[1] "Tâches"
 
 #: inc/task.class.php:166
 msgid "Notifiable and policy must be specified"
-msgstr ""
+msgstr "Un objet notifiable et une stratégie doivent être spécifiés"
 
 #: inc/task.class.php:175 inc/task.class.php:250 inc/task.class.php:332
 msgid "Policy not found"
@@ -760,7 +776,7 @@ msgstr "Sécurité"
 msgid "Authentication"
 msgstr "Authentification"
 
-#: install/installer.class.php:703
+#: install/installer.class.php:703 install/policies/password.php:46
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -776,8 +792,73 @@ msgstr "Périphériques"
 msgid "Deployment"
 msgstr "Déploiement"
 
-msgid "Actions"
-msgstr "Actions"
+#: install/policies/deployment.php:39
+msgid "Deploy application"
+msgstr "Déployer une application"
+
+#: install/policies/deployment.php:46
+msgid "Deploy an application on the device"
+msgstr "Déploie une application sur l'appareil"
+
+#: install/policies/deployment.php:56
+msgid "Remove application"
+msgstr "Supprime l'application"
+
+#: install/policies/deployment.php:63
+msgid "Uninstall an application on the device"
+msgstr "Désinstalle une application de l'appareil"
+
+#: install/policies/deployment.php:73
+msgid "Deploy file"
+msgstr "Déployer un fichier"
+
+#: install/policies/deployment.php:80
+msgid "Deploy a file on the device"
+msgstr "Déploie un fichier sur l'appareil"
+
+#: install/policies/deployment.php:89
+msgid "Remove file"
+msgstr "Supprimer un fichier"
+
+#: install/policies/deployment.php:96
+msgid "Uninstall a file on the device"
+msgstr "Désinstalle un fichier de l'appareil"
+
+#: install/policies/encryption.php:39
+msgid "Internal Storage encryption"
+msgstr "Chiffrement du stockage interne"
+
+#: install/policies/encryption.php:46
+msgid "Force internal storage encryption"
+msgstr "Force le chiffrement du stockage interne"
+
+#: install/policies/mdm.php:39 install/policies/mdm.php:46
+msgid "use TLS"
+msgstr "Utiliser TLS"
+
+#: install/policies/mdm.php:55
+msgid "Set an inventory frequency"
+msgstr "Définir une fréquence d'inventaire"
+
+#: install/policies/mdm.php:62
+msgid "Sets the recurrence of inventory in minutes"
+msgstr "Définit la récur rence des inventaires en minutes"
+
+#: install/policies/password.php:39
+msgid "Password enabled"
+msgstr "Mot de passe activé"
+
+#: install/policies/password.php:44
+msgid "No"
+msgstr "Non"
+
+#: install/policies/password.php:45
+msgid "Pin"
+msgstr "Pin"
+
+#: install/policies/password.php:50
+msgid "Enable the password"
+msgstr "Active le mot de passe"
 
 #: install/policies/password.php:59
 msgid "Minimum password length"
@@ -899,11 +980,11 @@ msgstr ""
 "  tous les administrateurs ou un administrateur particulier"
 
 #: install/policies/password.php:222
-msgid "Maximum failed password attempts for wipe"
+msgid "Maximum failed password attemps for wipe"
 msgstr "Nombre de t entatives échouées d'authentification avant l'effacement"
 
 #: install/policies/password.php:232
-msgid "Number of consecutive failed attempts of unlock the device to wipe"
+msgid "Number of consecutive failed attemps of unlock the device to wipe"
 msgstr ""
 "Nombre d'échecs successifs de déverrouillage de l'appareil avant effacement"
 
@@ -1006,16 +1087,16 @@ msgid "Disable USB MTP"
 msgstr "Désactiver USB MTP"
 
 #: install/policies/usb.php:46
-msgid "Disable USB Media Transfer Protocol"
-msgstr "Désactive le protocole de Transfer de médias USB"
+msgid "Disable USB Media Transfert Protocol"
+msgstr "Désactive le protocole de transfert de médias USB"
 
 #: install/policies/usb.php:56
 msgid "Disable USB PTP"
 msgstr "Désactiver USB PTP"
 
 #: install/policies/usb.php:63
-msgid "Disable USB Picture Transfer Protocol"
-msgstr "Désactive le protocole de Transfer d'image USB"
+msgid "Disable USB Picture Transfert Protocol"
+msgstr "Désactive le protocole de transfert d'image USB"
 
 #: install/policies/usb.php:73
 msgid "Disable USB ADB"
@@ -1157,18 +1238,17 @@ msgstr "Serveur de cerrtificats SSL pour les clients MQTT"
 msgid "https://cert.domain.com/path/to/service"
 msgstr "https://cert.domaine.com/chemin/vers/service"
 
-msgid "There is no agent yet"
-msgstr "Il n'y a pas encore d'agent"
+msgid "file size"
+msgstr "Taille de fichier"
 
-msgid "Invite users to enroll one device."
-msgstr "Inviter des utilisateurs à enrôler un appareil"
+msgid "Update the file"
+msgstr "Mettre à jour le fichier"
 
-msgid ""
-"They will receive an message to their default email address containing a QR "
-"Code and instructions to enroll."
-msgstr ""
-"Ils recevront un message dans leur adresse par défaut contenant un ode QR et"
-" les instructions pour s'enrôler."
+msgid "Application date"
+msgstr "Date d'application"
+
+msgid "Last change date"
+msgstr "Date de la dernière modification"
 
 msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
@@ -1185,6 +1265,12 @@ msgstr "Effacer"
 
 msgid "Unenroll"
 msgstr "Désenrôler"
+
+msgid "Package name"
+msgstr "Nom du paquetage"
+
+msgid "Update the package"
+msgstr "Mettre à jour un paquetage"
 
 msgid "Enrollment"
 msgstr "Enrôlement"
@@ -1272,33 +1358,6 @@ msgid ""
 msgstr ""
 "Nombre maximum par défaut d'appareils permis par entité (0 = pas de limite)"
 
-msgid "Alias"
-msgstr "Alias"
-
-msgid "file size"
-msgstr "Taille de fichier"
-
-msgid "Package name"
-msgstr "Nom du paquetage"
-
-msgid "Update the package"
-msgstr "Mettre à jour un paquetage"
-
-msgid "Application date"
-msgstr "Date d'application"
-
-msgid "Last change date"
-msgstr "Date de la dernière modification"
-
-msgid "apply a policy"
-msgstr "Appliquer une stratégie"
-
-msgid "Value"
-msgstr "Valeur"
-
-msgid "Applied policies"
-msgstr "Stratégies appliquées"
-
 msgid "Support name"
 msgstr "Nom du support"
 
@@ -1317,8 +1376,14 @@ msgstr "Adresse de messagerie du support"
 msgid "MDM Agent URL"
 msgstr "URL de l'agent MDM"
 
-msgid "Update the file"
-msgstr "Mettre à jour le fichier"
+msgid "apply a policy"
+msgstr "Appliquer une stratégie"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Applied policies"
+msgstr "Stratégies appliquées"
 
 msgid "Wizard complete"
 msgstr "L'assistant est terminé"
@@ -1632,6 +1697,10 @@ msgid ""
 "with the android devices, using them with custom certification authorities "
 "might not work (not tested)."
 msgstr ""
+"Utilisez un certificat signé par une autorité certifiée ou bien vous "
+"pourriez avoir des problèmes avec les appareils Android. Les utiliser avec "
+"des autorités de certifications personnalisées pourrait ne pas fonctionner "
+"(cela n'a pas été testé)."
 
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
 msgstr ""
@@ -1660,9 +1729,13 @@ msgstr "Pour les systèmes SYSV, liez le script init dans /etc/init.d/"
 
 msgid "Check the user configured in the script and adapt it if needed."
 msgstr ""
+"Vérifiez l'utilisateur configuré dans le script et adaptez-le si besoin."
 
 msgid "Back"
 msgstr "Retour"
 
 msgid "Wizard page:"
 msgstr "Page d'assistant :"
+
+msgid "Actions"
+msgstr "Actions"
