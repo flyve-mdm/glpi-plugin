@@ -164,4 +164,19 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
       list($policy) = $this->createNewPolicyInstance();
       $this->object($policy->getPolicyData())->isInstanceOf('PluginFlyvemdmPolicy');
    }
+
+   /**
+    * @tags testTranslateData
+    */
+   public function testGetEnumBaseTaskStatus() {
+      $this->array(\PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus())->hasKeys([
+         'pending',
+         'received',
+         'done',
+         'failed',
+         'canceled',
+         'incompatible',
+         'overriden',
+      ]);
+   }
 }
