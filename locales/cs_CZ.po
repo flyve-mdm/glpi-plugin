@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-09 12:29+0000\n"
+"POT-Creation-Date: 2018-05-10 09:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2018\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/flyve-mdm/teams/69665/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs_CZ\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: hook.php:78
 msgid "Invite to enroll a device"
@@ -56,6 +56,7 @@ msgid_plural "Agents"
 msgstr[0] "Agent"
 msgstr[1] "Agenti"
 msgstr[2] "Agentů"
+msgstr[3] "Agentů"
 
 #: inc/agent.class.php:163
 msgid "Danger zone !"
@@ -123,6 +124,7 @@ msgid_plural "Fleets"
 msgstr[0] "Flotila"
 msgstr[1] "Flotily"
 msgstr[2] "Flotil"
+msgstr[3] "Flotil"
 
 #: inc/agent.class.php:809
 msgid "Last contact"
@@ -333,6 +335,7 @@ msgid_plural "Invitations"
 msgstr[0] "Pozvání"
 msgstr[1] "Pozvání"
 msgstr[2] "Pozvání"
+msgstr[3] "Pozvání"
 
 #: inc/file.class.php:60 inc/file.class.php:229
 msgid "File"
@@ -340,6 +343,7 @@ msgid_plural "Files"
 msgstr[0] "Soubor"
 msgstr[1] "Soubory"
 msgstr[2] "Souborů"
+msgstr[3] "Souborů"
 
 #: inc/file.class.php:88 inc/file.class.php:122 inc/package.class.php:609
 msgid "File uploaded without name"
@@ -383,6 +387,7 @@ msgid_plural "Geolocations"
 msgstr[0] "Geolokace"
 msgstr[1] "Geolokace"
 msgstr[2] "Geolokací"
+msgstr[3] "Geolokací"
 
 #: inc/geolocation.class.php:157
 msgid "associated device is mandatory"
@@ -403,6 +408,22 @@ msgstr "zeměpisná délka není platná"
 #: inc/geolocation.class.php:182 inc/geolocation.class.php:204
 msgid "Device not found"
 msgstr "Zařízení nenalezeno"
+
+#: inc/googleapplication.class.php:245
+msgid "Import the package"
+msgstr ""
+
+#: inc/googleapplication.class.php:299
+msgid "Alias"
+msgstr "Alternativní název"
+
+#: inc/googleapplication.class.php:308
+msgid "Version"
+msgstr ""
+
+#: inc/googleapplication.class.php:326
+msgid "Import status"
+msgstr ""
 
 #: inc/graph.class.php:64
 msgid "Invitations"
@@ -452,6 +473,7 @@ msgid_plural "Invitation logs"
 msgstr[0] "Záznam událostí pozvánek"
 msgstr[1] "Záznamy událostí pozvánek"
 msgstr[2] "Záznamů událostí pozvánek"
+msgstr[3] "Záznamů událostí pozvánek"
 
 #: inc/menu.class.php:93
 msgid "General"
@@ -467,6 +489,7 @@ msgid_plural "MQTT subscribers"
 msgstr[0] "Odběratel MQTT"
 msgstr[1] "Odběratelé MQTT"
 msgstr[2] "Odběratelů MQTT"
+msgstr[3] "Odběratelů MQTT"
 
 #: inc/notificationtargetinvitation.class.php:67
 msgid "Link to download the FlyveMDM Android application"
@@ -514,6 +537,7 @@ msgid_plural "Packages"
 msgstr[0] "Balíček"
 msgstr[1] "Balíčky"
 msgstr[2] "Balíčků"
+msgstr[3] "Balíčků"
 
 #: inc/package.class.php:99
 msgid "Package Flyve MDM"
@@ -521,6 +545,7 @@ msgid_plural "Packages Flyve MDM"
 msgstr[0] "Balíček Flyve MDM"
 msgstr[1] "Balíčky Flyve MDM"
 msgstr[2] "Balíčků Flyve MDM"
+msgstr[3] "Balíčků Flyve MDM"
 
 #: inc/package.class.php:200 inc/package.class.php:240
 msgid "Unable to save the file"
@@ -544,6 +569,7 @@ msgid_plural "Policies"
 msgstr[0] "Zásada"
 msgstr[1] "Zásady"
 msgstr[2] "Zásad"
+msgstr[3] "Zásad"
 
 #: inc/policy.class.php:114 inc/policycategory.class.php:51
 #: inc/policycategory.class.php:63
@@ -552,6 +578,7 @@ msgid_plural "Policy categories"
 msgstr[0] "Kategorie zásad"
 msgstr[1] "Kategorie zásad"
 msgstr[2] "Kategorií zásad"
+msgstr[3] "Kategorií zásad"
 
 #: inc/policy.class.php:131
 msgid "Enumeration data"
@@ -672,6 +699,7 @@ msgid_plural "Tasks"
 msgstr[0] "Úkol"
 msgstr[1] "Úkoly"
 msgstr[2] "Úkolů"
+msgstr[3] "Úkolů"
 
 #: inc/task.class.php:166
 msgid "Notifiable and policy must be specified"
@@ -768,7 +796,7 @@ msgstr "Zabezpečení"
 msgid "Authentication"
 msgstr "Ověřování"
 
-#: install/installer.class.php:703
+#: install/installer.class.php:703 install/policies/password.php:46
 msgid "Password"
 msgstr "Heslo"
 
@@ -784,8 +812,73 @@ msgstr "Periferie"
 msgid "Deployment"
 msgstr "Nasazení"
 
-msgid "Actions"
-msgstr "Akce"
+#: install/policies/deployment.php:39
+msgid "Deploy application"
+msgstr "Nasadit aplikaci"
+
+#: install/policies/deployment.php:46
+msgid "Deploy an application on the device"
+msgstr "Nasadit aplikaci na zařízení"
+
+#: install/policies/deployment.php:56
+msgid "Remove application"
+msgstr "Odebrat aplikaci"
+
+#: install/policies/deployment.php:63
+msgid "Uninstall an application on the device"
+msgstr "Odinstalovat aplikaci ze zařízení"
+
+#: install/policies/deployment.php:73
+msgid "Deploy file"
+msgstr "Nasadit soubor"
+
+#: install/policies/deployment.php:80
+msgid "Deploy a file on the device"
+msgstr "Nasadit soubor na zařízení"
+
+#: install/policies/deployment.php:89
+msgid "Remove file"
+msgstr "Odebrat soubor"
+
+#: install/policies/deployment.php:96
+msgid "Uninstall a file on the device"
+msgstr "Odebrat soubor ze zařízení"
+
+#: install/policies/encryption.php:39
+msgid "Internal Storage encryption"
+msgstr "Šifrování vnitřního úložiště"
+
+#: install/policies/encryption.php:46
+msgid "Force internal storage encryption"
+msgstr "Vynutit šifrování vnitřního úložiště"
+
+#: install/policies/mdm.php:39 install/policies/mdm.php:46
+msgid "use TLS"
+msgstr "šifrovat pomocí TLS"
+
+#: install/policies/mdm.php:55
+msgid "Set an inventory frequency"
+msgstr "Nastavit četnost inventur"
+
+#: install/policies/mdm.php:62
+msgid "Sets the recurrence of inventory in minutes"
+msgstr "Nastaví opakovanost inventarizace (v minutách)"
+
+#: install/policies/password.php:39
+msgid "Password enabled"
+msgstr "Heslo zapnuto"
+
+#: install/policies/password.php:44
+msgid "No"
+msgstr "Ne"
+
+#: install/policies/password.php:45
+msgid "Pin"
+msgstr "PIN kód"
+
+#: install/policies/password.php:50
+msgid "Enable the password"
+msgstr "Zapnout heslo"
 
 #: install/policies/password.php:59
 msgid "Minimum password length"
@@ -904,13 +997,13 @@ msgstr ""
 "konkrétního správce"
 
 #: install/policies/password.php:222
-msgid "Maximum failed password attempts for wipe"
+msgid "Maximum failed password attemps for wipe"
 msgstr ""
 "Maximální počet nepodařených pokusů o zadání hesla než bude vymazán obsah "
 "zařízení"
 
 #: install/policies/password.php:232
-msgid "Number of consecutive failed attempts of unlock the device to wipe"
+msgid "Number of consecutive failed attemps of unlock the device to wipe"
 msgstr ""
 "Maximální počet po sobě jdoucích nepodařených pokusů o odemknutí zařízení "
 "než bude vymazáno jeho úložiště"
@@ -1014,7 +1107,7 @@ msgid "Disable USB MTP"
 msgstr "Vypnout USB MTP"
 
 #: install/policies/usb.php:46
-msgid "Disable USB Media Transfer Protocol"
+msgid "Disable USB Media Transfert Protocol"
 msgstr "Vypnout protokol pro přenos médií přes USB"
 
 #: install/policies/usb.php:56
@@ -1022,7 +1115,7 @@ msgid "Disable USB PTP"
 msgstr "Vypnout USB PTP"
 
 #: install/policies/usb.php:63
-msgid "Disable USB Picture Transfer Protocol"
+msgid "Disable USB Picture Transfert Protocol"
 msgstr "Vypnout protokol přenosu obrázků přes USB"
 
 #: install/policies/usb.php:73
@@ -1166,18 +1259,17 @@ msgstr "Server SSL certifikátu pro MQTT klienty"
 msgid "https://cert.domain.com/path/to/service"
 msgstr "https://cert.domena.example/umisteni/sluzby"
 
-msgid "There is no agent yet"
-msgstr "Zatím žádný agent"
+msgid "file size"
+msgstr "velikost souboru"
 
-msgid "Invite users to enroll one device."
-msgstr "Pozvat uživatele aby zaregistrovali jedno zařízení."
+msgid "Update the file"
+msgstr "Aktualizovat soubor"
 
-msgid ""
-"They will receive an message to their default email address containing a QR "
-"Code and instructions to enroll."
-msgstr ""
-"Obdrží zprávu na svou výchozí e-mailovou adresu, obsahující QR kód a pokyny "
-"jak se zaregistrovat."
+msgid "Application date"
+msgstr "Datum aplikace"
+
+msgid "Last change date"
+msgstr "Datum poslední změny"
 
 msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
@@ -1194,6 +1286,12 @@ msgstr "Vymazat obsah zařízení"
 
 msgid "Unenroll"
 msgstr "Zrušit registraci"
+
+msgid "Package name"
+msgstr "Název balíčku"
+
+msgid "Update the package"
+msgstr "Aktualizovat balíček"
 
 msgid "Enrollment"
 msgstr "Registrace"
@@ -1281,33 +1379,6 @@ msgstr ""
 "Ve výchozím stavu není umožněno více zařízení na jednu entitu, než tento "
 "počet (0 = bez omezení)"
 
-msgid "Alias"
-msgstr "Alternativní název"
-
-msgid "file size"
-msgstr "velikost souboru"
-
-msgid "Package name"
-msgstr "Název balíčku"
-
-msgid "Update the package"
-msgstr "Aktualizovat balíček"
-
-msgid "Application date"
-msgstr "Datum aplikace"
-
-msgid "Last change date"
-msgstr "Datum poslední změny"
-
-msgid "apply a policy"
-msgstr "uplatnit zásadu"
-
-msgid "Value"
-msgstr "Hodnota"
-
-msgid "Applied policies"
-msgstr "Uplatněné zásady"
-
 msgid "Support name"
 msgstr "Jméno podpory"
 
@@ -1326,8 +1397,14 @@ msgstr "E-mail podpory"
 msgid "MDM Agent URL"
 msgstr "URL adresa MDM agenta"
 
-msgid "Update the file"
-msgstr "Aktualizovat soubor"
+msgid "apply a policy"
+msgstr "uplatnit zásadu"
+
+msgid "Value"
+msgstr "Hodnota"
+
+msgid "Applied policies"
+msgstr "Uplatněné zásady"
 
 msgid "Wizard complete"
 msgstr "Průvodce dokončen"
@@ -1673,3 +1750,6 @@ msgstr "Zpět"
 
 msgid "Wizard page:"
 msgstr "Stránka průvodce:"
+
+msgid "Actions"
+msgstr "Akce"
