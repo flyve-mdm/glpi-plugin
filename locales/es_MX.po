@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-09 12:29+0000\n"
+"POT-Creation-Date: 2018-05-10 09:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Domingo Oropeza, 2017\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/flyve-mdm/teams/69665/es_MX/)\n"
@@ -44,11 +44,11 @@ msgstr "Mensaje de prueba enviado no"
 
 #: inc/agent.class.php:99
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 #: inc/agent.class.php:100
 msgid "Apple"
-msgstr ""
+msgstr "Apple"
 
 #: inc/agent.class.php:110 inc/agent.class.php:767
 msgid "Agent"
@@ -119,16 +119,12 @@ msgid "Failed to delete documents attached to the device"
 msgstr "No se pudo eliminar documentos adjuntos en el dispositivo"
 
 #: inc/agent.class.php:783 inc/fleet.class.php:74 inc/fleet.class.php:239
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:62
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
 msgid "Fleet"
 msgid_plural "Fleets"
 msgstr[0] "Flota"
 msgstr[1] "Flotas"
 
 #: inc/agent.class.php:809
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:76
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
 msgid "Last contact"
 msgstr "Último contacto"
 
@@ -170,7 +166,7 @@ msgstr "El XML del inventario del dispositivo es obligatorio"
 
 #: inc/agent.class.php:1110
 msgid "Inventory XML is not well formed"
-msgstr ""
+msgstr "El XML del inventario no está bien formado"
 
 #: inc/agent.class.php:1117
 msgid "Agent version missing"
@@ -250,7 +246,7 @@ msgstr "GPS está apagado o no está listo"
 
 #: inc/agent.class.php:1525
 msgid "The device sent its position"
-msgstr ""
+msgstr "El dispositivo envió su posición"
 
 #: inc/agent.class.php:1529
 msgid "Timeout requesting position"
@@ -258,7 +254,7 @@ msgstr "Posición de solicitar tiempo de espera"
 
 #: inc/agent.class.php:1556
 msgid "Inventory received"
-msgstr ""
+msgstr "Inventario recibido"
 
 #: inc/agent.class.php:1560
 msgid "Timeout querying the device inventory"
@@ -266,7 +262,7 @@ msgstr "Tiempo de espera de consulta del inventario de dispositivos"
 
 #: inc/agent.class.php:1580
 msgid "The device answered"
-msgstr ""
+msgstr "El dispositivo respondió"
 
 #: inc/agent.class.php:1584
 msgid "Timeout querying the device"
@@ -277,8 +273,6 @@ msgid "Enrollment failed"
 msgstr "Inscripción no pudiera"
 
 #: inc/config.class.php:140
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:28
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:60
 msgid "Installation wizard"
 msgstr "Ayudante de insalación"
 
@@ -296,7 +290,7 @@ msgstr "Depurar"
 
 #: inc/config.class.php:210
 msgid "Bugcollector password"
-msgstr ""
+msgstr "Contraseña del Bugcollector"
 
 #: inc/config.class.php:354
 msgid "Finish"
@@ -312,7 +306,7 @@ msgstr "No le esta permitido cambiar el limite de dispositivos"
 
 #: inc/entityconfig.class.php:141
 msgid "You are not allowed to download URL of the MDM agent"
-msgstr ""
+msgstr "No le esta permitido descargar la URL del agente MDM"
 
 #: inc/entityconfig.class.php:148
 msgid "You are not allowed to change the invitation token life"
@@ -405,6 +399,22 @@ msgstr "longitud no es válida"
 #: inc/geolocation.class.php:182 inc/geolocation.class.php:204
 msgid "Device not found"
 msgstr "Dispositivo no encontrado"
+
+#: inc/googleapplication.class.php:245
+msgid "Import the package"
+msgstr "Importar el paquete"
+
+#: inc/googleapplication.class.php:299
+msgid "Alias"
+msgstr "Alias"
+
+#: inc/googleapplication.class.php:308
+msgid "Version"
+msgstr "Versión"
+
+#: inc/googleapplication.class.php:326
+msgid "Import status"
+msgstr "Estatus de importación"
 
 #: inc/graph.class.php:64
 msgid "Invitations"
@@ -537,13 +547,6 @@ msgid "Only APK and UPK files are allowed"
 msgstr "Se permiten sólo los archivos APK y UPK"
 
 #: inc/policy.class.php:86 inc/policy.class.php:98
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:41
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:108
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:45
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:128
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:35
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
 msgid "Policy"
 msgid_plural "Policies"
 msgstr[0] "Política"
@@ -553,8 +556,8 @@ msgstr[1] "Políticas"
 #: inc/policycategory.class.php:63
 msgid "Policy category"
 msgid_plural "Policy categories"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Categorías de política "
+msgstr[1] "Categorías de políticas"
 
 #: inc/policy.class.php:131
 msgid "Enumeration data"
@@ -594,7 +597,7 @@ msgstr "Cancelada"
 
 #: inc/policybase.class.php:87
 msgid "Overriden"
-msgstr ""
+msgstr "Anulado"
 
 #: inc/policydeployapplication.class.php:61
 msgid "The remove on delete flag is mandatory"
@@ -672,12 +675,12 @@ msgstr "Flyve MDM"
 #: inc/task.class.php:84 inc/task.class.php:612
 msgid "Task"
 msgid_plural "Tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tarea"
+msgstr[1] "Tareas"
 
 #: inc/task.class.php:166
 msgid "Notifiable and policy must be specified"
-msgstr ""
+msgstr "Notificable y política deben ser especificado"
 
 #: inc/task.class.php:175 inc/task.class.php:250 inc/task.class.php:332
 msgid "Policy not found"
@@ -689,7 +692,7 @@ msgstr "Valor incorrecto para esta política"
 
 #: inc/task.class.php:194
 msgid "Cannot find the notifiable object"
-msgstr ""
+msgstr "No se puede encontrar el objeto notificable"
 
 #: inc/task.class.php:201
 msgid "Cannot apply a policy on a not managed fleet"
@@ -707,13 +710,13 @@ msgstr "No se cumplen los requisitos de esta política"
 #: inc/task.class.php:273
 #, php-format
 msgid "Cannot find the target %1$s"
-msgstr ""
+msgstr "No se puede encontrar el objetivo %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
 #: inc/task.class.php:281
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
-msgstr ""
+msgstr "No se puede aplicar una política en %1$s"
 
 #: inc/task.class.php:310
 msgid "Failed to apply the policy"
@@ -722,7 +725,7 @@ msgstr "Al aplicar la política"
 #: inc/task.class.php:338
 #, php-format
 msgid "%1$s not found"
-msgstr ""
+msgstr "%1$sno conseguido"
 
 #: inc/taskstatus.class.php:47
 msgid "Task status"
@@ -752,6 +755,8 @@ msgid ""
 "device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
 "comment."
 msgstr ""
+"Usuarios de agentes en dispositivos Flyve MDM. Creado por Flyve MDM - NO "
+"modifique este comentario."
 
 #: install/installer.class.php:366
 msgid "User invitation"
@@ -759,7 +764,7 @@ msgstr "Invitación de usuario"
 
 #: install/installer.class.php:535
 msgid "Parse uploaded applications to collect metadata"
-msgstr ""
+msgstr "Analizar aplicaciones subidas para recolectar la metadata"
 
 #: install/installer.class.php:697
 msgid "Security"
@@ -769,7 +774,7 @@ msgstr "Seguridad"
 msgid "Authentication"
 msgstr "Autenticación de"
 
-#: install/installer.class.php:703
+#: install/installer.class.php:703 install/policies/password.php:46
 msgid "Password"
 msgstr "Contraseña"
 
@@ -785,130 +790,356 @@ msgstr "Periféricos"
 msgid "Deployment"
 msgstr "Implementación"
 
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
-msgid "Actions"
-msgstr "Acciones"
+#: install/policies/deployment.php:39
+msgid "Deploy application"
+msgstr "Desplegar la aplicación"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
-msgid "There is no task status yet"
-msgstr ""
+#: install/policies/deployment.php:46
+msgid "Deploy an application on the device"
+msgstr "Implementar una aplicación en el dispositivo"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:45
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:112
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:49
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:132
-msgid "Status"
-msgstr "Estatus"
+#: install/policies/deployment.php:56
+msgid "Remove application"
+msgstr "Eliminar aplicación"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:49
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:116
-msgid "Count"
-msgstr ""
+#: install/policies/deployment.php:63
+msgid "Uninstall an application on the device"
+msgstr "Desinstalar una aplicación en el dispositivo"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:24
-msgid "MQTT broker"
-msgstr "Corredor MQTT"
+#: install/policies/deployment.php:73
+msgid "Deploy file"
+msgstr "Desplegar archivo"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:30
-msgid "MQTT broker address for clients"
-msgstr "Dirección del servicio MQTT para clientes"
+#: install/policies/deployment.php:80
+msgid "Deploy a file on the device"
+msgstr "Desplegar un archivo en el dispositivo"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:38
+#: install/policies/deployment.php:89
+msgid "Remove file"
+msgstr "Eliminar archivo"
+
+#: install/policies/deployment.php:96
+msgid "Uninstall a file on the device"
+msgstr "Desinstalar un archivo en el dispositivo"
+
+#: install/policies/encryption.php:39
+msgid "Internal Storage encryption"
+msgstr "Encriptación de almacenamiento de información interno"
+
+#: install/policies/encryption.php:46
+msgid "Force internal storage encryption"
+msgstr "Encriptación de almacenamiento de información interno de la fuerza"
+
+#: install/policies/mdm.php:39 install/policies/mdm.php:46
+msgid "use TLS"
+msgstr "usar TLS"
+
+#: install/policies/mdm.php:55
+msgid "Set an inventory frequency"
+msgstr "Definir una frecuencia de inventario"
+
+#: install/policies/mdm.php:62
+msgid "Sets the recurrence of inventory in minutes"
+msgstr "Asigna la frecuencia en minutos del inventario"
+
+#: install/policies/password.php:39
+msgid "Password enabled"
+msgstr "Contraseña activada"
+
+#: install/policies/password.php:44
+msgid "No"
+msgstr "No"
+
+#: install/policies/password.php:45
+msgid "Pin"
+msgstr "PIN"
+
+#: install/policies/password.php:50
+msgid "Enable the password"
+msgstr "Habilitar la contraseña"
+
+#: install/policies/password.php:59
+msgid "Minimum password length"
+msgstr "Longitud mínima de la contraseña"
+
+#: install/policies/password.php:68
 msgid ""
-"An IP address or a hostname used by the client devices to communicate with "
-"the broker"
+"Set the required number of characters for the password. For example, you can"
+" require PIN or passwords to have at least six characters"
 msgstr ""
+"Establecer el número de caracteres para la contraseña. Por ejemplo, usted "
+"puede requerir PIN o contraseñas de al menos seis caracteres"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:44
-msgid "MQTT broker address for backend"
-msgstr "Dirección del servicio MQTT para el backend"
+#: install/policies/password.php:78
+msgid "Password quality"
+msgstr "Calidad de la contraseña"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:53
+#: install/policies/password.php:83
+msgid "Unspecified"
+msgstr "No especificado"
+
+#: install/policies/password.php:84
+msgid "Something"
+msgstr "Algo"
+
+#: install/policies/password.php:85
+msgid "Numeric"
+msgstr "Numérico"
+
+#: install/policies/password.php:86
+msgid "Alphabetic"
+msgstr "Alfabético"
+
+#: install/policies/password.php:87
+msgid "Alphanumeric"
+msgstr "Alfanuméricos"
+
+#: install/policies/password.php:88
+msgid "Complex"
+msgstr "Complejo"
+
+#: install/policies/password.php:92
+msgid "Complexity of allowed password"
+msgstr "Complejidad de contraseña permitido"
+
+#: install/policies/password.php:102
+msgid "Minimum letters required in password"
+msgstr "Letras mínimas requerida contraseña"
+
+#: install/policies/password.php:112
 msgid ""
-"An IP address or a hostname used by the backend to communicate with the "
-"broker"
+"The minimum number of letters required in the password for all admins or a "
+"particular one"
 msgstr ""
-"Una dirección IP o un nombre de host usado por el backend para comunicarse "
-"con el agente"
+"El número mínimo de letras en la contraseña de los administradores o de un "
+"particular"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:59
-msgid "MQTT broker port"
-msgstr "Puerto del servicio MQTT"
+#: install/policies/password.php:122
+msgid "Minimum lowercase letters required in password"
+msgstr "Mínimos minúsculas en la contraseña"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:68
-msgid "A port number between 1025 and 65535, standard port is 1883"
-msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 1883 "
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:74
-msgid "MQTT broker port for TLS"
-msgstr "Puerto TLS para el servicio MQTT"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:83
-msgid "A port number between 1025 and 65535, standard port is 8883"
-msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 8883"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:89
-msgid "Use TLS for clients"
-msgstr "Usar TLS para clientes"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:98
+#: install/policies/password.php:132
 msgid ""
-"Use TLS for MQTT communication between the broker and the client devices"
+"The minimum number of lowercase letters required in the password for all "
+"admins or a particular one"
 msgstr ""
-"Usar TLS para comunicaciones MQTT entre el servidor y los dispositivos "
-"clientes"
+"El número mínimo de letras minúsculas en la contraseña de los "
+"administradores o de un particular"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:104
-msgid "Use TLS for backend"
-msgstr "Usar TLS para el backend"
+#: install/policies/password.php:142
+msgid "Minimum non-letter characters required in password"
+msgstr "Mínimos caracteres de letra no requeridos contraseña"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:113
-msgid "Use TLS for MQTT communication between the broker and the backend"
+#: install/policies/password.php:152
+msgid ""
+"The minimum number of non-letter characters required in the password for all"
+" admins or a particular one"
 msgstr ""
+"El número mínimo de caracteres no-letra en la contraseña de los "
+"administradores o de un particular"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:119
-msgid "CA certificate"
-msgstr "Certificado de la CA"
+#: install/policies/password.php:162
+msgid "Minimum numerical digits required in password"
+msgstr "Cifras mínimas requeridas contraseña"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:130
-msgid "Cipher suite (TLS enabled)"
-msgstr "Suite de cifrado (TLS habilitada)"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:139
-msgid "Mqtt broker cipher suite"
-msgstr "Suite de cifrado MQTT corredor"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:147
-msgid "test"
-msgstr "prueba"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:154
-msgid "Client certificate server (Broker MQTT with TLS enabled)"
+#: install/policies/password.php:172
+msgid ""
+"The minimum number of numerical digits required in the password for all "
+"admins or a particular one"
 msgstr ""
-"Servidor de certificados de cliente (intermediario MQTT con TLS habilitada)"
+"El número mínimo de dígitos numéricos en la contraseña de los "
+"administradores o de un particular"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:160
-msgid "Use client certificates"
-msgstr "Utilizar certificados de cliente"
+#: install/policies/password.php:182
+msgid "Minimum symbols required in password"
+msgstr "Mínimos símbolos requeridas contraseña"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:171
-msgid "Ssl certificate server for MQTT clients"
-msgstr "Servidor de certificados SSL para clientes MQTT"
+#: install/policies/password.php:192
+msgid ""
+"The minimum number of symbols required in the password for all admins or a "
+"particular one"
+msgstr ""
+"El número mínimo de símbolos en la contraseña de los administradores o de un"
+" particular"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:179
-msgid "https://cert.domain.com/path/to/service"
-msgstr "https://cert.domain.com/path/to/Service"
+#: install/policies/password.php:202
+msgid "Minimum uppercase letters required in password"
+msgstr "Mínimo letras mayúsculas en la contraseña"
 
-#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
-msgid "There is no agent yet"
-msgstr "Todavía no hay ningún agente"
+#: install/policies/password.php:212
+msgid ""
+"The minimum number of uppercase letters required in the password for all "
+"admins or a particular one"
+msgstr ""
+"El número mínimo de letras mayúsculas en la contraseña de los "
+"administradores o de un particular"
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
+#: install/policies/password.php:222
+msgid "Maximum failed password attempts for wipe"
+msgstr "Cantidad máxima de intentos de contraseñas para formatear"
+
+#: install/policies/password.php:232
+msgid "Number of consecutive failed attempts of unlock the device to wipe"
+msgstr ""
+"Número de intentos fallidos consecutivos de desbloquea el dispositivo para "
+"limpiar"
+
+#: install/policies/password.php:242
+msgid "Maximum time to lock (milliseconds)"
+msgstr "Tiempo máximo de bloqueo (milisegundos)"
+
+#: install/policies/password.php:252
+msgid "Maximum time to lock the device in milliseconds"
+msgstr "Tiempo máximo para bloquear el dispositivo en milisegundos"
+
+#: install/policies/password.php:262
+msgid "Reset password"
+msgstr "Reiniciar contraseña"
+
+#: install/policies/password.php:269
+msgid ""
+"Force a new password for device unlock (the password needed to access the "
+"entire device) or the work profile challenge on the current user. This takes"
+" effect immediately."
+msgstr ""
+"Frozar una nueva contraseña para desbloquear un dispositivo (la contraseña "
+"necesitada para acceder por completo al dispositivo) o el reto del perfil "
+"del usuario actual. Este efecto es inmediato."
+
+#: install/policies/peripherals.php:39
+msgid "Disable Camera"
+msgstr "Desactivar la cámara"
+
+#: install/policies/peripherals.php:46
+msgid "Prevent usage of the Camera"
+msgstr "Evitar el uso de la cámara"
+
+#: install/policies/peripherals.php:55
+msgid "Disable Wifi"
+msgstr "Desactivar Wifi"
+
+#: install/policies/peripherals.php:62
+msgid "Disable wifi connectivity"
+msgstr "Desactivar la conectividad wifi"
+
+#: install/policies/peripherals.php:71
+msgid "Disable Bluetooth"
+msgstr "Desactivar Bluetooth"
+
+#: install/policies/peripherals.php:78
+msgid "Disable Bluetooth connectivity"
+msgstr "Desactivar la conectividad Bluetooth"
+
+#: install/policies/peripherals.php:88 install/policies/peripherals.php:95
+msgid "Disable roaming"
+msgstr "Deshabilitar roaming"
+
+#: install/policies/peripherals.php:104 install/policies/peripherals.php:111
+msgid "Disable GPS"
+msgstr "Desactivar GPS"
+
+#: install/policies/peripherals.php:120 install/policies/peripherals.php:127
+msgid "Disable Mobile line"
+msgstr "Deshabilitar linea móvil"
+
+#: install/policies/peripherals.php:136
+msgid "Disable NFC"
+msgstr "Deshabilitar NFC"
+
+#: install/policies/peripherals.php:143
+msgid "Disable Near Field Contact"
+msgstr "Deshabilitar comunicación de campo cercano"
+
+#: install/policies/peripherals.php:152 install/policies/peripherals.php:160
+msgid "Disable hotspot and tethering"
+msgstr "Deshabilitar punto de acceso y anclaje de red"
+
+#: install/policies/peripherals.php:170 install/policies/peripherals.php:177
+msgid "Disable airplane mode"
+msgstr "Deshabilitar modo avión"
+
+#: install/policies/peripherals.php:186
+msgid "Disable speakerphone"
+msgstr "Deshabilitar cornetas"
+
+#: install/policies/peripherals.php:193
+msgid "Disable the speakerphone"
+msgstr "Deshabilitar cornetas"
+
+#: install/policies/peripherals.php:202
+msgid "Disable create VPN profiles"
+msgstr "Deshabilitar perfiles VPN"
+
+#: install/policies/peripherals.php:209
+msgid "Disable creation of VPN profiles"
+msgstr "Desactivar la creación de perfiles VPN"
+
+#: install/policies/phone.php:39 install/policies/phone.php:46
+msgid "Disable SMS and MMS"
+msgstr "Deshabilitar SMS y MMS"
+
+#: install/policies/usb.php:39
+msgid "Disable USB MTP"
+msgstr "Deshabilitar USB MTP"
+
+#: install/policies/usb.php:46
+msgid "Disable USB Media Transfer Protocol"
+msgstr "Deshabilitar protocolo de transferencia de medios USB"
+
+#: install/policies/usb.php:56
+msgid "Disable USB PTP"
+msgstr "Deshabilitar USB PTP"
+
+#: install/policies/usb.php:63
+msgid "Disable USB Picture Transfer Protocol"
+msgstr "Deshabilitar protocolo de transferencia de imágenes USB"
+
+#: install/policies/usb.php:73
+msgid "Disable USB ADB"
+msgstr "Deshabilitar USB ADB"
+
+#: install/policies/usb.php:80
+msgid "Disable USB Android Debug Bridge"
+msgstr "Deshabilitar depurador de Android por USB"
+
+#: install/policies/userInterface.php:39
+msgid "Disable status bar"
+msgstr "Deshabilitar barra de estado"
+
+#: install/policies/userInterface.php:46
+msgid ""
+"Disable the status bar. Disabling the status bar blocks notifications, quick"
+" settings and other screen overlays that allow escaping from a single use "
+"device."
+msgstr ""
+"Deshabilitar barra de estatus. Deshabilitando la barra de estatus bloquea "
+"las notificaciones, accesos rápido y otras pantallas solapadas que permiten "
+"escapar de un dispositivo de uso simple."
+
+#: install/policies/userInterface.php:56
+msgid "Disable screen capture"
+msgstr "Deshabilitar captura de pantalla"
+
+#: install/policies/userInterface.php:63
+msgid ""
+"Disable screen capture. Disabling screen capture also prevents the content "
+"from being shown on display devices that do not have a secure video output."
+msgstr ""
+"Deshabilitar la captura de pantalla. Deshabilitando la captura de pantalla "
+"también previene mostrar el contenido visualizado en el dispositivo que no "
+"tiene una salida de video segura."
+
+#: install/policies/userInterface.php:73
+msgid "Disable all sounds"
+msgstr "Deshabilitar todos los sonidos"
+
+#: install/policies/userInterface.php:80
+msgid "Disable all sounds of device"
+msgstr "Deshabilitar todos los sonidos del dispositivo"
+
 msgid "Invite users to enroll one device."
 msgstr "Invitamos a los usuarios para inscribir a un dispositivo."
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
 msgid ""
 "They will receive an message to their default email address containing a QR "
 "Code and instructions to enroll."
@@ -916,69 +1147,160 @@ msgstr ""
 "Recibirá un mensaje a su dirección de correo electrónico predeterminado que "
 "contiene un código QR e instrucciones para inscribirse."
 
-#: /tmp/twig-cache/f9/f95e5fdae58e7d9a3dc74110bc024e6b260312ea4f49d3fbb07e7320b553c888.php:24
+msgid "There is no agent yet"
+msgstr "Todavía no hay ningún agente"
+
+msgid "There is no task status yet"
+msgstr "Aun no hay estatus de la tarea"
+
+msgid "Status"
+msgstr "Estatus"
+
+msgid "Count"
+msgstr "Conteo"
+
+msgid "MQTT broker"
+msgstr "Corredor MQTT"
+
+msgid "MQTT broker address for clients"
+msgstr "Dirección del servicio MQTT para clientes"
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+"Una dirección IP o un nombre de host usado por el cliente en el dispositivo "
+"para comunicarse con el bróker"
+
+msgid "MQTT broker address for backend"
+msgstr "Dirección del servicio MQTT para el backend"
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"Una dirección IP o un nombre de host usado por el backend para comunicarse "
+"con el agente"
+
+msgid "MQTT broker port"
+msgstr "Puerto del servicio MQTT"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 1883 "
+
+msgid "MQTT broker port for TLS"
+msgstr "Puerto TLS para el servicio MQTT"
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "Un número de puerto entre 1025 y 65535, el puerto estándar es 8883"
+
+msgid "Use TLS for clients"
+msgstr "Usar TLS para clientes"
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+"Usar TLS para comunicaciones MQTT entre el servidor y los dispositivos "
+"clientes"
+
+msgid "Use TLS for backend"
+msgstr "Usar TLS para el backend"
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr "Usar TLS para la comunicación MQTT entre el bróker y el backend"
+
+msgid "CA certificate"
+msgstr "Certificado de la CA"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Suite de cifrado (TLS habilitada)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Suite de cifrado MQTT corredor"
+
+msgid "test"
+msgstr "prueba"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr ""
+"Servidor de certificados de cliente (intermediario MQTT con TLS habilitada)"
+
+msgid "Use client certificates"
+msgstr "Utilizar certificados de cliente"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Servidor de certificados SSL para clientes MQTT"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domain.com/path/to/Service"
+
+msgid "file size"
+msgstr "tamaño del archivo"
+
+msgid "Update the file"
+msgstr "Actualizar el archivo"
+
+msgid "Application date"
+msgstr "Fecha de aplicación"
+
+msgid "Last change date"
+msgstr "Fecha del ultimo cambio"
+
 msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
 "settings and the notification settings."
 msgstr ""
+"GLPI no esta correctamente configurado. Por favor revise los parámetros "
+"generales, los parámetros de la API y los parámetros de notificación."
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:23
 msgid "Lock"
 msgstr "Cerradura"
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:35
 msgid "Wipe"
 msgstr "Limpie"
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:49
 msgid "Unenroll"
 msgstr "Unenroll"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
+msgid "Package name"
+msgstr "Nombre del paquete"
+
+msgid "Update the package"
+msgstr "El paquete de actualización"
+
 msgid "Enrollment"
 msgstr "Inscripción"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
 msgid "Enable explicit enrolment failures"
 msgstr "Permiten fallas explícita inscripción"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
 msgid "Disable token expiration on successful enrolment"
 msgstr "Desactivar el token vencimiento de inscripción exitosa"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
 msgid "Save initial inventory in file"
 msgstr "Salvar inventario inicial en archivo"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:63
 msgid "Bug collector"
 msgstr "Colector de error"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:69
 msgid "Android bug collector URL"
 msgstr "Bug de Android colector URL"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:77
 msgid "https://bugreport.flyvemdm.com/path/to/service"
 msgstr "https://bugreport.flyvemdm.com/path/to/Service"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:83
 msgid "Android bug collector user"
 msgstr "Usuario de colector bug Android"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:95
 msgid "Android bug collector password"
 msgstr "Contraseña de colector bug Android"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:109
 msgid "Configuration wizard"
 msgstr "Ayudante de configuración"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:115
 msgid "Enable configuration wizard"
 msgstr "Habilitar ayudante de configuración"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:123
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
@@ -987,61 +1309,45 @@ msgstr ""
 "ayudante de configuración puede hacer perder la comunicación con "
 "dispositivos ya inscritos"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:129
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:135
 msgid "Revision information"
-msgstr ""
+msgstr "Información de revisión"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:24
 msgid "Document types"
 msgstr "Tipo de documentos"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:30
 msgid "Allow upload of APK and UPK files"
 msgstr "Permite subir archivos de APK y UPK"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:34
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:266
 msgid "add document types"
 msgstr "agregar tipos de documentos"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:41
 msgid "Device type"
 msgstr "Tipo de dispositivo"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:47
 msgid "Computer type for the devices"
 msgstr "Tipo de ordenador para los dispositivos de"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:58
 msgid "Agent account type"
 msgstr "Tipo de cuenta del agente"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:64
 msgid "Account type for the devices"
 msgstr "Tipo de cuenta para los dispositivos"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:75
 msgid "Invitation deeplink"
-msgstr ""
+msgstr "Vínculo profundo de invitación"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:81
 msgid "Invitation deeplink URL"
-msgstr ""
+msgstr "URL del vínculo profundo de invitación"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:90
 msgid "Base URL of the deeplink micro service"
-msgstr ""
+msgstr "URL base del micro-servicio del vínculo profundo"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:96
 msgid "Restrictions"
 msgstr "Restricciones"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:102
 msgid "Default device limit per entity"
 msgstr "Por defecto el límite de dispositivo por entidad"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:111
 msgid ""
 "No more devices than this quantity are allowed per entity by default (0 = no"
 " limitation)"
@@ -1049,272 +1355,217 @@ msgstr ""
 "No hay más dispositivos que esta cantidad se admiten por entidad por defecto"
 " (0 no = límite)"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
-msgid "Alias"
-msgstr "Alias"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
-msgid "file size"
-msgstr "tamaño del archivo"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
-msgid "Package name"
-msgstr "Nombre del paquete"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
-msgid "Update the package"
-msgstr "El paquete de actualización"
-
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
-msgid "Application date"
-msgstr ""
-
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
-msgid "Last change date"
-msgstr ""
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
-msgid "apply a policy"
-msgstr "aplicar una política de"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:112
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:177
-msgid "Value"
-msgstr "Valor"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:84
-msgid "Applied policies"
-msgstr "Políticas aplicadas"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:23
 msgid "Support name"
 msgstr "Nombre de soporte"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:45
 msgid "Support address"
 msgstr "Dirección de soporte"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:69
 msgid "Support phone"
 msgstr "Teléfono de soporte"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:93
 msgid "Support website"
 msgstr "Sitio web de soporte"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
 msgid "Support email"
-msgstr ""
+msgstr "Correo electrónico de soporte"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
 msgid "MDM Agent URL"
-msgstr ""
+msgstr "URL del agente MDM"
 
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
-msgid "Update the file"
-msgstr "Actualizar el archivo"
+msgid "apply a policy"
+msgstr "aplicar una política de"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:35
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:43
+msgid "Value"
+msgstr "Valor"
+
+msgid "Applied policies"
+msgstr "Políticas aplicadas"
+
 msgid "Wizard complete"
 msgstr "Ayudante completado"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:47
 msgid "This wizard will no longer be accessible."
 msgstr "El ayudante ya no estará disponible"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:66
 msgid "Requirements"
 msgstr "Requerimientos"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:74
 msgid ""
 "To setup Flyve MDM please connect to your server with a command line "
 "interface. Some operations require a root access."
 msgstr ""
+"Para configurar Flyve MDM por favor conectarse a su servidor mediante una "
+"interfaz de linea de comandos. Algunas operaciones requieren un acceso root "
+"o de súper administrador."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:78
 msgid "This wizard will guide you through the steps to setup Flyve MDM."
 msgstr ""
+"Este ayudante lo guiara a través de varios pasos para configurar Flyve MDM."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:91
 msgid "Cron Job"
 msgstr "Tareas programadas"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:98
 msgid "Flyve MDM requires cron job to run automatic actions."
-msgstr ""
+msgstr "Flyve MDM requiere de tareas cron para ejecutar acciones automáticas."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:102
 msgid ""
 "As root in a terminal, execute the following command. Adapt www-data to the "
 "user running your HTTP server."
 msgstr ""
+"Como súper administrador en un terminal ejecute el siguiente comando. Ajuste"
+" el valor www-data al usuario que corre su servidor HTTP."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:106
 msgid "crontab -e -u www-data"
-msgstr ""
+msgstr "crontab -e -u www-data"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:110
 msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
 "to GLPI:"
 msgstr ""
+"Agregue, si falta, la siguiente linea. Ajuste la ruta del comando PHP y la "
+"ruta a GLPI:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:115
 msgid ""
 "Automatic actions registered in the scheduler of GLPI will run every minute."
 msgstr ""
+"Acciones automáticas registradas en el planificador de GLPI se ejecutaran "
+"cada minuto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:128
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:139
 msgid "Email notifications"
 msgstr "Notificaciones por correo electrónico"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:135
 msgid ""
 "Flyve MDM requires email notifications. The following link will open a new "
 "tab to the email notifications settings."
 msgstr ""
+"Flyve MDM requiere notificaciones por correo electrónico. El siguiente "
+"vínculo abrirá una nueva ventana hacia los ajustes de correo electrónico."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:143
 msgid ""
 "The queuednotification must have set Run mode to CLI. This action will be "
 "triggered by the cron job. The following link will open a new tab to the "
 "Automatic actions list"
 msgstr ""
+"La cola de notificaciones deben se ejecutadas en el modo CLI. Esta acción "
+"sera ejecutada por la tarea cron. El siguiente vínculo abrirá una nueva "
+"ventana a la lista de acciones automáticas"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:147
 msgid "Automatic actions"
 msgstr "Acciones automáticas"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:151
 msgid ""
 "Ensure the cron job is properly configure by checking the log "
 "glpi/files/_log/cron.log. The entry should contain the word External"
 msgstr ""
+"Asegúrese que la tarea cron este propiamente configurada revisando el log "
+"glpi/files/_log/cron.log. El registro debe contener solo la palabra External"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:167
 msgid "REST API"
-msgstr ""
+msgstr "API REST"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:174
 msgid ""
 "Flyve MDM requires REST API enabled. The following link will open a new tab "
 "to the REST API settings."
 msgstr ""
+"Flyve MDM requiere que la API REST este habilitada. El siguiente vínculo "
+"abrirá una nueva ventana a los ajustes de la API REST."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:178
 msgid "Make sure the following setting is populated:"
-msgstr ""
+msgstr "Asegúrese que los siguientes ajustes estén declarados:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:182
 msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
-msgstr ""
+msgstr "- URL para la API (ejemplo: https://ejemplo.com/glpi/apirest.php/)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:186
 msgid "Make sure the following settings are enabled:"
-msgstr ""
+msgstr "Asegúrese que los siguientes ajustes estén habilitados:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:190
 msgid "- Rest API"
-msgstr ""
+msgstr "- API Rest"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:194
 msgid "- Login with credentials"
-msgstr ""
+msgstr "- Inicio de sesión con credenciales"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:198
 msgid "- Login with external token"
-msgstr ""
+msgstr "- Inicio de sesión con un token externo"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:202
 msgid ""
 "- Add an API client leaving empty IPv4 address range, IPv6 address and "
 "application token."
 msgstr ""
+"- Agregue un cliente API dejando vacío la dirección IPv4, IPv6 y el token de"
+" aplicación."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:206
 msgid "API"
-msgstr ""
+msgstr "API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:219
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:238
 msgid "General setup"
-msgstr ""
+msgstr "Ajuste general"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:226
 msgid ""
 "Flyve MDM needs to know the public URL of GLPI. The following link will open"
 " a new tab to the general setup."
 msgstr ""
+"Flyve MDM necesita saber la URL publica de GLPI. El siguiente vínculo abrira"
+" una nueva ventana hacia los ajustes generales."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:230
 msgid "Make sure the following settings is populated:"
-msgstr ""
+msgstr "Asegúrese que los siguientes ajustes estén declarados:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:234
 msgid "- URL of the application (example: https://example.com/glpi)"
-msgstr ""
+msgstr "- URL de la aplicación (ejemplo: https://ejemplo.com/glpi)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:251
 msgid "Document Types"
 msgstr "Tipo de documentos"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:258
 msgid ""
 "You must add the APK and UPK document types in order to upload Android and "
 "Uhuru packages."
 msgstr ""
+"Debe agregar los tipo de documentos APK y UPK para subir paquetes Android y "
+"Uhuru."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:262
 msgid ""
 "Just click in the following button and they will be automatically added"
 msgstr ""
+"Solo haga clic en el siguiente botón y serán agregados automáticamente"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:279
 msgid "Server Configuration"
 msgstr "Configuración del servidor"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:286
 msgid ""
 "Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
 "php.ini allows reasonable upload sizes."
 msgstr ""
+"Flyve MDM permite subir archivos de paquetes Adroid y Uhuru Mobile. "
+"Asegúrese que el php.ini permita un tamaño de subidas razonable."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:290
 msgid "For example:"
 msgstr "Por ejemplo:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:317
 msgid "Fusion Inventory Configuration"
 msgstr "Configuración de Fusion Inventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:324
 msgid "For FusionInventory greater than 9.1 + 1.1:"
 msgstr "Para FusionInventory mayor a 9.1 + 1.1:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:328
 msgid ""
 "It is required to deactivate the Computer constraint (name) rule in the "
 "Equipment import and link rules menu."
 msgstr ""
+"Es necesario que desactive la regla de Computer constraint (name) en el menú"
+" de importación y actualización de bienes."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:332
 msgid ""
 "The following link will open a new tab to the Rules section of "
 "FusionInventory "
 msgstr ""
+"El siguiente link abrirá una nueva ventana a la sección de reglas de "
+"FusionInventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:336
 msgid "Rules"
 msgstr "Reglas"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:340
 msgid ""
 "Not disabling this rule will make FusionInventory reject inventories from "
 "devices."
@@ -1322,170 +1573,161 @@ msgstr ""
 "El no deshabilitar esta regla hará que FusionInventory rechace los "
 "inventarios de dispositivos."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:353
 msgid "DBMS access for Mosquitto"
-msgstr ""
+msgstr "Acceso SGBD para Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:360
 msgid ""
 "Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
 "is for the authentication process of its clients."
 msgstr ""
+"Flyve MDM necesita que Mosquitto tenga acceso a la base de datos GLPI, esto "
+"es para los procesos de autenticación para su clientes."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:364
 msgid ""
 "It is recommended to create a dedicated user for Mosquitto allowed to "
 "connect only from its specific IP."
 msgstr ""
+"Es recomendado crear un usuario dedicado de Mosquitto para permitir "
+"conectarse solo desde su IP especifica."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:368
 msgid ""
 "Run the following command on your MySQL host, and adapt the mqtt.server.ip"
 msgstr ""
+"Ejecute el siguiente comando en su servidor MySQL y adapte el mqtt.server.ip"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:373
 msgid "This user should be able to only SELECT the following tables:"
 msgstr ""
+"A este usuario debe permitirle solo hacer SELECT de las siguientes tablas:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:379
 msgid ""
 "Run the following commands on your MySQL host, and adapt the name of the "
 "database and the mqtt.server.ip"
 msgstr ""
+"Ejecute los siguientes comandos en su servidor MySQL y adapte el nombre de "
+"la base de datos y el mqtt.server.ip"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:385
 msgid "Create the file"
 msgstr "Crear el archivo"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:389
 msgid ""
 "Insert the following content, and adapt the bind address to the interface "
 "used by Mosquitto to connect to your DBMS."
 msgstr ""
+"Ingrese el siguiente contenido y ajuste la dirección asociada a la interfaz "
+"usada por Mosquitto para conectarse a su SGBD."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:396
 msgid ""
 "Restart your DBMS daemon and check it listens to the expected interface."
 msgstr ""
+"Reinicie su servicio de SGBD  y revise que este este escuchando en la "
+"interfaz esperada."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:401
 msgid ""
 "Check you can login to your DBMD from the host which will run Mosquitto."
 msgstr ""
+"Revise que pueda iniciar sesión en su SGBD desde el servidor que correrá "
+"Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:405
-msgid "The following command will ask for the password you choosed earlier"
+msgid "The following command will ask for the password you choose earlier"
 msgstr ""
+"El siguiente comando solicitada la contraseña que ha elegido anteriormente"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:419
 msgid "Mosquitto"
-msgstr ""
+msgstr "Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:426
 msgid "Flyve MDM requires a Message queue server."
 msgstr "Flyve MDM requiere un servidor de cola de mensajes"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:430
 msgid "Prefer a dedicated server or VM for running Mosquitto."
 msgstr ""
 "Preferible un servidor dedicado o una máquina virtual para ejecutar "
 "Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:434
 msgid "As root in a terminal, execute the following command"
 msgstr "Ejecute el siguiente comando desde el terminal como root"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:439
 msgid "Create"
 msgstr "Crear"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:443
 msgid "Add the following content, adapting your DBMS credentials:"
 msgstr "Agregue el siguiente contenido adaptando sus credenciales al SGBD:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:459
 msgid "Check Mosquitto is listening to port 1883 (insecure)."
 msgstr "Verificar que Mosquitto este escuchando el puerto (inseguro) 1883."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:472
 msgid "TLS Listener setup"
-msgstr ""
+msgstr "Ajustar escucha TLS"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:479
 msgid ""
 "TLS provides security to the communication, through authentication of server"
 " and client, besides data encryption."
 msgstr ""
+"TLS le proporciona seguridad a la comunicación entre el servidor de "
+"autentificación y el cliente, ademas de cifrado de datos."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:483
 msgid "Use TLS version 1.2, lower versions are no longer considered safe."
 msgstr ""
 "Use TLS versión 1.2, las versiones anteriores no son consideradas como "
 "seguras."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:487
 msgid ""
 "Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
-msgstr ""
+msgstr "Mosquitto no soporta SSLv2 o SSlv3 (y ademas no son seguros)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:491
 msgid ""
 "- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
 "chain and private key."
 msgstr ""
+"- Copie  en /etc/mosquitto/certs su certificado, la cadena de la autoridad "
+"del certificado y la clave privad."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:495
 msgid "- Secure your private key"
 msgstr "- Asegure su clave privada"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:501
 msgid "- Refresh hash and symlinks to your certificates"
-msgstr ""
+msgstr "- Actualice el hash y los vínculos simbólicos a sus certificados"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:506
 msgid ""
 "Use a certificate signed by a certified authority or you may have trouble "
 "with the android devices, using them with custom certification authorities "
 "might not work (not tested)."
 msgstr ""
+"Use un certificado firmado por una autoridad certificada o puede tener "
+"problemas con los dispositivos Android, usandolo con autoridades de "
+"certificaciones personalizadas puede no funcionar (no probado)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:526
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
-msgstr ""
+msgstr "Agregue lo siguiente a /etc/mosquitto/conf.d/flyvemdm.conf"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:538
 msgid "- Restart Mosquitto"
 msgstr "- Reinicie Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:542
 msgid "- Test you can successfully connect to Mosquitto"
-msgstr ""
+msgstr "- Pruebe que pueda conectarse correctamente a Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:547
 msgid ""
 "- Check the ports that Mosquitto listens. You should see only the port 8883."
 msgstr ""
+"- Revise que los puertos de Mosquitto escuchen. Debe ver solo el puerto "
+"8883."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:576
 msgid "Mosquitto client for the backend"
-msgstr ""
+msgstr "Cliente Mosquitto para el backend"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:583
 msgid "Flyve MDM requires to connect to Mosquitto."
-msgstr ""
+msgstr "Flyve MDM necesita conectarse a Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:587
 msgid "For SYSV systems, link the init script in /etc/init.d/"
-msgstr ""
+msgstr "Para sistemas SYSV, vincule el script de inicio en /etc/init.d/"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:592
 msgid "Check the user configured in the script and adapt it if needed."
-msgstr ""
+msgstr "Revise el usuario configurado en el script y ajuste si es necesario."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:611
 msgid "Back"
 msgstr "Regresar"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
 msgid "Wizard page:"
-msgstr ""
+msgstr "Página de asistente:"
+
+msgid "Actions"
+msgstr "Acciones"
