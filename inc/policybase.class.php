@@ -75,17 +75,18 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
      */
    public static final function getEnumBaseTaskStatus() {
       return [
-         'pending'   => __('Pending', 'flyvemdm'),
-         'received'  => __('Received', 'flyvemdm'),
-         'done'      => __('Done', 'flyvemdm'),
-         'failed'    => __('Failed', 'flyvemdm'),
-         'canceled'  => __('Canceled', 'flyvemdm'),
+         'pending'      => __('Pending', 'flyvemdm'),
+         'received'     => __('Received', 'flyvemdm'),
+         'done'         => __('Done', 'flyvemdm'),
+         'failed'       => __('Failed', 'flyvemdm'),
+         'canceled'     => __('Canceled', 'flyvemdm'),
+         'incompatible' => __('Incompatible', 'flyvemdm'),
 
          // when a policy is applied on a fleet and an agent in the fleet
          // only the policy on the agent must apply
          // the conflicting policy on the fleet won't apply, and the agent
          // must feedback the status 'overriden'
-         'overriden' => __('Overriden', 'flyvemdm'),
+         'overriden'    => __('Overriden', 'flyvemdm'),
       ];
    }
 
