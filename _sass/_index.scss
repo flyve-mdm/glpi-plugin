@@ -4,17 +4,66 @@
 
 #dropdown-menu2 {
 
-  background-image: url("/glpi-plugin/images/Acrylic1b(80).png");
-  background-repeat: repeat;
   background-color: transparent;
+  overflow: hidden;
 
 }
 
-.modal-content {
+#modal-content {
 
-  background-image: url("/glpi-plugin/images/Acrylic2(40).png");
-  background-repeat: repeat;
   background-color: transparent;
+  overflow: hidden;
+
+}
+
+/*RECREATES THE ACRYLIC MATERIAL FROM THE FLUENT DESIGN*/
+.acrylic{
+
+  background-image: url("/glpi-plugin/images/Acrylic2(60).png");
+  background-repeat: repeat;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+
+  top: 0px;
+  right: 0px;
+  left: 0px;
+
+  z-index: -1;
+  background-size: cover;
+  -webkit-filter: blur(20px);
+  -o-filter: blur(20px);
+  filter: blur(20px);
+  transform: scale(1.1);
+
+
+
+}
+
+.acrylic2{
+
+  background-image: url("/glpi-plugin/images/Acrylic1b(80).png");
+  background-repeat: repeat;
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+
+  top: 0px;
+  right: 0px;
+  left: 0px;
+
+  z-index: -1;
+  background-size: cover;
+  -webkit-filter: blur(20px);
+  -o-filter: blur(20px);
+  filter: blur(20px);
+  transform: scale(1.1);
+
+
 
 }
 
