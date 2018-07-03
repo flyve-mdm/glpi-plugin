@@ -70,7 +70,7 @@ See [the tags section of our GitHub project](http://github.com/flyve-mdm/glpi-pl
 ## Contribute
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
-guidelines for [contributing](https://github.com/flyve-mdm/glpi-plugin/blob/develop/.github/CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues).
+guidelines for [contributing](https://github.com/flyve-mdm/glpi-plugin/blob/develop/CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues).
 
 If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/glpi-plugin/) or by testing the product.
 
