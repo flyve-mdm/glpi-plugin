@@ -35,9 +35,11 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Development<i class="glyph glyph-chevron-down-2"></i></a>
                             <ul class="dropdown-menu" id="dropdown-menu2" role="menu">
+                                <div class="acrylic2"></div>
                                 <li><a href="{{ 'development/devdocs/' | absolute_url }}">Code documentation</a></li>
                                 <li><a href="{{ 'build/tests/coverage/' | absolute_url }}">Code coverage</a></li>
                                 <li><a href="{{ '/development/specifications' | absolute_url }}">M2M Specifications</a></li>
+
                             </ul>
                         </li>
 
@@ -72,7 +74,8 @@
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" id="modal-content">
+            <div class="acrylic"></div>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -88,6 +91,7 @@
                     Close
                 </button>
             </div>
+
         </div>
     </div>
 </div>
