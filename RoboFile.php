@@ -83,7 +83,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
    protected function getVersion() {
       $currentRev = $this->getCurrentCommitHash();
       $setupContent = $this->getFileFromGit('setup.php', $currentRev);
-      $pluginName = $this->getPluginName();
       $constantName = "PLUGIN_" . strtoupper($this->getPluginName()) . "_VERSION";
       $pattern = "#^define\('$constantName', '([^']*)'\);$#m";
       preg_match($pattern, $setupContent, $matches);
@@ -92,6 +91,18 @@ class RoboFile extends Glpi\Tools\RoboFile {
       }
 
       throw new Exception("Could not determine version of the plugin");
+   }
+
+   protected function getIsRelease() {
+      $currentRev = $this->getCurrentCommitHash();
+      $setupContent = $this->getFileFromGit('setup.php', $currentRev);
+      $constantName = "PLUGIN_" . strtoupper($this->getPluginName()) . "_IS_OFFICIAL_RELEASE";
+      $pattern = "#^define\('$constantName', ([^\)]*)\);$#m";
+      preg_match($pattern, $setupContent, $matches);
+      if (isset($matches[1])) {
+         return $matches[1];
+      }
+      throw new Exception("Could not determine release status of the plugin");
    }
 
    /**
@@ -206,7 +217,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
     * Test upgrade from the previous version
     *
     * @return void
-
    public function testUpgrade() {
       $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
    }
@@ -224,11 +234,18 @@ class RoboFile extends Glpi\Tools\RoboFile {
    /**
     * Build an redistribuable archive
     *
-    * @return void
+    * @param string $release 'release' if the archive is a release
     */
-   public function archiveBuild() {
+   public function archiveBuild($release = 'release') {
       // get Version fron source code
       $version = $this->getVersion();
+
+      $release = strtolower($release);
+      if ($release == 'release') {
+         if ($this->getIsRelease() !== 'true') {
+            throw new Exception('The Official release constant must be true');
+         }
+      }
 
       // Check the version is semver compliant
       if (!$this->isSemVer($version)) {
