@@ -67,6 +67,43 @@
 
 }
 
+/*RECREATES THE REVEAL FOCUS EFFECT FROM THE FLUENT DESIGN*/
+.navbar-local a {
+
+  transition: box-shadow 1s ease-out;
+
+}
+
+.navbar-local a:hover {
+
+  /*box-sizing: border-box;*/
+  /*border: 2px solid #1fc9c5;*/
+  box-shadow: 0 0 0 2px #1fc9c5 inset, 0 0 5px 1px #189d9a;
+
+}
+
+/*STICKY HEADER OR GHOST MENU ON SCROLL*/
+
+#ghost-menu{
+
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 2px solid #158784;
+  background-color: transparent;
+
+}
+
+.ghost-menu-icons {
+
+  float: right;
+  margin-left: 5px;
+
+}
+
 /********************************/
 /***RESPONSIVE PARAGRAPH STYLE TEMPLATE***/
 /*******************************/

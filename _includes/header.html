@@ -70,6 +70,39 @@
             </div>
 
         </div>
+
+<!--GHOST MENU - WILL APPEAR WHEN THE USER SCROLLS DOWN-->
+        <div class="navbar-local color-accent theme-dark" id="ghost-menu">
+
+            <div class="container">
+
+                <div class="acrylic2"></div>
+
+                <div class="navbar-collapse ghost-menu-icons">
+
+                           <a href="{{ '/' | absolute_url }}" class="navbar-brand">
+                             <img src="{{ 'images/home-1.svg' | absolute_url }}" alt="Home" class="logo"/>
+                           </a>
+                      
+
+                </div>
+
+                <div class="navbar-collapse ghost-menu-icons" id="bs-example-navbar-collapse-2">
+                    <ul class="nav navbar-nav">
+
+                        <li>
+                            <a class="color-type-secondary" href="{{ '/contact' | absolute_url }}">
+                              <img src="{{ 'images/email-1.svg' | absolute_url }}" alt="contact" class="logo"/></a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+
 </header>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
