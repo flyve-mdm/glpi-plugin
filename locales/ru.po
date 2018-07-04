@@ -226,11 +226,11 @@ msgstr ""
 "одного конкретного"
 
 #: install/installer.class.php:782
-msgid "Maximum failed password attemps for wipe"
+msgid "Maximum failed password attempts for wipe"
 msgstr "Максимальное количество попыток ввода пароля перед стиранием"
 
 #: install/installer.class.php:791
-msgid "Number of consecutive failed attemps of unlock the device to wipe"
+msgid "Number of consecutive failed attempts of unlock the device to wipe"
 msgstr ""
 "Максимальное количество последовательных попыток ввода пароля перед "
 "стиранием"
