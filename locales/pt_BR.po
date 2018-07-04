@@ -226,11 +226,11 @@ msgstr ""
 "administradores ou um em particular"
 
 #: install/installer.class.php:782
-msgid "Maximum failed password attemps for wipe"
+msgid "Maximum failed password attempts for wipe"
 msgstr "Máximo de tentativas erradas de senha antes de apagar o dispositivo"
 
 #: install/installer.class.php:791
-msgid "Number of consecutive failed attemps of unlock the device to wipe"
+msgid "Number of consecutive failed attempts of unlock the device to wipe"
 msgstr ""
 "Número de tentativas erradas consecutivas de desbloqueio para apagar "
 "dispositivo"

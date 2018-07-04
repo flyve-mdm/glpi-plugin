@@ -118,8 +118,6 @@ msgid "Failed to delete documents attached to the device"
 msgstr "Nepodařilo se smazat dokumenty připojené k zařízení"
 
 #: inc/agent.class.php:783 inc/fleet.class.php:74 inc/fleet.class.php:239
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:62
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
 msgid "Fleet"
 msgid_plural "Fleets"
 msgstr[0] "Flotila"
@@ -127,8 +125,6 @@ msgstr[1] "Flotily"
 msgstr[2] "Flotil"
 
 #: inc/agent.class.php:809
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:76
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
 msgid "Last contact"
 msgstr "Poslední kontakt"
 
@@ -278,8 +274,6 @@ msgid "Enrollment failed"
 msgstr "Registrace se nezdařila"
 
 #: inc/config.class.php:140
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:28
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:60
 msgid "Installation wizard"
 msgstr "Průvodce instalací"
 
@@ -545,13 +539,6 @@ msgid "Only APK and UPK files are allowed"
 msgstr "Je možné použít pouze APK a UPK soubory"
 
 #: inc/policy.class.php:86 inc/policy.class.php:98
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:41
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:108
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:45
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:128
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:35
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
 msgid "Policy"
 msgid_plural "Policies"
 msgstr[0] "Zásada"
@@ -797,134 +784,292 @@ msgstr "Periferie"
 msgid "Deployment"
 msgstr "Nasazení"
 
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
 msgid "Actions"
 msgstr "Akce"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
-msgid "There is no task status yet"
-msgstr "Doposud není k dispozici stav žádného úkolu"
+#: install/policies/password.php:59
+msgid "Minimum password length"
+msgstr "Minimální délka hesla"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:45
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:112
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:49
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:132
-msgid "Status"
-msgstr "Stav"
-
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:49
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:116
-msgid "Count"
-msgstr "Počet"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:24
-msgid "MQTT broker"
-msgstr "MQTT zprostředkovatel"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:30
-msgid "MQTT broker address for clients"
-msgstr "Adresa MQTT zprostředkovatele pro klienty"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:38
+#: install/policies/password.php:68
 msgid ""
-"An IP address or a hostname used by the client devices to communicate with "
-"the broker"
+"Set the required number of characters for the password. For example, you can"
+" require PIN or passwords to have at least six characters"
 msgstr ""
-"IP adresa nebo název stroje používaného klientskými zařízeními pro "
-"komunikaci se zprostředkovatelem"
+"Nastavit požadovaný počet znaků pro heslo. Například je možné vyžadovat PIN "
+"kód nebo heslo které má přinejmenším šest znaků"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:44
-msgid "MQTT broker address for backend"
-msgstr "Adresa MQTT zprostředkovatele pro serverovou část"
+#: install/policies/password.php:78
+msgid "Password quality"
+msgstr "Odolnost hesla"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:53
+#: install/policies/password.php:83
+msgid "Unspecified"
+msgstr "Neurčeno"
+
+#: install/policies/password.php:84
+msgid "Something"
+msgstr "Něco"
+
+#: install/policies/password.php:85
+msgid "Numeric"
+msgstr "Číselné"
+
+#: install/policies/password.php:86
+msgid "Alphabetic"
+msgstr "Abecední"
+
+#: install/policies/password.php:87
+msgid "Alphanumeric"
+msgstr "Písmena a číslice"
+
+#: install/policies/password.php:88
+msgid "Complex"
+msgstr "Komplexní"
+
+#: install/policies/password.php:92
+msgid "Complexity of allowed password"
+msgstr "Komplexita umožněných hesel"
+
+#: install/policies/password.php:102
+msgid "Minimum letters required in password"
+msgstr "Minimální počet znaků vyžadovaných v hesle"
+
+#: install/policies/password.php:112
 msgid ""
-"An IP address or a hostname used by the backend to communicate with the "
-"broker"
+"The minimum number of letters required in the password for all admins or a "
+"particular one"
 msgstr ""
-"IP adresa nebo název stroje používaný serverovou částí pro komunikaci se "
-"zprostředkovatelem"
+"Minimální počet znaků vyžadovaný v hesle pro všechny nebo konkrétního "
+"správce"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:59
-msgid "MQTT broker port"
-msgstr "Port MQTT zprostředkovatele"
+#: install/policies/password.php:122
+msgid "Minimum lowercase letters required in password"
+msgstr "Minimální počet malých písmen vyžadovaný v hesle"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:68
-msgid "A port number between 1025 and 65535, standard port is 1883"
-msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 1883"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:74
-msgid "MQTT broker port for TLS"
-msgstr "Port MQTT zprostředkovatele pro TLS"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:83
-msgid "A port number between 1025 and 65535, standard port is 8883"
-msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 8883"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:89
-msgid "Use TLS for clients"
-msgstr "Použít TLS pro klienty"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:98
+#: install/policies/password.php:132
 msgid ""
-"Use TLS for MQTT communication between the broker and the client devices"
+"The minimum number of lowercase letters required in the password for all "
+"admins or a particular one"
 msgstr ""
-"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a klientskými "
-"zařízeními"
+"Minimální počet malých písmen vyžadovaný v hesle pro všechny nebo "
+"konkrétního správce"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:104
-msgid "Use TLS for backend"
-msgstr "Použít TLS pro serverovou část"
+#: install/policies/password.php:142
+msgid "Minimum non-letter characters required in password"
+msgstr "Minimální počet speciálních znaků vyžadovaný v hesle"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:113
-msgid "Use TLS for MQTT communication between the broker and the backend"
+#: install/policies/password.php:152
+msgid ""
+"The minimum number of non-letter characters required in the password for all"
+" admins or a particular one"
 msgstr ""
-"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a serverovou částí"
+"Minimální počet speciálních znaků vyžadovaný v hesle pro všechny nebo "
+"konkrétního správce"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:119
-msgid "CA certificate"
-msgstr "Certifikát cert. autority"
+#: install/policies/password.php:162
+msgid "Minimum numerical digits required in password"
+msgstr "Minimální počet číslic vyžadovaný v hesle"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:130
-msgid "Cipher suite (TLS enabled)"
-msgstr "Sada šifer (TLS zabezpečení zapnuto)"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:139
-msgid "Mqtt broker cipher suite"
-msgstr "Sada šifer MQTT zprostředkovatele"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:147
-msgid "test"
-msgstr "vyzkoušet"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:154
-msgid "Client certificate server (Broker MQTT with TLS enabled)"
+#: install/policies/password.php:172
+msgid ""
+"The minimum number of numerical digits required in the password for all "
+"admins or a particular one"
 msgstr ""
-"Server klientského certifikátu (MQTT zprostředkovatel se zapnutým TLS "
-"zabezpečením)"
+"Minimální počet číslic vyžadovaný v hesle pro všechny nebo konkrétního "
+"správce"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:160
-msgid "Use client certificates"
-msgstr "Použít klientské certifikáty"
+#: install/policies/password.php:182
+msgid "Minimum symbols required in password"
+msgstr "Minimální počet symbolů vyžadovaný v hesle"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:171
-msgid "Ssl certificate server for MQTT clients"
-msgstr "Server SSL certifikátu pro MQTT klienty"
+#: install/policies/password.php:192
+msgid ""
+"The minimum number of symbols required in the password for all admins or a "
+"particular one"
+msgstr ""
+"Minimální počet symbolů vyžadovaný v hesle pro všechny nebo konkrétního "
+"správce"
 
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:179
-msgid "https://cert.domain.com/path/to/service"
-msgstr "https://cert.domena.example/umisteni/sluzby"
+#: install/policies/password.php:202
+msgid "Minimum uppercase letters required in password"
+msgstr "Minimální počet velkých písmen vyžadovaný v hesle"
 
-#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
-msgid "There is no agent yet"
-msgstr "Zatím žádný agent"
+#: install/policies/password.php:212
+msgid ""
+"The minimum number of uppercase letters required in the password for all "
+"admins or a particular one"
+msgstr ""
+"Minimální počet velkých písmen potřebných v hesle pro všechny nebo "
+"konkrétního správce"
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
+#: install/policies/password.php:222
+msgid "Maximum failed password attempts for wipe"
+msgstr ""
+"Maximální počet nepodařených pokusů o zadání hesla než bude vymazán obsah "
+"zařízení"
+
+#: install/policies/password.php:232
+msgid "Number of consecutive failed attempts of unlock the device to wipe"
+msgstr ""
+"Maximální počet po sobě jdoucích nepodařených pokusů o odemknutí zařízení "
+"než bude vymazáno jeho úložiště"
+
+#: install/policies/password.php:242
+msgid "Maximum time to lock (milliseconds)"
+msgstr "Maximální čas před uzamčením (milisekundy)"
+
+#: install/policies/password.php:252
+msgid "Maximum time to lock the device in milliseconds"
+msgstr "Maximální čas před uzamčením zařízení v milisekundách"
+
+#: install/policies/password.php:262
+msgid "Reset password"
+msgstr "Resetovat heslo"
+
+#: install/policies/password.php:269
+msgid ""
+"Force a new password for device unlock (the password needed to access the "
+"entire device) or the work profile challenge on the current user. This takes"
+" effect immediately."
+msgstr ""
+"Vynutit nové heslo pro odemknutí zařízení (heslo vyžadováno pro přístup k "
+"celému zařízení) nebo výzva ohledně pracovního profilu pro stávajícího "
+"uživatele. Toto se uplatní okamžitě."
+
+#: install/policies/peripherals.php:39
+msgid "Disable Camera"
+msgstr "Vypnout fotoaparát"
+
+#: install/policies/peripherals.php:46
+msgid "Prevent usage of the Camera"
+msgstr "Zabránit použití fotoaparátu/kamery"
+
+#: install/policies/peripherals.php:55
+msgid "Disable Wifi"
+msgstr "Vypnout Wifi"
+
+#: install/policies/peripherals.php:62
+msgid "Disable wifi connectivity"
+msgstr "Vypnout wifi připojení"
+
+#: install/policies/peripherals.php:71
+msgid "Disable Bluetooth"
+msgstr "Vypnout bluetooth"
+
+#: install/policies/peripherals.php:78
+msgid "Disable Bluetooth connectivity"
+msgstr "Vypnout bluetooth připojení"
+
+#: install/policies/peripherals.php:88 install/policies/peripherals.php:95
+msgid "Disable roaming"
+msgstr "Vypnout roaming"
+
+#: install/policies/peripherals.php:104 install/policies/peripherals.php:111
+msgid "Disable GPS"
+msgstr "Vypnout GPS"
+
+#: install/policies/peripherals.php:120 install/policies/peripherals.php:127
+msgid "Disable Mobile line"
+msgstr "Vypnout mobilní linku"
+
+#: install/policies/peripherals.php:136
+msgid "Disable NFC"
+msgstr "Vypnout NFC"
+
+#: install/policies/peripherals.php:143
+msgid "Disable Near Field Contact"
+msgstr "Vypnout Near Field Contact"
+
+#: install/policies/peripherals.php:152 install/policies/peripherals.php:160
+msgid "Disable hotspot and tethering"
+msgstr "Vypnout mobilní přístupový bod a sdílení připojení"
+
+#: install/policies/peripherals.php:170 install/policies/peripherals.php:177
+msgid "Disable airplane mode"
+msgstr "Vypnout režim letadlo"
+
+#: install/policies/peripherals.php:186
+msgid "Disable speakerphone"
+msgstr "Vypnout hlasitý telefon"
+
+#: install/policies/peripherals.php:193
+msgid "Disable the speakerphone"
+msgstr "Vypnout telefon přes vestavěný reproduktor"
+
+#: install/policies/peripherals.php:202
+msgid "Disable create VPN profiles"
+msgstr "Vypnout vytváření VPN profilů"
+
+#: install/policies/peripherals.php:209
+msgid "Disable creation of VPN profiles"
+msgstr "Znemožnit vytváření VPN profilů"
+
+#: install/policies/phone.php:39 install/policies/phone.php:46
+msgid "Disable SMS and MMS"
+msgstr "Vypnout SMS a MMS"
+
+#: install/policies/usb.php:39
+msgid "Disable USB MTP"
+msgstr "Vypnout USB MTP"
+
+#: install/policies/usb.php:46
+msgid "Disable USB Media Transfer Protocol"
+msgstr "Vypnout protokol pro přenos médií přes USB"
+
+#: install/policies/usb.php:56
+msgid "Disable USB PTP"
+msgstr "Vypnout USB PTP"
+
+#: install/policies/usb.php:63
+msgid "Disable USB Picture Transfer Protocol"
+msgstr "Vypnout protokol přenosu obrázků přes USB"
+
+#: install/policies/usb.php:73
+msgid "Disable USB ADB"
+msgstr "Vypnout USB ADB"
+
+#: install/policies/usb.php:80
+msgid "Disable USB Android Debug Bridge"
+msgstr "Vypnout ladění systému Android přes USB"
+
+#: install/policies/userInterface.php:39
+msgid "Disable status bar"
+msgstr "Vypnout stavovou lištu"
+
+#: install/policies/userInterface.php:46
+msgid ""
+"Disable the status bar. Disabling the status bar blocks notifications, quick"
+" settings and other screen overlays that allow escaping from a single use "
+"device."
+msgstr ""
+"Vypnout stavovou lištu. To zablokuje upozorňování, rychlá nastavení a "
+"ostatní překryvné prvky zobrazení, které by umožnily opustit režim "
+"jednoúčelového zařízení."
+
+#: install/policies/userInterface.php:56
+msgid "Disable screen capture"
+msgstr "Vypnout zachycování snímků obrazovky"
+
+#: install/policies/userInterface.php:63
+msgid ""
+"Disable screen capture. Disabling screen capture also prevents the content "
+"from being shown on display devices that do not have a secure video output."
+msgstr ""
+"Vypnout zachycování snímků obrazovky. To také zabrání ve zobrazování obsahu "
+"na zařízeních, které nemají zabezpečený video výstup."
+
+#: install/policies/userInterface.php:73
+msgid "Disable all sounds"
+msgstr "Vypnout všechny zvuky"
+
+#: install/policies/userInterface.php:80
+msgid "Disable all sounds of device"
+msgstr "Vypnout veškeré zvuky vydávané zařízením"
+
 msgid "Invite users to enroll one device."
 msgstr "Pozvat uživatele aby zaregistrovali jedno zařízení."
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
 msgid ""
 "They will receive an message to their default email address containing a QR "
 "Code and instructions to enroll."
@@ -932,7 +1077,108 @@ msgstr ""
 "Obdrží zprávu na svou výchozí e-mailovou adresu, obsahující QR kód a pokyny "
 "jak se zaregistrovat."
 
-#: /tmp/twig-cache/f9/f95e5fdae58e7d9a3dc74110bc024e6b260312ea4f49d3fbb07e7320b553c888.php:24
+msgid "There is no agent yet"
+msgstr "Zatím žádný agent"
+
+msgid "There is no task status yet"
+msgstr "Doposud není k dispozici stav žádného úkolu"
+
+msgid "Status"
+msgstr "Stav"
+
+msgid "Count"
+msgstr "Počet"
+
+msgid "MQTT broker"
+msgstr "MQTT zprostředkovatel"
+
+msgid "MQTT broker address for clients"
+msgstr "Adresa MQTT zprostředkovatele pro klienty"
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+"IP adresa nebo název stroje používaného klientskými zařízeními pro "
+"komunikaci se zprostředkovatelem"
+
+msgid "MQTT broker address for backend"
+msgstr "Adresa MQTT zprostředkovatele pro serverovou část"
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"IP adresa nebo název stroje používaný serverovou částí pro komunikaci se "
+"zprostředkovatelem"
+
+msgid "MQTT broker port"
+msgstr "Port MQTT zprostředkovatele"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 1883"
+
+msgid "MQTT broker port for TLS"
+msgstr "Port MQTT zprostředkovatele pro TLS"
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 8883"
+
+msgid "Use TLS for clients"
+msgstr "Použít TLS pro klienty"
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a klientskými "
+"zařízeními"
+
+msgid "Use TLS for backend"
+msgstr "Použít TLS pro serverovou část"
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr ""
+"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a serverovou částí"
+
+msgid "CA certificate"
+msgstr "Certifikát cert. autority"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Sada šifer (TLS zabezpečení zapnuto)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Sada šifer MQTT zprostředkovatele"
+
+msgid "test"
+msgstr "vyzkoušet"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr ""
+"Server klientského certifikátu (MQTT zprostředkovatel se zapnutým TLS "
+"zabezpečením)"
+
+msgid "Use client certificates"
+msgstr "Použít klientské certifikáty"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Server SSL certifikátu pro MQTT klienty"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domena.example/umisteni/sluzby"
+
+msgid "There is no agent yet"
+msgstr "Zatím žádný agent"
+
+msgid "Invite users to enroll one device."
+msgstr "Pozvat uživatele aby zaregistrovali jedno zařízení."
+
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Obdrží zprávu na svou výchozí e-mailovou adresu, obsahující QR kód a pokyny "
+"jak se zaregistrovat."
+
 msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
 "settings and the notification settings."
@@ -940,63 +1186,48 @@ msgstr ""
 "GLPI není správně nastaveno. Zkontrolujte obecná nastavení, nastavení API a "
 "upozorňování."
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:23
 msgid "Lock"
 msgstr "Zamknout"
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:35
 msgid "Wipe"
 msgstr "Vymazat obsah zařízení"
 
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:49
 msgid "Unenroll"
 msgstr "Zrušit registraci"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
 msgid "Enrollment"
 msgstr "Registrace"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
 msgid "Enable explicit enrolment failures"
 msgstr "Zapnout podrobnější popis nezdařených registrací"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
 msgid "Disable token expiration on successful enrolment"
 msgstr "Při úspěšné registraci vypnout skončení platnosti tokenu"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
 msgid "Save initial inventory in file"
 msgstr "Uložit počáteční inventuru do souboru"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:63
 msgid "Bug collector"
 msgstr "Shromažďování hlášení chyb"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:69
 msgid "Android bug collector URL"
 msgstr "URL adresa služby pro shromažďování hlášení chyb ze systému Android"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:77
 msgid "https://bugreport.flyvemdm.com/path/to/service"
 msgstr "https://bugreport.flyvemdm.example/umisteni/sluzby"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:83
 msgid "Android bug collector user"
 msgstr "Uživatelský účet na službě shromažďování hlášení chyb z Android"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:95
 msgid "Android bug collector password"
 msgstr "Heslo ke službě shromažďování hlášení chyb z Android"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:109
 msgid "Configuration wizard"
 msgstr "Průvodce nastavením"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:115
 msgid "Enable configuration wizard"
 msgstr "Zapnout průvodce nastavením"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:123
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
@@ -1004,61 +1235,45 @@ msgstr ""
 "Varování: pokud je zásuvný modul už nastaven, opětovné spuštění průvodce "
 "může rozbít komunikaci s už zaregistrovanými zařízeními."
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:129
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:135
 msgid "Revision information"
 msgstr "Informace o revizi"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:24
 msgid "Document types"
 msgstr "Typy dokumentů"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:30
 msgid "Allow upload of APK and UPK files"
 msgstr "Umožnit nahrávání APK a UPK souborů"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:34
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:266
 msgid "add document types"
 msgstr "přidat typy dokumentů"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:41
 msgid "Device type"
 msgstr "Typ zařízení"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:47
 msgid "Computer type for the devices"
 msgstr "Typ počítače pro zařízení"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:58
 msgid "Agent account type"
 msgstr "Typ účtu agenta"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:64
 msgid "Account type for the devices"
 msgstr "Typ účtu pro zařízení"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:75
 msgid "Invitation deeplink"
 msgstr "Dílčí odkaz pozvání"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:81
 msgid "Invitation deeplink URL"
 msgstr "URL adresa dílčího odkazu pozvání"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:90
 msgid "Base URL of the deeplink micro service"
 msgstr "Základ URL adresy mikroslužby dílčího odkazu"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:96
 msgid "Restrictions"
 msgstr "Omezení"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:102
 msgid "Default device limit per entity"
 msgstr "Výchozí limit zařízení na entitu"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:111
 msgid ""
 "No more devices than this quantity are allowed per entity by default (0 = no"
 " limitation)"
@@ -1066,89 +1281,63 @@ msgstr ""
 "Ve výchozím stavu není umožněno více zařízení na jednu entitu, než tento "
 "počet (0 = bez omezení)"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
 msgid "Alias"
 msgstr "Alternativní název"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
 msgid "file size"
 msgstr "velikost souboru"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
 msgid "Package name"
 msgstr "Název balíčku"
 
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
 msgid "Update the package"
 msgstr "Aktualizovat balíček"
 
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
 msgid "Application date"
 msgstr "Datum aplikace"
 
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
 msgid "Last change date"
 msgstr "Datum poslední změny"
 
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
 msgid "apply a policy"
 msgstr "uplatnit zásadu"
 
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:112
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:177
 msgid "Value"
 msgstr "Hodnota"
 
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:84
 msgid "Applied policies"
 msgstr "Uplatněné zásady"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:23
 msgid "Support name"
 msgstr "Jméno podpory"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:45
 msgid "Support address"
 msgstr "Adresa podpory"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:69
 msgid "Support phone"
 msgstr "Telefon podpory"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:93
 msgid "Support website"
 msgstr "Webové stránky podpory"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
 msgid "Support email"
 msgstr "E-mail podpory"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
 msgid "MDM Agent URL"
 msgstr "URL adresa MDM agenta"
 
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
 msgid "Update the file"
 msgstr "Aktualizovat soubor"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:35
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:43
 msgid "Wizard complete"
 msgstr "Průvodce dokončen"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:47
 msgid "This wizard will no longer be accessible."
 msgstr "Tento průvodce už nebude přístupný."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:66
 msgid "Requirements"
 msgstr "Požadavky"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:74
 msgid ""
 "To setup Flyve MDM please connect to your server with a command line "
 "interface. Some operations require a root access."
@@ -1156,21 +1345,17 @@ msgstr ""
 "Pro nastavení Flyve MDM se připojte na příkazový řádek svého serveru. "
 "Některé operace vyžadují přístupová práva na úrovni správce systému."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:78
 msgid "This wizard will guide you through the steps to setup Flyve MDM."
 msgstr "Tento průvodce vás provede kroky nastavení Flyve MDM."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:91
 msgid "Cron Job"
 msgstr "Naplánovaná (cron) úloha"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:98
 msgid "Flyve MDM requires cron job to run automatic actions."
 msgstr ""
 "Flyve MDM potřebuje naplánovanou (cron) úlohu pro spouštění automatických "
 "akcí."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:102
 msgid ""
 "As root in a terminal, execute the following command. Adapt www-data to the "
 "user running your HTTP server."
@@ -1178,11 +1363,9 @@ msgstr ""
 "Jako správce systému (root) spusťte v terminálu následující příkaz. Namísto "
 "www-data zadejte uživatele pod kterým je spuštěný HTTP server."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:106
 msgid "crontab -e -u www-data"
 msgstr "crontab -e -u www-data"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:110
 msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
 "to GLPI:"
@@ -1190,19 +1373,15 @@ msgstr ""
 "Pokud chybí, přidejte následující řádek. Upravte popis umístění "
 "spustitelného souboru php CLI a GLPI:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:115
 msgid ""
 "Automatic actions registered in the scheduler of GLPI will run every minute."
 msgstr ""
 "Automatické akce zaregistrované v plánovači GLPI budou spouštěny každou "
 "minutu."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:128
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:139
 msgid "Email notifications"
 msgstr "Upozorňování e-mailem"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:135
 msgid ""
 "Flyve MDM requires email notifications. The following link will open a new "
 "tab to the email notifications settings."
@@ -1210,7 +1389,6 @@ msgstr ""
 "Flyve MDM potřebuje upozorňování e-mailem. Následující odkaz otevře nový "
 "panel s nastaveními upozorňování e-mailem."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:143
 msgid ""
 "The queuednotification must have set Run mode to CLI. This action will be "
 "triggered by the cron job. The following link will open a new tab to the "
@@ -1220,11 +1398,9 @@ msgstr ""
 "Tato akce bude spuštěna naplánovanou úlohou (cron). Následující odkaz otevře"
 " nový panel se seznamem automatických akcí"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:147
 msgid "Automatic actions"
 msgstr "Automatizované akce"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:151
 msgid ""
 "Ensure the cron job is properly configure by checking the log "
 "glpi/files/_log/cron.log. The entry should contain the word External"
@@ -1233,11 +1409,9 @@ msgstr ""
 " záznamu událostí glpi/files/_log/cron.log. Položka by měla obsahovat slovo "
 "External"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:167
 msgid "REST API"
 msgstr "REST API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:174
 msgid ""
 "Flyve MDM requires REST API enabled. The following link will open a new tab "
 "to the REST API settings."
@@ -1245,31 +1419,24 @@ msgstr ""
 "Flyve MDM vyžaduje zapnuté REST API. Následující odkaz otevře nový panel s "
 "nastaveními REST API."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:178
 msgid "Make sure the following setting is populated:"
 msgstr "Ověřte, že jsou vyplněná následující nastavení:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:182
 msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
 msgstr "- URL adresa API (příklad: https://example.com/glpi/apirest.php/)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:186
 msgid "Make sure the following settings are enabled:"
 msgstr "Ověřte, že jsou zapnutá následující nastavení:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:190
 msgid "- Rest API"
 msgstr "- Rest API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:194
 msgid "- Login with credentials"
 msgstr "- Přihlášení jménem a heslem"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:198
 msgid "- Login with external token"
 msgstr "- Přihlášení vnějším tokenem"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:202
 msgid ""
 "- Add an API client leaving empty IPv4 address range, IPv6 address and "
 "application token."
@@ -1277,16 +1444,12 @@ msgstr ""
 "- Přidejte API klienta opuštěním prázdného IPv4 adresního rozsahu, IPv6 "
 "adresy a tokenu aplikace."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:206
 msgid "API"
 msgstr "API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:219
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:238
 msgid "General setup"
 msgstr "Obecná nastavení"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:226
 msgid ""
 "Flyve MDM needs to know the public URL of GLPI. The following link will open"
 " a new tab to the general setup."
@@ -1294,19 +1457,15 @@ msgstr ""
 "Flyve MDM potřebuje znát veřejnou URL GLPI. Následující odkaz otevře nový "
 "panel s obecnými nastaveními."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:230
 msgid "Make sure the following settings is populated:"
 msgstr "Ověřte, že jsou vyplněná následující nastavení:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:234
 msgid "- URL of the application (example: https://example.com/glpi)"
 msgstr "- URL aplikace (příklad: https://example.com/glpi)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:251
 msgid "Document Types"
 msgstr "Typy dokumentů"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:258
 msgid ""
 "You must add the APK and UPK document types in order to upload Android and "
 "Uhuru packages."
@@ -1314,16 +1473,13 @@ msgstr ""
 "Je třeba přidat typy APK a UPK dokumentů aby fungovalo nahrávání Android a "
 "Uhuru balíčků."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:262
 msgid ""
 "Just click in the following button and they will be automatically added"
 msgstr "Stačí kliknout na následující tlačítko a budou automaticky přidány"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:279
 msgid "Server Configuration"
 msgstr "Nastavení serveru"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:286
 msgid ""
 "Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
 "php.ini allows reasonable upload sizes."
@@ -1331,19 +1487,15 @@ msgstr ""
 "Flyve MDM umožňuje nahrávání souborů, Android a Uhuru Mobile balíčků. "
 "Zajistěte, aby nastavení v php.ini umožňovalo rozumné velikosti nahrávání."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:290
 msgid "For example:"
 msgstr "Například:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:317
 msgid "Fusion Inventory Configuration"
 msgstr "Nastavení Fusion Inventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:324
 msgid "For FusionInventory greater than 9.1 + 1.1:"
 msgstr "Pro FusionInventory novější než 9.1 + 1.1:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:328
 msgid ""
 "It is required to deactivate the Computer constraint (name) rule in the "
 "Equipment import and link rules menu."
@@ -1351,18 +1503,15 @@ msgstr ""
 "Je třeba vypnout pravidlo Computer constraint (název) v nabídce importu "
 "vybavení a pravidel propojování."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:332
 msgid ""
 "The following link will open a new tab to the Rules section of "
 "FusionInventory "
 msgstr ""
 "Následující odkaz otevře nový panel se sekcí pravidel ve FusionInventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:336
 msgid "Rules"
 msgstr "Pravidla"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:340
 msgid ""
 "Not disabling this rule will make FusionInventory reject inventories from "
 "devices."
@@ -1370,11 +1519,9 @@ msgstr ""
 "Nevypnutí tohoto pravidla způsobí, že FusionInventory odmítne inventury ze "
 "zařízení."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:353
 msgid "DBMS access for Mosquitto"
 msgstr "Přístup do databázového systému pro Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:360
 msgid ""
 "Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
 "is for the authentication process of its clients."
@@ -1382,7 +1529,6 @@ msgstr ""
 "Flyve MDM potřebuje aby Mosquitto mělo přístup k databázi GLPI, z důvodu "
 "ověřovacího procesu pro jeho klienty."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:364
 msgid ""
 "It is recommended to create a dedicated user for Mosquitto allowed to "
 "connect only from its specific IP."
@@ -1390,17 +1536,14 @@ msgstr ""
 "Je doporučeno pro Mosquitto vytvořit vyhrazený účet který se bude moci "
 "připojovat pouze z konkrétní IP adresy."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:368
 msgid ""
 "Run the following command on your MySQL host, and adapt the mqtt.server.ip"
 msgstr "Na stroji s MySQL spusťte následující příkaz a upravte mqtt.server.ip"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:373
 msgid "This user should be able to only SELECT the following tables:"
 msgstr ""
 "Tento uživatel by měl být pouze schopen udělat SELECT následujících tabulek:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:379
 msgid ""
 "Run the following commands on your MySQL host, and adapt the name of the "
 "database and the mqtt.server.ip"
@@ -1408,11 +1551,9 @@ msgstr ""
 "Na stroji s MySQL spusťte následující příkazy a upravte název databáze a "
 "mqtt.server.ip"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:385
 msgid "Create the file"
 msgstr "Vytvořit soubor"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:389
 msgid ""
 "Insert the following content, and adapt the bind address to the interface "
 "used by Mosquitto to connect to your DBMS."
@@ -1420,60 +1561,48 @@ msgstr ""
 "Vložte následující obsah a přizpůsobte adresu na kterou navázat na rozhraní "
 "používané Mosquitto pro připojování do databáze."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:396
 msgid ""
 "Restart your DBMS daemon and check it listens to the expected interface."
 msgstr ""
 "Restartujte proces služby databázového systému a ověřte, že očekává spojení "
 "na očekávaném rozhraní."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:401
 msgid ""
 "Check you can login to your DBMD from the host which will run Mosquitto."
 msgstr ""
 "Ověřte že se můžete přihlásit do své databáze ze stroje, na kterém je "
 "provozováno Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:405
-msgid "The following command will ask for the password you choosed earlier"
+msgid "The following command will ask for the password you choose earlier"
 msgstr "Následující příkaz se zeptá na heslo, které jste zvolili předtím"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:419
 msgid "Mosquitto"
 msgstr "Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:426
 msgid "Flyve MDM requires a Message queue server."
 msgstr "Flyve MDM potřebuje server fronty zpráv."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:430
 msgid "Prefer a dedicated server or VM for running Mosquitto."
 msgstr ""
 "Pro provozování Mosquitto je nejlépe použít vyhrazený server nebo virtuální "
 "stroj."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:434
 msgid "As root in a terminal, execute the following command"
 msgstr "Jako správce systému (root) spusťte v terminálu následující příkaz"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:439
 msgid "Create"
 msgstr "Vytvořit"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:443
 msgid "Add the following content, adapting your DBMS credentials:"
 msgstr "Přidejte následující obsah, upravte přihlašovací údaje do databáze:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:459
 msgid "Check Mosquitto is listening to port 1883 (insecure)."
 msgstr ""
 "Zkontrolujte, že Mosquitto očekává spojení na portu 1883 (nezabezpečené)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:472
 msgid "TLS Listener setup"
 msgstr "Nastavení očekávání TLS spojení"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:479
 msgid ""
 "TLS provides security to the communication, through authentication of server"
 " and client, besides data encryption."
@@ -1481,17 +1610,14 @@ msgstr ""
 "TLS poskytuje zabezpečení komunikace, krom šifrování dat dále pomocí "
 "ověřování serveru a klienta."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:483
 msgid "Use TLS version 1.2, lower versions are no longer considered safe."
 msgstr ""
 "Použijte TLS verze 1.2, starší verze už nejsou považovány za bezpečné."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:487
 msgid ""
 "Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
 msgstr "Mosquitto nepodporuje SSLv2 nebo SSLv3 (a ty už nejsou bezpečné)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:491
 msgid ""
 "- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
 "chain and private key."
@@ -1499,15 +1625,12 @@ msgstr ""
 "- Zkopírujte do /etc/mosquitto/certs svůj certifikát, řetěz důvěry své "
 "certifikační autority a soukromou část klíče."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:495
 msgid "- Secure your private key"
 msgstr "- Zabezpečte svůj soukromý klíč"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:501
 msgid "- Refresh hash and symlinks to your certificates"
 msgstr "- Znovunačtěte otisk a symbolické odkazy na své certifikáty"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:506
 msgid ""
 "Use a certificate signed by a certified authority or you may have trouble "
 "with the android devices, using them with custom certification authorities "
@@ -1517,46 +1640,36 @@ msgstr ""
 "android zařízeními, jejich použití s vlastními cert. autoritami nemusí "
 "fungovat (nezkoušeno)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:526
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
 msgstr "Přidejte následující do /etc/mosquitto/conf.d/flyvemdm.conf."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:538
 msgid "- Restart Mosquitto"
 msgstr "- Restartujte Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:542
 msgid "- Test you can successfully connect to Mosquitto"
 msgstr "- Ověřte, že se můžete připojit k Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:547
 msgid ""
 "- Check the ports that Mosquitto listens. You should see only the port 8883."
 msgstr ""
 "- Zkontrolujte na kterých portech Mosquitto očekává spojení. Měli byste "
 "vidět pouze port 8883."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:576
 msgid "Mosquitto client for the backend"
 msgstr "Mosquitto klient pro serverovou část"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:583
 msgid "Flyve MDM requires to connect to Mosquitto."
 msgstr "Flyve MDM se potřebuje připojit do Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:587
 msgid "For SYSV systems, link the init script in /etc/init.d/"
 msgstr "Pro systémy se SYSV, zkopírujte init skript do /etc/init.d/"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:592
 msgid "Check the user configured in the script and adapt it if needed."
 msgstr ""
 "Zkontrolujte uživatele nastaveného ve skriptu a v případě potřeby upravte."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:611
 msgid "Back"
 msgstr "Zpět"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
 msgid "Wizard page:"
 msgstr "Stránka průvodce:"
