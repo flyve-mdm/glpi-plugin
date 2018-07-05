@@ -89,8 +89,6 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @param NotificationTarget $event
     */
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
-      global $CFG_GLPI;
-
       switch ($event->raiseevent) {
          case self::EVENT_GUEST_INVITATION:
             if (isset($event->obj)) {
@@ -104,9 +102,6 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
                ]);
                $document = new Document();
                $document->getFromDB($documentItem->getField('documents_id'));
-
-               // Get the general config of Flyve MDM
-               $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
 
                // Get the entitiy configuration data
                $entityConfig = new PluginFlyvemdmEntityConfig();

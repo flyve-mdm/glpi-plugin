@@ -44,6 +44,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowForFleet':
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
+         case 'testGetAgents':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -58,6 +59,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testShowForFleet':
          case 'testShowDangerZone':
          case 'testPrepareInputForAdd':
+         case 'testGetAgents':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -229,5 +231,16 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $expected,
          "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
       );
+   }
+
+   public function testGetAgents() {
+      $instance = $this->createAgent([]);
+      $agents = [$instance->getID() => $instance];
+      $output = $instance->getAgents();
+      $this->array($output)->size->isEqualTo(count($agents));
+      foreach ($output as $agent) {
+         $this->object($agent)->isInstanceOf(\PluginFlyvemdmAgent::class);
+         $this->boolean(isset($agents[$agent->getID()]))->isTrue();
+      }
    }
 }

@@ -41,8 +41,6 @@ class PluginFlyvemdmGraph extends CommonDBTM
     * @return string HTML snippet for Pie graph
     */
    public function showInvitationsGraph() {
-      $out = '';
-
       $dbUtils = new DbUtils();
 
       $pendingCount = $dbUtils->countElementsInTableForMyEntities(
@@ -97,50 +95,34 @@ class PluginFlyvemdmGraph extends CommonDBTM
       $itemOperatingSystemTable = Item_OperatingSystem::getTable();
       $operatingSystemTable = OperatingSystem::getTable();
       $operatingSystemVersionTable = OperatingSystemVersion::getTable();
-      $entityRestrict = getEntitiesRestrictRequest(" AND ", $computerTable);
+      $DbUtil = new DbUtils();
+      $entityRestrict = $DbUtil->getEntitiesRestrictRequest(" AND ", $computerTable);
       $query = "SELECT
                   `os`.`name` AS `operatingsystem`,
-                  `osv`.`name` AS `version`,
                   COUNT(*) AS `cpt`
                 FROM `$computerTable`
                 LEFT JOIN `$itemOperatingSystemTable` AS `i_os`
                   ON (`i_os`.itemtype = 'Computer' AND `i_os`.`items_id` = `$computerTable`.`id`)
                 LEFT JOIN `$operatingSystemTable` AS `os`
                   ON (`os`.`id` = `i_os`.`operatingsystems_id`)
-                LEFT JOIN `$operatingSystemVersionTable` AS `osv`
-                  ON (`osv`.`id` = `i_os`.`operatingsystemversions_id`)
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
-                GROUP BY `operatingsystem`, `version`";
+                GROUP BY `operatingsystem`";
       $result = $DB->query($query);
       if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
-         $versionNames = [];
-         $versionPerOS = [];
+         $quantityPerOs = [];
          while ($row = $DB->fetch_assoc($result)) {
-            $osNames[$row['operatingsystem']] = $row['operatingsystem'];
-            $versionNames[$row['version']] = $row['version'];
-            $versionPerOS[$row['version']][$row['operatingsystem']] = $row['cpt'];
-         }
-         foreach ($osNames as $osName) {
-            foreach ($versionNames as $versionName) {
-               if (!isset($versionPerOS[$versionName][$osName])) {
-                  $versionPerOS[$versionName][$osName] = '0';
-               }
+            $osNames[] = $row['operatingsystem'];
+            if (isset($quantityPerOs[$row['operatingsystem']])) {
+               $quantityPerOs[$row['operatingsystem']] += $row['cpt'];
+            } else {
+               $quantityPerOs[$row['operatingsystem']] = $row['cpt'];
             }
-         }
-         ksort($versionPerOS);
-         $series = [];
-         foreach ($versionPerOS as $osName => $serie) {
-            ksort($serie);
-            $series[] = [
-               'name'   => $osName,
-               'data'   => array_values($serie),
-            ];
          }
          $out = $this->displayStackedBarGraph(
             __('Devices per operating system version', 'flyvemdm'),
             array_values($osNames),
-            $series,
+            array_values($quantityPerOs),
             [
                'width'     => '100%',
             ],
@@ -164,14 +146,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
     * @param string[] $options  array of options
     * @param boolean  $display  Whether to display directly; defauts to true
     *
-    * @return void
+    * @return string|void
     */
    public function displayStackedBarGraph($title, $labels, $series, $options = null, $display = true) {
       $param = [
          'width'   => 900,
          'height'  => 300,
          'tooltip' => true,
-         'legend'  => true,
+         'legend'  => false,
          'animate' => true
       ];
 
@@ -189,40 +171,14 @@ class PluginFlyvemdmGraph extends CommonDBTM
                   $(function() {
                      var chart_$slug = new Chartist.Bar('#$slug', {
                         labels: ['" . implode('\', \'', Toolbox::addslashes_deep($labels))  . "'],
-                        series: [";
-
-      $first = true;
-      foreach ($series as $serie) {
-         if ($first === true) {
-            $first = false;
-         } else {
-            $out .= ",\n";
-         }
-         if (isset($serie['name'])) {
-            $out .= "{'name': '{$serie['name']}', 'data': [" . implode(', ', $serie['data']) . "]}";
-         } else {
-            $out .= "[" . implode(', ', $serie['data']) . "]";
-         }
-      }
-
-      $out .= "
-                        ]
+                        series: [". implode(', ', $series)  ."]
                      }, {
                         low: 0,
                         showArea: true,
                         width: '{$param['width']}',
                         height: '{$param['height']}',
                         fullWidth: true,
-                        lineSmooth: Chartist.Interpolation.simple({
-                           divisor: 10,
-                           fillHoles: false
-                        }),
-                        stackBars: true,
-                        axisX: {
-                           labelOffset: {
-                              x: -" . mb_strlen($labels[0]) * 7  . "
-                           }
-                        }";
+                        distributeSeries: true";
 
       if ($param['legend'] === true || $param['tooltip'] === true) {
          $out .= ", plugins: [";

@@ -354,18 +354,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
 
       $this->boolean($agent->isNewItem())->isTrue();
-
-      // Check save inventory feature (debug setting)
-      \Config::setConfigurationValues('flyvemdm', ['debug_save_inventory' => '1']);
-
-      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
-      $invitationToken = $invitation->getField('invitation_token');
-      $inviationId = $invitation->getID();
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android');
-      \Config::setConfigurationValues('flyvemdm', ['debug_save_inventory' => '0']);
-
-      $inventoryExists = file_exists(FLYVEMDM_INVENTORY_PATH . "/$invitationToken.xml");
-      $this->boolean($inventoryExists)->isTrue();
    }
 
    /**

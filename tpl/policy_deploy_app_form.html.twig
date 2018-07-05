@@ -1,0 +1,8 @@
+<tr>
+    <td>{{ package.dropdown | raw }}</td> 
+</tr>
+<tr>
+    <td>{{ __('Remove when the policy is removed', 'flyvemdm') }}</td>
+    <td>{{ remove | raw }}</td>
+    <td><input type="hidden" name="itemtype" value="{{ package.itemtype }}" /></td>
+</tr>

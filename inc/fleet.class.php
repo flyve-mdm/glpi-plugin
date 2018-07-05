@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -116,12 +118,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param array $options
     */
    public function showForm($ID, array $options = []) {
+      $DbUtil = new DbUtils();
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
-      $objectName          = autoName($this->fields["name"], "name",
+      $objectName          = $DbUtil->autoName($this->fields["name"], "name",
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
             $this->getType(), -1);
       $fields['name']      = Html::autocompletionTextField($this, 'name',
@@ -174,8 +177,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function pre_deleteItem() {
       // move agents in the fleet into the default one
-      $fleetId = $this->getID();
-      $agent = new PluginFlyvemdmAgent();
       $entityId = $this->fields['entities_id'];
       $defaultFleet = self::getDefaultFleet($entityId);
       $agents = $this->getAgents();
@@ -246,7 +247,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
          'field'              => 'name',
          'name'               => __('Applied policy', 'flyvemdm'),
          'datatype'           => 'dropdown',
@@ -254,7 +255,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'nosort'             => true,
          'joinparams'         => [
             'beforejoin'         => [
-               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'table'           => PluginFlyvemdmTask::getTable(),
                'joinparams'      => [
                   'jointype'     => 'child',
                   'linkfield'    => 'items_id_applied',
@@ -320,14 +321,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       // now the fleet is empty, delete MQTT topcis
-      $table_policy = PluginFlyvemdmPolicy::getTable();
-      $query = "SELECT DISTINCT `group` FROM `$table_policy`";
-      $result = $DB->query($query);
-      if ($result) {
-         $groups = [];
-         while ($row = $DB->fetch_assoc($result)) {
-            $groups[] = $row['group'];
-         }
+      $query = [
+         'SELECT DISTINCT' => 'group',
+         'FROM'            => PluginFlyvemdmPolicy::getTable(),
+      ];
+      $groups = [];
+      foreach ($DB->request($query) as $row) {
+         $groups[] = $row['group'];
       }
       PluginFlyvemdmTask::cleanupPolicies($this, $groups);
    }
@@ -340,16 +340,17 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Unsuscribe all agents from the fleet
       $fleetId = $this->getID();
-      $query = "SELECT `id`
-      FROM `glpi_plugin_flyvemdm_agents`
-      WHERE `glpi_plugin_flyvemdm_agents`.`plugin_flyvemdm_fleets_id` = '$fleetId'";
-
-      if ($result = $DB->query($query)) {
-         while ($row = $DB->fetch_assoc($result)) {
-            $agent = new PluginFlyvemdmAgent();
-            if ($agent->getFromDB($row['id'])) {
-               $agent->unsubscribe();
-            }
+      $query = [
+         'SELECT' => 'id',
+         'FROM'   => PluginFlyvemdmAgent::getTable(),
+         'WHERE'  => [
+            'plugin_flyvemdm_fleets_id' => $fleetId,
+         ],
+      ];
+      foreach ($DB->request($query) as $row) {
+         $agent = new PluginFlyvemdmAgent();
+         if ($agent->getFromDB($row['id'])) {
+            $agent->unsubscribe();
          }
       }
 
@@ -367,12 +368,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array instances of agents belonging to the fleet
     */
    public function getAgents() {
-      $id = $this->getID();
-      if (! ($id > 0)) {
+      if ($this->isNewItem()) {
          return [];
       }
       $agents = [];
       $agent = new PluginFlyvemdmAgent();
+      $id = $this->getID();
       $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$id'");
 
       foreach ($rows as $row) {
@@ -440,8 +441,8 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * Gets the default fleet for an entity
-    * @param string $entityId ID of the entoty to search in
-    * @return PluginFlyvemdmFleet|null
+    * @param string $entityId ID of the entity to search in
+    * @return integer
     */
    public function getFromDBByDefaultForEntity($entityId = null) {
       if ($entityId === null) {
@@ -533,7 +534,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       ];
       foreach ($DB->request($request) as $row) {
          $task->getFromDB($row['id']);
-         $task->publishPolicy($this);
+         try {
+            $task->publishPolicy($this);
+         } catch (TaskPublishPolicyPolicyNotFoundException $exception) {
+            Session::addMessageAfterRedirect(__("Persisted notification not updated.",
+               'flyvemdm'), false, INFO, true);
+         }
       }
    }
 

@@ -32,6 +32,7 @@
 namespace tests\units;
 
 use atoum;
+use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmCommon extends atoum {
 
@@ -62,9 +63,151 @@ class PluginFlyvemdmCommon extends atoum {
     * @tags testGenerateUUID
     */
    public function testGenerateUUID() {
-      $this->given($this->newTestedInstance)
-         ->string($this->testedInstance->generateUUID())
+      $class = $this->testedClass->getClass();
+      $this->string($class::generateUUID())
          ->matches('/\w{8}-\w{4}-4\w{3}-[8,9,A,B]\w{3}-\w{12}/i');
    }
 
+   /**
+    * @return array
+    */
+   protected function resourcesProvider() {
+      $filename = uniqid('file_').'.ext';
+      $dirname = uniqid('folder_');
+      return [
+         'Check file not exist' => [
+            'data'     => [
+               'path'   => '',
+               'file'   => $filename,
+               'delete' => $filename,
+               'create' => false,
+            ],
+            'expected' => true,
+         ],
+         'Delete directory'     => [
+            'data'     => [
+               'path'   => $dirname . '/' . $dirname . '/',
+               'file'   => $filename,
+               'delete' => '../', // top dir name
+               'create' => true,
+            ],
+            'expected' => true,
+         ],
+      ];
+   }
+
+   /**
+    * @tags testRecursiveRmdir
+    * @dataProvider resourcesProvider
+    * @param array $data
+    * @param mixed $expected
+    */
+   public function testRecursiveRmdir($data, $expected) {
+      $class = $this->testedClass->getClass();
+      $fullPath = GLPI_TMP_DIR . '/' . $data['path'];
+      if ($data['create']) {
+         mkdir($fullPath, 0777, true);
+         file_put_contents($fullPath . $data['file'], 'lorem ipsum');
+      }
+      $resource = realpath($fullPath .$data['delete']);
+      $this->boolean($class::recursiveRmdir($resource))->isEqualTo($expected);
+   }
+
+   /**
+    * @tags testIsAPI
+    */
+   public function testIsAPI() {
+      $class = $this->newTestedInstance();
+      $this->boolean($class->isAPI())->isFalse();
+   }
+
+   /**
+    * @tags testGetMax
+    */
+   public function testGetMax() {
+      $class = $this->testedClass->getClass();
+      $item = $this->newMockInstance(\CommonDBTM::class);
+      $item->getMockController()->find = [];
+      $this->variable($class::getMax($item, 'condition', 'fieldname'))->isNull();
+      $item->getMockController()->find = [['fieldname' => 2]];
+      $this->integer($class::getMax($item, 'condition', 'fieldname'))->isEqualTo(2);
+   }
+
+   /**
+    * Used as provider for start/ends with methods
+    * @return array
+    */
+   protected function stringProvider() {
+      return [
+         'Empty needle'  => [
+            'data'     => ['needle' => '', 'haystack' => 'test_string'],
+            'expected' => [true, true],
+         ],
+         'Test needle 1' => [
+            'data'     => ['needle' => 'string', 'haystack' => 'test_string'],
+            'expected' => [false, true],
+         ],
+         'Test needle 2' => [
+            'data'     => ['needle' => 'test', 'haystack' => 'test_string'],
+            'expected' => [true, false],
+         ],
+      ];
+   }
+
+   /**
+    * @tags testStartsWith
+    * @dataProvider stringProvider
+    * @param array $data
+    * @param mixed $expected
+    */
+   public function testStartsWith($data, $expected) {
+      $class = $this->testedClass->getClass();
+      $this->boolean($class::startsWith($data['haystack'],
+         $data['needle']))->isEqualTo($expected[0]);
+   }
+
+   /**
+    * @tags testEndsWith
+    * @dataProvider stringProvider
+    * @param array $data
+    * @param mixed $expected
+    */
+   public function testEndsWith($data, $expected) {
+      $class = $this->testedClass->getClass();
+      $this->boolean($class::endsWith($data['haystack'],
+         $data['needle']))->isEqualTo($expected[1]);
+   }
+
+   /**
+    * @tags testParseXML
+    */
+   public function testParseXML() {
+      $class = $this->testedClass->getClass();
+
+      // invalid XML
+      $this->boolean($class::parseXML('loremIpsum'))->isFalse();
+
+      $xml = base64_decode(CommonTestCase::AgentXmlInventory(uniqid('sn')));
+
+      // using non UTF8 charset
+      $this->object($class::parseXML(iconv("UTF-8", "ISO-8859-1",
+         $xml)))->isInstanceOf('\SimpleXMLElement');
+      $this->object($class::parseXML($xml))->isInstanceOf('\SimpleXMLElement');
+
+      // valid XML
+      $this->object($class::parseXML($xml))->isInstanceOf('\SimpleXMLElement');
+   }
+
+   /**
+    * @tags testSaveInventoryFile
+    */
+   public function testSaveInventoryFile() {
+      $class = $this->testedClass->getClass();
+      $filename = uniqid('invitation');
+      $fileContent = 'loremIpsum';
+      $class::saveInventoryFile($fileContent, $filename);
+      $inventoryExists = file_get_contents(FLYVEMDM_INVENTORY_PATH . "/debug_" . $filename . ".xml");
+      $class::recursiveRmdir(FLYVEMDM_INVENTORY_PATH);
+      $this->string($inventoryExists)->isEqualTo($fileContent);
+   }
 }

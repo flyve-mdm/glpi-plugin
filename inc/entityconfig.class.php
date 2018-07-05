@@ -375,7 +375,6 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
    public function showFormForEntity(Entity $item) {
       $ID = $item->fields['id'];
       if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
-         $toAdd = array_flip($this->inheritableFields);
          $this->add(['id' => $ID]);
          // To set virtual fields about inheritance
          $this->post_getFromDB();

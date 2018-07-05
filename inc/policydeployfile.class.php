@@ -238,7 +238,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          return false;
       }
 
-      $task = new PluginFlyvemdmTask();
       // Ensure there is a trailing slash
       if (strrpos($value['destination'], '/') != strlen($value['destination']) - 1) {
          $value['destination'] .= '/';
@@ -267,6 +266,9 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmFile::class;
+      $removeOnDelete = 1;
+      $destination_base = '';
+      $destination = '';
       if ($value !== '') {
          $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
          $removeOnDelete = $value['remove_on_delete'];
@@ -276,34 +278,38 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          }
          $destination = substr($value['destination'], $cut);
          $destination_base = substr($value['destination'], 0, $cut);
-      } else {
-         $removeOnDelete = 1;
-         $destination_base = '';
-         $destination = '';
       }
-      $out = PluginFlyvemdmFile::dropdown([
+      $filesDropdown = PluginFlyvemdmFile::dropdown([
          'display'   => false,
          'name'      => 'items_id',
          'value'     => $itemId,
       ]);
-      $out .= '<br>';
-      $out .= __('copy to', 'flyvemdm');
-      $out .= '<br>';
+
+      //Copy to
       $path = new PluginFlyvemdmWellknownpath();
       $path->getFromDBByPath($destination_base);
-      $out .= PluginFlyvemdmWellknownpath::dropdown([
+
+      $knownPathDropdown = PluginFlyvemdmWellknownpath::dropdown([
          'display'   => false,
          'name'      => 'destination_base',
          'value'     => $path->getID(),
       ]);
-      $out .= '<input type="text" name="value[destination]" value="' . $destination . '" />';
-      $out .= '<br>';
-      $out .= __('Remove when the policy is removed', 'flyvemdm');
-      $out .= "&nbsp;&nbsp;" . Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false]);
-      //$out .= '<input type="hidden" name="value[remove_on_delete]" value="' . $removeOnDelete . '" />';
-      $out .= '<input type="hidden" name="itemtype" value="' . $itemtype . '" />';
 
-      return $out;
+      $removeDropdown = Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete,
+                                                -1, ['display' => false]);
+
+      $data = [
+            'files'         => [
+                  'dropdown'        => $filesDropdown,
+                  'itemtype'        => $itemtype,
+                  'knownPath'       => $knownPathDropdown,
+                  'destination'     => $destination,
+            ],
+            'remove'       =>  $removeDropdown,
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      return $twig->render('policy_deploy_file_form.html.twig', $data);
    }
 
    /**

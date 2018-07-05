@@ -310,11 +310,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      if (isset($_GET["start"])) {
-         $start = intval($_GET["start"]);
-      } else {
-         $start = 0;
-      }
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
 
       $dbUtils = new DbUtils();
 
@@ -488,12 +484,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // send wipe to the agent
       if (isset($input['wipe']) && $input['wipe'] != '0') {
-         $input['wipe'] == '1';
+         $input['wipe'] = '1';
       }
 
       // send lock to the agent
       if (isset($input['lock']) && $input['lock'] != '0') {
-         $input['lock'] == '1';
+         $input['lock'] = '1';
       }
 
       if (array_key_exists('lock', $input)
@@ -565,10 +561,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      global $DB;
-
-      $success = false;
-
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -710,20 +702,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       global $DB;
 
       $notifiableId = $notifiable->getID();
+      $taskStatusTable = PluginFlyvemdmTaskstatus::getTable();
+      $taskTable = PluginFlyvemdmTask::getTable();
       $request = [
-         'SELECT' => PluginFlyvemdmTaskstatus::getTable() . '.*',
-         'FROM' =>  PluginFlyvemdmTaskstatus::getTable(),
+         'SELECT'     => $taskStatusTable . '.*',
+         'FROM'       => $taskStatusTable,
          'INNER JOIN' => [
-            PluginFlyvemdmTask::getTable() => [
+            $taskTable => [
                'FKEY' => [
-                  PluginFlyvemdmTask::getTable() => 'id',
-                  PluginFlyvemdmTaskstatus::getTable() => PluginFlyvemdmTask::getForeignKeyField()
-               ]
-            ]
+                  $taskTable       => 'id',
+                  $taskStatusTable => PluginFlyvemdmTask::getForeignKeyField(),
+               ],
+            ],
          ],
-         'WHERE' => [
-            'items_id_applied' => [$notifiableId]
-         ]
+         'WHERE'      => [
+            'items_id_applied' => [$notifiableId],
+         ],
       ];
       $status = new PluginFlyvemdmTaskstatus();
       foreach ($DB->request($request) as $row) {
@@ -773,7 +767,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'table'              => PluginFlyvemdmFleet::getTable(),
          'field'              => 'name',
          'name'               => __('Fleet', 'flyvemdm'),
          'datatype'           => 'dropdown'
@@ -781,7 +775,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '4',
-         'table'              => 'glpi_computers',
+         'table'              => Computer::getTable(),
          'field'              => 'id',
          'name'               => __('Computer'),
          'datatype'           => 'dropdown',
@@ -790,7 +784,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '7',
-         'table'              => 'glpi_plugin_flyvemdm_fleets',
+         'table'              => PluginFlyvemdmFleet::getTable(),
          'field'              => 'id',
          'name'               => __('Fleet - ID'),
          'massiveaction'      => false,
@@ -820,7 +814,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'is_online',
          'name'               => __('Is online', 'flyvemdm'),
-         'datatype'           => 'bool',
+         'datatype'           => 'specific',
          'massiveaction'      => false
       ];
 
@@ -871,7 +865,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '17',
-         'table'              => 'glpi_entities',
+         'table'              => Entity::getTable(),
          'field'              => 'completename',
          'name'               => __('Entity'),
          'datatype'           => 'dropdown'
@@ -879,7 +873,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $tab[] = [
          'id'                 => '18',
-         'table'              => 'glpi_plugin_flyvemdm_policies',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
          'field'              => 'name',
          'name'               => __('Applied policy', 'flyvemdm'),
          'datatype'           => 'dropdown',
@@ -887,7 +881,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'nosort'             => true,
          'joinparams'         => [
             'beforejoin'         => [
-               'table'           => 'glpi_plugin_flyvemdm_tasks',
+               'table'           => PluginFlyvemdmTask::getTable(),
                'joinparams'      => [
                   'jointype'     => 'child',
                   'linkfield'    => 'items_id_applied',
@@ -1129,8 +1123,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      // @see fusioninventory/inc/communication.class.php
-      $parsedXml = @simplexml_load_string($inventory, 'SimpleXMLElement', LIBXML_NOCDATA);
+      if ($config['debug_save_inventory'] != '0') {
+         PluginFlyvemdmCommon::saveInventoryFile($inventory, $invitationToken);
+      }
+      $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
          $this->filterMessages($event);
@@ -1212,10 +1208,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
-      if (version_compare(GLPI_VERSION, '9.3-dev') < 0) {
-         $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
-      } else {
-         $condition = [User::getTable() . '.id' => $invitation->getField('users_id')];
+      $userTable = User::getTable();
+      $condition = $userTable.".`id`='" . $invitation->getField('users_id') . "'";
+      if (version_compare(GLPI_VERSION, '9.3-dev') >= 0) {
+         $condition = [$userTable . '.id' => $invitation->getField('users_id')];
       }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
@@ -1228,6 +1224,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $entityId = $invitation->getField('entities_id');
 
       //sign the agent's certificate (if TLS enabled)
+      $input['certificate'] = '';
       if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
@@ -1238,8 +1235,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
          $input['certificate'] = $crt;
-      } else {
-         $input['certificate'] = '';
       }
 
       // Prepare invitation update
@@ -1263,12 +1258,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       // Create the device
-      if ($config['debug_save_inventory'] != '0') {
-         if (!is_dir(FLYVEMDM_INVENTORY_PATH)) {
-            @mkdir(FLYVEMDM_INVENTORY_PATH, 0770, true);
-         }
-         file_put_contents(FLYVEMDM_INVENTORY_PATH . "/$invitationToken.xml", $inventory);
-      }
       $pfCommunication = new PluginFusioninventoryCommunication();
       $pfAgent = new PluginFusioninventoryAgent();
       $_SESSION['glpi_fusionionventory_nolock'] = true;
@@ -1782,6 +1771,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
                $mqttUser = new PluginFlyvemdmMqttuser();
                $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
                if (!$mqttUser->getByUser($serial)) {
                   // The user does not exists
                   $mqttUser->add([
@@ -1825,10 +1815,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function filterMessages($error) {
       $config = Config::getConfigurationValues('flyvemdm', ['debug_enrolment']);
       if ($config['debug_enrolment'] == 0) {
-         Session::addMessageAfterRedirect(__('Enrollment failed', 'flyvemdm'), false, ERROR);
-      } else {
-         Session::addMessageAfterRedirect($error, false, ERROR);
+         $error = __('Enrollment failed', 'flyvemdm');
       }
+      Session::addMessageAfterRedirect($error, false, ERROR);
    }
    /**
     * Logs invitation events
@@ -1980,18 +1969,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return Mixed           Value to be displayed
     */
    public static function getSpecificValueToDisplay($field, $values, array $options = []) {
-      global $CFG_GLPI;
       if (!is_array($values)) {
          $values = [$field => $values];
       }
       switch ($field) {
          case 'is_online':
             if (!isAPI()) {
-               if ($values[$field] == 0) {
-                  $class = "plugin-flyvemdm-offline";
-               } else {
-                  $class = "plugin-flyvemdm-online";
-               }
+               $class = $values[$field] == 0 ? "plugin-flyvemdm-offline" : "plugin-flyvemdm-online";
                $output = '<div style="text-align: center"><i class="fa fa-circle '
                   . $class
                   . '" aria-hidden="true" ></i></div>';

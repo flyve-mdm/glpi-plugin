@@ -36,7 +36,7 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginFlyvemdmPackage extends CommonDBTM {
+class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
 
    /**
     * @var string $rightname name of the right in DB
@@ -132,7 +132,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
-      $objectName = autoName(
+      $DbUtil = new DbUtils();
+      $objectName = $DbUtil->autoName(
          $this->fields['name'], 'name',
          (isset($options['withtemplate']) && $options['withtemplate'] == 2),
          $this->getType(), -1
@@ -258,7 +259,8 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          if (isAPI()
             && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
                || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
-            $this->sendFile(); // and terminate script
+            $this->sendFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'],
+               $this->fields['dl_filename'], $this->fields['filesize']); // and terminate script
          }
       }
    }
@@ -289,25 +291,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
          return;
       }
 
-      $itemtype = $this->getType();
-      $itemId = $this->getID();
-
-      $task = new PluginFlyvemdmTask();
-      $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-      foreach ($tasks as $taskId => $taskRow) {
-         $notifiableType = $taskRow['itemtype_applied'];
-         $notifiable = new $notifiableType();
-         $notifiableId = $taskRow['items_id_applied'];
-         if ($notifiable->getFromDB($notifiableId)) {
-            Toolbox::logInFile('php-errors',
-               "Plugin Flyvemdm : Could not find notifiable id = '$notifiableId'");
-            continue;
-         }
-         if ($task->getFromDB($taskId)) {
-            $task->publishPolicy($notifiable);
-            $task->createTaskStatuses($notifiable);
-         }
-      }
+      $this->deployNotification(new PluginFlyvemdmTask);
 
       // File updated, then scan it again
       $this->createOrionReport();
@@ -328,20 +312,7 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'];
-      if (is_writable($filename)) {
-         unlink($filename);
-      }
-   }
-
-   /**
-    * Create a directory
-    * @param string $dir
-    */
-   protected function createEntityDirectory($dir) {
-      if (!is_dir($dir)) {
-         @mkdir($dir, 0770, true);
-      }
+      $this->unlinkLocalFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
    }
 
    /**
@@ -398,101 +369,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
    }
 
    /**
-    * Get the download URL for the application
-    * @return boolean|string
-    */
-   public function getFileURL() {
-      $config = Config::getConfigurationValues('flyvemdm', ['deploy_base_url']);
-      $deployBaseURL = $config['deploy_base_url'];
-
-      if ($deployBaseURL === null) {
-         return false;
-      }
-
-      $URL = $deployBaseURL . '/package/' . $this->fields['filename'];
-      return $URL;
-   }
-
-   /**
-    * Sends a file
-    */
-   protected function sendFile() {
-      $streamSource = GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'];
-
-      if (!file_exists($streamSource) || !is_file($streamSource)) {
-         header("HTTP/1.0 404 Not Found");
-         exit(0);
-      }
-
-      $size = $this->fields['filesize'];
-      $begin = 0;
-      $end = $size - 1;
-      $mimeType = 'application/octet-stream';
-      $time = date('r', filemtime($streamSource));
-
-      $fileHandle = @fopen($streamSource, 'rb');
-      if (!$fileHandle) {
-         header("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      if (isset($_SERVER['HTTP_RANGE'])) {
-         $matches = null;
-         if (preg_match('/bytes=\h*(\d+)?-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
-            if (!empty($matches[1])) {
-               $begin = intval($matches[1]);
-            }
-            if (!empty($matches[2])) {
-               $end = min(intval($matches[2]), $end);
-            }
-         }
-      }
-
-      // seek to the begining of the range
-      $currentPosition = $begin;
-      if (fseek($fileHandle, $begin, SEEK_SET) < 0) {
-         header("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      // send headers to ensure the client is able to detect an corrupted download
-      // example : less bytes than the expected range
-      header("Expires: Mon, 26 Nov 1962 00:00:00 GMT");
-      header('Pragma: private'); /// IE BUG + SSL
-      header('Cache-control: private, must-revalidate'); /// IE BUG + SSL
-      header("Content-disposition: attachment; filename=\"" . $this->fields['dl_filename'] . "\"");
-      header("Content-type: $mimeType");
-      header("Last-Modified: $time");
-      header('Accept-Ranges: bytes');
-      header('Content-Length:' . ($end - $begin + 1));
-      header("Content-Range: bytes $begin-$end/$size");
-      header("Content-Transfer-Encoding: binary\n");
-      header('Connection: close');
-
-      $httpStatus = 'HTTP/1.0 200 OK';
-      if ($begin > 0 || $end < $size - 1) {
-         $httpStatus = 'HTTP/1.0 206 Partial Content';
-      }
-      header($httpStatus);
-
-      // Sends bytes until the end of the range or connection closed
-      while (!feof($fileHandle) && $currentPosition < $end && (connection_status() == 0)) {
-         // allow a few seconds to send a few KB.
-         set_time_limit(10);
-         $content = fread($fileHandle, min(1024 * 16, $end - $currentPosition + 1));
-         if ($content === false) {
-            header("HTTP/1.0 500 Internal Server Error", true); // Replace previously sent headers
-            exit(0);
-         }
-         print $content;
-         flush();
-         $currentPosition += 1024 * 16;
-      }
-
-      exit(0);
-   }
-
-   /**
     * get Cron description parameter for this class
     *
     * @param $name string name of the task
@@ -519,8 +395,6 @@ class PluginFlyvemdmPackage extends CommonDBTM {
     */
    public static function cronParseApplication(CronTask $crontask) {
       global $DB;
-
-      $cronStatus = 0;
 
       $request = [
          'FROM'  => static::getTable(),
