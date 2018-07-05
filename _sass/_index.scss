@@ -86,9 +86,9 @@
 
 #ghost-menu{
 
-  visibility: hidden;
-  position: fixed;
-  top: 0;
+  /*visibility: hidden;*/
+  /*position: fixed;*/
+  top: -20px;
   z-index: 10;
   width: 100%;
   overflow: hidden;
@@ -100,7 +100,16 @@
 .ghost-menu-icons {
 
   float: right;
-  margin-left: 5px;
+  padding-left: 5px;
+  margin-left: 0px;
+
+}
+
+.apparition{
+
+  /*visibility: visible;*/
+  position: fixed;
+  top: 0;
 
 }
 
