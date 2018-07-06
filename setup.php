@@ -201,7 +201,7 @@ function plugin_version_flyvemdm() {
       'author'         => $author,
       'license'        => 'AGPLv3+',
       'homepage'       => 'https://flyve-mdm.com/',
-      'minGlpiVersion' => $glpiVersion,
+      'minGlpiVersion' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION,
       'requirements'   => [
          'glpi' => [
             'min' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION,
@@ -230,7 +230,7 @@ function plugin_version_flyvemdm() {
       ]
     ];
 
-    if (PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
+   if (PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
       // This is not a development version
       $requirements['requirements']['glpi']['max'] = PLUGIN_FLYVEMDM_GLPI_MAX_VERSION;
    }
@@ -251,7 +251,8 @@ function plugin_flyvemdm_check_prerequisites() {
       $prerequisitesSuccess = false;
    }
 
-   if (version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt') || version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
+   if (version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MIN_VERSION, 'lt')
+       || PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE && version_compare(GLPI_VERSION, PLUGIN_FLYVEMDM_GLPI_MAX_VERSION, 'ge')) {
       echo "This plugin requires GLPi >= " . PLUGIN_FLYVEMDM_GLPI_MIN_VERSION . " and GLPI < " . PLUGIN_FLYVEMDM_GLPI_MAX_VERSION . "<br>";
       $prerequisitesSuccess = false;
    }
