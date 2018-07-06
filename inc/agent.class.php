@@ -1312,18 +1312,29 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'users_id'         => $userId,
       ]);
 
+      // Awful hack because the current user profile does not
+      // have more rights than the profile of the agent.
+      // @see User::post_addItem()
+      // @see Profle::currentUserHaveMoreRightThan()
+      // @see Profile::getUnderActiveProfileRestrictRequest()
+      $backupProfileRight = $_SESSION['glpiactiveprofile']['profile'];
+      $_SESSION['glpiactiveprofile']['profile'] = $_SESSION['glpiactiveprofile']['profile'] | CREATE;
+
       //create agent user account
       $agentAccount = new User();
       $agentAccount->add([
          'usercategories_id' => $config['agentusercategories_id'],
          'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
          'realname'          => $serial,
+         'profiles_id'       => $config['agent_profiles_id'],
          '_profiles_id'      => $config['agent_profiles_id'],
-         'profiles_id'       => $config['agent_profiles_id'], // Default profile when user logs in
          '_entities_id'      => $entityId,
          '_is_recursive'     => 0,
          'authtype'          => Auth::DB_GLPI,
       ]);
+
+      // End of awful hack !
+      $_SESSION['glpiactiveprofile']['profile'] = $backupProfileRight;
 
       if ($agentAccount->isNewItem()) {
          $event = __('Cannot create a user account for the agent', 'flyvemdm');
@@ -1331,14 +1342,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
-
-      // Awful hack because the current user profile does not
-      // have more rights than the profile of the agent.
-      // @see User::post_addItem
-      $profileId = $config['agent_profiles_id'];
-      $agentUserId = $agentAccount->getID();
-      $DB->query("UPDATE `glpi_profiles_users` SET `profiles_id` = '$profileId'
-                  WHERE `users_id` = '$agentUserId'");
 
       $agentToken = User::getToken($agentAccount->getID(), 'api_token');
       if ($agentToken === false) {
