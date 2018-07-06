@@ -54,7 +54,10 @@ class PluginFlyvemdmGraph extends CommonDBTM
       );
 
       if (($pendingCount + $doneCount) == 0) {
-         return '';
+         return '<h2 class="center">' . __('Invitations', 'flyvemdm')
+            . '</h2><br><div class="center">'
+            . __('No invitations stats available, send one first.', 'flyvemdm')
+            . '</div>';
       }
 
       $stat = new Stat();
@@ -108,6 +111,15 @@ class PluginFlyvemdmGraph extends CommonDBTM
                 WHERE `$computerTable`.`computertypes_id` = '$computerTypeId' $entityRestrict
                 GROUP BY `operatingsystem`";
       $result = $DB->query($query);
+
+      if ($DB->numrows($result) == 0) {
+         return '<h2 class="center">' . __('Devices per operating system version', 'flyvemdm')
+            . '</h2><br><div class="center">'
+            . __('No devices stats available, enrol or import your mobile computer assets first',
+               'flyvemdm')
+            . '</div>';
+      }
+
       if ($result && $DB->numrows($result) > 0) {
          $osNames = [];
          $quantityPerOs = [];
