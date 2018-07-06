@@ -24,6 +24,7 @@ php:
 
 allow_failures:
   - php: nightly
+  - env: GLPI_BRANCH=master
 
 before_install:
   - "./tests/before_install.sh"
