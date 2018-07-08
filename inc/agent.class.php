@@ -1326,8 +1326,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'usercategories_id' => $config['agentusercategories_id'],
          'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
          'realname'          => $serial,
-         'profiles_id'       => $config['agent_profiles_id'],
          '_profiles_id'      => $config['agent_profiles_id'],
+         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
          '_entities_id'      => $entityId,
          '_is_recursive'     => 0,
          'authtype'          => Auth::DB_GLPI,
