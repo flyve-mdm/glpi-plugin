@@ -47,6 +47,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       parent::beforeTestMethod($method);
       $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
+      switch ($method) {
+         case 'testDeviceCountLimit':
+            \Session::changeActiveEntities(1, true);
+            break;
+      }
    }
 
    public function afterTestMethod($method) {
@@ -92,7 +97,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ->isGreaterThan(0, json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       }
 
-      // One nore enrollment
+      // One more enrollment
       $agentId = $this->loginAndAddAgent($invitationData[$i]);
       // Device limit reached : agent creation should fail
       $this->boolean($agentId)->isFalse();

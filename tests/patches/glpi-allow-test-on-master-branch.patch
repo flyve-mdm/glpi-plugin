@@ -1,13 +1,12 @@
 diff --git a/setup.php b/setup.php
-index eed6660..1f065eb 100644
+index eed6660..79c56de 100644
 --- a/setup.php
 +++ b/setup.php
-@@ -209,7 +209,7 @@ function plugin_version_flyvemdm() {
-       'requirements'   => [
-          'glpi' => [
-             'min' => $glpiVersion,
--            'max' => PLUGIN_FLYVEMDM_GLPI_MAX_VERSION,
-+            'max' => '9.5',
-             'dev' => PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE == false,
-             'plugins'   => [
-                'fusioninventory',
+@@ -35,7 +35,7 @@ define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
+ // Minimal GLPI version, inclusive
+ define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.2');
+ // Maximum GLPI version, exclusive
+-define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.4');
++define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.5');
+
+ define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');

@@ -202,4 +202,9 @@ class PluginFlyvemdmCommon
       file_put_contents(FLYVEMDM_INVENTORY_PATH . "/debug_" . $filename . ".xml", $content);
    }
 
+   public static function getGlpiVersion() {
+      return defined('GLPI_PREVER')
+             ? GLPI_PREVER
+             : GLPI_VERSION;
+   }
 }
