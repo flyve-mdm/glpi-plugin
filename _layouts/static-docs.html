@@ -13,7 +13,7 @@ layout: default
     </div>
 </div>
 
-<p class="goHome container" style="padding: 4% 0 0 2%">
+<p class="goHome container" style="padding: 4% 0 0 1%">
   {% if page.howtos %}
     <a href="{{ "howtos" | absolute_url }}">
   {% elsif page.code %}
@@ -27,14 +27,14 @@ layout: default
 
 <article class="post container" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header" style="padding-left: 3%">
+  <header class="post-header" style="padding-left: 3%; border-bottom-style: inset; border-bottom-color: #158784; border-bottom-width: 1px">
     <div class="row">
       <div class="col-xs-24">
-        <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
+        <h1 class="post-title" itemprop="name headline" style="padding-top: 3%">{{ page.title | escape }}</h1>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-7">
+      <div class="col-xs-7" style="padding: 0 0 2% 2%">
         <p class="post-meta">
           <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
             {% assign date_format = site.date_format | default: "%b %-d, %Y" %}
@@ -73,11 +73,11 @@ layout: default
 
   </header>
 
-  <div class="post-content row type-p2 p-size6" itemprop="articleBody" style="padding: 0 0 6% 5%">
+  <div class="post-content row type-p2 p-size6" itemprop="articleBody" style="padding: 0 0 6% 5%; border-bottom-style: dashed; border-bottom-color: #158784; border-bottom-width: 1px">
     {{ content }}
   </div>
 
-  <blockquote class="type-p2" style="margin: 0 0 5% 1%">
+  <blockquote class="type-p2" style="margin: 3% 0 5% 1%">
     Have feedback on this post? Let <a href="https://twitter.com/{{ site.twitter }}">@{{ site.twitter }}</a> know on Twitter.
     <br/>
     <br/>
