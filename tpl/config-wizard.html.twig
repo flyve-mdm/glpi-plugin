@@ -37,7 +37,7 @@
 			<td>
 				<p>{{ __('Flyve MDM requires cron job to run automatic actions.', 'flyvemdm') }}</p>
 				<p>{{ __('As root in a terminal, execute the following command. Adapt www-data to the user running your HTTP server.', 'flyvemdm') }}</p>
-				<p>{{ __('crontab -e -u www-data', 'flyvemdm') }}</p>
+				<p>crontab -e -u www-data</p>
 				<p>{{ __('Add, if missing, the following line. Adapt path to php CLI binary and path to GLPI:', 'flyvemdm') }}</p>
 				<p>*/1 * * * * /usr/bin/php /var/www/html/glpi/front/cron.php &amp;>/dev/null</p>
 				<p>{{ __('Automatic actions registered in the scheduler of GLPI will run every minute.', 'flyvemdm') }}</p>
@@ -131,9 +131,9 @@ upload_max_filesize = 8M
 			<td>
 				<p>{{ __('For FusionInventory greater than 9.1 + 1.1:', 'flyvemdm') }}</p>
 				<p>{{ __('It is required to deactivate the following rules in the Equipment import and link rules menu: ', 'flyvemdm') }}</p>
-				<p>{{ __('- Computer constraint (name)', 'flyvemdm') }}</p>
-				<p>{{ __('- Computer update (by name)', 'flyvemdm') }}</p>
-				<p>{{ __('- Computer import (by name)', 'flyvemdm') }}</p>
+				<p>- Computer constraint (name)</p>
+				<p>- Computer update (by name)</p>
+				<p>- Computer import (by name)</p>
 				<p>{{ __('The following link will open a new tab to the Rules > Equipment import and link rules section of FusionInventory ', 'flyvemdm') }}</p>
 				<p><a href="../../../plugins/fusioninventory/front/inventoryruleimport.php" target="_blank">{{ __('Rules', 'flyvemdm' )}}</a></p>
 				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
