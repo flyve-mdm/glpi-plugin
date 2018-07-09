@@ -138,7 +138,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       if (!Session::haveRight(static::$rightname,
          PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
-         Session::addMessageAfterRedirect(__('You are not allowed to download URL of the MDM agent', 'flyvemdm'), false, WARNING);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the download URL of the MDM agent', 'flyvemdm'), false, WARNING);
          $failure = true;
       }
 
