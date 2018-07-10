@@ -1,3 +1,21 @@
+/********************/
+/**PARALLAX EFFECT**/
+/******************/
+
+.parallax{
+
+  background-image: url("/glpi-plugin/images/business4.jpg");
+  height: 100%;
+
+  background-attachment: fixed;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+
+}
+
+
+
 /*********************/
 /***NAVIGATION MENU***/
 /*********************/
@@ -86,9 +104,8 @@
 
 #ghost-menu{
 
-  /*visibility: hidden;*/
-  /*position: fixed;*/
-  top: -20px;
+  position: fixed;
+  top: 0px;
   z-index: 10;
   width: 100%;
   overflow: hidden;
@@ -105,11 +122,9 @@
 
 }
 
-.apparition{
+#ghost-menu .navbar-brand {
 
-  /*visibility: visible;*/
-  position: fixed;
-  top: 0;
+  padding-left: 14px;
 
 }
 

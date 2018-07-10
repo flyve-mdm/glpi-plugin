@@ -1,31 +1,29 @@
-//MAKES THE GHOST MENU APPEAR WHEN THE USER SCROLLS DOWN
+//MAKES THE GHOST MENU APPEAR WHEN THE USER SCROLLS DOWN MORE THAN 200 PIXELS
 
-window.onscroll = function() {ghostmenu2()}
+//Hides the ghost menu when the page loads
+$(document).ready(function(){
 
-var header = document.getElementById("ghost-menu");
+  $("#ghost-menu").hide();
 
-var sticky = header.offsetTop;
+});
 
-function ghotsmenu2(){
+//If the user scrolls down more than 200 pixels the ghost menu will show up. if the user scrolls back up to less than 200 pixels from the top the ghost menu will hide
+var apparition = false;
 
-  if(sticky > 100){
+$(window).scroll(function(){
 
-   alert("good one");
+  var scrolled = $(window).scrollTop()>200;
 
-  }
+  if (scrolled && !apparition) {
 
-}
+   apparition = true;
+   $("#ghost-menu").show(50);
 
-function ghostmenu(){
+ } else if (apparition && !scrolled){
 
-  if (window.pageYOffset > sticky) {
+  apparition = false;
+  $("#ghost-menu").hide();
 
-    header.classList.add("apparition");
+ }
 
-  } else {
-
-    header.classList.remove("apparition");
-
-  }
-
-}
+})
