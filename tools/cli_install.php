@@ -48,10 +48,10 @@ Options:
    --enable-email                               Enable GLPI's email notification
    --tests                                      Use GLPI test database
    --dev                                        Change the Agent download URL for the Beta testing url
-   --mqtt-address MQTTADDRESS                   Change the address for Mosquitto MQTTADDRESS. This parameter can be [ IP Address/Hostname ]
-   --mqtt-internal-address MQTTINTERNALADDRESS  Change the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
-   --mqtt-port MQTTPORT                         Change the Lisen Port for Mosquitto MQTTPORT
-   --mqtt-port-tls MQTTPORTTLS                  Change the Lisen Port TLS for Mosquitto MQTTPORTTLS
+   --mqtt-address MQTTADDRESS                   Sets the address for Mosquitto MQTTADDRESS. This parameter can be [ IP Address/Hostname ]
+   --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
+   --mqtt-port MQTTPORT                         Sets the Listen Port for Mosquitto MQTTPORT
+   --mqtt-port-tls MQTTPORTTLS                  Sets the Listen Port TLS for Mosquitto MQTTPORTTLS
 
 DOC;
 
@@ -93,6 +93,29 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    ];
    Config::setConfigurationValues('core', $config);
    $CFG_GLPI = $config + $CFG_GLPI;
+}
+
+// Setup plugin configuration
+$pluginConfig = [];
+if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
+   $pluginConfig = [
+      'mqtt_broker_address' => $args['--mqtt-address']
+   ];
+}
+if (isset($args['--mqtt-internal-address']) && $args['--mqtt-internal-address'] !== false) {
+   $pluginConfig = [
+      'mqtt_broker_internal_address' => $args['--mqtt-internal-address']
+   ];
+}
+if (isset($args['--mqtt-port']) && $args['--mqtt-port'] !== false) {
+   $pluginConfig = [
+      'mqtt_broker_port' => $args['--mqtt-port']
+   ];
+}
+if (isset($args['--mqtt-port-tls']) && $args['--mqtt-port-tls'] !== false) {
+   $pluginConfig = [
+      'mqtt_broker_tls_port' => $args['--mqtt-port-tls']
+   ];
 }
 
 // Init debug variable
@@ -172,6 +195,7 @@ if($dev) {
       'download_url' => PLUGIN_FLYVEMDM_AGENT_BETA_DOWNLOAD_URL
    ]);
 }
+Config::setConfigurationValues('flyvemdm', $pluginConfig);
 
 // Enable the plugin
 print("Activating Plugin...\n");
@@ -186,28 +210,3 @@ print("Activation Done\n");
 print("Loading Plugin...\n");
 $plugin->load("flyvemdm");
 print("Load Done...\n");
-
-if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
-   $config = [
-      'mqtt_broker_address' => $args['--mqtt-address']
-   ];
-   Config::setConfigurationValues('flyvemdm', $config);
-}
-if (isset($args['--mqtt-internal-address']) && $args['--mqtt-internal-address'] !== false) {
-   $config = [
-      'mqtt_broker_internal_address' => $args['--mqtt-internal-address']
-   ];
-   Config::setConfigurationValues('flyvemdm', $config);
-}
-if (isset($args['--mqtt-port']) && $args['--mqtt-port'] !== false) {
-   $config = [
-      'mqtt_broker_port' => $args['--mqtt-port']
-   ];
-   Config::setConfigurationValues('flyvemdm', $config);
-}
-if (isset($args['--mqtt-port-tls']) && $args['--mqtt-port-tls'] !== false) {
-   $config = [
-      'mqtt_broker_tls_port' => $args['--mqtt-port-tls']
-   ];
-   Config::setConfigurationValues('flyvemdm', $config);
-}
