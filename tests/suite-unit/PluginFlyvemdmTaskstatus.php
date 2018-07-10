@@ -35,6 +35,40 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTaskstatus extends CommonTestCase {
 
+    private $dataField = [
+        'group'     => 'application',
+        'symbol'    => 'deployApp',
+        'type_data' => '',
+        'unicity'   => 0,
+     ];
+     /**
+      * @return array
+      */
+     private function createNewTaskInstance() {
+        $class = new \PluginFlyvemdmTask();
+        $task = $this->newTestedInstance($class);
+        return $task;
+     }
+
+     public function beforeTestMethod($method) {
+        switch ($method) {
+            case 'testPrepareInputForUpdate':
+                parent::beforeTestMethod($method);
+                $this->setupGLPIFramework();
+                $this->login('glpi', 'glpi');
+               break;
+         }
+     }
+     public function afterTestMethod($method) {
+        switch ($method) {
+            case 'testPrepareInputForUpdate':
+                parent::afterTestMethod($method);
+                \Session::destroy();
+               break;
+         }
+     }
+
+
    /**
     * @return object
     */
@@ -61,26 +95,87 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
 
    /**
     * @tags testUpdateStatus
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
     */
-   public function testUpdateStatus() {
-      $class = $this->testedClass->getClass();
+   public function testUpdateStatus($status, $expected) {
       $instance = $this->createInstance();
-      list($policy) = $class->createNewPolicyInstance();
-      $status = $policy->filterStatus("pending");
-      $this->notNull($status);
+
+
       $instance->update([
           'id'     => $instance->getID(),
           'status' => $status,
       ]);
-      $this->string($status)->isEqualTo($instance->getField('status'));
+      $this->dump($instance->getField('status'), $expected)->stop();
+      $this->string($expected)->isEqualTo($instance->getField('status'));
    }
 
    /**
     * @tags testPrepareInputForUpdate
+    * @dataProvider inputDataProvider
+    * @param unknown $input
     */
-    public function testPrepareInputForUpdate() {
+    public function testPrepareInputForUpdate($input) {
       $instance = $this->createInstance();
-      $this->array($instance->prepareInputForUpdate([]));
+      $task = $this->createNewTaskInstance();
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
+      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+
+      $taskId = $task->add([
+         $policyFk          => $policy->getID(),
+         'value'            => '0',
+      ]);
+      $input[$policyFk] = $policy->getID();
+      $this->boolean($instance->prepareInputForUpdate($input))->isFalse();
     }
 
+    public function inputDataProvider() {
+        return [
+            ['input' =>[]],
+            ['input' => [
+                'status' => 'received'
+            ]]
+        ];
+    }
+    public function filterStatusProvider() {
+        return [
+           [
+              'status' => 'received',
+              'expected' => 'received'
+           ],
+           [
+              'status' => 'waiting',
+              'expected' => 'waiting'
+           ],
+           [
+              'status' => 'done',
+              'expected' => 'done'
+           ],
+           [
+              'status' => 'failed',
+              'expected' => 'failed'
+           ],
+           [
+              'status' => 'invalid',
+              'expected' => null
+           ],
+        ];
+    }
+   /**
+    * @dataProvider filterStatusProvider
+    * @param unknown $status
+    * @param unknown $expected
+    */
+    public function testFilterStatus($status, $expected) {
+        $policy = new \PluginFlyvemdmPolicy();
+        $policy->fields = [
+           'symbol' => 'dummy',
+           'unicity' => '1',
+           'group' => 'dummy',
+        ];
+        $policyBase = new \PluginFlyvemdmPolicyBase($policy);
+        $this->variable($policyBase->filterStatus($status))->isEqualTo($expected);
+    }
 }
