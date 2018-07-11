@@ -44,10 +44,10 @@ It provides a stand alone web based administration and an interface integrated i
 
 ## Compatibility Matrix
 
-|GLPI|9.1.x|9.2.x|
+|GLPI|9.1.x|9.2.1+  |
 |:---|:---:|:---:|
 |Flyve MDM|1.x|2.0.0-dev|
-|FusionInventory|9.1+1.0|9.2+1.0|
+|FusionInventory|9.1+1.0|9.2+2.0|
 |Demo Mode|-|1.0.0-dev|
 |Web MDM Dashboard|-|1.0.0-dev|
 
@@ -89,5 +89,5 @@ Obtain a personalized service experience, associated with benefits and opportuni
 ## Copying
 
 * **Name**: [Flyve MDM](https://flyve-mdm.com/) is a registered trademark of [Teclib'](http://www.teclib-edition.com/en/).
-* **Code**: you can redistribute it and/or modify it under the terms of the GNU AGPL v3 license ([GPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html)).
+* **Code**: you can redistribute it and/or modify it under the terms of the GNU AGPL v3 license ([AGPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html)).
 * **Documentation**: released under Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
