@@ -12,8 +12,23 @@
   background-repeat:no-repeat;
   background-size:cover;
 
+  /*transform: translateZ(-1px) scale(1.5);*/
+
 }
 
+.parallax2{
+
+  background-image: url("/glpi-plugin/images/contact1.jpg");
+  height: 100%;
+
+  background-attachment: fixed;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+
+  /*transform: translateZ(-1px) scale(1.5);*/
+
+}
 
 
 /*********************/
