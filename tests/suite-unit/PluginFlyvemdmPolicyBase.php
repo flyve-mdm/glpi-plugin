@@ -169,7 +169,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     * @tags testTranslateData
     */
    public function testGetEnumBaseTaskStatus() {
-      $this->array(\PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus())->hasKeys([
+      $expectedStatuses = [
          'pending',
          'received',
          'done',
@@ -177,6 +177,26 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          'canceled',
          'incompatible',
          'overriden',
-      ]);
+      ];
+
+      $statuses = \PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus();
+      $this->array($statuses)->hasKeys($expectedStatuses);
+      $this->array($statuses)->size->isEqualTo(count($expectedStatuses));
+   }
+
+   /**
+    * Used in other test classes of policies
+    */
+   public function providerFilterStatus() {
+      $statuses = \PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus();
+      $providedStatuses = [];
+      foreach ($statuses as $status => $localized) {
+         $providedStatuses[] = [
+            'status'   => $status,
+            'expected' => $status
+         ];
+      }
+
+      return $providedStatuses;
    }
 }

@@ -112,40 +112,30 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
          ->contains("<option value='0'>No</option><option value='1' selected>Yes</option>");
    }
 
-   public function filterStatusProvider() {
-      return [
-         [
-            'status' => 'received',
-            'expected' => 'received'
-         ],
-         [
-            'status' => 'done',
-            'expected' => 'done'
-         ],
-         [
-            'status' => 'failed',
-            'expected' => 'failed'
-         ],
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $this->array($statuses)->size->isEqualTo(7);
+
+      $statuses = array_merge($statuses, [
          [
             'status' => 'invalid',
             'expected' => null
          ],
-      ];
+      ]);
+
+      return $statuses;
    }
 
    /**
-    * @dataProvider filterStatusProvider
-    * @param mixed $status
-    * @param mixed $expected
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
     */
    public function testFilterStatus($status, $expected) {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->fields = [
-         'symbol' => 'dummy',
-         'unicity' => '1',
-         'group' => 'dummy',
-      ];
-      $policyBoolean = new \PluginFlyvemdmPolicyBoolean($policy);
-      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('storageEncryption');
+      $policyObject = new \PluginFlyvemdmPolicyBoolean($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
    }
 }

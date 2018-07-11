@@ -227,7 +227,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
     */
    public function testUnicityCheck() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
       $fileInDb = $this->createDummyFile(0);
       $this->boolean($policy->unicityCheck(['destination' => 'filename.ext'],
@@ -240,7 +240,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
     */
    public function testConflictCheck() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
       $fileInDb = $this->createDummyFile(0);
       $this->boolean($policy->conflictCheck(['destination' => 'filename.ext'],
@@ -253,7 +253,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
     */
    public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       $mockInstance->getMockController()->getID = 1;
       $fileInDb = $this->createDummyFile(0);
 
@@ -316,44 +316,36 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       ]))->string($output['value']['destination'])->isEqualTo('%SDCARD%targetString');
    }
 
-   public function filterStatusProvider() {
-      return [
-         [
-            'status' => 'received',
-            'expected' => 'received'
-         ],
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $statuses = array_merge($statuses, [
          [
             'status' => 'waiting',
             'expected' => 'waiting'
          ],
-         [
-            'status' => 'done',
-            'expected' => 'done'
-         ],
-         [
-            'status' => 'failed',
-            'expected' => 'failed'
-         ],
+      ]);
+      $this->array($statuses)->size->isEqualTo(8);
+
+      $statuses = array_merge($statuses, [
          [
             'status' => 'invalid',
             'expected' => null
          ],
-      ];
+      ]);
+
+      return $statuses;
    }
 
    /**
-    * @dataProvider filterStatusProvider
-    * @param unknown $status
-    * @param unknown $expected
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
     */
    public function testFilterStatus($status, $expected) {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->fields = [
-         'symbol' => 'dummy',
-         'unicity' => '1',
-         'group' => 'dummy',
-      ];
-      $policyBoolean = new \PluginFlyvemdmPolicyDeployfile($policy);
-      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('deployFile');
+      $policyObject = new \PluginFlyvemdmPolicyDeployfile($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
    }
 }

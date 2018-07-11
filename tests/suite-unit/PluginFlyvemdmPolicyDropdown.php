@@ -115,4 +115,30 @@ class PluginFlyvemdmPolicyDropdown extends CommonTestCase {
       $this->array($policy->translateData())->isEqualTo(json_decode($this->dataField['type_data'],
          true));
    }
+
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $this->array($statuses)->size->isEqualTo(7);
+
+      $statuses = $statuses + [
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ];
+      return $statuses;
+   }
+
+   /**
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('passwordQuality');
+      $policyObject = new \PluginFlyvemdmPolicyDropdown($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
+   }
 }

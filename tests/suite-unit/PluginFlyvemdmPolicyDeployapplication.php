@@ -215,44 +215,36 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       //$this->string($policy->showValue($mockInstance))->isEqualTo("$alias ($name)");
    }
 
-   public function filterStatusProvider() {
-      return [
-         [
-            'status' => 'received',
-            'expected' => 'received'
-         ],
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $statuses = array_merge($statuses, [
          [
             'status' => 'waiting',
             'expected' => 'waiting'
          ],
-         [
-            'status' => 'done',
-            'expected' => 'done'
-         ],
-         [
-            'status' => 'failed',
-            'expected' => 'failed'
-         ],
+      ]);
+      $this->array($statuses)->size->isEqualTo(8);
+
+      $statuses = array_merge($statuses, [
          [
             'status' => 'invalid',
             'expected' => null
          ],
-      ];
+      ]);
+
+      return $statuses;
    }
 
    /**
-    * @dataProvider filterStatusProvider
-    * @param unknown $status
-    * @param unknown $expected
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
     */
    public function testFilterStatus($status, $expected) {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->fields = [
-         'symbol' => 'dummy',
-         'unicity' => '1',
-         'group' => 'dummy',
-      ];
-      $policyBoolean = new \PluginFlyvemdmPolicyDeployapplication($policy);
-      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('deployApp');
+      $policyObject = new \PluginFlyvemdmPolicyDeployapplication($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
    }
 }
