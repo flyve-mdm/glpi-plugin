@@ -93,40 +93,30 @@ class PluginFlyvemdmPolicyInteger extends CommonTestCase {
       $this->boolean($policy->getMqttMessage(null, null, '1'))->isFalse();
    }
 
-   public function filterStatusProvider() {
-      return [
-         [
-            'status' => 'received',
-            'expected' => 'received'
-         ],
-         [
-            'status' => 'done',
-            'expected' => 'done'
-         ],
-         [
-            'status' => 'failed',
-            'expected' => 'failed'
-         ],
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $this->array($statuses)->size->isEqualTo(7);
+
+      $statuses = array_merge($statuses, [
          [
             'status' => 'invalid',
             'expected' => null
          ],
-      ];
+      ]);
+
+      return $statuses;
    }
 
    /**
-    * @dataProvider filterStatusProvider
-    * @param mixed $status
-    * @param mixed $expected
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
     */
-   public function testFilterStatus($status, $expected) {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->fields = [
-         'symbol' => 'dummy',
-         'unicity' => '1',
-         'group' => 'dummy',
-      ];
-      $policyBoolean = new \PluginFlyvemdmPolicyInteger($policy);
-      $this->variable($policyBoolean->filterStatus($status))->isEqualTo($expected);
+    public function testFilterStatus($status, $expected) {
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('passwordMinLength');
+      $policyObject = new \PluginFlyvemdmPolicyInteger($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
    }
 }
