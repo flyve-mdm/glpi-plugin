@@ -823,7 +823,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'table'              => $this->getTable(),
          'field'              => 'mdm_type',
          'name'               => __('MDM type', 'flyvemdm'),
-         'datatype'           => 'bool',
+         'datatype'           => 'specific',
          'massiveaction'      => false
       ];
 
@@ -1984,6 +1984,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                   . $class
                   . '" aria-hidden="true" ></i></div>';
                return $output;
+            }
+            break;
+         case 'mdm_type':
+            if (!isAPI()) {
+               $enumtypes = self::getEnumMdmType();
+               return $enumtypes[$values[$field]];
             }
             break;
       }
