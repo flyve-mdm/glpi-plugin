@@ -44,10 +44,10 @@ It provides a stand alone web based administration and an interface integrated i
 
 ## Compatibility Matrix
 
-|GLPI|9.1.x|9.2.x|
+|GLPI|9.1.x|9.2.1+  |
 |:---|:---:|:---:|
 |Flyve MDM|1.x|2.0.0-dev|
-|FusionInventory|9.1+1.0|9.2+1.0|
+|FusionInventory|9.1+1.0|9.2+2.0|
 |Demo Mode|-|1.0.0-dev|
 |Web MDM Dashboard|-|1.0.0-dev|
 
