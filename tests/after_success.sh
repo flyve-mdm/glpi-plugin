@@ -1,6 +1,27 @@
 #!/bin/sh
-# please set the $GH_TOKEN in your travis dashboard
+#
+# After success script for Travis CI
+#
 
+# please keep tasks strongly separated,
+# no matter they have the same if block
+
+# please set $TX_USER and $TX_TOKEN in your travis dashboard
+if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
+    echo "updating source language"
+    sudo apt install transifex-client
+    echo "[https://www.transifex.com]" > ~/.transifexrc
+    echo "api_hostname = https://api.transifex.com" >> ~/.transifexrc
+    echo "hostname = https://www.transifex.com" >> ~/.transifexrc
+    echo "token = ${TX_TOKEN}" >> ~/.transifexrc
+    echo "password = ${TX_TOKEN}" >> ~/.transifexrc
+    echo "username = ${TX_USER}" >> ~/.transifexrc
+    php vendor/bin/robo locales:send
+else
+    echo "skipping source language update"
+fi
+
+# please set the $GH_TOKEN in your travis dashboard
 if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
     #wget http://get.sensiolabs.org/sami.phar -O "$HOME/bin/sami.phar"
     # setup_git only for the main repo and not forks
