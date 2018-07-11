@@ -142,39 +142,47 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
     public function filterStatusProvider() {
         return [
            [
-              'status' => 'received',
+            'symbol'   => 'encryption',
+            'status'   => 'pending',
+            'expected' => 'pending'
+         ],
+           [
+              'symbol'   => 'encryption',
+              'status'   => 'received',
               'expected' => 'received'
            ],
            [
-              'status' => 'waiting',
+              'symbol'   => 'encryption',
+              'status'   => 'waiting',
               'expected' => 'waiting'
            ],
            [
-              'status' => 'done',
+              'symbol'   => 'encryption',
+              'status'   => 'done',
               'expected' => 'done'
            ],
            [
-              'status' => 'failed',
+              'symbol'   => 'encryption',
+              'status'   => 'failed',
               'expected' => 'failed'
            ],
            [
-              'status' => 'invalid',
+              'symbol'   => 'encryption',
+              'status'   => 'invalid',
               'expected' => null
            ],
         ];
     }
+
    /**
     * @dataProvider filterStatusProvider
-    * @param unknown $status
-    * @param unknown $expected
+    * @param string $status
+    * @param string $status
+    * @param string $expected
     */
-    public function testFilterStatus($status, $expected) {
+    public function testFilterStatus($symbol, $status, $expected) {
         $policy = new \PluginFlyvemdmPolicy();
-        $policy->fields = [
-           'symbol' => 'dummy',
-           'unicity' => '1',
-           'group' => 'dummy',
-        ];
+        $policy->getFromDBBySymbol($policy);
         $policyBase = new \PluginFlyvemdmPolicyBase($policy);
         $this->variable($policyBase->filterStatus($status))->isEqualTo($expected);
     }
