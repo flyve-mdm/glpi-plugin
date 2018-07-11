@@ -438,3 +438,65 @@ blockquote.type-p2{
   padding: 0 0 4% 5%;
   border-bottom: dashed #158784 1px;
 }
+
+/*Index*/
+.img-responsive.visible-xs-inline-block.visible-sm-inline-block.visible-md-inline-block.visible-lg-inline-block.visible-xl-inline-block{
+  width: 260px;
+  padding: 4% 0 0 0;
+}
+
+.img-responsive.icon.visible-xs-inline-block.visible-sm-inline-block.visible-md-inline-block.visible-lg-inline-block.visible-xl-inline-block{
+  width: 190px;
+}
+
+.type-h2{
+  padding-top: 7%;
+}
+
+p.type-p2.p-size2{
+  padding: 5% 0 5% 0;
+}
+
+ul.type-p2.p-size2{
+  margin: 0 0 0 5%;
+  padding-top: 2%;
+}
+
+.type-p1.p-size2{
+padding: 5% 0 3% 0;
+}
+
+.type-p2.p-size{
+  padding-bottom: 5%;
+}
+
+.jumbotron{
+
+  &.theme-dark{
+    padding: 2% 0 2% 0;
+  }
+
+  &.theme-light{
+    padding: 1% 0 3% 1%;
+  }
+
+  &.theme-default{
+    padding: 0 0 1% 1%;
+  }
+
+}
+
+.container{
+
+  .col-md-12.col-md-push-12.text-center{
+    padding-top: 1%;
+  }
+
+  .col-md-12.col-md-pull-12{
+    padding: 1% 0 2% 0;
+    h3{
+      padding-top: 3%;
+    }
+  }
+
+}
