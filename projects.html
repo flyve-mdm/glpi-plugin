@@ -18,14 +18,14 @@ namePage: projects
     {% assign my_counter = my_counter | plus: 1 %}
     
     {% if modulo == 0 %}
-        <div class="jumbotron theme-light" style="padding: 2% 0 2% 3%">
+        <div class="jumbotron theme-light">
         {% else %}
-            <div class="jumbotron theme-default" style="padding: 2% 0 2% 3%">
+            <div class="jumbotron theme-default">
     {% endif %}
-        <div class="container product" style="padding-top: 1%">
+        <div class="container product">
             {% assign name = repositorie.name | replace: "flyve-mdm-", "" %}   
             {% assign name = name | replace: "-", " " %}
-            <h2><b>{{ name }}</b></h2>
+            <h2>{{ name }}</h2>
             <p>{{ repositorie.description }}</p>
             {% if inWhitelist %}
                 <a class="btn btn-lg btn-primary" href="{{ url_repositorie }}" role="button">Visit website</a>

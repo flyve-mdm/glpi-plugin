@@ -2,16 +2,16 @@
 layout: container
 ---
 
-<h2 style="padding-left: 3%">Code Documentation</h2>
+<h2>Code Documentation</h2>
 
 {% assign articles = site.posts | sort: 'title' %}
 {% for article in articles %}
     {% if article.code %}
-        <div class="article-howtos type-p1" style="padding-top: 1%">
+        <div class="article-howtos type-p1">
             <ul>
                 <li>
-                    <h3 style="padding: 0">
-                        <a class="post-link" href="{{ article.url | absolute_url }}" style="font-size: 80%"><b>{{ article.title | escape }}</b></a>
+                    <h3>
+                        <a class="post-link" href="{{ article.url | absolute_url }}">{{ article.title | escape }}</a>
                     </h3>
                 </li>
             </ul>
