@@ -12,8 +12,6 @@
   background-repeat:no-repeat;
   background-size:cover;
 
-  /*transform: translateZ(-1px) scale(1.5);*/
-
 }
 
 .parallax2{
@@ -26,10 +24,43 @@
   background-repeat:no-repeat;
   background-size:cover;
 
-  /*transform: translateZ(-1px) scale(1.5);*/
+}
+
+.parallax3{
+
+  background-image: url("/glpi-plugin/images/projects2.jpg");
+  height: 100%;
+
+  background-attachment: fixed;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
 
 }
 
+.parallax4{
+
+  background-image: url("/glpi-plugin/images/how-to2.jpg");
+  height: 100%;
+
+  background-attachment: fixed;
+  background-position: -10% 0%;
+  background-repeat:no-repeat;
+  background-size: cover;
+
+}
+
+.parallax5{
+
+  background-image: url("/glpi-plugin/images/code-doc2.jpg");
+  height: 100%;
+
+  background-attachment: fixed;
+  background-position: 120% 0%;
+  background-repeat:no-repeat;
+  background-size:cover;
+
+}
 
 /*********************/
 /***NAVIGATION MENU***/
@@ -213,13 +244,6 @@
 }
 
 
-/*
-ul.p-size3 {
-
-  margin-left: 30px;
-
-}
-*/
 
 /*SMALL SCREEN: Smart phones*/
 @media (max-width: 414px) {
@@ -237,6 +261,21 @@ ul.p-size3 {
 
 /*MEDIUM SCREEN: Tablets, iPad*/
 @media (max-width: 768px) {
+
+  .p-size {max-width: 60%};
+  .p-size2 {max-width: 80%};
+  .p-size3 {max-width: 70%};
+  .p-size4 {max-width: 80%};
+  .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
+  .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
+  .p-size6 {max-width: 63%};
+  .p-size6 li{max-width: 75%};
+
+}
+
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (max-width: 1024px) {
+
 
   .p-size {max-width: 60%};
   .p-size2 {max-width: 80%};
