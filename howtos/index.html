@@ -23,9 +23,9 @@ layout: container
 <div class="article-howtos">
     <h3><b>User Documentation</b></h3>
         {% for post in site.categories.user %}
-            <h4 style="padding-top: 3%; text-indent: 3%">
-                <b><a class="post-link" href="{{ post.url | absolute_url }}" style="font-size: 90%">{{ post.title | escape }}</a></b>
-                <p style="text-indent: 6%">
+            <h4>
+                <a class="post-link" href="{{ post.url | absolute_url }}">{{ post.title | escape }}</a>
+                <p>
                     {{ post.description }}
                 </p>
             </h4>
@@ -33,9 +33,9 @@ layout: container
 
     <h3><b>Want to Contribute?</b></h3>
         {% for post in site.categories.contributing %}
-            <h4 style="padding-top: 3%; text-indent: 3%">
-                <b><a class="post-link" href="{{ post.url | absolute_url }}" style="font-size: 90%">{{ post.title | escape }}</a></b>
-                <p style="text-indent: 6%">
+            <h4>
+                <a class="post-link" href="{{ post.url | absolute_url }}">{{ post.title | escape }}</a>
+                <p>
                     {{ post.description }}
                 </p>
             </h4>

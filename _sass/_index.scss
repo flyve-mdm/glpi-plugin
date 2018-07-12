@@ -478,7 +478,7 @@ blockquote.type-p2{
   border-bottom: dashed #158784 1px;
 }
 
-/*Index*/
+/*Index (Jumbotron influences projects.html too)*/
 .img-responsive.visible-xs-inline-block.visible-sm-inline-block.visible-md-inline-block.visible-lg-inline-block.visible-xl-inline-block{
   width: 260px;
   padding: 4% 0 0 0;
@@ -516,11 +516,11 @@ padding: 5% 0 3% 0;
   }
 
   &.theme-light{
-    padding: 1% 0 3% 1%;
+    padding: 1% 0 3% 2%;
   }
 
   &.theme-default{
-    padding: 0 0 1% 1%;
+    padding: 1% 0 1% 2%;
   }
 
 }
@@ -536,6 +536,79 @@ padding: 5% 0 3% 0;
     h3{
       padding-top: 3%;
     }
+  }
+
+  h2{
+    padding-left: 2%;
+  }
+
+}
+
+/*News*/
+
+div.container{
+  h1{
+    font-size: 265%;
+  }
+}
+
+li{
+  h2{
+    padding-top: 3%;
+
+    a.post-link{
+      font-size: 64%; 
+      font-weight: bold;
+    }
+
+  }
+}
+
+/*Development/Code Documentation*/
+
+.article-howtos.type-p1{
+  padding-top: 1%;
+
+  ul{
+    li{
+      h3{
+        padding: 0;
+
+        a.post-link{
+          font-size: 80%;
+          font-weight: bold;
+        }
+
+      }
+    }
+  }
+
+}
+
+/*How tos*/
+.article-howtos{
+  h4{
+    padding-top: 3%;
+    text-indent: 3%;
+
+    a.post-link{
+      font-size: 90%;
+      font-weight: bold;
+    }
+
+    p{
+      text-indent: 6%;
+    }
+
+  }
+}
+
+/*Projects*/
+.container.product{
+  padding-top: 1%;
+
+  h2{
+    font-weight: bold;
   }
 
 }
