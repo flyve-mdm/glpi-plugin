@@ -29,7 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
- use GlpiPlugin\Flyvemdm\Exception\FusionInventoryRuleInconsistency;
+use GlpiPlugin\Flyvemdm\Exception\FusionInventoryRuleInconsistency;
+use GlpiPlugin\Flyvemdm\Exception\EntityRuleEditionException;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -38,6 +39,9 @@ if (!defined('GLPI_ROOT')) {
 class PluginFlyvemdmFusionInventory {
 
    const RULE_NAME = 'Flyve MDM invitation to entity';
+
+   const LOCK_NAME = 'flyvemdm_entityRule';
+
 
    /**
     * Creates or updates an entity rule
@@ -50,6 +54,10 @@ class PluginFlyvemdmFusionInventory {
          $rule = $this->getRule($entityId);
       } catch (FusionInventoryRuleInconsistency $exception) {
          Session::addMessageAfterRedirect(__('Unable to get rule for entity', 'flyvemdm'),
+            true, ERROR);
+         return;
+      } catch (EntityRuleEditionException $exception) {
+         Session::addMessageAfterRedirect(__('Cannot get lock for entity rules edition', 'flyvemdm'),
             true, ERROR);
          return;
       }
@@ -117,6 +125,19 @@ class PluginFlyvemdmFusionInventory {
       ]);
 
       $ruleId = $row[$ruleFk];
+
+      // get a lock
+      $attempts = 0;
+      $locked = 0;
+      do {
+         $locked = $DB->getLock(self::LOCK_NAME);
+         usleep(50000); // 50 milliseconds
+         $attempts++;
+      } while ($locked !== 1 && $attempts < 10);
+      if ($locked !== 1) {
+         return; // No lock, then give up disabling
+      }
+
       $rows = $ruleCriteria->find("`$ruleFk` = '$ruleId' AND `criteria` = 'tag' AND `condition` = '0'");
       if (count($rows) === 0) {
          $rule = new PluginFusioninventoryInventoryRuleEntity();
@@ -125,6 +146,7 @@ class PluginFlyvemdmFusionInventory {
             'is_active' => '0',
          ]);
       }
+      $DB->releaseLock(self::LOCK_NAME);
    }
 
    /**
@@ -144,9 +166,22 @@ class PluginFlyvemdmFusionInventory {
     *
     * @return PluginFusioninventoryInventoryRuleEntity|null
     * @throws FusionInventoryRuleInconsistency
+    * @throws EntityRuleEditionException
     */
    private function getRule($entityId, $create = true) {
       global $DB;
+
+      // get a lock
+      $attempts = 0;
+      $locked = 0;
+      do {
+         $locked = $DB->getLock(self::LOCK_NAME);
+         usleep(50000); // 50 milliseconds
+         $attempts++;
+      } while ($locked !== 1 && $attempts < 10);
+      if ($locked !== 1) {
+         throw new EntityRuleEditionException(__('Cannot get lock for entity rules edition'));
+      }
 
       $ruleEntityTable = PluginFusioninventoryInventoryRuleEntity::getTable();
       $ruleActionTable = RuleAction::getTable();
@@ -175,13 +210,16 @@ class PluginFlyvemdmFusionInventory {
          $rule = new PluginFusioninventoryInventoryRuleEntity();
          $row = $result->next();
          $rule->getFromDB($row['id']);
+         $DB->releaseLock(self::LOCK_NAME);
          return $rule;
       }
       if ($result->count() > 1) {
+         $DB->releaseLock(self::LOCK_NAME);
          throw new FusionInventoryRuleInconsistency(__('Import rule is not unique'));
       }
 
       if (!$create) {
+         $DB->releaseLock(self::LOCK_NAME);
          return null;
       }
 
@@ -203,6 +241,7 @@ class PluginFlyvemdmFusionInventory {
          'field'                    => Entity::getForeignKeyField(),
          'value'                    => $entityId,
       ]);
+      $DB->releaseLock(self::LOCK_NAME);
       return $rule;
    }
 }
