@@ -28,6 +28,7 @@
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
+
 namespace Flyvemdm\Tests;
 
 use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
@@ -39,25 +40,38 @@ class CommonTestCase extends GlpiCommonTestCase {
     * the agent returned will not contain an ID. To ensore the enrollment succeeded
     * use isNewItem() method on the returned object.
     *
-    * @param \User $user
+    * @param integer $userId
     * @param array $input enrollment data for agent creation
+    * @param boolean $keepLoggedUser allow change of user for testing
     * @return \PluginFlyvemdmAgent
     */
-   protected function enrollFromInvitation(\User $user, array $input) {
+   protected function enrollFromInvitation($userId, array $input, $keepLoggedUser = true) {
       // Close current session
+      $currentUser = $_SESSION['glpiname'];
       $this->terminateSession();
       $this->restartSession();
       $this->setupGLPIFramework();
 
       // login as invited user
-      $_REQUEST['user_token'] = \User::getToken($user->getID(), 'api_token');
+      $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
       $this->boolean($this->login('', '', false))->isTrue();
-      $this->setupGLPIFramework();
       unset($_REQUEST['user_token']);
 
       // Try to enroll
       $agent = new \PluginFlyvemdmAgent();
       $agent->add($input);
+      if (!$agent->isNewItem()) {
+         // item has been created but its data is incomplete so let's load it
+         $agent->getFromDB($agent->getID());
+      }
+
+      if ($keepLoggedUser && $currentUser) {
+         // Go back to previous logged user
+         $this->terminateSession();
+         $this->restartSession();
+         $this->setupGLPIFramework();
+         $this->boolean($this->login($currentUser, $currentUser))->isTrue();
+      }
 
       return $agent;
    }
@@ -75,7 +89,10 @@ class CommonTestCase extends GlpiCommonTestCase {
          '_useremails' => $guestEmail,
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
-
+      if (!$invitation->isNewItem()) {
+         // item has been created but its data is incomplete so let's load it
+         $invitation->getFromDB($invitation->getID());
+      }
       return $invitation;
    }
 
@@ -89,7 +106,10 @@ class CommonTestCase extends GlpiCommonTestCase {
       $guestEmail = $this->getUniqueEmail();
       $invitation = $this->createInvitation($guestEmail);
       $user = new \User();
-      $user->getFromDB($invitation->getField($userIdField));
+      if (!$invitation->isNewItem()) {
+         // item has been created but its data is incomplete so let's load it
+         $user->getFromDB($invitation->getField($userIdField));
+      }
 
       return [$user, $serial, $guestEmail, $invitation];
    }
@@ -102,16 +122,20 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @param string $mdmType
     * @param string|null $version if null the value is not used
     * @param string $inventory xml
+    * @param array $customInput
+    * @param boolean $keepSession
     * @return \PluginFlyvemdmAgent
     */
    protected function agentFromInvitation(
-   $user,
+   \User $user,
    $guestEmail,
    $serial,
    $invitationToken,
    $mdmType = 'android',
    $version = '',
-   $inventory = null
+   $inventory = null,
+   array $customInput = [],
+   $keepSession = false
    ) {
       //Version change
       $finalVersion = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';
@@ -142,7 +166,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          $input['version'] = $finalVersion;
       }
 
-      return $this->enrollFromInvitation($user, $input);
+      return $this->enrollFromInvitation($user->getID(), array_merge($input, $customInput), $keepSession);
    }
 
    /**
@@ -168,28 +192,11 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @param array $input
     * @return \PluginFlyvemdmAgent
     */
-   public function createAgent($input) {
-      $guestEmail = $this->getUniqueEmail();
-      $invitation = $this->createInvitation($guestEmail);
-      $this->variable($invitation)->isNotNull();
-      $user = new \User();
-      $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
-      $serial = $this->getUniqueString();
-      $input = [
-         '_email'            => $guestEmail,
-         '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial'           => $serial,
-         'csr'               => '',
-         'firstname'         => 'John',
-         'lastname'          => 'Doe',
-         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
-         'type'              => 'android',
-         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
-      ] + $input;
-      $agent = $this->enrollFromInvitation($user, $input);
-      $this->boolean($agent->isNewItem())
-         ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
-
+   public function createAgent(array $input = []) {
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+      $invitationToken = $invitation->getField('invitation_token');
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
+         '', null, $input, true);
       return $agent;
    }
 
@@ -250,6 +257,7 @@ class CommonTestCase extends GlpiCommonTestCase {
       $uuid = ($uuid) ? $uuid : '1d24931052f35d92';
       $macAddress = ($macAddress) ? $macAddress : '02:00:00:00:00:00';
       $deviceId = ($deviceId) ? $deviceId : $serial . "_" . $macAddress;
+      $insalldate = mt_rand(1, time());
       $xml = "<?xml version='1.0' encoding='utf-8' standalone='yes'?>
             <REQUEST>
               <QUERY>INVENTORY</QUERY>
@@ -440,7 +448,7 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <VERSION>3.10</VERSION>
                   <FILESIZE>0</FILESIZE>
                   <FROM>Android</FROM>
-                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                  <INSTALLDATE>" . $insalldate . "</INSTALLDATE>
                 </SOFTWARES>
                 <SOFTWARES>
                   <NAME><![CDATA[com.android.cts.priv.ctsshim]]></NAME>
@@ -448,7 +456,7 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <VERSION>7.0-2996264</VERSION>
                   <FILESIZE>0</FILESIZE>
                   <FROM>Android</FROM>
-                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                  <INSTALLDATE>" . $insalldate . "</INSTALLDATE>
                 </SOFTWARES>
                 <SOFTWARES>
                   <NAME><![CDATA[YouTube]]></NAME>
@@ -456,7 +464,7 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <VERSION>12.43.52</VERSION>
                   <FILESIZE>0</FILESIZE>
                   <FROM>Android</FROM>
-                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                  <INSTALLDATE>" . $insalldate . "</INSTALLDATE>
                 </SOFTWARES>
                 <SOFTWARES>
                   <NAME><![CDATA[SampleExtAuthService]]></NAME>
@@ -464,7 +472,7 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <VERSION>1.0</VERSION>
                   <FILESIZE>0</FILESIZE>
                   <FROM>Android</FROM>
-                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                  <INSTALLDATE>" . $insalldate . "</INSTALLDATE>
                 </SOFTWARES>
                 <SOFTWARES>
                   <NAME><![CDATA[Kingdoms &amp; Lords]]></NAME>
@@ -472,7 +480,7 @@ class CommonTestCase extends GlpiCommonTestCase {
                   <VERSION>1.0.0</VERSION>
                   <FILESIZE>0</FILESIZE>
                   <FROM>Android</FROM>
-                  <INSTALLDATE>1519977807000</INSTALLDATE>
+                  <INSTALLDATE>" . $insalldate . "</INSTALLDATE>
                 </SOFTWARES>
               </CONTENT>
             </REQUEST>";

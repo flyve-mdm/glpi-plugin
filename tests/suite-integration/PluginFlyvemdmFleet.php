@@ -76,25 +76,23 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       // Create an invitation
       $guestEmail = $this->getUniqueEmail();
       $invitation = $this->createInvitation($guestEmail);
-      $user = new \User();
-      $user->getFromDB($invitation->getField(\User::getForeignKeyField()));
+      $userId = $invitation->getField(\User::getForeignKeyField());
 
       // Enroll
       $serial = $this->getUniqueString();
-      $agent = $this->enrollFromInvitation(
-         $user, [
-            'entities_id'       => $_SESSION['glpiactive_entity'],
-            '_email'            => $guestEmail,
-            '_invitation_token' => $invitation->getField('invitation_token'),
-            '_serial'           => $serial,
-            'csr'               => '',
-            'firstname'         => 'John',
-            'lastname'          => 'Doe',
-            'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
-            'type'              => 'android',
-            'inventory'         => CommonTestCase::AgentXmlInventory($serial),
-         ]
-      );
+      $input = [
+         'entities_id'       => $_SESSION['glpiactive_entity'],
+         '_email'            => $guestEmail,
+         '_invitation_token' => $invitation->getField('invitation_token'),
+         '_serial'           => $serial,
+         'csr'               => '',
+         'firstname'         => 'John',
+         'lastname'          => 'Doe',
+         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
+         'type'              => 'android',
+         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
+      ];
+      $agent = $this->enrollFromInvitation($userId, $input);
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 

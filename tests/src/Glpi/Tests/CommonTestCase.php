@@ -169,7 +169,8 @@ abstract class CommonTestCase extends CommonDBTestCase {
 
       //Override computation of table to match the original class name
       // see CommonDBTM::getTable()
-      $_SESSION['glpi_table_of'][get_class($mock)] = getTableForItemType($classname);
+      $dbUtils = new \DbUtils;
+      $_SESSION['glpi_table_of'][get_class($mock)] = $dbUtils->getTableForItemType($classname);
 
       return $mock;
    }

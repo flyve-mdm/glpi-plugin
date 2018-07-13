@@ -11,14 +11,6 @@ if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   composer config -g github-oauth.github.com $GH_OAUTH
 fi
 
-# Make a ramdisk for mysql (speed improvement)
-sudo mkdir /mnt/ramdisk
-sudo mount -t tmpfs -o size=1024m tmpfs /mnt/ramdisk
-sudo stop mysql
-sudo mv /var/lib/mysql /mnt/ramdisk
-sudo ln -s /mnt/ramdisk/mysql /var/lib/mysql
-sudo start mysql
-
 # setup GLPI and its plugins
 mysql -u root -e 'create database $DBNAME;'
 git clone --depth=35 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
