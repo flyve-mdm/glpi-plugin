@@ -186,6 +186,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       // Check the fleet exists
       $notifiableType = $input['itemtype_applied'];
       $notifiableId = $input['items_id_applied'];
+      if (!is_subclass_of($notifiableType, PluginFlyvemdmNotifiableInterface::class)) {
+         Session::addMessageAfterRedirect(__('This is not a notifiable object', 'flyvemdm'), false,
+            ERROR);
+         return false;
+      }
       $this->notifiable = new $notifiableType();
       if (!$this->notifiable->getFromDB($notifiableId)) {
          Session::addMessageAfterRedirect(__('Cannot find the notifiable object', 'flyvemdm'), false,

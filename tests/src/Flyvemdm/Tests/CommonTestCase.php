@@ -232,17 +232,12 @@ class CommonTestCase extends GlpiCommonTestCase {
          '$version'
       )";
 
-      try {
-         $DB->query($query);
-         $mysqlError = $DB->error();
-         $flyvemdmFile = new \PluginFlyvemdmFile();
-         $flyvemdmFile->getFromDBByCrit(['name' => $fileName]);
-         $this->boolean($flyvemdmFile->isNewItem())->isFalse($mysqlError);
-         return $flyvemdmFile;
-      } catch (\Exception $e) {
-         echo $e->getMessage();
-         $this->stop();
-      }
+      $DB->query($query);
+      $mysqlError = $DB->error();
+      $flyvemdmFile = new \PluginFlyvemdmFile();
+      $flyvemdmFile->getFromDBByCrit(['name' => $fileName]);
+      $this->boolean($flyvemdmFile->isNewItem())->isFalse($mysqlError);
+      return $flyvemdmFile;
    }
 
    /**
@@ -522,17 +517,12 @@ class CommonTestCase extends GlpiCommonTestCase {
          ''
       )";
 
-      try {
-         $DB->query($query);
-         $mysqlError = $DB->error();
-         $flyvemdmPackage = new \PluginFlyvemdmPackage();
-         $flyvemdmPackage->getFromDBByCrit(['package_name' => $dumbPackageName]);
-         $this->boolean($flyvemdmPackage->isNewItem())->isFalse($mysqlError);
-         return $flyvemdmPackage;
-      } catch (\Exception $e) {
-         echo $e->getMessage();
-         $this->stop();
-      }
+      $DB->query($query);
+      $mysqlError = $DB->error();
+      $flyvemdmPackage = new \PluginFlyvemdmPackage();
+      $flyvemdmPackage->getFromDBByCrit(['package_name' => $dumbPackageName]);
+      $this->boolean($flyvemdmPackage->isNewItem())->isFalse($mysqlError);
+      return $flyvemdmPackage;
    }
 
    /**

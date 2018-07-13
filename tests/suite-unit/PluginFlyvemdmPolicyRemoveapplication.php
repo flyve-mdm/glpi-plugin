@@ -161,4 +161,36 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
          ->string($result[$this->dataField['symbol']])->isEqualTo($packageName);
    }
 
+   public function providerFilterStatus() {
+      $policyBaseTest = new PluginFlyvemdmPolicyBase();
+      $statuses = $policyBaseTest->providerFilterStatus();
+      $statuses = array_merge($statuses, [
+         [
+            'status' => 'waiting',
+            'expected' => 'waiting'
+         ],
+      ]);
+      $this->array($statuses)->size->isEqualTo(8);
+
+      $statuses = array_merge($statuses, [
+         [
+            'status' => 'invalid',
+            'expected' => null
+         ],
+      ]);
+
+      return $statuses;
+   }
+
+   /**
+    * @dataProvider providerFilterStatus
+    * @param string $status
+    * @param string $expected
+    */
+   public function testFilterStatus($status, $expected) {
+      $policyDefinition = new \PluginFlyvemdmPolicy();
+      $policyDefinition->getFromDBBySymbol('deployApp');
+      $policyObject = new \PluginFlyvemdmPolicyRemoveapplication($policyDefinition);
+      $this->variable($policyObject->filterStatus($status))->isEqualTo($expected);
+   }
 }
