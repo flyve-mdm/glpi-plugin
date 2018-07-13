@@ -95,7 +95,7 @@ class PluginFlyvemdmPolicyString extends CommonTestCase {
     * @param string $status
     * @param string $expected
     */
-    public function testFilterStatus($status, $expected) {
+   public function testFilterStatus($status, $expected) {
       $policyDefinition = new \PluginFlyvemdmPolicy();
       $policyDefinition->getFromDBBySymbol('passwordMinLength');
       $policyObject = new \PluginFlyvemdmPolicyString($policyDefinition);
