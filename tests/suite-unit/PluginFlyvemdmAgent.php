@@ -160,6 +160,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testShowForm
+    * @engine inline
     */
    /*public function testShowForm() {
       $instance = $this->newTestedInstance();
@@ -206,6 +207,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->string($result)->contains('There is no agent yet');
    }
 
+   /**
+    * @tags testCanViewItem
+    */
    public function testCanViewItem() {
       // Simulate a profile different of guest
       $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
@@ -221,20 +225,22 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
+    * @tags testGetTopicsToCleanup
     * @engine inline
     */
    public function testGetTopicsToCleanup() {
       $expected = array_merge(CommonTestCase::commandList(), CommonTestCase::policyList());
       $topics = \PluginFlyvemdmAgent::getTopicsToCleanup();
       $this->array($topics)->size->isEqualTo(count($expected));
-      $this->array($topics)->containsValues(
-         $expected,
-         "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+      $this->array($topics)->containsValues($expected,
+         "Not found policies" . PHP_EOL . json_encode(array_diff($topics, $expected),
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
       );
    }
 
    /**
     * @tags testGetAgents
+    * @engine inline
     */
    public function testGetAgents() {
       $instance = $this->createAgent([]);
