@@ -612,3 +612,46 @@ li{
   }
 
 }
+
+/*Contact*/
+.container.contact-page{
+
+  .type-t1{
+    padding-left: 2%;
+  }
+
+  .type-p1{
+    padding-left: 3%;
+    font-weight: bold;
+  }
+
+  .row.social{
+    padding-left: 3%;
+  }
+
+  .type-p2.p-size3{
+    padding-left: 3%;
+
+    a{
+      font-weight: bold;
+    }
+
+  }
+
+  .p-size3{
+    margin-left: 3%
+  }
+
+}
+
+/*container.html*/
+body{
+  div#p-size6.container{
+    padding: 0 0 5% 3%;
+  }
+}
+
+/*Change Log*/
+#modal-content.modal-content{
+  padding: 4% 4% 4% 8%;
+}
