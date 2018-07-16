@@ -98,24 +98,16 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
 // Setup plugin configuration
 $pluginConfig = [];
 if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
-   $pluginConfig = [
-      'mqtt_broker_address' => $args['--mqtt-address']
-   ];
+    $pluginConfig['mqtt_broker_address'] = $args['--mqtt-address'];
 }
 if (isset($args['--mqtt-internal-address']) && $args['--mqtt-internal-address'] !== false) {
-   $pluginConfig = [
-      'mqtt_broker_internal_address' => $args['--mqtt-internal-address']
-   ];
+    $pluginConfig['mqtt_broker_internal_address'] = $args['--mqtt-internal-address'];
 }
 if (isset($args['--mqtt-port']) && $args['--mqtt-port'] !== false) {
-   $pluginConfig = [
-      'mqtt_broker_port' => $args['--mqtt-port']
-   ];
+   $pluginConfig['mqtt_broker_port'] = $args['--mqtt-port'];
 }
 if (isset($args['--mqtt-port-tls']) && $args['--mqtt-port-tls'] !== false) {
-   $pluginConfig = [
-      'mqtt_broker_tls_port' => $args['--mqtt-port-tls']
-   ];
+   $pluginConfig['mqtt_broker_tls_port'] = $args['--mqtt-port-tls'];
 }
 
 // Init debug variable
