@@ -69,40 +69,31 @@ abstract class CommonTestCase extends CommonDBTestCase {
    }
 
    protected function setupGLPIFramework() {
-      global $CFG_GLPI, $DB, $LOADED_PLUGINS, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
+      global $DB, $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
-      if (session_status() == PHP_SESSION_ACTIVE) {
-         session_write_close();
-      }
       $LOADED_PLUGINS = null;
       $PLUGINS_INCLUDED = null;
       $AJAX_INCLUDE = null;
-      $_SESSION = [
-         // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
-         'glpi_use_mode' => Session::NORMAL_MODE,
-      ];
-      if (is_readable(GLPI_ROOT . "/config/config.php")) {
-         $configFile = "/config/config.php";
-      } else {
-         $configFile = "/inc/config.php";
-      }
-      include (GLPI_ROOT . $configFile);
-      require (GLPI_ROOT . "/inc/includes.php");
+
+      include GLPI_ROOT . "/tests/config_db.php";
+      require GLPI_ROOT . "/inc/includes.php";
 
       //To debug php fatal errors. May impact atoum workers communication
       //\Toolbox::setDebugMode(Session::DEBUG_MODE);
 
       $DB = new DB();
 
-      include_once (GLPI_ROOT . "/inc/timer.class.php");
+      include_once GLPI_ROOT . "/inc/timer.class.php";
 
       // Security of PHP_SELF
       $_SERVER['PHP_SELF'] = Html::cleanParametersURL($_SERVER['PHP_SELF']);
    }
 
    protected function login($name, $password, $noauto = false) {
+      $this->terminateSession(); // force clean up current session
+
       Session::start();
-      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
+
       $auth = new Auth();
       if (defined('GLPI_PREVER') && version_compare('9.2', rtrim(GLPI_VERSION, '-dev'), 'lt')) {
          // GLPI 9.3 and upper has this method
@@ -111,8 +102,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
          // older versions use this one
          $result = $auth->Login($name, $password, $noauto);
       }
-      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
-      $this->setupGLPIFramework();
+      //$this->setupGLPIFramework();
 
       return $result;
    }
@@ -176,8 +166,16 @@ abstract class CommonTestCase extends CommonDBTestCase {
    }
 
    protected function terminateSession() {
-      if (session_status() == PHP_SESSION_ACTIVE) {
-         session_write_close();
+      // based on glpi logout script
+      Session::destroy();
+
+      //Remove cookie to allow new login
+      $cookie_name = session_name() . '_rememberme';
+      $cookie_path = ini_get('session.cookie_path');
+
+      if (isset($_COOKIE[$cookie_name])) {
+         setcookie($cookie_name, '', time() - 3600, $cookie_path);
+         unset($_COOKIE[$cookie_name]);
       }
    }
 

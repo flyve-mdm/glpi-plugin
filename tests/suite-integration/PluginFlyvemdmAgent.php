@@ -48,7 +48,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
       switch ($method) {
          case 'testDeviceCountLimit':

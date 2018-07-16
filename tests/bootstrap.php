@@ -34,13 +34,7 @@ global $CFG_GLPI, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-define('TEST_GLPI_URI', 'http://localhost:8088');
 define('TEST_PLUGIN_NAME', 'flyvemdm');
-
-// glpi/inc/oolbox.class.php tests TU_USER to decide if it warns or not about mcrypt extension
-define('TU_USER', '_test_user');
-define('TU_PASS', 'PhpUnit_4');
-
 
 define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
 define('GLPI_CONFIG_DIR', GLPI_ROOT . '/tests');
@@ -62,18 +56,6 @@ if ($key) {
    unset($_SERVER['argv'][$key]);
 }
 
-ini_set('session.use_cookies', 0); //disable session cookies
-ini_set("memory_limit", "-1");
-ini_set("max_execution_time", "0");
-
 include (GLPI_ROOT . '/inc/includes.php');
 
 Toolbox::setDebugMode(Session::DEBUG_MODE);
-
-// need to set theses in DB, because tests for API use http call and this bootstrap file is not called
-Config::setConfigurationValues('core', [
-      'url_base'     => TEST_GLPI_URI,
-      'url_base_api' => TEST_GLPI_URI . '/apirest.php'
-]);
-$CFG_GLPI['url_base']      = TEST_GLPI_URI;
-$CFG_GLPI['url_base_api']  = TEST_GLPI_URI . '/apirest.php';
