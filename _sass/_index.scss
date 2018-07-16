@@ -467,10 +467,77 @@ Blockquote.type-p2 {
 .post-content.row.type-p2.p-size6{
   padding: 0 0 6% 5%;
   border-bottom: dashed #158784 1px;
+  margin: 0;
+  max-width: 95%;
+
+  ul{
+    li{
+      max-width: 100%;
+
+      a{
+        font-weight: bold;
+      }
+
+      ul{
+        li{
+          .language-console.highlighter-rouge{
+            .highlight{
+              max-width: 90%;
+            }
+          }
+
+          a{
+            font-weight: bold;
+          }
+
+        }
+      }
+
+    }
+  }
+
+  p{
+    a{
+      font-weight: bold;
+    }
+
+    img{
+      padding-left: 2%;
+    }
+
+  }
+
+  table{
+    max-width: 100%;
+  }
+
+  .highlighter-rouge{
+    .highlight{
+      max-width: 90%;
+    }
+  }
+
+  ol{
+    li{
+      max-width: 95%;
+
+      pre{
+        max-width: 100%;
+        padding: 0 0 0 0;
+      }
+
+    }
+  }
+
 }
 
 blockquote.type-p2{
-  margin: 3% 0 5% 1%
+  margin: 3% 0 5% 1%;
+
+  a{
+    font-weight: bold;
+  }
+  
 }
 
 .post-content.row.type-p2.p-size2{
@@ -644,7 +711,7 @@ li{
 
 }
 
-/*container.html*/
+/*container2.html*/
 body{
   div#p-size6.container{
     padding: 0 0 5% 3%;
