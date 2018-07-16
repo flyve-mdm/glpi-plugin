@@ -56,7 +56,6 @@ class ApiRestTestCase extends CommonTestCase {
 
    public function setUp() {
       parent::setUp();
-      self::setupGLPIFramework();
    }
 
    protected function doHttpRequest($method = "get", $relative_uri = "", $params = []) {
@@ -196,7 +195,6 @@ class ApiRestTestCase extends CommonTestCase {
          session_id();
          //$_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
       }
-      self::setupGLPIFramework();
    }
 
    /**
