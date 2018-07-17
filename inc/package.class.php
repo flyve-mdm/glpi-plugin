@@ -319,7 +319,15 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @return array
     */
    public function getSearchOptionsNew() {
-      $tab = parent::getSearchOptionsNew();
+      return $this->rawSearchOptions();
+   }
+
+   public function rawSearchOptions() {
+      if (method_exists('CommonDBTM', 'rawSearchOptions')) {
+         $tab = parent::rawSearchOptions();
+      } else {
+         $tab = parent::getSearchOptionsNew();
+      }
 
       $tab[] = [
          'id'            => '2',
