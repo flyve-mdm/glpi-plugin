@@ -541,8 +541,31 @@ blockquote.type-p2{
 }
 
 .post-content.row.type-p2.p-size2{
-  padding: 0 0 4% 5%;
+  padding: 3% 0 5% 5%;
   border-bottom: dashed #158784 1px;
+  margin: 0;
+  max-width: 95%;
+
+  .highlighter-rouge{
+    .highlight{
+      max-width: 90%;
+    }
+  }
+
+  p{
+    a{
+      font-weight: bold;
+    }
+  }
+
+  ul{
+    li{
+      a{
+        font-weight: bold;
+      }
+    }
+  }
+
 }
 
 /*Index (Jumbotron influences projects.html too)*/
@@ -705,8 +728,24 @@ li{
 
   }
 
+  @media (max-width: 768px) {
+    .type-p2.p-size3{ max-width: 60% };
+  }
+  
+  @media (max-width: 414px) {
+    .type-p2.p-size3{ max-width: 95% };
+  }
+  
   .p-size3{
     margin-left: 3%
+  }
+
+  @media (max-width: 768px) {
+    .p-size3{ max-width: 60% };
+  }
+  
+  @media (max-width: 414px) {
+    .p-size3{ max-width: 90% };
   }
 
 }
@@ -721,4 +760,20 @@ body{
 /*Change Log*/
 #modal-content.modal-content{
   padding: 4% 4% 4% 8%;
+}
+
+/*Code coverage*/
+.table-responsive{
+  padding-top: 5%;
+
+  .container-fluid{
+    .col-lg-12{
+      .row{
+        h1{
+          padding-bottom: 2%;
+        }
+      }
+    }
+  }
+
 }
