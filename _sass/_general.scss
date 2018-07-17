@@ -12,71 +12,83 @@ body {
 
 
 /*CHANGES THE LENGTH OF THE CODE LINES CONTAINED IN THE "PRE" SELECTORS TO AROUND 60 CHARACTERS PER LINE*/
-pre {
+/*DEVICE BREAKPOINTS*/
 
-  max-width: 66%;
-  white-space: nowrap;
-  overflow: hidden;
-  word-break: break-all;
-  text-overflow: ellipsis;
-
-}
-
-pre:hover{
-
-  white-space: normal;
-  max-width: 95%;
-
-}
-
-
-@media (max-width: 414px){
+/*EXTRA SMALL SCREEN: Smart phones*/
+@media (max-width: 600px){
 
   pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
-@media (max-width: 768px){
+/*SMALL SCREEN: Large Smart phones*/
+@media (min-width: 600px){
 
-  pre {max-width: 70%; white-space: normal; word-break: break-all};
+  pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (min-width: 768px){
+
+  pre {max-width: 68%; white-space: normal; word-break: break-all};
+
+}
+
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (min-width: 992px){
+
+  pre {max-width: 65%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+  pre:hover {white-space: normal; max-width: 95%};
+
+}
+
+/*EXTRA LARGE SCREEN: Desktop*/
+@media (min-width: 1200px){
+
+  pre {max-width: 65%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+  pre:hover {white-space: normal; max-width: 95%};
+
+}
 
 /*CHANGES THE LENGTH OF THE CODE LINES CONTAINED IN THE "PRE" SELECTORS TO AROUND 60 CHARACTERS PER LINE IN THE SPECIFICATION FILE*/
-#p-size6 pre {
+/*
 
-  max-width: 55%;
-  white-space: nowrap;
-  overflow: hidden;
-  word-break: break-all;
-  text-overflow: ellipsis;
 
-}
+/*EXTRA SMALL SCREEN: Smart phones*/
+@media (max-width: 600px){
 
-#p-size6 pre:hover{
-
-  white-space: normal;
-  max-width: 95%;
+#p-size6  pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
+/*SMALL SCREEN: Large Smart phones*/
+@media (min-width: 600px){
 
-@media (max-width: 1024px){
-
-  #p-size6 pre {max-width: 55%; white-space: normal; word-break: break-all};
-
-}
-
-@media (max-width: 768px){
-
-  #p-size6 pre {max-width: 65%; white-space: normal; word-break: break-all};
+#p-size6  pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
-@media (max-width: 414px){
+/*MEDIUM SCREEN: Tablets, iPad*/
+@media (min-width: 768px){
 
-  #p-size6 pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+#p-size6  pre {max-width: 68%; white-space: normal; word-break: break-all};
+
+}
+
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (min-width: 992px){
+
+#p-size6  pre {max-width: 46%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+#p-size6  pre:hover {white-space: normal; max-width: 95%};
+
+}
+
+/*EXTRA LARGE SCREEN: Desktop*/
+@media (min-width: 1200px){
+
+#p-size6  pre {max-width: 44%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+#p-size6  pre:hover {white-space: normal; max-width: 95%};
 
 }
 
