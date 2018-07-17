@@ -145,28 +145,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * @tags testGetTabNameForItem
-    */
-   /*public function testGetTabNameForItem() {
-      $instance = $this->newTestedInstance();
-      $result = $instance->getTabNameForItem();
-   }*/
-
-   /**
-    * @tags testDisplayTabContentForItem
-    */
-   /*public function testDisplayTabContentForItem() {
-      $class = $this->testedClass->getClass();
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmAgent');
-      $mockInstance->getMockController()->showDangerZone = function() {};
-      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
-
-      $mockInstance = $this->newMockInstance('\PluginFlyvemdmFleet');
-      $mockInstance->getMockController()->showForFleet = function() {};
-      $this->boolean($class::displayTabContentForItem($mockInstance))->isTrue();
-   }*/
-
-   /**
     * @tags testShowForm
     * @engine inline
     */
@@ -238,7 +216,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testGetTopicsToCleanup
-    * @engine inline
     */
    public function testGetTopicsToCleanup() {
       $expected = array_merge(CommonTestCase::commandList(), CommonTestCase::policyList());
