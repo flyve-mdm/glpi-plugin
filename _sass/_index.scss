@@ -277,7 +277,7 @@
 @media (max-width: 1024px) {
 
 
-  .p-size {max-width: 60%};
+  .p-size {max-width: 48%};
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
@@ -352,31 +352,16 @@ Blockquote.type-p2 {
 /**********************************/
 
 
-.post-content .highlighter-rouge pre code{
+/*EXTRA SMALL SCREEN: Smart phones*/
+@media (max-width: 600px) {
 
-  max-width: 66%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-}
-
-.post-content .highlighter-rouge pre code:hover{
-
-  white-space: normal;
-  max-width: 95%;
-  overflow: visible;
-
-}
-
-.post-content p{
-
-  max-width: 58%;
+  .post-content p {max-width: 100%};
+  .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
 /*SMALL SCREEN: Smart phones*/
-@media (max-width: 414px) {
+@media (min-width: 600px) {
 
   .post-content p {max-width: 100%};
   .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
@@ -384,52 +369,54 @@ Blockquote.type-p2 {
 }
 
 /*MEDIUM SCREEN: Tablets, iPad*/
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 
   .post-content p {max-width: 100%};
   .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
 }
 
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (min-width: 992px) {
+
+  .post-content .highlighter-rouge pre code {max-width: 66%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  .post-content .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
+  .post-content p {max-width: 58%};
+
+}
+
+/*EXTRA LARGE SCREEN: Desktop*/
+@media (min-width: 1200px) {
+
+  .post-content .highlighter-rouge pre code {max-width: 66%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  .post-content .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
+  .post-content p {max-width: 58%};
+
+}
 
 /***************************************/
 /** "SPECIFICATIONS" (INDEX.MD) FILE **/
 /**************************************/
 
-#p-size6 p {
+/*EXTRA SMALL SCREEN: Smart phones*/
+@media (max-width: 600px) {
 
-  max-width: 33%;
-
-}
-
-#p-size6 .highlighter-rouge pre code{
-
-  max-width: 36%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  #p-size6 p {max-width: 100%};
+  #p-size6 li{max-width: 100%};
 
 }
 
-#p-size6 .highlighter-rouge pre code:hover{
+/*SMALL SCREEN: Large Smart phones*/
+@media (min-width: 600px) {
 
-  white-space: normal;
-  max-width: 95%;
-  overflow: visible;
-
-}
-
-
-/*LARGE SCREEN: Large Tablets, iPad Pro*/
-@media (max-width: 1024px) {
-
-  #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
-  #p-size6 p {max-width: 55%};
-  #p-size6 ul {max-width: 60%};
+  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  #p-size6 p {max-width: 100%};
+  #p-size6 li{max-width: 100%};
 
 }
 
 /*MEDIUM SCREEN: Tablets, iPad*/
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 
   #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
   #p-size6 p {max-width: 70%};
@@ -440,15 +427,22 @@ Blockquote.type-p2 {
 
 }
 
-/*SMALL SCREEN: Smart phones*/
-@media (max-width: 414px) {
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (min-width: 992px) {
 
-  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
-  #p-size6 p {max-width: 100%};
-  #p-size6 h1 {max-width: 100%};
-  #p-size6 h2 {max-width: 100%};
-  #p-size6 h5 {max-width: 100%};
-  #p-size6 ul {max-width: 100%};
+  #p-size6 .highlighter-rouge pre code {max-width: 36%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  #p-size6 .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
+  #p-size6 p {max-width: 43%};
+  #p-size6 li{max-width: 46%};
+
+}
+
+/*EXTRA LARGE SCREEN: Desktop*/
+@media (min-width: 1200px) {
+
+  #p-size6 .highlighter-rouge pre code {max-width: 36%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  #p-size6 .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
+  #p-size6 p {max-width: 33%};
 
 }
 
@@ -459,7 +453,6 @@ Blockquote.type-p2 {
 
 .product p {
 
-  /*background-color: blue;*/
   max-width: 44%;
 
 }
@@ -583,7 +576,7 @@ blockquote.type-p2{
   a{
     font-weight: bold;
   }
-  
+
 }
 
 .post-content.row.type-p2.p-size2{
@@ -710,7 +703,7 @@ padding: 5% 0 3% 0;
     h3{
       padding-top: 3%;
     }
-    
+
   }
 
   h2{
@@ -732,7 +725,7 @@ li{
     padding-top: 3%;
 
     a.post-link{
-      font-size: 64%; 
+      font-size: 64%;
       font-weight: bold;
     }
 
@@ -816,11 +809,11 @@ li{
   @media (max-width: 768px) {
     .type-p2.p-size3{ max-width: 60% };
   }
-  
+
   @media (max-width: 414px) {
     .type-p2.p-size3{ max-width: 95% };
   }
-  
+
   .p-size3{
     margin-left: 3%
   }
@@ -828,7 +821,7 @@ li{
   @media (max-width: 768px) {
     .p-size3{ max-width: 60% };
   }
-  
+
   @media (max-width: 414px) {
     .p-size3{ max-width: 90% };
   }
