@@ -49,7 +49,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @tags testApplyPolicyOnFleet
-    * @engine inline
     */
    public function testApplyPolicyOnFleet() {
       // Create an agent
@@ -167,7 +166,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @tags testApplyPolicyOnAgent
-    * @engine inline
     */
    public function testApplyPolicyOnAgent() {
       // Create an agent
