@@ -380,29 +380,36 @@ Blockquote.type-p2 {
 }
 
 
-/*SMALL SCREEN: Smart phones*/
-@media (max-width: 414px) {
+/*LARGE SCREEN: Large Tablets, iPad Pro*/
+@media (max-width: 1024px) {
 
-  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
-  #p-size6 p {max-width: 100%};
+  #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
+  #p-size6 p {max-width: 55%};
+  #p-size6 ul {max-width: 60%};
 
 }
 
 /*MEDIUM SCREEN: Tablets, iPad*/
 @media (max-width: 768px) {
 
-
   #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
-  #p-size6 p {max-width: 55%};
+  #p-size6 p {max-width: 70%};
+  #p-size6 h1 {max-width: 70%};
+  #p-size6 h2 {max-width: 70%};
+  #p-size6 h5 {max-width: 70%};
+  #p-size6 ul {max-width: 70%};
 
 }
 
-/*LARGE SCREEN: Large Tablets, iPad Pro*/
-@media (max-width: 1024px) {
+/*SMALL SCREEN: Smart phones*/
+@media (max-width: 414px) {
 
-
-  #p-size6 .highlighter-rouge pre code {max-width: 68%; white-space: normal; word-break: break-all};
-  #p-size6 p {max-width: 47%};
+  #p-size6 .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  #p-size6 p {max-width: 100%};
+  #p-size6 h1 {max-width: 100%};
+  #p-size6 h2 {max-width: 100%};
+  #p-size6 h5 {max-width: 100%};
+  #p-size6 ul {max-width: 100%};
 
 }
 
@@ -579,11 +586,19 @@ blockquote.type-p2{
 }
 
 .type-h2{
-  padding-top: 7%;
+  padding: 7% 0 2% 0;
 }
 
 p.type-p2.p-size2{
   padding: 5% 0 5% 0;
+}
+
+@media (max-width: 768px) {
+  p.type-p2.p-size2{ max-width: 90% };
+}
+
+@media (max-width: 414px) {
+  p.type-p2.p-size2{ max-width: 95% };
 }
 
 ul.type-p2.p-size2{
@@ -591,12 +606,41 @@ ul.type-p2.p-size2{
   padding-top: 2%;
 }
 
+@media (max-width: 768px) {
+  ul.type-p2.p-size2{ max-width: 90% };
+}
+
+@media (max-width: 414px) {
+  ul.type-p2.p-size2{ max-width: 95% };
+}
+
 .type-p1.p-size2{
 padding: 5% 0 3% 0;
 }
 
+@media (max-width: 768px) {
+  .type-p1.p-size2{ max-width: 90% };
+}
+
+@media (max-width: 414px) {
+  .type-p1.p-size2{ max-width: 95% };
+}
+
 .type-p2.p-size{
   padding-bottom: 5%;
+
+  a{
+    font-weight: bold;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .type-p2.p-size{ max-width: 50% };
+}
+
+@media (max-width: 414px) {
+  .type-p2.p-size{ max-width: 95% };
 }
 
 .jumbotron{
@@ -623,9 +667,11 @@ padding: 5% 0 3% 0;
 
   .col-md-12.col-md-pull-12{
     padding: 1% 0 2% 0;
+
     h3{
       padding-top: 3%;
     }
+    
   }
 
   h2{
