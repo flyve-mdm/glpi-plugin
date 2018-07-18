@@ -46,7 +46,7 @@ pre:hover{
 /*CHANGES THE LENGTH OF THE CODE LINES CONTAINED IN THE "PRE" SELECTORS TO AROUND 60 CHARACTERS PER LINE IN THE SPECIFICATION FILE*/
 #p-size6 pre {
 
-  max-width: 36%;
+  max-width: 55%;
   white-space: nowrap;
   overflow: hidden;
   word-break: break-all;
@@ -62,15 +62,21 @@ pre:hover{
 }
 
 
-@media (max-width: 414px){
+@media (max-width: 1024px){
 
-  #p-size6 pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  #p-size6 pre {max-width: 55%; white-space: normal; word-break: break-all};
 
 }
 
 @media (max-width: 768px){
 
-  #p-size6 pre {max-width: 55%; white-space: normal; word-break: break-all};
+  #p-size6 pre {max-width: 65%; white-space: normal; word-break: break-all};
+
+}
+
+@media (max-width: 414px){
+
+  #p-size6 pre {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
 
 }
 
