@@ -90,8 +90,17 @@ function plugin_init_flyvemdm() {
       ]);
    }
 
-   if ($plugin->isActivated('flyvemdm')) {
+   if (!$plugin->getFromDBbyDir('flyvemdm')) {
+      // nothing more to do at this moment
+      return;
+   }
+
+   $state = $plugin->getField('state');
+   if ($state != Plugin::NOTACTIVATED) {
       require_once(__DIR__ . '/vendor/autoload.php');
+   }
+
+   if ($state == Plugin::ACTIVATED) {
       if (!class_exists('GlpiLocalesExtension')) {
          require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
       }
