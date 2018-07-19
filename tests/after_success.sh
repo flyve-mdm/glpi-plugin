@@ -29,7 +29,7 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
     git config --global user.email "apps@teclib.com"
     git config --global user.name "Teclib' bot"
     echo "adding a new remote"
-    git remote add origin-pages https://"$CODE_COVERAGE_REPORT_TOKEN"@github.com/"$TRAVIS_REPO_SLUG".git > /dev/null 2>&1
+    git remote add origin-pages https://"$GH_TOKEN"@github.com/"$TRAVIS_REPO_SLUG".git > /dev/null 2>&1
     echo "fetching from the new remote"
     git fetch origin-pages
 
@@ -37,7 +37,7 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
     if [ "git branch -r --list origin-pages/gh-pages" ]; then
         echo "generating the docs"
         # clean the repo and generate the docs
-        git checkout composer.lock
+        git checkout .
         #php $HOME/bin/sami.phar update "$TRAVIS_BUILD_DIR"/.github/samiConfig.php --force
         find build/tests/coverage/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
         find build/tests/coverage/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
