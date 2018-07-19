@@ -3,7 +3,7 @@
     "prefer-stable": true,
     "title": "Flyve MDM",
     "description": "Flyve MDM plugin for GLPI",
-    "version": "2.0.0-dev",
+    "version": "2.0.0-rc.1",
     "type": "project",
     "licence": "AGPL-3.0-or-later",
     "keywords": [
