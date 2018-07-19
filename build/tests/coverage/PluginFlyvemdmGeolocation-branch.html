@@ -35,9 +35,9 @@ layout: coverage
     <tr>
         
                     <td style="text-align: center; width: 100%">
-                <h1 class="text-warning">
-                    33%
-                                            <small>of 137</small>
+                <h1 class="text-danger">
+                    8%
+                                            <small>of 133</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -65,7 +65,14 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getTabNameForItem">PluginFlyvemdmGeolocation::getTabNameForItem()</a></td>
-                                        <td style="text-align: center">19</td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#countComputers">PluginFlyvemdmGeolocation::countComputers()</a></td>
+                                        <td style="text-align: center">6</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -107,7 +114,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#addDefaultWhere">PluginFlyvemdmGeolocation::addDefaultWhere()</a></td>
-                                        <td style="text-align: center">6</td>
+                                        <td style="text-align: center">5</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -121,9 +128,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmGeolocation::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">35</td>
+                                        <td style="text-align: center">32</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -183,6 +190,33 @@ layout: coverage
 
             <script>
                 var g = graph('PluginFlyvemdmGeolocation', 'getTabNameForItem');
+
+                
+                g.addEnd().roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="countComputers">
+                <div class="panel-heading">
+                    PluginFlyvemdmGeolocation::countComputers()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmGeolocation.html#countComputers" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmGeolocation', 'countComputers');
 
                 
                 g.addEnd().roundNodes();
@@ -386,7 +420,7 @@ layout: coverage
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmGeolocation.html#getSearchOptionsNew" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmGeolocation.html#getSearchOptionsNew" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>

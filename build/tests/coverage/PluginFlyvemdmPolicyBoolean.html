@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-success">
                     100%
-                                            <small>of 20</small>
+                                            <small>of 25</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -79,7 +79,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#showValueInput">PluginFlyvemdmPolicyBoolean::showValueInput()</a></td>
-                                        <td style="text-align: center">1</td>
+                                        <td style="text-align: center">6</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
@@ -814,18 +814,61 @@ layout: coverage
                     <th id="L92" class="number covered">92</th>
 
                     <td class="covered" >
-                        <pre>      return Dropdown::showYesNo(&#039;value&#039;, $value, -1, [&#039;display&#039; =&gt; false]);</pre>
+                        <pre>      $data[&#039;itemtype&#039;] = $itemType;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number unreach">93</th>
+                    <th id="L93" class="number covered">93</th>
+
+                    <td class="covered" >
+                        <pre>      $data[&#039;typeTmpl&#039;] = PluginFlyvemdmPolicyBoolean::class;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L94" class="number covered">94</th>
+
+                    <td class="covered" >
+                        <pre>      $data[&#039;dropdown&#039;] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L95" class="number covered">95</th>
+
+                    <td class="covered" >
+                        <pre>          Dropdown::showYesNo(&#039;value&#039;, $value, -1, [&#039;display&#039; =&gt; false])</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L96" class="number ">96</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L97" class="number covered">97</th>
+
+                    <td class="covered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L98" class="number covered">98</th>
+
+                    <td class="covered" >
+                        <pre>      return $twig-&gt;render(&#039;policy_value.html.twig&#039;, [&#039;data&#039; =&gt; $data]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L99" class="number unreach">99</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L100" class="number ">100</th>
 
                     <td class="" >
                         <pre>
@@ -833,7 +876,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number ">95</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>   /**
@@ -841,7 +884,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
+                    <th id="L102" class="number ">102</th>
 
                     <td class="" >
                         <pre>    * @param PluginFlyvemdmTask $task
@@ -849,7 +892,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L97" class="number ">97</th>
+                    <th id="L103" class="number ">103</th>
 
                     <td class="" >
                         <pre>    * @return string
@@ -857,7 +900,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number ">98</th>
+                    <th id="L104" class="number ">104</th>
 
                     <td class="" >
                         <pre>    */
@@ -865,35 +908,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="showValue">
-                    <th id="L99" class="number ">99</th>
+                    <th id="L105" class="number ">105</th>
 
                     <td class="" id="showValue">
                         <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number covered">100</th>
+                    <th id="L106" class="number covered">106</th>
 
                     <td class="covered" >
                         <pre>      $value = $task-&gt;getField(&#039;value&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number covered">101</th>
+                    <th id="L107" class="number covered">107</th>
 
                     <td class="covered" >
                         <pre>      if ($value == &#039;0&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L102" class="number covered">102</th>
+                    <th id="L108" class="number covered">108</th>
 
                     <td class="covered" >
                         <pre>         return __(&#039;No&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number ">103</th>
+                    <th id="L109" class="number ">109</th>
 
                     <td class="" >
                         <pre>      }
@@ -901,21 +944,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number covered">104</th>
+                    <th id="L110" class="number covered">110</th>
 
                     <td class="covered" >
                         <pre>      return __(&#039;Yes&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L105" class="number unreach">105</th>
+                    <th id="L111" class="number unreach">111</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number ">106</th>
+                    <th id="L112" class="number ">112</th>
 
                     <td class="" >
                         <pre>}

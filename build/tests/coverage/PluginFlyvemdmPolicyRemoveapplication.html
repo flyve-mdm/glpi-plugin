@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-success">
-                    95%
-                                            <small>of 22</small>
+                    100%
+                                            <small>of 24</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -72,7 +72,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#unicityCheck">PluginFlyvemdmPolicyRemoveapplication::unicityCheck()</a></td>
-                                        <td style="text-align: center">6</td>
+                                        <td style="text-align: center">8</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
@@ -88,7 +88,7 @@ layout: coverage
             <td><a href="#getEnumSpecificStatus">PluginFlyvemdmPolicyRemoveapplication::getEnumSpecificStatus()</a></td>
                                         <td style="text-align: center">1</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-success">100%</span>
 </td>
                                             </tr>
         </tbody>
@@ -541,7 +541,7 @@ layout: coverage
                     <th id="L56" class="number ">56</th>
 
                     <td class="" >
-                        <pre>    * @return bool
+                        <pre>    * @return boolean
 </pre>
                     </td>
                 </tr>
@@ -661,7 +661,7 @@ layout: coverage
                     <th id="L72" class="number ">72</th>
 
                     <td class="" >
-                        <pre>    * @param mixed                      $value
+                        <pre>    * @param mixed                             $value
 </pre>
                     </td>
                 </tr>
@@ -669,7 +669,7 @@ layout: coverage
                     <th id="L73" class="number ">73</th>
 
                     <td class="" >
-                        <pre>    * @param mixed                      $itemtype
+                        <pre>    * @param mixed                             $itemtype
 </pre>
                     </td>
                 </tr>
@@ -677,7 +677,7 @@ layout: coverage
                     <th id="L74" class="number ">74</th>
 
                     <td class="" >
-                        <pre>    * @param integer                    $itemId
+                        <pre>    * @param integer                           $itemId
 </pre>
                     </td>
                 </tr>
@@ -685,7 +685,7 @@ layout: coverage
                     <th id="L75" class="number ">75</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmFleet $fleet
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $notifiable
 </pre>
                     </td>
                 </tr>
@@ -701,7 +701,7 @@ layout: coverage
                     <th id="L77" class="number ">77</th>
 
                     <td class="" >
-                        <pre>    * @return bool
+                        <pre>    * @return boolean
 </pre>
                     </td>
                 </tr>
@@ -717,79 +717,77 @@ layout: coverage
                     <th id="L79" class="number ">79</th>
 
                     <td class="" id="unicityCheck">
-                        <pre>   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmFleet $fleet) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                        <pre>   public function unicityCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L80" class="number covered">80</th>
 
                     <td class="covered" >
-                        <pre>      $fleetId = $fleet-&gt;getID();</pre>
+                        <pre>      $notifiableType = $notifiable-&gt;getType();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L81" class="number covered">81</th>
 
                     <td class="covered" >
-                        <pre>      $task = new PluginFlyvemdmTask();</pre>
+                        <pre>      $notifiableId = $notifiable-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L82" class="number covered">82</th>
 
                     <td class="covered" >
-                        <pre>      $rows = $task-&gt;find(&quot;`plugin_flyvemdm_fleets_id` = &#039;$fleetId&#039;</pre>
+                        <pre>      $task = new PluginFlyvemdmTask();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L83" class="number covered">83</th>
 
                     <td class="covered" >
-                        <pre>            AND `plugin_flyvemdm_policies_id` = &#039;&quot; . $this-&gt;policyData-&gt;getID() . &quot;&#039;</pre>
+                        <pre>      $rows = $task-&gt;find(&quot;`itemtype_applied` = &#039;$notifiableType&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L84" class="number covered">84</th>
 
                     <td class="covered" >
-                        <pre>            AND `value` = &#039;$value&#039;&quot;, &quot;&quot;, &quot;1&quot;);</pre>
+                        <pre>            AND `items_id_applied` = &#039;$notifiableId&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L85" class="number covered">85</th>
 
                     <td class="covered" >
+                        <pre>            AND `plugin_flyvemdm_policies_id` = &#039;&quot; . $this-&gt;policyData-&gt;getID() . &quot;&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L86" class="number covered">86</th>
+
+                    <td class="covered" >
+                        <pre>            AND `value` = &#039;$value&#039;&quot;, &quot;&quot;, &quot;1&quot;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L87" class="number covered">87</th>
+
+                    <td class="covered" >
                         <pre>      return (count($rows) == 0);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L86" class="number unreach">86</th>
+                    <th id="L88" class="number unreach">88</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L87" class="number ">87</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L88" class="number ">88</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L89" class="number ">89</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $value
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -797,7 +795,7 @@ layout: coverage
                     <th id="L90" class="number ">90</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $itemtype
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -805,7 +803,7 @@ layout: coverage
                     <th id="L91" class="number ">91</th>
 
                     <td class="" >
-                        <pre>    * @param integer $itemId
+                        <pre>    * @param mixed $value
 </pre>
                     </td>
                 </tr>
@@ -813,7 +811,7 @@ layout: coverage
                     <th id="L92" class="number ">92</th>
 
                     <td class="" >
-                        <pre>    * @return array|bool
+                        <pre>    * @param mixed $itemtype
 </pre>
                     </td>
                 </tr>
@@ -821,33 +819,49 @@ layout: coverage
                     <th id="L93" class="number ">93</th>
 
                     <td class="" >
+                        <pre>    * @param integer $itemId
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L94" class="number ">94</th>
+
+                    <td class="" >
+                        <pre>    * @return array|boolean
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L95" class="number ">95</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="getMqttMessage">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L96" class="number ">96</th>
 
                     <td class="" id="getMqttMessage">
                         <pre>   public function getMqttMessage($value, $itemtype, $itemId) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number covered">95</th>
+                    <th id="L97" class="number covered">97</th>
 
                     <td class="covered" >
                         <pre>      if (!$this-&gt;integrityCheck($value, $itemtype, $itemId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number covered">96</th>
+                    <th id="L98" class="number covered">98</th>
 
                     <td class="covered" >
                         <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L97" class="number ">97</th>
+                    <th id="L99" class="number ">99</th>
 
                     <td class="" >
                         <pre>      }
@@ -855,7 +869,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number ">98</th>
+                    <th id="L100" class="number ">100</th>
 
                     <td class="" >
                         <pre>
@@ -863,7 +877,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L99" class="number ">99</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>      $array = [
@@ -871,14 +885,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number covered">100</th>
+                    <th id="L102" class="number covered">102</th>
 
                     <td class="covered" >
                         <pre>         $this-&gt;symbol  =&gt; $value,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number ">101</th>
+                    <th id="L103" class="number ">103</th>
 
                     <td class="" >
                         <pre>      ];
@@ -886,21 +900,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L102" class="number covered">102</th>
+                    <th id="L104" class="number covered">104</th>
 
                     <td class="covered" >
                         <pre>      return $array;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number unreach">103</th>
+                    <th id="L105" class="number unreach">105</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number ">104</th>
+                    <th id="L106" class="number ">106</th>
 
                     <td class="" >
                         <pre>
@@ -908,14 +922,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getEnumSpecificStatus">
-                    <th id="L105" class="number ">105</th>
+                    <th id="L107" class="number ">107</th>
 
                     <td class="" id="getEnumSpecificStatus">
-                        <pre>   public static function getEnumSpecificStatus() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   public static function getEnumSpecificStatus() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number ">106</th>
+                    <th id="L108" class="number ">108</th>
 
                     <td class="" >
                         <pre>      return [
@@ -923,14 +937,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number uncovered">107</th>
+                    <th id="L109" class="number covered">109</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         &#039;waiting&#039; =&gt; __(&#039;Waiting&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L108" class="number ">108</th>
+                    <th id="L110" class="number ">110</th>
 
                     <td class="" >
                         <pre>      ];
@@ -938,14 +952,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L109" class="number unreach">109</th>
+                    <th id="L111" class="number unreach">111</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L110" class="number ">110</th>
+                    <th id="L112" class="number ">112</th>
 
                     <td class="" >
                         <pre>}

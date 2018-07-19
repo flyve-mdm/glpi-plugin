@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    53%
-                                            <small>of 241</small>
+                    39%
+                                            <small>of 273</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -67,7 +67,7 @@ layout: coverage
             <td><a href="#getTypeName">PluginFlyvemdmInvitation::getTypeName()</a></td>
                                         <td style="text-align: center">1</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-success">100%</span>
 </td>
                                             </tr>
             <tr>
@@ -86,9 +86,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#prepareInputForAdd">PluginFlyvemdmInvitation::prepareInputForAdd()</a></td>
-                                        <td style="text-align: center">48</td>
+                                        <td style="text-align: center">65</td>
                 <td style="text-align: center">    
-    <span class="label label-warning">69%</span>
+    <span class="label label-warning">62%</span>
 </td>
                                             </tr>
             <tr>
@@ -121,14 +121,21 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#post_addItem">PluginFlyvemdmInvitation::post_addItem()</a></td>
-                                        <td style="text-align: center">3</td>
+                                        <td style="text-align: center">5</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
                                             </tr>
             <tr>
-            <td><a href="#hook_pre_self_purge">PluginFlyvemdmInvitation::hook_pre_self_purge()</a></td>
-                                        <td style="text-align: center">5</td>
+            <td><a href="#post_updateItem">PluginFlyvemdmInvitation::post_updateItem()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#hook_pre_invitation_purge">PluginFlyvemdmInvitation::hook_pre_invitation_purge()</a></td>
+                                        <td style="text-align: center">6</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -149,7 +156,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#createQRCodeDocument">PluginFlyvemdmInvitation::createQRCodeDocument()</a></td>
-                                        <td style="text-align: center">34</td>
+                                        <td style="text-align: center">32</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
@@ -170,9 +177,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmInvitation::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">29</td>
+                                        <td style="text-align: center">32</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -205,7 +212,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#processMassiveActionsForOneItemtype">PluginFlyvemdmInvitation::processMassiveActionsForOneItemtype()</a></td>
-                                        <td style="text-align: center">30</td>
+                                        <td style="text-align: center">31</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -247,7 +254,7 @@ layout: coverage
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmInvitation.html#getTypeName" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmInvitation.html#getTypeName" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>
@@ -483,14 +490,14 @@ layout: coverage
                 
                 g.render();
             </script>
-                    <div class="panel panel-default" id="hook_pre_self_purge">
+                    <div class="panel panel-default" id="post_updateItem">
                 <div class="panel-heading">
-                    PluginFlyvemdmInvitation::hook_pre_self_purge()
+                    PluginFlyvemdmInvitation::post_updateItem()
                         
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmInvitation.html#hook_pre_self_purge" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmInvitation.html#post_updateItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>
@@ -502,7 +509,34 @@ layout: coverage
             </div>
 
             <script>
-                var g = graph('PluginFlyvemdmInvitation', 'hook_pre_self_purge');
+                var g = graph('PluginFlyvemdmInvitation', 'post_updateItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="hook_pre_invitation_purge">
+                <div class="panel-heading">
+                    PluginFlyvemdmInvitation::hook_pre_invitation_purge()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmInvitation.html#hook_pre_invitation_purge" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmInvitation', 'hook_pre_invitation_purge');
 
                 
                 g.roundNodes();
@@ -652,7 +686,7 @@ layout: coverage
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmInvitation.html#getSearchOptionsNew" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmInvitation.html#getSearchOptionsNew" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>

@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    56%
-                                            <small>of 207</small>
+                    41%
+                                            <small>of 213</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -72,7 +72,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#defineTabs">PluginFlyvemdmFleet::defineTabs()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">11</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -86,7 +86,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#showForm">PluginFlyvemdmFleet::showForm()</a></td>
-                                        <td style="text-align: center">14</td>
+                                        <td style="text-align: center">16</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -107,16 +107,16 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#pre_deleteItem">PluginFlyvemdmFleet::pre_deleteItem()</a></td>
-                                        <td style="text-align: center">28</td>
+                                        <td style="text-align: center">31</td>
                 <td style="text-align: center">    
-    <span class="label label-success">71%</span>
+    <span class="label label-success">74%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmFleet::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">31</td>
+                                        <td style="text-align: center">23</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -142,16 +142,16 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#post_purgeItem">PluginFlyvemdmFleet::post_purgeItem()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">8</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#cleanDBonPurge">PluginFlyvemdmFleet::cleanDBonPurge()</a></td>
-                                        <td style="text-align: center">13</td>
+                                        <td style="text-align: center">15</td>
                 <td style="text-align: center">    
-    <span class="label label-success">77%</span>
+    <span class="label label-success">80%</span>
 </td>
                                             </tr>
             <tr>
@@ -165,19 +165,19 @@ layout: coverage
             <td><a href="#getFleet">PluginFlyvemdmFleet::getFleet()</a></td>
                                         <td style="text-align: center">3</td>
                 <td style="text-align: center">    
-    <span class="label label-warning">67%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#getPackages">PluginFlyvemdmFleet::getPackages()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">11</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#getFiles">PluginFlyvemdmFleet::getFiles()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">11</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -219,9 +219,16 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#refreshPersistedNotifications">PluginFlyvemdmFleet::refreshPersistedNotifications()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">13</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#isNotifiable">PluginFlyvemdmFleet::isNotifiable()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">67%</span>
 </td>
                                             </tr>
         </tbody>
@@ -450,7 +457,7 @@ layout: coverage
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmFleet.html#getSearchOptionsNew" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmFleet.html#getSearchOptionsNew" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>
@@ -639,7 +646,7 @@ layout: coverage
     <span class="label label-default">N/A</span>
 
                         <div class="btn-group">
-                                <a href="./PluginFlyvemdmFleet.html#getFleet" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+                                <a href="./PluginFlyvemdmFleet.html#getFleet" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
         
         
             </div>
@@ -868,6 +875,33 @@ layout: coverage
 
             <script>
                 var g = graph('PluginFlyvemdmFleet', 'refreshPersistedNotifications');
+
+                
+                g.addEnd().roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="isNotifiable">
+                <div class="panel-heading">
+                    PluginFlyvemdmFleet::isNotifiable()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmFleet.html#isNotifiable" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmFleet', 'isNotifiable');
 
                 
                 g.addEnd().roundNodes();
