@@ -64,13 +64,23 @@ Características
    </authors>
    <versions>
       <version>
-         <num>2.0.0</num>
-         <compatibility>9.2</compatibility>
+         <num>2.0.0-rc.1</num>
+         <compatibility>9.2.1</compatibility>
+         <compatibility>9.2.2</compatibility>
+         <compatibility>9.2.3</compatibility>
+         <compatibility>9.2.4</compatibility>
+         <compatibility>9.3</compatibility>
       </version>
    </versions>
    <langs>
+      <lang>cs_CZ</lang>
+      <lang>es_AR</lang>
+      <lang>es_ES</lang>
+      <lang>es_MX</lang>
       <lang>en_US</lang>
       <lang>fr_FR</lang>
+      <lang>pt_BR</lang>
+      <lang>ru</lang>
    </langs>
    <license>AGPL v3+</license>
    <tags>
@@ -79,21 +89,18 @@ Características
          <tag>smartphone</tag>
          <tag>configuration</tag>
          <tag>android</tag>
-         <tag>ios</tag>
       </fr>
       <en>
          <tag>inventory</tag>
          <tag>smartphone</tag>
          <tag>setup</tag>
          <tag>android</tag>
-         <tag>ios</tag>
       </en>
       <es>
          <tag>inventario</tag>
          <tag>teléfono inteligente</tag>
          <tag>configuración</tag>
          <tag>android</tag>
-         <tag>ios</tag>
       </es>
    </tags>
 </root>
