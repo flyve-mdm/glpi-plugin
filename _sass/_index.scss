@@ -589,37 +589,13 @@ p.type-p2.p-size2{
   padding: 5% 0 5% 0;
 }
 
-@media (max-width: 768px) {
-  p.type-p2.p-size2{ max-width: 90% };
-}
-
-@media (max-width: 414px) {
-  p.type-p2.p-size2{ max-width: 95% };
-}
-
 ul.type-p2.p-size2{
   margin: 0 0 0 5%;
   padding-top: 2%;
 }
 
-@media (max-width: 768px) {
-  ul.type-p2.p-size2{ max-width: 90% };
-}
-
-@media (max-width: 414px) {
-  ul.type-p2.p-size2{ max-width: 95% };
-}
-
 .type-p1.p-size2{
-padding: 5% 0 3% 0;
-}
-
-@media (max-width: 768px) {
-  .type-p1.p-size2{ max-width: 90% };
-}
-
-@media (max-width: 414px) {
-  .type-p1.p-size2{ max-width: 95% };
+  padding: 5% 0 3% 0;
 }
 
 .type-p2.p-size{
@@ -631,12 +607,25 @@ padding: 5% 0 3% 0;
 
 }
 
-@media (max-width: 768px) {
-  .type-p2.p-size{ max-width: 50% };
+@media (max-width: 414px) {
+  p.type-p2.p-size2{ max-width: 100%; white-space: normal; overflow: auto };
+  ul.type-p2.p-size2{ max-width: 100%; white-space: normal };
+  .type-p1.p-size2{ max-width: 100%; white-space: normal; overflow: auto };
+  .type-p2.p-size{ max-width: 100%; white-space: normal; overflow: auto };
 }
 
-@media (max-width: 414px) {
-  .type-p2.p-size{ max-width: 95% };
+@media (min-width: 414px) and (max-width: 768px) {
+  p.type-p2.p-size2{ max-width: 100%; white-space: normal; overflow: auto };
+  ul.type-p2.p-size2{ max-width: 100%; white-space: normal };
+  .type-p1.p-size2{ max-width: 100%; white-space: normal; overflow: auto };
+  .type-p2.p-size{ max-width: 100%; white-space: normal; overflow: auto };
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  p.type-p2.p-size2{ max-width: 75%; white-space: normal; overflow: auto};
+  ul.type-p2.p-size2{ max-width: 75%; white-space: normal };
+  .type-p1.p-size2{ max-width: 75%; white-space: normal; overflow: auto };
+  .type-p2.p-size{ max-width: 40%; white-space: normal; overflow: auto };
 }
 
 .jumbotron{
@@ -770,24 +759,23 @@ li{
 
   }
 
-  @media (max-width: 768px) {
-    .type-p2.p-size3{ max-width: 60% };
-  }
-
-  @media (max-width: 414px) {
-    .type-p2.p-size3{ max-width: 95% };
-  }
-
   .p-size3{
     margin-left: 3%
   }
 
-  @media (max-width: 768px) {
-    .p-size3{ max-width: 60% };
-  }
-
   @media (max-width: 414px) {
-    .p-size3{ max-width: 90% };
+    .type-p2.p-size3{ max-width: 100%; white-space: normal; overflow: auto };
+    .p-size3{ max-width: 100%; white-space: normal };
+  }
+  
+  @media (min-width: 414px) and (max-width: 768px) {
+    .type-p2.p-size3{ max-width: 100%; white-space: normal; overflow: auto };
+    .p-size3{ max-width: 100%; white-space: normal };
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .type-p2.p-size3{ max-width: 45%; white-space: normal; overflow: auto};
+    .p-size3{ max-width: 45%; white-space: normal };
   }
 
 }
