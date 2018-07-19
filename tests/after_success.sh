@@ -50,11 +50,13 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
         git checkout -b localCi
         git commit -m "changes to be merged"
         git checkout -b gh-pages origin-pages/gh-pages
-        git checkout localCi build/
+        git rm build/tests/coverage/*
+        git checkout localCi build/tests/coverage/
 
         # upload_files
         echo "pushing the up to date documents"
         git commit --message "docs: update test reports"
+        git fetch origin-pages
         git rebase origin-pages/gh-pages
         git push --quiet --set-upstream origin-pages gh-pages --force
     fi
