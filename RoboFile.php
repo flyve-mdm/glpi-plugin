@@ -38,6 +38,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
    protected static $banned = [
       'dist/',
       'vendor/',
+      '.atoum.php',
       '.git',
       '.gitignore',
       '.gitattributes',
@@ -46,6 +47,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       '.settings/',
       '.project',
       '.buildpath/',
+      'github_deploy_key.enc',
       'tools/dev/',
       'tests/',
       'screenshot*.png',
@@ -195,100 +197,88 @@ class RoboFile extends Glpi\Tools\RoboFile {
    }
 
    /**
-    * Run all tests over the project
-    *
-    * @return void
-    */
-   public function test() {
-      $this->testUnit();
-      $this->testCS();
-   }
-
-   /**
-    * Run phpunit over the project
-    *
-    * @return void
-    */
-   public function testUnit() {
-      $this->_exec(__DIR__ . '/vendor/bin/phpunit --verbose');
-   }
-
-   /**
-    * Test upgrade from the previous version
-    *
-    * @return void
-   public function testUpgrade() {
-      $this->_exec("git show develop:install/mysql/plugin_flyvemdm_empty.sql");
-   }
-   */
-
-   /**
-    * run phpcs over the project
-    *
-    * @return void
-    */
-   public function testCS() {
-      $this->_exec(__DIR__ . '/vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/');
-   }
-
-   /**
     * Build an redistribuable archive
     *
     * @param string $release 'release' if the archive is a release
     */
    public function archiveBuild($release = 'release') {
+      $release = strtolower($release);
+
       // get Version fron source code
       $version = $this->getVersion();
-
-      $release = strtolower($release);
-      if ($release == 'release') {
-         if ($this->getIsRelease() !== 'true') {
-            throw new Exception('The Official release constant must be true');
-         }
-      }
 
       // Check the version is semver compliant
       if (!$this->isSemVer($version)) {
          throw new Exception("$version is not semver compliant. See http://semver.org/");
       }
 
-      // check a tag exists for the version
       $tag = self::$tagPrefix . $version;
-      if (!$this->tagExists($tag)) {
-         throw new Exception("The tag $tag does not exists yet");
+      if ($release != 'release') {
+         if ($this->getIsRelease() === 'true') {
+            throw new Exception('The Official release constant must be false');
+         }
+
+         // update version in package.json
+         $this->sourceUpdatePackageJson($version);
+         $this->sourceUpdateComposerJson($version);
+
+         $this->updateChangelog();
+
+         $diff = $this->gitDiff(['package.json', 'composer.json']);
+         $diff = implode("\n", $diff);
+         if ($diff != '') {
+            $this->taskGitStack()
+               ->stopOnFail()
+               ->add('package.json')
+               ->add('composer.json')
+               ->commit('docs: bump version in JSON files')
+               ->run();
+         }
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->add('CHANGELOG.md')
+            ->commit('docs(changelog): update changelog')
+            ->run();
+
+         // Update locales
+         $this->localesGenerate();
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->add('locales/*')
+            ->commit('docs(locales): update translations')
+            ->run();
+
+         $rev = 'HEAD';
+      } else {
+         // check a tag exists for the version
+         if ($this->getIsRelease() !== 'true') {
+            throw new Exception('The Official release constant must be true');
+         }
+
+         if (!$this->tagExists($tag)) {
+            throw new Exception("The tag $tag does not exists");
+         }
+
+         //check the current head matches the tag
+         if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
+            throw new Exception("HEAD is not pointing to the tag of the version to build");
+         }
+
+         // check the version is declared in plugin.xml
+         $versionTag = $this->getVersionTagFromXML($version);
+         if (!is_array($versionTag)) {
+            throw new Exception("The version does not exists in the XML file");
+         }
+
+         $rev = $tag;
       }
-
-      //check the current head matches the tag
-      if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
-         throw new Exception("HEAD is not pointing to the tag of the version to build");
-      }
-
-      // check the version is declared in plugin.xml
-      $versionTag = $this->getVersionTagFromXML($version);
-      if (!is_array($versionTag)) {
-         throw new Exception("The version does not exists in the XML file");
-      }
-
-      // update version in package.json
-      $this->sourceUpdatePackageJson($version);
-      $this->sourceUpdateComposerJson($version);
-
-      $this->updateChangelog();
-
-      $diff = $this->gitDiff(['package.json', 'composer.json']);
-      $diff = implode("\n", $diff);
-      if ($diff != '') {
-          $this->gitCommit(['package.json', 'composer.json'], "docs: bump version in JSON files");
-      }
-      $this->gitCommit(['CHANGELOG.md'], "docs(changelog): update changelog");
 
       // Build archive
       $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
-      $targetFile = $pluginPath . "/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
-      $toArchive = implode(' ', $this->getFileToArchive($version));
-      @mkdir($pluginPath . "/dist");
-      $rev = self::$tagPrefix . $version;
+      $targetFile = $pluginPath . "/output/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
+      @mkdir($pluginPath . "/output/dist");
+      $toArchive = implode(' ', $this->getFileToArchive($rev));
       $this->_exec("git archive --prefix=$pluginName/ $rev $toArchive | bzip2 > $targetFile");
    }
 
@@ -375,7 +365,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       }
       exec("git ls-tree -r '$version' --name-only", $output, $retCode);
       if ($retCode != '0') {
-         throw new Exception("Unable to get tracked files");
+         throw new Exception("Unable to get tracked files for $version");
       }
       return $output;
    }
@@ -660,29 +650,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
 
    /**
     * @param array $files files to commit
-    * @param string $commitMessage commit message
-    */
-   protected function gitCommit(array $files, $commitMessage) {
-      if (count($files) < 1) {
-         $arg = '-u';
-      } else {
-         $arg = '"' . implode('" "', $files) . '"';
-      }
-       exec("git add $arg", $output, $retCode);
-      if ($retCode > 0) {
-         throw new Exception("Failed to add files for $commitMessage");
-      }
-
-       exec("git commit -m \"$commitMessage\" --dry-run", $output, $retCode);
-      if ($retCode > 0) {
-         throw new Exception("Failed to commit $commitMessage");
-      }
-
-       return true;
-   }
-
-   /**
-    * @param array $files files to commit
     * @param string $version1
     * @param string $version2
     */
@@ -699,12 +666,12 @@ class RoboFile extends Glpi\Tools\RoboFile {
          $fromTo = "$version1..$version2";
       }
 
-       exec("git diff $fromTo -- $arg", $output, $retCode);
+      exec("git diff $fromTo -- $arg", $output, $retCode);
       if ($retCode > 0) {
          throw new Exception("Failed to diff $fromTo");
       }
 
-       return $output;
+      return $output;
    }
 
 

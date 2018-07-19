@@ -7,7 +7,6 @@
         "test": "tests"
     },
     "scripts": {
-        "test": "phpunit --verbose",
         "release": "standard-version --sign --message 'chore(release): bump to %s and new changelog'"
     },
     "repository": {
@@ -28,5 +27,12 @@
     "devDependencies": {
         "conventional-changelog-cli": "^2.0.0",
         "standard-version": "^4.4.0"
+    },
+    "standard-version": {
+        "skip": {
+            "bump": true,
+            "commit": true,
+            "tag": true
+        }
     }
 }

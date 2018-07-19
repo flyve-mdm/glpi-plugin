@@ -50,8 +50,8 @@
             "Flyvemdm\\Tests\\": "tests/src/Flyvemdm/Tests/",
             "Glpi\\Tests\\": "tests/src/Glpi/Tests/",
             "tests\\units\\": [
-               "tests/suite-unit/",
-               "tests/suite-integration/"
+                "tests/suite-unit/",
+                "tests/suite-integration/"
             ]
         }
     }
