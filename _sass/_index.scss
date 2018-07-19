@@ -150,7 +150,7 @@
 
 .p-size2 {
 
-  max-width: 58%;
+  max-width: 55%;
 
 
 }
@@ -217,28 +217,28 @@
   .p-size3 {max-width: 100%};
   .p-size4 {max-width: 100%};
   .p-size5 {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
-  .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
+  /*.post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};*/
   .p-size6 {max-width: 100%};
   .p-size6 li{max-width: 100%};
 
 }
 
 /*MEDIUM SCREEN: Tablets, iPad*/
-@media (max-width: 768px) {
+@media (min-width: 414px) and (max-width: 768px) {
 
   .p-size {max-width: 60%};
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
   .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
-  .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
+  /*.post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};*/
   .p-size6 {max-width: 63%};
   .p-size6 li{max-width: 75%};
 
 }
 
 /*LARGE SCREEN: Large Tablets, iPad Pro*/
-@media (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
 
 
   .p-size {max-width: 48%};
@@ -246,7 +246,7 @@
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
   .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
-  .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
+  /*.post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};*/
   .p-size6 {max-width: 63%};
   .p-size6 li{max-width: 75%};
 
@@ -342,7 +342,7 @@ Blockquote.type-p2 {
 /*LARGE SCREEN: Large Tablets, iPad Pro*/
 @media (min-width: 992px) {
 
-  .post-content .highlighter-rouge pre code {max-width: 66%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  .post-content .highlighter-rouge pre code {max-width: 54%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
   .post-content .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
   .post-content p {max-width: 58%};
 
@@ -351,7 +351,7 @@ Blockquote.type-p2 {
 /*EXTRA LARGE SCREEN: Desktop*/
 @media (min-width: 1200px) {
 
-  .post-content .highlighter-rouge pre code {max-width: 66%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
+  .post-content .highlighter-rouge pre code {max-width: 48%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis};
   .post-content .highlighter-rouge pre code:hover {max-width: 95%; white-space: normal; overflow: visible};
   .post-content p {max-width: 58%};
 
@@ -429,7 +429,7 @@ Blockquote.type-p2 {
 }
 
 /*MEDIUM SCREEN: Tablets, iPad*/
-@media (max-width: 768px) {
+@media (min-width: 414px) and (max-width: 768px) {
 
 
   .product p {max-width: 60%};
@@ -437,7 +437,7 @@ Blockquote.type-p2 {
 }
 
 /*LARGE SCREEN: Large Tablets, iPad Pro*/
-@media (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
 
 
   .product p {max-width: 42%};
@@ -514,11 +514,11 @@ Blockquote.type-p2 {
     max-width: 100%;
   }
 
-  .highlighter-rouge{
+  /*.highlighter-rouge{
     .highlight{
       max-width: 90%;
     }
-  }
+  }*/
 
   ol{
     li{
@@ -549,11 +549,11 @@ blockquote.type-p2{
   margin: 0;
   max-width: 95%;
 
-  .highlighter-rouge{
+  /*.highlighter-rouge{
     .highlight{
       max-width: 90%;
     }
-  }
+  }*/
 
   p{
     a{
@@ -589,38 +589,44 @@ p.type-p2.p-size2{
   padding: 5% 0 5% 0;
 }
 
-@media (max-width: 768px) {
+/*
+@media (min-width: 414px) and (max-width: 768px) {
   p.type-p2.p-size2{ max-width: 90% };
 }
 
 @media (max-width: 414px) {
   p.type-p2.p-size2{ max-width: 95% };
 }
+*/
 
 ul.type-p2.p-size2{
   margin: 0 0 0 5%;
   padding-top: 2%;
 }
 
-@media (max-width: 768px) {
+/*
+@media (min-width: 414px) and (max-width: 768px) {
   ul.type-p2.p-size2{ max-width: 90% };
 }
 
 @media (max-width: 414px) {
   ul.type-p2.p-size2{ max-width: 95% };
 }
+*/
 
 .type-p1.p-size2{
 padding: 5% 0 3% 0;
 }
 
-@media (max-width: 768px) {
+/*
+@media (min-width: 414px) and (max-width: 768px) {
   .type-p1.p-size2{ max-width: 90% };
 }
 
 @media (max-width: 414px) {
   .type-p1.p-size2{ max-width: 95% };
 }
+*/
 
 .type-p2.p-size{
   padding-bottom: 5%;
@@ -631,13 +637,15 @@ padding: 5% 0 3% 0;
 
 }
 
-@media (max-width: 768px) {
+/*
+@media (min-width: 414px) and (max-width: 768px) {
   .type-p2.p-size{ max-width: 50% };
 }
 
 @media (max-width: 414px) {
   .type-p2.p-size{ max-width: 95% };
 }
+*/
 
 .jumbotron{
 
@@ -770,7 +778,7 @@ li{
 
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 414px) and (max-width: 768px) {
     .type-p2.p-size3{ max-width: 60% };
   }
 
@@ -782,7 +790,7 @@ li{
     margin-left: 3%
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 414px) and (max-width: 768px) {
     .p-size3{ max-width: 60% };
   }
 

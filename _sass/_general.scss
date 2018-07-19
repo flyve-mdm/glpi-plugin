@@ -38,7 +38,7 @@ body {
 /*LARGE SCREEN: Large Tablets, iPad Pro*/
 @media (min-width: 992px){
 
-  pre {max-width: 65%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+  pre {max-width: 54%; white-space: nowrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
   pre:hover {white-space: normal; max-width: 95%};
 
 }
@@ -46,7 +46,7 @@ body {
 /*EXTRA LARGE SCREEN: Desktop*/
 @media (min-width: 1200px){
 
-  pre {max-width: 65%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+  pre {max-width: 48%; white-space: nowrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
   pre:hover {white-space: normal; max-width: 95%};
 
 }
@@ -79,7 +79,7 @@ body {
 /*LARGE SCREEN: Large Tablets, iPad Pro*/
 @media (min-width: 992px){
 
-#p-size6  pre {max-width: 46%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+#p-size6  pre {max-width: 46%; white-space: nowrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
 #p-size6  pre:hover {white-space: normal; max-width: 95%};
 
 }
@@ -87,7 +87,7 @@ body {
 /*EXTRA LARGE SCREEN: Desktop*/
 @media (min-width: 1200px){
 
-#p-size6  pre {max-width: 44%; white-space: norwrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
+#p-size6  pre {max-width: 44%; white-space: nowrap; overflow: hidden; word-break: break-all; text-overflow: ellipsis};
 #p-size6  pre:hover {white-space: normal; max-width: 95%};
 
 }
