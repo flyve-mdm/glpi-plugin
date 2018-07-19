@@ -208,7 +208,7 @@ function plugin_version_flyvemdm() {
       'name'           => __s('Flyve Mobile Device Management', 'flyvemdm'),
       'version'        => PLUGIN_FLYVEMDM_VERSION,
       'author'         => $author,
-      'license'        => 'AGPLv3+',
+      'license'        => 'AGPL-3.0-or-later',
       'homepage'       => 'https://flyve-mdm.com/',
       'minGlpiVersion' => PLUGIN_FLYVEMDM_GLPI_MIN_VERSION,
       'requirements'   => [

@@ -5,7 +5,7 @@
     "description": "Flyve MDM plugin for GLPI",
     "version": "2.0.0-dev",
     "type": "project",
-    "licence": "AGPLv3+",
+    "licence": "AGPL-3.0-or-later",
     "keywords": [
         "glpi",
         "flyve",
