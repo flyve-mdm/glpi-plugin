@@ -54,7 +54,7 @@ class PluginFlyvemdmWellknownpath extends CommonTestCase {
       switch ($method) {
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
       parent::afterTestMethod($method);

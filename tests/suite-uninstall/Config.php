@@ -38,7 +38,6 @@ class Config extends CommonTestCase
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
    }
 
    /**
