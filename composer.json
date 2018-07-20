@@ -30,13 +30,15 @@
         "twig/twig": "^1.0"
     },
     "require-dev": {
+        "ext-bz2": "*",
         "phpdocumentor/phpdocumentor": "^2.9",
         "evert/phpdoc-md": "^0.2.0",
         "atoum/atoum": "^3.1",
         "consolidation/robo": "dev-master",
         "glpi-project/tools": "^0.1.2",
         "atoum/stubs": "^2.5",
-        "atoum/reports-extension": "^3.0"
+        "atoum/reports-extension": "^3.0",
+        "pear/archive_tar": "^1.4"
     },
     "repositories": [
         {

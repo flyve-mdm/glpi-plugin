@@ -276,10 +276,16 @@ class RoboFile extends Glpi\Tools\RoboFile {
       // Build archive
       $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
-      $targetFile = $pluginPath . "/output/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
-      @mkdir($pluginPath . "/output/dist");
-      $toArchive = implode(' ', $this->getFileToArchive($rev));
-      $this->_exec("git archive --prefix=$pluginName/ $rev $toArchive | bzip2 > $targetFile");
+      $archiveWorkdir = "$pluginPath/output/dist/archive_workdir";
+      $archiveFile = "$pluginPath/output/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
+      $this->taskDeleteDir($archiveWorkdir)->run();
+      mkdir($archiveWorkdir, 0777, true);
+      $filesToArchive = implode(' ', $this->getFileToArchive($rev));
+      $this->_exec("git archive --prefix=$pluginName/ $rev $filesToArchive | tar x -C '$archiveWorkdir'");
+      $this->_exec("composer install --no-dev --working-dir='$archiveWorkdir/flyvemdm'");
+      $this->taskPack($archiveFile)
+         ->addDir('/flyvemdm', "$archiveWorkdir/flyvemdm")
+         ->run();
    }
 
    /**
