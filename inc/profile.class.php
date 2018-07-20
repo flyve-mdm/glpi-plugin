@@ -50,7 +50,8 @@ class PluginFlyvemdmProfile extends Profile {
     * @param Profile $prof
     */
    public static function purgeProfiles(Profile $prof) {
-      $plugprof = new self();
+      global $pluginFlyvemdmContainer;
+      $plugprof = $pluginFlyvemdmContainer(self::class);
       $plugprof->deleteByCriteria(['profiles_id' => $prof->getField("id")]);
    }
 
@@ -106,8 +107,9 @@ class PluginFlyvemdmProfile extends Profile {
     * @see Profile::displayTabContentForItem
     */
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      global $pluginFlyvemdmContainer;
       if ($item->getType() == 'Profile') {
-         $profile = new self();
+         $profile = $pluginFlyvemdmContainer->make(static::class);
          $profile->showForm($item->getField('id'));
       }
       return true;

@@ -74,8 +74,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     * @return self instance of this class
     */
    public static function getInstance() {
+      global $pluginFlyvemdmContainer;
+
       if (self::$instance === null) {
-         self::$instance = new static();
+         self::$instance = $pluginFlyvemdmContainer->make(static::class);
       }
       return self::$instance;
    }

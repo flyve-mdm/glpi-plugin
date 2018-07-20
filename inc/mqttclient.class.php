@@ -81,8 +81,10 @@ class PluginFlyvemdmMqttclient {
     * @return self instance of this class (singleton)
     */
    public static function getInstance() {
+      global $pluginFlyvemdmContainer;
+
       if (self::$instance === null) {
-         self::$instance = new static();
+         self::$instance = $pluginFlyvemdmContainer->make(static::class);
       }
 
       return self::$instance;
@@ -291,7 +293,8 @@ class PluginFlyvemdmMqttclient {
    protected function buildMqtt($socketAddress, $port, $isTls, $sslCipher) {
       $protocol = $isTls ? "ssl://" : "tcp://";
       try {
-         $mqtt = new sskaje\mqtt\MQTT("$protocol$socketAddress:$port");
+         $mqtt = $this->container->make(\sskaje\mqtt\MQTT::class,
+            ['address' => "$protocol$socketAddress:$port"]);
       } catch (\sskaje\mqtt\Exception $e) {
          Toolbox::logInFile("mqtt", "problem creating MQTT client, " . $e->getMessage() . PHP_EOL);
       }

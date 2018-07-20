@@ -254,7 +254,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
-      $entityConfig = new static();
+      $entityConfig = $this->container->make(static::class);
       $entityConfig->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
 
       // Delete folders for the entity
@@ -318,6 +318,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     * @return integer
     */
    static function getUsedConfig($fieldref, $entities_id, $fieldval = '', $default_value = -2) {
+      global $pluginFlyvemdmContainer;
 
       // for calendar
       if (empty($fieldval)) {
@@ -325,7 +326,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       }
 
       $entity = new Entity();
-      $entityConfig = new self();
+      $entityConfig = $pluginFlyvemdmContainer->make(self::class);
       // Search in entity data of the current entity
       if ($entity->getFromDB($entities_id)) {
          // Value is defined : use it
@@ -364,8 +365,10 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       $tabnum = 1,
       $withtemplate = 0
    ) {
+      global $pluginFlyvemdmContainer;
+
       if ($item->getType() == 'Entity') {
-         $config = new self();
+         $config = $pluginFlyvemdmContainer->make(self::class);
          $config->showFormForEntity($item);
       }
    }

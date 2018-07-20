@@ -204,7 +204,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             ERROR);
          return false;
       }
-      $this->notifiable = new $notifiableType();
+      $this->notifiable = $this->container->make($notifiableType);
       if (!$this->notifiable->getFromDB($notifiableId)) {
          Session::addMessageAfterRedirect(__('Cannot find the notifiable object', 'flyvemdm'), false,
             ERROR);
@@ -259,7 +259,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       if (isset($input['plugin_flyvemdm_policies_id'])) {
          $policyId = $input['plugin_flyvemdm_policies_id'];
       }
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policyFactory = $this->container->make(PluginFlyvemdmPolicyFactory::class);
       $this->policy = $policyFactory->createFromDBByID($policyId);
       if (!$this->policy instanceof PluginFlyvemdmPolicyInterface) {
          Session::addMessageAfterRedirect(__('Policy not found', 'flyvemdm'), false, ERROR);

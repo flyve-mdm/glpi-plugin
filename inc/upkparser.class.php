@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use Psr\Container\ContainerInterface;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -45,12 +47,19 @@ class PluginFlyvemdmUpkparser {
    protected $apkFilename;
 
    /**
+    * @var ContainerInterface
+    */
+   protected $container;
+
+   /**
     * PluginFlyvemdmUpkparser constructor.
     * @param string $upkFile
+    * @param ContainerInterface $container
     */
-   public function __construct($upkFile) {
+   public function __construct($upkFile, ContainerInterface $container) {
       $zip = new ZipArchive();
       $this->apkFilename = tempnam(GLPI_TMP_DIR, 'upk_');
+      $this->container = $container;
       if ($zip->open($upkFile) && $this->apkFilename !== null) {
          if ($manifestHandle = $zip->getStream('UPKManifest.xml')) {
             $manifestContent = stream_get_contents($manifestHandle);
@@ -62,7 +71,8 @@ class PluginFlyvemdmUpkparser {
             if ($fileHandle) {
                file_put_contents($this->apkFilename, $fileHandle);
                fclose($fileHandle);
-               $this->apkParser = new \ApkParser\Parser($this->apkFilename);
+               $this->apkParser = $this->container->make(\ApkParser\Parser::class,
+                  ['apkFile' => $this->apkFilename]);
             }
          }
       }

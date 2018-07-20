@@ -54,19 +54,6 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
    protected $usenotepadRights = true;
 
    /**
-    * @var Psr\Container\ContainerInterface
-    */
-   protected $container;
-
-
-   public function __construct() {
-      global $pluginFlyvemdmContainer;
-
-      $this->container = $pluginFlyvemdmContainer;
-      parent::__construct();
-   }
-
-   /**
     * Used on DI for dynamic call
     * @return string
     */
@@ -305,7 +292,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
-      $file = new static();
+      $file = $this->container->make(static::class);
       $file->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 

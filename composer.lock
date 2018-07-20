@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda33794e27eb535170d0e1a4335d74a",
+    "content-hash": "aa555cd6cd896d46861a47dcc5ff2e4b",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -432,7 +432,7 @@
                 }
             ],
             "description": "sskaje's MQTT Class",
-            "time": "2018-03-16 04:59:27"
+            "time": "2018-03-16T04:59:27+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -534,7 +534,7 @@
                 "apk",
                 "parser"
             ],
-            "time": "2017-11-20 19:21:18"
+            "time": "2017-11-20T19:21:18+00:00"
         },
         {
             "name": "twig/twig",
@@ -4585,7 +4585,9 @@
         "ext-openssl": "*",
         "ext-sockets": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {
+        "ext-bz2": "*"
+    },
     "platform-overrides": {
         "php": "5.6.0"
     }

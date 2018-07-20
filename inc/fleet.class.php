@@ -535,7 +535,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function hook_entity_purge(CommonDBTM $item) {
       if ($item instanceof Entity) {
-         $fleet = new static();
+         $fleet = $this->container->make(static::class);
          $fleet->deleteDefaultFleet = true;
          $fleet->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
       }

@@ -41,6 +41,18 @@ if (!defined('GLPI_ROOT')) {
 abstract class PluginFlyvemdmDeployable extends CommonDBTM {
 
    /**
+    * @var Psr\Container\ContainerInterface
+    */
+   protected $container;
+
+   public function __construct() {
+      global $pluginFlyvemdmContainer;
+
+      $this->container = $pluginFlyvemdmContainer;
+      parent::__construct();
+   }
+
+   /**
     * Sends a file
     * @param string $streamSource full path and filename of file to send
     * @param string $filename alias of the file to be saved
@@ -139,7 +151,7 @@ abstract class PluginFlyvemdmDeployable extends CommonDBTM {
       $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
       foreach ($tasks as $taskId => $taskRow) {
          $notifiableType = $taskRow['itemtype_applied'];
-         $notifiable = new $notifiableType(); // TODO: handle this with DI container
+         $notifiable = $this->container->make($notifiableType);
          $notifiableId = $taskRow['items_id_applied'];
          if ($notifiable->getFromDB($notifiableId)) {
             Toolbox::logInFile('php-errors',

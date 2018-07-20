@@ -1614,7 +1614,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES), 0, 0);
 
       $loopCount = 25;
-      $updatedAgent = new self();
+      $updatedAgent = $this->container->make(self::class);
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
@@ -1949,7 +1949,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
-      $agent = new static();
+      $agent = $this->container->make(static::class);
       $agent->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 
@@ -1958,7 +1958,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param CommonDBTM $item
     */
    public function hook_computer_purge(CommonDBTM $item) {
-      $agent = new static();
+      $agent = $this->container->make(static::class);
       $agent->deleteByCriteria(['computers_id' => $item->getField('id')], 1);
    }
 

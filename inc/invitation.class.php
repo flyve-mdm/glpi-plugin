@@ -261,7 +261,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return string the generated token
     */
    protected function setInvitationToken() {
-      $invitation = new static();
+      $invitation = $this->container->make(static::class);
       do {
          $token = bin2hex(openssl_random_pseudo_bytes(32));
       } while ($invitation->getFromDBByToken($token));
@@ -319,7 +319,9 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param CommonDBTM $item Document
     */
    public static function hook_pre_document_purge(CommonDBTM $item) {
-      $invitation = new self();
+      global $pluginFlyvemdmContainer;
+
+      $invitation = $pluginFlyvemdmContainer->make(self::class);
       $documentId = $item->getID();
       $rows = $invitation->find("`documents_id`='$documentId'", '', '1');
       if (count($rows) > 0) {
@@ -509,7 +511,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
-      $invitation = new static();
+      $invitation = $this->container->make(static::class);
       $invitation->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 
@@ -562,9 +564,11 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return bool
     */
    static function showMassiveActionsSubForm(MassiveAction $ma) {
+      global $pluginFlyvemdmContainer;
+
       switch ($ma->getAction()) {
          case 'InviteUser':
-            $invitation = new static();
+            $invitation = $pluginFlyvemdmContainer->make(static::class);
             $invitation->showMassiveActionInviteUser();
             return true;
 

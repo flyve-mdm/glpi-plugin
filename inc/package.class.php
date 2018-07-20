@@ -54,19 +54,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    protected $usenotepadRights = true;
 
    /**
-    * @var Psr\Container\ContainerInterface
-    */
-   protected $container;
-
-
-   public function __construct() {
-      global $pluginFlyvemdmContainer;
-
-      $this->container = $pluginFlyvemdmContainer;
-      parent::__construct();
-   }
-
-   /**
     * Used on DI for dynamic call
     * @return string
     */
@@ -413,7 +400,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @return integer >0 means done, < 0 means not finished, 0 means nothing to do
     */
    public static function cronParseApplication(CronTask $crontask) {
-      global $DB, $pluginFlyvemdmContainer;;
+      global $DB, $pluginFlyvemdmContainer;
 
       $request = [
          'FROM'  => static::getTable(),
@@ -425,7 +412,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          'LIMIT' => 10,
       ];
       foreach ($DB->request($request) as $data) {
-         $package = new static();
+         $package = $pluginFlyvemdmContainer(static::class);
          $package->getFromDB($data['id']);
          if ($package->parseApplication()) {
             $crontask->addVolume(1);
@@ -446,7 +433,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
       if ($fileExtension == 'apk') {
          try {
-            $apk = new \ApkParser\Parser($destination);
+            $apk = $this->container->make(\ApkParser\Parser::class, ['apkFile' => $destination]);
          } catch (Exception $e) {
             Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
             return false;
@@ -486,7 +473,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @param CommonDBTM $item
     */
    public function hook_entity_purge(CommonDBTM $item) {
-      $package = new static();
+      $package = $this->container->make(static::class);
       $package->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
    }
 
