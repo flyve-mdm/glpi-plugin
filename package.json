@@ -1,31 +1,38 @@
 {
-  "name": "@teclib/flyve-mdm-glpi",
-  "version": "1.1.1",
-  "description": "Flyve MDM plugin for GLPI",
-  "main": "config.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "phpunit --verbose",
-    "release": "standard-version --sign --message 'chore(release): bump to %s and new changelog'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/flyve-mdm/flyve-mdm-glpi.git"
-  },
-  "keywords": [
-    "glpi",
-    "flyve",
-    "mdm"
-  ],
-  "author": "Thierry Bugier Pineau <tbugier@teclib.com> (https://flyve-mdm.com/)",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/flyve-mdm/flyve-mdm-glpi/issues"
-  },
-  "homepage": "https://github.com/flyve-mdm/flyve-mdm-glpi#readme",
-  "devDependencies": {
-    "standard-version": "^4.0.0"
-  }
+    "name": "@teclib/flyve-mdm-glpi",
+    "version": "2.0.0-rc.1",
+    "description": "Flyve MDM plugin for GLPI",
+    "main": "config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "release": "standard-version --sign --message 'chore(release): bump to %s and new changelog'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/flyve-mdm/flyve-mdm-glpi.git"
+    },
+    "keywords": [
+        "glpi",
+        "flyve",
+        "mdm"
+    ],
+    "author": "Thierry Bugier <tbugier@teclib.com> (https://flyve-mdm.com/)",
+    "license": "AGPL-3.0-or-later",
+    "bugs": {
+        "url": "https://github.com/flyve-mdm/flyve-mdm-glpi/issues"
+    },
+    "homepage": "https://github.com/flyve-mdm/flyve-mdm-glpi#readme",
+    "devDependencies": {
+        "conventional-changelog-cli": "^2.0.0",
+        "standard-version": "^4.4.0"
+    },
+    "standard-version": {
+        "skip": {
+            "bump": true,
+            "commit": true,
+            "tag": true
+        }
+    }
 }

@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -36,10 +36,9 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqttuser extends CommonDBTM {
+class PluginFlyvemdmMqttuser extends CommonDBTM {
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
@@ -55,7 +54,6 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
@@ -71,22 +69,21 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_addItem()
     */
    public function post_addItem() {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach($this->input['_acl'] as $acl) {
+         foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginStorkmdmMqttacl();
+               $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_storkmdm_mqttusers_id'   => $this->fields['id'],
-                     'topic'                          => $acl['topic'],
-                     'access_level'                   => $acl['access_level'],
+                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+                  'topic'                        => $acl['topic'],
+                  'access_level'                 => $acl['access_level'],
                ]);
             }
          }
@@ -94,22 +91,21 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_updateItem()
     */
-   public function post_updateItem($history=1) {
+   public function post_updateItem($history = 1) {
       if ($this->input['_reset_acl'] === true) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
       if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach($this->input['_acl'] as $acl) {
+         foreach ($this->input['_acl'] as $acl) {
             if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginStorkmdmMqttacl();
+               $mqttAcl = new PluginFlyvemdmMqttacl();
                $mqttAcl->add([
-                     'plugin_storkmdm_mqttusers_id'   => $this->fields['id'],
-                     'topic'                          => $acl['topic'],
-                     'access_level'                   => $acl['access_level'],
+                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+                  'topic'                        => $acl['topic'],
+                  'access_level'                 => $acl['access_level'],
                ]);
             }
          }
@@ -118,7 +114,7 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
 
    /**
     * Hash a password
-    * @param unknown $clearPassword
+    * @param string $clearPassword
     * @return string PBKDF2 hashed password
     */
    protected function hashPassword($clearPassword) {
@@ -130,34 +126,11 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
       $iterations = 901;
       $rawOutput = true;
 
-      if (function_exists('hash_pbkdf2')) {
-         if ($rawOutput) {
-            $keyLength *= 2;
-         }
-
-         $hashed = hash_pbkdf2('sha256', $clearPassword, $salt, $iterations, $keyLength, $rawOutput);
-      } else {
-         $hash_length = strlen(hash($algorithm, "", true));
-         $block_count = ceil(24 / $hash_length);
-         $output = "";
-         for($i = 1; $i <= $block_count; $i++) {
-            // $i encoded as 4 bytes, big endian.
-            $last = $salt . pack("N", $i);
-            // first iteration
-            $last = $xorsum = hash_hmac($algorithm, $last, $clearPassword, true);
-            // perform the other $count - 1 iterations
-            for ($j = 1; $j < $count; $j++) {
-               $xorsum ^= ($last = hash_hmac($algorithm, $last, $password, true));
-            }
-            $output .= $xorsum;
-         }
-
-         if($rawOutput) {
-            $hashed = substr($output, 0, $keyLength);
-         } else {
-            $hashed = bin2hex(substr($output, 0, $keyLength));
-         }
+      if ($rawOutput) {
+         $keyLength *= 2;
       }
+
+      $hashed = hash_pbkdf2('sha256', $clearPassword, $salt, $iterations, $keyLength, $rawOutput);
 
       return 'PBKDF2$' . $algorithm . '$' . $iterations . '$' . $salt . '$' . base64_encode($hashed);
    }
@@ -165,12 +138,12 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    /**
     * Generate a random password havind a determined set pf chars
     * http://stackoverflow.com/a/31284266
-    * @param number $length      password length to generate
-    * @param string $keyspace    characters available to build the pasword
+    * @param integer $length password length to generate
+    * @param string $keyspace characters available to build the password
+    * @return string
     * @throws Exception
-    * @return string             the generated password
     */
-   public static function getRandomPassword($length = 0, $keyspace= '') {
+   public static function getRandomPassword($length = 0, $keyspace = '') {
       if ($length == 0) {
          $length = '32';
       }
@@ -200,44 +173,44 @@ class PluginStorkmdmMqttuser extends CommonDBTM {
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $mqttAcl = new PluginStorkmdmMqttacl();
+      $mqttAcl = new PluginFlyvemdmMqttacl();
       $mqttAcl->deleteByCriteria([
-            'plugin_storkmdm_mqttusers_id'   => $this->getID()
+         'plugin_flyvemdm_mqttusers_id' => $this->getID(),
       ]);
    }
 
    /**
     * Retrieve a mqtt user by name
-    * @param unknown $user
+    * @param string $user
+    * @return bool
     */
    public function getByUser($user) {
       global $DB;
 
       $user = $DB->escape($user);
-      return $this->getFromDBByQuery("WHERE `user` = '$user'");
+      return $this->getFromDBByCrit(['user' => $user]);
    }
 
    /**
-    * Returns an array of PluginStorkmdmMqttACL for the user
+    * Returns an array of PluginFlyvemdmMqttACL for the user
     *
-    * @return PluginStorkmdmMqttacl[]
+    * @return PluginFlyvemdmMqttacl[]
     */
    public function getACLs() {
       if ($this->isNewItem()) {
-         return array();
+         return [];
       }
 
-      $aclList = array();
-      $mqttAcl = new PluginStorkmdmMqttacl();
+      $aclList = [];
+      $mqttAcl = new PluginFlyvemdmMqttacl();
       $userId = $this->fields['id'];
-      $rows = $mqttAcl->find("`plugin_storkmdm_mqttusers_id` = '$userId'");
-      foreach ($rows as $rowId => $row) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
-         $mqttAcl->getFromDB($rowId);
+      $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
+      foreach ($rows as $row) {
+         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl->getFromDB($row['id']);
          if (!$mqttAcl->isNewItem()) {
             $aclList[] = $mqttAcl;
          }

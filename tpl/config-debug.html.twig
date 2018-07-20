@@ -1,0 +1,68 @@
+<table class="tab_cadre_fixe" cellpadding="5">
+   <tbody>
+      <tr>
+         <th colspan="3" class="">{{ __('Enrollment', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Enable explicit enrolment failures', 'flyvemdm') }}</td>
+         <td>{{ config.debug_enrolment|raw }}</td>
+         <td></td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Disable token expiration on successful enrolment', 'flyvemdm') }}</td>
+         <td>{{ config.debug_noexpire|raw }}</td>
+         <td></td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Save initial inventory in file', 'flyvemdm') }}</td>
+         <td>{{ config.debug_save_inventory|raw }}</td>
+         <td></td>
+      </tr>
+      {# Debug tool commented until its implementation
+      <tr>
+         <th colspan="3" class="">{{ __('Bug collector', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Android bug collector URL', 'flyvemdm') }}</td>
+         <td><input type="text" name="android_bugcollecctor_url" value="{{ config.android_bugcollecctor_url }}"></td>
+         <td>{{ __('https://bugreport.flyvemdm.com/path/to/service', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Android bug collector user', 'flyvemdm') }}</td>
+         <td><input type="text" name="android_bugcollector_login"
+            value="{{ config.android_bugcollector_login }}"></td>
+         <td></td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Android bug collector password', 'flyvemdm') }}</td>
+         <td><input type="password" name="android_bugcollector_passwd"
+            value="{{ config.android_bugcollector_passwd }}" placeholder="{{ config.android_bugcollector_passwd_placeholder }}"></td>
+         <td></td>
+      </tr>
+      #}
+      <tr>
+         <th colspan="3" class="">{{ __('Configuration wizard', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Enable configuration wizard', 'flyvemdm') }}</td>
+         <td>{{ config.show_wizard|raw }}</td>
+         <td>{{ __('Warning: if the plugin is already configured, re-running the configuration wizard may break communication with already enrolled devices.', 'flyvemdm') }}</td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Revision information', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Revision information', 'flyvemdm') }}</td>
+         <td>{{ config.revision }}</td>
+         <td></td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td class="center" colspan="2">
+            <input type="hidden" name="id" value="1" class="submit">
+            <input type="hidden" name="config_context" value="flyvemdm">
+            <input type="hidden" name="config_class" value="PluginFlyvemdmConfig">
+            <input type="submit" name="update" value="{{ __('Save') }}" class="submit">
+         </td>
+      </tr>
+   </tbody>
+</table>

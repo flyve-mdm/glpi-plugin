@@ -1,58 +1,59 @@
 <?php
 /**
- LICENSE
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
-
-if (!defined('GLPI_ROOT')){
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
 /**
  * @since 0.1.0.33
  */
-class PluginStorkmdmWellknownpath extends CommonDropdown {
+class PluginFlyvemdmWellknownpath extends CommonDropdown {
 
    // name of the right in DB
-   public static $rightname            = 'storkmdm:wellknownpath';
+   public static $rightname = 'flyvemdm:wellknownpath';
 
    /**
     * Localized name of the type
     * @param $nb  integer  number of item in the type (default 0)
+    * @return string
     */
-   public static function getTypeName($nb=0) {
-      return __s('Well known path', 'storkmdm');
+   public static function getTypeName($nb = 0) {
+      return __s('Well known path', 'flyvemdm');
    }
 
    /**
     * Prepare input datas for adding the item
-    * @param $input datas used to add the item
-    * @return the modified $input array
+    * @param array $input data used to add the item
+    * @return array the modified $input array
     */
    public function prepareInputForAdd($input) {
       // unset($input['is_default']);
@@ -61,8 +62,8 @@ class PluginStorkmdmWellknownpath extends CommonDropdown {
 
    /**
     * Prepare input datas for updating the item
-    * @param $input datas used to update the item
-    * @return the modified $input array
+    * @param array $input data used to update the item
+    * @return array the modified $input array
     */
    public function prepareInputForUpdate($input) {
       unset($input['is_default']);
@@ -70,42 +71,46 @@ class PluginStorkmdmWellknownpath extends CommonDropdown {
    }
 
    /**
-    * {@inheritDoc}
-    * @see CommonDropdown::getSearchOptions()
+    * Get an item from by path
+    * @param string $path
+    * @return boolean
     */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getFromDBByPath($path) {
+      return $this->getFromDBByCrit(['name' => $path]);
+   }
 
-      $tab = array();
-      $tab['common']             = __s('Wellknownpath', "storkmdm");
+   /**
+    * @return array
+    */
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
 
-      $i = 1;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Name');
-      $tab[$i]['datatype']        = 'itemlink';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'comment',
+         'name'          => __('comment'),
+         'massiveaction' => false,
+         'datatype'      => 'text',
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'comment';
-      $tab[$i]['name']            = __('comment', 'storkmdm');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'text';
-
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'is_default';
-      $tab[$i]['name']            = __('default', 'storkmdm');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'bool';
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'is_default',
+         'name'          => __('default'),
+         'massiveaction' => false,
+         'datatype'      => 'bool',
+      ];
 
       return $tab;
    }

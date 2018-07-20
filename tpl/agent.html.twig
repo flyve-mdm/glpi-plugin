@@ -1,0 +1,56 @@
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Name') }}{{ withTemplate }} 
+   </td>
+   <td>
+      {{ agent.name|raw }}
+   </td>
+   <td>
+      {{ __('Version') }}
+   </td>
+   <td>
+      <input type="text" name="version" value="{{ agent.version }}">
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Computer') }}
+   </td>
+   <td>
+      {{ agent.computer|raw }}
+   </td>
+   <td>
+      {{ __('Fleet', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ agent.fleet|raw }}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Last contact', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ agent.last_contact }}
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+</tr>
+{% if canUpdate == true %}
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Actions', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ pingButton|raw }}
+   </td>
+   <td>
+      {{ geolocateButton|raw }}
+   </td>
+   <td>
+      {{ inventoryButton|raw }}
+   </td>
+</tr>
+{% endif %}

@@ -1,0 +1,54 @@
+<table class="tab_cadre_fixe" cellpadding="5">
+   <tbody>
+      <tr>
+         <th colspan="3" class="">{{ __('Document types', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Allow upload of APK and UPK files', 'flyvemdm') }}</td>
+         <td><input type="submit" class="submit" name="addDocTypes" value="{{ __('add document types', 'flyvemdm') }}"></td>
+         <td></td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Device type', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Computer type for the devices', 'flyvemdm') }}</td>
+         <td>{{ config.computertypes_id|raw }}</td>
+         <td></td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Agent account type', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Account type for the devices', 'flyvemdm') }}</td>
+         <td>{{ config.agentusercategories_id|raw }}</td>
+         <td></td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Invitation deeplink', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Invitation deeplink URL', 'flyvemdm') }}</td>
+         <td><input name="invitation_deeplink" value="{{ config.invitation_deeplink }}"
+            min="0"></td>
+         <td>{{ __('Base URL of the deeplink micro service', 'flyvemdm') }}</td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Restrictions', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Default device limit per entity', 'flyvemdm') }}</td>
+         <td><input type="number" name="default_device_limit" value="{{ config.default_device_limit }}"
+            min="0"></td>
+         <td>{{ __('No more devices than this quantity are allowed per entity by default (0 = no limitation)', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td class="center" colspan="2">
+            <input type="hidden" name="id" value="1" class="submit">
+            <input type="hidden" name="config_context" value="flyvemdm">
+            <input type="hidden" name="config_class" value="PluginFlyvemdmConfig">
+            <input type="submit" name="update" value="{{ __('Save') }}" class="submit">
+         </td>
+      </tr>
+   </tbody>
+</table>

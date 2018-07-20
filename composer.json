@@ -1,11 +1,58 @@
 {
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "title": "Flyve MDM",
+    "description": "Flyve MDM plugin for GLPI",
+    "version": "2.0.0-rc.1",
+    "type": "project",
+    "licence": "AGPL-3.0-or-later",
+    "keywords": [
+        "glpi",
+        "flyve",
+        "mdm"
+    ],
+    "config": {
+        "platform": {
+            "php": "5.6.0"
+        },
+        "optimize-autoloader": true,
+        "apcu-autoloader": true
+    },
     "require": {
+        "php": ">= 5.6.0",
+        "ext-gd": "*",
+        "ext-zip": "*",
+        "ext-openssl": "*",
+        "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
-        "spomky-labs/otphp": "^8.2",
-        "tufanbarisyildirim/php-apk-parser": "dev-master"
+        "tufanbarisyildirim/php-apk-parser": "dev-master",
+        "docopt/docopt": "^1.0",
+        "twig/twig": "^1.0"
     },
     "require-dev": {
-       "guzzlehttp/guzzle": "~5",
-        "squizlabs/php_codesniffer": "^2.7"
+        "phpdocumentor/phpdocumentor": "^2.9",
+        "evert/phpdoc-md": "^0.2.0",
+        "atoum/atoum": "^3.1",
+        "consolidation/robo": "dev-master",
+        "glpi-project/tools": "^0.1.2",
+        "atoum/stubs": "^2.5",
+        "atoum/reports-extension": "^3.0"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/flyve-mdm/flyve-mdm-glpi-test",
+            "no-api": true
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Flyvemdm\\Tests\\": "tests/src/Flyvemdm/Tests/",
+            "Glpi\\Tests\\": "tests/src/Glpi/Tests/",
+            "tests\\units\\": [
+                "tests/suite-unit/",
+                "tests/suite-integration/"
+            ]
+        }
     }
 }

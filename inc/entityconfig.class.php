@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -37,19 +37,37 @@ if (!defined('GLPI_ROOT')) {
  *
  * @since 0.1.0
  */
-class PluginStorkmdmEntityconfig extends CommonDBTM {
+class PluginFlyvemdmEntityConfig extends CommonDBTM {
 
-   const RIGHT_STORKMDM_DEVICE_COUNT_LIMIT      = 128;
-   const RIGHT_STORKMDM_APP_DOWNLOAD_URL        = 256;
-   const RIGHT_STORKMDM_INVITATION_TOKEN_LIFE   = 512;
+   const RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT = 128;
+   const RIGHT_FLYVEMDM_APP_DOWNLOAD_URL = 256;
+   const RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE = 512;
+
+   const CONFIG_DEFINED = -3;
+   const CONFIG_PARENT = -2;
+
    /**
     * @var bool $dohistory maintain history
     */
-   public $dohistory                   = true;
+   public $dohistory = true;
 
-   public static $rightname            = 'storkmdm:entity';
+   public static $rightname = 'flyvemdm:entity';
 
-   static function getTypeName($nb=0) {
+   private $inheritableFields = [
+      'support_name',
+      'support_phone',
+      'support_website',
+      'support_email',
+      'support_address',
+      'download_url',
+   ];
+
+   /**
+    * Returns the name of the type
+    * @param integer $nb number of item in the type
+    * @return string
+    */
+   static function getTypeName($nb = 0) {
       return _n('Entity configuration', 'Entity configurations', $nb);
    }
 
@@ -60,25 +78,41 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
    static function canUpdate() {
 
       if (static::$rightname) {
-         return Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT
-               | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL
-               | PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE
+         return Session::haveRight(static::$rightname,
+            PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
+            | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE
          );
       }
    }
 
    /**
-    * {@inheritDoc}
+    * Actions done after the getFromDB method
+    */
+   public function post_getFromDB() {
+      // find the parent entity
+      $entity = new Entity();
+      $entity->getFromDB($this->fields['entities_id']);
+      $parentEntityId = $entity->getField('entities_id');
+
+      foreach ($this->inheritableFields as $field) {
+         if (empty($this->fields[$field])) {
+            $this->fields[$field] = $this->getUsedConfig($field, $parentEntityId, $field, '');
+            $this->fields["_$field"] = self::CONFIG_PARENT;
+         } else {
+            $this->fields["_$field"] = self::CONFIG_DEFINED;
+         }
+      }
+   }
+
+   /**
     * @see CommonDBTM::prepareInputForAdd()
+    * @param array $input
+    * @return array|bool
     */
    public function prepareInputForAdd($input) {
-      global $DB;
-
       if (!isset($input['id'])) {
          return false;
-      }
-      if (!isset($input['download_url'])) {
-         $input['download_url'] = PLUGIN_STORKMDM_AGENT_DOWNLOAD_URL;
       }
       $input['entities_id'] = $input['id'];
 
@@ -87,20 +121,46 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
 
    /**
     *
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
+    * @param array $input
+    * @return array|false
     */
    public function prepareInputForUpdate($input) {
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_DEVICE_COUNT_LIMIT)) {
+      $failure = false;
+
+      if (!Session::haveRight(static::$rightname,
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT)) {
          unset($input['device_limit']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the device limit', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_APP_DOWNLOAD_URL)) {
+      if (!Session::haveRight(static::$rightname,
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL)) {
          unset($input['download_url']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the download URL of the MDM agent', 'flyvemdm'), false, WARNING);
+         $failure = true;
       }
 
-      if (!Session::haveRight(static::$rightname, PluginStorkmdmEntityconfig::RIGHT_STORKMDM_INVITATION_TOKEN_LIFE)) {
+      if (!Session::haveRight(static::$rightname,
+         PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE)) {
          unset($input['agent_token_life']);
+         Session::addMessageAfterRedirect(__('You are not allowed to change the invitation token life', 'flyvemdm'), false, WARNING);
+         $failure = true;
+      }
+
+      // If the request is done from the API and changing a field is forbidden then fail
+      if (isAPI() && $failure) {
+         return false;
+      }
+
+      // If a value has the same content as the parent entity, then enable inheritance
+      foreach ($this->inheritableFields as $inheritableField) {
+         if (isset($input[$inheritableField])) {
+            if ($input[$inheritableField] == $this->fields[$inheritableField]) {
+               $input[$inheritableField] = '';
+            }
+         }
       }
 
       unset($input['entities_id']);
@@ -112,20 +172,27 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
       return $input;
    }
 
-   protected function sanitizeTokenLifeTime($input) {
+   /**
+    * Sanitizes the token life time of the agent
+    * @param array $input
+    * @return array|false the agent token life time
+    */
+   protected function sanitizeTokenLifeTime(array $input) {
       if (isset($input['agent_token_life'])) {
          // Sanitize agent_token_life (see DataInterval)
          if (strlen($input['agent_token_life']) < 3) {
             unset($input['agent_token_life']);
          }
 
-         if (! ($input['agent_token_life'][0] == 'P' && substr($input['agent_token_life'], -1) == 'D')) {
+         if (!($input['agent_token_life'][0] == 'P' && substr($input['agent_token_life'],
+               -1) == 'D')) {
             unset($input['agent_token_life']);
          }
          $days = intval(substr($input['agent_token_life'], 1, -1));
          if ($days < 1 || $days > 180) {
             // 1 day minimum and 180 days maximum
-            Session::addMessageAfterRedirect(__('The agent token life invalid or too long', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('The agent token life invalid or too long',
+               'flyvemdm'));
             return false;
          }
       }
@@ -136,33 +203,33 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
     * create folders and initial setup of the entity related to MDM
     * @param CommonDBTM $item
     */
-   public static function hook_entity_add(CommonDBTM $item) {
-      // Determine if the entity has been created by StorkMDM
-      $managed = ( $item instanceof PluginStorkmdmEntity ) ? '1' : '0';
+   public function hook_entity_add(CommonDBTM $item) {
+      // Determine if the entity has been created by FlyveMDM
+      $managed = '0';
 
-      $config = Config::getConfigurationValues('storkmdm', array('default_device_limit'));
+      $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
       // Create entity configuration
-      $entityconfig = new PluginStorkmdmEntityconfig();
+      $entityconfig = new PluginFlyvemdmEntityConfig();
       $entityconfig->add([
-            'id'           => $item->getID(),
-            'managed'      => $managed,
-            'enroll_token' => $entityconfig->setEnrollToken(),
-            'device_limit' => $config['default_device_limit'],
+         'id'           => $item->getID(),
+         'managed'      => $managed,
+         'enroll_token' => $entityconfig->setEnrollToken(),
+         'device_limit' => $config['default_device_limit'],
       ]);
 
       // Create subdirectories for aplications and files
-      $packagesDir = STORKMDM_PACKAGE_PATH . "/" . $item->getID();
+      $packagesDir = FLYVEMDM_PACKAGE_PATH . "/" . $item->getID();
       if (!is_dir($packagesDir) && !is_readable($packagesDir)) {
-         if (! @mkdir($packagesDir, 0770, true)) {
+         if (!@mkdir($packagesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $packagesDir");
             // TODO : handle error here
          }
       }
 
-      $filesDir = STORKMDM_FILE_PATH . "/" . $item->getID();
+      $filesDir = FLYVEMDM_FILE_PATH . "/" . $item->getID();
       if (!is_dir($filesDir) && !is_readable($filesDir)) {
-         if (! @mkdir($filesDir, 0770, true)) {
+         if (!@mkdir($filesDir, 0770, true)) {
             Toolbox::logInFile("php-errors", "Could not create directory $filesDir");
             // TODO : handle error here
          }
@@ -173,29 +240,13 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
     * Cleanup MDM related data for the entity being deleted
     * @param CommonDBTM $item
     */
-   public static function hook_entity_purge(CommonDBTM $item) {
-
-      $itemtypes = array(
-            'PluginStorkmdmEntityconfig',
-            'PluginStorkmdmInvitation',
-            'PluginStorkmdmAgent',
-            'PluginStorkmdmFleet',
-            'PluginStorkmdmPackage',
-            'PluginStorkmdmFile',
-      );
-
-      foreach ($itemtypes as $itemtype) {
-         $itemToPurge = new $itemtype();
-         $itemToPurge->deleteByCriteria(array('entities_id' => $item->getField('id')), 1);
-      }
+   public function hook_entity_purge(CommonDBTM $item) {
+      $entityConfig = new static();
+      $entityConfig->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
 
       // Delete folders for the entity
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_PACKAGE_PATH . "/" . $item->getID())) {
-         // TODO : handle error here
-      }
-      if (! PluginStorkmdmToolbox::recursiveRmdir(STORKMDM_FILE_PATH . "/" . $item->getID())) {
-         // TODO : handle error here
-      }
+      PluginFlyvemdmCommon::recursiveRmdir(FLYVEMDM_PACKAGE_PATH . "/" . $item->getID());
+      PluginFlyvemdmCommon::recursiveRmdir(FLYVEMDM_FILE_PATH . "/" . $item->getID());
    }
 
    /**
@@ -206,71 +257,272 @@ class PluginStorkmdmEntityconfig extends CommonDBTM {
    }
 
    /**
-    * Ensure the service account is not used to directly create entities
-    * @param CommonDBTM $item
+    * Retrieve the entity or create it
+    * @param string $ID
+    * @return boolean true if succeed
     */
-   public static function hook_pre_entity_add(CommonDBTM $item) {
-      $config = Config::getConfigurationValues('storkmdm', array('service_profiles_id'));
-      $serviceProfileId = $config['service_profiles_id'];
-      if ($serviceProfileId === null) {
-         $item->input = null;
-         return false;
-      }
+   public function getFromDBOrCreate($ID) {
+      if (!$this->getFromDB($ID)) {
+         $config = Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
 
-      if ($_SESSION['glpiactiveprofile']['id'] == $serviceProfileId) {
-         if (PluginStorkmdmUser::getCreation() !== true) {
-            $item->input = null;
-            return false;
-         }
+         $this->add([
+            'id'           => $ID,
+            'enroll_token' => '',
+            'device_limit' => $config['default_device_limit'],
+         ]);
+         return true;
+      } else {
+         return true;
       }
    }
 
    /**
-    * {@inheritDoc}
-    * @see CommonDBTM::getSearchOptions()
+    * Gets the tabs name
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    * @return array Containing the tabs name
     */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      $tabNames = [];
+      if (!$withtemplate) {
+         if ($item->getType() == 'Entity') {
+            $tabNames[1] = __('Flyve MDM supervision', 'flyvemdm');
+         }
+      }
+      return $tabNames;
+   }
 
-      $tab = array();
-      $tab['common']                 = __s('Invitation', "storkmdm");
+   /**
+    * Retrieve data of current entity or parent entity
+    *
+    * @since version 0.84 (before in entitydata.class)
+    *
+    * @param $fieldref        string   name of the referent field to know if we look at parent entity
+    * @param $entities_id
+    * @param $fieldval        string   name of the field that we want value (default '')
+    * @param integer $default_value value to return (default -2)
+    *
+    * @return integer
+    */
+   static function getUsedConfig($fieldref, $entities_id, $fieldval = '', $default_value = -2) {
 
-      $i = 2;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'id';
-      $tab[$i]['name']                = __('ID');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'number';
+      // for calendar
+      if (empty($fieldval)) {
+         $fieldval = $fieldref;
+      }
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'enroll_token';
-      $tab[$i]['name']                = __('Entity enroll token', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      $entity = new Entity();
+      $entityConfig = new self();
+      // Search in entity data of the current entity
+      if ($entity->getFromDB($entities_id)) {
+         // Value is defined : use it
+         if ($entityConfig->getFromDB($entities_id)) {
+            if (is_numeric($default_value)
+               && ($entityConfig->fields[$fieldref] != self::CONFIG_PARENT)) {
+               return $entityConfig->fields[$fieldval];
+            }
+            if (!is_numeric($default_value)) {
+               return $entityConfig->fields[$fieldval];
+            }
+         }
+      }
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'agent_token_life';
-      $tab[$i]['name']                = __('Invitation token lifetime', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      // Entity data not found or not defined : search in parent one
+      if ($entities_id > 0) {
+         if ($entity->getFromDB($entities_id)) {
+            $ret = self::getUsedConfig($fieldref, $entity->fields['entities_id'], $fieldval,
+               $default_value);
+            return $ret;
+         }
+      }
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'download_url';
-      $tab[$i]['name']                = __('dowlnoad URL', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      return $default_value;
+   }
 
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'device_limit';
-      $tab[$i]['name']                = __('Device limit', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+   /**
+    * Shows the tab content
+    * @param CommonGLPI $item
+    * @param integer $tabnum
+    * @param integer $withtemplate
+    * @return bool|void
+    */
+   public static function displayTabContentForItem(
+      CommonGLPI $item,
+      $tabnum = 1,
+      $withtemplate = 0
+   ) {
+      if ($item->getType() == 'Entity') {
+         $config = new self();
+         $config->showFormForEntity($item);
+      }
+   }
+
+   /**
+    * is the parameter ID must be considered as new one ?
+    *
+    * @param integer $ID ID of the item (-1 if new item)
+    *
+    * @return boolean
+    **/
+   static function isNewID($ID) {
+      return (($ID < 0) || !strlen($ID));
+   }
+
+   /**
+    * Displays form when the item is displayed from a related entity
+    * @param Entity $item
+    */
+   public function showFormForEntity(Entity $item) {
+      $ID = $item->fields['id'];
+      if (!$this->getFromDBByCrit(['entities_id' => $ID])) {
+         $this->add(['id' => $ID]);
+         // To set virtual fields about inheritance
+         $this->post_getFromDB();
+      }
+      $this->initForm($ID);
+      $this->showFormHeader(['formtitle' => __('Helpdesk information', 'flyvemdm')]);
+      $canedit = static::canUpdate();
+
+      $fields = $this->fields;
+
+      $data = [
+         'canEdit'      => $canedit,
+         'entityConfig' => $fields,
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('entity_entityconfig.html.twig', $data);
+
+      $item->showFormButtons(['candel' => false, 'formfooter' => false]);
+   }
+
+   /**
+    * Can the entity get one more agent ?
+    * Checks if the device count limit is reached
+    *
+    * @return boolean true if the limit not reached, false otherwise
+    */
+   public function canAddAgent($entityId) {
+      if ($this->isNewItem()) {
+         return false;
+      }
+
+      $maxAgents = $this->fields['device_limit'];
+      $DbUtils = new DbUtils();
+      $deviceCount = $DbUtils->countElementsInTable(PluginFlyvemdmAgent::getTable(), "`entities_id`='$entityId'");
+      if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
+         // Too many devices
+         return false;
+      }
+
+      return  true;
+   }
+
+   /**
+    * @return array
+    */
+   public function getSearchOptionsNew() {
+      $tab = [];
+
+      $tab[] = [
+         'id'   => 'common',
+         'name' => __s('Invitation', 'flyvemdm'),
+      ];
+
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
+      ];
+
+      $tab[] = [
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'enroll_token',
+         'name'          => __('Entity enroll token'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'agent_token_life',
+         'name'          => __('Invitation token lifetime'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'download_url',
+         'name'          => __('dowlnoad URL'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'device_limit',
+         'name'          => __('Device limit'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'support_phone',
+         'name'          => __('Support phone'),
+         'massiveaction' => false,
+         'nosearch'      => true,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '8',
+         'table'         => $this->getTable(),
+         'field'         => 'support_website',
+         'name'          => __('Support website'),
+         'massiveaction' => false,
+         'nosearch'      => true,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '9',
+         'table'         => $this->getTable(),
+         'field'         => 'support_email',
+         'name'          => __('Support email'),
+         'massiveaction' => false,
+         'nosearch'      => true,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '10',
+         'table'         => $this->getTable(),
+         'field'         => 'support_address',
+         'name'          => __('Support address'),
+         'massiveaction' => false,
+         'nosearch'      => true,
+         'datatype'      => 'text',
+      ];
+
+      $tab[] = [
+         'id'            => '11',
+         'table'         => $this->getTable(),
+         'field'         => 'entities_id',
+         'name'          => __('Entity'),
+         'massiveaction' => false,
+         'datatype'      => 'dropdown',
+      ];
 
       return $tab;
    }
-
 }

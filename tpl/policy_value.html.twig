@@ -1,0 +1,75 @@
+    <script type="text/javascript">
+       var editorId = "#policy_editor";
+    </script>
+{% if data.typeTmpl is same as("PluginFlyvemdmFile") %}
+    <!-- Template Deploy file -->
+    <div class="plugin_flyvemdm_policy_value">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        {{ data.dropdown[0]|raw }}
+                    </td>
+                    <td>
+                        {{ __('copy to', 'flyvemdm') }}
+                    </td>
+                    <td>
+                        {{ data.dropdown[1]|raw }}
+                    </td>
+                    <td>
+                        <input type="text" name="value[destination]" value="{{ data.destination }}">
+                    </td>
+                    <td>
+                        {{ __('Remove when the policy is removed', 'flyvemdm') }}
+                    </td>
+                    <td>
+                        {{ data.dropdown[2]|raw }}
+                        <input type="hidden" name="itemtype" value="{{ data.itemtype }}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 1000);
+    </script>
+{% elseif data.typeTmpl is same as("PluginFlyvemdmPackage") %}
+    <!-- Template Package -->
+    <div class="plugin_flyvemdm_policy_value">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        {{ data.dropdown[0]|raw }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{ __('copy to', 'flyvemdm') }}
+                    </td>
+                    <td>
+                        {{ data.dropdown[1]|raw }}
+                        <input type="hidden" name="itemtype" value="{{ data.itemtype }}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 500);
+    </script>
+{% elseif data.typeTmpl is same as("PluginFlyvemdmPolicyBoolean") or data.typeTmpl is same as("PluginFlyvemdmPolicyDropdown") %}
+    <!-- Template Boolean || Dropdown -->
+    <div class="plugin_flyvemdm_policy_value">
+            {{ data.dropdown[0]|raw }}
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 200);
+    </script>
+{% elseif data.typeTmpl is same as("PluginFlyvemdmPolicyBase") %}
+    <!-- Template Base -->
+    <div class="plugin_flyvemdm_policy_value">
+            <input name="value" value="{{ data.value }}" >
+    </div>
+    <script type="text/javascript">
+       $(document).find(editorId).dialog("option", "width", 200);
+    </script>
+{% endif %}

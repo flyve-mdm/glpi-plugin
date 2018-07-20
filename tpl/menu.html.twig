@@ -1,0 +1,36 @@
+{% if configuration == false %}
+<div class="center">
+	<p>{{ __('GLPI is not properly configured. Please check the general settings, the API settings and the notification settings.', 'flyvemdm' )}}</p>
+</div>
+{% endif %}
+<div class="center">
+   <ul id="plugin_flyvemdm_menu">
+      {% for menuName, menuItem in menu %}
+         <li><a href="#"><div>{{ menuName }}</div></a>
+            <ul>
+            {% for subMenuName, subMenu in menuItem %}
+               <li><a href="{{ subMenu.link }}"><div><span class="fa {{ subMenu.pic }}" >&nbsp;&nbsp;</span><span>{{ subMenuName }}</span></div></a></li>
+            {% endfor %}
+            </ul>
+         </li>
+      {% endfor %}
+   </ul>
+</div>
+<br>
+<br>
+{% if menuType == 'dashboard' %}
+<div class="center">
+   <script type="text/javascript">
+      $(function() {
+         $('#plugin_flyvemdm_graph_invitations').load('../ajax/getGraph.php', {'graph': 'invitations'})
+      });
+   </script>
+   <div id="plugin_flyvemdm_graph_invitations"></div>
+   <script type="text/javascript">
+      $(function() {
+         $('#plugin_flyvemdm_graph_devicesPerOSVersion').load('../ajax/getGraph.php', {'graph': 'devicesPerOSVersion'})
+      });
+   </script>
+   <div id="plugin_flyvemdm_graph_devicesPerOSVersion"></div>
+</div>
+{% endif %}

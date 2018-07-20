@@ -1,66 +1,78 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginStorkmdmInvitation extends CommonDBTM {
+class PluginFlyvemdmInvitation extends CommonDBTM {
 
-   const DEFAULT_TOKEN_LIFETIME  = "P7D";
+   const DEFAULT_TOKEN_LIFETIME = "P7D";
 
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'storkmdm:invitation';
+   public static $rightname = 'flyvemdm:invitation';
 
    /**
     * @var User The invited user
     */
    protected $user;
 
+   /**
+    * Gets the possibles statuses that an invitation can have
+    * @return array the possibles statuses of the invitation
+    */
    public function getEnumInvitationStatus() {
-      return array(
-            'pending'         => __('Pending', 'storkmdm'),
-            'done'            => __('Done', 'storkmdm'),
-      );
+      return [
+         'pending' => __('Pending', 'flyvemdm'),
+         'done'    => __('Done', 'flyvemdm'),
+      ];
    }
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
-   public static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Invitation', 'Invitations', $nb, "storkmdm");
+   public static function getTypeName($nb = 0) {
+      return _n('Invitation', 'Invitations', $nb, 'flyvemdm');
+   }
+
+   /**
+    * Returns the URI to the picture file relative to the front/folder of the plugin
+    * @return string URI to the picture file
+    */
+   public static function getMenuPicture() {
+      return 'fa-paper-plane';
    }
 
    /**
@@ -75,46 +87,73 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       return $rights;
    }
 
+   /**
+    * Prepares input to follow the most used description convention
+    * @param array $input the data to use when creating a new row in the DB
+    * @return array|false the modified input data
+    */
    public function prepareInputForAdd($input) {
       // integrity checks
       if (!isset($input['_useremails'])) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'storkmdm'));
+         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
          return false;
       }
 
       $input['_useremails'] = filter_var($input['_useremails'], FILTER_VALIDATE_EMAIL);
       if (!$input['_useremails']) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'storkmdm'));
+         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
          return false;
       }
 
       // Find guest profile's id
-      $config = Config::getConfigurationValues("storkmdm", ['guest_profiles_id']);
+      $config = Config::getConfigurationValues("flyvemdm", ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
 
+      $entityId = $input['entities_id'];
+
       // Find or create the user
-      $userIsNew = false;
       $user = new User();
-      if (!$user->getFromDBbyName($input['_useremails'], '')) {
+      if (!$user->getFromDBbyName($input['_useremails'])) {
          // The user does not exists yet, create him
-         $userId = $user->add([
-            '_useremails'     => array($input['_useremails']),
-            'name'            => $input['_useremails'],
-            '_profiles_id'    => $guestProfileId,
-            '_entities_id'    => $_SESSION['glpiactive_entity'],
-            '_is_recursive'   => 0,
-            'authtype'        => Auth::DB_GLPI
-         ]);
-         $userIsNew = true;
+         if (version_compare(PluginFlyvemdmCommon::getGlpiVersion(), '9.3.0') >= 0) {
+            // Workaround GLPI bug in commit a4bca634e4d055cdd6576000d8d0f2b89b0dcd91
+            // in GLPI 9.3.0 (waiting for a fix)
+            $userId = $user->add([
+               '_useremails'   => [$input['_useremails']],
+               'name'          => $input['_useremails'],
+               'authtype'      => Auth::DB_GLPI,
+            ]);
+            $profile_User = new Profile_User();
+            $profile_User->deleteByCriteria([
+               'users_id'     => $user->getID(),
+            ]);
+            $profile_User->add([
+               'users_id'     => $user->getID(),
+               'profiles_id'  => $guestProfileId,
+               'entities_id'  => $entityId,
+               'is_recursive' => 0,
+            ]);
+         } else {
+            $userId = $user->add([
+               '_useremails'   => [$input['_useremails']],
+               'name'          => $input['_useremails'],
+               '_profiles_id'  => $guestProfileId,
+               '_entities_id'  => $entityId,
+               '_is_recursive' => 0,
+               'authtype'      => Auth::DB_GLPI,
+            ]);
+         }
          if ($user->isNewItem()) {
-            Session::addMessageAfterRedirect(__("Cannot create the user", 'storkmdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO,
+               true);
             return false;
          }
 
       } else {
          // Do not handle deleted users
          if ($user->isDeleted()) {
-            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.", 'storkmdm'), false, INFO, true);
+            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.",
+               'flyvemdm'), false, INFO, true);
             return false;
          }
 
@@ -124,17 +163,17 @@ class PluginStorkmdmInvitation extends CommonDBTM {
          $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
          if (!isset($entities[$_SESSION['glpiactive_entity']])) {
             $profile_User->add([
-                  'users_id'       => $userId,
-                  'profiles_id'    => $guestProfileId,
-                  'entities_id'    => $_SESSION['glpiactive_entity'],
-                  'is_recursive'   => 0,
+               'users_id'     => $userId,
+               'profiles_id'  => $guestProfileId,
+               'entities_id'  => $entityId,
+               'is_recursive' => 0,
             ]);
          }
       }
       $input['users_id'] = $userId;
 
       // Ensure the user has a token
-      $personalToken = User::getPersonalToken($user->getID());
+      $personalToken = User::getToken($user->getID(), 'api_token');
       if ($personalToken === false) {
          return false;
       }
@@ -143,51 +182,47 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $input['invitation_token'] = $this->setInvitationToken();
 
       // Get the default expiration delay
-      $entityConfig = new PluginStorkmdmEntityconfig();
+      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       if ($entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
          $tokenExpire = $entityConfig->getField('agent_token_life');
-      } else {
-         $tokenExpire = self::DEFAULT_TOKEN_LIFETIME;
       }
 
       // Compute the expiration date of the invitation
-      $expirationDate = new DateTime("now", new DateTimeZone("UTC"));
-      $expirationDate->add(new DateInterval($tokenExpire));
-      $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
-
-      // Generate the QR code
-      $documentId = $this->createQRCodeDocument($user, $input['invitation_token']);
-      if ($documentId === false) {
-         Session::addMessageAfterRedirect(__("Could not create enrollment QR code", 'storkmdm'), false, INFO, true);
+      $expirationDate = new DateTime("now");
+      try {
+         $expirationDate->add(new DateInterval($tokenExpire));
+      } catch (Exception $e) {
+         Session::addMessageAfterRedirect(__("Invalid token expiration date interval",
+            'flyvemdm'), false, ERROR, true);
          return false;
       }
+      $input['expiration_date'] = $expirationDate->format('Y-m-d H:i:s');
 
-      $input['documents_id'] = $documentId;
+      // Set a name for the invitation
+      $input['name'] = self::getTypeName(1);
       return $input;
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      global $DB;
-
       // Registered users need right to send again an invitation
       // but shall not be able to edit anything
-      $config = Config::getConfigurationValues('storkmdm', array('registered_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['registered_profiles_id']);
       $registeredProfileId = $config['registered_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $registeredProfileId) {
          $forbidden = array_diff_key(
-               $input,
-               [
-                     'id'           => '',
-                     '_notify'      => '',
-                     '_no_history'  => '',
-               ]
+            $input,
+            [
+               'id'          => '',
+               '_notify'     => '',
+               '_no_history' => '',
+            ]
          );
          if (count($forbidden)) {
-            // An attempt to edit te item by a registered use
+            // An attempt to edit the item by a registered use
             return false;
          }
       }
@@ -199,42 +234,70 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       return $input;
    }
 
+   /**
+    * Finds the invitation that matches the token given in argument
+    * @param string $token
+    * @return boolean true if the invitation token exist
+    */
    public function getFromDBByToken($token) {
-      $entityRestriction = getEntitiesRestrictRequest('AND', self::getTable(), "entities_id", '', false, true);
-      return $this->getFromDBByQuery("WHERE `invitation_token`='$token' $entityRestriction");
+      return $this->getFromDBByCrit(['invitation_token' => $token]);
    }
 
+   /**
+    * Generates the Invitation Token
+    * @return string the generated token
+    */
    protected function setInvitationToken() {
-      return bin2hex(openssl_random_pseudo_bytes(32));
+      $invitation = new static();
+      do {
+         $token = bin2hex(openssl_random_pseudo_bytes(32));
+      } while ($invitation->getFromDBByToken($token));
+      return $token;
    }
 
-   /**
-    *
-    * {@inheritDoc}
-    * @see CommonDBTM::pre_deleteItem()
-    */
    public function pre_deleteItem() {
-      $invitationLog = new PluginStorkmdmInvitationlog();
-      return $invitationLog->deleteByCriteria(array('plugin_storkmdm_invitations_id' => $this->getID()));
+      $invitationLog = new PluginFlyvemdmInvitationlog();
+      return $invitationLog->deleteByCriteria(['plugin_flyvemdm_invitations_id' => $this->getID()]);
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::post_addItem()
-    */
    public function post_addItem() {
+      // Create / update import to entity rule
+      $fi = new PluginFlyvemdmFusionInventory();
+      $fi->addInvitationRule($this);
+
+      // Generate QR code
+      $this->createQRCodeDocument();
+
+      // Sent invitation email
       $this->sendInvitation();
    }
 
+   public function post_updateItem($history = 1) {
+      // Update the dynamic import entity rules
+      if (in_array('status', $this->updates)) {
+         $fi = new PluginFlyvemdmFusionInventory();
+         switch ($this->fields['status']) {
+            case  'done':
+               $fi->deleteInvitationRuleCriteria($this);
+               break;
+            case 'pending':
+               $fi->addInvitationRule($this);
+               break;
+         }
+      }
+   }
+
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
+    * @param CommonDBTM $item
+    * @return bool
     */
-   public static function hook_pre_self_purge(CommonDBTM $item) {
+   public function hook_pre_invitation_purge(CommonDBTM $item) {
+      $fi = new PluginFlyvemdmFusionInventory();
+      $fi->deleteInvitationRuleCriteria($item);
       $document = new Document();
-      $document->getFromDB($item->getField('documents_id'));
       return $document->delete([
-            'id' => $item->getField('documents_id')
+         'id' => $item->getField('documents_id'),
       ], 1);
    }
 
@@ -247,13 +310,15 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $documentId = $item->getID();
       $rows = $invitation->find("`documents_id`='$documentId'", '', '1');
       if (count($rows) > 0) {
-         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first',
+            'flyvemdm'));
          $item->input = false;
       }
    }
 
    /**
-    * @return the invited user
+    * Returns the invited user
+    * @return User
     */
    public function getUser() {
       if ($this->isNewItem()) {
@@ -268,28 +333,22 @@ class PluginStorkmdmInvitation extends CommonDBTM {
 
    /**
     * get the enrollment URL of the agent
-    * @param User $user Recipient of the QR code
-    * @param string $învitationToken Invitation token
     * @return string URL to enroll a mobile Device
     */
-   protected function createQRCodeDocument(User $user, $învitationToken) {
-      global $CFG_GLPI;
+   protected function createQRCodeDocument() {
 
-      $enrollRequest = [
-         'url'                => rtrim($CFG_GLPI["url_base_api"], '/'),
-         'user_token'         => User::getPersonalToken($user->getID()),
-         'invitation_token'   => $învitationToken
-      ];
-
-      $encodedRequest = json_encode($enrollRequest, JSON_UNESCAPED_SLASHES);
+      $user = new User();
+      $user->getFromDB($this->fields['users_id']);
+      $entityId = $this->fields['entities_id'];
+      $encodedRequest = $this->getEnrollmentUrl();
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
-      $qrCode = $barcodeobj->getBarcodePngData(4, 4, array(0, 0, 0));
+      $qrCode = $barcodeobj->getBarcodePngData(7, 7, [0, 0, 0]);
 
       // Add border to the QR
       // TCPDF forgets the quiet zone
-      $borderSize  = 30;
+      $borderSize = 30;
       $image = imagecreatefromstring($qrCode);
       $width = imagesx($image);
       $height = imagesy($image);
@@ -298,7 +357,8 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       $compliantQRcode = imagecreatetruecolor($width + 2 * $borderSize, $height + 2 * $borderSize);
       $white = imagecolorallocate($compliantQRcode, 255, 255, 255);
       // Fill it with white
-      imagefilledrectangle($compliantQRcode, 0, 0, $width + 2 * $borderSize, $height + 2 * $borderSize, $white);
+      imagefilledrectangle($compliantQRcode, 0, 0, $width + 2 * $borderSize,
+         $height + 2 * $borderSize, $white);
 
       // Copy and center the qr code in the big image
       imagecopy($compliantQRcode, $image, $borderSize, $borderSize, 0, 0, $width, $height);
@@ -308,56 +368,256 @@ class PluginStorkmdmInvitation extends CommonDBTM {
       imagepng($compliantQRcode, GLPI_TMP_DIR . "/" . $tmpFile, 9);
 
       // Generate a document with the QR code
-      $input = array();
+      $input = [];
       $document = new Document();
-      $input['entities_id']               = $this->input['entities_id'];
-      $input['is_recursive']              = '0';
-      $input['name']                      = __('Enrollment QRcode', 'storkmdm');
-      $input['_filename']                 = array($tmpFile);
-      $input['_only_if_upload_succeed']   = true;
+      $input['entities_id'] = $entityId;
+      $input['is_recursive'] = '0';
+      $input['name'] = addslashes(__('Enrollment QR code', 'flyvemdm'));
+      $input['_filename'] = [$tmpFile];
+      $input['_only_if_upload_succeed'] = true;
       $documentId = $document->add($input);
 
-      // Build relation between the invitation and the document
-      //$document_Item = new Document_Item();
-      //$document_Item->add([
-      //      'documents_id' => $documentId,
-      //      'itemtype'     => 'PluginStorkmdmInvitation',
-      //      'items_id'     => $this->getID(),
-      //      'entities_id'  => $this->fields['entities_id'],
-      //      'is_recursive' => '0',
-      //]);
+      $documentItem = new Document_Item();
+      $documentItem->add([
+         'entities_id'  => $entityId,
+         'is_recursive' => 0,
+         'itemtype'     => PluginFlyvemdmInvitation::class,
+         'items_id'     => $this->fields['id'],
+         'documents_id' => $documentId,
+      ]);
+
       return $documentId;
    }
 
+   /**
+    * Generates the enrollment URL for the invitation
+    * @return string
+    */
+   public function getEnrollmentUrl() {
+      global $CFG_GLPI;
+
+      // Get the general config of Flyve MDM
+      $config = Config::getConfigurationValues('flyvemdm', ['invitation_deeplink']);
+
+      $user = new User();
+      $user->getFromDB($this->fields['users_id']);
+      $invitationToken = $this->fields['invitation_token'];
+      $entities_id = $this->fields['entities_id'];
+
+      // Get the entitiy configuration data
+      $entityConfig = new PluginFlyvemdmEntityConfig();
+      $entityConfig->getFromDBByCrit([
+         'entities_id' => $entities_id
+      ]);
+
+      // Build the data of the deeplink
+      $personalToken = User::getToken($user->getID(), 'api_token');
+      $enrollmentData = [
+         'url'                => rtrim($CFG_GLPI['url_base_api'], '/'),
+         'user_token'         => $personalToken,
+         'invitation_token'   => $invitationToken,
+         'support_name'       => $entityConfig->getField('support_name'),
+         'support_phone'      => $entityConfig->getField('support_phone'),
+         'support_website'    => $entityConfig->getField('support_website'),
+         'support_email'      => $entityConfig->getField('support_email'),
+         //'support_address'    => $entityConfig->getField('support_address'),
+      ];
+
+      return $config['invitation_deeplink'] . PluginFlyvemdmNotificationTargetInvitation::DEEPLINK
+                        . base64_encode(addcslashes(implode(';', $enrollmentData), '\;'));
+   }
+
+   /**
+    * Sends an invitation
+    */
    public function sendInvitation() {
       NotificationEvent::raiseEvent(
-            PluginStorkmdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
-            $this
+         PluginFlyvemdmNotificationTargetInvitation::EVENT_GUEST_INVITATION,
+         $this
       );
    }
 
    /**
-    * {@inheritDoc}
-    * @see CommonDBTM::getSearchOptions()
+    * @see CommonDBTM::getSearchOptionsNew()
+    * @return array
     */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
 
-      $tab = array();
-      $tab['common']                 = __s('Invitation', "storkmdm");
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number'
+      ];
 
-      $tab[2]['table']               = self::getTable();
-      $tab[2]['field']               = 'id';
-      $tab[2]['name']                = __('ID');
-      $tab[2]['massiveaction']       = false;
-      $tab[2]['datatype']            = 'number';
+      $tab[] = [
+         'id'            => '3',
+         'table'         => 'glpi_users',
+         'field'         => 'name',
+         'name'          => __('User'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
 
-      $tab[3]['table']               = self::getTable();
-      $tab[3]['field']               = 'status';
-      $tab[3]['name']                = __('status');
-      $tab[3]['massiveaction']       = false;
-      $tab[3]['datatype']            = 'string';
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'status',
+         'name'          => __('Status'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'expiration_date',
+         'name'          => __('Expiration date'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
+
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
 
       return $tab;
+   }
+
+   /**
+    * Deletes the invitation related to the entity being purged
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_purge(CommonDBTM $item) {
+      $invitation = new static();
+      $invitation->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
+   }
+
+   /**
+    * Show form for edition
+    * @param integer $ID
+    * @param array $options
+    */
+   public function showForm($ID, $options = []) {
+      $this->initForm($ID, $options);
+      $this->showFormHeader();
+      $canUpdate = (!$this->isNewID($ID)) && ($this->canView() > 0) || $this->isNewID($ID);
+
+      $fields = $this->fields;
+      $user = new User();
+      $user->getFromDB($fields['users_id']);
+      $fields['_useremails'] = $user->getDefaultEmail();
+      $data = [
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+         'canUpdate'    => $canUpdate,
+         'isNewID'      => $this->isNewID($ID),
+         'invitation'   => $fields,
+         'resendButton' => Html::submit(_x('button', 'Re-send'), ['name' => 'resend']),
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('invitation.html.twig', $data);
+
+      if (!$this->isNewID($ID)) {
+         $options['canedit'] = true;
+      }
+      $this->showFormButtons($options);
+   }
+
+   /**
+    * Displays the massive actions related to the invitation of the user
+    * @return string a HTML with the masssive actions
+    */
+   protected function showMassiveActionInviteUser() {
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $data = [
+         'inviteButton' => Html::submit(_x('button', 'Post'), ['name' => 'massiveaction']),
+      ];
+      echo $twig->render('mass_invitation.html.twig', $data);
+   }
+
+   /**
+    *
+    * @param MassiveAction $ma
+    * @return bool
+    */
+   static function showMassiveActionsSubForm(MassiveAction $ma) {
+      switch ($ma->getAction()) {
+         case 'InviteUser':
+            $invitation = new static();
+            $invitation->showMassiveActionInviteUser();
+            return true;
+
+      }
+   }
+
+   /**
+    * Executes the code to process the massive actions
+    *
+    * @param MassiveAction $ma
+    * @param CommonDBTM $item
+    * @param array $ids
+    */
+   public static function processMassiveActionsForOneItemtype(
+      MassiveAction $ma,
+      CommonDBTM $item,
+      array $ids
+   ) {
+      switch ($ma->getAction()) {
+         case 'InviteUser':
+            if ($item->getType() == User::class) {
+               // find the profile ID of the service account (demo plugin)
+               $config = Config::getConfigurationValues('flyvemdmdemo', ['service_profiles_id']);
+               if (isset($config['service_profiles_id'])) {
+                  $profile = new Profile();
+                  $profile->getFromDB($config['service_profiles_id']);
+                  $profile_user = new Profile_User();
+               }
+               foreach ($ids as $id) {
+                  $item->getFromDB($id);
+                  $reject = false;
+
+                  // Do not invite service account users (demo mode)
+                  if (isset($config['service_profiles_id'])) {
+                     if ($profile_user->getFromDBForItems($item, $profile) !== false) {
+                        $reject = true;
+                     }
+                  }
+
+                  // Do not invite users without a default email address
+                  $useremail = new UserEmail();
+                  $emailAddress = $useremail->getDefaultForUser($id);
+                  if (empty($emailAddress)) {
+                     $reject = true;
+                  }
+
+                  $result = MassiveAction::ACTION_OK;
+                  if ($reject) {
+                     $result = MassiveAction::ACTION_KO;
+                  } else {
+                     $invitation = new PluginFlyvemdmInvitation();
+                     $success = $invitation->add([
+                        '_useremails' => $emailAddress,
+                        'entities_id' => $_SESSION['glpiactive_entity'],
+                     ]);
+                     if (!$success) {
+                        $result = MassiveAction::ACTION_KO;
+                     }
+                  }
+                  $ma->itemDone($item->getType(), $id, $result);
+               }
+            } else {
+               $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
+            }
+      }
+
+      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
    }
 }

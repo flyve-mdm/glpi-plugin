@@ -1,0 +1,35 @@
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Name') }}{{ withTemplate }}
+   </td>
+   <td>
+      <input type="text" name="name" value="{{ file.name }}">
+   </td>
+   <td>{{ __('Version') }}</td>
+   <td>{{ file.version }}</td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('file size', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ file.filesize|fileSize }}
+   </td>
+   <td>
+      {{ __('Comment') }}{{ withTemplate }} 
+   </td>
+   <td><textarea cols="45" rows="5"
+        name="comment" aria-label="{{ __('Comment') }}{{ withTemplate }}"
+      >{{ comment }}</textarea>
+   </td>
+</tr>
+{% if canUpdate == true %}
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Update the file', 'flyvemdm') }}
+   </td>
+   <td colspan="3">
+      {{ upload|raw }}
+   </td>
+</tr>
+{% endif %}

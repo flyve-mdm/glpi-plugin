@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -36,10 +36,10 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
+class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
    /**
-    * @var PluginStorkmdmMqttlog $log mqtt messages logger
+    * @var PluginFlyvemdmMqttlog $log mqtt messages logger
     */
    protected $log;
 
@@ -52,11 +52,18 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
    protected $publishedVersion = null;
    protected static $instance = null;
 
+   /**
+    * PluginFlyvemdmMqtthandler constructor.
+    */
    protected function __construct() {
-      $this->log = new PluginStorkmdmMqttlog();
+      $this->log = new \PluginFlyvemdmMqttlog();
       $this->startTime = time();
    }
 
+   /**
+    * Gets the instance of the PluginFlyvemdmMqtthandler
+    * @return self instance of this class
+    */
    public static function getInstance() {
       if (self::$instance === null) {
          self::$instance = new static();
@@ -64,16 +71,26 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
       return self::$instance;
    }
 
-   protected function publishManifest($mqtt) {
+   /**
+    * Maintains a MQTT topic to publish the current version of the backend
+    *
+    * @param \sskaje\mqtt\MQTT $mqtt
+    */
+   protected function publishManifest(\sskaje\mqtt\MQTT $mqtt) {
       // Don't use version from the constant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('storkmdm', array('version'));
+      $config = Config::getConfigurationValues('flyvemdm', ['version']);
       $version = $config['version'];
 
       if ($this->flyveManifestMissing) {
-         preg_match('/^([\d\.]+)/', $version, $matches);
-         if (isset($matches[1])) {
-            $mqtt->publish_async("/FlyvemdmManifest/Status/Version", $matches[1], 0, 1);
+         if (preg_match(\PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) == 1) {
+            try {
+               $mqtt->publish_async("FlyvemdmManifest/Status/Version",
+                  json_encode(['version' => $version]), 0, 1);
+            } catch (\sskaje\mqtt\Exception $e) {
+               Toolbox::logInFile("mqtt",
+                  "error publishing MQTT message, " . $e->getMessage() . PHP_EOL);
+            }
             $this->flyveManifestMissing = false;
          }
       }
@@ -83,12 +100,13 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * Handle MQTT Ping response
     * @param sskaje\mqtt\MQTT $mqtt
     * @param sskaje\mqtt\Message\PINGRESP $pingresp_object
+    * @throws \sskaje\mqtt\Exception
     */
-   public function pingresp(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PINGRESP $pingresp_object) {
+   public function pingresp(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PINGRESP $pingresp_object) {
       global $DB;
 
-      if (time() - $this->startTime > PluginStorkmdmMqttclient::MQTT_MAXIMUM_DURATION) {
-         $mqtt->unsubscribe(array('#'));
+      if (time() - $this->startTime > PluginFlyvemdmMqttclient::MQTT_MAXIMUM_DURATION) {
+         $mqtt->unsubscribe(['#']);
       } else {
          // Reconnect to DB to avoid timeouts
          $DB->connect();
@@ -99,33 +117,32 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
 
    /**
     * Handle MQTT publish messages
-    * {@inheritDoc}
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param \sskaje\mqtt\Message\PUBLISH $publish_object PUBLISH message received
     * @see \sskaje\mqtt\MessageHandler::publish()
     */
-   public function publish(sskaje\mqtt\MQTT $mqtt, sskaje\mqtt\Message\PUBLISH $publish_object) {
+   public function publish(\sskaje\mqtt\MQTT $mqtt, \sskaje\mqtt\Message\PUBLISH $publish_object) {
       $topic = $publish_object->getTopic();
       $message = $publish_object->getMessage();
-      $this->log->saveIngoingMqttMessage($topic, $publish_object->getMessage());
+      $this->log->saveIngoingMqttMessage($topic, $message);
 
-      $mqttPath = explode('/', $topic, 5);
-      if (isset($mqttPath[4])) {
-         if ( $mqttPath[4] == "Status/Ping" && $message == "!") {
+      $mqttPath = explode('/', $topic, 4);
+      if (isset($mqttPath[3])) {
+         if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[4] == "Status/Geolocation"  && $message != "?") {
+         } else if ($mqttPath[3] === "Status/Geolocation"  && $message != "?") {
             $this->saveGeolocationPosition($topic, $message);
-         } else if ($mqttPath[4] == "Status/Install") {
-            $this->saveInstallationFeedback($topic, $message);
-         } else if ($mqttPath[4] == "Status/Unenroll") {
+         } else if ($mqttPath[3] === "Status/Unenroll") {
             $this->deleteAgent($topic, $message);
-         } else if ($mqttPath[4] == "Status/Inventory") {
+         } else if ($mqttPath[3] === "Status/Inventory") {
             $this->updateInventory($topic, $message);
-         } else if ($mqttPath[4] == "FlyvemdmManifest/Status/Version") {
-            $this->updateAgentVersion($topic, $message);
-         } else if (strpos($topic, "/FlyvemdmManifest") === 0) {
-            if ($topic == '/FlyvemdmManifest/Status/Version') {
-               $this->publishFlyveManifest();
-            }
+         } else if ($mqttPath[3] === "Status/Online") {
+            $this->updateOnlineStatus($topic, $message);
+         } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
+            $this->updateTaskStatus($topic, $message);
          }
+      } else if ($topic === 'FlyvemdmManifest/Status/Version') {
+         $this->publishFlyveManifest($mqtt, $message);
       }
    }
 
@@ -135,8 +152,9 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
     * @param string $message
     */
    protected function updateAgentVersion($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic) !== false) {
+         $sanitized = null;
          preg_match("#^[\d.]+$#", $message, $sanitized);
          if (!empty($sanitized[0])) {
             $agent->update([
@@ -147,47 +165,66 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
       }
    }
 
-   protected function publishFlyveManifest() {
+   /**
+    * Publishes the current version of Flyve
+    * @param \sskaje\mqtt\MQTT $mqtt Mqtt client which received the message
+    * @param string $message
+    */
+   protected function publishFlyveManifest(\sskaje\mqtt\MQTT $mqtt, $message) {
       // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
       // thus keep in RAM in an older version
-      $config = Config::getConfigurationValues('storkmdm', 'version');
-      $version = $config['version'];
-
-      preg_match('/^([\d\.]+)/', $version, $matches);
-      if (!isset($matches[1]) || (isset($matches[1]) && $matches[1] != $message)) {
+      $config = Config::getConfigurationValues('flyvemdm', ['version']);
+      $actualVersion = $config['version'];
+      $detectedVersion = json_decode($message, JSON_OBJECT_AS_ARRAY);
+      $detectedVersion = isset($detectedVersion['version'])
+                         ? $detectedVersion['version']
+                         : null;
+      if ($actualVersion != $detectedVersion) {
          $this->flyveManifestMissing = true;
          $this->publishManifest($mqtt);
       }
    }
 
+   /**
+    * Updates the inventory
+    * @param string $topic
+    * @param string $message
+    */
    protected function updateInventory($topic, $message) {
-      global $DB;
-
-      $mqttPath = explode('/', $topic);
-      $entityId = $mqttPath[1];
-      $serial = $DB->escape($mqttPath[3]);
-      $computer = new Computer();
-      if ($computer->getFromDBByQuery("WHERE `entities_id` = '$entityId' AND `serial` = '$serial'")) {
+      $agent = new PluginFlyvemdmAgent();
+      $agent->getByTopic($topic);
+      if ($agent->getComputer()) {
          $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
          $inventoryXML = $message;
-         $communication = new PluginFusioninventoryCommunication();
+         $communication = new \PluginFusioninventoryCommunication();
          $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
          if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
             foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
-               $logMessage = "Serial $serial : $logMessage\n";
-               Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
+               $logMessage = "Import message: $logMessage\n";
+               \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
             }
          }
 
-         $this->updateLastContact($topic, $message);
+         $this->updateLastContact($topic, '!');
       }
    }
 
+   /**
+    * Updates the last contact date of the agent
+    *
+    * The data to update is a datetime
+    *
+    * @param string $topic
+    * @param string $message
+    */
    protected function updateLastContact($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      if ($message !== '!') {
+         return;
+      }
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
 
-         $date = new DateTime("now", new DateTimeZone("UTC"));
+         $date = new \DateTime("now");
          $agent->update([
                'id'              => $agent->getID(),
                'last_contact'    => $date->format('Y-m-d H:i:s')
@@ -195,51 +232,38 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
       }
    }
 
+   /**
+    * Deletes the agent
+    * @param string $topic
+    * @param string $message
+    */
    protected function deleteAgent($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       $agent->getByTopic($topic);
       $agent->delete([
             'id'  => $agent->getID(),
       ]);
    }
 
-   protected function saveInstallationFeedback($topic, $message) {
-      if ($message = json_decode($message, true)) {
-         $agent = new PluginStorkmdmAgent();
-         if ($agent->getByTopic($topic)
-               && isset($message['ack'])) {
-            $agentId = $agent->getID();
-            $package = new PluginStorkmdmPackage();
-            $name = $message['ack'];
-            $package->getFromDBByQuery("WHERE `name`='$name'");
-            $packageId = $package->getID();
-            $agent_Package = new PluginStorkmdmAgent_Package();
-            $query = "WHERE `plugin_storkmdm_packages_id`='$packageId'
-            AND `plugin_storkmdm_agents_id`='$agentId'";
-            if ($agent_Package->getFromDBByQuery($query)) {
-               $agent_Package->update([
-                     'id'     => $agent_Package->getID(),
-                     'status' => 'DOWNLOADED'
-               ]);
-            }
-
-            $this->updateLastContact($topic, $message);
-         }
-      }
-   }
-
+   /**
+    * Saves geolocation position
+    * @param string $topic
+    * @param string $message
+    */
    protected function saveGeolocationPosition($topic, $message) {
-      $agent = new PluginStorkmdmAgent();
+      $agent = new \PluginFlyvemdmAgent();
       if ($agent->getByTopic($topic)) {
          $position = json_decode($message, true);
+         $dateGeolocation = false;
          if (isset($position['datetime'])) {
-            $dateGeolocation = DateTime::createFromFormat('U', $position['datetime'], new DateTimeZone("UTC"));
-         } else {
-            $dateGeolocation = false;
+            // The datetime sent by the device is expected to be on UTC timezone
+            $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
+            // Shift the datetime to the timezone of the server
+            $dateGeolocation->setTimezone(date_default_timezone_get());
          }
          if (isset($position['latitude']) && isset($position['longitude'])) {
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginStorkmdmGeolocation();
+               $geolocation = new \PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -250,7 +274,7 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
          } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
             // No GPS geolocation available at this time, log it anyway
             if ($dateGeolocation !== false) {
-               $geolocation = new PluginStorkmdmGeolocation();
+               $geolocation = new PluginFlyvemdmGeolocation();
                $geolocation->add([
                      'computers_id'       => $agent->getField('computers_id'),
                      'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
@@ -260,7 +284,92 @@ class PluginStorkmdmMqtthandler extends sskaje\mqtt\MessageHandler {
             }
          }
 
-         $this->updateLastContact($topic, $message);
+         $this->updateLastContact($topic, '!');
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $message
+    */
+   protected function updateTaskStatus($topic, $message) {
+      $agent = new PluginFlyvemdmAgent();
+      if (!$agent->getByTopic($topic)) {
+         return;
+      }
+
+      $feedback = json_decode($message, true);
+      if (!isset($feedback['status'])) {
+         return;
+      }
+
+      // Find the task the device wants to update
+      $taskId = (int) array_pop(explode('/', $topic));
+      $task = new PluginFlyvemdmTask();
+      if (!$task->getFromDB($taskId)) {
+         return;
+      }
+
+      // Check the task matches the fleet of the agent or the agent itself
+      if ($task->getField('itemtype_applied') === PluginFlyvemdmFleet::class) {
+         if ($agent->getField('plugin_flyvemdm_fleets_id') != $task->getField('items_id_applied')) {
+            return;
+         }
+      } else if ($task->getField('itemtype_applied') === PluginFlyvemdmAgent::class) {
+         if ($agent->getID() != $task->getField('items_id_applied')) {
+            return;
+         }
+      }
+
+      // Get the current status of the task for the agent
+      $taskStatus = new PluginFlyvemdmTaskStatus();
+      $request = [
+         'AND' => [
+            PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
+            PluginFlyvemdmTask::getForeignKeyField() => $taskId
+         ]
+      ];
+      if (!$taskStatus->getFromDBByCrit($request)) {
+         return;
+      }
+
+      // Update the task
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $policy = $policyFactory->createFromDBByID($task->getField('plugin_flyvemdm_policies_id'));
+      $taskStatus->updateStatus($policy, $feedback['status']);
+
+      $this->updateLastContact($topic, '!');
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $topic
+    * @param string $message
+    */
+   protected function updateOnlineStatus($topic, $message) {
+      $agent = new PluginFlyvemdmAgent();
+      if ($agent->getByTopic($topic)) {
+         $feedback = json_decode($message, true);
+         if (!isset($feedback['online'])) {
+            return;
+         }
+         if ($feedback['online'] == 'false') {
+            $status = '0';
+         } else if ($feedback['online'] == 'true') {
+            $status = '1';
+         } else {
+            // Invalid value
+            return;
+         }
+         $agent->update([
+               'id'        => $agent->getID(),
+               'is_online' => $status,
+         ]);
+
+         $this->updateLastContact($topic, '!');
       }
    }
 }

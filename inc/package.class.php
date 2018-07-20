@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -36,42 +36,52 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmPackage extends CommonDBTM {
+class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
 
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'storkmdm:package';
+   static $rightname = 'flyvemdm:package';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = true;
+   protected $usenotepad = true;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = true;
+   protected $usenotepadRights = true;
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
     */
-   public static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Package', 'Packages', $nb, "storkmdm");
+   public static function getTypeName($nb = 0) {
+      return _n('Package', 'Packages', $nb, 'flyvemdm');
    }
 
    /**
-    * @deprecated
-    * {@inheritDoc}
+    * Returns the picture file for the menu
+    * @return string the menu picture
+    */
+   public static function getMenuPicture() {
+      return 'fa-gear';
+   }
+
+   /**
     * @see CommonGLPI::defineTabs()
     */
-   public function defineTabs($options = array()) {
-      $tab = array();
+   public function defineTabs($options = []) {
+      $tab = [];
       $this->addDefaultFormTab($tab);
-      $this->addStandardTab('Notepad', $tab, $options);
-      $this->addStandardTab('Log', $tab, $options);
+      $plugin = new Plugin();
+      if ($plugin->isActivated('orion')) {
+         $this->addStandardTab(PluginOrionReport::class, $tab, $options);
+      }
+      $this->addStandardTab(Notepad::class, $tab, $options);
+      $this->addStandardTab(Log::class, $tab, $options);
 
       return $tab;
    }
@@ -80,15 +90,14 @@ class PluginStorkmdmPackage extends CommonDBTM {
     * Returns the tab name of this itemtype, depending on the itemtype on which it will be displayed
     * If the tab shall not display then returns an empty string
     * @param CommonGLPI $item on which the tab will show
-    * @param number $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
-    * @return translated|string
+    * @param integer $withtemplate template mode for $item : 0 = no template - 1 = edit template - 2 = from template
+    * @return string
     */
-   public function getTabNameForItem(CommonGLPI $item, $withtemplate=0) {
-      global $CFG_GLPI;
-
+   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       switch ($item->getType()) {
          case 'Software' :
-            return _n('Package Stork MDM', 'Packages Stork MDM', Session::getPluralNumber(), "storkmdm");
+            return _n('Package Flyve MDM', 'Packages Flyve MDM', Session::getPluralNumber(),
+               'flyvemdm');
 
       }
       return '';
@@ -96,14 +105,16 @@ class PluginStorkmdmPackage extends CommonDBTM {
 
    /**
     *  Display the content of the tab provided by this itemtype
-    * @deprecated
     * @param CommonGLPI $item
-    * @param number $tabnum
-    * @param number $withtemplate
+    * @param integer $tabnum
+    * @param integer $withtemplate
+    * @return bool
     */
-   public static function displayTabContentForItem(CommonGLPI $item, $tabnum=1, $withtemplate=0) {
-      global $CFG_GLPI;
-
+   public static function displayTabContentForItem(
+      CommonGLPI $item,
+      $tabnum = 1,
+      $withtemplate = 0
+   ) {
       if ($item->getType() == 'Software') {
          self::showForSoftware($item);
          return true;
@@ -112,126 +123,88 @@ class PluginStorkmdmPackage extends CommonDBTM {
 
    /**
     * Display a form to view, create or edit
-    * @deprecated
     * @param integer $ID ID of the item to show
-    * @param unknown $options
+    * @param array $options
     */
-   public function showForm($ID, $options=array()) {
-      global $CFG_GLPI, $DB;
-
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
-      $this->showFormHeader();
+      $this->showFormHeader($options);
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __s('Name') .
-            (isset($options['withtemplate']) && $options['withtemplate']?"*":"") .
-            "</td>";
-      echo "<td>";
-      $objectName = autoName($this->fields["name"], "name",
-                             (isset($options['withtemplate']) && $options['withtemplate']==2),
-                             $this->getType(), -1);
-      Html::autocompletionTextField($this, 'name', array('value' => $objectName));
-      echo "</td>";
-
-      echo "<td>" . $this->fields["filename"] . " <br>". __s('Upload package', "storkmdm") . "</td><td>" .
-            "<br><input type='file' name='filename' />" .
-            "</td>";
-
-      echo '</tr>';
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $fields = $this->fields;
+      $DbUtil = new DbUtils();
+      $objectName = $DbUtil->autoName(
+         $this->fields['name'], 'name',
+         (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+         $this->getType(), -1
+      );
+      $fields['name'] = Html::autocompletionTextField(
+         $this, 'name',
+         ['value' => $objectName, 'display' => false]
+      );
+      $this->addExtraFileInfo();
+      if ($this->isNewID($ID)) {
+         $fields['filesize'] = '';
+      }
+      $data = [
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
+         'canUpdate'    => (!$this->isNewID($ID)) && ($this->canUpdate() > 0) || $this->isNewID($ID),
+         'isNewID'      => $this->isNewID($ID),
+         'package'      => $fields,
+         'upload'       => Html::file(['name' => 'file', 'display' => false]),
+      ];
+      echo $twig->render('package.html.twig', $data);
 
       $this->showFormButtons($options);
    }
 
    /**
-    * Gets the maximum file size allowed for uploads from PHP configuration
-    * @return integer maximum file size
-    */
-   protected static function getMaxFileSize() {
-      $val = trim(ini_get('post_max_size'));
-      $last = strtolower($val[strlen($val)-1]);
-      switch($last) {
-         case 'g':
-            $val *= 1024;
-         case 'm':
-            $val *= 1024;
-         case 'k':
-            $val *= 1024;
-      }
-
-      return $val;
-   }
-
-   /**
-    *
-    * {@inheritDoc}
     * @see CommonDBTM::addNeededInfoToInput()
     */
    public function addNeededInfoToInput($input) {
-      global $DB;
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
    }
 
    /**
-    * (non-PHPdoc)
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      if (!isset($_FILES['file'])) {
-         Session::addMessageAfterRedirect(__('No file uploaded', "storkmdm"));
+      // Name must not be populated
+      if (!Session::isCron()) {
+         unset($input['package_name']);
+      }
+
+      // Find the added file
+      $preparedFile = $this->prepareFileUpload();
+      if (!$preparedFile) {
          return false;
       }
 
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('File upload failed', "storkmdm"));
-         }
-         $input = false;
-      } else {
-         try {
-            $destination = STORKMDM_PACKAGE_PATH . "/" . $input['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-            if ($this->saveUploadedFile($_FILES['file'], $destination)) {
-               $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
-               $filename = pathinfo($destination, PATHINFO_FILENAME);
-               if ($fileExtension == "apk") {
-                  $apk = new \ApkParser\Parser($destination);
-               } else if ($fileExtension == "upk") {
-                  $upkParser = new PluginStorkmdmUpkparser($destination);
-                  $apk = $upkParser->getApkParser();
-                  if (!($apk instanceof \ApkParser\Parser)) {
-                     Session::addMessageAfterRedirect(__('Could not parse the UPK file', "storkmdm"));
-                     return false;
-                  }
-               }
-               $manifest               = $apk->getManifest();
-               $iconResourceId         = $manifest->getApplication()->getIcon();
-               $labelResourceId        = $manifest->getApplication()->getLabel();
-               $iconResources          = $apk->getResources($iconResourceId);
-               $apkLabel               = $apk->getResources($labelResourceId);
-               $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-               $input['name']          = $manifest->getPackageName();
-               if ( (!isset($input['alias'])) || (strlen($input['alias']) == 0) ) {
-                  $input['alias']         = $apkLabel[0]; // Get the first item
-               }
-               $input['version']       = $manifest->getVersionName();
-               $input['version_code']  = $manifest->getVersionCode();
-               $input['filename']      = $input['entities_id'] . "/" . basename($filename) . '.' . $fileExtension;
-               $input['filesize']      = fileSize($destination);
-               $input['dl_filename']   = basename($_FILES['file']['name']);
-            } else {
-               if (!is_writable(dirname($destination))) {
-                  $destination = dirname($destination);
-                  Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
-               }
-               Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
-               $input = false;
-            }
-         } catch (Exception $e) {
-            // Ignore exceptions for now
-            Session::addMessageAfterRedirect(__('Could not parse the APK file', "storkmdm"));
+      if (!$this->isFileUploadValid($preparedFile['filename'])) {
+         return false;
+      }
+
+      if (!isset($input['entities_id'])) {
+         $input['entities_id'] = $_SESSION['glpiactive_entity'];
+      }
+      try {
+         $uploadedFile = $preparedFile['uploadedFile'];
+         $input['filename'] = 'flyvemdm/package/' . $input['entities_id'] . '/' . uniqid() . '_' . basename($uploadedFile);
+         $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
+         $this->createEntityDirectory(dirname($destination));
+         if (rename($uploadedFile, $destination)) {
+            $input['dl_filename'] = basename($uploadedFile);
+         } else {
+            $this->logErrorIfDirNotWritable($destination);
+            Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
             $input = false;
          }
+      } catch (Exception $e) {
+         // Ignore exceptions for now
+         Session::addMessageAfterRedirect(__('Could not parse the APK file', 'flyvemdm'));
+         $input = false;
       }
 
       return $input;
@@ -242,304 +215,382 @@ class PluginStorkmdmPackage extends CommonDBTM {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      if (isset ($_FILES['file']['error']) && !$_FILES['file']['error'] == 0) {
-         if (!$_FILES['file']['error'] == 4) {
-            Session::addMessageAfterRedirect(__('Could not upload package file', "storkmdm"));
-         }
-         $input['filename'] = $this->fields['filename'];
-      } else {
-         if (isset ($_FILES['file'])) {
-            try {
-               $destination = STORKMDM_PACKAGE_PATH . "/" . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($_FILES['file']['name']);
-               if ($this->saveUploadedFile($_FILES['file'], $destination)) {
-                  $apk = new \ApkParser\Parser($destination);
-                  $manifest = $apk->getManifest();
-                  // check the new application has the same fqname than the older one
-                  if ($this->fields['name'] != $manifest->getPackageName()) {
-                     //unlink($destination);
-                     //return false;
-                  }
-                  $iconResourceId         = $manifest->getApplication()->getIcon();
-                  $labelResourceId        = $manifest->getApplication()->getLabel();
-                  $iconResource           = $apk->getResources($iconResourceId);
-                  $apkLabel               = $apk->getResources($labelResourceId);
-                  $input['icon']          = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
-                  $input['name']          = $manifest->getPackageName();
-                  $input['version']       = $manifest->getVersionName();
-                  $input['version_code']  = $manifest->getVersionCode();
-                  $input['filename']      = $this->fields['entities_id'] . "/" . basename($filename) . '.' . $fileExtension;
-                  $input['filesize']      = fileSize($destination);
-                  $input['dl_filename']   = basename($_FILES['file']['name']);
+      if (!Session::isCron()) {
+         unset($input['package_name']);
+      }
+      // Find the added file
+      $preparedFile = $this->prepareFileUpload();
 
-                  unlink(STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename']);
-               } else {
-                  if (!is_writable(dirname($destination))) {
-                     $destination = dirname($destination);
-                     Toolbox::logInFile('php-errors', "Plugin Storkmdm : Directory '$destination' is not writeable");
-                  }
-                  Session::addMessageAfterRedirect(__('Unable to save the file', "storkmdm"));
-                  $input = false;
+      if ($preparedFile && is_array($preparedFile)) {
+         try {
+            if (!$this->isFileUploadValid($preparedFile['filename'])) {
+               return false;
+            }
+            $uploadedFile = $preparedFile['uploadedFile'];
+            $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+            $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
+            $this->createEntityDirectory(dirname($destination));
+            if (rename($uploadedFile, $destination)) {
+               $filename = pathinfo($destination, PATHINFO_FILENAME);
+               $input['dl_filename'] = basename($destination);
+               if ($filename != $this->fields['filename']) {
+                  unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
                }
-            } catch (Exception $e) {
-               // Ignore exceptions for now
+            } else {
+               $this->logErrorIfDirNotWritable($destination);
+               Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
                $input = false;
             }
-         } else {
-            // No application has been uploaded
-            unset($input['icon']);
-            unset($input['version']);
-            unset($input['filesize']);
-            unset($input['filename']);
-            unset($input['dl_filename']);
+         } catch (Exception $e) {
+            // Ignore exceptions for now
+            $input = false;
          }
       }
-
       return $input;
    }
 
+   /**
+    * Actions done after the getFromDB method
+    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
-         if (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-               || isset($_GET['alt']) && $_GET['alt'] == 'media') {
-            $this->sendFile(); // and terminate script
+         $this->addExtraFileInfo();
+         if (isAPI()
+            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+               || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
+            $this->sendFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'],
+               $this->fields['dl_filename'], $this->fields['filesize']); // and terminate script
          }
       }
    }
 
+   public function post_addItem() {
+      $this->createOrionReport();
+   }
+
    /**
-    * {@inheritDoc}
+    * Create a file analysis task with the Orion plugin
+    */
+   private function createOrionReport() {
+      $plugin = new Plugin();
+      if ($plugin->isActivated('orion')) {
+         $orionReport = new PluginOrionReport();
+         $orionReport->add([
+            'itemtype' => $this->getType(),
+            'items_id' => $this->getID(),
+         ]);
+      }
+   }
+
+   /**
     * @see CommonDBTM::post_updateItem()
     */
    public function post_updateItem($history = 1) {
-      if (isset($this->oldvalues['filename'])) {
-         $itemtype = $this->getType();
-         $itemId = $this->getID();
-
-         $fleet_policy = new PluginStorkmdmFleet_Policy();
-         $fleet_policyCol = $fleet_policy->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
-         $fleet = new PluginStorkmdmFleet();
-         $policyFactory = new PluginStorkmdmPolicyFactory();
-         foreach ($fleet_policyCol as $fleet_policyId => $fleet_policyRow) {
-            $fleetId = $fleet_policyRow['plugin_storkmdm_fleets_id'];
-            if ($fleet->getFromDB($fleetId)) {
-               Toolbox::logInFile('php-errors', "Plugin Storkmdm : Could not find fleet id = '$fleetId'");
-               continue;
-            }
-            $policy = $policyFactory->createFromDBByID($fleet_policyRow['plugin_storkmdm_policies_id']);
-            if ($fleet_policy->getFromDB($fleet_policyId)) {
-               //$fleet_policy->publishPolicies($fleet, $policy->getGroup());
-               $fleet_policy->updateQueue($fleet, $policy->getGroup());
-            }
-         }
+      if (!isset($this->oldvalues['filename'])) {
+         return;
       }
+
+      $this->deployNotification(new PluginFlyvemdmTask);
+
+      // File updated, then scan it again
+      $this->createOrionReport();
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
-      global $DB;
-
-      $fleet_policy = new PluginStorkmdmFleet_Policy();
-      return $fleet_policy->deleteByCriteria(array(
-            'itemtype'  => $this->getType(),
-            'items_id'  => $this->getID()
-      ));
+      $task = new PluginFlyvemdmTask();
+      return $task->deleteByCriteria([
+         'itemtype' => $this->getType(),
+         'items_id' => $this->getID(),
+      ]);
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_purgeItem()
     */
    public function post_purgeItem() {
-      $filename = STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
-      if (is_writable($filename)) {
-         unlink($filename);
-      }
+      $this->unlinkLocalFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
    }
 
    /**
-    * @brief move and rename the uploaded file
-    * Checks for file extension before moving the file
-    * @return canonical saved filename, '' if an error occured
+    * @return array
     */
-   public function saveUploadedFile($source, $destination) {
-      global $CFG_GLPI;
-      $success = false;
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
 
-      $fileExtension = pathinfo($source['name'], PATHINFO_EXTENSION);
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
+      ];
 
-      if (! in_array($fileExtension, array("apk", "upk"))) {
-         $success = false;
-      } else {
-         $this->createEntityDirectory(dirname($destination));
-         if  (!move_uploaded_file($source['tmp_name'], $destination)) {
-            $success = false;
-         } else {
-            $success = true;
-         }
-      }
-      return $success;
-   }
+      $tab[] = [
+         'id'            => '3',
+         'table'         => $this->getTable(),
+         'field'         => 'alias',
+         'name'          => __('alias'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
 
-   /**
-    * Create a directory
-    * @param unknown $dir
-    */
-   protected function createEntityDirectory($dir) {
+      $tab[] = [
+         'id'            => '4',
+         'table'         => $this->getTable(),
+         'field'         => 'version',
+         'name'          => __('version'),
+         'massiveaction' => false,
+         'datatype'      => 'string',
+      ];
 
-      if (!is_dir($dir)) {
-         @mkdir($dir, 0770, false);
-      }
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'icon',
+         'name'          => __('icon'),
+         'massiveaction' => false,
+         'datatype'      => 'image',
+      ];
 
-   }
-
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
-
-      $tab = array();
-      $tab['common']                 = __s('Package ', "storkmdm");
-
-      $i = 1;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'name';
-      $tab[$i]['name']                = __('Name');
-      $tab[$i]['datatype']            = 'itemlink';
-      $tab[$i]['massiveaction']       = false;
-
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'id';
-      $tab[$i]['name']                = __('ID');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'number';
-
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'alias';
-      $tab[$i]['name']                = __('alias', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
-
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'version';
-      $tab[$i]['name']                = __('version', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
-
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'icon';
-      $tab[$i]['name']                = __('icon', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'image';
-
-      $i++;
-      $tab[$i]['table']               = self::getTable();
-      $tab[$i]['field']               = 'filesize';
-      $tab[$i]['name']                = __('filesize', 'storkmdm');
-      $tab[$i]['massiveaction']       = false;
-      $tab[$i]['datatype']            = 'string';
+      $tab[] = [
+         'id'                 => '6',
+         'table'              => 'glpi_entities',
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
 
       return $tab;
    }
 
    /**
-    * Get the download URL for the application
-    * @return boolean|string
-    */
-   public function getFileURL() {
-      $config = Config::getConfigurationValues('storkmdm', array('deploy_base_url'));
-      $deployBaseURL = $config['deploy_base_url'];
+    * get Cron description parameter for this class
+    *
+    * @param $name string name of the task
+    *
+    * @return array of string
+    **/
+   static function cronInfo($name) {
 
-      if ($deployBaseURL === null) {
+      switch ($name) {
+         case 'ParseApplication' :
+            return ['description' => __('Parse an application to find metadata', 'flyvemdm')];
+      }
+   }
+
+
+   /**
+    * Launches parsing of applciation files
+    *
+    * @see PluginFlyvemdmPackage::parseApplication()
+    *
+    * @param CronTask $crontask
+    *
+    * @return integer >0 means done, < 0 means not finished, 0 means nothing to do
+    */
+   public static function cronParseApplication(CronTask $crontask) {
+      global $DB;
+
+      $request = [
+         'FROM'  => static::getTable(),
+         'WHERE' => [
+            'AND' => [
+               'parse_status' => 'pending',
+            ],
+         ],
+         'LIMIT' => 10,
+      ];
+      foreach ($DB->request($request) as $data) {
+         $package = new static();
+         $package->getFromDB($data['id']);
+         if ($package->parseApplication()) {
+            $crontask->addVolume(1);
+         }
+      }
+
+      $cronStatus = 1;
+      return $cronStatus;
+   }
+
+   /**
+    * Analyzes an application (APK or UPK) to collect metadata
+    *
+    * @return boolean true if success, false otherwise
+    */
+   private function parseApplication() {
+      $destination = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
+      $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);
+      if ($fileExtension == 'apk') {
+         try {
+            $apk = new \ApkParser\Parser($destination);
+         } catch (Exception $e) {
+            Toolbox::logInFile('php-errors', 'plugin Flyve MDM: ' . $e->getMessage() . PHP_EOL);
+            return false;
+         }
+      } else if ($fileExtension == 'upk') {
+         $upkParser = new PluginFlyvemdmUpkparser($destination);
+         $apk = $upkParser->getApkParser();
+         if (!($apk instanceof \ApkParser\Parser)) {
+            $this->update([
+               'id'           => $this->fields['id'],
+               'parse_status' => 'failed',
+            ]);
+            return false;
+         }
+      } else {
+         return false;
+      }
+      $input = [];
+      $manifest = $apk->getManifest();
+      $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
+      $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
+      $input['icon'] = base64_encode(stream_get_contents($apk->getStream($iconResources[0])));
+      $input['package_name'] = $manifest->getPackageName();
+      $input['version'] = $manifest->getVersionName();
+      $input['version_code'] = $manifest->getVersionCode();
+      if ((!isset($input['alias'])) || (strlen($input['alias']) == 0)) {
+         $input['alias'] = $apkLabel[0]; // Get the first item
+      }
+
+      $input['id'] = $this->fields['id'];
+      $input['parse_status'] = 'parsed';
+      return $this->update($input);
+   }
+
+   /**
+    * Deletes the packages related to the entity
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_purge(CommonDBTM $item) {
+      $package = new static();
+      $package->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
+   }
+
+   /**
+    * @param string $destination filename with full path to be written
+    */
+   private function logErrorIfDirNotWritable($destination) {
+      $dirname = dirname($destination);
+      if (!is_writable($dirname)) {
+         Toolbox::logInFile('php-errors',
+            "Plugin Flyvemdm : Directory '$dirname' is not writeable");
+      }
+   }
+
+   /**
+    * @param string $filename
+    * @return bool
+    */
+   private function isFileUploadValid($filename) {
+      if (!isset($filename) || !$filename) {
+         Session::addMessageAfterRedirect(__('File uploaded without name', "flyvemdm"));
          return false;
       }
 
-      $URL = $deployBaseURL . '/package/' . $this->fields['filename'];
-      return $URL;
+      $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
+      if (!in_array($fileExtension, ['apk', 'upk'])) {
+         Session::addMessageAfterRedirect(__('Only APK and UPK files are allowed', 'flyvemdm'));
+         return false;
+      }
+
+      return true;
    }
 
-   protected function sendFile() {
-      $streamSource = STORKMDM_PACKAGE_PATH . "/" . $this->fields['filename'];
-
-      if (!file_exists($streamSource) || !is_file($streamSource)) {
-         header("HTTP/1.0 404 Not Found");
-         exit(0);
-      }
-
-      $size = filesize($streamSource);
-      $begin = 0;
-      $end = $size - 1;
-      $mimeType = 'application/octet-stream';
-      $time = date('r', filemtime($streamSource));
-
-      $fileHandle = @fopen($streamSource, 'rb');
-      if (!$fileHandle) {
-         header ("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      if (isset($_SERVER['HTTP_RANGE'])) {
-         if (preg_match('/bytes=\h*(\d+)?-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
-            if (!empty($matches[1])) {
-               $begin = intval($matches[1]);
-            }
-            if (!empty($matches[2])) {
-               $end = min(intval($matches[2]), $end);
-            }
+   /**
+    * Find the added file
+    * @return array|bool
+    */
+   private function prepareFileUpload() {
+      if (!isAPI()) {
+         // from GLPI UI
+         $postFile = $_POST['_file'][0];
+         if (!isset($postFile) || !is_string($postFile)) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
          }
-      }
-
-      // seek to the begining of the range
-      $currentPosition = $begin;
-      if (fseek($fileHandle, $begin, SEEK_SET) < 0) {
-         header ("HTTP/1.0 500 Internal Server Error");
-         exit(0);
-      }
-
-      // send headers to ensure the client is able to detect an corrupted download
-      // example : less bytes than the expected range
-      header("Expires: Mon, 26 Nov 1962 00:00:00 GMT");
-      header('Pragma: private'); /// IE BUG + SSL
-      header('Cache-control: private, must-revalidate'); /// IE BUG + SSL
-      header("Content-disposition: attachment; filename=\"" . $this->fields['dl_filename'] . "\"");
-      header("Content-type: $mimeType");
-      header("Last-Modified: $time");
-      header('Accept-Ranges: bytes');
-      header('Content-Length:' . ($end - $begin + 1));
-      header("Content-Range: bytes $begin-$end/$size");
-      header("Content-Transfer-Encoding: binary\n");
-      header('Connection: close');
-
-      if ($begin > 0 || $end < $size - 1) {
-         header('HTTP/1.0 206 Partial Content');
+         $actualFilename = $postFile;
+         $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
       } else {
-         header('HTTP/1.0 200 OK');
-      }
-
-      // Sends bytes until the end of the range or connection closed
-      while (!feof($fileHandle) && $currentPosition < $end && (connection_status() == 0)) {
-         // allow a few seconds to send a few KB.
-         set_time_limit(10);
-         $content = fread($fileHandle, min(1024 * 16, $end - $currentPosition + 1));
-         if ($content === false) {
-            header("HTTP/1.0 500 Internal Server Error", true); // Replace previously sent headers
-            exit(0);
-         } else {
-            print $content;
+         // from API
+         if (!isset($_FILES['file'])) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
          }
-         flush();
-         $currentPosition += 1024 * 16;
+
+         $fileError = $_FILES['file']['error'];
+         if (!$fileError == 0) {
+            if (!$fileError == 4) {
+               Session::addMessageAfterRedirect(__('File upload failed', "flyvemdm"));
+            }
+            return false;
+         }
+
+         $fileName = $_FILES['file']['name'];
+         $fileTmpName = $_FILES['file']['tmp_name'];
+         $destination = GLPI_TMP_DIR . '/' . $fileName;
+         if (is_readable($fileTmpName) && !is_readable($destination)) {
+            // Move the file to GLPI_TMP_DIR
+            if (!is_dir(GLPI_TMP_DIR)) {
+               Session::addMessageAfterRedirect(__("Temp directory doesn't exist"), false,
+                  ERROR);
+               return false;
+            }
+         }
+
+         $actualFilename = $fileName;
+         $uploadedFile = $destination;
       }
 
-      exit(0);
+      return ['uploadedFile' => $uploadedFile, 'filename' => $actualFilename];
+   }
+
+   /**
+    * Gets the filename of a package
+    * @return string|NULL the path to tie file relative to the DOC ROOT àf GLPI
+    */
+   public function getFilename() {
+      if (!$this->isNewItem()) {
+         return $this->fields['filename'];
+      }
+
+      return null;
+   }
+
+   /**
+    * Adds extra fields to the itemType
+    */
+   protected function addExtraFileInfo() {
+      $filename = GLPI_PLUGIN_DOC_DIR . '/' . $this->fields['filename'];
+      $isFile = is_file($filename);
+      $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+      $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+   }
+
+   /**
+    * Define how to display a specific value in search result table
+    *
+    * @param  string $field   Name of the field as define in $this->getSearchOptions()
+    * @param  string $values  The value as it is stored in DB
+    * @param  array  $options Options (optional)
+    * @return string          Value to be displayed
+    */
+   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'icon':
+            if (!isAPI()) {
+               $output = '<img style="height: 14px" src="data:image/png;base64,'. $values[$field] .'">';
+               return $output;
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }

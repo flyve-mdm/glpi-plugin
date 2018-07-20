@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -36,38 +36,42 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.33
  */
-class PluginStorkmdmPolicy extends CommonDBTM {
+class PluginFlyvemdmPolicy extends CommonDBTM {
 
    /**
     * @var string $rightname name of the right in DB
     */
-   static $rightname                   = 'storkmdm:policy';
+   static $rightname = 'flyvemdm:policy';
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85)
     */
-   protected $usenotepad               = false;
+   protected $usenotepad = false;
 
    /**
     * @var bool $usenotepad enable notepad for the itemtype (GLPi >=0.85)
     */
-   protected $usenotepadRights         = false;
+   protected $usenotepadRights = false;
 
+   /**
+    * Finds the symbol that matches the argument
+    * @param string $symbol
+    * @return boolean true if the symbol is found
+    */
    public function getFromDBBySymbol($symbol) {
-      return $this->getFromDBByQuery("WHERE `symbol`='$symbol'");
+      return $this->getFromDBByCrit(['symbol' => $symbol]);
    }
 
    /**
-    * {@inheritDoc}
     * @see CommonDBTM::post_getFromDB()
     */
    public function post_getFromDB() {
       // Translate some fields
-      $this->fields['name'] = __($this->fields['name'], 'storkmdm');
-      $this->fields['comment'] = __($this->fields['comment'], 'storkmdm');
+      $this->fields['name'] = __($this->fields['name'], 'flyvemdm');
+      $this->fields['comment'] = __($this->fields['comment'], 'flyvemdm');
 
       // Internationalize type_data field depending on the type of policy
-      $policyFactory = new PluginStorkmdmPolicyFactory();
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
       $policy = $policyFactory->createFromPolicy($this);
       $translatedTypeData = $policy->translateData();
       $this->fields['type_data'] = json_encode($translatedTypeData, JSON_UNESCAPED_SLASHES);
@@ -75,70 +79,156 @@ class PluginStorkmdmPolicy extends CommonDBTM {
 
    /**
     * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
-    **/
-   static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Policy', 'Policies', $nb, "storkmdm");
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
+    */
+   static function getTypeName($nb = 0) {
+      return _n('Policy', 'Policies', $nb, 'flyvemdm');
    }
 
    /**
-    * {@inheritDoc}
-    * @see CommonDBTM::getSearchOptions()
+    * @see CommonDBTM::getSearchOptionsNew()
+    * @return array
     */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
 
-      $tab = array();
-      $tab['common']                 = __s('Policy', "storkmdm");
+      $tab[0] = [
+         'id'   => 'common',
+         'name' => __('Policy', 'flyvemdm'),
+      ];
 
-      $tab[1]['table']               = self::getTable();
-      $tab[1]['field']               = 'name';
-      $tab[1]['name']                = __('Name');
-      $tab[1]['datatype']            = 'itemlink';
-      $tab[1]['massiveaction']       = false;
+      $tab[] = [
+         'id'            => '2',
+         'table'         => $this->getTable(),
+         'field'         => 'id',
+         'name'          => __('ID'),
+         'massiveaction' => false,
+         'datatype'      => 'number',
+      ];
 
-      $tab[2]['table']               = self::getTable();
-      $tab[2]['field']               = 'id';
-      $tab[2]['name']                = __('ID');
-      $tab[2]['massiveaction']       = false;
-      $tab[2]['datatype']            = 'number';
+      $tab[] = [
+         'id'            => '3',
+         'table'         => PluginFlyvemdmPolicyCategory::getTable(),
+         'field'         => 'completename',
+         'name'          => __('Policy category', 'flyvemdm'),
+         'datatype'      => 'dropdown',
+         'massiveaction' => false,
+      ];
 
-      $tab[3]['table']               = PluginStorkmdmPolicyCategory::getTable();
-      $tab[3]['field']               = 'completename';
-      $tab[3]['name']                = __('Policy category', 'storkmdm');
-      $tab[3]['datatype']            = 'dropdown';
-      $tab[3]['massiveaction']       = false;
+      $tab[] = [
+         'id'       => '4',
+         'table'    => $this->getTable(),
+         'field'    => 'type',
+         'name'     => __('Type'),
+         'datatype' => 'string',
+      ];
 
-      $tab[4]['table']               = self::getTable();
-      $tab[4]['field']               = 'type';
-      $tab[4]['name']                = __('Type', 'storkmdm');
-      $tab[4]['datatype']            = 'string';
+      $tab[] = [
+         'id'            => '5',
+         'table'         => $this->getTable(),
+         'field'         => 'type_data',
+         'name'          => __('Enumeration data', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
 
-      $tab[5]['table']               = self::getTable();
-      $tab[5]['field']               = 'type_data';
-      $tab[5]['name']                = __('Enumeration data', 'storkmdm');
-      $tab[5]['datatype']            = 'string';
-      $tab[5]['massiveaction']       = false;
+      $tab[] = [
+         'id'            => '6',
+         'table'         => $this->getTable(),
+         'field'         => 'group',
+         'name'          => __('Group'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
 
-      $tab[6]['table']               = self::getTable();
-      $tab[6]['field']               = 'group';
-      $tab[6]['name']                = __('Group', 'storkmdm');
-      $tab[6]['datatype']            = 'string';
-      $tab[6]['massiveaction']       = false;
+      $tab[] = [
+         'id'            => '7',
+         'table'         => $this->getTable(),
+         'field'         => 'default_value',
+         'name'          => __('Default value', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
 
-      $tab[7]['table']               = self::getTable();
-      $tab[7]['field']               = 'default_value';
-      $tab[7]['name']                = __('Default value', 'storkmdm');
-      $tab[7]['datatype']            = 'string';
-      $tab[7]['massiveaction']       = false;
+      $tab[] = [
+         'id'            => '8',
+         'table'         => $this->getTable(),
+         'field'         => 'recommended_value',
+         'name'          => __('Recommended value', 'flyvemdm'),
+         'datatype'      => 'string',
+         'massiveaction' => false,
+      ];
 
-      $tab[8]['table']               = self::getTable();
-      $tab[8]['field']               = 'recommended_value';
-      $tab[8]['name']                = __('Recommended value', 'storkmdm');
-      $tab[8]['datatype']            = 'string';
-      $tab[8]['massiveaction']       = false;
+      $tab[] = [
+         'id'            => '9',
+         'table'         => $this->getTable(),
+         'field'         => 'is_android_system',
+         'name'          => __('Requires system permission', 'flyvemdm'),
+         'datatype'      => 'bool',
+         'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '10',
+        'table'         => $this->getTable(),
+        'field'         => 'android_min_version',
+        'name'          => __('Android minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '11',
+        'table'         => $this->getTable(),
+        'field'         => 'android_max_version',
+        'name'          => __('Android maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '12',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_min_version',
+        'name'          => __('Apple minimum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
+
+      $tab[] = [
+        'id'            => '13',
+        'table'         => $this->getTable(),
+        'field'         => 'apple_max_version',
+        'name'          => __('Apple maximum version', 'flyvemdm'),
+        'datatype'      => 'string',
+        'massiveaction' => false,
+      ];
 
       return $tab;
    }
+
+   public static function dropdown($options = []) {
+      global $DB;
+
+      $request = [
+         'FROM' => PluginFlyvemdmPolicyCategory::getTable(),
+      ];
+
+      $elements = $category = [];
+      foreach ($DB->request($request) as $row) {
+         $elements[$row['name']] = [];
+         $category[$row['id']] = $row['completename'];
+      }
+
+      $request = [
+         'FROM' => static::getTable(),
+      ];
+      foreach ($DB->request($request) as $row) {
+         $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
+         $elements[$categoryName][$row['id']] = $row['name'];
+      }
+      return Dropdown::showFromArray(static::getForeignKeyField(), $elements, $options);
+   }
+
 }

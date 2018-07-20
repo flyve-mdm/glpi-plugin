@@ -1,0 +1,60 @@
+{% if not isNewID %}
+<tr class='tab_bg_1'>
+   <td colspan="4">
+      {% if not package.icon %}
+      {% else %}
+         <img width="64px" height="64px" src="data:image/png;base64,{{ package.icon }}" />
+      {% endif %}
+   </td>
+</tr>
+{% endif %}
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Name') }}{{ withTemplate }} 
+   </td>
+   <td>
+      {{ package.name|raw }}
+   </td>
+   <td>
+      {{ __('Alias', 'flyvemdm') }}
+   </td>
+   <td>
+      <input type="text" name="alias" value="{{ package.alias }}">
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Version') }} 
+   </td>
+   <td>
+      {{ package.version }}
+   </td>
+   <td>
+      {{ __('file size', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ package.filesize|fileSize }}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Package name', 'flyvemdm') }} 
+   </td>
+   <td>
+      {{ package.package_name }}
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+</tr>
+{% if canUpdate == true %}
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Update the package', 'flyvemdm') }}
+   </td>
+   <td colspan="3">
+      {{ upload|raw }}
+   </td>
+</tr>
+{% endif %}

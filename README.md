@@ -1,296 +1,93 @@
-[![Build Status](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi.svg?branch=master)](https://travis-ci.org/flyve-mdm/flyve-mdm-glpi)
+# Plugin for GLPI
 
-# Abstract
+![Flyve MDM banner](https://user-images.githubusercontent.com/663460/26935464-54267e9c-4c6c-11e7-86df-8cfa6658133e.png)
 
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
+[![License](https://img.shields.io/github/license/flyve-mdm/glpi-plugin.svg?&label=License)](https://github.com/flyve-mdm/glpi-plugin/blob/develop/LICENSE.md)
+[![Follow twitter](https://img.shields.io/twitter/follow/FlyveMDM.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/FlyveMDM)
+[![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/flyvemdm)
+[![IRC Chat](https://img.shields.io/badge/IRC-%23flyvemdm-green.svg)](http://webchat.freenode.net/?channels=flyve-mdm)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![Greenkeeper badge](https://badges.greenkeeper.io/flyve-mdm/glpi-plugin.svg)](https://greenkeeper.io/)
+[![GitHub release](https://img.shields.io/github/release/flyve-mdm/glpi-plugin.svg)](https://github.com/flyve-mdm/glpi-plugin/releases)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-# Installation
+Flyve MDM is a mobile device management software that enables you to secure and manage all the mobile devices of your business via a unique web-based console (MDM).
 
-## General view of the infrastructure
+To get started, check out [Flyve MDM Website](https://flyve-mdm.com/)!
 
-You need several servers to run Flyve MDM:
-* a server running Linux, Apache, Mysql/MariaDB and PHP (a LAMP server),
-* a server running Mosquitto,
-* a server running the web interface.
+## Table of contents
 
-## Installation overview
+* [Synopsis](#synopsis)
+* [Build status](#build-status)
+* [Compatibility Matrix](#compatibility-matrix)
+* [Installation](#installation)
+* [Documentation](#documentation)
+* [Versioning](#versioning)
+* [Contribute](#contribute)
+* [Contact](#contact)
+* [Professional Services](#professional-services)
+* [Copying](#copying)
 
-Flyve MDM runs on GLPi 9.1.1 and later. It depends on inventory features of FusionInventory for GLPi. You need FusionInventory 9.1+1.0 or later. The version depends on the version of GLPi you're planning to setup.
+## Synopsis
 
-The general steps to properly configure the whole infrastructure are :
-* install GLPi
-* install FusionInventory and Flyve MDM plugin for GLPi
-* configure Flyve MDM plugin for GLPi
-* configure your DBMS
-* Install and configure Mosquitto
-* Install and configure the web application
+This plugin for GLPI is a subproject of Flyve MDM.
 
-## Dependencies
+It allows the management of mobile devices of your IT infrastructure, providing security policies, files and applications download and many more features.
 
-This plugin is depends on GLPi, FusionInventory for GLPi and a some packages
+It provides a stand alone web based administration and an interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
 
-* Download our specific version of GLPi 9.1.1 (please refer to its documentation to install)
-* Download FusionInventory 9.1+1.0 for GLPi and put it in glpi/plugins/
-* Donwload Flyve MDM for GLPi and put it in glpi/plugins/
+## Build Status
 
-You will probably ask why you need a specific version of GLPi. Flyve MDM relies on a rest API GLPi developed recently. Flyve MDM requires some improvements which are not in the latest stable relase of GLPi. The specific version of GLPi we provide is the latest stable version, with a few backports from the development versions, to satisfy our needs.
+| **LTS** | **Bleeding Edge** |
+|:---:|:---:|
+| [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/glpi-plugin) |
 
-You should have a directory structure like this :
+## Compatibility Matrix
 
-```
-glpi
-|
-+ plugins
-  |
-  + fusioninventory
-  + storkmdm
-```
+|GLPI|9.1.x|9.2.1+  |
+|:---|:---:|:---:|
+|Flyve MDM|1.x|2.0.0-dev|
+|FusionInventory|9.1+1.0|9.2+2.0|
+|Demo Mode|-|1.0.0-dev|
+|Web MDM Dashboard|-|1.0.0-dev|
 
-* Go in the directory  glpi/plugins/storkmdm
-* Run composer install --no-dev
+## Installation
 
-## Configuration of GLPi
+Installation instructions are available on our documentation, see our [Installation section](http://flyvemdm-doc.readthedocs.io/en/latest/installation/index.html).
 
-These steps are mandatory.
+## Documentation
 
-### Cron
+Checkout our [Documentation](http://flyvemdm-doc.readthedocs.io/en/latest/) hosted on Read the Docs.
 
-Ensure the system has PHP CLI, then setup a cron job similar to the example below.
+We also share long-form content about the project on the website, see our [How-tos](http://flyve.org/glpi-plugin/howtos) and [Development](http://flyve.org/glpi-plugin/) sections.
 
-```
-*/1 * * * * /usr/bin/php5 /var/www/glpi/front/cron.php &>/dev/null
-```
+## Versioning
 
-Adjust the **path to PHP** and the **path to cron.php**
+In order to provide transparency on our release cycle and to maintain backward compatibility, Flyve MDM is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
 
-### Notifications
+See [the tags section of our GitHub project](http://github.com/flyve-mdm/glpi-plugin/tags) for changelogs for each release version of Flyve MDM. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
 
-Login in GLPi with a super admin account
-In the menu **Setup > Notifications** click on Enable followup via email. The page refreshes itself. Click on **Email followups configuration** and setup the form depending on your requirements to send emails.
+## Contribute
 
-In **Setup > Automatic actions** open queuedmail. Set Run mode to **CLI**. This action is now triggered by the cron job every minute.
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
+guidelines for [contributing](https://github.com/flyve-mdm/glpi-plugin/blob/develop/CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/flyve-mdm/glpi-plugin/issues).
 
-To ensure the cronjob is properly configured, check the log **glpi/files/_log/cron.log**. If a log entry contains the word **External** then the job fired from cron. Jobs manually fired from the UI would show **Internal** instead.
+If you are not a developer you may contribute the project by [translating it](https://www.transifex.com/flyve-mdm/public/), by [submitting documentation](https://github.com/flyve-mdm/glpi-plugin/) or by testing the product.
 
-Example of a log entry
-```
-External #1: Launch queuedmail
-2016-12-21 10:22:02 [@my-server]
-```
+## Contact
 
-### Enabling the rest API
+For notices about major changes and general discussion of Flyve MDM development, subscribe to the [/r/FlyveMDM](http://www.reddit.com/r/FlyveMDM) subreddit.
+You can also chat with us via IRC in [#flyve-mdm on freenode](http://webchat.freenode.net/?channels=flyve-mdm) or [@flyvemdm on Telegram](https://t.me/flyvemdm).
+Ping me @btry in the IRC chatroom if you get stuck.
 
-* Open the menu **Setup > General** and select the tab **API**
-* enable rest API
-* enable **login with credentials**
-* enable **login with external tokens**
-* Check there is a full access API client able to use the API from any IPv4 or IPv6 address (click it to read and/or edit)
+## Professional Services
 
-### Configuration of FusionIventory
+The Flyve MDM and GLPI Network services are available through our [Partner's Network](http://www.teclib-edition.com/en/partners/). We provide special training, bug fixes with editor subscription, contributions for new features, and more.
 
-#### Fusioninventory greater than **9.1+1.0**
+Obtain a personalized service experience, associated with benefits and opportunities.
 
-* Open **Administration > Rules > FusionInventory - Equipment import and link rules**
+## Copying
 
-* If a rule named **Computer constraint (name)** exists, then open it and disable it.
-
-Missing this will make FusionInventory reject inventories from devices.
-
-### Configuration of Flyve MDM for GLPi
-
-* Open **Configuration > Plugins**
-* Click on **Stork Mobile Device Management**
-
-* **mqtt broker address** is the public hostname or IP address of Mosquitto. It is sent to devices to tell them where is your Mosquitto server on the Internet. (*mandatory*).
-* **mqtt broker internal address** is the private hostname or IP address of Mosquitto. It is used to tell GLPi where is your Mosquitto server in your local network. (*mandatory*).
-* **mqtt broker port** is the port used by your mobile devices *and* GLPi (*mandatory*).
-* **use TLS** enables TLS communication for mobile devices *and* GLPi.
-* **CA certificate** is the certificate of an authority to verify the Mosquitto server.
-* **Cipher suite** is used to limit the ciphers used with TLS.
-
-* **use client certificates** (*not working yet*) is used to allow mobile devices to verify the Mosquitto server
-* **Ssl certificate server for MQTT clients** (*not working yet*) is a server which signs certificate requests of devices. This is for a future and stronger authentication method of devices with Mosquitto.
-
-* **Enable explicit enrolment failures** sends to devices the exact reason of an enrollment failure. For debug purpose only.
-* **Disable token expiration on successful enrolment** is to prevent a token to expire when a device successfully enrolls. For debug purpose only.
-
-* **Android bug collector URL** is the URL of a ACRA server. This server collects crash reports sent by Flyve MDM for Android.
-* **Android bug collector user** is the username used by devices when they send a crash report.
-* **Android bug collector password** is the password used by devices when they send a ccrash report.
-
-* **Default device limit per entity** is the maximum uantity of devices allowed in an entity. Designed for the demo mode, but might be useful to enhance security. 
-* **Service's User Token** is the token to put un config.js when setting up the web application.
-
-### Security
-
-FlyveMDM needs only the REST API feature of GLPi to work with devices and its web interface.
-Expose to the world only the API of GLPi, and keep inacessible GLPi's user interface.
-
-Have a look into **glpi/.htaccess** if you can use  Apache's mod_rewrite.
-
-The directory **glpi/plugins/storkmdm/scripts** must be inaccessible from the webserver.
-
-* If running Apache, the .htaccess file in this directory will do the job.
-* If running an other server like Nginx, please configure the host properly.
-
-## Mysql / MariaDB
-
-The DBMS must provide an access to the message queuing server for the authentication process of its clients. This server will be configured below; let's focus on the DBMS for now.
-
-Assuming your DBMS server is not exposed to the world and the message queuing is on an other server, edit **my.cnf** to listen on **0.0.0.0** instead of 127.0.0.1.
-
-```
-bind-address = 0.0.0.0
-```
-
-Create a new user in the DBMS able to read only the GLPI's database, and restrict this user to the IP of the future message queuing server.
-
-## Mosquitto
-
-### Version considerations
-Use Mosquitto **v1.4.8** or greater. You may encouteer crashes with older versions.
-
-Flyve MDM needs an authentication plugin for Mosquitto to authenticate MQTT clients against users stored in GLPi's DBMS.
-
-### Compile Mosquitto (needs improvement)
-
-If you need to compile Mosquitto use the official sources
-
-[mosquitto repository](https://github.com/eclipse/mosquitto)
-
-
-* Edit **config.mk** and change WITH_SRV:=NO
-
-* Install dependencies and compile
-
-* Install Mosquitto
-
-* Copy /etc/mosquitto/mosquitto.conf.example to /etc/mosquitto/mosquitto.conf
-```
-cp /etc/mosquitto/mosquitto.conf.example /etc/mosquitto/mosquitto.conf
-```
-
-* Create /var/lib/mosquitto
-```
-mkdir /var/lib/mosquitto
-```
-
-Create a user to run Mosquitto
-```
-adduser mosquitto --home /var/lib/mosquitto --shell /usr/sbin/nologin --no-create-home --system --group
-```
-
-* Make a init.d startup script
-
-### Configuration
-
-If you installed Mosquitto from your distribution package, its settings may be located in several files.
-The main configuration file is **/etc/mosquitto/mosquitto.conf**
-
-Official documentation to configure Mosquitto : http://mosquitto.org/man/mosquitto-conf-5.html
-
-We recomend you setup Mosquitto without encryption frist, validate its configuration, then enable encryption. Of course, don't expose your setup to the world without encryption !
-
-#### default unencrypted listener
-
-Check the following settings to setup an unencrypted communication :
-* pid_file /var/run/mosquitto.pid
-* user mosquitto
-* persistent_client_expiration 2m
-* persistence true
-* persistence_file mosquitto.db
-* persistence_location /var/lib/mosquitto
-* port 1883
-* allow_anonymous false
-
-
-#### TLS listener
-Assuming you successfully configured Mosquitto without encryption, use the following :
-
-This  example assumes cachain.crt contains the CA chain and your certificate.
-
-* Copy in /etc/mosquitto/certs your certificate your certificate authority chain and your private key. 
-* Secure your private key
-```
-chmod 600 /etc/mosquitto/certs/private-key.key
-chown mosquitto:root /etc/mosquitto/certs/private-key.key
-```
-* refresh hash and symlinks to your certificates
-```
-c_rehash /etc/mosquitto/certs
-```
-
-You should use an certificate signed by a certified authority or you may have trouble with the android devices. Using android devices with custom certification authorities might not work (not tested).
-
-```
-listener 8883
-
-cafile /etc/mosquitto/certs/cachain.crt
-certfile /etc/mosquitto/certs/cachain.crt
-keyfile /etc/mosquitto/certs/private-key.key
-tls_version tlsv1.2
-```
-
-Note : **you should NOT use tls_version lower than tlsv1.2**. TLS version 1.0 and 1.1 are no longer considered safe.
-
-Restart Mosquitto
-
-#### disable default unencrypted listener
-Assuming you successfully enabled TLS, remove the following settings :
-* bind_address
-* port
-
-Restart Mosquitto
-
-## Mosquitto authentication plugin
-
-### Compile the plugin if needed
-
-If you need to compile the plugin, use the official sources.
-
-[mosquitto-auth-plugin repository](https://github.com/jpmens/mosquitto-auth-plug)
-
-* copy **config.mk.in** to **config.mk**
-```
-cp config.mk.in config.mk
-```
-* Edit config.mk to customize the path to Mosquitto's sources if you had to compile it
-* Compile the plugin
-* Copy the module auth-plug.so into /usr/local/lib/libmosquitto-auth-plug.so
-
-### Configure the plugin
-
-If you compiled the plugin edit **/etc/mosquitto/mosquitto.conf**. If you installed it from your distro's packages you should edit **/etc/mosquitto/conf.d/auth-plug.conf**
-
-Add / edit the following settings
-
-```
-auth_plugin /usr/local/lib/libmosquitto-auth-plug.so
-auth_opt_backends mysql
-auth_opt_host backend-server-ip-or-fqdn
-auth_opt_port 3306
-auth_opt_user database-user
-auth_opt_dbname glpi
-auth_opt_pass StrongPassword
-#auth_opt_superquery
-auth_opt_userquery SELECT password FROM glpi_plugin_storkmdm_mqttusers WHERE user='%s' AND enabled='1'
-auth_opt_aclquery SELECT topic FROM glpi_plugin_storkmdm_mqttacls a LEFT JOIN glpi_plugin_storkmdm_mqttusers u ON (a.plugin_storkmdm_mqttusers_id = u.id) WHERE u.user='%s' AND u.enabled='1' AND (a.access_level & %d)
-auth_opt_cacheseconds 300
-
-```
-Adapt the server, port and credentials to your setup.
-* The server is your MySQL or MariaDB IP or hostname
-* the port is  the listening port of your DBMS
-* user and password should be a user able to read only your DB. No need to grant any write access. You created these credentials while setting up the DBMS.
-
-# Contributing
-
-## Tests
-
-* Go to the folder containing GLPi
-* Run composer install
-* Run php tools/cliinstall.php --tests --user=database-user --pass=database-pass --db=glpi-test
-* Go to plugins/storkmdm
-* Run php tools/cliinstall.php --tests
-* Run phpunit
+* **Name**: [Flyve MDM](https://flyve-mdm.com/) is a registered trademark of [Teclib'](http://www.teclib-edition.com/en/).
+* **Code**: you can redistribute it and/or modify it under the terms of the GNU AGPL v3 license ([AGPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html)).
+* **Documentation**: released under Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).

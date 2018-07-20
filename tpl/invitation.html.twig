@@ -1,0 +1,21 @@
+{% if isNewID == true %}
+<tr>
+   <td>
+      {{ __('Email') }}
+   </td>
+   <td>
+      <input name="_useremails" value="{{ invitation._useremails }}">
+   </td>
+</tr>
+{% else %}
+<tr>
+  <td>
+  {{ __('There is nothing to change in an invitation. You may only need to re-send it.') }}
+  </td>
+</tr>
+<tr>
+  <td>
+     {{ resendButton|raw }}
+   </td>
+</tr>
+{% endif %}

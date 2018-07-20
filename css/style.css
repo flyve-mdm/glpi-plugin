@@ -1,0 +1,123 @@
+@CHARSET "UTF-8";
+
+/*---------------- MENU ----------------*/
+
+#plugin_flyvemdm_menu {
+   width: 95%;
+   list-style: none;
+}
+
+#plugin_flyvemdm_menu ul {
+   position: absolute;
+   display: none;
+   z-index: 10000;
+}
+
+#plugin_flyvemdm_menu li {
+   display: inline-block;
+   box-shadow: 0px 1px 2px 1px #999;
+   width: 180px;
+   background-color: #F1F1F1;
+}
+
+#plugin_flyvemdm_menu ul li {
+   display: inherit;
+}
+
+#plugin_flyvemdm_menu li:hover ul {
+   display: block;
+}
+
+#plugin_flyvemdm_menu a {
+   font-size: larger;
+   color: #000;
+}
+#plugin_flyvemdm_menu div {
+   padding: 8px 10px 8px 10px;
+}
+
+#plugin_flyvemdm_menu li li div {
+   position: relative;
+}
+
+#plugin_flyvemdm_menu li li span.fa {
+   position: absolute;
+   height: 20px;
+   margin: auto 0;
+   left: 4px;
+   color: #16a085;
+}
+
+#plugin_flyvemdm_menu li div::before, #plugin_flyvemdm_menu li div::after {
+   content: url(../../../pics/deplier_down.png);
+   margin: 3px;
+}
+
+#plugin_flyvemdm_menu li li div::before, #plugin_flyvemdm_menu li li div::after {
+   content: none;
+   margin: inherit;
+}
+
+ul#menu ul.ssmenu {
+   z-index: 10000;
+}
+
+.plugin-flyvemdm-online {
+   color: #009933;
+}
+
+.plugin-flyvemdm-offline {
+   color: #e62e00;
+}
+
+/*---------------- GEOLOCATION TAB ----------------*/
+
+.plugin_flyvemdm_clear::after {
+   content: "";
+   display: block;
+   clear: both;
+}
+
+#plugin_flyvemdm_geolocationMap {
+   height: 480px;
+}
+
+#plugin_flyvemdm_geolocationList label {
+   font-weight: bold;
+}
+
+.ui-slider {
+   margin: 1em;
+}
+
+.ui-slider .ui-widget-header {
+   background: #FEC95C;
+   cursor: pointer;
+}
+
+/*---------------- POLICY VALUE ----------------*/
+.plugin_flyvemdm_policy_value{
+    display: inline-block;
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
+}
+
+.plugin_flyvemdm_policy_value table{
+    width: 100%
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap a{
+    margin-right: .5em;
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap{
+    margin-right: 3em;
+}
+.plugin_flyvemdm_policy_value table .select2-container{
+    width: 90%
+}
+.plugin_flyvemdm_policy_value table > tbody > tr > td span.no-wrap span.fa {
+    padding: 0;
+}
+.plugin_flyvemdm_policy_value table .select2-container .select2-choice {
+    max-width: none;
+}

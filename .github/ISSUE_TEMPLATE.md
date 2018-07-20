@@ -1,34 +1,9 @@
-### Expected behaviour
+<!-- File a GitHub issue only for bugs or feature requests related to the code **in this repository**. For other topics you can get more information in the README file. -->
+  
+#### Observed Results:
 
-### Actual behaviour
+<!-- This could be a description, error output, steps to reproduce, a feature missed, etc. -->
+  
+#### Expected behavior:
 
-### Environment Details
-
-- HTTP server version:
-- GLPi version:
-- Flyve MDM version:
-- FusionInventory version:
-- Mosquitto version:
-- Mosquitto's auth plugin  version:
-
-### Steps to reproduce the behaviour
-
-1.
-2.
-3.
-
-### Screenshots, backtraces or logs
-
-Please check your logs for passwords, device serial numbers, IP addresses or any sensitive content
-
-php-errors.log
-```
-```
-
-sql-errors.log
-```
-```
-
-HTTP server error log
-```
-```
+<!-- What did you expect to happen? -->

@@ -1,33 +1,35 @@
 <?php
 /**
- LICENSE
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -36,19 +38,21 @@ if (!defined('GLPI_ROOT')) {
 /**
  * @since 0.1.0
  */
-class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable {
+class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiableInterface {
 
    const ENROLL_DENY             = 0;
-   //const ENROLL_AGENT_TOKEN      = 1;
    const ENROLL_INVITATION_TOKEN = 1;
    const ENROLL_ENTITY_TOKEN     = 2;
 
-   const DEFAULT_TOKEN_LIFETIME  = "P7D";
+   const DEFAULT_TOKEN_LIFETIME  = 'P7D';
+
+   const MINIMUM_ANDROID_VERSION = '2.0';
+   const MINIMUM_APPLE_VERSION = '1.0';
 
    /**
     * @var string $rightname name of the right in DB
     */
-   public static $rightname            = 'storkmdm:agent';
+   public static $rightname            = 'flyvemdm:agent';
 
    /**
     * @var bool $dohistory maintain history
@@ -68,12 +72,50 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    protected $topic = null;
 
    /**
-    * Localized name of the type
-    * @param $nb  integer  number of item in the type (default 0)
+    *
+    * Returns the minimum version of the agent accepted by the backend
+    * @param string $mdmType the type of the agent.
+    * @return string the minimum version of the agent depending on its type
     */
-   public static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Agent', 'Agents', $nb, "storkmdm");
+   private function getMinVersioForType($mdmType) {
+      switch ($mdmType) {
+         case 'android':
+            return self::MINIMUM_ANDROID_VERSION;
+            break;
+
+         case 'apple':
+            return self::MINIMUM_APPLE_VERSION;
+            break;
+      }
+
+      return '';
+   }
+
+   /**
+    * get mdm types availables
+    */
+   public static function getEnumMdmType() {
+      return [
+         'android'   => __('Android', 'flyvemdm'),
+         'apple'     => __('Apple', 'flyvemdm'),
+      ];
+   }
+
+   /**
+    * Localized name of the type
+    * @param integer $nb number of item in the type (default 0)
+    * @return string
+    */
+   public static function getTypeName($nb = 0) {
+      return _n('Agent', 'Agents', $nb, 'flyvemdm');
+   }
+
+   /**
+    * Return the picture file for the menu
+    * @return string
+    */
+   public static function getMenuPicture() {
+      return 'fa-tablet';
    }
 
    /**
@@ -90,64 +132,237 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * Define tabs available for this itemtype
-    * @see CommonGLPI::defineTabs()
-    * @deprecated
     */
-   public function defineTabs($options = array()) {
-      $tab = array();
+   public function defineTabs($options = []) {
+      $tab = [];
       $this->addDefaultFormTab($tab);
-      $this->addStandardTab('PluginStorkmdmAgent_Fleet', $tab, $options);
-      $this->addStandardTab('Notepad', $tab, $options);
-      $this->addStandardTab('Log', $tab, $options);
+      $this->addStandardTab(PluginFlyvemdmGeolocation::class, $tab, $options);
+      $this->addStandardTab(__CLASS__, $tab, $options);
+      if (!$this->isNewItem()) {
+         $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
+         $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
+      }
+      $this->addStandardTab(Notepad::class, $tab, $options);
+      $this->addStandardTab(Log::class, $tab, $options);
 
       return $tab;
    }
 
    /**
-    * Show form for edition
-    * @deprecated
+    * @see CommonGLPI::getTabNameForItem()
+    *
+    * @since version 9.1
+    * @param CommonGLPI $item
+    * @param integer $withtemplate
+    * @return array|string
     */
-   public function showForm($ID, $options=array()) {
-      global $CFG_GLPI, $DB;
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      if (static::canView()) {
+         switch ($item->getType()) {
+            case __CLASS__ :
+               $tab = [1 => __('Danger zone !', 'flyvemdm')];
+               return $tab;
+               break;
 
-      $this->initForm($ID, $options);
-      $this->showFormHeader();
+            case PluginFlyvemdmFleet::class:
+               if (!$withtemplate) {
+                  $nb = 0;
+                  $fleetId = $item->getID();
+                  $pluralNumber = Session::getPluralNumber();
+                  if ($_SESSION['glpishow_count_on_tabs']) {
+                     $DbUtil = new DbUtils();
+                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
+                  }
+                  return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+               }
+               break;
 
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>" . __s('Name') .
-            (isset($options['withtemplate']) && $options['withtemplate']?"*":"") .
-            "</td>";
-      echo "<td>";
-      $objectName = autoName($this->fields["name"], "name",
-                             (isset($options['withtemplate']) && $options['withtemplate']==2),
-                             $this->getType(), -1);
-      Html::autocompletionTextField($this, 'name', array('value' => $objectName));
-      echo "</td>";
-      echo "</tr>";
-
-      echo "<tr class='tab_bg_1'>";
-      echo "<td>". __s('serial') . "</td><td>";
-      Html::autocompletionTextField($this, 'serial');
-      echo  "</td>";
-      echo '</tr>';
-
-      if ($this->canUpdate()) {
-         echo "<tr class='tab_bg_1'>";
-         echo "<td>Actions</td><td>";
-         echo "<td>" . Html::submit(_x('button','Wipe'), array('name' => 'wipe')) . "</td>";
-         echo '</tr>';
+            case Computer::class:
+               return __('Flyve MDM Agent', 'flyvemdm');
+               break;
+         }
       }
+
+      return '';
+   }
+
+   /**
+    * @param CommonGLPI $item
+    * @param integer $tabnum (default 1)
+    * @param integer $withtemplate (default 0)
+    *
+    * @since version 9.1
+    *
+    * @return bool
+    */
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      switch (get_class($item)) {
+         case static::class:
+            self::showDangerZone($item);
+            return true;
+            break;
+
+         case PluginFlyvemdmFleet::class:
+            self::showForFleet($item);
+            return true;
+            break;
+      }
+   }
+
+   /**
+    * Shows form for edition
+    * @param integer $ID Id of the agent
+    * @param array $options
+    */
+   public function showForm($ID, array $options = []) {
+      $this->initForm($ID, $options);
+      $this->showFormHeader($options);
+      $canUpdate = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
+
+      $fields              = $this->fields;
+      $objectName          = (new DbUtils)->autoName($this->fields['name'], 'name',
+                             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
+                             $this->getType(), -1);
+      $fields['name']      = Html::autocompletionTextField($this, 'name',
+                             ['value' => $objectName, 'display' => false]);
+      $fields['computer']  = Computer::dropdown([
+                                 'display'      => false,
+                                 'name'         => 'computers_id',
+                                 'value'        => $this->fields['computers_id'],
+                                 'entity'       => $this->fields['entities_id']
+                             ]);
+      $fields['fleet']     = PluginFlyvemdmFleet::dropdown([
+                                    'display'      => false,
+                                    'name'         => 'plugin_flyvemdm_fleets_id',
+                                    'value'        => $this->fields['plugin_flyvemdm_fleets_id'],
+                                    'entity'       => $this->fields['entities_id']
+                             ]);
+      if (empty($fields['last_contact'])) {
+         $fields['last_contact'] = __('Never seen online', 'flyvemdm');
+      }
+      $data = [
+            'withTemplate'    => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
+            'isNewID'         => $this->isNewID($ID),
+            'canUpdate'       => $canUpdate,
+            'agent'           => $fields,
+            'pingButton'      => Html::submit(_x('button', 'Ping'), ['name' => 'ping']),
+            'geolocateButton' => Html::submit(_x('button', 'Geolocate'), ['name' => 'geolocate']),
+            'inventoryButton' => Html::submit(_x('button', 'Inventory'), ['name' => 'inventory']),
+
+      ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent.html.twig', $data);
 
       $this->showFormButtons($options);
    }
 
    /**
-    * {@inheritDoc}
-    * @see CommonDBTM::canViewItem()
+    * Prints the computer's operating system form
+    *
+    * @param PluginFlyvemdmAgent $item
+    *
+    * @since version 9.1
     */
+   public static function showDangerZone(PluginFlyvemdmAgent $item) {
+      $ID = $item->fields['id'];
+      $item->initForm($ID);
+      $item->showFormHeader(['formtitle' => false]);
+      $canedit = static::canUpdate();
+
+      $fields              = $item->fields;
+
+      $fields['lock']      = Html::getCheckbox([
+            'title'        => __('Lock the device as soon as possible', 'flyvemdm'),
+            'name'         => 'lock',
+            'checked'      => $item->fields['lock'],
+            'value'        => '1',
+            'readonly'     => ($canedit == '0' ? '1' : '0'),
+      ]);
+      $fields['wipe']      = Html::getCheckbox([
+            'title'        => __('Wipe the device as soon as possible', 'flyvemdm'),
+            'name'         => 'wipe',
+            'checked'      => $item->fields['wipe'],
+            'value'        => '1',
+            'readonly'     => ($canedit == '0' ? '1' : '0'),
+      ]);
+
+      $data = [
+            'withTemplate'    => '',
+            'isNewID'         => $item->isNewID($ID),
+            'canUpdate'       => (!$item->isNewID($ID)) && ($item->canUpdate() > 0),
+            'agent'           => $fields,
+            'unenrollButton'  => Html::submit(_x('button', 'Unenroll'), ['name' => 'unenroll']),
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent_dangerzone.html.twig', $data);
+
+      $item->showFormButtons(['candel' => false, 'formfooter' => false]);
+   }
+
+   /**
+    * Displays the agents according the fleet
+    * @param PluginFlyvemdmFleet $item
+    * @return string an html with the agents
+    */
+   public static function showForFleet(PluginFlyvemdmFleet $item) {
+      if (!PluginFlyvemdmFleet::canView()) {
+         return false;
+      }
+
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
+
+      $dbUtils = new DbUtils();
+
+      // get items
+      $agent = new PluginFlyvemdmAgent();
+      $items_id = $item->getField('id');
+      $itemFk = $item::getForeignKeyField();
+      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
+      $rows = $agent->find($condition);
+      $number = count($rows);
+
+      // get the pager
+      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+
+      $data = [
+         'number' => $number,
+         'pager'  => $pager,
+         'agents' => $rows,
+         'start'  => $start,
+         'stop'   => $start + $_SESSION['glpilist_limit']
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agent_fleet.html.twig', $data);
+   }
+
+   /**
+    * Shows informations about the agent linhked to a computer
+    *
+    * @param CommonDBTM $item
+    */
+   public static function displayTabContentForComputer(CommonDBTM $item) {
+      $agent = new static();
+      if (!$agent->getFromDBByCrit(['computers_id' => $item->getID()])) {
+         return;
+      }
+      $fields = $agent->fields;
+      $fields['fleet']=$agent->getFleet();
+      if (empty($fields['last_contact'])) {
+         $fields['last_contact'] = __('Never seen online', 'flyvemdm');
+      }
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('agentComputerInfo.html.twig', [
+         'agent' => $fields,
+         'agentUrl' => Toolbox::getItemTypeFormURL(self::class),
+         'fleetUrl' => Toolbox::getItemTypeFormURL(PluginFlyvemdmFleet::class)
+      ]);
+   }
+
    public function canViewItem() {
       // Check the active profile
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       if ($_SESSION['glpiactiveprofile']['id'] != $config['guest_profiles_id']) {
          return parent::canViewItem();
       }
@@ -167,7 +382,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
-    * Send a wipe command to the agent
+    * Sends a wipe command to the agent
     */
    protected function sendWipeQuery() {
       $topic = $this->getTopic();
@@ -178,7 +393,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
-    * Send a lock command to the agent
+    * Sends a lock command to the agent
     */
    protected function sendLockQuery() {
       $topic = $this->getTopic();
@@ -189,7 +404,18 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
-    * Send unenrollment command to  the agent
+    * Sends a lock command to the agent
+    */
+   protected function sendUnlockQuery() {
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $mqttMessage = ['lock' => 'unlock'];
+         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+      }
+   }
+
+   /**
+    * Sends unenrollment command to the agent
     */
    protected function sendUnenrollQuery() {
       $topic = $this->getTopic();
@@ -199,34 +425,26 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::prepareInputForAdd()
-    */
    public function prepareInputForAdd($input) {
-      $config        = Config::getConfigurationValues("storkmdm", array('debug_enrolment', 'mqtt_broker_address', 'mqtt_broker_port', 'mqtt_broker_tls'));
-
       // Get the maximum quantity of devices allowed for the current entity
-      $entityConfig = new PluginStorkmdmEntityconfig();
-      if (!$entityConfig->getFromDB($_SESSION['glpiactive_entity'])) {
-         $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'storkmdm')));
+      $entityConfig = new PluginFlyvemdmEntityConfig();
+      if (!$entityConfig->getFromDBOrCreate($_SESSION['glpiactive_entity'])) {
+         $this->filterMessages(Session::addMessageAfterRedirect(__('Failed to read configuration of the entity', 'flyvemdm')));
          return false;
       }
 
-      $maxAgents = $entityConfig->getField('device_limit');
-      $entityId = $_SESSION['glpiactive_entity'];
-      $deviceCount = countElementsInTable($this->getTable(), "`entities_id`='$entityId'");
-      if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
+      if (!$entityConfig->canAddAgent($_SESSION['glpiactive_entity'])) {
          // Too many devices
-         $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'storkmdm')));
+         $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));
          $input = false;
       }
 
       // User already logged in : user token has been validated
-
+      ini_set("memory_limit", "-1");
+      ini_set("max_execution_time", "0");
       switch ($this->chooseEnrollMethod($input)) {
          case self::ENROLL_DENY:
-            $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'storkmdm')));
+            $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'flyvemdm')));
             $input = false;
             break;
 
@@ -240,42 +458,45 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             break;
       }
 
+      unset($input['is_online']);
+
       return $input;
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
    public function prepareInputForUpdate($input) {
-      if (isset($input['plugin_storkmdm_fleets_id'])) {
+      if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
-         $computerId = $this->getField('computers_id');
-         $oldFleet = new PluginStorkmdmFleet();
-         if (!$oldFleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+         $oldFleet = new PluginFlyvemdmFleet();
+         if (!$oldFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Unable to load fleet currently associated to  the agent
-            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists",'storkmdm'));
+            Session::addMessageAfterRedirect(__("The fleet of the device does not longer exists", 'flyvemdm'));
             return false;
          }
 
-         $newFleet = new PluginStorkmdmFleet();
-         if (!$newFleet->getFromDB($input['plugin_storkmdm_fleets_id'])) {
+         $newFleet = new PluginFlyvemdmFleet();
+         if (!$newFleet->getFromDB($input['plugin_flyvemdm_fleets_id'])) {
             //Unable to load the new fleet
-            Session::addMessageAfterRedirect(__("The target fleet does not exists",'storkmdm'));
+            Session::addMessageAfterRedirect(__("The target fleet does not exists", 'flyvemdm'));
             return false;
          }
 
-         $this->changeFleet($oldFleet, $newFleet);
+         $this->changeMqttAcl($oldFleet, $newFleet);
       }
 
       // send wipe to the agent
       if (isset($input['wipe']) && $input['wipe'] != '0') {
-         $input['wipe'] == '1';
+         $input['wipe'] = '1';
       }
 
       // send lock to the agent
       if (isset($input['lock']) && $input['lock'] != '0') {
-         $input['lock'] == '1';
+         $input['lock'] = '1';
+      }
+
+      if (array_key_exists('lock', $input)
+          && ($this->fields['wipe'] != '0'
+              || (isset($input['wipe']) && $input['wipe'] != '0') )) {
+         unset($input['lock']);
       }
 
       unset($input['enroll_status']);
@@ -284,39 +505,36 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
 
       //Send a connection status request to the device
-      if (isset($input['_ping'])) {
+      if (isset($input['_ping']) || isset($input['_geolocate']) || isset($input['_inventory'])) {
          if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
+            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
+      }
 
-         if (!$this->sendPingQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device", 'storkmdm'));
+      if (isset($input['_ping'])) {
+         try {
+            $this->sendPingQuery();
+         } catch (AgentSendQueryException $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
 
       if (isset($input['_geolocate'])) {
-         if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
-            return false;
-         }
-
-         $errorMessage = '';
-         if (!$this->sendGeolocationQuery($errorMessage)) {
-            Session::addMessageAfterRedirect($errorMessage);
+         try {
+            $this->sendGeolocationQuery();
+         } catch (AgentSendQueryException $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
 
       if (isset($input['_inventory'])) {
-         if ($this->getTopic() === null) {
-            Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'storkmdm'));
-            return false;
-         }
-
-         if (!$this->sendInventoryQuery()) {
-            Session::addMessageAfterRedirect(__("Timeout querying the device inventory", 'storkmdm'));
+         try {
+            $this->sendInventoryQuery();
+         } catch (AgentSendQueryException $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
             return false;
          }
       }
@@ -324,24 +542,17 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       return $input;
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::post_addItem()
-    */
    public function post_addItem() {
       // Notify the agent about its fleets
       $this->updateSubscription();
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::post_getFromDB()
-    */
    public function post_getFromDB() {
       // set Topic after getting an item
       // Useful for post_purgeItem
       $this->getTopic();
       $this->setupMqttAccess();
+      $this->fields['api_token'] = User::getToken($this->fields['users_id'], 'api_token');
    }
 
    /**
@@ -351,8 +562,6 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      $success = false;
-
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -361,69 +570,66 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
 
       // get the guest profile ID
-      $config = Config::getConfigurationValues("storkmdm", array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
       if ($guestProfileId === null) {
-         Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to find the guest user profile', 'flyvemdm'));
          return false;
       }
 
       $computerId = $computer->getID();
       $serial = $computer->getField('serial');
       $entityId = $this->getField('entities_id');
-      $userId = $computer->getField('users_id');
+      $ownerUserId = $computer->getField('users_id');
 
       // Find other computers belong to the user in the current entity
       // TODO : maybe use getEntityRestrict for multientity support
-      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$userId' AND `id` <> '$computerId'", '', '1');
+      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$ownerUserId' AND `id` <> '$computerId'", '', '1');
       if (count($rows) == 0) {
          // Remove guest habilitation for the entity
          $profile_User = new Profile_User();
          $success = $profile_User->deleteByCriteria([
-               'users_id'        => $userId,
+               'users_id'        => $ownerUserId,
                'entities_id'     => $entityId,
                'profiles_id'     => $guestProfileId,
                'is_dynamic'      => 0
          ]);
          if (!$success) {
-            Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'storkmdm'));
+            Session::addMessageAfterRedirect(__('Failed to remove guest habilitation for the user of the device', 'flyvemdm'));
             return false;
          }
+      }
 
-         // Check the user still has one or several profiles
-         $rows = $profile_User->find("`users_id`='$userId'", '', '1');
-         if (count($rows) == 0) {
-            // Delete the user
-            $user = new User();
-            $user->delete(['id' => $userId], true);
-         }
+      // Delete the user account of the agent
+      $agentUser = new User();
+      $agentUser->delete([
+            'id'  => $this->fields['users_id'],
+      ], true);
+
+      // Send unrolling message to reset agent status
+      if ($this->fields['enroll_status'] == 'enrolled') {
+         $this->sendUnenrollQuery();
       }
 
       // Delete the MQTT user for the agent
       if (!empty($serial)) {
-         $mqttUser = new PluginStorkmdmMqttuser();
-         if ($mqttUser->getFromDBByQuery("WHERE `user` = '$serial'")) {
+         $mqttUser = new PluginFlyvemdmMqttuser();
+         if ($mqttUser->getFromDBByCrit(['user' => $serial])) {
             if (!$mqttUser->delete(['id' => $mqttUser->getID()], true)) {
-               Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'storkmdm'));
+               Session::addMessageAfterRedirect(__('Failed to delete MQTT user for the device', 'flyvemdm'));
                return false;
             }
          }
       }
 
-      // Delete the computer associated to the agent
-      if (!$computer->delete(['id' => $computerId], true)) {
-         Session::addMessageAfterRedirect(__('Failed to delete the device', 'storkmdm'));
-         return false;
-      }
-
       // Delete documents associated to the agent
       $document_Item = new Document_Item();
       $success = $document_Item->deleteByCriteria([
-            'itemtype'  => 'PluginStorkmdmAgent',
+            'itemtype'  => PluginFlyvemdmAgent::class,
             'items_id'  => $this->fields['id']
       ]);
       if (!$success) {
-         Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'storkmdm'));
+         Session::addMessageAfterRedirect(__('Failed to delete documents attached to the device', 'flyvemdm'));
          return false;
       }
 
@@ -432,16 +638,23 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * Actions done after the UPDATE of the item in the database
-    * @param $history store changes history ? (default 1)
-    * @return nothing
+    * @param integer $history store changes history ? (default 1)
+    * @return void
     */
-   public function post_updateItem($history=1) {
-      if (in_array('plugin_storkmdm_fleets_id', $this->updates)) {
-
+   public function post_updateItem($history = 1) {
+      if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          $this->updateSubscription();
-         if (isset($this->oldvalues['plugin_storkmdm_fleets_id'])) {
-            $oldFleet = new PluginStorkmdmFleet();
-            $oldFleet->getFromDB($this->oldvalues['plugin_storkmdm_fleets_id']);
+         $newFleet = new PluginFlyvemdmFleet();
+         if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+            // Create task status for the agent and the applied policies
+            $this->createTaskStatuses($newFleet);
+         }
+
+         // update tasks for the agent from already applied policies in the old fleet
+         if (isset($this->oldvalues['plugin_flyvemdm_fleets_id'])) {
+            $oldFleet = new PluginFlyvemdmFleet();
+            $oldFleet->getFromDB($this->oldvalues['plugin_flyvemdm_fleets_id']);
+            $this->cancelTaskStatuses($oldFleet);
          }
       }
 
@@ -450,9 +663,11 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          $this->sendWipeQuery();
       }
 
-      if (in_array('lock', $this->updates) && $this->fields['lock'] != '0') {
-         if ($this->fields['wipe'] == '0') {
+      if (in_array('lock', $this->updates) && $this->fields['wipe'] == '0') {
+         if ($this->fields['lock'] != '0') {
             $this->sendLockQuery();
+         } else {
+            $this->sendUnlockQuery();
          }
       }
 
@@ -462,14 +677,67 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
+    * creates task statuses for the agent and the associated fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    */
+   private function createTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
+      $notifiableType = $notifiable->getType();
+      $notifiableId = $notifiable->getID();
+      $task = new PluginFlyvemdmTask();
+      $rows = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'");
+      foreach ($rows as $row) {
+         $taskStatus = new PluginFlyvemdmTaskstatus();
+         $taskStatus->add([
+            'plugin_flyvemdm_agents_id' => $this->getID(),
+            'plugin_flyvemdm_tasks_id'  => $row['id'],
+            'status'                    => 'pending',
+         ]);
+      }
+   }
+
+   /**
+    * cancels task statuses for the agent anf the given fleet
+    * @param PluginFlyvemdmNotifiableInterface $notifiable
+    */
+   private function cancelTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
+      global $DB;
+
+      $notifiableId = $notifiable->getID();
+      $taskStatusTable = PluginFlyvemdmTaskstatus::getTable();
+      $taskTable = PluginFlyvemdmTask::getTable();
+      $request = [
+         'SELECT'     => $taskStatusTable . '.*',
+         'FROM'       => $taskStatusTable,
+         'INNER JOIN' => [
+            $taskTable => [
+               'FKEY' => [
+                  $taskTable       => 'id',
+                  $taskStatusTable => PluginFlyvemdmTask::getForeignKeyField(),
+               ],
+            ],
+         ],
+         'WHERE'      => [
+            'items_id_applied' => [$notifiableId],
+         ],
+      ];
+      $status = new PluginFlyvemdmTaskstatus();
+      foreach ($DB->request($request) as $row) {
+         $status->update([
+            'id' => $row['id'],
+            'status' => 'canceled',
+         ]);
+      }
+   }
+
+   /**
     * Actions done after the restore of the item
-    * @return nothing
+    * @return void
     */
    public function post_restoreItem() {
 
       $computer = $this->getComputer();
       if ($computer !== null) {
-         $mqttUser = new PluginStorkmdmMqttuser();
+         $mqttUser = new PluginFlyvemdmMqttuser();
          if ($mqttUser->getFromDB($this->fields['computers_id'])) {
             $mqttUser->update([
                   'id'        => $mqttUser->getID(),
@@ -479,109 +747,163 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       }
    }
 
+   /**
+    * Actions done after the purge of an item
+    */
    public function post_purgeItem() {
       $this->cleanupSubtopics();
    }
 
-   /**
-    * {@inheritDoc}
-    * @see CommonDBTM::getSearchOptions()
-    */
-   public function getSearchOptions() {
-      global $CFG_GLPI;
+   public function getSearchOptionsNew() {
+      $tab = parent::getSearchOptionsNew();
 
-      $tab = array();
-      $tab['common']             = __s('Agent', "storkmdm");
+      $tab[] = [
+         'id'                 => '2',
+         'table'              => $this->getTable(),
+         'field'              => 'id',
+         'name'               => __('ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i = 1;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Name');
-      $tab[$i]['datatype']        = 'itemlink';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => PluginFlyvemdmFleet::getTable(),
+         'field'              => 'name',
+         'name'               => __('Fleet', 'flyvemdm'),
+         'datatype'           => 'dropdown'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '4',
+         'table'              => Computer::getTable(),
+         'field'              => 'id',
+         'name'               => __('Computer'),
+         'datatype'           => 'dropdown',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = PluginStorkmdmFleet::getTable();
-      $tab[$i]['field']           = 'name';
-      $tab[$i]['name']            = __('Fleet', 'storkmdm');
-      $tab[$i]['datatype']        = 'dropdown';
+      $tab[] = [
+         'id'                 => '7',
+         'table'              => PluginFlyvemdmFleet::getTable(),
+         'field'              => 'id',
+         'name'               => __('Fleet - ID'),
+         'massiveaction'      => false,
+         'datatype'           => 'number'
+      ];
 
-      $i++;
-      $tab[$i]['table']           = Computer::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Computer');
-      $tab[$i]['datatype']        = 'dropdown';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '8',
+         'table'              => $this->getTable(),
+         'field'              => 'last_contact',
+         'name'               => __('Last contact', 'flyvemdm'),
+         'datatype'           => 'datetime',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = Computer::getTable();
-      $tab[$i]['field']           = 'serial';
-      $tab[$i]['name']          = __('Serial number');
-      $tab[$i]['datatype']        = 'dropdown';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '10',
+         'table'              => $this->getTable(),
+         'field'              => 'version',
+         'name'               => __('Version'),
+         'datatype'           => 'string',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']         = User::getTable();
-      $tab[$i]['field']         = 'id';
-      $tab[$i]['name']          = __('User');
-      $tab[$i]['forcegroupby']  = false;
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
-      $tab[$i]['joinparams']    = array('beforejoin'
-                                          => array('table'      => Computer::getTable(),
-                                                   'joinparams' => array('jointype' => '',
-                                                         'condition' => '')));
+      $tab[] = [
+         'id'                 => '11',
+         'table'              => $this->getTable(),
+         'field'              => 'is_online',
+         'name'               => __('Is online', 'flyvemdm'),
+         'datatype'           => 'specific',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = PluginStorkmdmFleet::getTable();
-      $tab[$i]['field']           = 'id';
-      $tab[$i]['name']            = __('Fleet', 'storkmdm')." - ".__('ID');
-      $tab[$i]['massiveaction']   = false;
-      $tab[$i]['datatype']        = 'number';
+      $tab[] = [
+         'id'                 => '12',
+         'table'              => $this->getTable(),
+         'field'              => 'mdm_type',
+         'name'               => __('MDM type', 'flyvemdm'),
+         'datatype'           => 'specific',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'last_contact';
-      $tab[$i]['name']            = __('last contact', "storkmdm");
-      $tab[$i]['datatype']        = 'datetime';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '13',
+         'table'              => $this->getTable(),
+         'field'              => 'has_system_permission',
+         'name'               => __('Has system permission', 'flyvemdm'),
+         'datatype'           => 'bool',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']         = User::getTable();
-      $tab[$i]['field']         = 'realname';
-      $tab[$i]['name']          = __('User');
-      $tab[$i]['forcegroupby']  = false;
-      $tab[$i]['massiveaction'] = false;
-      $tab[$i]['datatype']      = 'dropdown';
-      $tab[$i]['joinparams']    = array('beforejoin'
-            => array('table'      => Computer::getTable(),
-                  'joinparams' => array('jointype' => '',
-                        'condition' => '')));
+      $tab[] = [
+         'id'                 => '14',
+         'table'              => $this->getTable(),
+         'field'              => 'enroll_status',
+         'name'               => __('Enroll status', 'flyvemdm'),
+         'datatype'           => 'bool',
+         'massiveaction'      => false
+      ];
 
-      $i++;
-      $tab[$i]['table']           = self::getTable();
-      $tab[$i]['field']           = 'version';
-      $tab[$i]['name']            = __('version', "storkmdm");
-      $tab[$i]['datatype']        = 'string';
-      $tab[$i]['massiveaction']   = false;
+      $tab[] = [
+         'id'                 => '15',
+         'table'              => $this->getTable(),
+         'field'              => 'wipe',
+         'name'               => __('Wipe requested', 'flyvemdm'),
+         'datatype'           => 'bool',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '16',
+         'table'              => $this->getTable(),
+         'field'              => 'lock',
+         'name'               => __('Lock requested', 'flyvemdm'),
+         'datatype'           => 'bool',
+         'massiveaction'      => false
+      ];
+
+      $tab[] = [
+         'id'                 => '17',
+         'table'              => Entity::getTable(),
+         'field'              => 'completename',
+         'name'               => __('Entity'),
+         'datatype'           => 'dropdown'
+      ];
+
+      $tab[] = [
+         'id'                 => '18',
+         'table'              => PluginFlyvemdmPolicy::getTable(),
+         'field'              => 'name',
+         'name'               => __('Applied policy', 'flyvemdm'),
+         'datatype'           => 'dropdown',
+         'comments'           => '1',
+         'nosort'             => true,
+         'joinparams'         => [
+            'beforejoin'         => [
+               'table'           => PluginFlyvemdmTask::getTable(),
+               'joinparams'      => [
+                  'jointype'     => 'child',
+                  'linkfield'    => 'items_id_applied',
+                  'condition'    => "AND NEWTABLE.`itemtype_applied`='" . PluginFlyvemdmAgent::class . "'",
+               ],
+            ],
+            'jointype'           => 'empty',
+         ],
+         'massiveaction'      => false
+      ];
 
       return $tab;
    }
 
    /**
-    * Limit search for agents if guest user
+    * Limits search for agents of guest user
     */
    public static function addDefaultJoin() {
       $join = '';
 
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
          $agentTable = self::getTable();
@@ -598,11 +920,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public static function addDefaultWhere() {
       $where = '';
 
-      $config = Config::getConfigurationValues('storkmdm', array('guest_profiles_id'));
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
-         $agentTable = self::getTable();
-
          $userId = $_SESSION['glpiID'];
          $where = " AND `c`.`users_id`='$userId'";
       }
@@ -617,9 +937,9 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     *
     */
    public function getSubscribedTopic() {
-      $fleet = new PluginStorkmdmFleet();
+      $fleet = new PluginFlyvemdmFleet();
       $subscribedTopic = null;
-      if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
+      if ($fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
          if (! $fleet->fields['is_default']) {
             $subscribedTopic = $fleet->getTopic();
          }
@@ -632,11 +952,11 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function updateSubscription() {
       $topicToSubscribe = $this->getSubscribedTopic();
-      $topicList = array(
-            'subscribe' => array(
-                  array('topic' => $topicToSubscribe)
-            )
-      );
+      $topicList = [
+         'subscribe' => [
+            ['topic' => $topicToSubscribe]
+         ]
+      ];
 
       $topic = $this->getTopic();
       if ($topicToSubscribe !== null && $topic !== null) {
@@ -656,7 +976,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $serial = $computer->getField('serial');
             if (strlen($serial)) {
                $entity = $this->getField('entities_id');
-               $this->topic = "/$entity/agent/$serial";
+               $this->topic = "$entity/agent/$serial";
             }
          }
       }
@@ -667,29 +987,47 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    /**
     * get an agent from DB by topic
     *
-    * @param string|false
+    * @param string $topic a M2M topic
+    * @return bool
     */
    public function getByTopic($topic) {
-      global $DB;
-
       $mqttPath = explode('/', $topic);
-      if (isset($mqttPath[3])) {
-         if ($mqttPath[2] == 'agent') {
-            $entity = intval($mqttPath[1]);
-            $serial = $DB->escape($mqttPath[3]);
-            if (strlen($serial)) {
-               $computerTable = Computer::getTable();
-               $agentTable = self::getTable();
-               return $this->getFromDBByQuery("LEFT JOIN `$computerTable` `c` ON (
-                     `c`.`id` = `$agentTable`.`computers_id`
-                     )
-                     WHERE `$agentTable`.`entities_id`='$entity' AND `c`.`serial` = '$serial'"
-               );
-            }
-         }
+      if (!isset($mqttPath[2])) {
+         return false;
       }
-
-      return false;
+      if ($mqttPath[1] != 'agent') {
+         return false;
+      }
+      $entity = (int) $mqttPath[0];
+      $serial = $mqttPath[2];
+      if (strlen($serial) <= 0) {
+         return false;
+      }
+      if (method_exists($this, 'getFromDBByRequest')) {
+         return $this->getFromDbByRequest([
+            'LEFT JOIN' => [
+               Computer::getTable() => [
+                  'FKEY' => [
+                     Computer::getTable() => 'id',
+                     self::getTable() => Computer::getForeignKeyField(),
+                  ]
+               ]
+            ],
+            'WHERE' => [
+               'AND' => [
+                  PluginFlyvemdmAgent::getTable() . '.' . Entity::getForeignKeyField() => $entity,
+                  Computer::getTable() . '.serial' => $serial
+               ]
+            ]
+         ]);
+      } else {
+         $computerTable = Computer::getTable();
+         $agentTable = self::getTable();
+         return $this->getFromDBByQuery("LEFT JOIN `$computerTable` `c` ON (
+                                    `c`.`id` = `$agentTable`.`computers_id`
+                                 )
+                                 WHERE `$agentTable`.`entities_id`='$entity' AND `c`.`serial` = '$serial'");
+      }
    }
 
    /**
@@ -698,18 +1036,18 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    public function unsubscribe() {
       $this->update([
             'id' => $this->getID(),
-            'plugin_storkmdm_fleets_id' => null
+            'plugin_flyvemdm_fleets_id' => null
       ]);
       $topic = $this->getTopic();
       if ($topic !== null) {
          $topic = $topic . "/Subscription";
-         $this->notify($topic, json_encode(array(), JSON_UNESCAPED_SLASHES));
+         $this->notify($topic, json_encode([], JSON_UNESCAPED_SLASHES));
       }
    }
 
    /**
     * Checks if the data provided for enrollment satisfy our requirements
-    * @param Array $authFactors
+    * @param array $authFactors
     * @return integer enroll method
     */
    protected static function checkChallengeCombinations($authFactors) {
@@ -734,51 +1072,120 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    /**
     * Attempt to enroll using an invitation token
     * @param array $input Enrollment data
+    * @return array|bool
     */
    protected function enrollByInvitationToken($input) {
+      global $LOADED_PLUGINS, $DB;
+
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
       $serial           = isset($input['_serial']) ? $input['_serial'] : null;
+      $uuid             = isset($input['_uuid']) ? $input['_uuid'] : null;
       $csr              = isset($input['csr']) ? $input['csr'] : null;
       $firstname        = isset($input['firstname']) ? $input['firstname'] : null;
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
+      $mdmType          = isset($input['type']) ? $input['type'] : null;
+      $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
+         ENT_COMPAT | ENT_XML1) : null;
+      $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
+      // For non-android agents, system permssion might be forced to 1 depending on the lack of such constraint
 
-      $input = array();
+      $input = [];
 
-      $config = Config::getConfigurationValues("storkmdm", array('mqtt_broker_tls', 'mqtt_use_client_cert', 'debug_noexpire'));
+      $config = Config::getConfigurationValues('flyvemdm', [
+         'mqtt_tls_for_clients',
+         'mqtt_use_client_cert',
+         'debug_noexpire',
+         'debug_save_inventory',
+         'computertypes_id',
+         'agentusercategories_id',
+         'agent_profiles_id',
+      ]);
 
       // Find the invitation
-      $invitation = new PluginStorkmdmInvitation();
+      $invitation = new PluginFlyvemdmInvitation();
       if (!$invitation->getFromDBByToken($invitationToken)) {
-         $this->filterMessages(__('Invitation token invalid', 'storkmdm'));
+         $this->filterMessages(__('Invitation token invalid', 'flyvemdm'));
          return false;
       }
 
-      if (empty($serial)) {
-         $event = __('Serial missing', 'storkmdm');
+      if (empty($serial) && empty($uuid)) {
+         $event = __('One of serial and uuid is mandatory', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (empty($inventory)) {
+         $event = __('Device inventory XML is mandatory', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if ($config['debug_save_inventory'] != '0') {
+         PluginFlyvemdmCommon::saveInventoryFile($inventory, $invitationToken);
+      }
+      $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
+      if (!$parsedXml) {
+         $event = __('Inventory XML is not well formed', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
       if (empty($version)) {
-         $event = __('Agent version missing', 'storkmdm');
+         $event = __('Agent version missing', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
-      if (preg_match('#^[\d\.]+$#', $version) !== 1 ) {
-         $event = __('Bad agent version', 'storkmdm');
+      if (empty($mdmType)) {
+         $event = __('MDM type missing', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
+      }
+
+      if (!in_array($mdmType, array_keys($this::getEnumMdmType()))) {
+         $event = __('unknown MDM type', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) !== 1) {
+         $event = __('Bad agent version', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Check the agent matches the minimum version requirement of the backend
+      $minVersion = $this->getMinVersioForType($mdmType);
+      if (version_compare($minVersion, $version) > 0) {
+         $event = __('The agent version is too low', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Check the agent shall provide or not the system permissions flag
+      switch ($mdmType) {
+         case 'android':
+            if ($systemPermission === null) {
+               $event = __('The agent does not advertise its system permissions', 'flyvemdm');
+               $this->filterMessages($event);
+               $this->logInvitationEvent($invitation, $event);
+               return false;
+            }
       }
 
       // Check the invitation is pending
       if ($invitation->getField('status') != 'pending') {
-         $event = __('Invitation is not pending', 'storkmdm');
+         $event = __('Invitation is not pending', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -786,15 +1193,15 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Check the token has not yet expired
       if ($invitation->getField('expiration_date') === null) {
-         $event = __('Expiration date of the invitation is not set', 'storkmdm');
+         $event = __('Expiration date of the invitation is not set', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
-      $currentDatetime = new DateTime("now", new DateTimeZone("UTC"));
-      $expirationDatetime = new DateTime($invitation->getField('expiration_date'), new DateTimeZone("UTC"));
+      $currentDatetime = new DateTime("now");
+      $expirationDatetime = new DateTime($invitation->getField('expiration_date'));
       if ($currentDatetime >= $expirationDatetime) {
-         $event = __('Invitation token expired', 'storkmdm');
+         $event = __('Invitation token expired', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
@@ -802,45 +1209,39 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
-      $condition = "`glpi_users`.`id`='" . $invitation->getField('users_id') . "'";
+      $userTable = User::getTable();
+      $condition = $userTable.".`id`='" . $invitation->getField('users_id') . "'";
+      if (version_compare(GLPI_VERSION, '9.3-dev') >= 0) {
+         $condition = [$userTable . '.id' => $invitation->getField('users_id')];
+      }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
-         $event = __('wrong email address', 'storkmdm');
+         $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
       $userId = $user->getId();
 
-      // Check the serial does not exists in the entity
-      $computer = new Computer();
       $entityId = $invitation->getField('entities_id');
-      $rows = $computer->find("`entities_id`='$entityId' AND `serial`='$serial'");
-      if (count($rows) > 0) {
-         $event = __('The serial already exists', 'storkmdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
-         return false;
-      }
 
       //sign the agent's certificate (if TLS enabled)
-      if ($config['mqtt_broker_tls'] != '0' && $config['mqtt_use_client_cert'] != '0') {
+      $input['certificate'] = '';
+      if ($config['mqtt_tls_for_clients'] != '0' && $config['mqtt_use_client_cert'] != '0') {
          $answer = self::signCertificate($csr);
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
          if ($crt === false) {
-            $event = __("Failed to sign the certificate", 'storkmdm')  . "\n " . $answer['message'];
+            $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
             $this->filterMessages($event);
             $this->logInvitationEvent($invitation, $event);
             return false;
          }
          $input['certificate'] = $crt;
-      } else {
-         $input['certificate'] = '';
       }
 
       // Prepare invitation update
       $invitationInput = [
-            'id'                 => $invitation->getID(),
-            'status'             => 'done'
+         'id'                 => $invitation->getID(),
+         'status'             => 'done'
       ];
 
       // Invalidate the token
@@ -850,53 +1251,118 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
          // Update the invitation
          if (!$invitation->update($invitationInput)) {
-            $event = __("Failed update the invitation", 'storkmdm');
+            $event = __("Failed to update the invitation", 'flyvemdm');
             $this->filterMessages($event);
             $this->logInvitationEvent($invitation, $event);
             return false;
          }
       }
 
-      // Update the computer's serial and type
-      // Create a new computer for the device being enrolled
-      // TODO : Enable localization of the type
-      $computerType = new ComputerType();
-      $computerTypeId = $computerType->import(array('name' => 'Smartphone'));
-      if ($computerTypeId == -1 || $computerTypeId === false) {
-         $computerTypeId = 0;
-      }
-
       // Create the device
-      $computer = new Computer();
-      $computerId = $computer->add(array(
-            'name'         => $email,
-            'users_id'     => $userId,
-            'entities_id'  => $entityId,
-            'serial'       => $serial
-      ));
-      if ($computerId === false) {
-         $event = __("Cannot create the device", 'storkmdm');
+      $pfCommunication = new PluginFusioninventoryCommunication();
+      $_SESSION['glpi_fusionionventory_nolock'] = true;
+      ob_start();
+      if (!key_exists('glpi_plugin_fusioninventory', $_SESSION) || !key_exists('xmltags',
+            $_SESSION['glpi_plugin_fusioninventory'])) {
+         // forced reload of the FI plugin for correct import of inventory
+         unset($LOADED_PLUGINS['fusioninventory']);
+         Plugin::load('fusioninventory');
+      }
+      $pfCommunication->handleOCSCommunication('', $inventory, 'glpi');
+      $fiOutput = ob_get_contents();
+      ob_end_clean();
+      if (strlen($fiOutput) != 0) {
+         // FI print errors to sdt output and agents needs a correct response, let's save this to logs.
+         $this->logInvitationEvent($invitation, $fiOutput);
+      }
+      unset($_SESSION['glpi_fusionionventory_nolock']);
+      $fiAgentId = $_SESSION['plugin_fusioninventory_agents_id']; // generated by FusionInventory
+
+      if ($fiAgentId === 0 || !property_exists($parsedXml, 'DEVICEID')) {
+         $event = __('Cannot get the FusionInventory agent', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
-      // Lock the name field of the device
-      $fiLock = new PluginFusioninventoryLock();
-      $fiLock->addLocks('Computer', $computerId, array('name', 'users_id'));
+      $pfAgent = new PluginFusioninventoryAgent();
+      if (!$pfAgent->getFromDBByCrit(['device_id' => $parsedXml->DEVICEID])) {
+         $event = __('FusionInventory agent not created', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+      $computerId = $pfAgent->getField(Computer::getForeignKeyField());
+
+      if ($computerId === 0) {
+         $event = __("Cannot create the device", 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      // Set the type of computer
+      $computerTypeId = $config['computertypes_id'];
+      if ($computerTypeId == -1 || $computerTypeId === false) {
+         $computerTypeId = 0;
+      }
+      $computer = new Computer();
+      $computer->update([
+         'id'               => $computerId,
+         'computertypes_id' => $computerTypeId,
+         'users_id'         => $userId,
+      ]);
+
+      // Awful hack because the current user profile does not
+      // have more rights than the profile of the agent.
+      // @see User::post_addItem()
+      // @see Profle::currentUserHaveMoreRightThan()
+      // @see Profile::getUnderActiveProfileRestrictRequest()
+      $backupProfileRight = $_SESSION['glpiactiveprofile']['profile'];
+      $_SESSION['glpiactiveprofile']['profile'] = $_SESSION['glpiactiveprofile']['profile'] | CREATE;
+
+      //create agent user account
+      $agentAccount = new User();
+      $agentAccount->add([
+         'usercategories_id' => $config['agentusercategories_id'],
+         'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
+         'realname'          => $serial,
+         '_profiles_id'      => $config['agent_profiles_id'],
+         'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
+         '_entities_id'      => $entityId,
+         '_is_recursive'     => 0,
+         'authtype'          => Auth::DB_GLPI,
+      ]);
+
+      // End of awful hack !
+      $_SESSION['glpiactiveprofile']['profile'] = $backupProfileRight;
+
+      if ($agentAccount->isNewItem()) {
+         $event = __('Cannot create a user account for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
+
+      $agentToken = User::getToken($agentAccount->getID(), 'api_token');
+      if ($agentToken === false) {
+         $event = __('Cannot create the API token for the agent', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($invitation, $event);
+         return false;
+      }
 
       // Create the agent
-      $defaultFleet = PluginStorkmdmFleet::getDefaultFleet();
+      $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
       if ($defaultFleet === null) {
-         $computer->delete(['id' => $computerId]);
-         $event = __("No default fleet available for the device",'storkmdm');
+         $event = __("No default fleet available for the device", 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
       // Enrollment is about to succeed, then update the user
-      if (!empty($user->getField('firstname')) || !empty($user->getField('lastname')) ) {
+      if (!empty($user->getField('firstname')) || !empty($user->getField('lastname'))) {
          $user->update([
                'id'        => $userId,
                'firstname' => $firstname,
@@ -912,10 +1378,13 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       $input['name']                      = $email;
       $input['computers_id']              = $computerId;
       $input['entities_id']               = $entityId;
-      $input['plugin_storkmdm_fleets_id'] = $defaultFleet->getID();
+      $input['plugin_flyvemdm_fleets_id'] = $defaultFleet->getID();
       $input['_invitations_id']           = $invitation->getID();
       $input['enroll_status']             = 'enrolled';
       $input['version']                   = $version;
+      $input['users_id']                  = $agentAccount->getID();
+      $input['mdm_type']                  = $mdmType;
+      $input['$systemPermission']         = $systemPermission;
       return $input;
 
    }
@@ -925,7 +1394,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @param array $authFactors
     * @param string $csr Certificate Signing Request from the agent
     * @param &string $notFoundMessage Contains the error message if the enrollment failed
-    * @return boolean|PluginStorkmdmAgent
+    * @return boolean|PluginFlyvemdmAgent
     *
     */
    //protected static function enrollByEntityToken($serial, $authFactors, $csr, &$errorMessage) {
@@ -934,8 +1403,8 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //$token = $DB->escape($authFactors['entityToken']);
 
       //// Find an entity matching the given token
-      //$entity = new PluginStorkmdmEntityconfig();
-      //if (! $entity->getFromDBByQuery("WHERE `enroll_token`='$token'")) {
+      //$entity = new PluginFlyvemdmEntityconfig();
+      //if (!$entity->getFromDBByCrit(['enroll_token' => $token])) {
       //   $errorMessage = "no entity token not found";
       //   return false;
       //}
@@ -943,7 +1412,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //// Create a new computer for the device being enrolled
       //// TODO : Enable localization of the type
       //$computerType = new ComputerType();
-      //$computerTypeId = $computerType->import(array('name' => 'Smartphone'));
+      //$computerTypeId = $computerType->import(['name' => 'Smartphone']);
       //if ($computerTypeId == -1 || $computerTypeId === false) {
       //   $computerTypeId = 0;
       //}
@@ -961,11 +1430,11 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //   $computerId = $computer->getID();
 
       //} else {
-      //   $computerId = $computer->add(array(
+      //   $computerId = $computer->add([
       //      'entities_id'        => $entity->getID(),
       //      'serial'             => $serial,
       //      'computertypes_id'   => $computerTypeId
-      //   ));
+      //   ]);
 
       //   if ($computerId === false) {
       //      $errorMessage = "failed to create the computer";
@@ -979,7 +1448,7 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //}
 
       //// Create an agent for this device, linked to the new computer
-      //$agent = new PluginStorkmdmAgent();
+      //$agent = new PluginFlyvemdmAgent();
       //$condition = "`computers_id`='$computerId'";
       //$agentCollection = $agent->find($condition);
       //if (count($agentCollection) > 1) {
@@ -992,11 +1461,11 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
       //   $agentId = $agent->getId();
 
       //} else {
-      //   $agentId = $agent->add(array(
+      //   $agentId = $agent->add([
       //         'entities_id'     => $entity->getID(),
       //         'computers_id'    => $computer->getID(),
       //         'token_expire'    => '0000-00-00 00:00:00'
-      //   ));
+      //   ]);
       //}
 
       //if (! $agentId > 0) {
@@ -1025,144 +1494,122 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     * @return string[]
     */
    public static function getTopicsToCleanup() {
-      return array(
-         "Command/Subscribe",
-         "Command/Ping",
-         "Command/Geolocate",
-         "Command/Inventory",
-         "Command/Lock",
-         "Command/Wipe",
-         "Command/Unenroll",
-         "Configuration",
-         "application",
-         "file",
-         "policies",
-         "encryption",
-         "camera",
-         "connectivity",
-      );
+      $policy = new PluginFlyvemdmPolicy();
+      $rows = $policy->find();
+
+      // get all policies sub topics
+      $topics = [];
+      foreach ($rows as $row) {
+         $topics[] = 'Policy/' . $row['symbol'];
+      }
+      return array_merge($topics, [
+         'Command/Subscribe',
+         'Command/Ping',
+         'Command/Geolocate',
+         'Command/Inventory',
+         'Command/Lock',
+         'Command/Wipe',
+         'Command/Unenroll',
+      ]);
    }
 
    /**
     * Send an geolocation request to the agent
-    * @return boolean
+    *
+    * @return bool
+    * @throws AgentSendQueryException
     */
-   protected function sendGeolocationQuery(&$errorMessage) {
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         $computerId = $this->fields['computers_id'];
-         $geolocation = new PluginStorkmdmGeolocation();
-         $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-         $lastPosition = array_pop($lastPositionRows);
+   private function sendGeolocationQuery() {
 
-         $this->notify("$topic/Command/Geolocate", '{"query":"Geolocate"}', 0, 0);
+      $computerId = $this->fields['computers_id'];
+      $geolocation = new PluginFlyvemdmGeolocation();
+      $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+      $lastPosition = array_pop($lastPositionRows);
 
-         return $this->pollGeolocationAnswer($lastPosition, $errorMessage);
-      }
+      $this->notify($this->topic . "/Command/Geolocate",
+         json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES), 0, 0);
 
-      $errorMessage = __('Timeout requesting position', 'storkmdm');
-      return false;
-   }
-
-   /**
-    * Polls in the DB for a new geolocation entry with ID higher than the given one
-    * Timeouts if no new entry after a few seconds
-    * @param unknown $lastPosition
-    * @param string $errorMessage the error message to return to the caller
-    * @return boolean true if a new position found before timeout
-    */
-   protected function pollGeolocationAnswer($lastPosition, &$errorMessage) {
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         $geolocation = new PluginStorkmdmGeolocation();
-         $computerId = $this->fields['computers_id'];
-
-         // Wait for a reply within a short delay
-         $loopCount = 25;
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-            $updatedPosition = array_pop($updatedPositionRows);
-            if ($lastPosition === null && $updatedPosition !== null
-                  || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
-               if ($updatedPosition['latitude'] == 'na') {
-                  $errorMessage = __('GPS is turned off or is not ready', 'storkmdm');
-                  return false;
-               } else {
-                  return true;
-               }
+      // Wait for a reply within a short delay
+      $loopCount = 25;
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+         $updatedPosition = array_pop($updatedPositionRows);
+         if ($lastPosition === null && $updatedPosition !== null
+            || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
+            if ($updatedPosition['latitude'] == 'na') {
+               throw new AgentSendQueryException(__('GPS is turned off or is not ready', 'flyvemdm'));
             }
+            Session::addMessageAfterRedirect(__('The device sent its position', 'flyvemdm'));
+            return true;
          }
       }
+      throw new AgentSendQueryException(__('Timeout requesting position', 'flyvemdm'));
    }
 
    /**
     * Send an inventory request to the device
-    * @return boolean
+    *
+    * @return bool
+    * @throws AgentSendQueryException
     */
-   protected function sendInventoryQuery() {
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         $computerId = $this->fields['computers_id'];
+   private function sendInventoryQuery() {
+      $this->notify($this->topic . "/Command/Inventory",
+         json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES), 0, 0);
 
-         $inventory = new PluginFusioninventoryInventoryComputerComputer();
-         $inventoryRows = $inventory->find("`computers_id`='$computerId'", '', '1');
-         $lastInventory = array_pop($inventoryRows);
+      $computerFk = Computer::getForeignKeyField();
+      $computerId = $this->fields[$computerFk];
+      $inventory = new PluginFusioninventoryInventoryComputerComputer();
+      $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+      $lastInventory = array_pop($inventoryRows);
 
-         $this->notify("$topic/Command/Inventory", '{"query":"Inventory"}', 0, 0);
-
-         // Wait for a reply within a short delay
-         $loopCount = 5 * 15; // 15 seconds
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $inventoryRows = $inventory->find("`computers_id`='$computerId'", '', '1');
-            $updatedInventory = array_pop($inventoryRows);
-            if ($lastInventory === null && $updatedInventory !== null
-                  || $lastInventory !== null && $lastInventory != $updatedInventory) {
-               return true;
-            }
+      $loopCount = 5 * 10; // 10 seconds
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+         $updatedInventory = array_pop($inventoryRows);
+         if ($lastInventory === null && $updatedInventory !== null
+            || $lastInventory !== null && $lastInventory != $updatedInventory) {
+            Session::addMessageAfterRedirect(__('Inventory received', 'flyvemdm'));
+            return true;
          }
       }
-
-      return false;
+      throw new AgentSendQueryException(__("Timeout querying the device inventory", 'flyvemdm'));
    }
 
    /**
     * Sends a message on the subtopic dedicated to ping requests
-    * @return boolean
+    *
+    * @return bool
+    * @throws AgentSendQueryException
     */
-   protected function sendPingQuery() {
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         $message = [
-               'query'  => 'Ping'
-         ];
-         $this->notify("$topic/Command/Ping", json_encode($message, JSON_UNESCAPED_SLASHES), 0, 0);
+   private function sendPingQuery() {
+      $this->notify($this->topic . "/Command/Ping",
+         json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES), 0, 0);
 
-         // Wait for a reply within a short delay
-         $loopCount = 25;
-         $updatedAgent = new self();
-         while ($loopCount > 0) {
-            usleep(200000); // 200 milliseconds
-            $loopCount--;
-            $updatedAgent->getFromDB($this->getID());
-            if ($updatedAgent->getField('last_contact') != $this->fields['last_contact']) {
-               return true;
-            }
+      $loopCount = 25;
+      $updatedAgent = new self();
+      while ($loopCount > 0) {
+         usleep(200000); // 200 milliseconds
+         $loopCount--;
+         $updatedAgent->getFromDB($this->getID());
+         if ($updatedAgent->getField('last_contact') != $this->fields['last_contact']) {
+            Session::addMessageAfterRedirect(__('The device answered', 'flyvemdm'));
+            return true;
          }
       }
-
-      return false;
+      throw new AgentSendQueryException(__("Timeout querying the device", 'flyvemdm'));
    }
 
    /**
     * Attempts to sign the certificate against the CA
-    * @param String $csr Certificate signing request
+    * @param string $csr Certificate signing request
+    * @return bool|mixed
     */
    protected static function signCertificate($csr) {
-      $config = Config::getConfigurationValues('storkmdm', array('ssl_cert_url'));
+      $config = Config::getConfigurationValues('flyvemdm', ['ssl_cert_url']);
       if ($config === null) {
          return false;
       }
@@ -1181,61 +1628,61 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
-    * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getAgents()
+    * @see PluginFlyvemdmNotifiableInterface::getAgents()
     */
    public function getAgents() {
-      return array($this);
+      return [$this];
    }
 
    /**
-    * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getPackages()
+    * @see PluginFlyvemdmNotifiableInterface::getPackages()
     */
    public function getPackages() {
-      if ( $this->getID() > 0 ) {
-
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
-            return $fleet->getPackages();
-         }
+      if ($this->isNewItem()) {
+         return [];
       }
 
-      return array();
+      $fleet = new PluginFlyvemdmFleet();
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return [];
+      }
+
+      return $fleet->getPackages();
    }
 
    /**
-    * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getFiles()
+    * @see PluginFlyvemdmNotifiableInterface::getFiles()
     */
    public function getFiles() {
-      if ( $this->getID() > 0 ) {
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
-            return $fleet->getFiles();
-         }
+      if ($this->isNewItem()) {
+         return [];
       }
 
-      return array();
+      $fleet = new PluginFlyvemdmFleet();
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return [];
+      }
+
+      return $fleet->getFiles();
    }
 
    /**
-    * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::getFleet()
+    * @see PluginFlyvemdmNotifiableInterface::getFleet()
     */
    public function getFleet() {
       $fleet = null;
 
-      if (! $this->isNewItem()) {
-         // The agent exists in DB
-         $fleet = new PluginStorkmdmFleet();
-         if ($fleet->isNewID($this->fields['plugin_storkmdm_fleets_id'])) {
-            $fleet = null;
-         } else {
-            if (!$fleet->getFromDB($this->fields['plugin_storkmdm_fleets_id'])) {
-               $fleet = null;
-            }
-         }
+      if ($this->isNewItem()) {
+         return null;
+      }
+
+      // The agent exists in DB
+      $fleet = new PluginFlyvemdmFleet();
+      if ($fleet->isNewID($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return null;
+      }
+      if (!$fleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
+         return null;
       }
 
       return $fleet;
@@ -1246,26 +1693,23 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
     */
    public function getOwner() {
       $computer = new Computer();
-      if ($computer->getFromDB($this->fields['computers_id'])) {
-         $user = new User();
-         if ($user->getFromDB($computer->getField('users_id'))) {
-            return $user;
-         }
+      if (!$computer->getFromDB($this->fields['computers_id'])) {
+         return null;
+      }
+      $user = new User();
+      if (!$user->getFromDB($computer->getField('users_id'))) {
+         return null;
       }
 
-      return null;
+      return $user;
    }
 
    /**
     * Determine the enrollment method depending on input data
     * @param array $input
+    * @return integer
     */
    protected function chooseEnrollMethod($input) {
-      // Serial is mandatory
-      if (!isset($input['_serial'])) {
-         return self::ENROLL_DENY;
-      }
-
       if (isset($input['_email'])
             && isset($input['_invitation_token'])) {
          return self::ENROLL_INVITATION_TOKEN;
@@ -1273,23 +1717,28 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
          return self::ENROLL_ENTITY_TOKEN;
       }
 
-      return self::ENROLL_DENY;;
+      return self::ENROLL_DENY;
    }
 
    /**
     * Creates virtual fields with enrollment data
     */
    protected function setupMqttAccess() {
+      if (!isset($_SESSION['glpiID'])) {
+         return;
+      }
+
       if ($user = $this->getOwner()) {
-         $config = Config::getConfigurationValues('storkmdm', array(
-               'guest_profiles_id',
-               'android_bugcollecctor_url',
-               'android_bugcollector_login',
-               'android_bugcollector_passwd',
-               'mqtt_broker_address',
-               'mqtt_broker_port',
-               'mqtt_broker_tls',
-          ));
+         $config = Config::getConfigurationValues('flyvemdm', [
+            'guest_profiles_id',
+            'android_bugcollecctor_url',
+            'android_bugcollector_login',
+            'android_bugcollector_passwd',
+            'mqtt_broker_address',
+            'mqtt_broker_port',
+            'mqtt_broker_tls_port',
+            'mqtt_tls_for_clients',
+         ]);
          $guestProfileId = $config['guest_profiles_id'];
          if ($user->getID() == $_SESSION['glpiID'] && $_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
             $mqttClearPassword = '';
@@ -1298,50 +1747,54 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $computer = new Computer();
             if (!$computer->getFromDB($this->fields['computers_id'])) {
                // TODO : failed to find the computer
+               return;
+            }
+            $serial = $computer->getField('serial');
+            if (!empty($serial)) {
+               $acls = [
+                  [
+                     'topic'        => $this->getTopic() . '/Status/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/Command/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/Policy/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+                  [
+                     'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+                  ],
+                  [
+                     'topic'        => '/FlyvemdmManifest/#',
+                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+                  ],
+               ];
 
-            } else {
-               $serial = $computer->getField('serial');
-               if (!empty($serial)) {
-                  $acls = [
-                        [
-                              'topic'        => $this->getTopic() . '/Status/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_WRITE
-                        ],
-                        [
-                              'topic'        => $this->getTopic() . '/Command/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_READ
-                        ],
-                        [
-                              'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_WRITE
-                        ],
-                        [
-                              'topic'        => '/FlyvemdmManifest/#',
-                              'access_level' => PluginStorkmdmMqttacl::MQTTACL_READ
-                        ],
-                  ];
-
-                  $mqttUser = new PluginStorkmdmMqttuser();
-                  $mqttClearPassword = PluginStorkmdmMqttuser::getRandomPassword();
-                  if (!$mqttUser->getByUser($serial)) {
-                     // The user does not exists
-                     $mqttUser->add([
-                           'user'         => $serial,
-                           'enabled'      => '1',
-                           'password'     => $mqttClearPassword,
-                           '_acl'         => $acls,
-                           '_reset_acls'  => true,
-                     ]);
-                  } else {
-                     // The user exists
-                     $mqttUser->update([
-                           'id'        => $mqttUser->getID(),
-                           'enabled'   => '1',
-                           'password'  => $mqttClearPassword,
-                           '_acl'      => $acls,
-                           '_reset_acls'  => true,
-                      ]);
-                  }
+               $mqttUser = new PluginFlyvemdmMqttuser();
+               $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+               // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
+               if (!$mqttUser->getByUser($serial)) {
+                  // The user does not exists
+                  $mqttUser->add([
+                     'user'         => $serial,
+                     'enabled'      => '1',
+                     'password'     => $mqttClearPassword,
+                     '_acl'         => $acls,
+                     '_reset_acl'   => true,
+                  ]);
+               } else {
+                  // The user exists
+                  $mqttUser->update([
+                     'id'          => $mqttUser->getID(),
+                     'enabled'     => '1',
+                     'password'    => $mqttClearPassword,
+                     '_acl'        => $acls,
+                     '_reset_acl'  => true,
+                  ]);
                }
             }
 
@@ -1349,8 +1802,10 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
             $this->fields['topic']                       = $this->getTopic();
             $this->fields['mqttpasswd']                  = $mqttClearPassword;
             $this->fields['broker']                      = $config['mqtt_broker_address'];
-            $this->fields['port']                        = $config['mqtt_broker_port'];
-            $this->fields['tls']                         = $config['mqtt_broker_tls'];
+            $this->fields['port']                        = $config['mqtt_tls_for_clients'] !== '0'
+                                                           ? $config['mqtt_broker_tls_port']
+                                                           : $config['mqtt_broker_port'];
+            $this->fields['tls']                         = $config['mqtt_tls_for_clients'];
             $this->fields['android_bugcollecctor_url']   = $config['android_bugcollecctor_url'];
             $this->fields['android_bugcollector_login']  = $config['android_bugcollector_login'];
             $this->fields['android_bugcollector_passwd'] = $config['android_bugcollector_passwd'];
@@ -1360,38 +1815,62 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
 
    /**
     * If debug node is disabled, disable detailed error messages
-    * @param unknown $error
+    * @param string $error
     */
    protected function filterMessages($error) {
-      $config = Config::getConfigurationValues('storkmdm', array('debug_enrolment'));
+      $config = Config::getConfigurationValues('flyvemdm', ['debug_enrolment']);
       if ($config['debug_enrolment'] == 0) {
-         Session::addMessageAfterRedirect(__('Enrollment failed', 'storkmdm'));
-      } else {
-         Session::addMessageAfterRedirect($error);
+         $error = __('Enrollment failed', 'flyvemdm');
       }
+      Session::addMessageAfterRedirect($error, false, ERROR);
    }
-   protected function logInvitationEvent(PluginStorkmdmInvitation $invitation, $event) {
-      $invitationLog = new PluginStorkmdmInvitationlog();
+   /**
+    * Logs invitation events
+    * @param PluginFlyvemdmInvitation $invitation
+    * @param string $event
+    */
+   protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
+      $invitationLog = new PluginFlyvemdmInvitationlog();
       $invitationLog->add([
-            'plugin_storkmdm_invitations_id' => $invitation->getID(),
+            'plugin_flyvemdm_invitations_id' => $invitation->getID(),
             'event'                          => $event
       ]);
    }
 
    /**
     * Update settings related to fleet change
-    * @param PluginStorkmdmFleet $old old fleet
-    * @param PluginStorkmdmFleet $new new fleet
+    * @param PluginFlyvemdmFleet $old old fleet
+    * @param PluginFlyvemdmFleet $new new fleet
     */
-   protected function changeFleet(PluginStorkmdmFleet $old, PluginStorkmdmFleet $new) {
+   protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {
       // Update MQTT account
       $computerId = $this->getField('computers_id');
-      $mqttUser = new PluginStorkmdmMqttuser();
-      if ($mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'")) {
-         $mqttAcl = new PluginStorkmdmMqttacl();
+      $mqttUser = new PluginFlyvemdmMqttuser();
+      if (method_exists($this, 'getFromDBByRequest')) {
+         $request = [
+            'LEFT JOIN' => [
+               Computer::getTable() => [
+                  'FKEY' => [
+                     Computer::getTable() => 'serial',
+                     PluginFlyvemdmMqttuser::getTable() => 'user'
+                  ]
+               ]
+            ],
+            'WHERE' => [Computer::getTable() . '.id' => $computerId]
+         ];
+         $success = $mqttUser->getFromDBByRequest($request);
+      } else {
+         $success = $mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'");
+      }
+      if ($success) {
+         $mqttAcl = new PluginFlyvemdmMqttacl();
          if ($old->getField('is_default') == '0') {
-            $mqttAcl->getFromDBByQuery("WHERE `topic`='" . $old->getTopic() . "/#'
-                  AND `plugin_storkmdm_mqttusers_id`='" . $mqttUser->getID() . "'");
+            $mqttAcl->getFromDBByCrit([
+               'AND' => [
+                  'topic' => $old->getTopic() . '/#',
+                  PluginFlyvemdmMqttuser::getForeignKeyField() => $mqttUser->getID()
+               ]
+            ]);
             if ($new->getField('is_default') != '0') {
                $mqttAcl->delete(['id' => $mqttAcl->getID()]);
 
@@ -1399,14 +1878,14 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
                $mqttAcl->update([
                      'id'                             => $mqttAcl->getID(),
                      'topic'                          => $new->getTopic() . '/#',
-                     'access_level'                   => PluginStorkmdmMqttacl::MQTTACL_READ
+                     'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
                ]);
             }
          } else {
             $mqttAcl->add([
-                  'plugin_storkmdm_mqttusers_id'   => $mqttUser->getID(),
+                  'plugin_flyvemdm_mqttusers_id'   => $mqttUser->getID(),
                   'topic'                          => $new->getTopic() . '/#',
-                  'access_level'                   => PluginStorkmdmMqttacl::MQTTACL_READ
+                  'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
             ]);
          }
       }
@@ -1430,12 +1909,91 @@ class PluginStorkmdmAgent extends CommonDBTM implements PluginStorkmdmNotifiable
    }
 
    /**
-    *
-    * {@inheritDoc}
-    * @see PluginStorkmdmNotifiable::notify()
+    * @param string $topic
+    * @param string $mqttMessage
+    * @param integer $qos
+    * @param integer $retain
     */
    public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginStorkmdmMqttclient::getInstance();
+      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
       $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   }
+
+   /**
+    * purges agents in the entity being purged
+    *
+    * @param CommonDBTM $item
+    */
+   public function hook_entity_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(['entities_id' => $item->getField('id')], 1);
+   }
+
+   /**
+    * Deletes agents related to the computers id
+    * @param CommonDBTM $item
+    */
+   public function hook_computer_purge(CommonDBTM $item) {
+      $agent = new static();
+      $agent->deleteByCriteria(['computers_id' => $item->getField('id')], 1);
+   }
+
+   public function refreshPersistedNotifications() {
+      if ($this->isNewItem()) {
+         return;
+      }
+
+      if ($this->fields['wipe'] != '0') {
+         $this->sendWipeQuery();
+      }
+
+      if ($this->fields['lock'] != '0') {
+         $this->sendLockQuery();
+      }
+
+      if ($this->fields['enroll_status'] != 'unenrolling') {
+         $this->sendUnenrollQuery();
+      }
+   }
+
+   /**
+    * Is the agent notifiable ?
+    *
+    * @return boolean
+    */
+   public function isNotifiable() {
+      return true;
+   }
+
+   /**
+    * Define how to display a specific value in search result table
+    *
+    * @param  String $field   Name of the field as define in $this->getSearchOptions()
+    * @param  Mixed  $values  The value as it is stored in DB
+    * @param  Array  $options Options (optional)
+    * @return Mixed           Value to be displayed
+    */
+   public static function getSpecificValueToDisplay($field, $values, array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'is_online':
+            if (!isAPI()) {
+               $class = $values[$field] == 0 ? "plugin-flyvemdm-offline" : "plugin-flyvemdm-online";
+               $output = '<div style="text-align: center"><i class="fa fa-circle '
+                  . $class
+                  . '" aria-hidden="true" ></i></div>';
+               return $output;
+            }
+            break;
+         case 'mdm_type':
+            if (!isAPI()) {
+               $enumtypes = self::getEnumMdmType();
+               return $enumtypes[$values[$field]];
+            }
+            break;
+      }
+      return parent::getSpecificValueToDisplay($field, $values, $options);
    }
 }

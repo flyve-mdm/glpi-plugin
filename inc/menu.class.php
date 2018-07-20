@@ -1,33 +1,33 @@
 <?php
 /**
- LICENSE
-
-Copyright (C) 2016 Teclib'
-Copyright (C) 2010-2016 by the FusionInventory Development Team.
-
-This file is part of Flyve MDM Plugin for GLPI.
-
-Flyve MDM Plugin for GLPi is a subproject of Flyve MDM. Flyve MDM is a mobile
-device management software.
-
-Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
- ------------------------------------------------------------------------------
- @author    Thierry Bugier Pineau
- @copyright Copyright (c) 2016 Flyve MDM plugin team
- @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
- @link      https://github.com/flyvemdm/backend
- @link      http://www.glpi-project.org/
- ------------------------------------------------------------------------------
-*/
+ * LICENSE
+ *
+ * Copyright © 2016-2018 Teclib'
+ * Copyright © 2010-2018 by the FusionInventory Development Team.
+ *
+ * This file is part of Flyve MDM Plugin for GLPI.
+ *
+ * Flyve MDM Plugin for GLPI is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM Plugin for GLPI is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Flyve MDM Plugin for GLPI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
+ * ------------------------------------------------------------------------------
+ * @author    Thierry Bugier
+ * @copyright Copyright © 2018 Teclib
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @link      https://github.com/flyve-mdm/glpi-plugin
+ * @link      https://flyve-mdm.com/
+ * ------------------------------------------------------------------------------
+ */
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -35,82 +35,125 @@ if (!defined('GLPI_ROOT')) {
 
 /**
  * @since 0.1.0
- * @deprecated
  */
-class PluginStorkmdmMenu extends CommonGLPI {
-   static $rightname = 'plugin_stork_config';
+class PluginFlyvemdmMenu extends CommonGLPI {
+   static $rightname = 'plugin_flyve_config';
 
-   public static function getMenuName() {
-      return __('Stork MDM');
-   }
+   const TEMPLATE = 'menu.html.twig';
 
    /**
-    * Localized name of the type
-    *
-    * @param $nb  integer  number of item in the type (default 0)
-   **/
-   public static function getTypeName($nb=0) {
-      global $LANG;
-      return _n('Menu', 'Menus', $nb, "storkmdm");
-   }
-
-   public static function displayMenu() {
-      global $CFG_GLPI;
-
-      $iconPath = $CFG_GLPI['root_doc']."/plugins/storkmdm/pics";
-
-      echo "<ul class='storkmdm_menu'>";
-
-      echo "<li><a href='agent.php'>";
-      //echo "<img src='$iconPath/agent.png'>";
-      echo "".__('Agent', 'storkmdm')."</a></li>";
-
-      echo "<li><a href='fleet.php'>";
-      //echo "<img src='$iconPath/fleet.png'>";
-      echo "".__('Fleet', 'storkmdm')."</a></li>";
-
-      echo "<li><a href='package.php'>";
-      //echo "<img src='$iconPath/package.png'>";
-      echo "".__('Package', 'storkmdm')."</a></li>";
-
-      echo "</ul>";
-      echo "<span class='clear'></span>";
-   }
-
-   /**
-    *
-    *
-    *
+    * Displays the menu name
+    * @return string the menu name
     */
-   public static function getMenuContent() {
+   public static function getMenuName() {
+      return __('Flyve MDM');
+   }
 
-      $front_storkmdm = "/plugins/storkmdm/front";
+   /**
+    * Can the user globally view an item ?
+    * @return boolean
+    */
+   static function canView() {
+      $can_display = false;
+      $profile     = new PluginFlyvemdmProfile();
 
-      $menu = array();
-      $menu['title'] = self::getMenuName();
-      $menu['page']  = "$front_storkmdm/menu.php";
-      if (true /*| Session::haveRight('plugin_storkmdm_config',
-                                   PluginstorkmdmConfig::RIGHT_EDIT_CONFIGURATION)*/) {
-         $menu['links']['config']  = "$front_storkmdm/config.form.php";
+      foreach ($profile->getAllRights() as $right) {
+         if (Session::haveRight($right['field'], READ)) {
+            $can_display = true;
+            break;
+         }
       }
 
-      $itemtypes = array(
-            'PluginStorkmdmAgent'                  => 'agent',
-            'PluginStorkmdmPackage'                => 'package',
-            'PluginStorkmdmFleet'                  => 'fleet',
-            );
+      return $can_display;
+   }
 
+   /**
+    * Can the user globally create an item ?
+    * @return boolean
+    */
+   static function canCreate() {
+      return false;
+   }
+
+   /**
+    * Display the menu
+    * @param string $type type of menu : dashboard to show graphs, anything else to show only the dropdown menu
+    */
+   public function displayMenu($type = 'dashboard') {
+      $pluralNumber = Session::getPluralNumber();
+
+      $config = new PluginFlyvemdmConfig();
+      $isGlpiConfigured = $config->isGlpiConfigured();
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      $data = [
+         'configuration' => $isGlpiConfigured,
+         'menuType' => $type,
+         'menu'   => [
+            __('General', 'flyvemdm') => [
+               PluginFlyvemdmInvitation::getTypeName($pluralNumber)   => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmInvitation::class),
+                        'pic'  => PluginFlyvemdmInvitation::getMenuPicture(),
+                  ],
+               PluginFlyvemdmAgent::getTypeName($pluralNumber)        => [
+                        'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmAgent::class),
+                        'pic'  => PluginFlyvemdmAgent::getMenuPicture(),
+                  ],
+               PluginFlyvemdmFleet::getTypeName($pluralNumber) => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFleet::class),
+                        'pic'  => PluginFlyvemdmFleet::getMenuPicture(),
+                  ],
+               PluginFlyvemdmPackage::getTypeName($pluralNumber)      => [
+                        'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmPackage::class),
+                        'pic'  => PluginFlyvemdmPackage::getMenuPicture(),
+                  ],
+               PluginFlyvemdmFile::getTypeName($pluralNumber)         => [
+                        'link' =>Toolbox::getItemTypeSearchURL(PluginFlyvemdmFile::class),
+                        'pic'  => PluginFlyvemdmFile::getMenuPicture(),
+                  ],
+            ],
+            __('Configuration', 'flyvemdm') => [
+               __('General')       => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$2',
+               ],
+               __('Message queue', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$3',
+               ],
+               __('Debug', 'flyvemdm') => [
+                  'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$4',
+               ]
+            ]
+         ],
+      ];
+      echo $twig->render('menu.html.twig', $data);
+   }
+
+   /**
+    * Gets the menu content
+    * @return array the menu content
+    */
+   public static function getMenuContent() {
+      $front_flyvemdm = "/plugins/flyvemdm/front";
+
+      $menu = [];
+      $menu['title'] = self::getMenuName();
+      $menu['page']  = "$front_flyvemdm/menu.php";
+
+      $itemtypes = [
+         PluginFlyvemdmAgent::class        => 'agent',
+         PluginFlyvemdmPackage::class      => 'package',
+         PluginFlyvemdmFile::class         => 'file',
+         PluginFlyvemdmFleet::class        => 'fleet',
+         PluginFlyvemdmInvitation::class   => 'invitation',
+      ];
+
+      $pluralNumber = Session::getPluralNumber();
       foreach ($itemtypes as $itemtype => $option) {
-         $menu['options'][$option]['title']           = $itemtype::getTypeName(2);
+         $menu['options'][$option]['title']           = $itemtype::getTypeName($pluralNumber);
          $menu['options'][$option]['page']            = $itemtype::getSearchURL(false);
          $menu['options'][$option]['links']['search'] = $itemtype::getSearchURL(false);
          if ($itemtype::canCreate()) {
             $menu['options'][$option]['links']['add'] = $itemtype::getFormURL(false);
-
-            //if (Session::haveRight('plugin_storkmdm_config',
-            //                       PluginStorkmdmConfig::RIGHT_EDIT_CONFIGURATION)) {
-            //   $menu['options'][$option]['links']['config'] = "$front_storkmdm/config.form.php";
-            //}
          }
       }
       return $menu;

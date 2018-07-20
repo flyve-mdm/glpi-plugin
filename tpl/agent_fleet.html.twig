@@ -1,0 +1,26 @@
+{% if number < 1 %}
+   <div class='center'>
+      <table class='tab_cadre_fixe'>
+      <tr><th>{{ __('There is no agent yet', 'flyvemdm') }}</th></tr>
+      </table>
+   </div>
+   <br>
+{% else %}
+   {{ pager|raw }}
+   <div class='center'>
+      <table class='tab_cadre_fixehov'>
+         <tr>
+            <th>{{ __('ID') }}</th>
+            <th>{{ __('name') }}</th>
+         </tr>
+         {% for agent in agents %}
+         {% if loop.index > start and loop.index <= stop %}
+         <tr class='tab_bg_2'>
+            <td ><center>{{ agent.id }}</center></td>
+            <td><center>{{ agent.name }}</center></td>
+         </tr>
+         {% endif %}
+         {% endfor %}
+      </table>
+   </div>
+{% endif %}

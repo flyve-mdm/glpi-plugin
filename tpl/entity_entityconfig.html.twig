@@ -1,0 +1,67 @@
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Support name', 'flyvemdm')  }}
+   </td>
+   <td>
+      <input name="support_name" value="{{ entityConfig.support_name }}" />
+      {% if entityConfig._support_name == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
+   </td>
+   <td rowspan="4">
+      {{ __('Support address', 'flyvemdm')  }}
+   </td>
+   <td rowspan="4">
+      <textarea cols="45" rows="8" name="support_address">{{ entityConfig.support_address }}</textarea>
+      {% if entityConfig._support_address == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Support phone', 'flyvemdm')  }}
+   </td>
+   <td>
+      <input name="support_phone" value="{{ entityConfig.support_phone }}" />
+      {% if entityConfig._support_phone == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Support website', 'flyvemdm')  }}
+   </td>
+   <td>
+      <input name="support_website" value="{{ entityConfig.support_website }}" />
+      {% if entityConfig._support_website == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
+   </td>
+</tr>
+<tr class='tab_bg_1'>
+   <td>
+      {{ __('Support email', 'flyvemdm')  }}
+   </td>
+   <td>
+      <input name="support_email" value="{{ entityConfig.support_email }}" />
+      {% if entityConfig._support_email == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+      {% endif %}
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+</tr>
+<tr class="tab_bg_1">
+   <td>{{ __('MDM Agent URL', 'flyvemdm') }}</td>
+   <td>
+    <input name="download_url" value="{{ entityConfig.download_url }}" />
+    {% if entityConfig._download_url == -2 %}
+      <div class="green">{{ __('Inheritance of the parent entity') }}</div>
+    {% endif %}
+   </td>
+    <td></td>
+</tr>

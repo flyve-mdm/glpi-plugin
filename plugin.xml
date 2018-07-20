@@ -1,0 +1,106 @@
+<root>
+   <name>Flyve MDM</name>
+   <key>flyvemdm</key>
+   <state>stable</state>
+   <logo>https://raw.githubusercontent.com/flyve-mdm/flyve-mdm-glpi/master/icon.png</logo>
+   <description>
+      <short>
+         <fr>Flyve MDM est une solution de gestion et d'administration d'appareils mobiles.</fr>
+         <en>Flyve MDM is a mobile devices management and administration solution.</en>
+         <es>Flyve MDM es una solución administrativa y de gestión de dispositivos móviles.</es>
+      </short>
+      <long>
+         <fr>
+FlyveMDM est une solution de gestion et d'administration d'appareils mobiles. Elle fonctionne sur une instance dédiée de GLPi.
+
+Pour plus d'informations veuillez visiter https://flyve-mdm.com/
+
+Fonctionnalités
+---------------
+
+1. Enrôlement d'appareils mobiles
+2. Déploiement de fichiers sur des appareils mobiles
+3. Déploiement d'applications sur des appareils mobiles
+4. Configuration des appareils mobiles (mots de passe, connectivité, verrouillage)
+5. Géolocalisation des appareils mobiles
+6. Effacement d'urgence à distance des appareils mobiles
+         </fr>
+         <en>
+FlyveMDM is a mobile devices management and administration solution. It runs on a dedicated instance of GLPi.
+
+For more information, please visit https://flyve-mdm.com/
+
+Features
+--------
+1. Mobile devices enrolment
+2. File deployment on mobile devices
+3. Application deployment on mobile devices
+4. Configuration of mobile devices (password, connectivity, lock)
+5. Geolocation of the mobile devices
+6. Emergency remote wipe of mobile devices
+         </en>
+         <es>
+FlyveMDM es una solución administrativa y de gestión de dispositivos móviles. El plugin se ejecuta en una instancia dedicada de GLPI.
+
+Para mas información, por favor visite https://flyve-mdm.com/
+
+Características
+--------
+1. Inscripción de dispositivos móviles
+2. Implementación de archivos en dispositivos móviles
+3. Implementación de aplicaciones en dispositivos móviles
+4. Configuración de dispositivos móviles (contraseña, conectividad, bloqueo)
+5. Geolocalización de los dispositivos móviles
+6. Eliminación remota de datos por emergecia en dispositivos móviles
+         </es>
+      </long>
+   </description>
+   <homepage>https://github.com/flyve-mdm/glpi-plugin</homepage>
+   <download>https://github.com/flyve-mdm/glpi-plugin/releases</download>
+   <issues>https://github.com/flyve-mdm/glpi-plugin/issues</issues>
+   <readme>https://github.com/flyve-mdm/glpi-plugin/blob/develop/README.md</readme>
+   <authors>
+      <author>TECLIB'</author>
+   </authors>
+   <versions>
+      <version>
+         <num>2.0.0-rc.1</num>
+         <compatibility>9.2.1</compatibility>
+         <compatibility>9.2.2</compatibility>
+         <compatibility>9.2.3</compatibility>
+         <compatibility>9.2.4</compatibility>
+         <compatibility>9.3</compatibility>
+      </version>
+   </versions>
+   <langs>
+      <lang>cs_CZ</lang>
+      <lang>es_AR</lang>
+      <lang>es_ES</lang>
+      <lang>es_MX</lang>
+      <lang>en_US</lang>
+      <lang>fr_FR</lang>
+      <lang>pt_BR</lang>
+      <lang>ru</lang>
+   </langs>
+   <license>AGPL v3+</license>
+   <tags>
+      <fr>
+         <tag>inventaire</tag>
+         <tag>smartphone</tag>
+         <tag>configuration</tag>
+         <tag>android</tag>
+      </fr>
+      <en>
+         <tag>inventory</tag>
+         <tag>smartphone</tag>
+         <tag>setup</tag>
+         <tag>android</tag>
+      </en>
+      <es>
+         <tag>inventario</tag>
+         <tag>teléfono inteligente</tag>
+         <tag>configuración</tag>
+         <tag>android</tag>
+      </es>
+   </tags>
+</root>

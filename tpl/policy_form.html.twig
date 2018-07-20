@@ -1,0 +1,14 @@
+{% if form.mode == "update" %}
+<form name="policy_editor_form{{ form.rand }}" id="policy_editor_form{{ form.rand }}" method="post"
+      action="{{ form.url }}"><br>
+{% endif %}
+{{ form.input|raw }}
+{% if form.mode == "update" %}
+   {{ form._csrf|raw }}
+   <input type='hidden' name='id' value='{{ form.taskId }}'>
+   <input type='hidden' name='plugin_flyvemdm_policies_id' value='{{ form.policyId }}'>
+   <input type='hidden' name='itemtype_applied' value='{{ form.itemtype_applied }}'>
+   <input type='hidden' name='items_id_applied' value='{{ form.items_id_applied }}'>
+   <br><br><input type='submit' class='submit' name='update' value='{{ _x("button", "Update") }}'>
+</form>
+{% endif %}
