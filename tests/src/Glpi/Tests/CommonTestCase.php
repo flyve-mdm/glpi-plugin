@@ -40,7 +40,6 @@ abstract class CommonTestCase extends CommonDBTestCase {
 
    public function beforeTestMethod($method) {
       self::resetGLPILogs();
-      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;       // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
    }
 
    protected function resetState() {
@@ -69,30 +68,30 @@ abstract class CommonTestCase extends CommonDBTestCase {
    }
 
    protected function setupGLPIFramework() {
-      global $DB, $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
+      global $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
       $LOADED_PLUGINS = null;
       $PLUGINS_INCLUDED = null;
       $AJAX_INCLUDE = null;
 
-      include GLPI_ROOT . "/tests/config_db.php";
-      require GLPI_ROOT . "/inc/includes.php";
+      require_once GLPI_ROOT . "/tests/config_db.php";
+      require_once GLPI_ROOT . "/inc/includes.php";
 
       //To debug php fatal errors. May impact atoum workers communication
       //\Toolbox::setDebugMode(Session::DEBUG_MODE);
 
-      $DB = new DB();
-
-      include_once GLPI_ROOT . "/inc/timer.class.php";
+      require_once GLPI_ROOT . "/inc/timer.class.php";
 
       // Security of PHP_SELF
       $_SERVER['PHP_SELF'] = Html::cleanParametersURL($_SERVER['PHP_SELF']);
    }
 
    protected function login($name, $password, $noauto = false) {
+      $glpi_use_mode = $_SESSION['glpi_use_mode'];
       $this->terminateSession(); // force clean up current session
 
       Session::start();
+      $_SESSION['glpi_use_mode'] = $glpi_use_mode;
 
       $auth = new Auth();
       if (defined('GLPI_PREVER') && version_compare('9.2', rtrim(GLPI_VERSION, '-dev'), 'lt')) {

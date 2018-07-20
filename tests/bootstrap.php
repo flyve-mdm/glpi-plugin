@@ -57,5 +57,3 @@ if ($key) {
 }
 
 include (GLPI_ROOT . '/inc/includes.php');
-
-Toolbox::setDebugMode(Session::DEBUG_MODE);
