@@ -37,13 +37,12 @@ class PluginFlyvemdmFile extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
       $this->login('glpi', 'glpi');
    }
 
    public function afterTestMethod($method) {
       parent::afterTestMethod($method);
-      \Session::destroy();
+      $this->terminateSession();
    }
 
    /**

@@ -61,7 +61,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          case 'testFromDBByDefaultForEntity':
          case 'testGetAgents':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }

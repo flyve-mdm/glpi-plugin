@@ -37,7 +37,6 @@ class Entity extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
       $this->login('glpi', 'glpi');
    }
 
@@ -54,8 +53,6 @@ class Entity extends CommonTestCase {
       ]);
       $guestUser = new \User();
       $guestUser->getFromDB($invitation->getField('users_id'));
-      \Session::destroy();
-      $this->setupGLPIFramework();
       $_REQUEST['user_token'] = \User::getToken($invitation->getField('users_id'), 'api_token');
       $this->login('', '', false);
 
@@ -73,8 +70,6 @@ class Entity extends CommonTestCase {
          'lastname'          => 'Doe',
          'version'           => '1.0.0',
       ]);
-      \Session::destroy();
-      $this->setupGLPIFramework();
       $this->login('glpi', 'glpi');
       $defaultFleet = new \PluginFlyvemdmFleet();
       $defaultFleet->getDefaultFleet($entityId);

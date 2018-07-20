@@ -55,7 +55,7 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
          case 'testAddInvitationRule':
          case 'testDeleteInvitationRuleCriteria':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }

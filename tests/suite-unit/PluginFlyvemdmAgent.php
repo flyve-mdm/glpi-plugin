@@ -69,7 +69,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testGetTopic':
          case 'testGetFleet':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }
