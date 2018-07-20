@@ -72,8 +72,7 @@ class Config extends CommonTestCase {
 
       $pluginName = TEST_PLUGIN_NAME;
 
-      $this->given($this->setupGLPIFramework())
-         ->and($this->boolean($DB->connected)->isTrue())
+      $this->given($this->boolean($DB->connected)->isTrue())
          ->and($this->configureGLPI())
          ->and($this->installDependancies());
 
@@ -244,7 +243,7 @@ class Config extends CommonTestCase {
       // $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
       // $pluginName = 'fusioninventory';
 
-      // $plugin = new Plugin;
+      // $plugin = new \Plugin;
       // $plugin->getFromDBbyDir($pluginName);
 
       // // Install the plugin
