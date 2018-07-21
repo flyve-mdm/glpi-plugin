@@ -33,12 +33,15 @@
  * Entry point for installation process
  */
 function plugin_flyvemdm_install() {
-   global $DB;
-
+   $version   = plugin_version_flyvemdm();
+   $migration = new Migration($version['version']);
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
+   spl_autoload_register([__CLASS__, 'autoload']);
    $installer = new PluginFlyvemdmInstaller();
-
-   return $installer->install();
+   if (!$install->isPluginInstalled()) {
+      return $installer->install($migration);
+   }
+   return $installer->upgrade($migration);
 }
 
 /**

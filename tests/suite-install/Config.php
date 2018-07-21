@@ -114,6 +114,16 @@ class Config extends CommonTestCase {
       $plugin->activate($plugin->fields['id']);
       $this->boolean($plugin->isActivated($pluginName))->isTrue('Cannot enable the plugin');
 
+      // Check version and schema version are in the configuration
+      $config = \Config::getConfigurationValues(
+         $pluginName, [
+            'version',
+            'schema_version'
+         ]
+      );
+      $this->string($config['version']);
+      $this->string($config['schema_version']);
+
       // Enable debug mode for enrollment messages
       \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
 
