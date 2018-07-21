@@ -45,30 +45,6 @@ class PluginFlyvemdmInstaller {
 
    const BACKEND_MQTT_USER = 'flyvemdm-backend';
 
-   // Order of this array is mandatory due tu dependancies on install and uninstall
-   protected static $itemtypesToInstall = [
-      'mqttuser',
-      // Must be before config because config creates a mqtt user for the plugin
-      'mqttacl',
-      // Must be before config because config creates a mqtt ACL for the plugin
-      'config',
-      'entityconfig',
-      'mqttlog',
-      'agent',
-      'package',
-      'file',
-      'fleet',
-      'profile',
-      'notificationtargetinvitation',
-      'geolocation',
-      'policy',
-      'policycategory',
-      'fleet_policy',
-      'wellknownpath',
-      'invitation',
-      'invitationlog',
-   ];
-
    protected static $currentVersion = null;
 
    protected $migration;
