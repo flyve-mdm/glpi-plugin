@@ -71,35 +71,17 @@ class PluginFlyvemdmInstaller {
     * @return boolean true (assume success, needs enhancement)
     *
     */
-   public function install() {
+   public function install(Migration $migration) {
       global $DB;
 
+      $this->migration = $migration;
       spl_autoload_register([__CLASS__, 'autoload']);
 
-      $this->migration = new Migration(PLUGIN_FLYVEMDM_VERSION);
-      $this->migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
-
-      // adding DB model from sql file
-      // TODO : migrate in-code DB model setup here
-      $schemaVersion = self::getSchemaVersion();
-      if ($schemaVersion === null) {
-         // Setup DB model
-         $dbFile = PLUGIN_FLYVEMDM_ROOT . "/install/mysql/plugin_flyvemdm_empty.sql";
-         if (!$DB->runFile($dbFile)) {
-            $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
-            return false;
-         }
-
-         $this->createInitialConfig();
-      } else {
-         $this->upgrade($schemaVersion);
-      }
+      $this->installSchema();
+      $this->createInitialConfig();
 
       $this->migration->executeMigration();
 
-      if (version_compare(GLPI_VERSION, '9.3.0') >= 0) {
-         $this->migrateToInnodb();
-      }
       $this->createDirectories();
       $this->createFirstAccess();
       $this->createGuestProfileAccess();
@@ -111,11 +93,30 @@ class PluginFlyvemdmInstaller {
       $this->createRootEntityConfig();
       $this->createDisplayPreferences();
 
-      Config::setConfigurationValues('flyvemdm', [
-         'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
-         'version' => PLUGIN_FLYVEMDM_VERSION
-      ]);
+      Config::setConfigurationValues(
+         'flyvemdm', [
+            'version' => PLUGIN_FLYVEMDM_VERSION,
+            'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
+         ]
+      );
 
+      return true;
+   }
+
+   protected function installSchema() {
+      global $DB;
+
+      $this->migration->displayMessage("create database schema");
+
+      $dbFile = __DIR__ . '/mysql/plugin_flyvemdm_empty.sql';
+      if (!$DB->runFile($dbFile)) {
+         $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
+         return false;
+      }
+
+      if (version_compare(GLPI_VERSION, '9.3.0') >= 0) {
+         $this->migrateToInnodb();
+      }
       return true;
    }
 
@@ -491,36 +492,43 @@ Regards,
     *
     * @param string version to upgrade from
     */
-   protected function upgrade($fromSchemaVersion) {
+    public function upgrade(Migration $migration) {
       switch ($fromSchemaVersion) {
          case '0.0':
             // Upgrade to 2.0
-            require_once(__DIR__ . '/upgrade_to_2.0.php');
-            $upgradeStep = new PluginFlyvemdmUpgradeTo2_0();
-            $upgradeStep->upgrade(new Migration('2.0'));
+            $this->upgradeOneStep('2.0');
 
          case '2.0':
             // Example : upgrade to version 2.1
-            // require_once(__DIR__ . '/upgrade_to_2.1.php');
-            // $upgradeStep = new PluginFlyvemdmUpgradeTo2_1();
-            // $upgradeStep->upgrade(new Migration('2.1'));
+            // $this->upgradeOneStep('2.1');
 
          case '3.0':
             // Example : upgrade to version 3.0
-            // require_once(__DIR__ . '/upgrade_to_3.0.php');
-            // $upgradeStep = new PluginFlyvemdmUpgradeTo3_0();
-            // $upgradeStep->upgrade(new Migration('3.0'));
+            // $this->upgradeOneStep('3.0');
 
          default:
             // Must be the last case
             // Unknown version
       }
-      if (is_readable(__DIR__ . '/upgrade_to_develop.php')
-         && PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, 'develop')
-      ) {
-         $upgradeStep = new PluginFlyvemdmUpgradeToDevelop();
-         $upgradeStep->upgrade(new Migration('develop'));
-      }
+      $this->upgradeOneStep('develop');
+
+      $this->createDirectories();
+      $this->createFirstAccess();
+      $this->createGuestProfileAccess();
+      $this->createAgentProfileAccess();
+      $this->createDefaultFleet();
+      $this->createPolicies();
+      $this->createNotificationTargetInvitation();
+      $this->createJobs();
+      $this->createRootEntityConfig();
+      $this->createDisplayPreferences();
+
+      Config::setConfigurationValues(
+         'flyvemdm', [
+            'version' => PLUGIN_FLYVEMDM_VERSION,
+            'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
+         ]
+      );
    }
 
    /**
@@ -529,21 +537,19 @@ Regards,
     * @param string $toVersion
     */
    protected function upgradeOneStep($toVersion) {
-
       ini_set("max_execution_time", "0");
       ini_set("memory_limit", "-1");
 
       $suffix = str_replace('.', '_', $toVersion);
-      $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
+      $includeFile = __DIR__ . "/update_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
          include_once $includeFile;
-         $updateFunction = "plugin_flyvemdm_update_to_$suffix";
-         if (function_exists($updateFunction)) {
-            $this->migration->addNewMessageArea("Upgrade to $toVersion");
-            $updateFunction($this->migration);
-            $this->migration->executeMigration();
-            $this->migration->displayMessage('Done');
-         }
+         $updateClass = "PluginFlyvemdmUpgradeTo$suffix";
+         $this->migration->addNewMessageArea("Upgrade to $toVersion");
+         $upgradeStep = new $updateClass();
+         $upgradeStep->upgrade($this->migration);
+         $this->migration->executeMigration();
+         $this->migration->displayMessage('Done');
       }
    }
 
