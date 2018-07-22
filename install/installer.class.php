@@ -209,7 +209,7 @@ class PluginFlyvemdmInstaller {
     */
    public static function getCurrentVersion() {
       if (self::$currentVersion === null) {
-         $config = \Config::getConfigurationValues("flyvemdm", ['version']);
+         $config = \Config::getConfigurationValues('flyvemdm', ['version']);
          if (!isset($config['version'])) {
             self::$currentVersion = '';
          } else {

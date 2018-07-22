@@ -4,6 +4,20 @@
 # Before script for Travis CI
 #
 
+# defined in travis.yml
+# DBNAME      : database name for tests
+# OLDDBNAME   : database name for upgrade test of the plugin
+# GLPI_SOURCE : URL to GLPI GIT repository
+# GLPI_BRANCH : branch of GLPI to test with the project
+# FI_SOURCE   : URL to Fusion Inventory GIT repository
+# FI_BRANCH   : branch of Fusion Inventory to test with the project
+
+# defined by Travis CI
+# TRAVIS_REPO_SLUG : see Travis CI: https://docs.travis-ci.com/user/environment-variables
+
+# defined in travis settings / environment variables
+# GH_OAUTH
+
 # config composer
 if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
   mkdir ~/.composer -p
@@ -13,16 +27,15 @@ fi
 
 # setup GLPI and its plugins
 mysql -u root -e 'create database $DBNAME;'
+mysql -u root -e 'create database $OLDDBNAME;'
 git clone --depth=35 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
 composer install --no-dev --no-interaction
-if [ -e scripts/cliinstall.php ] ; then php scripts/cliinstall.php --db=glpitest --user=root --tests ; fi
-if [ -e tools/cliinstall.php ] ; then php tools/cliinstall.php --db=glpitest --user=root --tests ; fi
 mkdir plugins/fusioninventory && git clone --depth=35 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
 IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
 mv ../${repo[1]} plugins/flyvemdm
 cd plugins/fusioninventory
-if [[ $FI_BRANCH == "glpi9.2+1.0" ]] ; then patch -p1 < ../flyvemdm/tests/patches/fi-fix-obsolete-query.patch; fi
-if [[ $FI_BRANCH == "master" ]] ; then patch -p1 < ../flyvemdm/tests/patches/fi-raise-max-version.patch; fi
+if [[ $FI_BRANCH == "glpi9.2+1.0" ]] ; then patch -p1 --batch < ../flyvemdm/tests/patches/fi-fix-obsolete-query.patch; fi
+if [[ $FI_BRANCH == "master" ]] ; then patch -p1 --batch < ../flyvemdm/tests/patches/fi-raise-max-version.patch; fi
 cd ../..
 
 # patch GLPI when needed
