@@ -34,7 +34,6 @@ use atoum;
 class CommonDBTestCase extends atoum {
 
    protected function drop_database($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword = '') {
-
       $cmd = $this->construct_mysql_options($dbuser, $dbhost, $dbpassword, 'mysql');
 
       if (is_array($cmd)) {
@@ -58,7 +57,6 @@ class CommonDBTestCase extends atoum {
    }
 
    protected function load_mysql_file($dbuser = '', $dbhost = '', $dbdefault = '', $dbpassword = '', $file = null) {
-
       if (!file_exists($file)) {
          return [
             'returncode' => 1,
@@ -272,5 +270,4 @@ class CommonDBTestCase extends atoum {
          }
       }
    }
-
 }
