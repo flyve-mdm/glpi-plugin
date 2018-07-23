@@ -618,12 +618,12 @@ ul.type-p2.p-size2{
 padding: 5% 0 3% 0;
 }
 
-/*
+/*MEDIUM SCREEN: Tablets, iPad*/
 @media (min-width: 414px) and (max-width: 768px) {
-  .type-p1.p-size2{ max-width: 90% };
+  .type-p1.p-size2{ max-width: 75% };
 }
 
-@media (max-width: 414px) {
+/*@media (max-width: 414px) {
   .type-p1.p-size2{ max-width: 95% };
 }
 */
