@@ -48,9 +48,6 @@ class CommonTestCase extends GlpiCommonTestCase {
    protected function enrollFromInvitation($userId, array $input, $keepLoggedUser = true) {
       // Close current session
       $currentUser = $_SESSION['glpiname'];
-      $this->terminateSession();
-      $this->restartSession();
-      $this->setupGLPIFramework();
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
@@ -67,9 +64,6 @@ class CommonTestCase extends GlpiCommonTestCase {
 
       if ($keepLoggedUser && $currentUser) {
          // Go back to previous logged user
-         $this->terminateSession();
-         $this->restartSession();
-         $this->setupGLPIFramework();
          $this->boolean($this->login($currentUser, $currentUser))->isTrue();
       }
 
