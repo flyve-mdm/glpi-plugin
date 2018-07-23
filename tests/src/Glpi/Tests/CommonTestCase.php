@@ -67,33 +67,20 @@ abstract class CommonTestCase extends CommonDBTestCase {
       file_put_contents(GLPI_LOG_DIR."/php-errors.log", '');
    }
 
-   protected function setupGLPIFramework() {
+   protected function login($name, $password, $noauto = false) {
       global $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
+
+      $glpi_use_mode = $_SESSION['glpi_use_mode'];
+      $this->terminateSession(); // force clean up current session
 
       $LOADED_PLUGINS = null;
       $PLUGINS_INCLUDED = null;
       $AJAX_INCLUDE = null;
 
-      require_once GLPI_ROOT . "/tests/config_db.php";
-      require_once GLPI_ROOT . "/inc/includes.php";
-
-      //To debug php fatal errors. May impact atoum workers communication
-      //\Toolbox::setDebugMode(Session::DEBUG_MODE);
-
-      require_once GLPI_ROOT . "/inc/timer.class.php";
-
-      // Security of PHP_SELF
-      $_SERVER['PHP_SELF'] = Html::cleanParametersURL($_SERVER['PHP_SELF']);
-   }
-
-   protected function login($name, $password, $noauto = false) {
-      $glpi_use_mode = $_SESSION['glpi_use_mode'];
-      $this->terminateSession(); // force clean up current session
-
-      Session::start();
+      \Session::start();
       $_SESSION['glpi_use_mode'] = $glpi_use_mode;
 
-      $auth = new Auth();
+      $auth = new \Auth();
       if (defined('GLPI_PREVER') && version_compare('9.2', rtrim(GLPI_VERSION, '-dev'), 'lt')) {
          // GLPI 9.3 and upper has this method
          $result = $auth->login($name, $password, $noauto, false, 'local');
@@ -101,7 +88,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
          // older versions use this one
          $result = $auth->Login($name, $password, $noauto);
       }
-      //$this->setupGLPIFramework();
+      include GLPI_ROOT . "/inc/includes.php";
 
       return $result;
    }
@@ -131,7 +118,6 @@ abstract class CommonTestCase extends CommonDBTestCase {
    protected function loginWithUserToken($userToken) {
       // Login as guest user
       $_REQUEST['user_token'] = $userToken;
-      Session::destroy();
       self::login('', '', false);
       unset($_REQUEST['user_token']);
    }
