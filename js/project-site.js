@@ -3,7 +3,7 @@
 //Hides the ghost menu when the page loads
 $(document).ready(function(){
 
-  $("#ghost-menu").hide();
+    $('#ghost-menu').hide();
 
 });
 
@@ -12,18 +12,18 @@ var apparition = false;
 
 $(window).scroll(function(){
 
-  var scrolled = $(window).scrollTop()>200;
+    var scrolled = $(window).scrollTop()>200;
 
-  if (scrolled && !apparition) {
+    if (scrolled && !apparition) {
 
-   apparition = true;
-   $("#ghost-menu").show(50);
+        apparition = true;
+        $('#ghost-menu').show(50);
 
- } else if (apparition && !scrolled){
+    } else if (apparition && !scrolled){
 
-  apparition = false;
-  $("#ghost-menu").hide();
+        apparition = false;
+        $('#ghost-menu').hide();
 
- }
+    }
 
 })
