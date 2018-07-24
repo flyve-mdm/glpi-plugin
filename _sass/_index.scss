@@ -445,9 +445,9 @@ Blockquote.type-p2 {
 }
 
 
-/***************
-**STYLE UPDATE**
-***************/
+// **************
+// *STYLE UPDATE*
+// **************
 
 // How-tos and Code documentations
 .goHome {
@@ -457,7 +457,7 @@ Blockquote.type-p2 {
 }
 
 .post-header {
-  border-bottom: inset #158784 1px;
+  border-bottom: inset rgb(21, 135, 132) 1px;
   padding-left: 3%;
 }
 
@@ -473,7 +473,7 @@ Blockquote.type-p2 {
   &.row {
     &.type-p2 {
       &.p-size6 {
-        border-bottom: dashed #158784 1px;
+        border-bottom: dashed rgb(21, 135, 132) 1px;
         margin: 0;
         max-width: 95%;
         padding: 0 0 6% 5%;
@@ -521,13 +521,11 @@ Blockquote.type-p2 {
           max-width: 100%;
         }
 
-        /*
-        * .highlighter-rouge{
-        *   .highlight{
-        *     max-width: 90%;
-        *   }
-        * }
-        */
+        // .highlighter-rouge{
+        //   .highlight{
+        //     max-width: 90%;
+        //   }
+        // }
 
         ol {
           li {
@@ -558,41 +556,42 @@ blockquote {
 }
 
 .post-content {
-  &.row.type-p2 {
-    &.p-size2 {
-      border-bottom: dashed #158784 1px;
-      margin: 0;
-      max-width: 95%;
-      padding: 3% 0 5% 5%;
+  &.row {
+    &.type-p2 {
+      &.p-size2 {
+        border-bottom: dashed rgb(21, 135, 132) 1px;
+        margin: 0;
+        max-width: 95%;
+        padding: 3% 0 5% 5%;
 
-      /*
-      * .highlighter-rouge{
-      *   .highlight{
-      *     max-width: 90%;
-      *   }
-      * }
-      */
+        // .highlighter-rouge{
+        //   .highlight{
+        //     max-width: 90%;
+        //   }
+        // }
 
-      p {
-        a {
-          font-weight: bold;
-        }
-      }
-
-      ul {
-        li {
+        p {
           a {
             font-weight: bold;
           }
         }
-      }
 
+        ul {
+          li {
+            a {
+              font-weight: bold;
+            }
+          }
+        }
+
+      }
     }
   }
 }
 
 // Index (Jumbotron influences projects.html too)
 .img-responsive {
+
   &.visible-xs-inline-block {
     &.visible-sm-inline-block {
       &.visible-md-inline-block {
@@ -605,9 +604,7 @@ blockquote {
       }
     }
   }
-}
 
-.img-responsive {
   &.icon {
     &.visible-xs-inline-block {
       &.visible-sm-inline-block {
@@ -621,6 +618,7 @@ blockquote {
       }
     }
   }
+
 }
 
 .type-h2 {
@@ -635,15 +633,13 @@ p {
   }
 }
 
-/*
-* @media (min-width: 414px) and (max-width: 768px) {
-*   p.type-p2.p-size2{ max-width: 90% };
-* }
+// @media (min-width: 414px) and (max-width: 768px) {
+//   p.type-p2.p-size2{ max-width: 90% };
+// }
 
-* @media (max-width: 414px) {
-*   p.type-p2.p-size2{ max-width: 95% };
-* }
-*/
+// @media (max-width: 414px) {
+//   p.type-p2.p-size2{ max-width: 95% };
+// }
 
 ul {
   &.type-p2 {
@@ -654,15 +650,13 @@ ul {
   }
 }
 
-/*
-* @media (min-width: 414px) and (max-width: 768px) {
-*   ul.type-p2.p-size2{ max-width: 90% };
-* }
+// @media (min-width: 414px) and (max-width: 768px) {
+//   ul.type-p2.p-size2{ max-width: 90% };
+// }
 
-* @media (max-width: 414px) {
-*   ul.type-p2.p-size2{ max-width: 95% };
-* }
-*/
+// @media (max-width: 414px) {
+//   ul.type-p2.p-size2{ max-width: 95% };
+// }
 
 .type-p1 {
   &.p-size2 {
@@ -677,11 +671,9 @@ ul {
   }
 }
 
-/* 
-*  @media (max-width: 414px) {
-*   .type-p1.p-size2{ max-width: 95% };
-*  }
-*/
+//  @media (max-width: 414px) {
+//   .type-p1.p-size2{ max-width: 95% };
+//  }
 
 .type-p2 {
   &.p-size {
@@ -694,15 +686,13 @@ ul {
   }
 }
 
-/*
-* @media (min-width: 414px) and (max-width: 768px) {
-*   .type-p2.p-size{ max-width: 50% };
-* }
+// @media (min-width: 414px) and (max-width: 768px) {
+//   .type-p2.p-size{ max-width: 50% };
+// }
 
-* @media (max-width: 414px) {
-*  .type-p2.p-size{ max-width: 95% };
-* }
-*/
+// @media (max-width: 414px) {
+//  .type-p2.p-size{ max-width: 95% };
+// }
 
 .jumbotron {
 
@@ -827,7 +817,7 @@ li {
 }
 
 // Contact
-.container{
+.container {
   &.contact-page {
 
     .type-t1 {
@@ -847,7 +837,7 @@ li {
 
     .type-p2 {
       &.p-size3 {
-      padding-left: 3%;
+        padding-left: 3%;
 
         a {
           font-weight: bold;
