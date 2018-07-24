@@ -61,7 +61,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
          case 'testPreprocessInput':
          case 'testGetTabNameForItem':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }

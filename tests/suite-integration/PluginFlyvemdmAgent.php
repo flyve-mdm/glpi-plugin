@@ -58,6 +58,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function afterTestMethod($method) {
       parent::afterTestMethod($method);
+      $this->terminateSession();
    }
 
    /**
@@ -109,7 +110,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // reset config for other tests
       $entityConfig->update(['id' => $activeEntity, 'device_limit' => '0']);
-      //\Session::destroy();
    }
 
    protected function invalidEnrollmentDataProvider() {
