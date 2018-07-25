@@ -158,9 +158,10 @@ class CommonDBTestCase extends atoum {
 
    /**
     * compare a .sql schema against the database
-    * @param string $pluginname
-    * @param string Tables of the t ested DB having this string in their name are checked
+    * @param string $filename
+    * @param string $filter
     * @param string $when
+    * @throws \GlpitestSQLError
     */
    public function checkInstall($filename = '', $filter = 'glpi_', $when = '') {
       global $DB;

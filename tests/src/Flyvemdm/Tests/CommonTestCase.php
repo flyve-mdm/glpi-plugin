@@ -484,6 +484,9 @@ class CommonTestCase extends GlpiCommonTestCase {
 
    /**
     * Create an application (directly in DB) because we are not uploading any file
+    * @param $entityId
+    * @param string|null $filename
+    * @param string $version
     * @return \PluginFlyvemdmPackage
     */
    protected function createDummyPackage($entityId, $filename = null, $version = '1.0.5') {
