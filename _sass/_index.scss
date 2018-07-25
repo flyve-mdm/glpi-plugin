@@ -472,6 +472,7 @@ Blockquote.type-p2 {
 .post-content {
   &.row {
     &.type-p2 {
+
       &.p-size6 {
         border-bottom: dashed rgb(21, 135, 132) 1px;
         margin: 0;
@@ -540,24 +541,7 @@ Blockquote.type-p2 {
         }
 
       }
-    }
-  }
-}
 
-blockquote {
-  &.type-p2 {
-    margin: 3% 0 5% 1%;
-
-    a {
-      font-weight: bold;
-    }
-
-  }
-}
-
-.post-content {
-  &.row {
-    &.type-p2 {
       &.p-size2 {
         border-bottom: dashed rgb(21, 135, 132) 1px;
         margin: 0;
@@ -585,7 +569,19 @@ blockquote {
         }
 
       }
+
     }
+  }
+}
+
+blockquote {
+  &.type-p2 {
+    margin: 3% 0 5% 1%;
+
+    a {
+      font-weight: bold;
+    }
+
   }
 }
 
@@ -713,14 +709,13 @@ ul {
 .container {
 
   .col-md-12 {
+
     &.col-md-push-12 {
       &.text-center {
         padding-top: 1%;
       }
     }
-  }
 
-  .col-md-12 {
     &.col-md-pull-12 {
       padding: 1% 0 2%;
 
@@ -729,83 +724,14 @@ ul {
       }
 
     }
+    
   }
 
   h2 {
     padding-left: 2%;
   }
 
-}
-
-// News
-div {
-  &.container {
-    h1 {
-      font-size: 265%;
-    }
-  }
-}
-
-li {
-  h2 {
-    padding-top: 3%;
-
-    a {
-      .post-link {
-        font-size: 64%;
-        font-weight: bold;
-      }
-    }
-
-  }
-}
-
-// Development/Code Documentation
-.article-howtos {
-  &.type-p1 {
-    padding-top: 1%;
-
-    ul {
-      li {
-        h3 {
-          padding: 0;
-
-          a {
-            &.post-link {
-              font-size: 80%;
-              font-weight: bold;
-            }
-          }
-
-        }
-      }
-    }
-
-  }
-}
-
-// How tos
-.article-howtos {
-  h4 {
-    padding-top: 3%;
-    text-indent: 3%;
-
-    a {
-      &.post-link {
-        font-size: 90%;
-        font-weight: bold;
-      }
-    }
-
-    p {
-      text-indent: 6%;
-    }
-
-  }
-}
-
-// Projects
-.container {
+  // Projects
   &.product {
     padding-top: 1%;
 
@@ -814,10 +740,8 @@ li {
     }
 
   }
-}
 
-// Contact
-.container {
+  // Contact
   &.contact-page {
 
     .type-t1 {
@@ -871,6 +795,73 @@ li {
     }
 
   }
+
+}
+
+// News
+div {
+  &.container {
+    h1 {
+      font-size: 265%;
+    }
+  }
+}
+
+li {
+  h2 {
+    padding-top: 3%;
+
+    a {
+      .post-link {
+        font-size: 64%;
+        font-weight: bold;
+      }
+    }
+
+  }
+}
+
+// Development/Code Documentation - How tos
+.article-howtos {
+
+  &.type-p1 {
+    padding-top: 1%;
+
+    ul {
+      li {
+        h3 {
+          padding: 0;
+
+          a {
+            &.post-link {
+              font-size: 80%;
+              font-weight: bold;
+            }
+          }
+
+        }
+      }
+    }
+
+  }
+
+  h4 {
+    padding-top: 3%;
+    text-indent: 3%;
+
+    a {
+      &.post-link {
+        font-size: 90%;
+        font-weight: bold;
+      }
+    }
+
+    p {
+      text-indent: 6%;
+    }
+
+  }
+
 }
 
 // container2.html
