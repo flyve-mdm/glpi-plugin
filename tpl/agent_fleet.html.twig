@@ -16,8 +16,8 @@
          {% for agent in agents %}
          {% if loop.index > start and loop.index <= stop %}
          <tr class='tab_bg_2'>
-            <td ><center>{{ agent.id }}</center></td>
-            <td><center>{{ agent.name }}</center></td>
+            <td><div class="center">{{ agent.id }}</div></td>
+            <td><div class="center">{{ agent.name }}</div></td>
          </tr>
          {% endif %}
          {% endfor %}
