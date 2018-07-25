@@ -223,6 +223,27 @@ $configurationUserInterface = [
       'apple_min_version'                   => '0',
       'apple_max_version'                   => '0',
    ],
+
+   [
+      'name'                                => __('Screen brightness', 'flyvemdm'),
+      'symbol'                              => 'brightnessLevel',
+      'group'                               => 'ui',
+      'type'                                => 'int',
+      'type_data'                           => [
+         "min" => 0,
+         "max" => 255,
+      ],
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Set screen brightness level', 'flyvemdm'),
+      'default_value'                       => '255',
+      'recommended_value'                   => '255',
+      'is_android_system'                   => '1',
+      'android_min_version'                 => '1.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
 ];
 
 return array_merge($securityUserInterface, $configurationUserInterface);
