@@ -42,6 +42,11 @@
   background-color: transparent;
   overflow: hidden;
 
+  // Change Log
+  &.modal-content {
+    padding: 4% 4% 4% 8%;
+  }
+
 }
 
 /*RECREATES THE ACRYLIC MATERIAL FROM THE FLUENT DESIGN*/
@@ -629,13 +634,32 @@ p {
   }
 }
 
-// @media (min-width: 414px) and (max-width: 768px) {
-//   p.type-p2.p-size2{ max-width: 90% };
-// }
+// SMALL SCREEN: Smart phones
+@media (max-width: 414px) {
+  p {
+    &.type-p2 {
+      &.p-size2 { max-width: 100%; };
+    }
+  }
+}
 
-// @media (max-width: 414px) {
-//   p.type-p2.p-size2{ max-width: 95% };
-// }
+//MEDIUM SCREEN: Tablets, iPad
+@media (min-width: 414px) and (max-width: 768px) {
+  p {
+    &.type-p2 {
+      &.p-size2 { max-width: 60%; };
+    }
+  }
+}
+
+// LARGE SCREEN: Large Tablets, iPad Pro
+@media (min-width: 768px) and (max-width: 1024px) {
+  p {
+    &.type-p2 {
+      &.p-size2 { max-width: 85%; };
+    }
+  }
+}
 
 ul {
   &.type-p2 {
@@ -646,13 +670,32 @@ ul {
   }
 }
 
-// @media (min-width: 414px) and (max-width: 768px) {
-//   ul.type-p2.p-size2{ max-width: 90% };
-// }
+// SMALL SCREEN: Smart phones
+@media (max-width: 414px) {
+  ul {
+    &.type-p2 {
+      &.p-size2 { max-width: 100%; };
+    }
+  }
+}
 
-// @media (max-width: 414px) {
-//   ul.type-p2.p-size2{ max-width: 95% };
-// }
+// MEDIUM SCREEN: Tablets, iPad
+@media (min-width: 414px) and (max-width: 768px) {
+  ul {
+    &.type-p2 {
+      &.p-size2 { max-width: 100%; };
+    }
+  }
+}
+
+// LARGE SCREEN: Large Tablets, iPad Pro
+@media (min-width: 768px) and (max-width: 1024px) {
+  ul {
+    &.type-p2 {
+      &.p-size2 { max-width: 100%; };
+    }
+  }
+}
 
 .type-p1 {
   &.p-size2 {
@@ -660,16 +703,26 @@ ul {
   }
 }
 
-// MEDIUM SCREEN: Tablets, iPad
-@media (min-width: 414px) and (max-width: 768px) {
+// SMALL SCREEN: Smart phones
+@media (max-width: 414px) {
   .type-p1 {
-    &.p-size2 { max-width: 75%; };
+    &.p-size2 { max-width: 100%; };
   }
 }
 
-//  @media (max-width: 414px) {
-//   .type-p1.p-size2{ max-width: 95% };
-//  }
+// MEDIUM SCREEN: Tablets, iPad
+@media (min-width: 414px) and (max-width: 768px) {
+  .type-p1 {
+    &.p-size2 { max-width: 65%; };
+  }
+}
+
+// LARGE SCREEN: Large Tablets, iPad Pro
+@media (min-width: 768px) and (max-width: 1024px) {
+  .type-p1 {
+    &.p-size2 { max-width: 100%; };
+  }
+}
 
 .type-p2 {
   &.p-size {
@@ -682,13 +735,26 @@ ul {
   }
 }
 
-// @media (min-width: 414px) and (max-width: 768px) {
-//   .type-p2.p-size{ max-width: 50% };
-// }
+// SMALL SCREEN: Smart phones
+@media (max-width: 414px) {
+  .type-p2 {
+    &.p-size { max-width: 100%; };
+  }
+}
 
-// @media (max-width: 414px) {
-//  .type-p2.p-size{ max-width: 95% };
-// }
+// MEDIUM SCREEN: Tablets, iPad
+@media (min-width: 414px) and (max-width: 768px) {
+  .type-p2 {
+    &.p-size { max-width: 60%; };
+  }
+}
+
+// LARGE SCREEN: Large Tablets, iPad Pro
+@media (min-width: 768px) and (max-width: 1024px) {
+  .type-p2 {
+    &.p-size { max-width: 45%; };
+  }
+}
 
 .jumbotron {
 
@@ -724,7 +790,7 @@ ul {
       }
 
     }
-    
+
   }
 
   h2 {
@@ -770,15 +836,17 @@ ul {
       }
     }
 
-    @media (min-width: 414px) and (max-width: 768px) {
-      .type-p2 {
-        &.p-size3 { max-width: 60%; };
-      }
-    }
-
+    // SMALL SCREEN: Smart phones
     @media (max-width: 414px) {
       .type-p2 {
         &.p-size3 { max-width: 95%; };
+      }
+    }
+
+    // MEDIUM SCREEN: Tablets, iPad
+    @media (min-width: 414px) and (max-width: 768px) {
+      .type-p2 {
+        &.p-size3 { max-width: 60%; };
       }
     }
 
@@ -786,12 +854,14 @@ ul {
       margin-left: 3%;
     }
 
-    @media (min-width: 414px) and (max-width: 768px) {
-      .p-size3 { max-width: 60%; };
-    }
-
+    // SMALL SCREEN: Smart phones
     @media (max-width: 414px) {
       .p-size3 { max-width: 90%; };
+    }
+
+    // MEDIUM SCREEN: Tablets, iPad
+    @media (min-width: 414px) and (max-width: 768px) {
+      .p-size3 { max-width: 60%; };
     }
 
   }
@@ -872,13 +942,6 @@ body {
         padding: 0 0 5% 3%;
       }
     }
-  }
-}
-
-// Change Log
-#modal-content {
-  &.modal-content {
-    padding: 4% 4% 4% 8%;
   }
 }
 
