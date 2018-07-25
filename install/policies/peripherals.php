@@ -201,6 +201,24 @@ return [
    ],
 
    [
+      'name'                                => __('Turn flashlight On', 'flyvemdm'),
+      'symbol'                              => 'turnOnFlash',
+      'group'                               => 'camera',
+      'type'                                => 'bool',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Set On or Off the flashlight.', 'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '1',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '4.1',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
+
+   [
       'name'                                => __('Disable speakerphone', 'flyvemdm'),
       'symbol'                              => 'disableSpeakerphone',
       'group'                               => 'connectivity',
