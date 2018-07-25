@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
-use PluginFlyvemdmFile as FlyvemdmFile;
 
 class PluginFlyvemdmFile extends CommonTestCase {
 

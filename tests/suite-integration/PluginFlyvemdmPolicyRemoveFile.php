@@ -61,7 +61,6 @@ class PluginFlyvemdmPolicyRemoveFile extends CommonTestCase {
 
       // Apply the policy to the fleet with incomplete data
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
-      $fleetFk = \PluginFlyvemdmFleet::getForeignKeyField();
       $task = new \PluginFlyvemdmTask();
       $task->add([
          $policyFk => $policyData->getID(),

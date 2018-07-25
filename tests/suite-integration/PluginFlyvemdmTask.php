@@ -31,7 +31,6 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\TestingCommonTools;
 use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
@@ -133,7 +132,6 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $policy->getFromDBByCrit(['symbol' => 'disableGps']);
       $this->boolean($policy->isNewItem())->isFalse("Could not find the test policy");
       $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
-      $task3 = $this->newTestedInstance();
       $taskId3 = $task->add([
          'itemtype_applied'   => $fleet3->getType(),
          'items_id_applied'   => $fleet3->getID(),

@@ -31,7 +31,6 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\TestingCommonTools;
 use Flyvemdm\Tests\CommonTestCase;
 
 /**
@@ -400,6 +399,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       sleep(2);
 
       $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
+      $logEntryFound = null;
       foreach ($rows as $row) {
          if ($row['topic'] == $agent->getTopic() . '/Command/Unenroll') {
             $logEntryFound = $row['id'];
@@ -926,21 +926,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $agent = $this->enrollFromInvitation($userId, $input);
 
       return (int)$agent->getID();
-   }
-
-   /**
-    * Compare two lists of MQTT messages
-    * @param array  $expected array of topics => messages
-    * @param array  $received array of messages obtained by find() method
-    */
-   private function compareListOfMQTTMessages(array $expected, array $received) {
-      // Check the count of messages matches
-      $this->array($received)->hasSize(count(array_values($expected)));
-
-      foreach ($received as $aMessage) {
-         $this->array($expected)->hasKey($aMessage['topic']);
-         $this->array($expected)->contains($aMessage['message']);
-      }
    }
 
    public function testGetByTopic() {
