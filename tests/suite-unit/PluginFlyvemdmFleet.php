@@ -131,6 +131,8 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    /**
     * @dataProvider inputAddProvider
     * @tags testPrepareInputForAdd
+    * @param array $input
+    * @param array $expected
     */
    public function testPrepareInputForAdd($input, $expected) {
       $instance = $this->newTestedInstance();
@@ -170,6 +172,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    /**
     * @dataProvider inputUpdateProvider
     * @tags testPrepareInputForUpdate
+    * @param array $initial
+    * @param array $input
+    * @param array $expected
     */
    public function testPrepareInputForUpdate($initial, $input, $expected) {
       $instance = $this->newTestedInstance();

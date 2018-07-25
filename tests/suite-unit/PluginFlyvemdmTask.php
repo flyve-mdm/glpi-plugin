@@ -67,6 +67,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @dataProvider providerCanCreate
+    * @param integer $fleetRight
+    * @param integer $policyRight
+    * @param boolean $expected
     */
    public function testCanCreate($fleetRight, $policyRight, $expected) {
       $_SESSION['glpiactiveprofile'][\PluginFlyvemdmFleet::$rightname] = $fleetRight;
@@ -102,6 +105,9 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @dataProvider providerCanUpdate
+    * @param integer $fleetRight
+    * @param integer $policyRight
+    * @param boolean $expected
     */
    public function testCanUpdate($fleetRight, $policyRight, $expected) {
       $_SESSION['glpiactiveprofile'][\PluginFlyvemdmFleet::$rightname] = $fleetRight;
@@ -178,7 +184,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
             ],
             'expected' => false,
          ],
-         'invalid fleet ID' => [
+         'invalid agent ID' => [
             'input' => [
                'value' => '0',
                'plugin_flyvemdm_policies_id' => $existingPolicyId,
@@ -195,6 +201,8 @@ class PluginFlyvemdmTask extends CommonTestCase {
    /**
     * @dataProvider providerPrepareInputForAdd
     * @engine inline
+    * @param array $input
+    * @param boolean $expected
     */
    public function testPrepareInputForAdd($input, $expected) {
       $instance = $this->newTestedInstance();

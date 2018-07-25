@@ -73,6 +73,11 @@ class ApiRestTestCase extends GlpiApiRestTestCase
 
    /**
     * @deprecated
+    * @param $method
+    * @param $sessionToken
+    * @param string $body
+    * @param array $params
+    * @param string|null $appToken
     */
    protected function fleet_policy($method, $sessionToken, $body = '', $params = [], $appToken = null) {
       $headers = ['Session-Token' => $sessionToken];

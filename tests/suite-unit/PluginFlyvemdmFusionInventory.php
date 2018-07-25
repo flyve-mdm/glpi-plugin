@@ -153,6 +153,10 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
       $this->boolean($found)->isFalse();
    }
 
+   /**
+    * @param integer $entityId
+    * @return null|string[]
+    */
    private function findRuleForEntity($entityId) {
       global $DB;
 

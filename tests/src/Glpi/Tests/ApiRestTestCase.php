@@ -81,10 +81,10 @@ class ApiRestTestCase extends CommonTestCase {
     * emulate a HTTP request by a direct call to the API
     *
     * @param string $method
-    * @param string $relative_uri
-    * @param array  $reqHeaders
+    * @param string $relativeUri
+    * @param array $reqHeaders
     * @param string $body
-    * @param array  $params
+    * @param array $params
     */
    protected function emulateRestRequest($method = 'get', $relativeUri = '', $reqHeaders = [], $body = '', $params = []) {
       // Prepare $_SERVER vars
@@ -150,6 +150,7 @@ class ApiRestTestCase extends CommonTestCase {
     *
     * @param string $name
     * @param string $pass
+    * @param string|null $appToken
     */
    public function initSessionByCredentials($name, $pass, $appToken = null) {
       $userCredentials = $name . ':' . $pass;
@@ -233,6 +234,7 @@ class ApiRestTestCase extends CommonTestCase {
     *
     * @param string $sessionToken
     * @param string $profileId
+    * @param string|null $appToken
     */
    protected function changeActiveProfile($sessionToken, $profileId, $appToken = null) {
       $headers = ['Session-Token' => $sessionToken];
@@ -246,8 +248,8 @@ class ApiRestTestCase extends CommonTestCase {
 
    /**
     * get session data
-    * @param unknown $sessionToken
-    * @param unknown $appToken
+    * @param string $sessionToken
+    * @param string $appToken
     */
    protected function getFullSession($sessionToken, $appToken = null) {
       $headers = ['Session-Token' => $sessionToken];

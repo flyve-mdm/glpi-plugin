@@ -88,7 +88,7 @@ class PluginFlyvemdmFile extends CommonTestCase {
    }
 
    /**
-    * @return PluginFlyvemdmPolicy
+    * @return \PluginFlyvemdmPolicy
     */
    private function getFileDeploymentPolicy() {
       $policyData = new \PluginFlyvemdmPolicy();
@@ -108,9 +108,9 @@ class PluginFlyvemdmFile extends CommonTestCase {
    }
 
    /**
-    * @param \PluginFlyvemdmPolicy       $policyData
-    * @param \FlyvemdmFile               $file
-    * @param \PluginFlyvemdmFleet        $fleet
+    * @param \PluginFlyvemdmPolicy $policyData
+    * @param \PluginFlyvemdmFile $file
+    * @param \PluginFlyvemdmFleet $fleet
     * @param $filedestination
     * @return \PluginFlyvemdmTask
     */
