@@ -19,11 +19,11 @@
          {% for taskstatus in taskstatuses %}
          {% if loop.index > start and loop.index <= stop %}
             <tr class='tab_bg_2'>
-               <td ><center>{{ taskstatus.id }}</center></td>
-               <td><center>{{ __(taskstatus.name, 'flyvemdm') }}</center></td>
-               <td><center>{{ taskstatus.status }}</center></td>
-               <td><center>{{ taskstatus.date_creation }}</center></td>
-               <td><center>{{ taskstatus.date_mod }}</center></td>
+               <td><div class="center">{{ taskstatus.id }}</div></td>
+               <td><div class="center">{{ __(taskstatus.name, 'flyvemdm') }}</div></td>
+               <td><div class="center">{{ taskstatus.status }}</div></td>
+               <td><div class="center">{{ taskstatus.date_creation }}</div></td>
+               <td><div class="center">{{ taskstatus.date_mod }}</div></td>
             </tr>
          {% endif %}
          {% endfor %}
