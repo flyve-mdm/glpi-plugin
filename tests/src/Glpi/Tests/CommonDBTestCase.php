@@ -89,8 +89,6 @@ class CommonDBTestCase extends atoum {
    }
 
    protected function construct_mysql_options($dbuser = '', $dbhost = '', $dbpassword = '', $cmd_base = 'mysql') {
-      $cmd = [];
-
       if (empty($dbuser) || empty($dbhost)) {
          return [
             'returncode' => 2,

@@ -32,11 +32,8 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
-use Flyvemdm\Tests\TestingCommonTools;
 
 class PluginFlyvemdmTask extends CommonTestCase {
-
-   private $fleet;
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);

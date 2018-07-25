@@ -50,7 +50,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
     * @tags testCreateApplication
     */
    public function testCreateApplication() {
-      global $DB;
 
       // Create an application (directly in DB) because we are not uploading any file
       $package = $this->createDummyPackage($_SESSION['glpiactive_entity']);

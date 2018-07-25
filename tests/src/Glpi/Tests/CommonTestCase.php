@@ -47,14 +47,14 @@ abstract class CommonTestCase extends CommonDBTestCase {
       self::resetGLPILogs();
 
       $DBvars = get_class_vars('DB');
-      $result = $this->drop_database(
+      $this->drop_database(
          $DBvars['dbuser'],
          $DBvars['dbhost'],
          $DBvars['dbdefault'],
          $DBvars['dbpassword']
       );
 
-      $result = $this->load_mysql_file($DBvars['dbuser'],
+      $this->load_mysql_file($DBvars['dbuser'],
          $DBvars['dbhost'],
          $DBvars['dbdefault'],
          $DBvars['dbpassword'],

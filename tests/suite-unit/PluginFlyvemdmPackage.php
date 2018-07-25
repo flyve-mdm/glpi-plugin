@@ -107,50 +107,6 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $this->array($input)->hasKey('entities_id')->integer['entities_id']->isEqualTo(0);
    }
 
-   /**
-    * @param string $packageTable
-    * @param null|string $filename
-    * @param string $version
-    * @return object
-    */
-   private function createPackage($packageTable, $filename = null, $version = '1.0.5') {
-      global $DB;
-
-      // Create an file (directly in DB)
-      $uniqueString = ((null !== $filename) ? $filename : $this->getUniqueString());
-      $packageName = 'com.domain.' . $uniqueString . '.application';
-      $entityId = $_SESSION['glpiactive_entity'];
-      $destination = 'flyvemdm/package/' .$entityId . '/123456789_application_' . $uniqueString . '.apk';
-      if (!is_dir($directory = FLYVEMDM_PACKAGE_PATH . "/" . $entityId)) {
-         @mkdir($directory);
-      }
-      $fileSize = file_put_contents(GLPI_PLUGIN_DOC_DIR . '/' . $destination, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
-      $query = "INSERT INTO $packageTable (
-         `package_name`,
-         `alias`,
-         `version`,
-         `filename`,
-         `entities_id`,
-         `dl_filename`,
-         `icon`
-      ) VALUES (
-         '$packageName',
-         'application',
-         '$version',
-         '$destination',
-         '$entityId',
-         'application_" . $uniqueString . ".apk',
-         ''
-      )";
-      $DB->query($query);
-      $mysqlError = $DB->error();
-      $instance = $this->newTestedInstance();
-      $instance->getFromDBByCrit(['package_name' => $packageName]);
-      $this->boolean($instance->isNewItem())->isFalse($mysqlError);
-      return $instance;
-   }
-
    public function providerPostGetFromDB() {
       return [
          [['isApi' => false, 'download' => false]],

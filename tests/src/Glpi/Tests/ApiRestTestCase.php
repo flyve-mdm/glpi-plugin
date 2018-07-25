@@ -46,8 +46,6 @@ class ApiRestTestCase extends CommonTestCase {
    protected static $backupGet;
 
    public static function setupBeforeClass() {
-      global $CFG_GLPI;
-
       parent::setupBeforeClass();
       self::resetState();
 

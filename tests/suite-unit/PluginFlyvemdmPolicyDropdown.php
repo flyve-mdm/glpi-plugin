@@ -32,7 +32,6 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
-use PluginFlyvemdmPolicy;
 
 class PluginFlyvemdmPolicyDropdown extends CommonTestCase {
 

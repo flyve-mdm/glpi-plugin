@@ -31,7 +31,6 @@
 
 namespace tests\units;
 
-use Flyvemdm\Tests\TestingCommonTools;
 use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmFleet extends CommonTestCase {
