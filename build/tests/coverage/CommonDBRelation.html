@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
                     7%
-                                            <small>of 638</small>
+                                            <small>of 644</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -289,7 +289,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getListForItemParams">CommonDBRelation::getListForItemParams()</a></td>
-                                        <td style="text-align: center">26</td>
+                                        <td style="text-align: center">33</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -331,7 +331,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#countForItem">CommonDBRelation::countForItem()</a></td>
-                                        <td style="text-align: center">10</td>
+                                        <td style="text-align: center">9</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -11968,7 +11968,7 @@ layout: coverage
                     <th id="L1527" class="number ">1527</th>
 
                     <td class="" >
-                        <pre>    * @param CommonDBTM $item    Item instance
+                        <pre>    * @param CommonDBTM $item  Item instance
 </pre>
                     </td>
                 </tr>
@@ -11976,7 +11976,7 @@ layout: coverage
                     <th id="L1528" class="number ">1528</th>
 
                     <td class="" >
-                        <pre>    * @param boolean    $inverse Get the inverse relation
+                        <pre>    * @param boolean    $noent Flag to not compute entity informations (see Document_Item::getListForItemParams)
 </pre>
                     </td>
                 </tr>
@@ -11984,7 +11984,7 @@ layout: coverage
                     <th id="L1529" class="number ">1529</th>
 
                     <td class="" >
-                        <pre>    * @param boolean    $noent   Flag to not compute entity informations (see Document_Item::getListForItemParams)
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -11992,7 +11992,7 @@ layout: coverage
                     <th id="L1530" class="number ">1530</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @return array
 </pre>
                     </td>
                 </tr>
@@ -12000,34 +12000,26 @@ layout: coverage
                     <th id="L1531" class="number ">1531</th>
 
                     <td class="" >
-                        <pre>    * @return array
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1532" class="number ">1532</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="getListForItemParams">
-                    <th id="L1533" class="number ">1533</th>
+                    <th id="L1532" class="number ">1532</th>
 
                     <td class="" id="getListForItemParams">
-                        <pre>   protected static function getListForItemParams(CommonDBTM $item, $inverse = false, $noent = false) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   protected static function getListForItemParams(CommonDBTM $item, $noent = false) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1534" class="number uncovered">1534</th>
+                    <th id="L1533" class="number uncovered">1533</th>
 
                     <td class="uncovered" >
                         <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1535" class="number ">1535</th>
+                    <th id="L1534" class="number ">1534</th>
 
                     <td class="" >
                         <pre>
@@ -12035,28 +12027,43 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1536" class="number uncovered">1536</th>
+                    <th id="L1535" class="number uncovered">1535</th>
 
                     <td class="uncovered" >
-                        <pre>      $link_type  = static::$itemtype_1;</pre>
+                        <pre>      $inverse = $item-&gt;getType() == static::$itemtype_1;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1536" class="number ">1536</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1537" class="number uncovered">1537</th>
 
                     <td class="uncovered" >
-                        <pre>      $link_id    = static::$items_id_1;</pre>
+                        <pre>      $link_type  = static::$itemtype_1;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1538" class="number uncovered">1538</th>
 
                     <td class="uncovered" >
+                        <pre>      $link_id    = static::$items_id_1;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1539" class="number uncovered">1539</th>
+
+                    <td class="uncovered" >
                         <pre>      $where_id   = static::$items_id_2;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1539" class="number ">1539</th>
+                    <th id="L1540" class="number ">1540</th>
 
                     <td class="" >
                         <pre>
@@ -12064,35 +12071,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1540" class="number uncovered">1540</th>
+                    <th id="L1541" class="number uncovered">1541</th>
 
                     <td class="uncovered" >
                         <pre>      if ($inverse === true) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1541" class="number uncovered">1541</th>
+                    <th id="L1542" class="number uncovered">1542</th>
 
                     <td class="uncovered" >
                         <pre>         $link_type  = static::$itemtype_2;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1542" class="number uncovered">1542</th>
+                    <th id="L1543" class="number uncovered">1543</th>
 
                     <td class="uncovered" >
                         <pre>         $link_id    = static::$items_id_2;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1543" class="number uncovered">1543</th>
+                    <th id="L1544" class="number uncovered">1544</th>
 
                     <td class="uncovered" >
                         <pre>         $where_id   = static::$items_id_1;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1544" class="number ">1544</th>
+                    <th id="L1545" class="number ">1545</th>
 
                     <td class="" >
                         <pre>      }
@@ -12100,29 +12107,29 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1545" class="number ">1545</th>
+                    <th id="L1546" class="number ">1546</th>
 
                     <td class="" >
                         <pre>
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1546" class="number uncovered">1546</th>
-
-                    <td class="uncovered" >
-                        <pre>      $link = new $link_type;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1547" class="number uncovered">1547</th>
 
                     <td class="uncovered" >
+                        <pre>      $link = new $link_type;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1548" class="number uncovered">1548</th>
+
+                    <td class="uncovered" >
                         <pre>      $link_table = getTableForItemtype($link_type);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1548" class="number ">1548</th>
+                    <th id="L1549" class="number ">1549</th>
 
                     <td class="" >
                         <pre>
@@ -12130,7 +12137,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1549" class="number ">1549</th>
+                    <th id="L1550" class="number ">1550</th>
 
                     <td class="" >
                         <pre>      $params = [
@@ -12138,32 +12145,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1550" class="number uncovered">1550</th>
+                    <th id="L1551" class="number uncovered">1551</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;SELECT&#039;    =&gt; [static::getTable() . &#039;.id AS linkid&#039;, $link_table . &#039;.*&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1551" class="number uncovered">1551</th>
+                    <th id="L1552" class="number uncovered">1552</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;FROM&#039;      =&gt; static::getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1552" class="number ">1552</th>
-
-                    <td class="" >
-                        <pre>         &#039;LEFT JOIN&#039; =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L1553" class="number ">1553</th>
 
                     <td class="" >
-                        <pre>            $link_table  =&gt; [
+                        <pre>         &#039;LEFT JOIN&#039; =&gt; [
 </pre>
                     </td>
                 </tr>
@@ -12171,37 +12170,37 @@ layout: coverage
                     <th id="L1554" class="number ">1554</th>
 
                     <td class="" >
-                        <pre>               &#039;FKEY&#039;   =&gt; [
+                        <pre>            $link_table  =&gt; [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1555" class="number uncovered">1555</th>
+                    <th id="L1555" class="number ">1555</th>
 
-                    <td class="uncovered" >
-                        <pre>                  static::getTable()   =&gt; $link_id,</pre>
+                    <td class="" >
+                        <pre>               &#039;FKEY&#039;   =&gt; [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1556" class="number uncovered">1556</th>
 
                     <td class="uncovered" >
-                        <pre>                  $link_table          =&gt; &#039;id&#039;</pre>
+                        <pre>                  static::getTable()   =&gt; $link_id,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1557" class="number ">1557</th>
+                    <th id="L1557" class="number uncovered">1557</th>
 
-                    <td class="" >
-                        <pre>               ]
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $link_table          =&gt; &#039;id&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1558" class="number ">1558</th>
 
                     <td class="" >
-                        <pre>            ]
+                        <pre>               ]
 </pre>
                     </td>
                 </tr>
@@ -12209,7 +12208,7 @@ layout: coverage
                     <th id="L1559" class="number ">1559</th>
 
                     <td class="" >
-                        <pre>         ],
+                        <pre>            ]
 </pre>
                     </td>
                 </tr>
@@ -12217,19 +12216,27 @@ layout: coverage
                     <th id="L1560" class="number ">1560</th>
 
                     <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1561" class="number ">1561</th>
+
+                    <td class="" >
                         <pre>         &#039;WHERE&#039;     =&gt; [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1561" class="number uncovered">1561</th>
+                    <th id="L1562" class="number uncovered">1562</th>
 
                     <td class="uncovered" >
                         <pre>            static::getTable() . &#039;.&#039; . $where_id =&gt; $item-&gt;fields[&#039;id&#039;]</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1562" class="number ">1562</th>
+                    <th id="L1563" class="number ">1563</th>
 
                     <td class="" >
                         <pre>         ],
@@ -12237,14 +12244,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1563" class="number uncovered">1563</th>
+                    <th id="L1564" class="number uncovered">1564</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;ORDER&#039;     =&gt; $link_table . &#039;.name&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1564" class="number ">1564</th>
+                    <th id="L1565" class="number ">1565</th>
 
                     <td class="" >
                         <pre>      ];
@@ -12252,7 +12259,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1565" class="number ">1565</th>
+                    <th id="L1566" class="number ">1566</th>
 
                     <td class="" >
                         <pre>
@@ -12260,21 +12267,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1566" class="number uncovered">1566</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($DB-&gt;fieldExists(static::getTable(), &#039;itemtype&#039;)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L1567" class="number uncovered">1567</th>
 
                     <td class="uncovered" >
-                        <pre>         $params[&#039;WHERE&#039;][static::getTable() . &#039;.itemtype&#039;] = $item-&gt;getType();</pre>
+                        <pre>      $rel_class = static::class;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1568" class="number ">1568</th>
+                    <th id="L1568" class="number uncovered">1568</th>
+
+                    <td class="uncovered" >
+                        <pre>      $rel = new $rel_class();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1569" class="number uncovered">1569</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($rel-&gt;maybeDynamic()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1570" class="number uncovered">1570</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;SELECT&#039;][] = static::getTable() . &#039;.is_dynamic&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1571" class="number ">1571</th>
 
                     <td class="" >
                         <pre>      }
@@ -12282,7 +12303,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1569" class="number ">1569</th>
+                    <th id="L1572" class="number ">1572</th>
 
                     <td class="" >
                         <pre>
@@ -12290,28 +12311,88 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1570" class="number uncovered">1570</th>
+                    <th id="L1573" class="number uncovered">1573</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($rel-&gt;maybeRecursive()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1574" class="number uncovered">1574</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;SELECT&#039;][] = static::getTable() . &#039;.is_recursive&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1575" class="number ">1575</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1576" class="number ">1576</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1577" class="number uncovered">1577</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($DB-&gt;fieldExists(static::getTable(), &#039;itemtype&#039;)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1578" class="number uncovered">1578</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;WHERE&#039;][static::getTable() . &#039;.itemtype&#039;] = $item-&gt;getType();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1579" class="number ">1579</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1580" class="number ">1580</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1581" class="number uncovered">1581</th>
 
                     <td class="uncovered" >
                         <pre>      if ($noent === false &amp;&amp; $link-&gt;isEntityAssign() &amp;&amp; $link_type != Entity::getType()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1571" class="number uncovered">1571</th>
+                    <th id="L1582" class="number uncovered">1582</th>
 
                     <td class="uncovered" >
                         <pre>         $params[&#039;SELECT&#039;][] = &#039;glpi_entities.id AS entity&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1572" class="number uncovered">1572</th>
+                    <th id="L1583" class="number uncovered">1583</th>
 
                     <td class="uncovered" >
                         <pre>         $params[&#039;INNER JOIN&#039;][&#039;glpi_entities&#039;] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1573" class="number ">1573</th>
+                    <th id="L1584" class="number ">1584</th>
 
                     <td class="" >
                         <pre>            &#039;FKEY&#039;   =&gt; [
@@ -12319,108 +12400,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1574" class="number uncovered">1574</th>
+                    <th id="L1585" class="number uncovered">1585</th>
 
                     <td class="uncovered" >
                         <pre>               $link_table       =&gt; &#039;entities_id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1575" class="number uncovered">1575</th>
+                    <th id="L1586" class="number uncovered">1586</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;glpi_entities&#039;   =&gt; &#039;id&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1576" class="number ">1576</th>
-
-                    <td class="" >
-                        <pre>            ]
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1577" class="number ">1577</th>
-
-                    <td class="" >
-                        <pre>         ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1578" class="number uncovered">1578</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;WHERE&#039;] += getEntitiesRestrictCriteria($link_table, &#039;&#039;, &#039;&#039;, true);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1579" class="number uncovered">1579</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;ORDER&#039;] = [&#039;glpi_entities.completename&#039;, $params[&#039;ORDER&#039;]];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1580" class="number ">1580</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1581" class="number ">1581</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1582" class="number uncovered">1582</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $params;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1583" class="number unreach">1583</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1584" class="number ">1584</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1585" class="number ">1585</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1586" class="number ">1586</th>
-
-                    <td class="" >
-                        <pre>    * Get linked items list for specified item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L1587" class="number ">1587</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>            ]
 </pre>
                     </td>
                 </tr>
@@ -12428,31 +12425,29 @@ layout: coverage
                     <th id="L1588" class="number ">1588</th>
 
                     <td class="" >
-                        <pre>    * @since 9.3.1
+                        <pre>         ];
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1589" class="number ">1589</th>
+                    <th id="L1589" class="number uncovered">1589</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;WHERE&#039;] += getEntitiesRestrictCriteria($link_table, &#039;&#039;, &#039;&#039;, true);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1590" class="number ">1590</th>
+                    <th id="L1590" class="number uncovered">1590</th>
 
-                    <td class="" >
-                        <pre>    * @param CommonDBTM $item    Item instance
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;ORDER&#039;] = [&#039;glpi_entities.completename&#039;, $params[&#039;ORDER&#039;]];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1591" class="number ">1591</th>
 
                     <td class="" >
-                        <pre>    * @param boolean    $inverse Get the inverse relation
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -12460,12 +12455,90 @@ layout: coverage
                     <th id="L1592" class="number ">1592</th>
 
                     <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1593" class="number uncovered">1593</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $params;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1594" class="number unreach">1594</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1595" class="number ">1595</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1596" class="number ">1596</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1597" class="number ">1597</th>
+
+                    <td class="" >
+                        <pre>    * Get linked items list for specified item
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1598" class="number ">1598</th>
+
+                    <td class="" >
                         <pre>    *
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1593" class="number ">1593</th>
+                    <th id="L1599" class="number ">1599</th>
+
+                    <td class="" >
+                        <pre>    * @since 9.3.1
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1600" class="number ">1600</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1601" class="number ">1601</th>
+
+                    <td class="" >
+                        <pre>    * @param CommonDBTM $item Item instance
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1602" class="number ">1602</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1603" class="number ">1603</th>
 
                     <td class="" >
                         <pre>    * @return DBmysqlIterator
@@ -12473,7 +12546,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1594" class="number ">1594</th>
+                    <th id="L1604" class="number ">1604</th>
 
                     <td class="" >
                         <pre>    */
@@ -12481,21 +12554,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getListForItem">
-                    <th id="L1595" class="number ">1595</th>
+                    <th id="L1605" class="number ">1605</th>
 
                     <td class="" id="getListForItem">
-                        <pre>   public static function getListForItem(CommonDBTM $item, $inverse = false) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   public static function getListForItem(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1596" class="number uncovered">1596</th>
+                    <th id="L1606" class="number uncovered">1606</th>
 
                     <td class="uncovered" >
                         <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1597" class="number ">1597</th>
+                    <th id="L1607" class="number ">1607</th>
 
                     <td class="" >
                         <pre>
@@ -12503,21 +12576,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1598" class="number uncovered">1598</th>
+                    <th id="L1608" class="number uncovered">1608</th>
 
                     <td class="uncovered" >
-                        <pre>      $params = static::getListForItemParams($item, $inverse);</pre>
+                        <pre>      $params = static::getListForItemParams($item);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1599" class="number uncovered">1599</th>
+                    <th id="L1609" class="number uncovered">1609</th>
 
                     <td class="uncovered" >
                         <pre>      $iterator = $DB-&gt;request($params);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1600" class="number ">1600</th>
+                    <th id="L1610" class="number ">1610</th>
 
                     <td class="" >
                         <pre>
@@ -12525,21 +12598,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1601" class="number uncovered">1601</th>
+                    <th id="L1611" class="number uncovered">1611</th>
 
                     <td class="uncovered" >
                         <pre>      return $iterator;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1602" class="number unreach">1602</th>
+                    <th id="L1612" class="number unreach">1612</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1603" class="number ">1603</th>
+                    <th id="L1613" class="number ">1613</th>
 
                     <td class="" >
                         <pre>
@@ -12547,7 +12620,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1604" class="number ">1604</th>
+                    <th id="L1614" class="number ">1614</th>
 
                     <td class="" >
                         <pre>   /**
@@ -12555,7 +12628,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1605" class="number ">1605</th>
+                    <th id="L1615" class="number ">1615</th>
 
                     <td class="" >
                         <pre>    * Get distinct item types query parameters
@@ -12563,7 +12636,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1606" class="number ">1606</th>
+                    <th id="L1616" class="number ">1616</th>
 
                     <td class="" >
                         <pre>    *
@@ -12571,7 +12644,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1607" class="number ">1607</th>
+                    <th id="L1617" class="number ">1617</th>
 
                     <td class="" >
                         <pre>    * @since 9.3.1
@@ -12579,7 +12652,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1608" class="number ">1608</th>
+                    <th id="L1618" class="number ">1618</th>
 
                     <td class="" >
                         <pre>    *
@@ -12587,7 +12660,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1609" class="number ">1609</th>
+                    <th id="L1619" class="number ">1619</th>
 
                     <td class="" >
                         <pre>    * @param integer $items_id    Object id to restrict on
@@ -12595,7 +12668,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1610" class="number ">1610</th>
+                    <th id="L1620" class="number ">1620</th>
 
                     <td class="" >
                         <pre>    * @param array   $extra_where Extra where clause
@@ -12603,7 +12676,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1611" class="number ">1611</th>
+                    <th id="L1621" class="number ">1621</th>
 
                     <td class="" >
                         <pre>    *
@@ -12611,7 +12684,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1612" class="number ">1612</th>
+                    <th id="L1622" class="number ">1622</th>
 
                     <td class="" >
                         <pre>    * @return array
@@ -12619,7 +12692,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1613" class="number ">1613</th>
+                    <th id="L1623" class="number ">1623</th>
 
                     <td class="" >
                         <pre>    */
@@ -12627,14 +12700,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getDistinctTypesParams">
-                    <th id="L1614" class="number ">1614</th>
+                    <th id="L1624" class="number ">1624</th>
 
                     <td class="" id="getDistinctTypesParams">
                         <pre>   protected static function getDistinctTypesParams($items_id, $extra_where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1615" class="number ">1615</th>
+                    <th id="L1625" class="number ">1625</th>
 
                     <td class="" >
                         <pre>      $params = [
@@ -12642,21 +12715,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1616" class="number uncovered">1616</th>
+                    <th id="L1626" class="number uncovered">1626</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;SELECT DISTINCT&#039; =&gt; &#039;itemtype&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1617" class="number uncovered">1617</th>
+                    <th id="L1627" class="number uncovered">1627</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;FROM&#039;            =&gt; static::getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1618" class="number ">1618</th>
+                    <th id="L1628" class="number ">1628</th>
 
                     <td class="" >
                         <pre>         &#039;WHERE&#039;           =&gt; [
@@ -12664,28 +12737,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1619" class="number uncovered">1619</th>
+                    <th id="L1629" class="number uncovered">1629</th>
 
                     <td class="uncovered" >
                         <pre>            static::$items_id_1  =&gt; $items_id,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1620" class="number uncovered">1620</th>
+                    <th id="L1630" class="number uncovered">1630</th>
 
                     <td class="uncovered" >
                         <pre>         ] + $extra_where,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1621" class="number uncovered">1621</th>
+                    <th id="L1631" class="number uncovered">1631</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;ORDER&#039;           =&gt; &#039;itemtype&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1622" class="number ">1622</th>
+                    <th id="L1632" class="number ">1632</th>
 
                     <td class="" >
                         <pre>      ];
@@ -12693,21 +12766,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1623" class="number uncovered">1623</th>
+                    <th id="L1633" class="number uncovered">1633</th>
 
                     <td class="uncovered" >
                         <pre>      return $params;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1624" class="number unreach">1624</th>
+                    <th id="L1634" class="number unreach">1634</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1625" class="number ">1625</th>
+                    <th id="L1635" class="number ">1635</th>
 
                     <td class="" >
                         <pre>
@@ -12715,7 +12788,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1626" class="number ">1626</th>
+                    <th id="L1636" class="number ">1636</th>
 
                     <td class="" >
                         <pre>   /**
@@ -12723,7 +12796,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1627" class="number ">1627</th>
+                    <th id="L1637" class="number ">1637</th>
 
                     <td class="" >
                         <pre>    * Get distinct item types
@@ -12731,7 +12804,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1628" class="number ">1628</th>
+                    <th id="L1638" class="number ">1638</th>
 
                     <td class="" >
                         <pre>    *
@@ -12739,7 +12812,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1629" class="number ">1629</th>
+                    <th id="L1639" class="number ">1639</th>
 
                     <td class="" >
                         <pre>    * @since 9.3.1
@@ -12747,7 +12820,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1630" class="number ">1630</th>
+                    <th id="L1640" class="number ">1640</th>
 
                     <td class="" >
                         <pre>    *
@@ -12755,7 +12828,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1631" class="number ">1631</th>
+                    <th id="L1641" class="number ">1641</th>
 
                     <td class="" >
                         <pre>    * @param integer $items_id    Object id to restrict on
@@ -12763,7 +12836,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1632" class="number ">1632</th>
+                    <th id="L1642" class="number ">1642</th>
 
                     <td class="" >
                         <pre>    * @param array   $extra_where Extra where clause
@@ -12771,84 +12844,10 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1633" class="number ">1633</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1634" class="number ">1634</th>
-
-                    <td class="" >
-                        <pre>    * @return DBMysqlIterator
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1635" class="number ">1635</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getDistinctTypes">
-                    <th id="L1636" class="number ">1636</th>
-
-                    <td class="" id="getDistinctTypes">
-                        <pre>   public static function getDistinctTypes($items_id, $extra_where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1637" class="number uncovered">1637</th>
-
-                    <td class="uncovered" >
-                        <pre>      global $DB;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1638" class="number ">1638</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1639" class="number uncovered">1639</th>
-
-                    <td class="uncovered" >
-                        <pre>      $params = static::getDistinctTypesParams($items_id, $extra_where);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1640" class="number uncovered">1640</th>
-
-                    <td class="uncovered" >
-                        <pre>      $types_iterator = $DB-&gt;request($params);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1641" class="number uncovered">1641</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $types_iterator;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1642" class="number unreach">1642</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L1643" class="number ">1643</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -12856,7 +12855,7 @@ layout: coverage
                     <th id="L1644" class="number ">1644</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @return DBMysqlIterator
 </pre>
                     </td>
                 </tr>
@@ -12864,71 +12863,65 @@ layout: coverage
                     <th id="L1645" class="number ">1645</th>
 
                     <td class="" >
-                        <pre>    * Get items for an itemtype
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getDistinctTypes">
                     <th id="L1646" class="number ">1646</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="" id="getDistinctTypes">
+                        <pre>   public static function getDistinctTypes($items_id, $extra_where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1647" class="number ">1647</th>
+                    <th id="L1647" class="number uncovered">1647</th>
 
-                    <td class="" >
-                        <pre>    * @since 9.3.1
-</pre>
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1648" class="number ">1648</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1649" class="number ">1649</th>
+                    <th id="L1649" class="number uncovered">1649</th>
 
-                    <td class="" >
-                        <pre>    * @param integer $items_id Object id to restrict on
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $params = static::getDistinctTypesParams($items_id, $extra_where);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1650" class="number ">1650</th>
+                    <th id="L1650" class="number uncovered">1650</th>
 
-                    <td class="" >
-                        <pre>    * @param string  $itemtype Type for items to retrieve
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $types_iterator = $DB-&gt;request($params);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1651" class="number ">1651</th>
+                    <th id="L1651" class="number uncovered">1651</th>
 
-                    <td class="" >
-                        <pre>    * @param boolean $noent    Flag to not compute entity informations (see Document_Item::getTypeItemsQueryParams)
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return $types_iterator;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1652" class="number ">1652</th>
+                    <th id="L1652" class="number unreach">1652</th>
 
-                    <td class="" >
-                        <pre>    * @param array   $where    Inital WHERE clause. Defaults to []
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1653" class="number ">1653</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -12936,7 +12929,7 @@ layout: coverage
                     <th id="L1654" class="number ">1654</th>
 
                     <td class="" >
-                        <pre>    * @return array
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -12944,136 +12937,128 @@ layout: coverage
                     <th id="L1655" class="number ">1655</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>    * Get items for an itemtype
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getTypeItemsQueryParams">
+                            <tr class="line" id="">
                     <th id="L1656" class="number ">1656</th>
 
-                    <td class="" id="getTypeItemsQueryParams">
-                        <pre>   protected static function getTypeItemsQueryParams($items_id, $itemtype, $noent = false, $where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1657" class="number uncovered">1657</th>
+                    <th id="L1657" class="number ">1657</th>
 
-                    <td class="uncovered" >
-                        <pre>      global $DB;</pre>
+                    <td class="" >
+                        <pre>    * @since 9.3.1
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1658" class="number ">1658</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1659" class="number uncovered">1659</th>
+                    <th id="L1659" class="number ">1659</th>
 
-                    <td class="uncovered" >
-                        <pre>      $item = getItemForItemtype($itemtype);</pre>
+                    <td class="" >
+                        <pre>    * @param integer $items_id Object id to restrict on
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1660" class="number uncovered">1660</th>
+                    <th id="L1660" class="number ">1660</th>
 
-                    <td class="uncovered" >
-                        <pre>      $order_col = $item-&gt;getNameField();</pre>
+                    <td class="" >
+                        <pre>    * @param string  $itemtype Type for items to retrieve
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1661" class="number ">1661</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @param boolean $noent    Flag to not compute entity informations (see Document_Item::getTypeItemsQueryParams)
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1662" class="number uncovered">1662</th>
+                    <th id="L1662" class="number ">1662</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ($item instanceof CommonDevice) {</pre>
+                    <td class="" >
+                        <pre>    * @param array   $where    Inital WHERE clause. Defaults to []
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1663" class="number uncovered">1663</th>
+                    <th id="L1663" class="number ">1663</th>
 
-                    <td class="uncovered" >
-                        <pre>         $order_col = &quot;designation&quot;;</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1664" class="number uncovered">1664</th>
+                    <th id="L1664" class="number ">1664</th>
 
-                    <td class="uncovered" >
-                        <pre>      } else if ($item instanceof Item_Devices) {</pre>
+                    <td class="" >
+                        <pre>    * @return array
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1665" class="number uncovered">1665</th>
+                    <th id="L1665" class="number ">1665</th>
 
-                    <td class="uncovered" >
-                        <pre>         $order_col = &quot;itemtype&quot;;</pre>
+                    <td class="" >
+                        <pre>    */
+</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L1666" class="number uncovered">1666</th>
+                            <tr class="line" id="getTypeItemsQueryParams">
+                    <th id="L1666" class="number ">1666</th>
 
-                    <td class="uncovered" >
-                        <pre>      } else if ($itemtype == &#039;Ticket&#039;) {</pre>
+                    <td class="" id="getTypeItemsQueryParams">
+                        <pre>   protected static function getTypeItemsQueryParams($items_id, $itemtype, $noent = false, $where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1667" class="number uncovered">1667</th>
 
                     <td class="uncovered" >
-                        <pre>         $order_col = &#039;id&#039;;</pre>
+                        <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1668" class="number ">1668</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1669" class="number ">1669</th>
+                    <th id="L1669" class="number uncovered">1669</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $item = getItemForItemtype($itemtype);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1670" class="number uncovered">1670</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!count($where)) {</pre>
+                        <pre>      $order_col = $item-&gt;getNameField();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1671" class="number uncovered">1671</th>
-
-                    <td class="uncovered" >
-                        <pre>         $where = [static::getTable() . &#039;.&#039; . static::$items_id_1  =&gt; $items_id];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1672" class="number ">1672</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1673" class="number ">1673</th>
+                    <th id="L1671" class="number ">1671</th>
 
                     <td class="" >
                         <pre>
@@ -13081,7 +13066,95 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1674" class="number ">1674</th>
+                    <th id="L1672" class="number uncovered">1672</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($item instanceof CommonDevice) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1673" class="number uncovered">1673</th>
+
+                    <td class="uncovered" >
+                        <pre>         $order_col = &quot;designation&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1674" class="number uncovered">1674</th>
+
+                    <td class="uncovered" >
+                        <pre>      } else if ($item instanceof Item_Devices) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1675" class="number uncovered">1675</th>
+
+                    <td class="uncovered" >
+                        <pre>         $order_col = &quot;itemtype&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1676" class="number uncovered">1676</th>
+
+                    <td class="uncovered" >
+                        <pre>      } else if ($itemtype == &#039;Ticket&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1677" class="number uncovered">1677</th>
+
+                    <td class="uncovered" >
+                        <pre>         $order_col = &#039;id&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1678" class="number ">1678</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1679" class="number ">1679</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1680" class="number uncovered">1680</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!count($where)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1681" class="number uncovered">1681</th>
+
+                    <td class="uncovered" >
+                        <pre>         $where = [static::getTable() . &#039;.&#039; . static::$items_id_1  =&gt; $items_id];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1682" class="number ">1682</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1683" class="number ">1683</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1684" class="number ">1684</th>
 
                     <td class="" >
                         <pre>      $params = [
@@ -13089,7 +13162,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1675" class="number ">1675</th>
+                    <th id="L1685" class="number ">1685</th>
 
                     <td class="" >
                         <pre>         &#039;SELECT&#039; =&gt; [
@@ -13097,92 +13170,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1676" class="number uncovered">1676</th>
+                    <th id="L1686" class="number uncovered">1686</th>
 
                     <td class="uncovered" >
                         <pre>            $item-&gt;getTable() . &#039;.*&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1677" class="number uncovered">1677</th>
+                    <th id="L1687" class="number uncovered">1687</th>
 
                     <td class="uncovered" >
                         <pre>            static::getTable() . &#039;.id AS linkid&#039;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1678" class="number ">1678</th>
-
-                    <td class="" >
-                        <pre>         ],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1679" class="number uncovered">1679</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;FROM&#039;   =&gt; $item-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1680" class="number uncovered">1680</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;WHERE&#039;  =&gt; $where,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1681" class="number ">1681</th>
-
-                    <td class="" >
-                        <pre>         &#039;LEFT JOIN&#039; =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1682" class="number uncovered">1682</th>
-
-                    <td class="uncovered" >
-                        <pre>            static::getTable() =&gt; [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1683" class="number ">1683</th>
-
-                    <td class="" >
-                        <pre>               &#039;FKEY&#039; =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1684" class="number uncovered">1684</th>
-
-                    <td class="uncovered" >
-                        <pre>                  static::getTable()   =&gt; &#039;items_id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1685" class="number uncovered">1685</th>
-
-                    <td class="uncovered" >
-                        <pre>                  $item-&gt;getTable()    =&gt; &#039;id&#039;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1686" class="number ">1686</th>
-
-                    <td class="" >
-                        <pre>               ]
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1687" class="number ">1687</th>
-
-                    <td class="" >
-                        <pre>            ]
-</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -13197,22 +13195,21 @@ layout: coverage
                     <th id="L1689" class="number uncovered">1689</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;ORDER&#039;     =&gt; $item-&gt;getTable() . &#039;.&#039; . $order_col</pre>
+                        <pre>         &#039;FROM&#039;   =&gt; $item-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1690" class="number ">1690</th>
+                    <th id="L1690" class="number uncovered">1690</th>
 
-                    <td class="" >
-                        <pre>      ];
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;WHERE&#039;  =&gt; $where,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1691" class="number ">1691</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         &#039;LEFT JOIN&#039; =&gt; [
 </pre>
                     </td>
                 </tr>
@@ -13220,107 +13217,41 @@ layout: coverage
                     <th id="L1692" class="number uncovered">1692</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($DB-&gt;fieldExists(static::getTable(), &#039;itemtype&#039;)) {</pre>
+                        <pre>            static::getTable() =&gt; [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1693" class="number uncovered">1693</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;WHERE&#039;][static::getTable() . &#039;.itemtype&#039;] = $itemtype;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1694" class="number ">1694</th>
+                    <th id="L1693" class="number ">1693</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>               &#039;FKEY&#039; =&gt; [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1695" class="number ">1695</th>
+                    <th id="L1694" class="number uncovered">1694</th>
+
+                    <td class="uncovered" >
+                        <pre>                  static::getTable()   =&gt; &#039;items_id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1695" class="number uncovered">1695</th>
+
+                    <td class="uncovered" >
+                        <pre>                  $item-&gt;getTable()    =&gt; &#039;id&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1696" class="number ">1696</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>               ]
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1696" class="number uncovered">1696</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($item-&gt;maybeTemplate()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1697" class="number uncovered">1697</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;WHERE&#039;][$item-&gt;getTable() . &#039;.is_template&#039;] = 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1698" class="number ">1698</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1699" class="number ">1699</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1700" class="number uncovered">1700</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($noent === false &amp;&amp; $item-&gt;isEntityAssign() &amp;&amp; $itemtype != Entity::getType()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1701" class="number uncovered">1701</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;SELECT&#039;][] = &#039;glpi_entities.id AS entity&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1702" class="number uncovered">1702</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;LEFT JOIN&#039;][&#039;glpi_entities&#039;] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1703" class="number ">1703</th>
-
-                    <td class="" >
-                        <pre>            &#039;FKEY&#039;   =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1704" class="number uncovered">1704</th>
-
-                    <td class="uncovered" >
-                        <pre>               $item-&gt;getTable() =&gt; &#039;entities_id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1705" class="number uncovered">1705</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;glpi_entities&#039;   =&gt; &#039;id&#039;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1706" class="number ">1706</th>
+                    <th id="L1697" class="number ">1697</th>
 
                     <td class="" >
                         <pre>            ]
@@ -13328,29 +13259,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1707" class="number ">1707</th>
+                    <th id="L1698" class="number ">1698</th>
 
                     <td class="" >
-                        <pre>         ];
+                        <pre>         ],
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1708" class="number uncovered">1708</th>
+                    <th id="L1699" class="number uncovered">1699</th>
 
                     <td class="uncovered" >
-                        <pre>         $params[&#039;WHERE&#039;] += getEntitiesRestrictCriteria($item-&gt;getTable(), &#039;&#039;, &#039;&#039;, true);</pre>
+                        <pre>         &#039;ORDER&#039;     =&gt; $item-&gt;getTable() . &#039;.&#039; . $order_col</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1709" class="number uncovered">1709</th>
+                    <th id="L1700" class="number ">1700</th>
 
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;ORDER&#039;] = [&#039;glpi_entities.completename&#039;, $params[&#039;ORDER&#039;]];</pre>
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1710" class="number ">1710</th>
+                    <th id="L1701" class="number ">1701</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1702" class="number uncovered">1702</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($DB-&gt;fieldExists(static::getTable(), &#039;itemtype&#039;)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1703" class="number uncovered">1703</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;WHERE&#039;][static::getTable() . &#039;.itemtype&#039;] = $itemtype;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1704" class="number ">1704</th>
 
                     <td class="" >
                         <pre>      }
@@ -13358,48 +13312,91 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1711" class="number ">1711</th>
+                    <th id="L1705" class="number ">1705</th>
 
                     <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1706" class="number uncovered">1706</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($item-&gt;maybeTemplate()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1707" class="number uncovered">1707</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;WHERE&#039;][$item-&gt;getTable() . &#039;.is_template&#039;] = 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1708" class="number ">1708</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1709" class="number ">1709</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1710" class="number uncovered">1710</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($noent === false &amp;&amp; $item-&gt;isEntityAssign() &amp;&amp; $itemtype != Entity::getType()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1711" class="number uncovered">1711</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;SELECT&#039;][] = &#039;glpi_entities.id AS entity&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1712" class="number uncovered">1712</th>
 
                     <td class="uncovered" >
-                        <pre>      return $params;</pre>
+                        <pre>         $params[&#039;LEFT JOIN&#039;][&#039;glpi_entities&#039;] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1713" class="number unreach">1713</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1714" class="number ">1714</th>
+                    <th id="L1713" class="number ">1713</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            &#039;FKEY&#039;   =&gt; [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1715" class="number ">1715</th>
+                    <th id="L1714" class="number uncovered">1714</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>               $item-&gt;getTable() =&gt; &#039;entities_id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1715" class="number uncovered">1715</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;glpi_entities&#039;   =&gt; &#039;id&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1716" class="number ">1716</th>
 
                     <td class="" >
-                        <pre>    * Get items for an itemtype
+                        <pre>            ]
 </pre>
                     </td>
                 </tr>
@@ -13407,31 +13404,29 @@ layout: coverage
                     <th id="L1717" class="number ">1717</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>         ];
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1718" class="number ">1718</th>
+                    <th id="L1718" class="number uncovered">1718</th>
 
-                    <td class="" >
-                        <pre>    * @since 9.3.1
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;WHERE&#039;] += getEntitiesRestrictCriteria($item-&gt;getTable(), &#039;&#039;, &#039;&#039;, true);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1719" class="number ">1719</th>
+                    <th id="L1719" class="number uncovered">1719</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;ORDER&#039;] = [&#039;glpi_entities.completename&#039;, $params[&#039;ORDER&#039;]];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1720" class="number ">1720</th>
 
                     <td class="" >
-                        <pre>    * @param integer $items_id Object id to restrict on
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -13439,94 +13434,26 @@ layout: coverage
                     <th id="L1721" class="number ">1721</th>
 
                     <td class="" >
-                        <pre>    * @param string  $itemtype Type for items to retrieve
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1722" class="number ">1722</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1723" class="number ">1723</th>
-
-                    <td class="" >
-                        <pre>    * @return DBMysqlIterator
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1724" class="number ">1724</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getTypeItems">
-                    <th id="L1725" class="number ">1725</th>
-
-                    <td class="" id="getTypeItems">
-                        <pre>   public static function getTypeItems($items_id, $itemtype) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1726" class="number uncovered">1726</th>
-
-                    <td class="uncovered" >
-                        <pre>      global $DB;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1727" class="number ">1727</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1728" class="number uncovered">1728</th>
+                    <th id="L1722" class="number uncovered">1722</th>
 
                     <td class="uncovered" >
-                        <pre>      $params = static::getTypeItemsQueryParams($items_id, $itemtype);</pre>
+                        <pre>      return $params;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1729" class="number uncovered">1729</th>
-
-                    <td class="uncovered" >
-                        <pre>      $iterator = $DB-&gt;request($params);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1730" class="number ">1730</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1731" class="number uncovered">1731</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $iterator;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1732" class="number unreach">1732</th>
+                    <th id="L1723" class="number unreach">1723</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1733" class="number ">1733</th>
+                    <th id="L1724" class="number ">1724</th>
 
                     <td class="" >
                         <pre>
@@ -13534,7 +13461,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1734" class="number ">1734</th>
+                    <th id="L1725" class="number ">1725</th>
 
                     <td class="" >
                         <pre>   /**
@@ -13542,31 +13469,15 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1735" class="number ">1735</th>
+                    <th id="L1726" class="number ">1726</th>
 
                     <td class="" >
-                        <pre>    * Count for item
+                        <pre>    * Get items for an itemtype
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1736" class="number ">1736</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1737" class="number ">1737</th>
-
-                    <td class="" >
-                        <pre>    * @param CommonDBTM $item CommonDBTM object
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1738" class="number ">1738</th>
+                    <th id="L1727" class="number ">1727</th>
 
                     <td class="" >
                         <pre>    *
@@ -13574,33 +13485,117 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1739" class="number ">1739</th>
+                    <th id="L1728" class="number ">1728</th>
 
                     <td class="" >
-                        <pre>    * @return integer
+                        <pre>    * @since 9.3.1
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1740" class="number ">1740</th>
+                    <th id="L1729" class="number ">1729</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1730" class="number ">1730</th>
+
+                    <td class="" >
+                        <pre>    * @param integer $items_id Object id to restrict on
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1731" class="number ">1731</th>
+
+                    <td class="" >
+                        <pre>    * @param string  $itemtype Type for items to retrieve
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1732" class="number ">1732</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1733" class="number ">1733</th>
+
+                    <td class="" >
+                        <pre>    * @return DBMysqlIterator
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1734" class="number ">1734</th>
 
                     <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="countForItem">
-                    <th id="L1741" class="number ">1741</th>
+                            <tr class="line" id="getTypeItems">
+                    <th id="L1735" class="number ">1735</th>
 
-                    <td class="" id="countForItem">
-                        <pre>   static function countForItem(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="getTypeItems">
+                        <pre>   public static function getTypeItems($items_id, $itemtype) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1742" class="number uncovered">1742</th>
+                    <th id="L1736" class="number uncovered">1736</th>
 
                     <td class="uncovered" >
                         <pre>      global $DB;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1737" class="number ">1737</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1738" class="number uncovered">1738</th>
+
+                    <td class="uncovered" >
+                        <pre>      $params = static::getTypeItemsQueryParams($items_id, $itemtype);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1739" class="number uncovered">1739</th>
+
+                    <td class="uncovered" >
+                        <pre>      $iterator = $DB-&gt;request($params);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1740" class="number ">1740</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1741" class="number uncovered">1741</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $iterator;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1742" class="number unreach">1742</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -13612,87 +13607,77 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1744" class="number uncovered">1744</th>
+                    <th id="L1744" class="number ">1744</th>
 
-                    <td class="uncovered" >
-                        <pre>      $inverse = $item-&gt;getType() == static::$itemtype_1;</pre>
+                    <td class="" >
+                        <pre>   /**
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1745" class="number ">1745</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * Count for item
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1746" class="number uncovered">1746</th>
+                    <th id="L1746" class="number ">1746</th>
 
-                    <td class="uncovered" >
-                        <pre>      $params = static::getListForItemParams($item, $inverse);</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1747" class="number uncovered">1747</th>
+                    <th id="L1747" class="number ">1747</th>
 
-                    <td class="uncovered" >
-                        <pre>      unset($params[&#039;SELECT&#039;]);</pre>
+                    <td class="" >
+                        <pre>    * @param CommonDBTM $item CommonDBTM object
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1748" class="number uncovered">1748</th>
+                    <th id="L1748" class="number ">1748</th>
 
-                    <td class="uncovered" >
-                        <pre>      $params[&#039;COUNT&#039;] = &#039;cpt&#039;;</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1749" class="number uncovered">1749</th>
+                    <th id="L1749" class="number ">1749</th>
 
-                    <td class="uncovered" >
-                        <pre>      $iterator = $DB-&gt;request($params);</pre>
+                    <td class="" >
+                        <pre>    * @return integer
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1750" class="number ">1750</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L1751" class="number uncovered">1751</th>
+                            <tr class="line" id="countForItem">
+                    <th id="L1751" class="number ">1751</th>
 
-                    <td class="uncovered" >
-                        <pre>      $cpt = 0;</pre>
+                    <td class="" id="countForItem">
+                        <pre>   static function countForItem(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1752" class="number uncovered">1752</th>
 
                     <td class="uncovered" >
-                        <pre>      while ($row = $iterator-&gt;next()) {</pre>
+                        <pre>      global $DB;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1753" class="number uncovered">1753</th>
-
-                    <td class="uncovered" >
-                        <pre>         $cpt += $row[&#039;cpt&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1754" class="number ">1754</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1755" class="number ">1755</th>
+                    <th id="L1753" class="number ">1753</th>
 
                     <td class="" >
                         <pre>
@@ -13700,17 +13685,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1756" class="number uncovered">1756</th>
+                    <th id="L1754" class="number uncovered">1754</th>
 
                     <td class="uncovered" >
-                        <pre>      return $cpt;</pre>
+                        <pre>      $params = static::getListForItemParams($item);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1757" class="number unreach">1757</th>
+                    <th id="L1755" class="number uncovered">1755</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="uncovered" >
+                        <pre>      unset($params[&#039;SELECT&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1756" class="number uncovered">1756</th>
+
+                    <td class="uncovered" >
+                        <pre>      $params[&#039;COUNT&#039;] = &#039;cpt&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1757" class="number uncovered">1757</th>
+
+                    <td class="uncovered" >
+                        <pre>      $iterator = $DB-&gt;request($params);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -13722,34 +13721,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1759" class="number ">1759</th>
+                    <th id="L1759" class="number uncovered">1759</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $cpt = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1760" class="number ">1760</th>
+                    <th id="L1760" class="number uncovered">1760</th>
 
-                    <td class="" >
-                        <pre>    * Count items for main itemtype
-</pre>
+                    <td class="uncovered" >
+                        <pre>      while ($row = $iterator-&gt;next()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1761" class="number ">1761</th>
+                    <th id="L1761" class="number uncovered">1761</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $cpt += $row[&#039;cpt&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1762" class="number ">1762</th>
 
                     <td class="" >
-                        <pre>    * @param CommonDBTM $item              Item instance
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -13757,12 +13753,50 @@ layout: coverage
                     <th id="L1763" class="number ">1763</th>
 
                     <td class="" >
-                        <pre>    * @param array      $extra_types_where Extra WHERE clause on types
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1764" class="number ">1764</th>
+                    <th id="L1764" class="number uncovered">1764</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $cpt;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1765" class="number unreach">1765</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1766" class="number ">1766</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1767" class="number ">1767</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1768" class="number ">1768</th>
+
+                    <td class="" >
+                        <pre>    * Count items for main itemtype
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1769" class="number ">1769</th>
 
                     <td class="" >
                         <pre>    *
@@ -13770,7 +13804,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1765" class="number ">1765</th>
+                    <th id="L1770" class="number ">1770</th>
+
+                    <td class="" >
+                        <pre>    * @param CommonDBTM $item              Item instance
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1771" class="number ">1771</th>
+
+                    <td class="" >
+                        <pre>    * @param array      $extra_types_where Extra WHERE clause on types
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1772" class="number ">1772</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1773" class="number ">1773</th>
 
                     <td class="" >
                         <pre>    * @return integer
@@ -13778,7 +13836,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1766" class="number ">1766</th>
+                    <th id="L1774" class="number ">1774</th>
 
                     <td class="" >
                         <pre>   **/
@@ -13786,76 +13844,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="countForMainItem">
-                    <th id="L1767" class="number ">1767</th>
+                    <th id="L1775" class="number ">1775</th>
 
                     <td class="" id="countForMainItem">
                         <pre>   static function countForMainItem(CommonDBTM $item, $extra_types_where = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1768" class="number uncovered">1768</th>
+                    <th id="L1776" class="number uncovered">1776</th>
 
                     <td class="uncovered" >
                         <pre>      global $DB;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1769" class="number ">1769</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1770" class="number uncovered">1770</th>
-
-                    <td class="uncovered" >
-                        <pre>      $nb = 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1771" class="number ">1771</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1772" class="number uncovered">1772</th>
-
-                    <td class="uncovered" >
-                        <pre>      $types_iterator = static::getDistinctTypes($item-&gt;fields[&#039;id&#039;], $extra_types_where);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1773" class="number uncovered">1773</th>
-
-                    <td class="uncovered" >
-                        <pre>      while ($data = $types_iterator-&gt;next()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1774" class="number uncovered">1774</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!$itemt = getItemForItemtype($data[&#039;itemtype&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1775" class="number uncovered">1775</th>
-
-                    <td class="uncovered" >
-                        <pre>            continue;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1776" class="number ">1776</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -13870,32 +13869,11 @@ layout: coverage
                     <th id="L1778" class="number uncovered">1778</th>
 
                     <td class="uncovered" >
-                        <pre>         $params = static::getTypeItemsQueryParams($item-&gt;fields[&#039;id&#039;], $data[&#039;itemtype&#039;]);</pre>
+                        <pre>      $nb = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1779" class="number uncovered">1779</th>
-
-                    <td class="uncovered" >
-                        <pre>         unset($params[&#039;SELECT&#039;]);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1780" class="number uncovered">1780</th>
-
-                    <td class="uncovered" >
-                        <pre>         $params[&#039;COUNT&#039;] = &#039;cpt&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1781" class="number uncovered">1781</th>
-
-                    <td class="uncovered" >
-                        <pre>         $iterator = $DB-&gt;request($params);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1782" class="number ">1782</th>
+                    <th id="L1779" class="number ">1779</th>
 
                     <td class="" >
                         <pre>
@@ -13903,21 +13881,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L1780" class="number uncovered">1780</th>
+
+                    <td class="uncovered" >
+                        <pre>      $types_iterator = static::getDistinctTypes($item-&gt;fields[&#039;id&#039;], $extra_types_where);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1781" class="number uncovered">1781</th>
+
+                    <td class="uncovered" >
+                        <pre>      while ($data = $types_iterator-&gt;next()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1782" class="number uncovered">1782</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (!$itemt = getItemForItemtype($data[&#039;itemtype&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L1783" class="number uncovered">1783</th>
 
                     <td class="uncovered" >
-                        <pre>         while ($row = $iterator-&gt;next()) {</pre>
+                        <pre>            continue;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1784" class="number uncovered">1784</th>
-
-                    <td class="uncovered" >
-                        <pre>            $nb += $row[&#039;cpt&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1785" class="number ">1785</th>
+                    <th id="L1784" class="number ">1784</th>
 
                     <td class="" >
                         <pre>         }
@@ -13925,7 +13917,73 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1786" class="number ">1786</th>
+                    <th id="L1785" class="number ">1785</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1786" class="number uncovered">1786</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params = static::getTypeItemsQueryParams($item-&gt;fields[&#039;id&#039;], $data[&#039;itemtype&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1787" class="number uncovered">1787</th>
+
+                    <td class="uncovered" >
+                        <pre>         unset($params[&#039;SELECT&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1788" class="number uncovered">1788</th>
+
+                    <td class="uncovered" >
+                        <pre>         $params[&#039;COUNT&#039;] = &#039;cpt&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1789" class="number uncovered">1789</th>
+
+                    <td class="uncovered" >
+                        <pre>         $iterator = $DB-&gt;request($params);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1790" class="number ">1790</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1791" class="number uncovered">1791</th>
+
+                    <td class="uncovered" >
+                        <pre>         while ($row = $iterator-&gt;next()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1792" class="number uncovered">1792</th>
+
+                    <td class="uncovered" >
+                        <pre>            $nb += $row[&#039;cpt&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1793" class="number ">1793</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1794" class="number ">1794</th>
 
                     <td class="" >
                         <pre>      }
@@ -13933,21 +13991,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1787" class="number uncovered">1787</th>
+                    <th id="L1795" class="number uncovered">1795</th>
 
                     <td class="uncovered" >
                         <pre>      return $nb;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1788" class="number unreach">1788</th>
+                    <th id="L1796" class="number unreach">1796</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1789" class="number ">1789</th>
+                    <th id="L1797" class="number ">1797</th>
 
                     <td class="" >
                         <pre>}
