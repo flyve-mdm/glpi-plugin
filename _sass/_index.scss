@@ -4,7 +4,7 @@ $darkcyan: #189d9a;
 $darkcyan2: #158784;
 $strongcyan: #1fc9c5;
 $lightgray: #d9d9d9;
-$lightgray2: rgba(0,0,0,0.2);
+$lightgray2: rgba(0, 0, 0, 0.2);
 
 //
 // PARALLAX EFFECT
@@ -15,10 +15,10 @@ $lightgray2: rgba(0,0,0,0.2);
   background-attachment: fixed;
   background-image: url('/glpi-plugin/images/background1.png');
   background-position: center;
-  height: 100%;
-
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+
 
 }
 
@@ -27,10 +27,10 @@ $lightgray2: rgba(0,0,0,0.2);
   background-attachment: fixed;
   background-image: url('/glpi-plugin/images/background2.png');
   background-position: center;
-  height: 100%;
-
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+
 
 }
 
@@ -106,10 +106,11 @@ $lightgray2: rgba(0,0,0,0.2);
 }
 
 // RECREATES THE REVEAL FOCUS EFFECT FROM THE FLUENT DESIGN
-.navbar-local a {
+.navbar-local {
+  &a {
 
-  transition: box-shadow 1s ease-out;
-
+    transition: box-shadow 1s ease-out;
+  }
 }
 
 .navbar-local a:hover {
@@ -124,12 +125,12 @@ $lightgray2: rgba(0,0,0,0.2);
 
 #ghost-menu {
 
+  background-color: transparent;
+  border-bottom: 2px solid $darkcyan2;
   position: fixed;
   top: 0;
-  overflow: hidden;
   width: 100%;
-  border-bottom: 2px solid $darkcyan2;
-  background-color: transparent;
+  overflow: hidden;
   z-index: 10;
 
 }
@@ -137,15 +138,16 @@ $lightgray2: rgba(0,0,0,0.2);
 .ghost-menu-icons {
 
   float: right;
-  margin-left: 0px;
+  margin-left: 0;
   padding-left: 5px;
 
 }
 
-#ghost-menu .navbar-brand {
+#ghost-menu {
+  &.navbar-brand {
 
-  padding-left: 14px;
-
+    padding-left: 14px;
+  }
 }
 
 //
@@ -185,22 +187,24 @@ $lightgray2: rgba(0,0,0,0.2);
   max-width: 47%;
   overflow: hidden;
   padding-bottom: 12px;
-  text-overflow: ellipsis;
   padding-left: 12px;
+  text-overflow: ellipsis;
   white-space: nowrap;
 
 }
 
-.p-size5 span {
+.p-size5 {
+  &span {
 
-  vertical-align: top;
-
+    vertical-align: top;
+ }
 }
 
-.p-size5:hover {
+.p-size5 {
+  &:hover {
 
-  overflow: visible;
-
+    overflow: visible;
+ }
 }
 
 .p-size6 {
@@ -210,10 +214,11 @@ $lightgray2: rgba(0,0,0,0.2);
 
 }
 
-.p-size6 li {
+.p-size6 {
+  &li {
 
-  max-width: 72%;
-
+    max-width: 72%;
+}
 }
 
 
@@ -225,7 +230,11 @@ $lightgray2: rgba(0,0,0,0.2);
   .p-size2 {max-width: 100%};
   .p-size3 {max-width: 100%};
   .p-size4 {max-width: 100%};
-  .p-size5 {max-width: 100%; overflow: auto; white-space: normal; word-break: break-all};
+  .p-size5 {max-width: 100%;
+    overflow: auto;
+    white-space: normal;
+    word-break: break-all;
+  };
   // .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
   .p-size6 {max-width: 100%};
   .p-size6 li {max-width: 100%};
@@ -239,7 +248,10 @@ $lightgray2: rgba(0,0,0,0.2);
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
-  .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
+  .p-size5 {max-width: 70%;
+    white-space: normal;
+    word-break: break-all;
+  };
   // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {max-width: 63%};
   .p-size6 li {max-width: 75%};
@@ -254,7 +266,10 @@ $lightgray2: rgba(0,0,0,0.2);
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
-  .p-size5 {max-width: 70%; white-space: normal; word-break: break-all};
+  .p-size5 {max-width: 70%;
+    white-space: normal;
+    word-break: break-all;
+  };
   // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {max-width: 63%};
   .p-size6 li {max-width: 75%};
@@ -269,9 +284,9 @@ $lightgray2: rgba(0,0,0,0.2);
 // CREATES SHADOW EFFECT TO ADD MORE DEPTH
 .boxshadow {
 
-  -moz-box-shadow:0 0 5px $gray;
+  -moz-box-shadow: 0 0 5px $gray;
+  -webkit-box-shadow: 0 0 5px $gray;
   box-shadow: 0 0 5px $gray;
-  -webkit-box-shadow:0 0 5px $gray;
   background-color: $lightgray2;
 
 }
@@ -285,8 +300,8 @@ Blockquote {
 
 Blockquote.type-p2 {
 
-  padding: 4px 0 4px 21px;
   margin: 24px 0 0;
+  padding: 4px 0 4px 21px;
 
 }
 
@@ -300,10 +315,10 @@ Blockquote.type-p2 {
 // INCREASES THE SIZE OF THE ICONS ON HOVER
 .img-pop:hover {
 
+  -moz-box-shadow: 0 0 5px $gray;
+  -webkit-box-shadow: 0 0 5px $gray;
   transform: scale(1.1);
-  box-shadow: 0px 0px 5px $gray;
-  -moz-box-shadow:0 0 5px $gray;
-  -webkit-box-shadow:0 0 5px $gray;
+  box-shadow: 0 0 5px $gray;
 
 }
 
@@ -329,10 +344,12 @@ Blockquote.type-p2 {
 @media (max-width: 600px) {
 
   .post-content p {max-width: 100%};
+
   .post-content .highlighter-rouge pre code {max-width: 100%;
-    white-space: normal;
     overflow: auto;
-    word-break: break-all};
+    white-space: normal;
+    word-break: break-all;
+  };
 
 }
 
@@ -340,10 +357,12 @@ Blockquote.type-p2 {
 @media (min-width: 600px) {
 
   .post-content p {max-width: 100%};
+
   .post-content .highlighter-rouge pre code {max-width: 100%;
-    white-space: normal;
     overflow: auto;
-    word-break: break-all};
+    white-space: normal;
+    word-break: break-all;
+  };
 
 }
 
@@ -351,21 +370,27 @@ Blockquote.type-p2 {
 @media (min-width: 768px) {
 
   .post-content p {max-width: 100%};
+
   .post-content .highlighter-rouge pre code {max-width: 70%;
     white-space: normal;
-    word-break: break-all};
+    word-break: break-all;
+  };
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
 
   .post-content .highlighter-rouge pre code {max-width: 54%;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  };
+
   .post-content .highlighter-rouge pre code:hover {max-width: 95%;
+    overflow: visible;
     white-space: normal;
-    overflow: visible};
+    };
+
   .post-content p {max-width: 58%};
 
 }
@@ -374,12 +399,16 @@ Blockquote.type-p2 {
 @media (min-width: 1200px) {
 
   .post-content .highlighter-rouge pre code {max-width: 48%;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  };
+
   .post-content .highlighter-rouge pre code:hover {max-width: 95%;
+    overflow: visible;
     white-space: normal;
-    overflow: visible};
+    };
+
   .post-content p {max-width: 58%};
 
 }
@@ -392,9 +421,11 @@ Blockquote.type-p2 {
 @media (max-width: 600px) {
 
   #p-size6 .highlighter-rouge pre code {max-width: 100%;
-    white-space: normal;
     overflow: auto;
-    word-break: break-all};
+    white-space: normal;
+    word-break: break-all;
+  };
+
   #p-size6 p {max-width: 100%};
   #p-size6 li {max-width: 100%};
 
@@ -404,9 +435,11 @@ Blockquote.type-p2 {
 @media (min-width: 600px) {
 
   #p-size6 .highlighter-rouge pre code {max-width: 100%;
-    white-space: normal;
     overflow: auto;
-    word-break: break-all};
+    white-space: normal;
+    word-break: break-all;
+  };
+
   #p-size6 p {max-width: 100%};
   #p-size6 li {max-width: 100%};
 
@@ -417,7 +450,9 @@ Blockquote.type-p2 {
 
   #p-size6 .highlighter-rouge pre code {max-width: 68%;
     white-space: normal;
-    word-break: break-all};
+    word-break: break-all;
+  };
+
   #p-size6 p {max-width: 70%};
   #p-size6 h1 {max-width: 70%};
   #p-size6 h2 {max-width: 70%};
@@ -430,12 +465,16 @@ Blockquote.type-p2 {
 @media (min-width: 992px) {
 
   #p-size6 .highlighter-rouge pre code {max-width: 36%;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  };
+
   #p-size6 .highlighter-rouge pre code:hover {max-width: 95%;
+    overflow: visible;
     white-space: normal;
-    overflow: visible};
+    };
+
   #p-size6 p {max-width: 43%};
   #p-size6 li {max-width: 46%};
 
@@ -445,12 +484,16 @@ Blockquote.type-p2 {
 @media (min-width: 1200px) {
 
   #p-size6 .highlighter-rouge pre code {max-width: 36%;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  };
+
   #p-size6 .highlighter-rouge pre code:hover {max-width: 95%;
+    overflow: visible;
     white-space: normal;
-    overflow: visible};
+    };
+
   #p-size6 p {max-width: 33%};
 
 }
@@ -460,33 +503,37 @@ Blockquote.type-p2 {
 // PROJECTS FILE (projects.html)
 //
 
-.product p {
+.product {
+  &p {
 
   max-width: 44%;
-
+ }
 }
 
 // SMALL SCREEN: Smart phones
 @media (max-width: 414px) {
 
-  .product p {max-width: 100%};
-
+  .product {
+    &p {max-width: 100%};
+ }
 }
 
 // MEDIUM SCREEN: Tablets, iPad
 @media (min-width: 414px) and (max-width: 768px) {
 
 
-  .product p {max-width: 60%};
-
+  .product {
+    &p {max-width: 60%};
+ }
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 768px) and (max-width: 1024px) {
 
 
-  .product p {max-width: 42%};
-
+  .product {
+    &p {max-width: 42%};
+ }
 }
 
 
