@@ -3,7 +3,7 @@
 //Hides the ghost menu when the page loads
 $(document).ready(function(){
 
-    $('#ghost-menu').hide();
+    $('.ghost-menu').hide();
 
 });
 
@@ -17,12 +17,12 @@ $(window).scroll(function(){
     if (scrolled && !apparition) {
 
         apparition = true;
-        $('#ghost-menu').show(50);
+        $('.ghost-menu').show(50);
 
     } else if (apparition && !scrolled){
 
         apparition = false;
-        $('#ghost-menu').hide();
+        $('.ghost-menu').hide();
 
     }
 
