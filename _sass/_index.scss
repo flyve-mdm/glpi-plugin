@@ -455,7 +455,7 @@ Blockquote.type-p2 {
 // **************
 
 // How-tos and Code documentations
-.goHome {
+.gohome {
   &.container {
     padding: 4% 0 0 1%;
   }
@@ -903,7 +903,7 @@ ul {
       .p-size3 { max-width: 50%; };
     }
 
-    /*EXTRA LARGE SCREEN: Desktop*/
+    //EXTRA LARGE SCREEN: Desktop
     @media (min-width: 1024px) {
       .p-size3 { max-width: 35%; };
     }
