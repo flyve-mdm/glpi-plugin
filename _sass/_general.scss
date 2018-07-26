@@ -85,66 +85,87 @@ body {
 // EXTRA SMALL SCREEN: Smart phones
 @media (max-width: 600px) {
 
-  #p-size6  pre {max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all;
+  #p-size6 {
+    &pre {
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
              };
-
+ }
 }
 
 // SMALL SCREEN: Large Smart phones
 @media (min-width: 600px) {
 
-  #p-size6  pre {max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all
+  #p-size6 {
+    &pre {
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
              };
-
+ }
 }
 
 // MEDIUM SCREEN: Tablets, iPad
 @media (min-width: 768px) {
 
-  #p-size6  pre {max-width: 68%;
-    white-space: normal;
-    word-break: break-all
+  #p-size6 {
+    &pre {
+      max-width: 68%;
+      white-space: normal;
+      word-break: break-all;
              };
-
+ }
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
 
-  #p-size6  pre {max-width: 46%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-break: break-all;
+  #p-size6 {
+    &pre {
+      max-width: 46%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
              };
-  #p-size6  pre {
-    &:hover {max-width: 95%;
-      white-space: normal;
+           }
+
+  #p-size6 {
+    &pre {
+      
+      &:hover {
+        max-width: 95%;
+        white-space: normal;
                      };
           }
+        }
 }
 
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
 
-  #p-size6  pre {max-width: 44%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-break: break-all;
+  #p-size6 {
+    &pre {
+      max-width: 44%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
              };
+           }
 
-  #p-size6  pre {
-    &:hover {max-width: 95%;
-      white-space: normal;
+  #p-size6 {
+    &pre {
+
+      &:hover {
+        max-width: 95%;
+        white-space: normal;
                      };
           }
+        }
 }
 
 
