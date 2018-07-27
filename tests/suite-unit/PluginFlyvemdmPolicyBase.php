@@ -199,4 +199,38 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
 
       return $providedStatuses;
    }
+
+   /**
+    * @tags testFormGenerator
+    */
+   public function testFormGenerator() {
+      list($policy) = $this->createNewPolicyInstance();
+      // add action
+      $html = $policy->formGenerator('add', [
+         'policyId'         => 1,
+         'task'             => 0,
+         'itemtype_applied' => '',
+         'items_id_applied' => 0,
+      ]);
+      $this->string($html)
+         ->notContains('<form name="policy_editor_form')
+         ->contains('input name="value" value=""');
+
+      // edit action
+      $html = $policy->formGenerator('update', [
+         'policyId'         => 1,
+         'task'             => 5,
+         'itemtype_applied' => 'fleet',
+         'items_id_applied' => 10,
+      ]);
+      $formAction = preg_quote("/plugins/flyvemdm/front/task.form.php", '/');
+      $this->string($html)
+         ->matches('#action=".+?' . $formAction . '"#')
+         ->contains('input name="value" value="N/A"')
+         ->contains('input type="hidden" name="_glpi_csrf_token"')
+         ->contains("input type='hidden' name='id' value='5'")
+         ->contains("input type='hidden' name='plugin_flyvemdm_policies_id' value='1'")
+         ->contains("input type='hidden' name='itemtype_applied' value='fleet'")
+         ->contains("input type='hidden' name='items_id_applied' value='10'");
+   }
 }
