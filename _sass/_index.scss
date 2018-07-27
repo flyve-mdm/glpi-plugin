@@ -30,22 +30,18 @@
 /***NAVIGATION MENU***/
 /*********************/
 
-#dropdown-menu2 {
+.dropdown-menu.dropdown-menu2 {
 
-  background-color: transparent;
+  background-color: transparent !important;
   overflow: hidden;
 
 }
 
-#modal-content {
+.modal-content.modal-content2 {
 
   background-color: transparent;
   overflow: hidden;
-
-  // Change Log
-  &.modal-content {
-    padding: 4% 4% 4% 8%;
-  }
+  padding: 4% 4% 4% 8%;
 
 }
 
@@ -979,13 +975,10 @@ li {
 }
 
 // container2.html
-body {
-  div {
-    &#p-size6 {
-      &.container {
-        padding: 0 0 5% 3%;
-      }
-    }
+.container {
+  &.p-size6 {
+    padding: 0 0 5% 3%;
+    margin: 0 0 2% 5%;
   }
 }
 
