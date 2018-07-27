@@ -477,7 +477,6 @@ Blockquote.type-p2 {
       &.p-size6 {
         border-bottom: dashed rgb(21, 135, 132) 1px;
         margin: 0;
-        max-width: 95%;
         padding: 0 0 6% 5%;
 
         ul {
@@ -537,6 +536,26 @@ Blockquote.type-p2 {
 
       }
 
+      // SMALL SCREEN: Smart phones
+      @media (max-width: 414px) {
+        &.p-size6 { max-width: 100%; };
+      }
+
+      // MEDIUM SCREEN: Tablets, iPad
+      @media (min-width: 414px) and (max-width: 768px) {
+        &.p-size6 { max-width: 58%; };
+      }
+
+      // LARGE SCREEN: Large Tablets, iPad Pro
+      @media (min-width: 768px) and (max-width: 1024px) {
+        &.p-size6 { max-width: 54%; };
+      }
+
+      // EXTRA LARGE SCREEN: Desktop
+      @media (min-width: 1024px) {
+        &.p-size6 { max-width: 40%; };
+      }
+
       &.p-size2 {
         border-bottom: dashed rgb(21, 135, 132) 1px;
         margin: 0;
@@ -558,6 +577,26 @@ Blockquote.type-p2 {
         }
 
       }
+
+      // SMALL SCREEN: Smart phones
+      @media (max-width: 414px) {
+        &.p-size2 { max-width: 100%; };
+      }
+
+      // MEDIUM SCREEN: Tablets, iPad
+      // @media (min-width: 414px) and (max-width: 768px) {
+      //  &.p-size2 { max-width: 58%; };
+      // }
+
+      // LARGE SCREEN: Large Tablets, iPad Pro
+      // @media (min-width: 768px) and (max-width: 1024px) {
+      //  &.p-size2 { max-width: 54%; };
+      // }
+
+      // EXTRA LARGE SCREEN: Desktop
+      // @media (min-width: 1024px) {
+      //  &.p-size2 { max-width: 40%; };
+      // }
 
     }
   }
@@ -627,7 +666,7 @@ p {
   }
 }
 
-//MEDIUM SCREEN: Tablets, iPad
+// MEDIUM SCREEN: Tablets, iPad
 @media (min-width: 414px) and (max-width: 768px) {
   p {
     &.type-p2 {
@@ -645,7 +684,7 @@ p {
   }
 }
 
-//EXTRA LARGE SCREEN: Desktop
+// EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1024px) {
   p {
     &.type-p2 {
@@ -690,7 +729,7 @@ ul {
   }
 }
 
-//EXTRA LARGE SCREEN: Desktop
+// EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1024px) {
   ul {
     &.type-p2 {
@@ -726,7 +765,7 @@ ul {
   }
 }
 
-//EXTRA LARGE SCREEN: Desktop
+// EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1024px) {
   .type-p1 {
     &.p-size2 { max-width: 65%; };
@@ -765,7 +804,7 @@ ul {
   }
 }
 
-//EXTRA LARGE SCREEN: Desktop
+// EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1024px) {
   .type-p2 {
     &.p-size { max-width: 30%; };
@@ -873,7 +912,7 @@ ul {
       }
     }
 
-    //EXTRA LARGE SCREEN: Desktop
+    // EXTRA LARGE SCREEN: Desktop
     @media (min-width: 1024px) {
       .type-p2 {
         &.p-size3 { max-width: 40%; };
@@ -899,11 +938,37 @@ ul {
       .p-size3 { max-width: 50%; };
     }
 
-    //EXTRA LARGE SCREEN: Desktop
+    // EXTRA LARGE SCREEN: Desktop
     @media (min-width: 1024px) {
       .p-size3 { max-width: 35%; };
     }
 
+  }
+
+  // container2.html
+  &.p-size6 {
+    margin: 0 0 2% 5%;
+    padding: 0 0 5% 3%;
+  }
+
+  // SMALL SCREEN: Smart phones
+  @media (max-width: 414px) {
+    &.p-size6 { max-width: 100%; };
+  }
+
+  // MEDIUM SCREEN: Tablets, iPad
+  @media (min-width: 414px) and (max-width: 768px) {
+    &.p-size6 { max-width: 50%; };
+  }
+
+  // LARGE SCREEN: Large Tablets, iPad Pro
+  @media (min-width: 768px) and (max-width: 1024px) {
+    &.p-size6 { max-width: 39%; };
+  }
+
+  // EXTRA LARGE SCREEN: Desktop
+  @media (min-width: 1024px) {
+    &.p-size6 { max-width: 22%; };
   }
 
 }
@@ -972,14 +1037,6 @@ li {
 
   }
 
-}
-
-// container2.html
-.container {
-  &.p-size6 {
-    padding: 0 0 5% 3%;
-    margin: 0 0 2% 5%;
-  }
 }
 
 // Code coverage
