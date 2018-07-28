@@ -40,6 +40,20 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $this->login('glpi', 'glpi');
    }
 
+   public function afterTestMethod($method) {
+      parent::afterTestMethod($method);
+      \Session::destroy();
+   }
+
+   /**
+    * @tags testGetTypeName
+    */
+   public function testGetTypeName() {
+      $instance = $this->newTestedInstance();
+      $this->string($instance->getTypeName(1))->isEqualTo('Task')
+         ->string($instance->getTypeName(3))->isEqualTo('Tasks');
+   }
+
    public function providerCanCreate() {
       return [
          [
@@ -213,5 +227,21 @@ class PluginFlyvemdmTask extends CommonTestCase {
          $this->array($output)->size->isEqualTo(count($expected));
          $this->array($output)->hasKeys(array_keys($expected));
       }
+   }
+
+   /**
+    * @tags testGetTabNameForItem
+    */
+   public function testGetTabNameForItem() {
+      $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
+      // Invalid itemType
+      $mockInstance->getMockController()->type = 'invalidType';
+      $instance = $this->newTestedInstance();
+      $result = $instance->getTabNameForItem($mockInstance);
+      $this->variable($result)->isNull();
+      // TODO: Correct itemType
+      /*$mockInstance->getMockController()->type = 'PluginFlyvemdmFleet';
+      $result = $instance->getTabNameForItem($mockInstance);
+      $this->variable($result)->isNull();*/
    }
 }
