@@ -774,7 +774,6 @@ Blockquote {
       &.p-size2 {
         border-bottom: dashed $strongcyan2 1px;
         margin: 0;
-        max-width: 95%;
         padding: 3% 0 5% 5%;
 
         p {
@@ -799,19 +798,19 @@ Blockquote {
       }
 
       // MEDIUM SCREEN: Tablets, iPad
-      // @media (min-width: 414px) and (max-width: 768px) {
-      //  &.p-size2 { max-width: 58%; };
-      // }
+      @media (min-width: 414px) and (max-width: 768px) {
+        &.p-size2 { max-width: 60%; };
+      }
 
       // LARGE SCREEN: Large Tablets, iPad Pro
-      // @media (min-width: 768px) and (max-width: 1024px) {
-      //  &.p-size2 { max-width: 54%; };
-      // }
+      @media (min-width: 768px) and (max-width: 1024px) {
+        &.p-size2 { max-width: 55%; };
+      }
 
       // EXTRA LARGE SCREEN: Desktop
-      // @media (min-width: 1024px) {
-      //  &.p-size2 { max-width: 40%; };
-      // }
+      @media (min-width: 1024px) {
+        &.p-size2 { max-width: 40%; };
+      }
 
     }
   }
@@ -930,7 +929,7 @@ ul {
 @media (min-width: 414px) and (max-width: 768px) {
   ul {
     &.type-p2 {
-      &.p-size2 { max-width: 100%; };
+      &.p-size2 { max-width: 65%; };
     }
   }
 }
