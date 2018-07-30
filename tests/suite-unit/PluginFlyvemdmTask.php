@@ -158,7 +158,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       ]);
       $computerId = $computer->getID();
       return [
-         'valid ' => [
+         'valid' => [
             'input' => [
                'value' => '0',
                'plugin_flyvemdm_policies_id' => $existingPolicyId,
@@ -176,6 +176,67 @@ class PluginFlyvemdmTask extends CommonTestCase {
                'items_id' => '',
             ],
          ],
+         'plugin_flyvemdm_policies_id not set' => [
+            'input' => [
+               'value' => '0',
+               'itemtype_applied' => \PluginFlyvemdmFleet::class,
+               'items_id_applied' => $fleet->getID(),
+            ],
+            'expected' => [
+               'value'   => false,
+               'message' => 'Notifiable and policy must be specified',
+            ],
+         ],
+         'itemtype_applied not set' => [
+            'input' => [
+               'value'                       => '0',
+               'plugin_flyvemdm_policies_id' => $nonExistingPolicyId,
+               'items_id_applied'            => $fleet->getID(),
+            ],
+            'expected' => [
+               'value'   => false,
+               'message' => 'Notifiable and policy must be specified',
+            ],
+         ],
+         'items_id_applied not set' => [
+            'input' => [
+               'value'                       => '0',
+               'plugin_flyvemdm_policies_id' => $nonExistingPolicyId,
+               'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+            ],
+            'expected' => [
+               'value'   => false,
+               'message' => 'Notifiable and policy must be specified',
+            ],
+         ],
+         'try on not managed fleet' => [
+            'input' => [
+               'value'                       => '0',
+               'plugin_flyvemdm_policies_id' => $existingPolicyId,
+               'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+               'items_id_applied'            => 1,
+               'itemtype'                    => '',
+               'items_id'                    => '',
+            ],
+            'expected' => [
+               'value'   => false,
+               'message' => 'Cannot apply a policy on a not managed fleet',
+            ],
+         ],
+         'invalid value' => [
+            'input' => [
+               'value'                       => 'loremIpsum',
+               'plugin_flyvemdm_policies_id' => $existingPolicyId,
+               'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+               'items_id_applied'            => $fleet->getID(),
+               'itemtype'                    => null,
+               'items_id'                    => '',
+            ],
+            'expected' => [
+               'value'   => false,
+               'message' => 'Incorrect value for this policy',
+            ],
+         ],
          'invalid policy ID' => [
             'input' => [
                'value' => '0',
@@ -185,7 +246,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
                'itemtype' => '',
                'items_id' => '',
             ],
-            'expected' => false,
+            'expected' => [
+               'value'   => false,
+               'message' => 'Policy not found',
+            ],
          ],
          'invalid fleet ID' => [
             'input' => [
@@ -196,7 +260,10 @@ class PluginFlyvemdmTask extends CommonTestCase {
                'itemtype' => '',
                'items_id' => '',
             ],
-            'expected' => false,
+            'expected' => [
+               'value'   => false,
+               'message' => 'Cannot find the notifiable object',
+            ],
          ],
          'invalid agent ID' => [
             'input' => [
@@ -207,13 +274,17 @@ class PluginFlyvemdmTask extends CommonTestCase {
                'itemtype' => '',
                'items_id' => '',
             ],
-            'expected' => false,
+            'expected' => [
+               'value'   => false,
+               'message' => 'This is not a notifiable object',
+            ],
          ],
       ];
    }
 
    /**
     * @dataProvider providerPrepareInputForAdd
+    * @tags testPrepareInputForAdd
     * @engine inline
     * @param array $input
     * @param boolean $expected
@@ -221,11 +292,13 @@ class PluginFlyvemdmTask extends CommonTestCase {
    public function testPrepareInputForAdd($input, $expected) {
       $instance = $this->newTestedInstance();
       $output = $instance->prepareInputForAdd($input);
-      if ($expected === false) {
+      if ($expected['value'] === false) {
          $this->boolean($output)->isFalse();
+         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])->isEqualTo($expected['message']);
+         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
       } else {
-         $this->array($output)->size->isEqualTo(count($expected));
-         $this->array($output)->hasKeys(array_keys($expected));
+         $this->array($output)->hasKeys(array_keys($expected))
+            ->size->isEqualTo(count($expected));
       }
    }
 
@@ -235,13 +308,31 @@ class PluginFlyvemdmTask extends CommonTestCase {
    public function testGetTabNameForItem() {
       $mockInstance = $this->newMockInstance(\PluginFlyvemdmFleet::class);
       // Invalid itemType
-      $mockInstance->getMockController()->type = 'invalidType';
       $instance = $this->newTestedInstance();
       $result = $instance->getTabNameForItem($mockInstance);
       $this->variable($result)->isNull();
-      // TODO: Correct itemType
-      /*$mockInstance->getMockController()->type = 'PluginFlyvemdmFleet';
-      $result = $instance->getTabNameForItem($mockInstance);
-      $this->variable($result)->isNull();*/
+      // Valid itemType
+      $result = $instance->getTabNameForItem(new \PluginFlyvemdmFleet);
+      $this->string($result)->isEqualTo('Tasks');
    }
+
+   /**
+    * @tags testAddNeededInfoToInput
+    */
+   public function testAddNeededInfoToInput() {
+      $instance = $this->newTestedInstance();
+      // Default add values
+      $result = $instance->addNeededInfoToInput(['_field' => 'value']);
+      $this->array($result)->hasKeys(['itemtype','items_id','value'])->values
+         ->string[0]->isEqualTo('value')
+         ->integer[2]->isEqualTo(0)
+         ->string[3]->isEqualTo('');
+      $this->variable($result['itemtype'])->isNull(); // can't be asserted using previous code
+
+      // Test no modifications
+      $input = ['_field' => 'value', 'itemtype' => 'agent', 'items_id' => 1, 'value' => 'lorem',];
+      $result = $instance->addNeededInfoToInput($input);
+      $this->array($result)->isIdenticalTo($input);
+   }
+
 }
