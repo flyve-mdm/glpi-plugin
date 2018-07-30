@@ -125,6 +125,9 @@ class PluginFlyvemdmInstaller {
 
       $this->migration->executeMigration();
 
+      if (version_compare(GLPI_VERSION, '9.3.0') >= 0) {
+         $this->migrateToInnodb();
+      }
       $this->createDirectories();
       $this->createFirstAccess();
       $this->createGuestProfileAccess();
@@ -1008,5 +1011,21 @@ Regards,
 
       $table = DisplayPreference::getTable();
       $DB->query("DELETE FROM `$table` WHERE `itemtype` LIKE 'PluginFlyvemdm%'");
+   }
+
+   /**
+    * Works only for GLPI 9.3 and upper
+    */
+   protected function migrateToInnodb() {
+      global $DB;
+
+      $result = $DB->listTables('glpi_plugin_flyvemdm_%', ['engine' => 'MyIsam']);
+      if ($result) {
+         while ($table = $result->next()) {
+            echo "Migrating {$table['TABLE_NAME']}...";
+            $DB->queryOrDie("ALTER TABLE {$table['TABLE_NAME']} ENGINE = InnoDB");
+            echo " Done.\n";
+         }
+      }
    }
 }
