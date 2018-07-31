@@ -1126,8 +1126,15 @@ ul {
       }
     }
 
+    // LARGE SCREEN: Desktop
+    @media (min-width: 1024px) and (max-width: 1200px) {
+      .type-p2 {
+        &.p-size3 { max-width: 45%; };
+      }
+    }
+
     // EXTRA LARGE SCREEN: Desktop
-    @media (min-width: 1024px) {
+    @media (min-width: 1200px) {
       .type-p2 {
         &.p-size3 { max-width: 40%; };
       }
@@ -1167,22 +1174,22 @@ ul {
 
   // SMALL SCREEN: Smart phones
   @media (max-width: 414px) {
-    &.p-size6 { max-width: 100%; };
+    &.p-size7 { max-width: 100%; };
   }
 
   // MEDIUM SCREEN: Tablets, iPad
   @media (min-width: 414px) and (max-width: 768px) {
-    &.p-size6 { max-width: 50%; };
+    &.p-size7 { max-width: 50%; };
   }
 
   // LARGE SCREEN: Large Tablets, iPad Pro
   @media (min-width: 768px) and (max-width: 1024px) {
-    &.p-size6 { max-width: 39%; };
+    &.p-size7 { max-width: 39%; };
   }
 
   // EXTRA LARGE SCREEN: Desktop
   @media (min-width: 1024px) {
-    &.p-size6 { max-width: 22%; };
+    &.p-size7 { max-width: 22%; };
   }
 
 }
