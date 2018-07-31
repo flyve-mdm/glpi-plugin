@@ -35,14 +35,35 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTask extends CommonTestCase {
 
+   /**
+    * @param $method
+    */
    public function beforeTestMethod($method) {
-      parent::beforeTestMethod($method);
-      $this->login('glpi', 'glpi');
+      switch ($method) {
+         case 'testPrepareInputForAdd':
+         case 'testPrepareInputForUpdate':
+         case 'testDisplayTabContentForItem':
+         case 'testPreprocessInput':
+         case 'testGetTabNameForItem':
+            $this->login('glpi', 'glpi');
+            break;
+      }
    }
 
+   /**
+    * @param $method
+    */
    public function afterTestMethod($method) {
-      parent::afterTestMethod($method);
-      \Session::destroy();
+      switch ($method) {
+         case 'testPrepareInputForAdd':
+         case 'testPrepareInputForUpdate':
+         case 'testDisplayTabContentForItem':
+         case 'testPreprocessInput':
+         case 'testGetTabNameForItem':
+            parent::afterTestMethod($method);
+            \Session::destroy();
+            break;
+      }
    }
 
    /**
@@ -300,6 +321,110 @@ class PluginFlyvemdmTask extends CommonTestCase {
          $this->array($output)->hasKeys(array_keys($expected))
             ->size->isEqualTo(count($expected));
       }
+   }
+
+   public function providerPrepareInputForUpdate() {
+      $existingPolicy = new \PluginFlyvemdmPolicy();
+      $existingPolicy->getFromDbBySymbol('storageEncryption');
+      $fleet = $this->createFleet([
+         'name' => $this->getUniqueString(),
+      ]);
+      $existingPolicyId = $existingPolicy->getID();
+
+      $task = new \PluginFlyvemdmTask();
+      $task->add([
+         'value' => '0',
+         'plugin_flyvemdm_policies_id' => $existingPolicyId,
+         'itemtype_applied' => \PluginFlyvemdmFleet::class,
+         'items_id_applied' => $fleet->getID(),
+         'itemtype' => '',
+         'items_id' => '',
+      ]);
+      return [
+         'valid' => [
+            'input' => [
+               'id' => $task->getID(),
+               'value' => '0',
+               'plugin_flyvemdm_policies_id' => $existingPolicyId,
+               'items_id_applied' => $fleet->getID(),
+               'itemtype' => '',
+               'items_id' => '0',
+            ],
+            'expected' => [
+               'id' => $task->getID(),
+               'value' => '0',
+               'plugin_flyvemdm_policies_id' => $existingPolicyId,
+               'items_id_applied' => $fleet->getID(),
+               'itemtype' => '',
+               'items_id' => '0',
+            ],
+         ],
+         'not notifiable item' => [
+            'input' => [
+               'id' => $task->getID(),
+               'value' => '0',
+               'plugin_flyvemdm_policies_id' => $existingPolicyId,
+               'items_id_applied' => '1',
+            ],
+            'expected' => [
+               'value' => false,
+               'message' => 'Cannot apply a policy on this flyvemdm',
+            ],
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider providerPrepareInputForUpdate
+    * @tags testPrepareInputForUpdate
+    * @engine inline
+    * @param array $input
+    * @param boolean $expected
+    */
+   public function testPrepareInputForUpdate($input, $expected) {
+      $instance = $this->newTestedInstance();
+      $instance->getFromDB($input['id']);
+      $output = $instance->prepareInputForUpdate($input);
+      if ($expected['value'] === false) {
+         $this->boolean($output)->isFalse();
+         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][1][0])->isEqualTo($expected['message']);
+         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+      } else {
+         $this->array($output)->hasKeys(array_keys($expected))
+            ->size->isEqualTo(count($expected));
+      }
+   }
+
+   /**
+    * @tags testUnpublishPolicy
+    */
+   public function testUnpublishPolicy() {
+      $instance = $this->newTestedInstance();
+      $result = $instance->unpublishPolicy(new \PluginFlyvemdmFleet);
+      $this->variable($result)->isNull();
+   }
+
+   /**
+    * @tags testDisplayTabContentForItem
+    */
+   public function testDisplayTabContentForItem() {
+      $class = $this->testedClass->getClass();
+      $result = $class::displayTabContentForItem(new \CommonGLPI());
+      $this->variable($result)->isNull();
+      ob_start();
+      $class::displayTabContentForItem(new \PluginFlyvemdmFleet());
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)->isNotEmpty();
+   }
+
+   /**
+    * @tags testPreprocessInput
+    */
+   public function testPreprocessInput() {
+      $instance = $this->newTestedInstance();
+      $result = $instance->preprocessInput(['plugin_flyvemdm_policies_id' => 6]);
+      $this->array($result)->hasKey('plugin_flyvemdm_policies_id');
    }
 
    /**
