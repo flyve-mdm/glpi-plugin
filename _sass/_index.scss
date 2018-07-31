@@ -4,8 +4,28 @@ $darkcyan: #189d9a;
 $darkcyan2: #158784;
 $strongcyan: #1fc9c5;
 $lightgray: #d9d9d9;
-$lightgray2: rgba(0, 0, 0, 0.2);
+$lightgray2: rgba(0, 0, 0, .2);
 
+
+//MIXINS
+
+@mixin box-shadow($value){
+  -moz-box-shadow: $value;
+  -webkit-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@mixin transparent(){
+  background-color: transparent;
+}
+
+@mixin filter($filter-type,$filter-amount){
+  -webkit-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+  -moz-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+  -ms-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+  -o-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+  filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+}
 //
 // PARALLAX EFFECT
 //
@@ -38,31 +58,34 @@ $lightgray2: rgba(0, 0, 0, 0.2);
 // NAVIGATION MENU
 //
 
-.dropdown-menu.dropdown-menu2 {
+.dropdown-menu {
+  &.dropdown-menu2 {
 
-  background-color: transparent !important;
-  overflow: hidden;
-
+    @include transparent;
+    //background-color: transparent !important;
+    overflow: hidden;
+ }
 }
 
-.modal-content.modal-content2 {
+.modal-content {
+  &.modal-content2 {
 
-  background-color: transparent;
-  overflow: hidden;
-  padding: 4% 4% 4% 8%;
-
+    background-color: transparent;
+    overflow: hidden;
+ }
 }
 
 // RECREATES THE ACRYLIC MATERIAL FROM THE FLUENT DESIGN
 .acrylic {
 
-  -o-filter: blur(20px);
-  -webkit-filter: blur(20px);
+  @include filter(blur, 20px);
+  //-o-filter: blur(20px);
+  //-webkit-filter: blur(20px);
   background-image: url('/glpi-plugin/images/Acrylic2(60).png');
   background-repeat: repeat;
   background-size: cover;
 
-  filter: blur(20px);
+  //filter: blur(20px);
 
   height: 100%;
   left: 0;
@@ -116,9 +139,9 @@ $lightgray2: rgba(0, 0, 0, 0.2);
 .navbar-local {
   &a:hover {
 
-  // box-sizing: border-box;
-  // border: 2px solid #1fc9c5;
-  box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
+    // box-sizing: border-box;
+    // border: 2px solid #1fc9c5;
+    box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
  }
 }
 
@@ -133,6 +156,7 @@ $lightgray2: rgba(0, 0, 0, 0.2);
   top: 0;
   width: 100%;
   z-index: 10;
+
   &.navbar-brand {
 
     padding-left: 14px;
@@ -189,10 +213,12 @@ $lightgray2: rgba(0, 0, 0, 0.2);
   padding-left: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   &span {
 
     vertical-align: top;
   }
+
   &:hover {
 
     overflow: visible;
@@ -204,6 +230,7 @@ $lightgray2: rgba(0, 0, 0, 0.2);
 .p-size6 {
 
   max-width: 58%;
+
   &li {
 
     max-width: 72%;
@@ -285,10 +312,8 @@ $lightgray2: rgba(0, 0, 0, 0.2);
 // CREATES SHADOW EFFECT TO ADD MORE DEPTH
 .boxshadow {
 
-  -moz-box-shadow: 0 0 5px $gray;
-  -webkit-box-shadow: 0 0 5px $gray;
+  @include box-shadow(0 0 5px $gray);
   background-color: $lightgray2;
-  box-shadow: 0 0 5px $gray;
 
 }
 
@@ -299,17 +324,18 @@ Blockquote {
 
 }
 
-Blockquote.type-p2 {
+Blockquote {
+  &.type-p2 {
 
-  margin: 24px 0 0;
-  padding: 4px 0 4px 21px;
-
+    margin: 24px 0 0;
+    padding: 4px 0 4px 21px;
+  }
 }
 
 // ICON'S TRANSITION
 .img-pop {
 
-  transition: all .2s ease-in-out;
+  transition: .2s ease-in-out;
 
 }
 
@@ -317,10 +343,7 @@ Blockquote.type-p2 {
 .img-pop {
   &:hover {
 
-
-    -moz-box-shadow: 0 0 5px $gray;
-    -webkit-box-shadow: 0 0 5px $gray;
-    box-shadow: 0 0 5px $gray;
+    @include box-shadow(0 0 5px $gray);
     transform: scale(1.1);
   }
 
