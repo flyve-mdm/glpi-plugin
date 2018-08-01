@@ -1046,9 +1046,7 @@ ul {
   .col-md-12 {
 
     &.col-md-push-12 {
-      &.text-center {
         padding-top: 1%;
-      }
     }
 
     &.col-md-pull-12 {
@@ -1208,10 +1206,8 @@ li {
     padding-top: 3%;
 
     a {
-      .post-link {
-        font-size: 64%;
-        font-weight: bold;
-      }
+      font-size: 64%;
+      font-weight: bold;  
     }
 
   }
@@ -1223,20 +1219,14 @@ li {
   &.type-p1 {
     padding-top: 1%;
 
-    ul {
-      li {
-        h3 {
-          padding: 0;
+    h3 {
+      padding: 0;
 
-          a {
-            &.post-link {
-              font-size: 80%;
-              font-weight: bold;
-            }
-          }
-
-        }
+      a {
+        font-size: 80%;
+        font-weight: bold;
       }
+
     }
 
   }
@@ -1246,10 +1236,8 @@ li {
     text-indent: 3%;
 
     a {
-      &.post-link {
-        font-size: 90%;
-        font-weight: bold;
-      }
+      font-size: 90%;
+      font-weight: bold;
     }
 
     p {
@@ -1265,13 +1253,9 @@ li {
   padding-top: 5%;
 
   .container-fluid {
-    .col-lg-12 {
-      .row {
-        h1 {
-          padding-bottom: 2%;
-        }
-      }
+    h1 {
+      padding-bottom: 2%;
     }
   }
-
+  
 }
