@@ -90,7 +90,7 @@ body {
 @media (max-width: 600px) {
 
   .p-size7 {
-    &pre {
+    pre {
       max-width: 100%;
       overflow: auto;
       white-space: normal;
@@ -103,7 +103,7 @@ body {
 @media (min-width: 600px) {
 
   .p-size7 {
-    &pre {
+    pre {
       max-width: 100%;
       overflow: auto;
       white-space: normal;
@@ -116,7 +116,7 @@ body {
 @media (min-width: 768px) {
 
   .p-size7 {
-    &pre {
+    pre {
       max-width: 68%;
       white-space: normal;
       word-break: break-all;
@@ -128,7 +128,7 @@ body {
 @media (min-width: 992px) {
 
   .p-size7 {
-    &pre {
+    pre {
       max-width: 46%;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -149,7 +149,8 @@ body {
 @media (min-width: 1200px) {
 
   .p-size7 {
-    &pre {
+
+    pre {
       max-width: 44%;
       overflow: hidden;
       text-overflow: ellipsis;
