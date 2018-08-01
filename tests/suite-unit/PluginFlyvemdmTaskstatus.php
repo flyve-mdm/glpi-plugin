@@ -35,46 +35,44 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmTaskstatus extends CommonTestCase {
 
-    private $dataField = [
-        'group'     => 'application',
-        'symbol'    => 'deployApp',
-        'type_data' => '',
-        'unicity'   => 0,
-     ];
-     /**
-      * @return array
-      */
-     private function createNewTaskInstance() {
-        $class = new \PluginFlyvemdmTask();
-        $task = $this->newTestedInstance($class);
-        return $task;
-     }
+   public function beforeTestMethod($method) {
+      switch ($method) {
+         case 'testPrepareInputForAdd':
+         case 'testPrepareInputForUpdate':
+            $this->login('glpi', 'glpi');
+            break;
+      }
+   }
 
-     public function beforeTestMethod($method) {
-        switch ($method) {
-            case 'testPrepareInputForUpdate':
-                parent::beforeTestMethod($method);
-                $this->setupGLPIFramework();
-                $this->login('glpi', 'glpi');
-               break;
-         }
-     }
-     public function afterTestMethod($method) {
-        switch ($method) {
-            case 'testPrepareInputForUpdate':
-                parent::afterTestMethod($method);
-                \Session::destroy();
-               break;
-         }
-     }
-
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testPrepareInputForAdd':
+         case 'testPrepareInputForUpdate':
+            parent::afterTestMethod($method);
+            \Session::destroy();
+            break;
+      }
+   }
 
    /**
-    * @return object
+    * @return array
     */
-   private function createInstance() {
-      $this->newTestedInstance();
-      return $this->testedInstance;
+   private function createFleetAndTask() {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDbBySymbol('storageEncryption');
+      $fleet = $this->createFleet([
+         'name' => $this->getUniqueString(),
+      ]);
+      $task = new \PluginFlyvemdmTask();
+      $task->add([
+         'value'                       => '0',
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+         'items_id_applied'            => $fleet->getID(),
+         'itemtype'                    => '',
+         'items_id'                    => '',
+      ]);
+      return [$policy, $task, $fleet];
    }
 
    /**
@@ -89,54 +87,89 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
     * @tags testGetTypeName
     */
    public function testGetTypeName() {
-      $instance = $this->createInstance();
+      $instance = $this->newTestedInstance();
       $this->string($instance->getTypeName())->isEqualTo('Task status');
    }
 
-   /**
-    * @tags testUpdateStatus
-    * @dataProvider filterStatusProvider
-    * @param unknown $status
-    * @param unknown $expected
-    */
-   public function testUpdateStatus($status, $expected) {
-      $instance = $this->createInstance();
-
-
-      $instance->update([
-          'id'     => $instance->getID(),
-          'status' => $status,
-      ]);
-      $this->dump($instance->getField('status'), $expected)->stop();
-      $this->string($expected)->isEqualTo($instance->getField('status'));
+   public function providerPrepareInputForAdd() {
+      list($policy, $task) = $this->createFleetAndTask();
+      $validInput = [
+         'status'                      => 'pending',
+         'plugin_flyvemdm_tasks_id'    => $task->getID(),
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+      ];
+      return [
+         'no status' => [
+            'input'    => [],
+            'expected' => false,
+         ],
+         'no plugin_flyvemdm_tasks_id' => [
+            'input'    => ['status' => 'pending'],
+            'expected' => false,
+         ],
+         'invalid plugin_flyvemdm_tasks_id' => [
+            'input'    => ['status' => 'pending', 'plugin_flyvemdm_tasks_id' => -1],
+            'expected' => false,
+         ],
+         'status null' => [
+            'input' => [
+               'status'                      => '',
+               'plugin_flyvemdm_tasks_id'    => $task->getID(),
+               'plugin_flyvemdm_policies_id' => $policy->getID(),
+            ],
+            'expected' => false,
+         ],
+         'valid' => [
+            'input' => $validInput,
+            'expected' => $validInput,
+         ],
+      ];
    }
 
    /**
-    * @tags testPrepareInputForUpdate
-    * @dataProvider inputDataProvider
-    * @param unknown $input
+    * @dataProvider providerPrepareInputForAdd
+    * @tags testPrepareInputForAdd
+    * @engine inline
+    * @param array $input
+    * @param boolean $expected
     */
-    public function testPrepareInputForUpdate($input) {
-      $instance = $this->createInstance();
-      $task = $this->createNewTaskInstance();
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->getFromDBByCrit(['symbol' => 'storageEncryption']);
-      $policyFk = \PluginFlyvemdmPolicy::getForeignKeyField();
+   public function testPrepareInputForAdd($input, $expected) {
+      $instance = $this->newTestedInstance();
+      $output = $instance->prepareInputForAdd($input);
+      if ($expected === false) {
+         $this->boolean($output)->isFalse();
+      } else {
+         $this->array($output)->hasKeys(array_keys($expected))
+            ->size->isEqualTo(count($expected));
+      }
+   }
 
-      $taskId = $task->add([
-         $policyFk          => $policy->getID(),
-         'value'            => '0',
-      ]);
-      $input[$policyFk] = $policy->getID();
-      $this->boolean($instance->prepareInputForUpdate($input))->isFalse();
-    }
+   public function providerPrepareInputForUpdate() {
+      return [
+         'no status' => [
+            'input'    => [],
+            'expected' => false,
+         ],
+      ];
+   }
 
-    public function inputDataProvider() {
-        return [
-            ['input' =>[]],
-            ['input' => [
-                'status' => 'received'
-            ]]
-        ];
-    }
+   /**
+    * @dataProvider providerPrepareInputForUpdate
+    * @tags testPrepareInputForUpdate
+    * @engine inline
+    * @param array $input
+    * @param boolean $expected
+    */
+   public function testPrepareInputForUpdate($input, $expected) {
+      // TODO: try to complete the test for more coverage
+      $instance = $this->newTestedInstance();
+      $output = $instance->prepareInputForUpdate($input);
+      if ($expected === false) {
+         $this->boolean($output)->isFalse();
+      } else {
+         $this->array($output)->hasKeys(array_keys($expected))
+            ->size->isEqualTo(count($expected));
+      }
+   }
+
 }
