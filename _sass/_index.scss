@@ -9,21 +9,15 @@ $lightgray2: rgba(0, 0, 0, .2);
 
 //MIXINS
 
-@mixin box-shadow($value){
-  -moz-box-shadow: $value;
-  -webkit-box-shadow: $value;
+@mixin box-shadow($value) {
   box-shadow: $value;
 }
 
-@mixin transparent(){
+@mixin transparent {
   background-color: transparent;
 }
 
-@mixin filter($filter-type,$filter-amount){
-  -webkit-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
-  -moz-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
-  -ms-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
-  -o-filter: unquote($filter-type+unquote('(#{$filter-amount})'));
+@mixin filter($filter-type, $filter-amount) {
   filter: unquote($filter-type+unquote('(#{$filter-amount})'));
 }
 //
@@ -78,14 +72,11 @@ $lightgray2: rgba(0, 0, 0, .2);
 // RECREATES THE ACRYLIC MATERIAL FROM THE FLUENT DESIGN
 .acrylic {
 
-  @include filter(blur, 20px);
-  //-o-filter: blur(20px);
-  //-webkit-filter: blur(20px);
   background-image: url('/glpi-plugin/images/Acrylic2(60).png');
   background-repeat: repeat;
   background-size: cover;
 
-  //filter: blur(20px);
+  filter: blur(20px);
 
   height: 100%;
   left: 0;
@@ -105,8 +96,6 @@ $lightgray2: rgba(0, 0, 0, .2);
 
 .acrylic2 {
 
-  -o-filter: blur(20px);
-  -webkit-filter: blur(20px);
   background-image: url('/glpi-plugin/images/Acrylic1b(80).png');
   background-repeat: repeat;
   background-size: cover;

@@ -135,12 +135,11 @@ body {
       white-space: nowrap;
       word-break: break-all;
 
-      &pre {
-        &:hover {
-          max-width: 95%;
-          white-space: normal;
-                       };
-            }
+      &:hover {
+        max-width: 95%;
+        white-space: normal;
+                     };
+
       };
     }
 
