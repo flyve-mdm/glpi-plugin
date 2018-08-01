@@ -53,11 +53,13 @@ $lightgray2: rgba(0, 0, 0, .2);
 //
 
 .dropdown-menu {
+
   &.dropdown-menu2 {
 
-    @include transparent;
-    //background-color: transparent !important;
-    overflow: hidden;
+
+      background-color: transparent;
+      overflow: hidden;
+
  }
 }
 
@@ -119,19 +121,18 @@ $lightgray2: rgba(0, 0, 0, .2);
 
 // RECREATES THE REVEAL FOCUS EFFECT FROM THE FLUENT DESIGN
 .navbar-local {
-  &a {
+  a {
 
     transition: box-shadow 1s ease-out;
+
+    &:hover {
+
+      // box-sizing: border-box;
+      // border: 2px solid #1fc9c5;
+      box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
+   }
+
   }
-}
-
-.navbar-local {
-  &a:hover {
-
-    // box-sizing: border-box;
-    // border: 2px solid #1fc9c5;
-    box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
- }
 }
 
 // STICKY HEADER OR GHOST MENU ON SCROLL
@@ -203,7 +204,7 @@ $lightgray2: rgba(0, 0, 0, .2);
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  &span {
+  span {
 
     vertical-align: top;
   }
@@ -220,7 +221,7 @@ $lightgray2: rgba(0, 0, 0, .2);
 
   max-width: 58%;
 
-  &li {
+  li {
 
     max-width: 72%;
   }
@@ -243,10 +244,11 @@ $lightgray2: rgba(0, 0, 0, .2);
   };
 
   // .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
-  .p-size6 {max-width: 100%};
   .p-size6 {
-    &li {max-width: 100%};
-  }
+    max-width: 100%;
+
+    li {max-width: 100%};
+  };
 
 }
 
@@ -257,6 +259,7 @@ $lightgray2: rgba(0, 0, 0, .2);
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
+
   .p-size5 {
     max-width: 70%;
     white-space: normal;
@@ -264,10 +267,12 @@ $lightgray2: rgba(0, 0, 0, .2);
   };
 
   // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
-  .p-size6 {max-width: 63%};
   .p-size6 {
-    &li {max-width: 75%};
-  }
+    max-width: 63%;
+
+    li {max-width: 75%};
+
+  };
 
 }
 
@@ -279,6 +284,7 @@ $lightgray2: rgba(0, 0, 0, .2);
   .p-size2 {max-width: 80%};
   .p-size3 {max-width: 70%};
   .p-size4 {max-width: 80%};
+
   .p-size5 {
     max-width: 70%;
     white-space: normal;
@@ -286,10 +292,11 @@ $lightgray2: rgba(0, 0, 0, .2);
   };
 
   // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
-  .p-size6 {max-width: 63%};
   .p-size6 {
-    &li {max-width: 75%};
-  }
+    max-width: 63%;
+    li {max-width: 75%};
+
+  };
 
 }
 
@@ -311,25 +318,21 @@ Blockquote {
 
   margin-bottom: 10px;
 
-}
-
-Blockquote {
   &.type-p2 {
 
     margin: 24px 0 0;
     padding: 4px 0 4px 21px;
   }
+
 }
+
 
 // ICON'S TRANSITION
 .img-pop {
 
   transition: .2s ease-in-out;
 
-}
-
 // INCREASES THE SIZE OF THE ICONS ON HOVER
-.img-pop {
   &:hover {
 
     @include box-shadow(0 0 5px $gray);
@@ -360,15 +363,17 @@ Blockquote {
 @media (max-width: 600px) {
 
   .post-content {
-    &p {max-width: 100%};
-  }
+    p {max-width: 100%};
 
-  .post-content .highlighter-rouge pre code {
-    max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all;
-  };
+    pre {
+
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
+   };
+
+  }
 
 }
 
@@ -376,14 +381,14 @@ Blockquote {
 @media (min-width: 600px) {
 
   .post-content {
-    &p {max-width: 100%};
+    p {max-width: 100%};
+    pre {
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
+   };
   }
-
-  .post-content .highlighter-rouge pre code {max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all;
-  };
 
 }
 
@@ -391,57 +396,83 @@ Blockquote {
 @media (min-width: 768px) {
 
   .post-content {
-    &p {max-width: 100%};
+    p {max-width: 100%};
+
+    pre  {
+
+      max-width: 70%;
+      white-space: normal;
+      word-break: break-all;
+
+      };
   }
 
-  .post-content .highlighter-rouge pre code {
-    max-width: 70%;
-    white-space: normal;
-    word-break: break-all;
-  };
+//  .post-content .highlighter-rouge pre code {
+//    max-width: 70%;
+//    white-space: normal;
+//    word-break: break-all;
+//  };
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
 
-  .post-content .highlighter-rouge pre code {
-    max-width: 54%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .post-content {
+    p {max-width: 85%};
+
+    pre {
+
+      max-width: 54%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        max-width: 95%;
+        overflow: visible;
+        white-space: normal;
+        };
+    }
   };
 
-  .post-content .highlighter-rouge pre code:hover {
-    max-width: 95%;
-    overflow: visible;
-    white-space: normal;
-    };
-
-  .post-content {
-    &p {max-width: 85%};
-  }
 
 }
 
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
 
-  .post-content .highlighter-rouge pre code {
+//  .post-content .highlighter-rouge pre code {
+//    max-width: 48%;
+//    overflow: hidden;
+//    text-overflow: ellipsis;
+//    white-space: nowrap;
+//  };
+
+//  .post-content .highlighter-rouge pre code:hover {
+//    max-width: 95%;
+//    overflow: visible;
+//    white-space: normal;
+//  };
+
+
+.post-content {
+  p {max-width: 58%};
+
+  pre {
+
     max-width: 48%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  };
 
-  .post-content .highlighter-rouge pre code:hover {
-    max-width: 95%;
-    overflow: visible;
-    white-space: normal;
-    };
+    &:hover {
 
-  .post-content {
-    &p {max-width: 58%};
+      max-width: 95%;
+      overflow: visible;
+      white-space: normal;
+    }
   }
+};
 
 }
 
@@ -459,13 +490,14 @@ Blockquote {
     word-break: break-all;
   };
 
-  .container.p-size7 {
-    &p {max-width: 100%};
+  .container{
+    &.p-size7 {
+
+      p {max-width: 100%};
+      li {max-width: 100%};
+    }
   }
 
-  .container.p-size7 {
-    &li {max-width: 100%};
-  }
 
 }
 
@@ -479,12 +511,12 @@ Blockquote {
     word-break: break-all;
   };
 
-  .container.p-size7 {
-    &p {max-width: 100%};
-  }
+  .container {
+    &.p-size7 {
 
-  .container.p-size7 {
-    &li {max-width: 100%};
+      p {max-width: 100%};
+      li {max-width: 100%};
+    }
   }
 
 }
@@ -498,26 +530,18 @@ Blockquote {
     word-break: break-all;
   };
 
-  .container.p-size7 {
-    &p {max-width: 70%};
+  .container {
+    &.p-size7 {
+
+      p {max-width: 70%};
+      h1 {max-width: 70%};
+      h2 {max-width: 70%};
+      h5 {max-width: 70%};
+      ul {max-width: 70%};
+
+    }
   }
-
-  //.container.p-size7 {
-  //  &h1 {max-width: 70%};
-  //}
-
-  //.container.p-size7 {
-  //  &h2 {max-width: 70%};
-  //}
-
-  //.container.p-size7 {
-  //  &h5 {max-width: 70%};
-  //}
-
-  //.container.p-size7 {
-  //  &ul {max-width: 70%};
-  //}
-
+  
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
@@ -537,12 +561,10 @@ Blockquote {
     };
 
   .container.p-size7 {
-    &p {max-width: 43%};
+    p {max-width: 43%};
+    li {max-width: 46%};
   }
 
-  .container.p-size7 {
-    &li {max-width: 46%};
-  }
 
 }
 
@@ -563,7 +585,7 @@ Blockquote {
     };
 
   .container .p-size7 {
-    &p {max-width: 33%};
+    p {max-width: 33%};
   }
 }
 
@@ -573,7 +595,7 @@ Blockquote {
 //
 
 .product {
-  &p {
+  p {
 
   max-width: 44%;
  }
@@ -583,7 +605,7 @@ Blockquote {
 @media (max-width: 414px) {
 
   .product {
-    &p {max-width: 100%};
+    p {max-width: 100%};
  }
 }
 
@@ -592,7 +614,7 @@ Blockquote {
 
 
   .product {
-    &p {max-width: 60%};
+    p {max-width: 60%};
  }
 }
 
@@ -601,7 +623,7 @@ Blockquote {
 
 
   .product {
-    &p {max-width: 42%};
+    p {max-width: 42%};
  }
 }
 
