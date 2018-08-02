@@ -333,7 +333,7 @@ Blockquote {
 
   transition: .2s ease-in-out;
 
-// INCREASES THE SIZE OF THE ICONS ON HOVER
+  // INCREASES THE SIZE OF THE ICONS ON HOVER
   &:hover {
 
     @include box-shadow(0 0 5px $gray);
@@ -366,7 +366,7 @@ Blockquote {
   .post-content {
     p {max-width: 100%};
 
-    pre {
+    code {
 
       max-width: 100%;
       overflow: auto;
@@ -384,7 +384,7 @@ Blockquote {
   .post-content {
     p {max-width: 100%};
 
-    pre {
+    code {
       max-width: 100%;
       overflow: auto;
       white-space: normal;
@@ -398,9 +398,11 @@ Blockquote {
 @media (min-width: 768px) {
 
   .post-content {
-    p {max-width: 100%};
+    p {max-width: 64%};
 
-    pre  {
+    li {max-width: 76%};
+
+    code  {
 
       max-width: 70%;
       white-space: normal;
@@ -420,9 +422,11 @@ Blockquote {
 @media (min-width: 992px) {
 
   .post-content {
-    p {max-width: 85%};
+    p {max-width: 50%};
 
-    pre {
+    li {max-width: 57%};
+
+    code {
 
       max-width: 54%;
       overflow: hidden;
@@ -459,9 +463,11 @@ Blockquote {
 
   .post-content {
 
-    p {max-width: 58%};
+    p {max-width: 37%};
 
-    pre {
+    li {max-width: 42%};
+
+    code {
 
       max-width: 48%;
       overflow: hidden;
@@ -487,7 +493,12 @@ Blockquote {
 @media (max-width: 600px) {
 
   .p-size7 {
-    pre {
+
+    p {max-width: 100%};
+
+    li {max-width: 100%};
+
+    code {
 
       max-width: 100%;
       overflow: auto;
@@ -495,14 +506,6 @@ Blockquote {
       word-break: break-all;
       }
   };
-
-  .container {
-    &.p-size7 {
-
-      p {max-width: 100%};
-      li {max-width: 100%};
-    }
-  }
 
 
 }
@@ -511,7 +514,12 @@ Blockquote {
 @media (min-width: 600px) {
 
   .p-size7 {
-    pre {
+
+    p {max-width: 100%};
+
+    li {max-width: 100%};
+
+    code {
 
       max-width: 100%;
       overflow: auto;
@@ -520,13 +528,6 @@ Blockquote {
       }
   };
 
-  .container {
-    &.p-size7 {
-
-      p {max-width: 100%};
-      li {max-width: 100%};
-    }
-  }
 
 }
 
@@ -534,7 +535,18 @@ Blockquote {
 @media (min-width: 768px) {
 
   .p-size7 {
-    pre {
+
+    p {max-width: 70%};
+
+    h1 {max-width: 70%};
+
+    h2 {max-width: 70%};
+
+    h5 {max-width: 70%};
+
+    ul {max-width: 70%};
+
+    code {
 
       max-width: 68%;
       white-space: normal;
@@ -542,17 +554,6 @@ Blockquote {
       }
   };
 
-  .container {
-    &.p-size7 {
-
-      p {max-width: 70%};
-      h1 {max-width: 70%};
-      h2 {max-width: 70%};
-      h5 {max-width: 70%};
-      ul {max-width: 70%};
-
-    }
-  }
 
 }
 
@@ -560,7 +561,17 @@ Blockquote {
 @media (min-width: 992px) {
 
   .p-size7 {
-    pre {
+
+    p {max-width: 43%};
+
+    li {
+      max-width: 46%;
+
+      li {max-width: 100%;
+      };
+    };
+
+    code {
 
       max-width: 36%;
       overflow: hidden;
@@ -574,14 +585,6 @@ Blockquote {
         };
       }
   };
-
-  .container {
-    &.p-size7 {
-
-      p {max-width: 43%};
-      li {max-width: 46%};
-      }
-  }
 
 
 }
@@ -590,7 +593,17 @@ Blockquote {
 @media (min-width: 1200px) {
 
   .p-size7 {
-    pre {
+
+    p {max-width: 33%};
+
+    li {
+      max-width: 46%;
+
+      li {max-width: 100%;
+      };
+    }
+
+    code {
 
       max-width: 36%;
       overflow: hidden;
@@ -606,13 +619,7 @@ Blockquote {
       }
   };
 
-  .container {
 
-    &.p-size7 {
-
-      p {max-width: 33%};
-      }
-    }
 }
 
 
