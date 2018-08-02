@@ -3,6 +3,7 @@ $gray: #808080;
 $darkcyan: #189d9a;
 $darkcyan2: #158784;
 $strongcyan: #1fc9c5;
+$strongcyan2: rgb(21, 135, 132);
 $lightgray: #d9d9d9;
 $lightgray2: rgba(0, 0, 0, .2);
 
@@ -56,9 +57,8 @@ $lightgray2: rgba(0, 0, 0, .2);
 
   &.dropdown-menu2 {
 
-
-      background-color: transparent;
-      overflow: hidden;
+    background-color: transparent;
+    overflow: hidden;
 
  }
 }
@@ -236,6 +236,7 @@ $lightgray2: rgba(0, 0, 0, .2);
   .p-size2 {max-width: 100%};
   .p-size3 {max-width: 100%};
   .p-size4 {max-width: 100%};
+
   .p-size5 {
     max-width: 100%;
     overflow: auto;
@@ -382,6 +383,7 @@ Blockquote {
 
   .post-content {
     p {max-width: 100%};
+
     pre {
       max-width: 100%;
       overflow: auto;
@@ -407,12 +409,12 @@ Blockquote {
       };
   }
 
-//  .post-content .highlighter-rouge pre code {
-//    max-width: 70%;
-//    white-space: normal;
-//    word-break: break-all;
-//  };
-}
+  //  .post-content .highlighter-rouge pre code {
+  //    max-width: 70%;
+  //    white-space: normal;
+  //    word-break: break-all;
+  //  };
+  }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
@@ -441,37 +443,38 @@ Blockquote {
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
 
-//  .post-content .highlighter-rouge pre code {
-//    max-width: 48%;
-//    overflow: hidden;
-//    text-overflow: ellipsis;
-//    white-space: nowrap;
-//  };
+  //  .post-content .highlighter-rouge pre code {
+  //    max-width: 48%;
+  //    overflow: hidden;
+  //    text-overflow: ellipsis;
+  //    white-space: nowrap;
+  //  };
 
-//  .post-content .highlighter-rouge pre code:hover {
-//    max-width: 95%;
-//    overflow: visible;
-//    white-space: normal;
-//  };
+  //  .post-content .highlighter-rouge pre code:hover {
+  //    max-width: 95%;
+  //    overflow: visible;
+  //    white-space: normal;
+  //  };
 
 
-.post-content {
-  p {max-width: 58%};
+  .post-content {
 
-  pre {
+    p {max-width: 58%};
 
-    max-width: 48%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    pre {
 
-    &:hover {
+      max-width: 48%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
-      max-width: 95%;
-      overflow: visible;
-      white-space: normal;
-    }
-  }
+      &:hover {
+
+        max-width: 95%;
+        overflow: visible;
+        white-space: normal;
+        }
+      }
 };
 
 }
@@ -483,14 +486,17 @@ Blockquote {
 // EXTRA SMALL SCREEN: Smart phones
 @media (max-width: 600px) {
 
-  .p-size7 .highlighter-rouge pre code {
-    max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all;
+  .p-size7 {
+    pre {
+
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
+      }
   };
 
-  .container{
+  .container {
     &.p-size7 {
 
       p {max-width: 100%};
@@ -504,11 +510,14 @@ Blockquote {
 // SMALL SCREEN: Large Smart phones
 @media (min-width: 600px) {
 
-  .p-size7 .highlighter-rouge pre code {
-    max-width: 100%;
-    overflow: auto;
-    white-space: normal;
-    word-break: break-all;
+  .p-size7 {
+    pre {
+
+      max-width: 100%;
+      overflow: auto;
+      white-space: normal;
+      word-break: break-all;
+      }
   };
 
   .container {
@@ -524,10 +533,13 @@ Blockquote {
 // MEDIUM SCREEN: Tablets, iPad
 @media (min-width: 768px) {
 
-  .p-size7 .highlighter-rouge pre code {
-    max-width: 68%;
-    white-space: normal;
-    word-break: break-all;
+  .p-size7 {
+    pre {
+
+      max-width: 68%;
+      white-space: normal;
+      word-break: break-all;
+      }
   };
 
   .container {
@@ -541,28 +553,34 @@ Blockquote {
 
     }
   }
-  
+
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
 
-  .p-size7 .highlighter-rouge pre code {
-    max-width: 36%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .p-size7 {
+    pre {
+
+      max-width: 36%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        max-width: 95%;
+        overflow: visible;
+        white-space: normal;
+        };
+      }
   };
 
-  .p-size7 .highlighter-rouge pre code:hover {
-    max-width: 95%;
-    overflow: visible;
-    white-space: normal;
-    };
+  .container {
+    &.p-size7 {
 
-  .container.p-size7 {
-    p {max-width: 43%};
-    li {max-width: 46%};
+      p {max-width: 43%};
+      li {max-width: 46%};
+      }
   }
 
 
@@ -571,22 +589,30 @@ Blockquote {
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
 
-  .p-size7 .highlighter-rouge pre code {
-    max-width: 36%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .p-size7 {
+    pre {
+
+      max-width: 36%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover {
+        max-width: 95%;
+        overflow: visible;
+        white-space: normal;
+        };
+
+      }
   };
 
-  .p-size7 .highlighter-rouge pre code:hover {
-    max-width: 95%;
-    overflow: visible;
-    white-space: normal;
-    };
+  .container {
 
-  .container .p-size7 {
-    p {max-width: 33%};
-  }
+    &.p-size7 {
+
+      p {max-width: 33%};
+      }
+    }
 }
 
 
@@ -597,8 +623,8 @@ Blockquote {
 .product {
   p {
 
-  max-width: 44%;
- }
+    max-width: 44%;
+    }
 }
 
 // SMALL SCREEN: Smart phones
@@ -640,7 +666,7 @@ Blockquote {
 }
 
 .post-header {
-  border-bottom: inset rgb(21, 135, 132) 1px;
+  border-bottom: inset $strongcyan2 1px;
   padding-left: 3%;
 }
 
@@ -657,7 +683,7 @@ Blockquote {
     &.type-p2 {
 
       &.p-size6 {
-        border-bottom: dashed rgb(21, 135, 132) 1px;
+        border-bottom: dashed $strongcyan2 1px;
         margin: 0;
         padding: 0 0 6% 5%;
 
@@ -739,7 +765,7 @@ Blockquote {
       }
 
       &.p-size2 {
-        border-bottom: dashed rgb(21, 135, 132) 1px;
+        border-bottom: dashed $strongcyan2 1px;
         margin: 0;
         max-width: 95%;
         padding: 3% 0 5% 5%;
