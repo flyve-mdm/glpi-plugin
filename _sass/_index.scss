@@ -686,129 +686,118 @@ Blockquote {
 }
 
 .post-content {
-  &.row {
-    &.type-p2 {
 
-      &.p-size6 {
-        border-bottom: dashed $strongcyan2 1px;
-        margin: 0;
-        padding: 0 0 6% 5%;
+  &.p-size6 {
+    border-bottom: dashed rgb(21, 135, 132) 1px;
+    margin: 0;
+    padding: 0 0 6% 5%;
 
-        ul {
-          li {
-            max-width: 100%;
-
-          a {
-            font-weight: bold;
-          }
-
-          ul {
-            li {
-              .language-console {
-                &.highlighter-rouge {
-                  .highlight {
-                    max-width: 90%;
-                  }
-                }
-              }
-
-              a {
-                font-weight: bold;
-              }
-
-            }
-          }
-
-        }
-      }
-
-      p {
-        a {
-          font-weight: bold;
-        }
-
-        img {
-          padding-left: 2%;
-        }
-
-      }
-
-      table {
-        max-width: 100%;
-      }
-
-      ol {
-        li {
-          max-width: 95%;
-
-          pre {
-            max-width: 100%;
-            padding: 0;
-          }
-
-        }
-      }
-
-    }
-
-    // SMALL SCREEN: Smart phones
-    @media (max-width: 414px) {
-      &.p-size6 { max-width: 100%; };
-    }
-
-    // MEDIUM SCREEN: Tablets, iPad
-    @media (min-width: 414px) and (max-width: 768px) {
-      &.p-size6 { max-width: 58%; };
-    }
-
-    // LARGE SCREEN: Large Tablets, iPad Pro
-    @media (min-width: 768px) and (max-width: 1024px) {
-      &.p-size6 { max-width: 54%; };
-    }
-
-    // EXTRA LARGE SCREEN: Desktop
-    @media (min-width: 1024px) {
-      &.p-size6 { max-width: 40%; };
-    }
-
-    &.p-size2 {
-      border-bottom: dashed rgb(21, 135, 132) 1px;
-      margin: 0;
-      padding: 3% 0 5% 5%;
+    li {
+      max-width: 100%;
 
       a {
         font-weight: bold;
       }
 
       ul {
-        a {
-          font-weight: bold;
+        li {
+          .language-console {
+            &.highlighter-rouge {
+              .highlight {
+                max-width: 90%;
+              }
+            }
+          }
+
+          a {
+            font-weight: bold;
+            }
+
         }
       }
 
     }
 
-    // SMALL SCREEN: Smart phones
-    @media (max-width: 414px) {
-      &.p-size2 { max-width: 100%; };
+    p {
+      a {
+        font-weight: bold;
+      }
+
+      img {
+        padding-left: 2%;
+      }
+
     }
 
-    // MEDIUM SCREEN: Tablets, iPad
-    @media (min-width: 414px) and (max-width: 768px) {
-      &.p-size2 { max-width: 60%; };
+    table {
+      max-width: 100%;
     }
 
-    // LARGE SCREEN: Large Tablets, iPad Pro
-    @media (min-width: 768px) and (max-width: 1024px) {
-      &.p-size2 { max-width: 55%; };
-    }
+    ol {
+      li {
+        max-width: 95%;
 
-    // EXTRA LARGE SCREEN: Desktop
-    @media (min-width: 1024px) {
-      &.p-size2 { max-width: 40%; };
+        pre {
+          max-width: 100%;
+          padding: 0;
+        }
+
+      }
     }
 
   }
+
+  // SMALL SCREEN: Smart phones
+  @media (max-width: 414px) {
+    &.p-size6 { max-width: 100%; };
+  }
+
+  // MEDIUM SCREEN: Tablets, iPad
+  @media (min-width: 414px) and (max-width: 768px) {
+    &.p-size6 { max-width: 58%; };
+  }
+
+  // LARGE SCREEN: Large Tablets, iPad Pro
+  @media (min-width: 768px) and (max-width: 1024px) {
+    &.p-size6 { max-width: 54%; };
+  }
+
+  // EXTRA LARGE SCREEN: Desktop
+  @media (min-width: 1024px) {
+    &.p-size6 { max-width: 40%; };
+  }
+
+  &.p-size2 {
+    border-bottom: dashed rgb(21, 135, 132) 1px;
+    margin: 0;
+    padding: 3% 0 5% 5%;
+
+    a {
+      font-weight: bold;
+    }
+
+  }
+
+  // SMALL SCREEN: Smart phones
+  @media (max-width: 414px) {
+    &.p-size2 { max-width: 100%; };
+  }
+
+  // MEDIUM SCREEN: Tablets, iPad
+  @media (min-width: 414px) and (max-width: 768px) {
+    &.p-size2 { max-width: 60%; };
+  }
+
+  // LARGE SCREEN: Large Tablets, iPad Pro
+  @media (min-width: 768px) and (max-width: 1024px) {
+    &.p-size2 { max-width: 55%; };
+  }
+
+  // EXTRA LARGE SCREEN: Desktop
+  @media (min-width: 1024px) {
+    &.p-size2 { max-width: 40%; };
+  }
+
 }
 
 blockquote {
@@ -1198,16 +1187,12 @@ li {
 .article-howtos {
 
   &.type-p1 {
-    padding-top: 1%;
+    padding: 1% 0 2%;
 
     h3 {
+      font-size: 140%;
+      font-weight: bold;
       padding: 0;
-
-      a {
-        font-size: 80%;
-        font-weight: bold;
-      }
-
     }
 
   }
@@ -1239,5 +1224,4 @@ li {
     }
   }
 
-}
 }
