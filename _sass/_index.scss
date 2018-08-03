@@ -695,38 +695,20 @@ Blockquote {
     li {
       max-width: 100%;
 
-      a {
-        font-weight: bold;
-      }
-
-      ul {
-        li {
-          .language-console {
-            &.highlighter-rouge {
-              .highlight {
-                max-width: 90%;
-              }
-            }
-          }
-
-          a {
-            font-weight: bold;
-            }
-
+      .language-console {
+        .highlight {
+          max-width: 90%;
         }
       }
 
     }
 
-    p {
-      a {
-        font-weight: bold;
-      }
+    a {
+      font-weight: bold;
+    }
 
-      img {
-        padding-left: 2%;
-      }
-
+    img {
+      padding-left: 2%;
     }
 
     table {
