@@ -53,6 +53,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    }
 
    protected function validationProvider() {
+      $item = $this->createDummyPackage(0);
       return [
          'Check values exist'                  => [
             'data'     => [null, null, null],
@@ -78,7 +79,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
             'data'     => [
                ['remove_on_delete' => 0],
                \PluginFlyvemdmPackage::class,
-               true,
+               $item->getID(),
             ],
             'expected' => [true],
          ],
@@ -93,10 +94,6 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
     */
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();
-      if ($data[2] === true) {
-         $item = $this->createDummyPackage(0);
-         $data[2] = $item->getID();
-      }
       $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
       $this->boolean($success)->isEqualTo($expected[0]);
       if (!$expected[0]) {

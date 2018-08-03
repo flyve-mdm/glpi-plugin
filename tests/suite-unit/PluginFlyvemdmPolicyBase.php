@@ -204,10 +204,27 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     * @tags testFormGenerator
     */
    public function testFormGenerator() {
+      $this->login('glpi', 'glpi');
+
+      $existingPolicy = new \PluginFlyvemdmPolicy();
+      $existingPolicy->getFromDbBySymbol('storageEncryption');
+      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
+      $task = new \PluginFlyvemdmTask();
+      $policyId = $existingPolicy->getID();
+      $fleetId = $fleet->getID();
+      $task->add([
+         'value' => '0',
+         'plugin_flyvemdm_policies_id' => $policyId,
+         'itemtype_applied' => \PluginFlyvemdmFleet::class,
+         'items_id_applied' => $fleetId,
+         'itemtype' => '',
+         'items_id' => '',
+      ]);
+
       list($policy) = $this->createNewPolicyInstance();
       // add action
       $html = $policy->formGenerator('add', [
-         'policyId'         => 1,
+         'policyId'         => $policyId,
          'task'             => 0,
          'itemtype_applied' => '',
          'items_id_applied' => 0,
@@ -217,20 +234,23 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          ->contains('input name="value" value=""');
 
       // edit action
+      $taskId = $task->getID();
       $html = $policy->formGenerator('update', [
-         'policyId'         => 1,
-         'task'             => 5,
+         'policyId'         => $policyId,
+         'task'             => $taskId,
          'itemtype_applied' => 'fleet',
-         'items_id_applied' => 10,
+         'items_id_applied' => $fleetId,
       ]);
       $formAction = preg_quote("/plugins/flyvemdm/front/task.form.php", '/');
       $this->string($html)
          ->matches('#action=".+?' . $formAction . '"#')
-         ->contains('input name="value" value="N/A"')
+         ->contains('input name="value" value="0"')
          ->contains('input type="hidden" name="_glpi_csrf_token"')
-         ->contains("input type='hidden' name='id' value='5'")
-         ->contains("input type='hidden' name='plugin_flyvemdm_policies_id' value='1'")
+         ->contains("input type='hidden' name='id' value='" . $taskId . "'")
+         ->contains("input type='hidden' name='plugin_flyvemdm_policies_id' value='" . $policyId . "'")
          ->contains("input type='hidden' name='itemtype_applied' value='fleet'")
-         ->contains("input type='hidden' name='items_id_applied' value='10'");
+         ->contains("input type='hidden' name='items_id_applied' value='" . $fleetId . "'");
+
+      \Session::destroy();
    }
 }
