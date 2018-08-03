@@ -688,19 +688,16 @@ Blockquote {
 .post-content {
 
   &.p-size6 {
-    border-bottom: dashed rgb(21, 135, 132) 1px;
+    border-bottom: dashed $strongcyan2 1px;
     margin: 0;
     padding: 0 0 6% 5%;
 
     li {
       max-width: 100%;
+    }
 
-      .language-console {
-        .highlight {
-          max-width: 90%;
-        }
-      }
-
+    .highlight {
+      max-width: 90%;
     }
 
     a {
@@ -738,7 +735,7 @@ Blockquote {
   }
 
   &.p-size2 {
-    border-bottom: dashed rgb(21, 135, 132) 1px;
+    border-bottom: dashed $strongcyan2 1px;
     margin: 0;
     padding: 3% 0 5% 5%;
 
