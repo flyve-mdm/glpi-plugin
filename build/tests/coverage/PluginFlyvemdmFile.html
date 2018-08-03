@@ -36,7 +36,7 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    10%
+                    29%
                                             <small>of 136</small>
                                     </h1>
                 <strong>Lines</strong>
@@ -81,21 +81,21 @@ layout: coverage
             <td><a href="#prepareInputForAdd">PluginFlyvemdmFile::prepareInputForAdd()</a></td>
                                         <td style="text-align: center">22</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-warning">55%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#prepareInputForUpdate">PluginFlyvemdmFile::prepareInputForUpdate()</a></td>
                                         <td style="text-align: center">21</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-warning">62%</span>
 </td>
                                             </tr>
             <tr>
             <td><a href="#getUploadedFile">PluginFlyvemdmFile::getUploadedFile()</a></td>
                                         <td style="text-align: center">22</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-danger">27%</span>
 </td>
                                             </tr>
             <tr>
@@ -109,7 +109,7 @@ layout: coverage
             <td><a href="#pre_deleteItem">PluginFlyvemdmFile::pre_deleteItem()</a></td>
                                         <td style="text-align: center">4</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -130,7 +130,7 @@ layout: coverage
             <td><a href="#post_purgeItem">PluginFlyvemdmFile::post_purgeItem()</a></td>
                                         <td style="text-align: center">2</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
@@ -777,20 +777,20 @@ layout: coverage
                     <th id="L79" class="number ">79</th>
 
                     <td class="" id="prepareInputForAdd">
-                        <pre>   public function prepareInputForAdd($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   public function prepareInputForAdd($input) {<span class="label label-warning">55%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L80" class="number uncovered">80</th>
+                    <th id="L80" class="number covered">80</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      list($actualFilename, $uploadedFile) = $this-&gt;getUploadedFile(true);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L81" class="number uncovered">81</th>
+                    <th id="L81" class="number covered">81</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if ($actualFilename === null) {</pre>
                     </td>
                 </tr>
@@ -818,9 +818,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L85" class="number uncovered">85</th>
+                    <th id="L85" class="number covered">85</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if (!isset($input[&#039;entities_id&#039;])) {</pre>
                     </td>
                 </tr>
@@ -848,9 +848,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number uncovered">89</th>
+                    <th id="L89" class="number covered">89</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if (!isset($actualFilename)) {</pre>
                     </td>
                 </tr>
@@ -877,30 +877,30 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number uncovered">93</th>
+                    <th id="L93" class="number covered">93</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $input[&#039;source&#039;] = $input[&#039;entities_id&#039;] . &quot;/&quot; . uniqid() . &quot;_&quot; . basename($uploadedFile);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number uncovered">94</th>
+                    <th id="L94" class="number covered">94</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $destination = FLYVEMDM_FILE_PATH . &quot;/&quot; . $input[&#039;source&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number uncovered">95</th>
+                    <th id="L95" class="number covered">95</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $this-&gt;createEntityDirectory(dirname($destination));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number uncovered">96</th>
+                    <th id="L96" class="number covered">96</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if (!rename($uploadedFile, $destination)) {</pre>
                     </td>
                 </tr>
@@ -971,16 +971,16 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number uncovered">106</th>
+                    <th id="L106" class="number covered">106</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if (!isset($input[&#039;name&#039;]) || empty($input[&#039;name&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number uncovered">107</th>
+                    <th id="L107" class="number covered">107</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         $input[&#039;name&#039;] = $actualFilename;</pre>
                     </td>
                 </tr>
@@ -1009,9 +1009,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L111" class="number uncovered">111</th>
+                    <th id="L111" class="number covered">111</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $input[&#039;version&#039;] = &#039;1&#039;;</pre>
                     </td>
                 </tr>
@@ -1024,9 +1024,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L113" class="number uncovered">113</th>
+                    <th id="L113" class="number covered">113</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      return $input;</pre>
                     </td>
                 </tr>
@@ -1049,13 +1049,13 @@ layout: coverage
                     <th id="L116" class="number ">116</th>
 
                     <td class="" id="prepareInputForUpdate">
-                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-warning">62%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L117" class="number uncovered">117</th>
+                    <th id="L117" class="number covered">117</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      list($actualFilename, $uploadedFile) = $this-&gt;getUploadedFile(true);</pre>
                     </td>
                 </tr>
@@ -1068,9 +1068,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L119" class="number uncovered">119</th>
+                    <th id="L119" class="number covered">119</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      unset($input[&#039;entities_id&#039;]);</pre>
                     </td>
                 </tr>
@@ -1083,9 +1083,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L121" class="number uncovered">121</th>
+                    <th id="L121" class="number covered">121</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if ($actualFilename !== null) {</pre>
                     </td>
                 </tr>
@@ -1098,9 +1098,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L123" class="number uncovered">123</th>
+                    <th id="L123" class="number covered">123</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         if (!isset($actualFilename)) {</pre>
                     </td>
                 </tr>
@@ -1127,30 +1127,30 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L127" class="number uncovered">127</th>
+                    <th id="L127" class="number covered">127</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         $input[&#039;source&#039;] = $this-&gt;fields[&#039;entities_id&#039;] . &quot;/&quot; . uniqid() . &quot;_&quot; . basename($uploadedFile);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L128" class="number uncovered">128</th>
+                    <th id="L128" class="number covered">128</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         $destination = FLYVEMDM_FILE_PATH . &quot;/&quot; . $input[&#039;source&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L129" class="number uncovered">129</th>
+                    <th id="L129" class="number covered">129</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         $filename = pathinfo($actualFilename, PATHINFO_FILENAME);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L130" class="number uncovered">130</th>
+                    <th id="L130" class="number covered">130</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         if (!rename($uploadedFile, $destination)) {</pre>
                     </td>
                 </tr>
@@ -1206,23 +1206,23 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L138" class="number uncovered">138</th>
+                    <th id="L138" class="number covered">138</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         if ($filename != $this-&gt;fields[&#039;source&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L139" class="number uncovered">139</th>
+                    <th id="L139" class="number covered">139</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>            if (file_exists(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L140" class="number uncovered">140</th>
+                    <th id="L140" class="number covered">140</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>               unlink(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
@@ -1251,9 +1251,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L144" class="number uncovered">144</th>
+                    <th id="L144" class="number covered">144</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         $input[&#039;version&#039;] = $this-&gt;fields[&#039;version&#039;] + 1;</pre>
                     </td>
                 </tr>
@@ -1297,9 +1297,9 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L150" class="number uncovered">150</th>
+                    <th id="L150" class="number covered">150</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      return $input;</pre>
                     </td>
                 </tr>
@@ -1362,7 +1362,7 @@ layout: coverage
                     <th id="L158" class="number ">158</th>
 
                     <td class="" id="getUploadedFile">
-                        <pre>   private function getUploadedFile($uploadMandatory = false) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                        <pre>   private function getUploadedFile($uploadMandatory = false) {<span class="label label-danger">27%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1374,16 +1374,16 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L160" class="number uncovered">160</th>
+                    <th id="L160" class="number covered">160</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $common = new PluginFlyvemdmCommon();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L161" class="number uncovered">161</th>
+                    <th id="L161" class="number covered">161</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      if (!$common-&gt;isAPI()) {</pre>
                     </td>
                 </tr>
@@ -1396,30 +1396,30 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L163" class="number uncovered">163</th>
+                    <th id="L163" class="number covered">163</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         if (isset($_POST[&#039;_file&#039;][0]) &amp;&amp; is_string($_POST[&#039;_file&#039;][0])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L164" class="number uncovered">164</th>
+                    <th id="L164" class="number covered">164</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>            $actualFilename = $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L165" class="number uncovered">165</th>
+                    <th id="L165" class="number covered">165</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>            $uploadedFile = GLPI_TMP_DIR . &#039;/&#039; . $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L166" class="number uncovered">166</th>
+                    <th id="L166" class="number covered">166</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>            return [$actualFilename, $uploadedFile];</pre>
                     </td>
                 </tr>
@@ -1966,34 +1966,34 @@ layout: coverage
                     <th id="L240" class="number ">240</th>
 
                     <td class="" id="pre_deleteItem">
-                        <pre>   public function pre_deleteItem() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                        <pre>   public function pre_deleteItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L241" class="number covered">241</th>
+                    <th id="L241" class="number uncovered">241</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>      $task = new PluginFlyvemdmTask();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L242" class="number covered">242</th>
+                    <th id="L242" class="number uncovered">242</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>      return $task-&gt;deleteByCriteria([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L243" class="number covered">243</th>
+                    <th id="L243" class="number uncovered">243</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>         &#039;itemtype&#039; =&gt; $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L244" class="number covered">244</th>
+                    <th id="L244" class="number uncovered">244</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>         &#039;items_id&#039; =&gt; $this-&gt;getID(),</pre>
                     </td>
                 </tr>
@@ -2231,20 +2231,20 @@ layout: coverage
                     <th id="L276" class="number ">276</th>
 
                     <td class="" id="post_purgeItem">
-                        <pre>   public function post_purgeItem() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                        <pre>   public function post_purgeItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L277" class="number covered">277</th>
+                    <th id="L277" class="number uncovered">277</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>      $this-&gt;unlinkLocalFile(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L278" class="number covered">278</th>
+                    <th id="L278" class="number uncovered">278</th>
 
-                    <td class="covered" >
+                    <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
