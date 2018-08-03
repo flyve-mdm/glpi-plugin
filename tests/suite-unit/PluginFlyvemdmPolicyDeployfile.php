@@ -43,6 +43,8 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    ];
 
    protected function validationProvider() {
+      $item = $this->createDummyFile(0);
+      $itemId = $item->getID();
       return [
          'Check values exist'                         => [
             'data'     => [null, null, null],
@@ -68,7 +70,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'target/../file.txt', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               true,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -76,7 +78,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'target/./file.txt', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -84,7 +86,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'target/../', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -92,7 +94,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'target/./', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -100,7 +102,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '/../file.txt', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -108,7 +110,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '/./file.txt', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -116,7 +118,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'target//file.txt', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -124,7 +126,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '/file.ext', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -132,7 +134,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => 'file.ext', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -140,7 +142,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -148,7 +150,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '/folder/file.ext', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [false, 'invalid base path'],
          ],
@@ -156,7 +158,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '%SDCARD%/', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [true],
          ],
@@ -164,7 +166,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '%SDCARD%', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [true],
          ],
@@ -172,7 +174,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
             'data'     => [
                ['destination' => '%SDCARD%/file.ext', 'remove_on_delete' => 0],
                \PluginFlyvemdmFile::class,
-               1,
+               $itemId,
             ],
             'expected' => [true],
          ],
@@ -187,10 +189,6 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
     */
    public function testCreatePolicy($data, $expected) {
       list($policy) = $this->createNewPolicyInstance();
-      if ($data[2] === true) {
-         $item = $this->createDummyFile(0);
-         $data[2] = $item->getID();
-      }
       $success = $policy->integrityCheck($data[0], $data[1], $data[2]);
       $this->boolean($success)->isEqualTo($expected[0]);
       if (!$expected[0]) {
