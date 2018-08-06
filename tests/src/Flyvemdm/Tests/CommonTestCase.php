@@ -170,9 +170,8 @@ class CommonTestCase extends GlpiCommonTestCase {
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
-    *
     * @param array $input input data
+    * @return \PluginFlyvemdmFleet
     */
    protected function createFleet($input) {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
