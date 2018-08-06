@@ -59,27 +59,6 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    /**
-    * @return array
-    */
-   private function createFleetAndTask() {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->getFromDbBySymbol('storageEncryption');
-      $fleet = $this->createFleet([
-         'name' => $this->getUniqueString(),
-      ]);
-      $task = new \PluginFlyvemdmTask();
-      $task->add([
-         'value'                       => '0',
-         'plugin_flyvemdm_policies_id' => $policy->getID(),
-         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
-         'items_id_applied'            => $fleet->getID(),
-         'itemtype'                    => '',
-         'items_id'                    => '',
-      ]);
-      return [$policy, $task, $fleet];
-   }
-
-   /**
     * @tags testClass
     */
    public function testClass() {
@@ -96,7 +75,18 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    public function providerPrepareInputForAdd() {
-      list($policy, $task) = $this->createFleetAndTask();
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDbBySymbol('storageEncryption');
+      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
+      $task = $this->createTask([
+         'value'                       => '0',
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+         'items_id_applied'            => $fleet->getID(),
+         'itemtype'                    => '',
+         'items_id'                    => '',
+      ]);
+
       $validInput = [
          'status'                      => 'pending',
          'plugin_flyvemdm_tasks_id'    => $task->getID(),
@@ -181,8 +171,8 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
     */
    public function testUpdateStatus() {
       $instance = $this->newTestedInstance();
-      $policy = new \PluginFlyvemdmPolicy();
-      $this->variable($instance->updateStatus(new \PluginFlyvemdmPolicyBoolean($policy),''))->isNull();
+      $policy = new \PluginFlyvemdmPolicyBoolean(new \PluginFlyvemdmPolicy());
+      $this->variable($instance->updateStatus($policy, ''))->isNull();
    }
 
    public function displayTabForItemProvider() {
