@@ -39,6 +39,8 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       switch ($method) {
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
+         case 'testDisplayTabContentForItem':
+         case 'testGetTabNameForItem':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -48,6 +50,8 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       switch ($method) {
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
+         case 'testDisplayTabContentForItem':
+         case 'testGetTabNameForItem':
             parent::afterTestMethod($method);
             \Session::destroy();
             break;
@@ -172,4 +176,68 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testUpdateStatus
+    */
+   public function testUpdateStatus() {
+      $instance = $this->newTestedInstance();
+      $policy = new \PluginFlyvemdmPolicy();
+      $this->variable($instance->updateStatus(new \PluginFlyvemdmPolicyBoolean($policy),''))->isNull();
+   }
+
+   public function displayTabForItemProvider() {
+      return [
+         'no tasks for agents' => [
+            'item'     => new \PluginFlyvemdmAgent(),
+            'expected' => 'There is no task status yet',
+         ],
+         'no tasks for fleets' => [
+            'item'     => new \PluginFlyvemdmFleet(),
+            'expected' => 'There is no task status yet',
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider displayTabForItemProvider
+    * @tags testDisplayTabContentForItem
+    * @param \CommonGLPI $item
+    * @param string $expected
+    */
+   public function testDisplayTabContentForItem($item, $expected) {
+      $class = $this->testedClass->getClass();
+      ob_start();
+      $class::displayTabContentForItem($item);
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)->contains($expected);
+   }
+
+   public function tabNameForItemProvider() {
+      return [
+         'for agents' => [
+            'item'     => new \PluginFlyvemdmAgent(),
+            'expected' => 'Task status',
+         ],
+         'for fleets' => [
+            'item'     => new \PluginFlyvemdmFleet(),
+            'expected' => 'Task status',
+         ],
+         'for invalid item' => [
+            'item'     => new \PluginFlyvemdmInvitation(),
+            'expected' => '',
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider tabNameForItemProvider
+    * @tags testGetTabNameForItem
+    * @param \CommonGLPI $item
+    * @param string $expected
+    */
+   public function testGetTabNameForItem($item, $expected) {
+      $instance = $this->newTestedInstance();
+      $this->string($instance->getTabNameForItem($item))->isEqualTo($expected);
+   }
 }
