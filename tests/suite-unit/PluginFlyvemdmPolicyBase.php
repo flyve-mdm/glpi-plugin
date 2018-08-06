@@ -251,6 +251,6 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          ->contains("input type='hidden' name='itemtype_applied' value='fleet'")
          ->contains("input type='hidden' name='items_id_applied' value='" . $fleetId . "'");
 
-      \Session::destroy();
+      $this->terminateSession();
    }
 }
