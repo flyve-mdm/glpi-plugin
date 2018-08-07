@@ -127,7 +127,6 @@ $lightgray2: rgba(0, 0, 0, .2);
 
     &:hover {
 
-      // border: 2px solid #1fc9c5;
       box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
    }
 
@@ -243,7 +242,6 @@ $lightgray2: rgba(0, 0, 0, .2);
     word-break: break-all;
   };
 
-  // .post-content .highlighter-rouge pre code {max-width: 100%; white-space: normal; overflow: auto; word-break: break-all};
   .p-size6 {
     max-width: 100%;
 
@@ -266,7 +264,6 @@ $lightgray2: rgba(0, 0, 0, .2);
     word-break: break-all;
   };
 
-  // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {
     max-width: 63%;
 
@@ -291,7 +288,6 @@ $lightgray2: rgba(0, 0, 0, .2);
     word-break: break-all;
   };
 
-  // .post-content .highlighter-rouge pre code {max-width: 70%; white-space: normal; word-break: break-all};
   .p-size6 {
     max-width: 63%;
     li {max-width: 75%};
@@ -410,11 +406,7 @@ Blockquote {
       };
   }
 
-  //  .post-content .highlighter-rouge pre code {
-  //    max-width: 70%;
-  //    white-space: normal;
-  //    word-break: break-all;
-  //  };
+
   }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
@@ -445,21 +437,7 @@ Blockquote {
 
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
-
-  //  .post-content .highlighter-rouge pre code {
-  //    max-width: 48%;
-  //    overflow: hidden;
-  //    text-overflow: ellipsis;
-  //    white-space: nowrap;
-  //  };
-
-  //  .post-content .highlighter-rouge pre code:hover {
-  //    max-width: 95%;
-  //    overflow: visible;
-  //    white-space: normal;
-  //  };
-
-
+  
   .post-content {
 
     p {max-width: 37%};
