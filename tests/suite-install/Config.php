@@ -50,7 +50,8 @@ class Config extends CommonTestCase {
 
          case 'testUpgradePlugin':
             $this->olddb = new \DB();
-            $this->olddb->dbdefault = 'glpiupgradetest';
+            $this->string(getenv('OLDDBNAME'));
+            $this->olddb->dbdefault = getenv('OLDDBNAME');
             $this->olddb->connect();
             $this->boolean($this->olddb->connected)->isTrue();
             break;
