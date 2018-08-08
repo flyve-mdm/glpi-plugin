@@ -1093,7 +1093,6 @@ ul {
 
   // container2.html
 
-
   // EXTRA SMALL SCREEN: Smart phones
   @media (max-width: 600px) {
     &.p-size7 { max-width: 100%; };
@@ -1101,7 +1100,7 @@ ul {
 
   // SMALL SCREEN: Large Smart phones
   @media (min-width: 600px) {
-    &.p-size7 { max-width: 100%; };
+    &.p-size7 { max-width: 50%; };
   }
 
   // MEDIUM SCREEN: Tablets, iPad
