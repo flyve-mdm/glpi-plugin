@@ -42,11 +42,6 @@ Flyve MDM v2.0.0 runs on GLPI 9.2.1 or later. It depends on inventory features o
         <td>9.2+1.0</td>
     </tr>
     <tr>
-        <td><b>Flyve MDM Demo</b></td>
-        <td>-</td>
-        <td>1.0.0-dev</td>
-    </tr>
-    <tr>
         <td><b>Web MDM Dashboard</b></td>
         <td>-</td>
         <td>1.0.0-dev</td>
