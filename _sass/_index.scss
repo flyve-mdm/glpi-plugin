@@ -393,9 +393,9 @@ Blockquote {
 @media (min-width: 768px) {
 
   .post-content {
-    p {max-width: 64%};
+    p {max-width: 82%};
 
-    li {max-width: 76%};
+    li {max-width: 95%};
 
     code  {
 
@@ -413,9 +413,9 @@ Blockquote {
 @media (min-width: 992px) {
 
   .post-content {
-    p {max-width: 50%};
+    p {max-width: 80%};
 
-    li {max-width: 57%};
+    li {max-width: 95%};
 
     code {
 
@@ -437,12 +437,12 @@ Blockquote {
 
 // EXTRA LARGE SCREEN: Desktop
 @media (min-width: 1200px) {
-  
+
   .post-content {
 
-    p {max-width: 37%};
+    p {max-width: 59%};
 
-    li {max-width: 42%};
+    li {max-width: 68%};
 
     code {
 
@@ -513,7 +513,8 @@ Blockquote {
 
   .p-size7 {
 
-    p {max-width: 70%};
+
+    p {max-width: 67%};
 
     h1 {max-width: 70%};
 
@@ -729,17 +730,17 @@ Blockquote {
 
   // MEDIUM SCREEN: Tablets, iPad
   @media (min-width: 414px) and (max-width: 768px) {
-    &.p-size2 { max-width: 60%; };
+    &.p-size2 { max-width: 80%; };
   }
 
   // LARGE SCREEN: Large Tablets, iPad Pro
   @media (min-width: 768px) and (max-width: 1024px) {
-    &.p-size2 { max-width: 55%; };
+    &.p-size2 { max-width: 78%; };
   }
 
   // EXTRA LARGE SCREEN: Desktop
   @media (min-width: 1024px) {
-    &.p-size2 { max-width: 40%; };
+    &.p-size2 { max-width: 60%; };
   }
 
 }
@@ -1079,29 +1080,31 @@ ul {
   }
 
   // container2.html
-  &.p-size6 {
-    margin: 0 0 2% 5%;
-    padding: 0 0 5% 3%;
+
+
+  // EXTRA SMALL SCREEN: Smart phones
+  @media (max-width: 600px) {
+    &.p-size7 { max-width: 100%; };
   }
 
-  // SMALL SCREEN: Smart phones
-  @media (max-width: 414px) {
+  // SMALL SCREEN: Large Smart phones
+  @media (min-width: 600px) {
     &.p-size7 { max-width: 100%; };
   }
 
   // MEDIUM SCREEN: Tablets, iPad
-  @media (min-width: 414px) and (max-width: 768px) {
-    &.p-size7 { max-width: 50%; };
+  @media (min-width: 768px) {
+    &.p-size7 { max-width: 80%; };
   }
 
   // LARGE SCREEN: Large Tablets, iPad Pro
-  @media (min-width: 768px) and (max-width: 1024px) {
-    &.p-size7 { max-width: 39%; };
+  @media (min-width: 992px) {
+    &.p-size7 { max-width: 78%; };
   }
 
   // EXTRA LARGE SCREEN: Desktop
-  @media (min-width: 1024px) {
-    &.p-size7 { max-width: 22%; };
+  @media (min-width: 1200px) {
+    &.p-size7 { max-width: 62%; };
   }
 
 }
