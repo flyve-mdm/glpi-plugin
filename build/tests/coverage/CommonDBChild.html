@@ -3846,42 +3846,58 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L466" class="number uncovered">466</th>
+                    <th id="L466" class="number ">466</th>
 
-                    <td class="uncovered" >
-                        <pre>         $changes[0] = &#039;0&#039;;</pre>
+                    <td class="" >
+                        <pre>         $changes = [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L467" class="number uncovered">467</th>
 
                     <td class="uncovered" >
-                        <pre>         $changes[1] = &quot;&quot;;</pre>
+                        <pre>            &#039;0&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L468" class="number uncovered">468</th>
 
                     <td class="uncovered" >
-                        <pre>         $changes[2] = $this-&gt;getHistoryNameForItem($item, &#039;add&#039;);</pre>
+                        <pre>            &#039;&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L469" class="number uncovered">469</th>
 
                     <td class="uncovered" >
+                        <pre>            $this-&gt;getHistoryNameForItem($item, &#039;add&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L470" class="number ">470</th>
+
+                    <td class="" >
+                        <pre>         ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L471" class="number uncovered">471</th>
+
+                    <td class="uncovered" >
                         <pre>         Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L470" class="number uncovered">470</th>
+                    <th id="L472" class="number uncovered">472</th>
 
                     <td class="uncovered" >
                         <pre>                      static::$log_history_add);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L471" class="number ">471</th>
+                    <th id="L473" class="number ">473</th>
 
                     <td class="" >
                         <pre>      }
@@ -3889,33 +3905,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L472" class="number uncovered">472</th>
+                    <th id="L474" class="number uncovered">474</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L473" class="number ">473</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L474" class="number ">474</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L475" class="number ">475</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3923,7 +3923,7 @@ layout: coverage
                     <th id="L476" class="number ">476</th>
 
                     <td class="" >
-                        <pre>    * Actions done after the UPDATE of the item in the database
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3931,7 +3931,7 @@ layout: coverage
                     <th id="L477" class="number ">477</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -3939,7 +3939,7 @@ layout: coverage
                     <th id="L478" class="number ">478</th>
 
                     <td class="" >
-                        <pre>    * @since 0.84
+                        <pre>    * Actions done after the UPDATE of the item in the database
 </pre>
                     </td>
                 </tr>
@@ -3955,7 +3955,7 @@ layout: coverage
                     <th id="L480" class="number ">480</th>
 
                     <td class="" >
-                        <pre>    * @param $history store changes history ? (default 1)
+                        <pre>    * @since 0.84
 </pre>
                     </td>
                 </tr>
@@ -3971,7 +3971,7 @@ layout: coverage
                     <th id="L482" class="number ">482</th>
 
                     <td class="" >
-                        <pre>    * @return nothing
+                        <pre>    * @param $history store changes history ? (default 1)
 </pre>
                     </td>
                 </tr>
@@ -3979,7 +3979,7 @@ layout: coverage
                     <th id="L483" class="number ">483</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -3987,7 +3987,7 @@ layout: coverage
                     <th id="L484" class="number ">484</th>
 
                     <td class="" >
-                        <pre>   function post_updateItem($history = 1) {
+                        <pre>    * @return nothing
 </pre>
                     </td>
                 </tr>
@@ -3995,7 +3995,7 @@ layout: coverage
                     <th id="L485" class="number ">485</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
@@ -4003,7 +4003,7 @@ layout: coverage
                     <th id="L486" class="number ">486</th>
 
                     <td class="" >
-                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])
+                        <pre>   function post_updateItem($history = 1) {
 </pre>
                     </td>
                 </tr>
@@ -4011,7 +4011,7 @@ layout: coverage
                     <th id="L487" class="number ">487</th>
 
                     <td class="" >
-                        <pre>          || !static::$logs_for_parent) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4019,7 +4019,7 @@ layout: coverage
                     <th id="L488" class="number ">488</th>
 
                     <td class="" >
-                        <pre>         return;
+                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])
 </pre>
                     </td>
                 </tr>
@@ -4027,7 +4027,7 @@ layout: coverage
                     <th id="L489" class="number ">489</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>          || !static::$logs_for_parent) {
 </pre>
                     </td>
                 </tr>
@@ -4035,7 +4035,7 @@ layout: coverage
                     <th id="L490" class="number ">490</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         return;
 </pre>
                     </td>
                 </tr>
@@ -4043,7 +4043,7 @@ layout: coverage
                     <th id="L491" class="number ">491</th>
 
                     <td class="" >
-                        <pre>      $items_for_log = $this-&gt;getItemsForLog(static::$itemtype, static::$items_id);
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4059,7 +4059,7 @@ layout: coverage
                     <th id="L493" class="number ">493</th>
 
                     <td class="" >
-                        <pre>      // Whatever case : we log the changes
+                        <pre>      $items_for_log = $this-&gt;getItemsForLog(static::$itemtype, static::$items_id);
 </pre>
                     </td>
                 </tr>
@@ -4067,7 +4067,7 @@ layout: coverage
                     <th id="L494" class="number ">494</th>
 
                     <td class="" >
-                        <pre>      $oldvalues = $this-&gt;oldvalues;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4075,7 +4075,7 @@ layout: coverage
                     <th id="L495" class="number ">495</th>
 
                     <td class="" >
-                        <pre>      unset($oldvalues[static::$itemtype]);
+                        <pre>      // Whatever case : we log the changes
 </pre>
                     </td>
                 </tr>
@@ -4083,7 +4083,7 @@ layout: coverage
                     <th id="L496" class="number ">496</th>
 
                     <td class="" >
-                        <pre>      unset($oldvalues[static::$items_id]);
+                        <pre>      $oldvalues = $this-&gt;oldvalues;
 </pre>
                     </td>
                 </tr>
@@ -4091,7 +4091,7 @@ layout: coverage
                     <th id="L497" class="number ">497</th>
 
                     <td class="" >
-                        <pre>      $item      = $items_for_log[&#039;new&#039;];
+                        <pre>      unset($oldvalues[static::$itemtype]);
 </pre>
                     </td>
                 </tr>
@@ -4099,7 +4099,7 @@ layout: coverage
                     <th id="L498" class="number ">498</th>
 
                     <td class="" >
-                        <pre>      if (($item !== false)
+                        <pre>      unset($oldvalues[static::$items_id]);
 </pre>
                     </td>
                 </tr>
@@ -4107,7 +4107,7 @@ layout: coverage
                     <th id="L499" class="number ">499</th>
 
                     <td class="" >
-                        <pre>          &amp;&amp; $item-&gt;dohistory) {
+                        <pre>      $item      = $items_for_log[&#039;new&#039;];
 </pre>
                     </td>
                 </tr>
@@ -4115,7 +4115,7 @@ layout: coverage
                     <th id="L500" class="number ">500</th>
 
                     <td class="" >
-                        <pre>         foreach ($oldvalues as $field =&gt; $value) {
+                        <pre>      if (($item !== false)
 </pre>
                     </td>
                 </tr>
@@ -4123,7 +4123,7 @@ layout: coverage
                     <th id="L501" class="number ">501</th>
 
                     <td class="" >
-                        <pre>            $changes = $this-&gt;getHistoryChangeWhenUpdateField($field);
+                        <pre>          &amp;&amp; $item-&gt;dohistory) {
 </pre>
                     </td>
                 </tr>
@@ -4131,7 +4131,7 @@ layout: coverage
                     <th id="L502" class="number ">502</th>
 
                     <td class="" >
-                        <pre>            if ((!is_array($changes)) || (count($changes) != 3)) {
+                        <pre>         foreach ($oldvalues as $field =&gt; $value) {
 </pre>
                     </td>
                 </tr>
@@ -4139,7 +4139,7 @@ layout: coverage
                     <th id="L503" class="number ">503</th>
 
                     <td class="" >
-                        <pre>               continue;
+                        <pre>            $changes = $this-&gt;getHistoryChangeWhenUpdateField($field);
 </pre>
                     </td>
                 </tr>
@@ -4147,7 +4147,7 @@ layout: coverage
                     <th id="L504" class="number ">504</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>            if ((!is_array($changes)) || (count($changes) != 3)) {
 </pre>
                     </td>
                 </tr>
@@ -4155,7 +4155,7 @@ layout: coverage
                     <th id="L505" class="number ">505</th>
 
                     <td class="" >
-                        <pre>            Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),
+                        <pre>               continue;
 </pre>
                     </td>
                 </tr>
@@ -4163,7 +4163,7 @@ layout: coverage
                     <th id="L506" class="number ">506</th>
 
                     <td class="" >
-                        <pre>                         static::$log_history_update);
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4171,7 +4171,7 @@ layout: coverage
                     <th id="L507" class="number ">507</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>            Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),
 </pre>
                     </td>
                 </tr>
@@ -4179,7 +4179,7 @@ layout: coverage
                     <th id="L508" class="number ">508</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>                         static::$log_history_update);
 </pre>
                     </td>
                 </tr>
@@ -4187,7 +4187,7 @@ layout: coverage
                     <th id="L509" class="number ">509</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -4195,7 +4195,7 @@ layout: coverage
                     <th id="L510" class="number ">510</th>
 
                     <td class="" >
-                        <pre>      if (isset($items_for_log[&#039;previous&#039;])) {
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4203,7 +4203,7 @@ layout: coverage
                     <th id="L511" class="number ">511</th>
 
                     <td class="" >
-                        <pre>         // Have updated the connexity relation
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4211,7 +4211,7 @@ layout: coverage
                     <th id="L512" class="number ">512</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      if (isset($items_for_log[&#039;previous&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -4219,7 +4219,7 @@ layout: coverage
                     <th id="L513" class="number ">513</th>
 
                     <td class="" >
-                        <pre>         $prevItem = $items_for_log[&#039;previous&#039;];
+                        <pre>         // Have updated the connexity relation
 </pre>
                     </td>
                 </tr>
@@ -4227,7 +4227,7 @@ layout: coverage
                     <th id="L514" class="number ">514</th>
 
                     <td class="" >
-                        <pre>         $newItem  = $items_for_log[&#039;new&#039;];
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4235,7 +4235,7 @@ layout: coverage
                     <th id="L515" class="number ">515</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         $prevItem = $items_for_log[&#039;previous&#039;];
 </pre>
                     </td>
                 </tr>
@@ -4243,7 +4243,7 @@ layout: coverage
                     <th id="L516" class="number ">516</th>
 
                     <td class="" >
-                        <pre>         if (($prevItem !== false)
+                        <pre>         $newItem  = $items_for_log[&#039;new&#039;];
 </pre>
                     </td>
                 </tr>
@@ -4251,7 +4251,7 @@ layout: coverage
                     <th id="L517" class="number ">517</th>
 
                     <td class="" >
-                        <pre>             &amp;&amp; $prevItem-&gt;dohistory) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4259,7 +4259,7 @@ layout: coverage
                     <th id="L518" class="number ">518</th>
 
                     <td class="" >
-                        <pre>            $changes[0] = &#039;0&#039;;
+                        <pre>         if (($prevItem !== false)
 </pre>
                     </td>
                 </tr>
@@ -4267,7 +4267,7 @@ layout: coverage
                     <th id="L519" class="number ">519</th>
 
                     <td class="" >
-                        <pre>            $changes[1] = addslashes($this-&gt;getHistoryNameForItem($prevItem, &#039;update item previous&#039;));
+                        <pre>             &amp;&amp; $prevItem-&gt;dohistory) {
 </pre>
                     </td>
                 </tr>
@@ -4275,7 +4275,7 @@ layout: coverage
                     <th id="L520" class="number ">520</th>
 
                     <td class="" >
-                        <pre>            $changes[2] = &#039;&#039;;
+                        <pre>            $changes[0] = &#039;0&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4283,7 +4283,7 @@ layout: coverage
                     <th id="L521" class="number ">521</th>
 
                     <td class="" >
-                        <pre>            Log::history($prevItem-&gt;getID(), $prevItem-&gt;getType(), $changes, $this-&gt;getType(),
+                        <pre>            $changes[1] = addslashes($this-&gt;getHistoryNameForItem($prevItem, &#039;update item previous&#039;));
 </pre>
                     </td>
                 </tr>
@@ -4291,7 +4291,7 @@ layout: coverage
                     <th id="L522" class="number ">522</th>
 
                     <td class="" >
-                        <pre>                         static::$log_history_delete);
+                        <pre>            $changes[2] = &#039;&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4299,7 +4299,7 @@ layout: coverage
                     <th id="L523" class="number ">523</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>            Log::history($prevItem-&gt;getID(), $prevItem-&gt;getType(), $changes, $this-&gt;getType(),
 </pre>
                     </td>
                 </tr>
@@ -4307,7 +4307,7 @@ layout: coverage
                     <th id="L524" class="number ">524</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>                         static::$log_history_delete);
 </pre>
                     </td>
                 </tr>
@@ -4315,7 +4315,7 @@ layout: coverage
                     <th id="L525" class="number ">525</th>
 
                     <td class="" >
-                        <pre>         if (($newItem !== false)
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -4323,7 +4323,7 @@ layout: coverage
                     <th id="L526" class="number ">526</th>
 
                     <td class="" >
-                        <pre>             &amp;&amp; $newItem-&gt;dohistory) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4331,7 +4331,7 @@ layout: coverage
                     <th id="L527" class="number ">527</th>
 
                     <td class="" >
-                        <pre>            $changes[0] = &#039;0&#039;;
+                        <pre>         if (($newItem !== false)
 </pre>
                     </td>
                 </tr>
@@ -4339,7 +4339,7 @@ layout: coverage
                     <th id="L528" class="number ">528</th>
 
                     <td class="" >
-                        <pre>            $changes[1] = &#039;&#039;;
+                        <pre>             &amp;&amp; $newItem-&gt;dohistory) {
 </pre>
                     </td>
                 </tr>
@@ -4347,7 +4347,7 @@ layout: coverage
                     <th id="L529" class="number ">529</th>
 
                     <td class="" >
-                        <pre>            $changes[2] = addslashes($this-&gt;getHistoryNameForItem($newItem, &#039;update item next&#039;));
+                        <pre>            $changes[0] = &#039;0&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4355,7 +4355,7 @@ layout: coverage
                     <th id="L530" class="number ">530</th>
 
                     <td class="" >
-                        <pre>            Log::history($newItem-&gt;getID(), $newItem-&gt;getType(), $changes, $this-&gt;getType(),
+                        <pre>            $changes[1] = &#039;&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4363,7 +4363,7 @@ layout: coverage
                     <th id="L531" class="number ">531</th>
 
                     <td class="" >
-                        <pre>                         static::$log_history_add);
+                        <pre>            $changes[2] = addslashes($this-&gt;getHistoryNameForItem($newItem, &#039;update item next&#039;));
 </pre>
                     </td>
                 </tr>
@@ -4371,7 +4371,7 @@ layout: coverage
                     <th id="L532" class="number ">532</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>            Log::history($newItem-&gt;getID(), $newItem-&gt;getType(), $changes, $this-&gt;getType(),
 </pre>
                     </td>
                 </tr>
@@ -4379,7 +4379,7 @@ layout: coverage
                     <th id="L533" class="number ">533</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>                         static::$log_history_add);
 </pre>
                     </td>
                 </tr>
@@ -4387,7 +4387,7 @@ layout: coverage
                     <th id="L534" class="number ">534</th>
 
                     <td class="" >
-                        <pre>   }
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -4395,7 +4395,7 @@ layout: coverage
                     <th id="L535" class="number ">535</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4403,7 +4403,7 @@ layout: coverage
                     <th id="L536" class="number ">536</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>   }
 </pre>
                     </td>
                 </tr>
@@ -4411,7 +4411,7 @@ layout: coverage
                     <th id="L537" class="number ">537</th>
 
                     <td class="" >
-                        <pre>    * Actions done after the DELETE of the item in the database
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4419,7 +4419,7 @@ layout: coverage
                     <th id="L538" class="number ">538</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4427,7 +4427,7 @@ layout: coverage
                     <th id="L539" class="number ">539</th>
 
                     <td class="" >
-                        <pre>    *@return nothing
+                        <pre>    * Actions done after the DELETE of the item in the database
 </pre>
                     </td>
                 </tr>
@@ -4435,67 +4435,68 @@ layout: coverage
                     <th id="L540" class="number ">540</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="post_deleteFromDB">
+                            <tr class="line" id="">
                     <th id="L541" class="number ">541</th>
 
-                    <td class="" id="post_deleteFromDB">
-                        <pre>   function post_deleteFromDB() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    *@return nothing
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L542" class="number ">542</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L543" class="number uncovered">543</th>
+                            <tr class="line" id="post_deleteFromDB">
+                    <th id="L543" class="number ">543</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
+                    <td class="" id="post_deleteFromDB">
+                        <pre>   function post_deleteFromDB() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L544" class="number uncovered">544</th>
+                    <th id="L544" class="number ">544</th>
 
-                    <td class="uncovered" >
-                        <pre>          || !static::$logs_for_parent) {</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L545" class="number uncovered">545</th>
 
                     <td class="uncovered" >
+                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L546" class="number uncovered">546</th>
+
+                    <td class="uncovered" >
+                        <pre>          || !static::$logs_for_parent) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L547" class="number uncovered">547</th>
+
+                    <td class="uncovered" >
                         <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L546" class="number ">546</th>
+                    <th id="L548" class="number ">548</th>
 
                     <td class="" >
                         <pre>      }
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L547" class="number ">547</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L548" class="number uncovered">548</th>
-
-                    <td class="uncovered" >
-                        <pre>      $item = $this-&gt;getItem();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4510,25 +4511,11 @@ layout: coverage
                     <th id="L550" class="number uncovered">550</th>
 
                     <td class="uncovered" >
-                        <pre>      if (($item !== false)</pre>
+                        <pre>      $item = $this-&gt;getItem();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L551" class="number uncovered">551</th>
-
-                    <td class="uncovered" >
-                        <pre>          &amp;&amp; $item-&gt;dohistory) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L552" class="number uncovered">552</th>
-
-                    <td class="uncovered" >
-                        <pre>         $changes[0] = &#039;0&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L553" class="number ">553</th>
+                    <th id="L551" class="number ">551</th>
 
                     <td class="" >
                         <pre>
@@ -4536,31 +4523,47 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L554" class="number uncovered">554</th>
+                    <th id="L552" class="number uncovered">552</th>
 
                     <td class="uncovered" >
-                        <pre>         if (static::$log_history_delete == Log::HISTORY_LOG_SIMPLE_MESSAGE) {</pre>
+                        <pre>      if (($item !== false)</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L553" class="number uncovered">553</th>
+
+                    <td class="uncovered" >
+                        <pre>          &amp;&amp; $item-&gt;dohistory) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L554" class="number ">554</th>
+
+                    <td class="" >
+                        <pre>         $changes = [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L555" class="number uncovered">555</th>
 
                     <td class="uncovered" >
-                        <pre>            $changes[1] = &#039;&#039;;</pre>
+                        <pre>            &#039;0&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L556" class="number uncovered">556</th>
+                    <th id="L556" class="number ">556</th>
 
-                    <td class="uncovered" >
-                        <pre>            $changes[2] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;delete&#039;));</pre>
+                    <td class="" >
+                        <pre>         ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L557" class="number ">557</th>
 
                     <td class="" >
-                        <pre>         } else {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4568,18 +4571,47 @@ layout: coverage
                     <th id="L558" class="number uncovered">558</th>
 
                     <td class="uncovered" >
-                        <pre>            $changes[1] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;delete&#039;));</pre>
+                        <pre>         if (static::$log_history_delete == Log::HISTORY_LOG_SIMPLE_MESSAGE) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L559" class="number uncovered">559</th>
 
                     <td class="uncovered" >
+                        <pre>            $changes[1] = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L560" class="number uncovered">560</th>
+
+                    <td class="uncovered" >
+                        <pre>            $changes[2] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;delete&#039;));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L561" class="number ">561</th>
+
+                    <td class="" >
+                        <pre>         } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L562" class="number uncovered">562</th>
+
+                    <td class="uncovered" >
+                        <pre>            $changes[1] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;delete&#039;));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L563" class="number uncovered">563</th>
+
+                    <td class="uncovered" >
                         <pre>            $changes[2] = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L560" class="number ">560</th>
+                    <th id="L564" class="number ">564</th>
 
                     <td class="" >
                         <pre>         }
@@ -4587,21 +4619,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L561" class="number uncovered">561</th>
+                    <th id="L565" class="number uncovered">565</th>
 
                     <td class="uncovered" >
                         <pre>         Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L562" class="number uncovered">562</th>
+                    <th id="L566" class="number uncovered">566</th>
 
                     <td class="uncovered" >
                         <pre>                      static::$log_history_delete);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L563" class="number ">563</th>
+                    <th id="L567" class="number ">567</th>
 
                     <td class="" >
                         <pre>      }
@@ -4609,49 +4641,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L564" class="number uncovered">564</th>
+                    <th id="L568" class="number uncovered">568</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L565" class="number ">565</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L566" class="number ">566</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L567" class="number ">567</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L568" class="number ">568</th>
-
-                    <td class="" >
-                        <pre>    *  Actions done when item flag deleted is set to an item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L569" class="number ">569</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4659,7 +4659,7 @@ layout: coverage
                     <th id="L570" class="number ">570</th>
 
                     <td class="" >
-                        <pre>    * @since 0.84
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4667,7 +4667,7 @@ layout: coverage
                     <th id="L571" class="number ">571</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4675,7 +4675,7 @@ layout: coverage
                     <th id="L572" class="number ">572</th>
 
                     <td class="" >
-                        <pre>    * @return nothing
+                        <pre>    *  Actions done when item flag deleted is set to an item
 </pre>
                     </td>
                 </tr>
@@ -4683,81 +4683,84 @@ layout: coverage
                     <th id="L573" class="number ">573</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="cleanDBonMarkDeleted">
+                            <tr class="line" id="">
                     <th id="L574" class="number ">574</th>
 
-                    <td class="" id="cleanDBonMarkDeleted">
-                        <pre>   function cleanDBonMarkDeleted() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * @since 0.84
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L575" class="number ">575</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L576" class="number uncovered">576</th>
+                    <th id="L576" class="number ">576</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
+                    <td class="" >
+                        <pre>    * @return nothing
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L577" class="number uncovered">577</th>
+                    <th id="L577" class="number ">577</th>
 
-                    <td class="uncovered" >
-                        <pre>          || !static::$logs_for_parent) {</pre>
+                    <td class="" >
+                        <pre>   **/
+</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L578" class="number uncovered">578</th>
+                            <tr class="line" id="cleanDBonMarkDeleted">
+                    <th id="L578" class="number ">578</th>
 
-                    <td class="uncovered" >
-                        <pre>         return;</pre>
+                    <td class="" id="cleanDBonMarkDeleted">
+                        <pre>   function cleanDBonMarkDeleted() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L579" class="number ">579</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L580" class="number ">580</th>
+                    <th id="L580" class="number uncovered">580</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L581" class="number uncovered">581</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($this-&gt;useDeletedToLockIfDynamic()</pre>
+                        <pre>          || !static::$logs_for_parent) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L582" class="number uncovered">582</th>
 
                     <td class="uncovered" >
-                        <pre>          &amp;&amp; $this-&gt;isDynamic()) {</pre>
+                        <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L583" class="number uncovered">583</th>
+                    <th id="L583" class="number ">583</th>
 
-                    <td class="uncovered" >
-                        <pre>         $item = $this-&gt;getItem();</pre>
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4772,53 +4775,98 @@ layout: coverage
                     <th id="L585" class="number uncovered">585</th>
 
                     <td class="uncovered" >
-                        <pre>         if (($item !== false)</pre>
+                        <pre>      if ($this-&gt;useDeletedToLockIfDynamic()</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L586" class="number uncovered">586</th>
 
                     <td class="uncovered" >
-                        <pre>             &amp;&amp; $item-&gt;dohistory) {</pre>
+                        <pre>          &amp;&amp; $this-&gt;isDynamic()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L587" class="number uncovered">587</th>
 
                     <td class="uncovered" >
-                        <pre>            $changes[0] = &#039;0&#039;;</pre>
+                        <pre>         $item = $this-&gt;getItem();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L588" class="number uncovered">588</th>
+                    <th id="L588" class="number ">588</th>
 
-                    <td class="uncovered" >
-                        <pre>            $changes[1] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;lock&#039;));</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L589" class="number uncovered">589</th>
 
                     <td class="uncovered" >
-                        <pre>            $changes[2] = &#039;&#039;;</pre>
+                        <pre>         if (($item !== false)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L590" class="number uncovered">590</th>
 
                     <td class="uncovered" >
+                        <pre>             &amp;&amp; $item-&gt;dohistory) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L591" class="number ">591</th>
+
+                    <td class="" >
+                        <pre>            $changes = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L592" class="number uncovered">592</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;0&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L593" class="number uncovered">593</th>
+
+                    <td class="uncovered" >
+                        <pre>               addslashes($this-&gt;getHistoryNameForItem($item, &#039;lock&#039;)),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L594" class="number uncovered">594</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L595" class="number ">595</th>
+
+                    <td class="" >
+                        <pre>            ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L596" class="number uncovered">596</th>
+
+                    <td class="uncovered" >
                         <pre>            Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L591" class="number uncovered">591</th>
+                    <th id="L597" class="number uncovered">597</th>
 
                     <td class="uncovered" >
                         <pre>                         static::$log_history_lock);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L592" class="number ">592</th>
+                    <th id="L598" class="number ">598</th>
 
                     <td class="" >
                         <pre>         }
@@ -4826,7 +4874,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L593" class="number ">593</th>
+                    <th id="L599" class="number ">599</th>
 
                     <td class="" >
                         <pre>      }
@@ -4834,65 +4882,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L594" class="number uncovered">594</th>
+                    <th id="L600" class="number uncovered">600</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L595" class="number ">595</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L596" class="number ">596</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L597" class="number ">597</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L598" class="number ">598</th>
-
-                    <td class="" >
-                        <pre>    * Actions done after the restore of the item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L599" class="number ">599</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L600" class="number ">600</th>
-
-                    <td class="" >
-                        <pre>    * @since 0.84
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L601" class="number ">601</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4900,7 +4900,7 @@ layout: coverage
                     <th id="L602" class="number ">602</th>
 
                     <td class="" >
-                        <pre>    * @return nothing
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4908,7 +4908,7 @@ layout: coverage
                     <th id="L603" class="number ">603</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4916,43 +4916,47 @@ layout: coverage
                     <th id="L604" class="number ">604</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * Actions done after the restore of the item
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="post_restoreItem">
+                            <tr class="line" id="">
                     <th id="L605" class="number ">605</th>
 
-                    <td class="" id="post_restoreItem">
-                        <pre>   function post_restoreItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L606" class="number uncovered">606</th>
+                    <th id="L606" class="number ">606</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
+                    <td class="" >
+                        <pre>    * @since 0.84
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L607" class="number uncovered">607</th>
+                    <th id="L607" class="number ">607</th>
 
-                    <td class="uncovered" >
-                        <pre>          || !static::$logs_for_parent) {</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L608" class="number uncovered">608</th>
+                    <th id="L608" class="number ">608</th>
 
-                    <td class="uncovered" >
-                        <pre>         return;</pre>
+                    <td class="" >
+                        <pre>    * @return nothing
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L609" class="number ">609</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
@@ -4964,94 +4968,36 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L611" class="number uncovered">611</th>
+                            <tr class="line" id="post_restoreItem">
+                    <th id="L611" class="number ">611</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ($this-&gt;useDeletedToLockIfDynamic()</pre>
+                    <td class="" id="post_restoreItem">
+                        <pre>   function post_restoreItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L612" class="number uncovered">612</th>
 
                     <td class="uncovered" >
-                        <pre>          &amp;&amp; $this-&gt;isDynamic()) {</pre>
+                        <pre>      if ((isset($this-&gt;input[&#039;_no_history&#039;]) &amp;&amp; $this-&gt;input[&#039;_no_history&#039;])</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L613" class="number uncovered">613</th>
 
                     <td class="uncovered" >
-                        <pre>         $item = $this-&gt;getItem();</pre>
+                        <pre>          || !static::$logs_for_parent) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L614" class="number ">614</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L615" class="number uncovered">615</th>
+                    <th id="L614" class="number uncovered">614</th>
 
                     <td class="uncovered" >
-                        <pre>         if (($item !== false)</pre>
+                        <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L616" class="number uncovered">616</th>
-
-                    <td class="uncovered" >
-                        <pre>             &amp;&amp; $item-&gt;dohistory) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L617" class="number uncovered">617</th>
-
-                    <td class="uncovered" >
-                        <pre>            $changes[0] = &#039;0&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L618" class="number uncovered">618</th>
-
-                    <td class="uncovered" >
-                        <pre>            $changes[1] = &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L619" class="number uncovered">619</th>
-
-                    <td class="uncovered" >
-                        <pre>            $changes[2] = addslashes($this-&gt;getHistoryNameForItem($item, &#039;unlock&#039;));</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L620" class="number uncovered">620</th>
-
-                    <td class="uncovered" >
-                        <pre>            Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L621" class="number uncovered">621</th>
-
-                    <td class="uncovered" >
-                        <pre>                         static::$log_history_unlock);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L622" class="number ">622</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L623" class="number ">623</th>
+                    <th id="L615" class="number ">615</th>
 
                     <td class="" >
                         <pre>      }
@@ -5059,57 +5005,112 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L616" class="number ">616</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L617" class="number uncovered">617</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;useDeletedToLockIfDynamic()</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L618" class="number uncovered">618</th>
+
+                    <td class="uncovered" >
+                        <pre>          &amp;&amp; $this-&gt;isDynamic()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L619" class="number uncovered">619</th>
+
+                    <td class="uncovered" >
+                        <pre>         $item = $this-&gt;getItem();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L620" class="number ">620</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L621" class="number uncovered">621</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (($item !== false)</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L622" class="number uncovered">622</th>
+
+                    <td class="uncovered" >
+                        <pre>             &amp;&amp; $item-&gt;dohistory) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L623" class="number ">623</th>
+
+                    <td class="" >
+                        <pre>            $changes = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L624" class="number uncovered">624</th>
 
                     <td class="uncovered" >
-                        <pre>   }</pre>
+                        <pre>               &#039;0&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L625" class="number ">625</th>
+                    <th id="L625" class="number uncovered">625</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>               &#039;&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L626" class="number ">626</th>
+                    <th id="L626" class="number uncovered">626</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>               addslashes($this-&gt;getHistoryNameForItem($item, &#039;unlock&#039;)),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L627" class="number ">627</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>            ];
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L628" class="number ">628</th>
+                    <th id="L628" class="number uncovered">628</th>
 
-                    <td class="" >
-                        <pre>    * get the Javascript &quot;code&quot; to add to the form when clicking on &quot;+&quot;
-</pre>
+                    <td class="uncovered" >
+                        <pre>            Log::history($item-&gt;getID(), $item-&gt;getType(), $changes, $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L629" class="number ">629</th>
+                    <th id="L629" class="number uncovered">629</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>                         static::$log_history_unlock);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L630" class="number ">630</th>
 
                     <td class="" >
-                        <pre>    * @since 0.84
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -5117,23 +5118,22 @@ layout: coverage
                     <th id="L631" class="number ">631</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L632" class="number ">632</th>
+                    <th id="L632" class="number uncovered">632</th>
 
-                    <td class="" >
-                        <pre>    * @see showAddChildButtonForItemForm()
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L633" class="number ">633</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5141,7 +5141,7 @@ layout: coverage
                     <th id="L634" class="number ">634</th>
 
                     <td class="" >
-                        <pre>    * @param $field_name         the name of the HTML field inside Item&#039;s form
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5149,7 +5149,7 @@ layout: coverage
                     <th id="L635" class="number ">635</th>
 
                     <td class="" >
-                        <pre>    * @param $child_count_js_var the name of the javascript variable containing current child number
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -5157,7 +5157,7 @@ layout: coverage
                     <th id="L636" class="number ">636</th>
 
                     <td class="" >
-                        <pre>    *                            of items
+                        <pre>    * get the Javascript &quot;code&quot; to add to the form when clicking on &quot;+&quot;
 </pre>
                     </td>
                 </tr>
@@ -5173,7 +5173,7 @@ layout: coverage
                     <th id="L638" class="number ">638</th>
 
                     <td class="" >
-                        <pre>    * @return (string) the code
+                        <pre>    * @since 0.84
 </pre>
                     </td>
                 </tr>
@@ -5181,43 +5181,47 @@ layout: coverage
                     <th id="L639" class="number ">639</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getJSCodeToAddForItemChild">
+                            <tr class="line" id="">
                     <th id="L640" class="number ">640</th>
 
-                    <td class="" id="getJSCodeToAddForItemChild">
-                        <pre>   static function getJSCodeToAddForItemChild($field_name, $child_count_js_var) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * @see showAddChildButtonForItemForm()
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L641" class="number uncovered">641</th>
+                    <th id="L641" class="number ">641</th>
 
-                    <td class="uncovered" >
-                        <pre>      return &quot;&lt;input type=\&#039;text\&#039; size=\&#039;40\&#039; &quot;. &quot;name=\&#039;&quot; . $field_name .</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L642" class="number uncovered">642</th>
+                    <th id="L642" class="number ">642</th>
 
-                    <td class="uncovered" >
-                        <pre>             &quot;[-&#039;+$child_count_js_var+&#039;]\&#039;&gt;&quot;;</pre>
+                    <td class="" >
+                        <pre>    * @param $field_name         the name of the HTML field inside Item&#039;s form
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L643" class="number unreach">643</th>
+                    <th id="L643" class="number ">643</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>    * @param $child_count_js_var the name of the javascript variable containing current child number
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L644" class="number ">644</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *                            of items
 </pre>
                     </td>
                 </tr>
@@ -5225,7 +5229,7 @@ layout: coverage
                     <th id="L645" class="number ">645</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -5233,7 +5237,7 @@ layout: coverage
                     <th id="L646" class="number ">646</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @return (string) the code
 </pre>
                     </td>
                 </tr>
@@ -5241,47 +5245,43 @@ layout: coverage
                     <th id="L647" class="number ">647</th>
 
                     <td class="" >
-                        <pre>    * display the field of a given child
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getJSCodeToAddForItemChild">
                     <th id="L648" class="number ">648</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="" id="getJSCodeToAddForItemChild">
+                        <pre>   static function getJSCodeToAddForItemChild($field_name, $child_count_js_var) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L649" class="number ">649</th>
+                    <th id="L649" class="number uncovered">649</th>
 
-                    <td class="" >
-                        <pre>    * @since 0.84
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return &quot;&lt;input type=\&#039;text\&#039; size=\&#039;40\&#039; &quot;. &quot;name=\&#039;&quot; . $field_name .</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L650" class="number ">650</th>
+                    <th id="L650" class="number uncovered">650</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>             &quot;[-&#039;+$child_count_js_var+&#039;]\&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L651" class="number ">651</th>
+                    <th id="L651" class="number unreach">651</th>
 
-                    <td class="" >
-                        <pre>    * @see showChildsForItemForm()
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L652" class="number ">652</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5289,7 +5289,7 @@ layout: coverage
                     <th id="L653" class="number ">653</th>
 
                     <td class="" >
-                        <pre>    * @param $canedit     true if we can edit the child
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5297,7 +5297,7 @@ layout: coverage
                     <th id="L654" class="number ">654</th>
 
                     <td class="" >
-                        <pre>    * @param $field_name  the name of the HTML field inside Item&#039;s form
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -5305,7 +5305,7 @@ layout: coverage
                     <th id="L655" class="number ">655</th>
 
                     <td class="" >
-                        <pre>    * @param $id          id of the child
+                        <pre>    * display the field of a given child
 </pre>
                     </td>
                 </tr>
@@ -5321,7 +5321,7 @@ layout: coverage
                     <th id="L657" class="number ">657</th>
 
                     <td class="" >
-                        <pre>    * @return nothing (display only)
+                        <pre>    * @since 0.84
 </pre>
                     </td>
                 </tr>
@@ -5329,19 +5329,83 @@ layout: coverage
                     <th id="L658" class="number ">658</th>
 
                     <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L659" class="number ">659</th>
+
+                    <td class="" >
+                        <pre>    * @see showChildsForItemForm()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L660" class="number ">660</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L661" class="number ">661</th>
+
+                    <td class="" >
+                        <pre>    * @param $canedit     true if we can edit the child
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L662" class="number ">662</th>
+
+                    <td class="" >
+                        <pre>    * @param $field_name  the name of the HTML field inside Item&#039;s form
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L663" class="number ">663</th>
+
+                    <td class="" >
+                        <pre>    * @param $id          id of the child
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L664" class="number ">664</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L665" class="number ">665</th>
+
+                    <td class="" >
+                        <pre>    * @return nothing (display only)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L666" class="number ">666</th>
+
+                    <td class="" >
                         <pre>   **/
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="showChildForItemForm">
-                    <th id="L659" class="number ">659</th>
+                    <th id="L667" class="number ">667</th>
 
                     <td class="" id="showChildForItemForm">
                         <pre>   function showChildForItemForm($canedit, $field_name, $id) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L660" class="number ">660</th>
+                    <th id="L668" class="number ">668</th>
 
                     <td class="" >
                         <pre>
@@ -5349,83 +5413,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L661" class="number uncovered">661</th>
+                    <th id="L669" class="number uncovered">669</th>
 
                     <td class="uncovered" >
                         <pre>      if ($this-&gt;isNewID($this-&gt;getID())) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L662" class="number uncovered">662</th>
+                    <th id="L670" class="number uncovered">670</th>
 
                     <td class="uncovered" >
                         <pre>         $value = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L663" class="number ">663</th>
-
-                    <td class="" >
-                        <pre>      } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L664" class="number uncovered">664</th>
-
-                    <td class="uncovered" >
-                        <pre>         $value = $this-&gt;getName();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L665" class="number ">665</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L666" class="number uncovered">666</th>
-
-                    <td class="uncovered" >
-                        <pre>      $field_name = $field_name.&quot;[$id]&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L667" class="number uncovered">667</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($canedit) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L668" class="number uncovered">668</th>
-
-                    <td class="uncovered" >
-                        <pre>         echo &quot;&lt;input type=&#039;text&#039; size=&#039;40&#039; name=&#039;$field_name&#039; value=&#039;$value&#039;&gt;&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L669" class="number ">669</th>
-
-                    <td class="" >
-                        <pre>      } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L670" class="number uncovered">670</th>
-
-                    <td class="uncovered" >
-                        <pre>         echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$field_name&#039; value=&#039;$value&#039;&gt;$value&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L671" class="number ">671</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
@@ -5433,78 +5438,73 @@ layout: coverage
                     <th id="L672" class="number uncovered">672</th>
 
                     <td class="uncovered" >
-                        <pre>   }</pre>
+                        <pre>         $value = $this-&gt;getName();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L673" class="number ">673</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L674" class="number ">674</th>
+                    <th id="L674" class="number uncovered">674</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $field_name = $field_name.&quot;[$id]&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L675" class="number ">675</th>
+                    <th id="L675" class="number uncovered">675</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ($canedit) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L676" class="number ">676</th>
+                    <th id="L676" class="number uncovered">676</th>
 
-                    <td class="" >
-                        <pre>    * We can add several single CommonDBChild to a given Item. In such case, we display a &quot;+&quot;
-</pre>
+                    <td class="uncovered" >
+                        <pre>         echo &quot;&lt;input type=&#039;text&#039; size=&#039;40&#039; name=&#039;$field_name&#039; value=&#039;$value&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L677" class="number ">677</th>
 
                     <td class="" >
-                        <pre>    * button and the fields already entered
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L678" class="number ">678</th>
+                    <th id="L678" class="number uncovered">678</th>
 
-                    <td class="" >
-                        <pre>    * This method display the &quot;+&quot; button
-</pre>
+                    <td class="uncovered" >
+                        <pre>         echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$field_name&#039; value=&#039;$value&#039;&gt;$value&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L679" class="number ">679</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L680" class="number ">680</th>
+                    <th id="L680" class="number uncovered">680</th>
 
-                    <td class="" >
-                        <pre>    * @since 0.84
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L681" class="number ">681</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5512,7 +5512,7 @@ layout: coverage
                     <th id="L682" class="number ">682</th>
 
                     <td class="" >
-                        <pre>    * @todo study if we cannot use these methods for the user emails
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5520,7 +5520,7 @@ layout: coverage
                     <th id="L683" class="number ">683</th>
 
                     <td class="" >
-                        <pre>    * @see showChildsForItemForm(CommonDBTM $item, $field_name)
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -5528,7 +5528,7 @@ layout: coverage
                     <th id="L684" class="number ">684</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * We can add several single CommonDBChild to a given Item. In such case, we display a &quot;+&quot;
 </pre>
                     </td>
                 </tr>
@@ -5536,7 +5536,7 @@ layout: coverage
                     <th id="L685" class="number ">685</th>
 
                     <td class="" >
-                        <pre>    * @param $item                  CommonDBTM object: the item on which to add the current CommenDBChild
+                        <pre>    * button and the fields already entered
 </pre>
                     </td>
                 </tr>
@@ -5544,7 +5544,7 @@ layout: coverage
                     <th id="L686" class="number ">686</th>
 
                     <td class="" >
-                        <pre>    * @param $field_name            the name of the HTML field inside Item&#039;s form
+                        <pre>    * This method display the &quot;+&quot; button
 </pre>
                     </td>
                 </tr>
@@ -5552,7 +5552,7 @@ layout: coverage
                     <th id="L687" class="number ">687</th>
 
                     <td class="" >
-                        <pre>    * @param $canedit               (default NULL) NULL to use default behaviour
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -5560,7 +5560,7 @@ layout: coverage
                     <th id="L688" class="number ">688</th>
 
                     <td class="" >
-                        <pre>    * @param $display      boolean  true display or false to return the button HTML code (true by default)
+                        <pre>    * @since 0.84
 </pre>
                     </td>
                 </tr>
@@ -5576,7 +5576,7 @@ layout: coverage
                     <th id="L690" class="number ">690</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @todo study if we cannot use these methods for the user emails
 </pre>
                     </td>
                 </tr>
@@ -5584,7 +5584,7 @@ layout: coverage
                     <th id="L691" class="number ">691</th>
 
                     <td class="" >
-                        <pre>    * @return the button HTML code if $display is true
+                        <pre>    * @see showChildsForItemForm(CommonDBTM $item, $field_name)
 </pre>
                     </td>
                 </tr>
@@ -5592,19 +5592,83 @@ layout: coverage
                     <th id="L692" class="number ">692</th>
 
                     <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L693" class="number ">693</th>
+
+                    <td class="" >
+                        <pre>    * @param $item                  CommonDBTM object: the item on which to add the current CommenDBChild
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L694" class="number ">694</th>
+
+                    <td class="" >
+                        <pre>    * @param $field_name            the name of the HTML field inside Item&#039;s form
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L695" class="number ">695</th>
+
+                    <td class="" >
+                        <pre>    * @param $canedit               (default NULL) NULL to use default behaviour
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L696" class="number ">696</th>
+
+                    <td class="" >
+                        <pre>    * @param $display      boolean  true display or false to return the button HTML code (true by default)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L697" class="number ">697</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L698" class="number ">698</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L699" class="number ">699</th>
+
+                    <td class="" >
+                        <pre>    * @return the button HTML code if $display is true
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L700" class="number ">700</th>
+
+                    <td class="" >
                         <pre>   **/
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="showAddChildButtonForItemForm">
-                    <th id="L693" class="number ">693</th>
+                    <th id="L701" class="number ">701</th>
 
                     <td class="" id="showAddChildButtonForItemForm">
                         <pre>   static function showAddChildButtonForItemForm(CommonDBTM $item, $field_name, $canedit = null,<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L694" class="number ">694</th>
+                    <th id="L702" class="number ">702</th>
 
                     <td class="" >
                         <pre>                                                 $display = true) {
@@ -5612,14 +5676,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L695" class="number uncovered">695</th>
+                    <th id="L703" class="number uncovered">703</th>
 
                     <td class="uncovered" >
                         <pre>      global $CFG_GLPI;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L696" class="number ">696</th>
+                    <th id="L704" class="number ">704</th>
 
                     <td class="" >
                         <pre>
@@ -5627,87 +5691,50 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L697" class="number uncovered">697</th>
+                    <th id="L705" class="number uncovered">705</th>
 
                     <td class="uncovered" >
                         <pre>      $items_id = $item-&gt;getID();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L698" class="number ">698</th>
+                    <th id="L706" class="number ">706</th>
 
                     <td class="" >
                         <pre>
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L699" class="number uncovered">699</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (is_null($canedit)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L700" class="number uncovered">700</th>
-
-                    <td class="uncovered" >
-                        <pre>         if ($item-&gt;isNewItem()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L701" class="number uncovered">701</th>
-
-                    <td class="uncovered" >
-                        <pre>            if (!$item-&gt;canCreate()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L702" class="number uncovered">702</th>
-
-                    <td class="uncovered" >
-                        <pre>               return false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L703" class="number ">703</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L704" class="number uncovered">704</th>
-
-                    <td class="uncovered" >
-                        <pre>            $canedit = $item-&gt;canUpdate();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L705" class="number ">705</th>
-
-                    <td class="" >
-                        <pre>         } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L706" class="number uncovered">706</th>
-
-                    <td class="uncovered" >
-                        <pre>            if (!$item-&gt;can($items_id, READ)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L707" class="number uncovered">707</th>
 
                     <td class="uncovered" >
+                        <pre>      if (is_null($canedit)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L708" class="number uncovered">708</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ($item-&gt;isNewItem()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L709" class="number uncovered">709</th>
+
+                    <td class="uncovered" >
+                        <pre>            if (!$item-&gt;canCreate()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L710" class="number uncovered">710</th>
+
+                    <td class="uncovered" >
                         <pre>               return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L708" class="number ">708</th>
+                    <th id="L711" class="number ">711</th>
 
                     <td class="" >
                         <pre>            }
@@ -5715,41 +5742,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L709" class="number ">709</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L710" class="number uncovered">710</th>
+                    <th id="L712" class="number uncovered">712</th>
 
                     <td class="uncovered" >
-                        <pre>            $canedit = $item-&gt;can($items_id, UPDATE);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L711" class="number ">711</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L712" class="number ">712</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
+                        <pre>            $canedit = $item-&gt;canUpdate();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L713" class="number ">713</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         } else {
 </pre>
                     </td>
                 </tr>
@@ -5757,441 +5760,41 @@ layout: coverage
                     <th id="L714" class="number uncovered">714</th>
 
                     <td class="uncovered" >
-                        <pre>      $result = &#039;&#039;;</pre>
+                        <pre>            if (!$item-&gt;can($items_id, READ)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L715" class="number ">715</th>
+                    <th id="L715" class="number uncovered">715</th>
+
+                    <td class="uncovered" >
+                        <pre>               return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L716" class="number ">716</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L716" class="number uncovered">716</th>
+                    <th id="L717" class="number ">717</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ($canedit) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L717" class="number uncovered">717</th>
-
-                    <td class="uncovered" >
-                        <pre>         $lower_name         = strtolower(get_called_class());</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L718" class="number uncovered">718</th>
 
                     <td class="uncovered" >
-                        <pre>         $child_count_js_var = &#039;nb&#039;.$lower_name.&#039;s&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L719" class="number uncovered">719</th>
-
-                    <td class="uncovered" >
-                        <pre>         $div_id             = &quot;add_&quot;.$lower_name.&quot;_to_&quot;.$item-&gt;getType().&quot;_&quot;.$items_id;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L720" class="number ">720</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L721" class="number ">721</th>
-
-                    <td class="" >
-                        <pre>         // Beware : -1 is for the first element added ...
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L722" class="number uncovered">722</th>
-
-                    <td class="uncovered" >
-                        <pre>         $result = &quot;&amp;nbsp;&lt;script type=&#039;text/javascript&#039;&gt;var $child_count_js_var=2; &lt;/script&gt;&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L723" class="number uncovered">723</th>
-
-                    <td class="uncovered" >
-                        <pre>         $result .= &quot;&lt;span id=&#039;add&quot;.$lower_name.&quot;button&#039; class=&#039;fa fa-plus pointer&#039;&quot;.</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L724" class="number uncovered">724</th>
-
-                    <td class="uncovered" >
-                        <pre>              &quot; title=\&quot;&quot;.__s(&#039;Add&#039;).&quot;\&quot;&quot; .</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L725" class="number uncovered">725</th>
-
-                    <td class="uncovered" >
-                        <pre>                &quot;\&quot; onClick=\&quot;var row = &quot;.Html::jsGetElementByID($div_id).&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L726" class="number ">726</th>
-
-                    <td class="" >
-                        <pre>                             row.append(&#039;&lt;br&gt;&quot; .
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L727" class="number uncovered">727</th>
-
-                    <td class="uncovered" >
-                        <pre>               static::getJSCodeToAddForItemChild($field_name, $child_count_js_var).&quot;&#039;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L728" class="number uncovered">728</th>
-
-                    <td class="uncovered" >
-                        <pre>                            $child_count_js_var++;\&quot;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L729" class="number uncovered">729</th>
-
-                    <td class="uncovered" >
-                        <pre>               &gt;&lt;span class=&#039;sr-only&#039;&gt;&quot; . __s(&#039;Add&#039;)  . &quot;&lt;/span&gt;&lt;/span&gt;&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L730" class="number ">730</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L731" class="number uncovered">731</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($display) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L732" class="number uncovered">732</th>
-
-                    <td class="uncovered" >
-                        <pre>         echo $result;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L733" class="number ">733</th>
-
-                    <td class="" >
-                        <pre>      } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L734" class="number uncovered">734</th>
-
-                    <td class="uncovered" >
-                        <pre>         return $result;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L735" class="number ">735</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L736" class="number uncovered">736</th>
-
-                    <td class="uncovered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L737" class="number ">737</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L738" class="number ">738</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L739" class="number ">739</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L740" class="number ">740</th>
-
-                    <td class="" >
-                        <pre>    * We can add several single CommonDBChild to a given Item. In such case, we display a &quot;+&quot;
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L741" class="number ">741</th>
-
-                    <td class="" >
-                        <pre>    * button and the fields already entered.
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L742" class="number ">742</th>
-
-                    <td class="" >
-                        <pre>    * This method display the fields
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L743" class="number ">743</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L744" class="number ">744</th>
-
-                    <td class="" >
-                        <pre>    * @since 0.84
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L745" class="number ">745</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L746" class="number ">746</th>
-
-                    <td class="" >
-                        <pre>    * @todo study if we cannot use these methods for the user emails
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L747" class="number ">747</th>
-
-                    <td class="" >
-                        <pre>    * @see showAddChildButtonForItemForm()
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L748" class="number ">748</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L749" class="number ">749</th>
-
-                    <td class="" >
-                        <pre>    * @param $item         CommonDBTM object the item on which to add the current CommenDBChild
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L750" class="number ">750</th>
-
-                    <td class="" >
-                        <pre>    * @param $field_name   the name of the HTML field inside Item&#039;s form
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L751" class="number ">751</th>
-
-                    <td class="" >
-                        <pre>    * @param $canedit      (default NULL) NULL to use default behaviour
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L752" class="number ">752</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L753" class="number ">753</th>
-
-                    <td class="" >
-                        <pre>    * @return nothing (display only)
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L754" class="number ">754</th>
-
-                    <td class="" >
-                        <pre>   **/
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="showChildsForItemForm">
-                    <th id="L755" class="number ">755</th>
-
-                    <td class="" id="showChildsForItemForm">
-                        <pre>   static function showChildsForItemForm(CommonDBTM $item, $field_name, $canedit = null) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L756" class="number uncovered">756</th>
-
-                    <td class="uncovered" >
-                        <pre>      global $DB, $CFG_GLPI;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L757" class="number ">757</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L758" class="number uncovered">758</th>
-
-                    <td class="uncovered" >
-                        <pre>      $items_id = $item-&gt;getID();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L759" class="number ">759</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L760" class="number uncovered">760</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (is_null($canedit)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L761" class="number uncovered">761</th>
-
-                    <td class="uncovered" >
-                        <pre>         if ($item-&gt;isNewItem()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L762" class="number uncovered">762</th>
-
-                    <td class="uncovered" >
-                        <pre>            if (!$item-&gt;canCreate()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L763" class="number uncovered">763</th>
-
-                    <td class="uncovered" >
-                        <pre>               return false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L764" class="number ">764</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L765" class="number uncovered">765</th>
-
-                    <td class="uncovered" >
-                        <pre>            $canedit = $item-&gt;canUpdate();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L766" class="number ">766</th>
-
-                    <td class="" >
-                        <pre>         } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L767" class="number uncovered">767</th>
-
-                    <td class="uncovered" >
-                        <pre>            if (!$item-&gt;can($items_id, READ)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L768" class="number uncovered">768</th>
-
-                    <td class="uncovered" >
-                        <pre>               return false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L769" class="number ">769</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L770" class="number ">770</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L771" class="number uncovered">771</th>
-
-                    <td class="uncovered" >
                         <pre>            $canedit = $item-&gt;can($items_id, UPDATE);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L772" class="number ">772</th>
+                    <th id="L719" class="number ">719</th>
 
                     <td class="" >
                         <pre>         }
@@ -6199,7 +5802,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L773" class="number ">773</th>
+                    <th id="L720" class="number ">720</th>
 
                     <td class="" >
                         <pre>      }
@@ -6207,10 +5810,410 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L774" class="number ">774</th>
+                    <th id="L721" class="number ">721</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L722" class="number uncovered">722</th>
+
+                    <td class="uncovered" >
+                        <pre>      $result = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L723" class="number ">723</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L724" class="number uncovered">724</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($canedit) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L725" class="number uncovered">725</th>
+
+                    <td class="uncovered" >
+                        <pre>         $lower_name         = strtolower(get_called_class());</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L726" class="number uncovered">726</th>
+
+                    <td class="uncovered" >
+                        <pre>         $child_count_js_var = &#039;nb&#039;.$lower_name.&#039;s&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L727" class="number uncovered">727</th>
+
+                    <td class="uncovered" >
+                        <pre>         $div_id             = &quot;add_&quot;.$lower_name.&quot;_to_&quot;.$item-&gt;getType().&quot;_&quot;.$items_id;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L728" class="number ">728</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L729" class="number ">729</th>
+
+                    <td class="" >
+                        <pre>         // Beware : -1 is for the first element added ...
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L730" class="number uncovered">730</th>
+
+                    <td class="uncovered" >
+                        <pre>         $result = &quot;&amp;nbsp;&lt;script type=&#039;text/javascript&#039;&gt;var $child_count_js_var=2; &lt;/script&gt;&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L731" class="number uncovered">731</th>
+
+                    <td class="uncovered" >
+                        <pre>         $result .= &quot;&lt;span id=&#039;add&quot;.$lower_name.&quot;button&#039; class=&#039;fa fa-plus pointer&#039;&quot;.</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L732" class="number uncovered">732</th>
+
+                    <td class="uncovered" >
+                        <pre>              &quot; title=\&quot;&quot;.__s(&#039;Add&#039;).&quot;\&quot;&quot; .</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L733" class="number uncovered">733</th>
+
+                    <td class="uncovered" >
+                        <pre>                &quot;\&quot; onClick=\&quot;var row = &quot;.Html::jsGetElementByID($div_id).&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L734" class="number ">734</th>
+
+                    <td class="" >
+                        <pre>                             row.append(&#039;&lt;br&gt;&quot; .
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L735" class="number uncovered">735</th>
+
+                    <td class="uncovered" >
+                        <pre>               static::getJSCodeToAddForItemChild($field_name, $child_count_js_var).&quot;&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L736" class="number uncovered">736</th>
+
+                    <td class="uncovered" >
+                        <pre>                            $child_count_js_var++;\&quot;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L737" class="number uncovered">737</th>
+
+                    <td class="uncovered" >
+                        <pre>               &gt;&lt;span class=&#039;sr-only&#039;&gt;&quot; . __s(&#039;Add&#039;)  . &quot;&lt;/span&gt;&lt;/span&gt;&quot;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L738" class="number ">738</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L739" class="number uncovered">739</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($display) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L740" class="number uncovered">740</th>
+
+                    <td class="uncovered" >
+                        <pre>         echo $result;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L741" class="number ">741</th>
+
+                    <td class="" >
+                        <pre>      } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L742" class="number uncovered">742</th>
+
+                    <td class="uncovered" >
+                        <pre>         return $result;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L743" class="number ">743</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L744" class="number uncovered">744</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L745" class="number ">745</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L746" class="number ">746</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L747" class="number ">747</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L748" class="number ">748</th>
+
+                    <td class="" >
+                        <pre>    * We can add several single CommonDBChild to a given Item. In such case, we display a &quot;+&quot;
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L749" class="number ">749</th>
+
+                    <td class="" >
+                        <pre>    * button and the fields already entered.
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L750" class="number ">750</th>
+
+                    <td class="" >
+                        <pre>    * This method display the fields
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L751" class="number ">751</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L752" class="number ">752</th>
+
+                    <td class="" >
+                        <pre>    * @since 0.84
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L753" class="number ">753</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L754" class="number ">754</th>
+
+                    <td class="" >
+                        <pre>    * @todo study if we cannot use these methods for the user emails
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L755" class="number ">755</th>
+
+                    <td class="" >
+                        <pre>    * @see showAddChildButtonForItemForm()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L756" class="number ">756</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L757" class="number ">757</th>
+
+                    <td class="" >
+                        <pre>    * @param $item         CommonDBTM object the item on which to add the current CommenDBChild
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L758" class="number ">758</th>
+
+                    <td class="" >
+                        <pre>    * @param $field_name   the name of the HTML field inside Item&#039;s form
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L759" class="number ">759</th>
+
+                    <td class="" >
+                        <pre>    * @param $canedit      (default NULL) NULL to use default behaviour
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L760" class="number ">760</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L761" class="number ">761</th>
+
+                    <td class="" >
+                        <pre>    * @return nothing (display only)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L762" class="number ">762</th>
+
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="showChildsForItemForm">
+                    <th id="L763" class="number ">763</th>
+
+                    <td class="" id="showChildsForItemForm">
+                        <pre>   static function showChildsForItemForm(CommonDBTM $item, $field_name, $canedit = null) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L764" class="number uncovered">764</th>
+
+                    <td class="uncovered" >
+                        <pre>      global $DB, $CFG_GLPI;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L765" class="number ">765</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L766" class="number uncovered">766</th>
+
+                    <td class="uncovered" >
+                        <pre>      $items_id = $item-&gt;getID();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L767" class="number ">767</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L768" class="number uncovered">768</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (is_null($canedit)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L769" class="number uncovered">769</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ($item-&gt;isNewItem()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L770" class="number uncovered">770</th>
+
+                    <td class="uncovered" >
+                        <pre>            if (!$item-&gt;canCreate()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L771" class="number uncovered">771</th>
+
+                    <td class="uncovered" >
+                        <pre>               return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L772" class="number ">772</th>
+
+                    <td class="" >
+                        <pre>            }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L773" class="number uncovered">773</th>
+
+                    <td class="uncovered" >
+                        <pre>            $canedit = $item-&gt;canUpdate();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L774" class="number ">774</th>
+
+                    <td class="" >
+                        <pre>         } else {
 </pre>
                     </td>
                 </tr>
@@ -6218,21 +6221,21 @@ layout: coverage
                     <th id="L775" class="number uncovered">775</th>
 
                     <td class="uncovered" >
-                        <pre>      $lower_name = strtolower(get_called_class());</pre>
+                        <pre>            if (!$item-&gt;can($items_id, READ)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L776" class="number uncovered">776</th>
 
                     <td class="uncovered" >
-                        <pre>      $div_id     = &quot;add_&quot;.$lower_name.&quot;_to_&quot;.$item-&gt;getType().&quot;_&quot;.$items_id;</pre>
+                        <pre>               return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L777" class="number ">777</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -6240,7 +6243,7 @@ layout: coverage
                     <th id="L778" class="number ">778</th>
 
                     <td class="" >
-                        <pre>      // To be sure not to load bad datas from this table
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -6248,14 +6251,15 @@ layout: coverage
                     <th id="L779" class="number uncovered">779</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($items_id == 0) {</pre>
+                        <pre>            $canedit = $item-&gt;can($items_id, UPDATE);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L780" class="number uncovered">780</th>
+                    <th id="L780" class="number ">780</th>
 
-                    <td class="uncovered" >
-                        <pre>         $items_id = -99;</pre>
+                    <td class="" >
+                        <pre>         }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6275,7 +6279,67 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L783" class="number ">783</th>
+                    <th id="L783" class="number uncovered">783</th>
+
+                    <td class="uncovered" >
+                        <pre>      $lower_name = strtolower(get_called_class());</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L784" class="number uncovered">784</th>
+
+                    <td class="uncovered" >
+                        <pre>      $div_id     = &quot;add_&quot;.$lower_name.&quot;_to_&quot;.$item-&gt;getType().&quot;_&quot;.$items_id;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L785" class="number ">785</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L786" class="number ">786</th>
+
+                    <td class="" >
+                        <pre>      // To be sure not to load bad datas from this table
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L787" class="number uncovered">787</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($items_id == 0) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L788" class="number uncovered">788</th>
+
+                    <td class="uncovered" >
+                        <pre>         $items_id = -99;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L789" class="number ">789</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L790" class="number ">790</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L791" class="number ">791</th>
 
                     <td class="" >
                         <pre>      $query = [
@@ -6283,14 +6347,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L784" class="number uncovered">784</th>
+                    <th id="L792" class="number uncovered">792</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;FROM&#039;   =&gt; static::getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L785" class="number ">785</th>
+                    <th id="L793" class="number ">793</th>
 
                     <td class="" >
                         <pre>         &#039;WHERE&#039;  =&gt; [
@@ -6298,14 +6362,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L786" class="number uncovered">786</th>
+                    <th id="L794" class="number uncovered">794</th>
 
                     <td class="uncovered" >
                         <pre>            static::$items_id =&gt; $item-&gt;getID()</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L787" class="number ">787</th>
+                    <th id="L795" class="number ">795</th>
 
                     <td class="" >
                         <pre>         ]
@@ -6313,7 +6377,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L788" class="number ">788</th>
+                    <th id="L796" class="number ">796</th>
 
                     <td class="" >
                         <pre>      ];
@@ -6321,7 +6385,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L789" class="number ">789</th>
+                    <th id="L797" class="number ">797</th>
 
                     <td class="" >
                         <pre>
@@ -6329,21 +6393,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L790" class="number uncovered">790</th>
+                    <th id="L798" class="number uncovered">798</th>
 
                     <td class="uncovered" >
                         <pre>      if (preg_match(&#039;/^itemtype/&#039;, static::$itemtype)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L791" class="number uncovered">791</th>
+                    <th id="L799" class="number uncovered">799</th>
 
                     <td class="uncovered" >
                         <pre>         $query[&#039;WHERE&#039;][&#039;itemtype&#039;] = $item-&gt;getType();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L792" class="number ">792</th>
+                    <th id="L800" class="number ">800</th>
 
                     <td class="" >
                         <pre>      }
@@ -6351,77 +6415,18 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L793" class="number ">793</th>
+                    <th id="L801" class="number ">801</th>
 
                     <td class="" >
                         <pre>
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L794" class="number uncovered">794</th>
-
-                    <td class="uncovered" >
-                        <pre>      $current_item = new static();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L795" class="number ">795</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L796" class="number uncovered">796</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($current_item-&gt;maybeDeleted()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L797" class="number uncovered">797</th>
-
-                    <td class="uncovered" >
-                        <pre>         $query[&#039;WHERE&#039;][&#039;is_deleted&#039;] = 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L798" class="number ">798</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L799" class="number ">799</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L800" class="number uncovered">800</th>
-
-                    <td class="uncovered" >
-                        <pre>      $iterator = $DB-&gt;request($query);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L801" class="number uncovered">801</th>
-
-                    <td class="uncovered" >
-                        <pre>      $count = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L802" class="number uncovered">802</th>
 
                     <td class="uncovered" >
-                        <pre>      while ($data = $iterator-&gt;next()) {</pre>
+                        <pre>      $current_item = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -6436,71 +6441,18 @@ layout: coverage
                     <th id="L804" class="number uncovered">804</th>
 
                     <td class="uncovered" >
-                        <pre>         $current_item-&gt;fields = $data;</pre>
+                        <pre>      if ($current_item-&gt;maybeDeleted()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L805" class="number ">805</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L806" class="number uncovered">806</th>
+                    <th id="L805" class="number uncovered">805</th>
 
                     <td class="uncovered" >
-                        <pre>         if ($count) {</pre>
+                        <pre>         $query[&#039;WHERE&#039;][&#039;is_deleted&#039;] = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L807" class="number uncovered">807</th>
-
-                    <td class="uncovered" >
-                        <pre>            echo &#039;&lt;br&gt;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L808" class="number ">808</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L809" class="number uncovered">809</th>
-
-                    <td class="uncovered" >
-                        <pre>         $count++;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L810" class="number ">810</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L811" class="number uncovered">811</th>
-
-                    <td class="uncovered" >
-                        <pre>         $current_item-&gt;showChildForItemForm($canedit, $field_name, $current_item-&gt;getID());</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L812" class="number ">812</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L813" class="number ">813</th>
+                    <th id="L806" class="number ">806</th>
 
                     <td class="" >
                         <pre>      }
@@ -6508,7 +6460,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L814" class="number ">814</th>
+                    <th id="L807" class="number ">807</th>
 
                     <td class="" >
                         <pre>
@@ -6516,21 +6468,133 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L808" class="number uncovered">808</th>
+
+                    <td class="uncovered" >
+                        <pre>      $iterator = $DB-&gt;request($query);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L809" class="number uncovered">809</th>
+
+                    <td class="uncovered" >
+                        <pre>      $count = 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L810" class="number uncovered">810</th>
+
+                    <td class="uncovered" >
+                        <pre>      while ($data = $iterator-&gt;next()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L811" class="number ">811</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L812" class="number uncovered">812</th>
+
+                    <td class="uncovered" >
+                        <pre>         $current_item-&gt;fields = $data;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L813" class="number ">813</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L814" class="number uncovered">814</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ($count) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L815" class="number uncovered">815</th>
+
+                    <td class="uncovered" >
+                        <pre>            echo &#039;&lt;br&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L816" class="number ">816</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L817" class="number uncovered">817</th>
+
+                    <td class="uncovered" >
+                        <pre>         $count++;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L818" class="number ">818</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L819" class="number uncovered">819</th>
+
+                    <td class="uncovered" >
+                        <pre>         $current_item-&gt;showChildForItemForm($canedit, $field_name, $current_item-&gt;getID());</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L820" class="number ">820</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L821" class="number ">821</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L822" class="number ">822</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L823" class="number uncovered">823</th>
 
                     <td class="uncovered" >
                         <pre>      if ($canedit) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L816" class="number uncovered">816</th>
+                    <th id="L824" class="number uncovered">824</th>
 
                     <td class="uncovered" >
                         <pre>         echo &quot;&lt;div id=&#039;$div_id&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L817" class="number ">817</th>
+                    <th id="L825" class="number ">825</th>
 
                     <td class="" >
                         <pre>         // No Child display field
@@ -6538,28 +6602,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L818" class="number uncovered">818</th>
+                    <th id="L826" class="number uncovered">826</th>
 
                     <td class="uncovered" >
                         <pre>         if ($count == 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L819" class="number uncovered">819</th>
+                    <th id="L827" class="number uncovered">827</th>
 
                     <td class="uncovered" >
                         <pre>            $current_item-&gt;getEmpty();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L820" class="number uncovered">820</th>
+                    <th id="L828" class="number uncovered">828</th>
 
                     <td class="uncovered" >
                         <pre>            $current_item-&gt;showChildForItemForm($canedit, $field_name, -1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L821" class="number ">821</th>
+                    <th id="L829" class="number ">829</th>
 
                     <td class="" >
                         <pre>         }
@@ -6567,14 +6631,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L822" class="number uncovered">822</th>
+                    <th id="L830" class="number uncovered">830</th>
 
                     <td class="uncovered" >
                         <pre>         echo &quot;&lt;/div&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L823" class="number ">823</th>
+                    <th id="L831" class="number ">831</th>
 
                     <td class="" >
                         <pre>      }
@@ -6582,81 +6646,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L824" class="number uncovered">824</th>
+                    <th id="L832" class="number uncovered">832</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L825" class="number ">825</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L826" class="number ">826</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L827" class="number ">827</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L828" class="number ">828</th>
-
-                    <td class="" >
-                        <pre>    * Affect a CommonDBChild to a given item. By default, unaffect it
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L829" class="number ">829</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L830" class="number ">830</th>
-
-                    <td class="" >
-                        <pre>    * @param $id          integer   the id of the CommonDBChild to affect
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L831" class="number ">831</th>
-
-                    <td class="" >
-                        <pre>    * @param $items_id    integer   the id of the new item (default 0)
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L832" class="number ">832</th>
-
-                    <td class="" >
-                        <pre>    * @param $itemtype    string    the type of the new item (default &#039;&#039;)
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L833" class="number ">833</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -6664,7 +6664,7 @@ layout: coverage
                     <th id="L834" class="number ">834</th>
 
                     <td class="" >
-                        <pre>    * @return boolean : true on success
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -6672,41 +6672,83 @@ layout: coverage
                     <th id="L835" class="number ">835</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="affectChild">
+                            <tr class="line" id="">
                     <th id="L836" class="number ">836</th>
 
-                    <td class="" id="affectChild">
-                        <pre>   function affectChild($id, $items_id = 0, $itemtype = &#039;&#039;) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * Affect a CommonDBChild to a given item. By default, unaffect it
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L837" class="number ">837</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L838" class="number uncovered">838</th>
+                    <th id="L838" class="number ">838</th>
 
-                    <td class="uncovered" >
-                        <pre>      $input = [static::getIndexName() =&gt; $id,</pre>
+                    <td class="" >
+                        <pre>    * @param $id          integer   the id of the CommonDBChild to affect
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L839" class="number uncovered">839</th>
+                    <th id="L839" class="number ">839</th>
 
-                    <td class="uncovered" >
-                        <pre>                     static::$items_id      =&gt; $items_id];</pre>
+                    <td class="" >
+                        <pre>    * @param $items_id    integer   the id of the new item (default 0)
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L840" class="number ">840</th>
+
+                    <td class="" >
+                        <pre>    * @param $itemtype    string    the type of the new item (default &#039;&#039;)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L841" class="number ">841</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L842" class="number ">842</th>
+
+                    <td class="" >
+                        <pre>    * @return boolean : true on success
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L843" class="number ">843</th>
+
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="affectChild">
+                    <th id="L844" class="number ">844</th>
+
+                    <td class="" id="affectChild">
+                        <pre>   function affectChild($id, $items_id = 0, $itemtype = &#039;&#039;) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L845" class="number ">845</th>
 
                     <td class="" >
                         <pre>
@@ -6714,21 +6756,43 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L841" class="number uncovered">841</th>
+                    <th id="L846" class="number uncovered">846</th>
+
+                    <td class="uncovered" >
+                        <pre>      $input = [static::getIndexName() =&gt; $id,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L847" class="number uncovered">847</th>
+
+                    <td class="uncovered" >
+                        <pre>                     static::$items_id      =&gt; $items_id];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L848" class="number ">848</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L849" class="number uncovered">849</th>
 
                     <td class="uncovered" >
                         <pre>      if (preg_match(&#039;/^itemtype/&#039;, static::$itemtype)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L842" class="number uncovered">842</th>
+                    <th id="L850" class="number uncovered">850</th>
 
                     <td class="uncovered" >
                         <pre>         $input[static::$itemtype] = $itemtype;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L843" class="number ">843</th>
+                    <th id="L851" class="number ">851</th>
 
                     <td class="" >
                         <pre>      }
@@ -6736,7 +6800,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L844" class="number ">844</th>
+                    <th id="L852" class="number ">852</th>
 
                     <td class="" >
                         <pre>
@@ -6744,21 +6808,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L845" class="number uncovered">845</th>
+                    <th id="L853" class="number uncovered">853</th>
 
                     <td class="uncovered" >
                         <pre>      return $this-&gt;update($input);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L846" class="number unreach">846</th>
+                    <th id="L854" class="number unreach">854</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L847" class="number ">847</th>
+                    <th id="L855" class="number ">855</th>
 
                     <td class="" >
                         <pre>}
