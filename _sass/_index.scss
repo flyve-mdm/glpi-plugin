@@ -112,7 +112,7 @@ $lightgray2: rgba(0, 0, 0, .2);
     &:hover {
 
       box-shadow: 0 0 0 2px $strongcyan inset, 0 0 5px 1px $darkcyan;
-   }
+    }
 
   }
 }
@@ -194,7 +194,7 @@ $lightgray2: rgba(0, 0, 0, .2);
   &:hover {
 
     overflow: visible;
- }
+  }
 
 }
 
@@ -353,7 +353,7 @@ Blockquote {
       overflow: auto;
       white-space: normal;
       word-break: break-all;
-   };
+    };
 
   }
 
@@ -370,7 +370,7 @@ Blockquote {
       overflow: auto;
       white-space: normal;
       word-break: break-all;
-   };
+    };
   }
 
 }
@@ -389,11 +389,11 @@ Blockquote {
       white-space: normal;
       word-break: break-all;
 
-      };
+    };
   }
 
 
-  }
+}
 
 // LARGE SCREEN: Large Tablets, iPad Pro
 @media (min-width: 992px) {
@@ -414,7 +414,7 @@ Blockquote {
         max-width: 95%;
         overflow: visible;
         white-space: normal;
-        };
+      };
     }
   };
 
@@ -442,9 +442,9 @@ Blockquote {
         max-width: 95%;
         overflow: visible;
         white-space: normal;
-        }
       }
-};
+    }
+  };
 
 }
 
@@ -467,7 +467,7 @@ Blockquote {
       overflow: auto;
       white-space: normal;
       word-break: break-all;
-      }
+    }
   };
 
 
@@ -488,7 +488,7 @@ Blockquote {
       overflow: auto;
       white-space: normal;
       word-break: break-all;
-      }
+    }
   };
 
 
@@ -515,7 +515,7 @@ Blockquote {
       max-width: 68%;
       white-space: normal;
       word-break: break-all;
-      }
+    }
   };
 
 
@@ -546,8 +546,8 @@ Blockquote {
         max-width: 95%;
         overflow: visible;
         white-space: normal;
-        };
-      }
+      };
+    }
   };
 
 
@@ -578,9 +578,9 @@ Blockquote {
         max-width: 95%;
         overflow: visible;
         white-space: normal;
-        };
+      };
 
-      }
+    }
   };
 
 
@@ -595,7 +595,7 @@ Blockquote {
   p {
 
     max-width: 44%;
-    }
+  }
 }
 
 // SMALL SCREEN: Smart phones
@@ -603,7 +603,7 @@ Blockquote {
 
   .product {
     p {max-width: 100%};
- }
+  }
 }
 
 // MEDIUM SCREEN: Tablets, iPad
@@ -612,7 +612,7 @@ Blockquote {
 
   .product {
     p {max-width: 60%};
- }
+  }
 }
 
 // LARGE SCREEN: Large Tablets, iPad Pro
@@ -621,7 +621,7 @@ Blockquote {
 
   .product {
     p {max-width: 42%};
- }
+  }
 }
 
 
@@ -1076,6 +1076,7 @@ ul {
   }
 
   // container2.html
+
 
   // EXTRA SMALL SCREEN: Smart phones
   @media (max-width: 600px) {
