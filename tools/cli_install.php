@@ -95,6 +95,10 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    $CFG_GLPI = $config + $CFG_GLPI;
 }
 
+if (!plugin_flyvemdm_check_prerequisites()) {
+   exit(1);
+}
+
 // Setup plugin configuration
 $pluginConfig = [];
 if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
