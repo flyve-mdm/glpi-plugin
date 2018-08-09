@@ -1,3 +1,5 @@
+$white: #fff;
+
 header {
   .navbar-nav {
 
@@ -46,4 +48,17 @@ header {
   font-family: 'Segoe UI Light', 'Segoe UI', 'Selawik Light', Tahoma, Verdana, Arial, sans-serif;
   font-size: 2.5rem;
   padding: 10px 0;
+}
+
+li.submenu ul { 
+  display: none;
+  position: absolute;
+  list-style: none;
+  color: $white;
+}
+
+.submenu:hover .sub-menu { 
+  display:block;
+  position: relative;
+  right: -140px;
 }
