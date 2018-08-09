@@ -44,6 +44,10 @@ class Config extends CommonTestCase {
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
       switch ($method) {
+         case 'testInstallPlugin':
+            $this->login('glpi', 'glpi');
+            break;
+
          case 'testUpgradePlugin':
             $this->olddb = new \DB();
             $this->olddb->dbdefault = 'glpiupgradetest';
@@ -226,26 +230,26 @@ class Config extends CommonTestCase {
     * install requirements for the plugin
     */
    private function installDependancies() {
-      $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
-      $pluginName = 'fusioninventory';
+      // $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
+      // $pluginName = 'fusioninventory';
 
-      $plugin = new Plugin;
-      $plugin->getFromDBbyDir($pluginName);
+      // $plugin = new Plugin;
+      // $plugin->getFromDBbyDir($pluginName);
 
-      // Install the plugin
-      $installOutput = '';
-      ob_start(function ($in) use ($installOutput) {
-         $installOutput .= $in;
-         return '';
-      });
-      $plugin->install($plugin->getID());
-      ob_end_clean();
-      $plugin->activate($plugin->getID());
+      // // Install the plugin
+      // $installOutput = '';
+      // ob_start(function ($in) use ($installOutput) {
+      //    $installOutput .= $in;
+      //    return '';
+      // });
+      // $plugin->install($plugin->getID());
+      // ob_end_clean();
+      // $plugin->activate($plugin->getID());
 
-      // Check the plugin is installed
-      $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
-      $this->boolean($plugin->isActivated($pluginName))
-         ->isTrue("Failed to install FusionInventory\n$installOutput\n");
+      // // Check the plugin is installed
+      // $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
+      // $this->boolean($plugin->isActivated($pluginName))
+      //    ->isTrue("Failed to install FusionInventory\n$installOutput\n");
 
       $rule = new \Rule();
       $this->boolean($rule->getFromDBByCrit([
