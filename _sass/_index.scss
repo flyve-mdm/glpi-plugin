@@ -514,15 +514,15 @@ Blockquote {
   .p-size7 {
 
 
-    p {max-width: 67%};
+    p {max-width: 63%};
 
     h1 {max-width: 70%};
 
     h2 {max-width: 70%};
 
-    h5 {max-width: 70%};
+    h5 {max-width: 63%};
 
-    ul {max-width: 70%};
+    ul {max-width: 63%};
 
     code {
 
@@ -540,10 +540,10 @@ Blockquote {
 
   .p-size7 {
 
-    p {max-width: 43%};
+    p {max-width: 48%};
 
     li {
-      max-width: 46%;
+      max-width: 85%;
 
       li {max-width: 100%;
       };
@@ -636,6 +636,16 @@ Blockquote {
   .product {
     p {max-width: 42%};
  }
+}
+
+
+// MAKES THE "BACK TO TOP" BUTTON HOVER OVER THE PAGE, ALLOWING THE PARALLAX BACKGROUND TO TOUCH THE FOOTER'S TOP BORDER IN THE "CONTACT" PAGE
+
+.back-to-top {
+
+  position: absolute;
+  z-index: 3;
+
 }
 
 
