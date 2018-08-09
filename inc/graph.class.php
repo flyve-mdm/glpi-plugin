@@ -45,12 +45,12 @@ class PluginFlyvemdmGraph extends CommonDBTM
 
       $pendingCount = $dbUtils->countElementsInTableForMyEntities(
          PluginFlyvemdmInvitation::getTable(),
-         "`status` = 'pending'"
+         ['status' => 'pending']
       );
 
       $doneCount = $dbUtils->countElementsInTableForMyEntities(
          PluginFlyvemdmInvitation::getTable(),
-         "`status` = 'done'"
+         ['status' => 'done']
       );
 
       if (($pendingCount + $doneCount) == 0) {

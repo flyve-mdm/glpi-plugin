@@ -409,7 +409,7 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
 
       $maxAgents = $this->fields['device_limit'];
       $DbUtils = new DbUtils();
-      $deviceCount = $DbUtils->countElementsInTable(PluginFlyvemdmAgent::getTable(), "`entities_id`='$entityId'");
+      $deviceCount = $DbUtils->countElementsInTable(PluginFlyvemdmAgent::getTable(), ['entities_id' => $entityId]);
       if ($maxAgents > 0 && $deviceCount >= $maxAgents) {
          // Too many devices
          return false;

@@ -59,7 +59,10 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
       $this->boolean($entity->isNewItem())->isFalse();
 
       $DbUtils = new \DBUtils();
-      $agents = $DbUtils->countElementsInTable(\PluginFlyvemdmAgent::getTable(), "`entities_id` = '$entityId'");
+      $agents = $DbUtils->countElementsInTable(
+         \PluginFlyvemdmAgent::getTable(),
+         ['entities_id' => $entityId]
+      );
       $deviceLimit = $agents + 5;
 
       $entityConfig = new \PluginFlyvemdmEntityConfig();

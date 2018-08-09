@@ -157,9 +157,12 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
          $notifiableType = $notifiable->getType();
          $notifiableId = $notifiable->getID();
          $DbUtil = new DbUtils();
-         $count = $DbUtil->countElementsInTable(PluginFlyvemdmTask::getTable(), "`itemtype_applied` = '$notifiableType'
-               AND `items_id_applied` = '$notifiableId'
-               AND `plugin_flyvemdm_policies_id` = '$policyId' AND `value` = '$packageName'");
+         $count = $DbUtil->countElementsInTable(PluginFlyvemdmTask::getTable(), [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+            'plugin_flyvemdm_policies_id' => $policyId,
+            'value' => $packageName
+         ]);
          if ($count > 0) {
             Session::addMessageAfterRedirect(__('A removal policy for this application is applied. Please, remove it first.', 'flyvemdm'), false, ERROR);
             return false;
