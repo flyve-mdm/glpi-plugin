@@ -39,7 +39,7 @@ if (!defined('GLPI_ROOT')) {
  * @since 0.1.0
  *
  */
-class PluginFlyvemdmInstaller {
+class PluginFlyvemdmInstall {
 
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
@@ -54,7 +54,7 @@ class PluginFlyvemdmInstaller {
     * @param string $classname
     * @return bool
     */
-   public function autoload($classname) {
+   public static function autoload($classname) {
       // useful only for installer GLPI autoloader already handles inc/ folder
       $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '',
             $classname)) . '.class.php';
@@ -79,26 +79,8 @@ class PluginFlyvemdmInstaller {
 
       $this->installSchema();
       $this->createInitialConfig();
-
       $this->migration->executeMigration();
-
-      $this->createDirectories();
-      $this->createFirstAccess();
-      $this->createGuestProfileAccess();
-      $this->createAgentProfileAccess();
-      $this->createDefaultFleet();
-      $this->createPolicies();
-      $this->createNotificationTargetInvitation();
-      $this->createJobs();
-      $this->createRootEntityConfig();
-      $this->createDisplayPreferences();
-
-      Config::setConfigurationValues(
-         'flyvemdm', [
-            'version' => PLUGIN_FLYVEMDM_VERSION,
-            'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
-         ]
-      );
+      $this->installUpgradeCommonTasks();
 
       return true;
    }
@@ -200,7 +182,7 @@ class PluginFlyvemdmInstaller {
     *
     * @return boolean
     */
-   protected function isPluginInstalled() {
+   public function isPluginInstalled() {
       global $DB;
 
       // Check tables of the plugin between 1.1 and 2.0 releases
@@ -492,7 +474,12 @@ Regards,
     *
     * @param string version to upgrade from
     */
-    public function upgrade(Migration $migration) {
+   public function upgrade(Migration $migration) {
+      spl_autoload_register([__CLASS__, 'autoload']);
+
+      $this->migration = $migration;
+      $fromSchemaVersion = $this->getSchemaVersion();
+
       switch ($fromSchemaVersion) {
          case '0.0':
             // Upgrade to 2.0
@@ -509,9 +496,15 @@ Regards,
          default:
             // Must be the last case
             // Unknown version
+            return false;
       }
       $this->upgradeOneStep('develop');
+      $this->installUpgradeCommonTasks();
 
+      return true;
+   }
+
+   private function installUpgradeCommonTasks() {
       $this->createDirectories();
       $this->createFirstAccess();
       $this->createGuestProfileAccess();

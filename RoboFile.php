@@ -229,7 +229,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
          throw new Exception("Bad upgrade code");
       }
 
-       if ($release != 'release') {
+      if ($release != 'release') {
          // check the release constant
          if ($this->getIsRelease() === 'true') {
             throw new Exception('The Official release constant must be false');

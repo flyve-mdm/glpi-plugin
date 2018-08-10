@@ -35,13 +35,13 @@
 function plugin_flyvemdm_install() {
    $version   = plugin_version_flyvemdm();
    $migration = new Migration($version['version']);
-   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   spl_autoload_register([__CLASS__, 'autoload']);
-   $installer = new PluginFlyvemdmInstaller();
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
+   spl_autoload_register([PluginFlyvemdmInstall::class, 'autoload']);
+   $install = new PluginFlyvemdmInstall();
    if (!$install->isPluginInstalled()) {
-      return $installer->install($migration);
+      return $install->install($migration);
    }
-   return $installer->upgrade($migration);
+   return $install->upgrade($migration);
 }
 
 /**
@@ -49,10 +49,10 @@ function plugin_flyvemdm_install() {
  * @return boolean True if success
  */
 function plugin_flyvemdm_uninstall() {
-   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginFlyvemdmInstaller();
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
+   $install = new PluginFlyvemdmInstall();
 
-   return $installer->uninstall();
+   return $install->uninstall();
 }
 
 /**
