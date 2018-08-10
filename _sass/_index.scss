@@ -53,16 +53,6 @@ $lightgray2: rgba(0, 0, 0, .2);
 // NAVIGATION MENU
 //
 
-.dropdown-menu {
-
-  &.dropdown-menu2 {
-
-    background-color: transparent;
-    overflow: hidden;
-
- }
-}
-
 .modal-content {
   &.modal-content2 {
 
@@ -91,9 +81,6 @@ $lightgray2: rgba(0, 0, 0, .2);
   width: 100%;
 
   z-index: -1;
-
-
-
 }
 
 .acrylic2 {
@@ -114,9 +101,6 @@ $lightgray2: rgba(0, 0, 0, .2);
   width: 100%;
 
   z-index: -1;
-
-
-
 }
 
 // RECREATES THE REVEAL FOCUS EFFECT FROM THE FLUENT DESIGN

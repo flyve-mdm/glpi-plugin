@@ -1,4 +1,5 @@
 $white: #fff;
+$darkcyan2: #158784;
 
 header {
   .navbar-nav {
@@ -6,6 +7,41 @@ header {
     img {
       vertical-align: middle;
       width: 50px;
+    }
+  }
+
+  .submenu {
+    &:hover {
+      ul {
+        display: block;
+        position: relative;
+      }
+    }
+
+    ul {
+      display: none;
+      list-style: none;
+
+      .submenu-items {
+        background-color: $darkcyan2;
+        display: inline-block;
+        left: 240px;
+        position: absolute;
+        top: -54px;
+        width: 240px;
+
+        li {
+          height: 52px;
+        }
+
+        a {
+          color: $white;
+          display: block;
+          height: auto;
+          line-height: 1.5;
+          padding: 15px 24px;
+        }
+      }
     }
   }
 
@@ -48,17 +84,4 @@ header {
   font-family: 'Segoe UI Light', 'Segoe UI', 'Selawik Light', Tahoma, Verdana, Arial, sans-serif;
   font-size: 2.5rem;
   padding: 10px 0;
-}
-
-li.submenu ul { 
-  display: none;
-  position: absolute;
-  list-style: none;
-  color: $white;
-}
-
-.submenu:hover .sub-menu { 
-  display:block;
-  position: relative;
-  right: -140px;
 }
