@@ -22,7 +22,8 @@ else
 fi
 
 # please set the $GH_TOKEN in your travis dashboard
-if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
+REGEX_BRANCH="^(master|develop|support/|release/)"
+if [[ $TRAVIS_BRANCH =~ $REGEX_BRANCH ]] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
     #wget http://get.sensiolabs.org/sami.phar -O "$HOME/bin/sami.phar"
     # setup_git only for the main repo and not forks
     echo "Configuring git user"
@@ -39,19 +40,19 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
         # clean the repo and generate the docs
         git checkout .
         #php $HOME/bin/sami.phar update "$TRAVIS_BUILD_DIR"/.github/samiConfig.php --force
-        find build/tests/coverage/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
-        find build/tests/coverage/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
-        find build/tests/coverage/ -type f -name "*.html" -exec sed -i "/report.css/d" "{}" \;
+        find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
+        find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
+        find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "/report.css/d" "{}" \;
 
         # commit_website_files
         echo "adding the coverage report"
-        git add build/tests/coverage/*
+        git add development/coverage/"$TRAVIS_BRANCH"/*
         echo "creating a branch for the new documents"
         git checkout -b localCi
         git commit -m "changes to be merged"
         git checkout -b gh-pages origin-pages/gh-pages
-        git rm -r build/tests/coverage/*
-        git checkout localCi build/tests/coverage/
+        git rm -r development/coverage/"$TRAVIS_BRANCH"/*
+        git checkout localCi development/coverage/"$TRAVIS_BRANCH"/
 
         # upload_files
         echo "pushing the up to date documents"
