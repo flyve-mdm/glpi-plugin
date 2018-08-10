@@ -711,17 +711,17 @@ Blockquote {
 
   // MEDIUM SCREEN: Tablets, iPad
   @media (min-width: 414px) and (max-width: 768px) {
-    &.p-size6 { max-width: 58%; };
+    &.p-size6 { max-width: 90%; };
   }
 
   // LARGE SCREEN: Large Tablets, iPad Pro
   @media (min-width: 768px) and (max-width: 1024px) {
-    &.p-size6 { max-width: 54%; };
+    &.p-size6 { max-width: 70%; };
   }
 
   // EXTRA LARGE SCREEN: Desktop
   @media (min-width: 1024px) {
-    &.p-size6 { max-width: 40%; };
+    &.p-size6 { max-width: 43%; };
   }
 
   &.p-size2 {
@@ -1022,7 +1022,7 @@ ul {
     .type-p2 {
       &.p-size3 {
         padding-left: 3%;
-
+        margin-left: 3%;
         a {
           font-weight: bold;
         }
@@ -1066,7 +1066,7 @@ ul {
     }
 
     .p-size3 {
-      margin-left: 3%;
+      margin-left: 6%;
     }
 
     // SMALL SCREEN: Smart phones
