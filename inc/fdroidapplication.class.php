@@ -190,8 +190,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $id = $this->getFromDBByCrit(['name' => $input['name']]);
       if ($id === false) {
-         $this->add($input);
-         return $this->getID();
+         return $this->add($input);
       }
 
       $input['id'] = $id;
@@ -207,14 +206,8 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          return $input;
       }
 
-      if (isset($input['import_status'])) {
-         $input = [
-            'import_status' => $input['import_status']
-         ];
-      } else {
-         $input = [
-            'import_status' => 'no_import'
-         ];
+      if (!isset($input['import_status'])) {
+         $input = ['import_status' => 'no_import'];
       }
 
       return $input;
