@@ -190,13 +190,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
    }
 
    /**
-    * @param string $version
-    */
-   protected function sourceUpdateComposerJson($version) {
-      $this->updateJsonFile('composer.json', $version);
-   }
-
-   /**
     * Build an redistribuable archive
     *
     * @param string $release 'release' if the archive is a release
@@ -220,18 +213,16 @@ class RoboFile extends Glpi\Tools\RoboFile {
 
          // update version in package.json
          $this->sourceUpdatePackageJson($version);
-         $this->sourceUpdateComposerJson($version);
 
          $this->updateChangelog();
 
-         $diff = $this->gitDiff(['package.json', 'composer.json']);
+         $diff = $this->gitDiff(['package.json']);
          $diff = implode("\n", $diff);
          if ($diff != '') {
             $this->taskGitStack()
                ->stopOnFail()
                ->add('package.json')
-               ->add('composer.json')
-               ->commit('docs: bump version in JSON files')
+               ->commit('docs: bump version package.json')
                ->run();
          }
          $this->taskGitStack()
