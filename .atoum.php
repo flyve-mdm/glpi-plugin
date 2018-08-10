@@ -35,10 +35,10 @@ use mageekguy\atoum\reports\coverage;
 use mageekguy\atoum\writers\std;
 
 $branch = getenv('TRAVIS_BRANCH');
-if ($branch && in_array($branch, ['master', 'develop', 'docs/code_coverage'])) {
+if ($branch && preg_match('%^(master|develop|support/|release/)%', $branch)) {
    $script->addDefaultReport();
    $coverage = new coverage\html();
    $coverage->addWriter(new std\out());
-   $coverage->setOutPutDirectory(__DIR__ . '/build/tests/coverage');
+   $coverage->setOutPutDirectory(__DIR__ . '/development/coverage/'.$branch);
    $runner->addReport($coverage);
 }
