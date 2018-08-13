@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    52%
-                                            <small>of 275</small>
+                    63%
+                                            <small>of 278</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -177,9 +177,16 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmInvitation::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">32</td>
+                                        <td style="text-align: center">1</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmInvitation::rawSearchOptions()</a></td>
+                                        <td style="text-align: center">34</td>
+                <td style="text-align: center">    
+    <span class="label label-success">97%</span>
 </td>
                                             </tr>
             <tr>
@@ -3573,120 +3580,113 @@ layout: coverage
                     <th id="L445" class="number uncovered">445</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab = parent::getSearchOptionsNew();</pre>
+                        <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L446" class="number ">446</th>
+                    <th id="L446" class="number unreach">446</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L447" class="number ">447</th>
 
                     <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L447" class="number uncovered">447</th>
+                            <tr class="line" id="rawSearchOptions">
+                    <th id="L448" class="number ">448</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" id="rawSearchOptions">
+                        <pre>   public function rawSearchOptions() {<span class="label label-success">97%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L448" class="number uncovered">448</th>
+                    <th id="L449" class="number covered">449</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                    <td class="covered" >
+                        <pre>      if (method_exists(&#039;CommonDBTM&#039;, &#039;rawSearchOptions&#039;)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L449" class="number uncovered">449</th>
+                    <th id="L450" class="number covered">450</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    <td class="covered" >
+                        <pre>         $tab = parent::rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L450" class="number uncovered">450</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L451" class="number uncovered">451</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L452" class="number ">452</th>
+                    <th id="L451" class="number ">451</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L453" class="number uncovered">453</th>
+                    <th id="L452" class="number uncovered">452</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;</pre>
+                        <pre>         $tab = parent::getSearchOptionsNew();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L453" class="number ">453</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L454" class="number ">454</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L455" class="number ">455</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L456" class="number uncovered">456</th>
+                    <th id="L455" class="number covered">455</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L457" class="number uncovered">457</th>
+                    <th id="L456" class="number covered">456</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L458" class="number uncovered">458</th>
+                    <th id="L457" class="number covered">457</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; &#039;glpi_users&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L459" class="number uncovered">459</th>
+                    <th id="L458" class="number covered">458</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;name&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L460" class="number uncovered">460</th>
+                    <th id="L459" class="number covered">459</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;User&#039;),</pre>
+                    <td class="covered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L461" class="number ">461</th>
+                    <th id="L460" class="number ">460</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -3694,65 +3694,65 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L462" class="number uncovered">462</th>
+                    <th id="L461" class="number covered">461</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L462" class="number ">462</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L463" class="number ">463</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L464" class="number ">464</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L465" class="number uncovered">465</th>
+                    <th id="L464" class="number covered">464</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L466" class="number uncovered">466</th>
+                    <th id="L465" class="number covered">465</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L467" class="number uncovered">467</th>
+                    <th id="L466" class="number covered">466</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    <td class="covered" >
+                        <pre>         &#039;table&#039;         =&gt; &#039;glpi_users&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L468" class="number uncovered">468</th>
+                    <th id="L467" class="number covered">467</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;status&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;name&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L469" class="number uncovered">469</th>
+                    <th id="L468" class="number covered">468</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Status&#039;),</pre>
+                    <td class="covered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;User&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L470" class="number ">470</th>
+                    <th id="L469" class="number ">469</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -3760,65 +3760,65 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L471" class="number uncovered">471</th>
+                    <th id="L470" class="number covered">470</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L471" class="number ">471</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L472" class="number ">472</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L473" class="number ">473</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L474" class="number uncovered">474</th>
+                    <th id="L473" class="number covered">473</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L475" class="number uncovered">475</th>
+                    <th id="L474" class="number covered">474</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L476" class="number uncovered">476</th>
+                    <th id="L475" class="number covered">475</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L477" class="number uncovered">477</th>
+                    <th id="L476" class="number covered">476</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;expiration_date&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;status&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L478" class="number uncovered">478</th>
+                    <th id="L477" class="number covered">477</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Expiration date&#039;),</pre>
+                    <td class="covered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;Status&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L479" class="number ">479</th>
+                    <th id="L478" class="number ">478</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -3826,14 +3826,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L480" class="number uncovered">480</th>
+                    <th id="L479" class="number covered">479</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L481" class="number ">481</th>
+                    <th id="L480" class="number ">480</th>
 
                     <td class="" >
                         <pre>      ];
@@ -3841,7 +3841,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L482" class="number ">482</th>
+                    <th id="L481" class="number ">481</th>
 
                     <td class="" >
                         <pre>
@@ -3849,45 +3849,53 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L483" class="number uncovered">483</th>
+                    <th id="L482" class="number covered">482</th>
 
-                    <td class="uncovered" >
+                    <td class="covered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L484" class="number uncovered">484</th>
+                    <th id="L483" class="number covered">483</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;                 =&gt; &#039;6&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L485" class="number uncovered">485</th>
+                    <th id="L484" class="number covered">484</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;              =&gt; &#039;glpi_entities&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L486" class="number uncovered">486</th>
+                    <th id="L485" class="number covered">485</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;              =&gt; &#039;completename&#039;,</pre>
+                    <td class="covered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;expiration_date&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L487" class="number uncovered">487</th>
+                    <th id="L486" class="number covered">486</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;               =&gt; __(&#039;Entity&#039;),</pre>
+                    <td class="covered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;Expiration date&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L488" class="number uncovered">488</th>
+                    <th id="L487" class="number ">487</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;           =&gt; &#039;dropdown&#039;</pre>
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L488" class="number covered">488</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3907,92 +3915,90 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L491" class="number uncovered">491</th>
+                    <th id="L491" class="number covered">491</th>
 
-                    <td class="uncovered" >
-                        <pre>      return $tab;</pre>
+                    <td class="covered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L492" class="number unreach">492</th>
+                    <th id="L492" class="number covered">492</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="covered" >
+                        <pre>         &#039;id&#039;                 =&gt; &#039;6&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L493" class="number ">493</th>
+                    <th id="L493" class="number covered">493</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="covered" >
+                        <pre>         &#039;table&#039;              =&gt; &#039;glpi_entities&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L494" class="number ">494</th>
+                    <th id="L494" class="number covered">494</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="covered" >
+                        <pre>         &#039;field&#039;              =&gt; &#039;completename&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L495" class="number ">495</th>
+                    <th id="L495" class="number covered">495</th>
 
-                    <td class="" >
-                        <pre>    * Deletes the invitation related to the entity being purged
-</pre>
+                    <td class="covered" >
+                        <pre>         &#039;name&#039;               =&gt; __(&#039;Entity&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L496" class="number ">496</th>
+                    <th id="L496" class="number covered">496</th>
 
-                    <td class="" >
-                        <pre>    * @param CommonDBTM $item
-</pre>
+                    <td class="covered" >
+                        <pre>         &#039;datatype&#039;           =&gt; &#039;dropdown&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L497" class="number ">497</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>      ];
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="hook_entity_purge">
+                            <tr class="line" id="">
                     <th id="L498" class="number ">498</th>
 
-                    <td class="" id="hook_entity_purge">
-                        <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L499" class="number uncovered">499</th>
+                    <th id="L499" class="number covered">499</th>
 
-                    <td class="uncovered" >
-                        <pre>      $invitation = new static();</pre>
+                    <td class="covered" >
+                        <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L500" class="number uncovered">500</th>
+                    <th id="L500" class="number unreach">500</th>
 
-                    <td class="uncovered" >
-                        <pre>      $invitation-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L501" class="number uncovered">501</th>
-
-                    <td class="uncovered" >
+                    <td class="unreach" >
                         <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L501" class="number ">501</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L502" class="number ">502</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4000,7 +4006,7 @@ layout: coverage
                     <th id="L503" class="number ">503</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Deletes the invitation related to the entity being purged
 </pre>
                     </td>
                 </tr>
@@ -4008,7 +4014,7 @@ layout: coverage
                     <th id="L504" class="number ">504</th>
 
                     <td class="" >
-                        <pre>    * Show form for edition
+                        <pre>    * @param CommonDBTM $item
 </pre>
                     </td>
                 </tr>
@@ -4016,12 +4022,72 @@ layout: coverage
                     <th id="L505" class="number ">505</th>
 
                     <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="hook_entity_purge">
+                    <th id="L506" class="number ">506</th>
+
+                    <td class="" id="hook_entity_purge">
+                        <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L507" class="number uncovered">507</th>
+
+                    <td class="uncovered" >
+                        <pre>      $invitation = new static();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L508" class="number uncovered">508</th>
+
+                    <td class="uncovered" >
+                        <pre>      $invitation-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L509" class="number uncovered">509</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L510" class="number ">510</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L511" class="number ">511</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L512" class="number ">512</th>
+
+                    <td class="" >
+                        <pre>    * Show form for edition
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L513" class="number ">513</th>
+
+                    <td class="" >
                         <pre>    * @param integer $ID
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L506" class="number ">506</th>
+                    <th id="L514" class="number ">514</th>
 
                     <td class="" >
                         <pre>    * @param array $options
@@ -4029,7 +4095,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L507" class="number ">507</th>
+                    <th id="L515" class="number ">515</th>
 
                     <td class="" >
                         <pre>    */
@@ -4037,35 +4103,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="showForm">
-                    <th id="L508" class="number ">508</th>
+                    <th id="L516" class="number ">516</th>
 
                     <td class="" id="showForm">
                         <pre>   public function showForm($ID, $options = []) {<span class="label label-success">94%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L509" class="number covered">509</th>
+                    <th id="L517" class="number covered">517</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;initForm($ID, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L510" class="number covered">510</th>
+                    <th id="L518" class="number covered">518</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;showFormHeader();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L511" class="number covered">511</th>
+                    <th id="L519" class="number covered">519</th>
 
                     <td class="covered" >
                         <pre>      $canUpdate = (!$this-&gt;isNewID($ID)) &amp;&amp; ($this-&gt;canView() &gt; 0) || $this-&gt;isNewID($ID);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L512" class="number ">512</th>
+                    <th id="L520" class="number ">520</th>
 
                     <td class="" >
                         <pre>
@@ -4073,35 +4139,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L513" class="number covered">513</th>
+                    <th id="L521" class="number covered">521</th>
 
                     <td class="covered" >
                         <pre>      $fields = $this-&gt;fields;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L514" class="number covered">514</th>
+                    <th id="L522" class="number covered">522</th>
 
                     <td class="covered" >
                         <pre>      $user = new User();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L515" class="number covered">515</th>
+                    <th id="L523" class="number covered">523</th>
 
                     <td class="covered" >
                         <pre>      $user-&gt;getFromDB($fields[&#039;users_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L516" class="number covered">516</th>
+                    <th id="L524" class="number covered">524</th>
 
                     <td class="covered" >
                         <pre>      $fields[&#039;_useremails&#039;] = $user-&gt;getDefaultEmail();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L517" class="number ">517</th>
+                    <th id="L525" class="number ">525</th>
 
                     <td class="" >
                         <pre>      $data = [
@@ -4109,42 +4175,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L518" class="number covered">518</th>
+                    <th id="L526" class="number covered">526</th>
 
                     <td class="covered" >
                         <pre>         &#039;withTemplate&#039; =&gt; (isset($options[&#039;withtemplate&#039;]) &amp;&amp; $options[&#039;withtemplate&#039;] ? &quot;*&quot; : &quot;&quot;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L519" class="number covered">519</th>
+                    <th id="L527" class="number covered">527</th>
 
                     <td class="covered" >
                         <pre>         &#039;canUpdate&#039;    =&gt; $canUpdate,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L520" class="number covered">520</th>
+                    <th id="L528" class="number covered">528</th>
 
                     <td class="covered" >
                         <pre>         &#039;isNewID&#039;      =&gt; $this-&gt;isNewID($ID),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L521" class="number covered">521</th>
+                    <th id="L529" class="number covered">529</th>
 
                     <td class="covered" >
                         <pre>         &#039;invitation&#039;   =&gt; $fields,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L522" class="number covered">522</th>
+                    <th id="L530" class="number covered">530</th>
 
                     <td class="covered" >
                         <pre>         &#039;resendButton&#039; =&gt; Html::submit(_x(&#039;button&#039;, &#039;Re-send&#039;), [&#039;name&#039; =&gt; &#039;resend&#039;]),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L523" class="number ">523</th>
+                    <th id="L531" class="number ">531</th>
 
                     <td class="" >
                         <pre>      ];
@@ -4152,7 +4218,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L524" class="number ">524</th>
+                    <th id="L532" class="number ">532</th>
 
                     <td class="" >
                         <pre>
@@ -4160,21 +4226,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L525" class="number covered">525</th>
+                    <th id="L533" class="number covered">533</th>
 
                     <td class="covered" >
                         <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L526" class="number covered">526</th>
+                    <th id="L534" class="number covered">534</th>
 
                     <td class="covered" >
                         <pre>      echo $twig-&gt;render(&#039;invitation.html.twig&#039;, $data);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L527" class="number ">527</th>
+                    <th id="L535" class="number ">535</th>
 
                     <td class="" >
                         <pre>
@@ -4182,21 +4248,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L528" class="number covered">528</th>
+                    <th id="L536" class="number covered">536</th>
 
                     <td class="covered" >
                         <pre>      if (!$this-&gt;isNewID($ID)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L529" class="number uncovered">529</th>
+                    <th id="L537" class="number uncovered">537</th>
 
                     <td class="uncovered" >
                         <pre>         $options[&#039;canedit&#039;] = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L530" class="number ">530</th>
+                    <th id="L538" class="number ">538</th>
 
                     <td class="" >
                         <pre>      }
@@ -4204,21 +4270,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L531" class="number covered">531</th>
+                    <th id="L539" class="number covered">539</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;showFormButtons($options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L532" class="number covered">532</th>
+                    <th id="L540" class="number covered">540</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L533" class="number ">533</th>
+                    <th id="L541" class="number ">541</th>
 
                     <td class="" >
                         <pre>
@@ -4226,7 +4292,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L534" class="number ">534</th>
+                    <th id="L542" class="number ">542</th>
 
                     <td class="" >
                         <pre>   /**
@@ -4234,7 +4300,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L535" class="number ">535</th>
+                    <th id="L543" class="number ">543</th>
 
                     <td class="" >
                         <pre>    * Displays the massive actions related to the invitation of the user
@@ -4242,7 +4308,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L536" class="number ">536</th>
+                    <th id="L544" class="number ">544</th>
 
                     <td class="" >
                         <pre>    * @return string a HTML with the masssive actions
@@ -4250,7 +4316,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L537" class="number ">537</th>
+                    <th id="L545" class="number ">545</th>
 
                     <td class="" >
                         <pre>    */
@@ -4258,21 +4324,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="showMassiveActionInviteUser">
-                    <th id="L538" class="number ">538</th>
+                    <th id="L546" class="number ">546</th>
 
                     <td class="" id="showMassiveActionInviteUser">
                         <pre>   protected function showMassiveActionInviteUser() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L539" class="number uncovered">539</th>
+                    <th id="L547" class="number uncovered">547</th>
 
                     <td class="uncovered" >
                         <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L540" class="number ">540</th>
+                    <th id="L548" class="number ">548</th>
 
                     <td class="" >
                         <pre>      $data = [
@@ -4280,14 +4346,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L541" class="number uncovered">541</th>
+                    <th id="L549" class="number uncovered">549</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;inviteButton&#039; =&gt; Html::submit(_x(&#039;button&#039;, &#039;Post&#039;), [&#039;name&#039; =&gt; &#039;massiveaction&#039;]),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L542" class="number ">542</th>
+                    <th id="L550" class="number ">550</th>
 
                     <td class="" >
                         <pre>      ];
@@ -4295,21 +4361,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L543" class="number uncovered">543</th>
+                    <th id="L551" class="number uncovered">551</th>
 
                     <td class="uncovered" >
                         <pre>      echo $twig-&gt;render(&#039;mass_invitation.html.twig&#039;, $data);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L544" class="number uncovered">544</th>
+                    <th id="L552" class="number uncovered">552</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L545" class="number ">545</th>
+                    <th id="L553" class="number ">553</th>
 
                     <td class="" >
                         <pre>
@@ -4317,7 +4383,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L546" class="number ">546</th>
+                    <th id="L554" class="number ">554</th>
 
                     <td class="" >
                         <pre>   /**
@@ -4325,7 +4391,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L547" class="number ">547</th>
+                    <th id="L555" class="number ">555</th>
 
                     <td class="" >
                         <pre>    *
@@ -4333,7 +4399,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L548" class="number ">548</th>
+                    <th id="L556" class="number ">556</th>
 
                     <td class="" >
                         <pre>    * @param MassiveAction $ma
@@ -4341,7 +4407,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L549" class="number ">549</th>
+                    <th id="L557" class="number ">557</th>
 
                     <td class="" >
                         <pre>    * @return bool
@@ -4349,7 +4415,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L550" class="number ">550</th>
+                    <th id="L558" class="number ">558</th>
 
                     <td class="" >
                         <pre>    */
@@ -4357,115 +4423,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="showMassiveActionsSubForm">
-                    <th id="L551" class="number ">551</th>
+                    <th id="L559" class="number ">559</th>
 
                     <td class="" id="showMassiveActionsSubForm">
                         <pre>   static function showMassiveActionsSubForm(MassiveAction $ma) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L552" class="number uncovered">552</th>
+                    <th id="L560" class="number uncovered">560</th>
 
                     <td class="uncovered" >
                         <pre>      switch ($ma-&gt;getAction()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L553" class="number uncovered">553</th>
+                    <th id="L561" class="number uncovered">561</th>
 
                     <td class="uncovered" >
                         <pre>         case &#039;InviteUser&#039;:</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L554" class="number uncovered">554</th>
+                    <th id="L562" class="number uncovered">562</th>
 
                     <td class="uncovered" >
                         <pre>            $invitation = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L555" class="number uncovered">555</th>
+                    <th id="L563" class="number uncovered">563</th>
 
                     <td class="uncovered" >
                         <pre>            $invitation-&gt;showMassiveActionInviteUser();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L556" class="number uncovered">556</th>
+                    <th id="L564" class="number uncovered">564</th>
 
                     <td class="uncovered" >
                         <pre>            return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L557" class="number ">557</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L558" class="number ">558</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L559" class="number uncovered">559</th>
-
-                    <td class="uncovered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L560" class="number ">560</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L561" class="number ">561</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L562" class="number ">562</th>
-
-                    <td class="" >
-                        <pre>    * Executes the code to process the massive actions
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L563" class="number ">563</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L564" class="number ">564</th>
-
-                    <td class="" >
-                        <pre>    * @param MassiveAction $ma
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L565" class="number ">565</th>
 
                     <td class="" >
-                        <pre>    * @param CommonDBTM $item
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4473,30 +4476,30 @@ layout: coverage
                     <th id="L566" class="number ">566</th>
 
                     <td class="" >
-                        <pre>    * @param array $ids
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L567" class="number ">567</th>
+                    <th id="L567" class="number uncovered">567</th>
 
-                    <td class="" >
-                        <pre>    */
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="processMassiveActionsForOneItemtype">
+                            <tr class="line" id="">
                     <th id="L568" class="number ">568</th>
 
-                    <td class="" id="processMassiveActionsForOneItemtype">
-                        <pre>   public static function processMassiveActionsForOneItemtype(<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L569" class="number ">569</th>
 
                     <td class="" >
-                        <pre>      MassiveAction $ma,
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4504,7 +4507,7 @@ layout: coverage
                     <th id="L570" class="number ">570</th>
 
                     <td class="" >
-                        <pre>      CommonDBTM $item,
+                        <pre>    * Executes the code to process the massive actions
 </pre>
                     </td>
                 </tr>
@@ -4512,7 +4515,7 @@ layout: coverage
                     <th id="L571" class="number ">571</th>
 
                     <td class="" >
-                        <pre>      array $ids
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -4520,33 +4523,96 @@ layout: coverage
                     <th id="L572" class="number ">572</th>
 
                     <td class="" >
+                        <pre>    * @param MassiveAction $ma
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L573" class="number ">573</th>
+
+                    <td class="" >
+                        <pre>    * @param CommonDBTM $item
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L574" class="number ">574</th>
+
+                    <td class="" >
+                        <pre>    * @param array $ids
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L575" class="number ">575</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="processMassiveActionsForOneItemtype">
+                    <th id="L576" class="number ">576</th>
+
+                    <td class="" id="processMassiveActionsForOneItemtype">
+                        <pre>   public static function processMassiveActionsForOneItemtype(<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L577" class="number ">577</th>
+
+                    <td class="" >
+                        <pre>      MassiveAction $ma,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L578" class="number ">578</th>
+
+                    <td class="" >
+                        <pre>      CommonDBTM $item,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L579" class="number ">579</th>
+
+                    <td class="" >
+                        <pre>      array $ids
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L580" class="number ">580</th>
+
+                    <td class="" >
                         <pre>   ) {
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L573" class="number uncovered">573</th>
+                    <th id="L581" class="number uncovered">581</th>
 
                     <td class="uncovered" >
                         <pre>      switch ($ma-&gt;getAction()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L574" class="number uncovered">574</th>
+                    <th id="L582" class="number uncovered">582</th>
 
                     <td class="uncovered" >
                         <pre>         case &#039;InviteUser&#039;:</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L575" class="number uncovered">575</th>
+                    <th id="L583" class="number uncovered">583</th>
 
                     <td class="uncovered" >
                         <pre>            if ($item-&gt;getType() == User::class) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L576" class="number ">576</th>
+                    <th id="L584" class="number ">584</th>
 
                     <td class="" >
                         <pre>               // find the profile ID of the service account (demo plugin)
@@ -4554,42 +4620,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L577" class="number uncovered">577</th>
+                    <th id="L585" class="number uncovered">585</th>
 
                     <td class="uncovered" >
                         <pre>               $config = Config::getConfigurationValues(&#039;flyvemdmdemo&#039;, [&#039;service_profiles_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L578" class="number uncovered">578</th>
+                    <th id="L586" class="number uncovered">586</th>
 
                     <td class="uncovered" >
                         <pre>               if (isset($config[&#039;service_profiles_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L579" class="number uncovered">579</th>
+                    <th id="L587" class="number uncovered">587</th>
 
                     <td class="uncovered" >
                         <pre>                  $profile = new Profile();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L580" class="number uncovered">580</th>
+                    <th id="L588" class="number uncovered">588</th>
 
                     <td class="uncovered" >
                         <pre>                  $profile-&gt;getFromDB($config[&#039;service_profiles_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L581" class="number uncovered">581</th>
+                    <th id="L589" class="number uncovered">589</th>
 
                     <td class="uncovered" >
                         <pre>                  $profile_user = new Profile_User();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L582" class="number ">582</th>
+                    <th id="L590" class="number ">590</th>
 
                     <td class="" >
                         <pre>               }
@@ -4597,28 +4663,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L583" class="number uncovered">583</th>
+                    <th id="L591" class="number uncovered">591</th>
 
                     <td class="uncovered" >
                         <pre>               foreach ($ids as $id) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L584" class="number uncovered">584</th>
+                    <th id="L592" class="number uncovered">592</th>
 
                     <td class="uncovered" >
                         <pre>                  $item-&gt;getFromDB($id);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L585" class="number uncovered">585</th>
+                    <th id="L593" class="number uncovered">593</th>
 
                     <td class="uncovered" >
                         <pre>                  $reject = false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L586" class="number ">586</th>
+                    <th id="L594" class="number ">594</th>
 
                     <td class="" >
                         <pre>
@@ -4626,7 +4692,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L587" class="number ">587</th>
+                    <th id="L595" class="number ">595</th>
 
                     <td class="" >
                         <pre>                  // Do not invite service account users (demo mode)
@@ -4634,91 +4700,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L588" class="number uncovered">588</th>
+                    <th id="L596" class="number uncovered">596</th>
 
                     <td class="uncovered" >
                         <pre>                  if (isset($config[&#039;service_profiles_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L589" class="number uncovered">589</th>
+                    <th id="L597" class="number uncovered">597</th>
 
                     <td class="uncovered" >
                         <pre>                     if ($profile_user-&gt;getFromDBForItems($item, $profile) !== false) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L590" class="number uncovered">590</th>
+                    <th id="L598" class="number uncovered">598</th>
 
                     <td class="uncovered" >
                         <pre>                        $reject = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L591" class="number ">591</th>
-
-                    <td class="" >
-                        <pre>                     }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L592" class="number ">592</th>
-
-                    <td class="" >
-                        <pre>                  }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L593" class="number ">593</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L594" class="number ">594</th>
-
-                    <td class="" >
-                        <pre>                  // Do not invite users without a default email address
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L595" class="number uncovered">595</th>
-
-                    <td class="uncovered" >
-                        <pre>                  $useremail = new UserEmail();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L596" class="number uncovered">596</th>
-
-                    <td class="uncovered" >
-                        <pre>                  $emailAddress = $useremail-&gt;getDefaultForUser($id);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L597" class="number uncovered">597</th>
-
-                    <td class="uncovered" >
-                        <pre>                  if (empty($emailAddress)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L598" class="number uncovered">598</th>
-
-                    <td class="uncovered" >
-                        <pre>                     $reject = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L599" class="number ">599</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>                     }
 </pre>
                     </td>
                 </tr>
@@ -4726,99 +4732,56 @@ layout: coverage
                     <th id="L600" class="number ">600</th>
 
                     <td class="" >
+                        <pre>                  }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L601" class="number ">601</th>
+
+                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L601" class="number uncovered">601</th>
+                    <th id="L602" class="number ">602</th>
 
-                    <td class="uncovered" >
-                        <pre>                  $result = MassiveAction::ACTION_OK;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L602" class="number uncovered">602</th>
-
-                    <td class="uncovered" >
-                        <pre>                  if ($reject) {</pre>
+                    <td class="" >
+                        <pre>                  // Do not invite users without a default email address
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L603" class="number uncovered">603</th>
 
                     <td class="uncovered" >
-                        <pre>                     $result = MassiveAction::ACTION_KO;</pre>
+                        <pre>                  $useremail = new UserEmail();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L604" class="number ">604</th>
+                    <th id="L604" class="number uncovered">604</th>
 
-                    <td class="" >
-                        <pre>                  } else {
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  $emailAddress = $useremail-&gt;getDefaultForUser($id);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L605" class="number uncovered">605</th>
 
                     <td class="uncovered" >
-                        <pre>                     $invitation = new PluginFlyvemdmInvitation();</pre>
+                        <pre>                  if (empty($emailAddress)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L606" class="number uncovered">606</th>
 
                     <td class="uncovered" >
-                        <pre>                     $success = $invitation-&gt;add([</pre>
+                        <pre>                     $reject = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L607" class="number uncovered">607</th>
-
-                    <td class="uncovered" >
-                        <pre>                        &#039;_useremails&#039; =&gt; $emailAddress,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L608" class="number uncovered">608</th>
-
-                    <td class="uncovered" >
-                        <pre>                        &#039;entities_id&#039; =&gt; $_SESSION[&#039;glpiactive_entity&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L609" class="number ">609</th>
-
-                    <td class="" >
-                        <pre>                     ]);
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L610" class="number uncovered">610</th>
-
-                    <td class="uncovered" >
-                        <pre>                     if (!$success) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L611" class="number uncovered">611</th>
-
-                    <td class="uncovered" >
-                        <pre>                        $result = MassiveAction::ACTION_KO;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L612" class="number ">612</th>
-
-                    <td class="" >
-                        <pre>                     }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L613" class="number ">613</th>
+                    <th id="L607" class="number ">607</th>
 
                     <td class="" >
                         <pre>                  }
@@ -4826,53 +4789,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L614" class="number uncovered">614</th>
-
-                    <td class="uncovered" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $id, $result);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L615" class="number ">615</th>
-
-                    <td class="" >
-                        <pre>               }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L616" class="number ">616</th>
-
-                    <td class="" >
-                        <pre>            } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L617" class="number uncovered">617</th>
-
-                    <td class="uncovered" >
-                        <pre>               $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L618" class="number ">618</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L619" class="number ">619</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L620" class="number ">620</th>
+                    <th id="L608" class="number ">608</th>
 
                     <td class="" >
                         <pre>
@@ -4880,21 +4797,170 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L621" class="number uncovered">621</th>
+                    <th id="L609" class="number uncovered">609</th>
 
                     <td class="uncovered" >
-                        <pre>      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);</pre>
+                        <pre>                  $result = MassiveAction::ACTION_OK;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L610" class="number uncovered">610</th>
+
+                    <td class="uncovered" >
+                        <pre>                  if ($reject) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L611" class="number uncovered">611</th>
+
+                    <td class="uncovered" >
+                        <pre>                     $result = MassiveAction::ACTION_KO;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L612" class="number ">612</th>
+
+                    <td class="" >
+                        <pre>                  } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L613" class="number uncovered">613</th>
+
+                    <td class="uncovered" >
+                        <pre>                     $invitation = new PluginFlyvemdmInvitation();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L614" class="number uncovered">614</th>
+
+                    <td class="uncovered" >
+                        <pre>                     $success = $invitation-&gt;add([</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L615" class="number uncovered">615</th>
+
+                    <td class="uncovered" >
+                        <pre>                        &#039;_useremails&#039; =&gt; $emailAddress,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L616" class="number uncovered">616</th>
+
+                    <td class="uncovered" >
+                        <pre>                        &#039;entities_id&#039; =&gt; $_SESSION[&#039;glpiactive_entity&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L617" class="number ">617</th>
+
+                    <td class="" >
+                        <pre>                     ]);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L618" class="number uncovered">618</th>
+
+                    <td class="uncovered" >
+                        <pre>                     if (!$success) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L619" class="number uncovered">619</th>
+
+                    <td class="uncovered" >
+                        <pre>                        $result = MassiveAction::ACTION_KO;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L620" class="number ">620</th>
+
+                    <td class="" >
+                        <pre>                     }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L621" class="number ">621</th>
+
+                    <td class="" >
+                        <pre>                  }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L622" class="number uncovered">622</th>
 
                     <td class="uncovered" >
-                        <pre>   }</pre>
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $id, $result);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L623" class="number ">623</th>
+
+                    <td class="" >
+                        <pre>               }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L624" class="number ">624</th>
+
+                    <td class="" >
+                        <pre>            } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L625" class="number uncovered">625</th>
+
+                    <td class="uncovered" >
+                        <pre>               $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L626" class="number ">626</th>
+
+                    <td class="" >
+                        <pre>            }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L627" class="number ">627</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L628" class="number ">628</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L629" class="number uncovered">629</th>
+
+                    <td class="uncovered" >
+                        <pre>      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L630" class="number uncovered">630</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L631" class="number ">631</th>
 
                     <td class="" >
                         <pre>}

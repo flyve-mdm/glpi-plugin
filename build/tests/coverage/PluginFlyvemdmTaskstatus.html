@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
                     1%
-                                            <small>of 170</small>
+                                            <small>of 173</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -121,7 +121,14 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmTaskstatus::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">38</td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmTaskstatus::rawSearchOptions()</a></td>
+                                        <td style="text-align: center">40</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -2602,11 +2609,70 @@ layout: coverage
                     <th id="L327" class="number uncovered">327</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab = parent::getSearchOptionsNew();</pre>
+                        <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L328" class="number ">328</th>
+                    <th id="L328" class="number unreach">328</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L329" class="number ">329</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="rawSearchOptions">
+                    <th id="L330" class="number ">330</th>
+
+                    <td class="" id="rawSearchOptions">
+                        <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L331" class="number uncovered">331</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (method_exists(&#039;CommonDBTM&#039;, &#039;rawSearchOptions&#039;)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L332" class="number uncovered">332</th>
+
+                    <td class="uncovered" >
+                        <pre>         $tab = parent::rawSearchOptions();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L333" class="number ">333</th>
+
+                    <td class="" >
+                        <pre>      } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L334" class="number uncovered">334</th>
+
+                    <td class="uncovered" >
+                        <pre>         $tab = parent::getSearchOptionsNew();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L335" class="number ">335</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L336" class="number ">336</th>
 
                     <td class="" >
                         <pre>
@@ -2614,42 +2680,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L329" class="number uncovered">329</th>
+                    <th id="L337" class="number uncovered">337</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L330" class="number uncovered">330</th>
+                    <th id="L338" class="number uncovered">338</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L331" class="number uncovered">331</th>
+                    <th id="L339" class="number uncovered">339</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L332" class="number uncovered">332</th>
+                    <th id="L340" class="number uncovered">340</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L333" class="number uncovered">333</th>
+                    <th id="L341" class="number uncovered">341</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L334" class="number ">334</th>
+                    <th id="L342" class="number ">342</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -2657,75 +2723,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L335" class="number uncovered">335</th>
+                    <th id="L343" class="number uncovered">343</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L336" class="number ">336</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L337" class="number ">337</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L338" class="number uncovered">338</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L339" class="number uncovered">339</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L340" class="number uncovered">340</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L341" class="number uncovered">341</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L342" class="number uncovered">342</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Creation date&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L343" class="number uncovered">343</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L344" class="number ">344</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false
+                        <pre>      ];
 </pre>
                     </td>
                 </tr>
@@ -2733,65 +2741,65 @@ layout: coverage
                     <th id="L345" class="number ">345</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L346" class="number ">346</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L347" class="number uncovered">347</th>
+                    <th id="L346" class="number uncovered">346</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L348" class="number uncovered">348</th>
+                    <th id="L347" class="number uncovered">347</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L349" class="number uncovered">349</th>
+                    <th id="L348" class="number uncovered">348</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L349" class="number uncovered">349</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L350" class="number uncovered">350</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;date_mod&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;Creation date&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L351" class="number uncovered">351</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Last update&#039;),</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L352" class="number uncovered">352</th>
+                    <th id="L352" class="number ">352</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L353" class="number ">353</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false
+                        <pre>      ];
 </pre>
                     </td>
                 </tr>
@@ -2799,65 +2807,65 @@ layout: coverage
                     <th id="L354" class="number ">354</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L355" class="number ">355</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L356" class="number uncovered">356</th>
+                    <th id="L355" class="number uncovered">355</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L357" class="number uncovered">357</th>
+                    <th id="L356" class="number uncovered">356</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L358" class="number uncovered">358</th>
+                    <th id="L357" class="number uncovered">357</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L358" class="number uncovered">358</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;date_mod&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L359" class="number uncovered">359</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;plugin_flyvemdm_agents_id&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;Last update&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L360" class="number uncovered">360</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; PluginFlyvemdmAgent::getTypeName(1),</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L361" class="number uncovered">361</th>
+                    <th id="L361" class="number ">361</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;itemlink&#039;,</pre>
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L362" class="number ">362</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false
+                        <pre>      ];
 </pre>
                     </td>
                 </tr>
@@ -2865,65 +2873,65 @@ layout: coverage
                     <th id="L363" class="number ">363</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L364" class="number ">364</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L365" class="number uncovered">365</th>
+                    <th id="L364" class="number uncovered">364</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L366" class="number uncovered">366</th>
+                    <th id="L365" class="number uncovered">365</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;6&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L367" class="number uncovered">367</th>
+                    <th id="L366" class="number uncovered">366</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L367" class="number uncovered">367</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;plugin_flyvemdm_agents_id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L368" class="number uncovered">368</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;plugin_flyvemdm_tasks_id&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; PluginFlyvemdmAgent::getTypeName(1),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L369" class="number uncovered">369</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; PluginFlyvemdmTask::getTypeName(1),</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;itemlink&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L370" class="number uncovered">370</th>
+                    <th id="L370" class="number ">370</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;itemlink&#039;,</pre>
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L371" class="number ">371</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false
+                        <pre>      ];
 </pre>
                     </td>
                 </tr>
@@ -2931,62 +2939,54 @@ layout: coverage
                     <th id="L372" class="number ">372</th>
 
                     <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L373" class="number ">373</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L374" class="number uncovered">374</th>
+                    <th id="L373" class="number uncovered">373</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L375" class="number uncovered">375</th>
+                    <th id="L374" class="number uncovered">374</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;7&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;6&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L376" class="number uncovered">376</th>
+                    <th id="L375" class="number uncovered">375</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L376" class="number uncovered">376</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;plugin_flyvemdm_tasks_id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L377" class="number uncovered">377</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;status&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; PluginFlyvemdmTask::getTypeName(1),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L378" class="number uncovered">378</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Status&#039;, &#039;flyvemdm&#039;),</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;itemlink&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L379" class="number uncovered">379</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L380" class="number ">380</th>
+                    <th id="L379" class="number ">379</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false
@@ -2994,7 +2994,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L381" class="number ">381</th>
+                    <th id="L380" class="number ">380</th>
 
                     <td class="" >
                         <pre>      ];
@@ -3002,7 +3002,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L382" class="number ">382</th>
+                    <th id="L381" class="number ">381</th>
 
                     <td class="" >
                         <pre>
@@ -3010,21 +3010,87 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L382" class="number uncovered">382</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L383" class="number uncovered">383</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;7&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L384" class="number uncovered">384</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L385" class="number uncovered">385</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;status&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L386" class="number uncovered">386</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;Status&#039;, &#039;flyvemdm&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L387" class="number uncovered">387</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L388" class="number ">388</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L389" class="number ">389</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L390" class="number ">390</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L391" class="number uncovered">391</th>
 
                     <td class="uncovered" >
                         <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L384" class="number unreach">384</th>
+                    <th id="L392" class="number unreach">392</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L385" class="number ">385</th>
+                    <th id="L393" class="number ">393</th>
 
                     <td class="" >
                         <pre>}

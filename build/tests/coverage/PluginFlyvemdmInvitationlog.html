@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
                     9%
-                                            <small>of 32</small>
+                                            <small>of 33</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -72,6 +72,13 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmInvitationlog::getSearchOptionsNew()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmInvitationlog::rawSearchOptions()</a></td>
                                         <td style="text-align: center">29</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
@@ -605,334 +612,363 @@ layout: coverage
                     <th id="L66" class="number uncovered">66</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab = [];</pre>
+                        <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L67" class="number ">67</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L68" class="number uncovered">68</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L69" class="number uncovered">69</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L70" class="number uncovered">70</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039; =&gt; __s(&#039;Invitation log&#039;, &#039;flyvemdm&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L71" class="number ">71</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L72" class="number ">72</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L73" class="number uncovered">73</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L74" class="number uncovered">74</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L75" class="number uncovered">75</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L76" class="number uncovered">76</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L77" class="number uncovered">77</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L78" class="number ">78</th>
-
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L79" class="number uncovered">79</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L80" class="number ">80</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L81" class="number ">81</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L82" class="number uncovered">82</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L83" class="number uncovered">83</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L84" class="number uncovered">84</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L85" class="number uncovered">85</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L86" class="number uncovered">86</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;date&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L87" class="number ">87</th>
-
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L88" class="number uncovered">88</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L89" class="number ">89</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L90" class="number ">90</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L91" class="number uncovered">91</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L92" class="number uncovered">92</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L93" class="number uncovered">93</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; PluginFlyvemdmInvitation::getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L94" class="number uncovered">94</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L95" class="number uncovered">95</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
-
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L97" class="number uncovered">97</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;dropdown&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L98" class="number ">98</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L99" class="number ">99</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L100" class="number uncovered">100</th>
-
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L101" class="number uncovered">101</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L102" class="number uncovered">102</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L103" class="number uncovered">103</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;event&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L104" class="number uncovered">104</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;event&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L105" class="number ">105</th>
-
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L106" class="number uncovered">106</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L107" class="number ">107</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L108" class="number ">108</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L109" class="number uncovered">109</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $tab;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L110" class="number unreach">110</th>
+                    <th id="L67" class="number unreach">67</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L68" class="number ">68</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="rawSearchOptions">
+                    <th id="L69" class="number ">69</th>
+
+                    <td class="" id="rawSearchOptions">
+                        <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L70" class="number uncovered">70</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab = [];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L71" class="number ">71</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L72" class="number uncovered">72</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L73" class="number uncovered">73</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L74" class="number uncovered">74</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039; =&gt; __s(&#039;Invitation log&#039;, &#039;flyvemdm&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L75" class="number ">75</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L76" class="number ">76</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L77" class="number uncovered">77</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L78" class="number uncovered">78</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L79" class="number uncovered">79</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L80" class="number uncovered">80</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L81" class="number uncovered">81</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L82" class="number ">82</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L83" class="number uncovered">83</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L84" class="number ">84</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L85" class="number ">85</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L86" class="number uncovered">86</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L87" class="number uncovered">87</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L88" class="number uncovered">88</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L89" class="number uncovered">89</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L90" class="number uncovered">90</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;date&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L91" class="number ">91</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L92" class="number uncovered">92</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L93" class="number ">93</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L94" class="number ">94</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L95" class="number uncovered">95</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L96" class="number uncovered">96</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L97" class="number uncovered">97</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; PluginFlyvemdmInvitation::getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L98" class="number uncovered">98</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L99" class="number uncovered">99</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L100" class="number ">100</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L101" class="number uncovered">101</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;dropdown&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L102" class="number ">102</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L103" class="number ">103</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L104" class="number uncovered">104</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L105" class="number uncovered">105</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L106" class="number uncovered">106</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L107" class="number uncovered">107</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;event&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L108" class="number uncovered">108</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;event&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L109" class="number ">109</th>
+
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L110" class="number uncovered">110</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L111" class="number ">111</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L112" class="number ">112</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L113" class="number uncovered">113</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $tab;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L114" class="number unreach">114</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L115" class="number ">115</th>
 
                     <td class="" >
                         <pre>}

@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
                     15%
-                                            <small>of 247</small>
+                                            <small>of 250</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -163,7 +163,14 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSearchOptionsNew">PluginFlyvemdmPackage::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">32</td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmPackage::rawSearchOptions()</a></td>
+                                        <td style="text-align: center">34</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -2683,120 +2690,113 @@ layout: coverage
                     <th id="L322" class="number uncovered">322</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab = parent::getSearchOptionsNew();</pre>
+                        <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L323" class="number ">323</th>
+                    <th id="L323" class="number unreach">323</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L324" class="number ">324</th>
 
                     <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L324" class="number uncovered">324</th>
+                            <tr class="line" id="rawSearchOptions">
+                    <th id="L325" class="number ">325</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L325" class="number uncovered">325</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                    <td class="" id="rawSearchOptions">
+                        <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L326" class="number uncovered">326</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>      if (method_exists(&#039;CommonDBTM&#039;, &#039;rawSearchOptions&#039;)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L327" class="number uncovered">327</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
+                        <pre>         $tab = parent::rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L328" class="number uncovered">328</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L329" class="number ">329</th>
+                    <th id="L328" class="number ">328</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L330" class="number uncovered">330</th>
+                    <th id="L329" class="number uncovered">329</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
+                        <pre>         $tab = parent::getSearchOptionsNew();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L330" class="number ">330</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L331" class="number ">331</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L332" class="number ">332</th>
+                    <th id="L332" class="number uncovered">332</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L333" class="number uncovered">333</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L334" class="number uncovered">334</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L335" class="number uncovered">335</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L336" class="number uncovered">336</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;alias&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L337" class="number uncovered">337</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;alias&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L338" class="number ">338</th>
+                    <th id="L337" class="number ">337</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -2804,65 +2804,65 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L339" class="number uncovered">339</th>
+                    <th id="L338" class="number uncovered">338</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L339" class="number ">339</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L340" class="number ">340</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L341" class="number ">341</th>
+                    <th id="L341" class="number uncovered">341</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L342" class="number uncovered">342</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L343" class="number uncovered">343</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L344" class="number uncovered">344</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;alias&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L345" class="number uncovered">345</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;version&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;alias&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L346" class="number uncovered">346</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;version&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L347" class="number ">347</th>
+                    <th id="L346" class="number ">346</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -2870,14 +2870,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L348" class="number uncovered">348</th>
+                    <th id="L347" class="number uncovered">347</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L349" class="number ">349</th>
+                    <th id="L348" class="number ">348</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2885,7 +2885,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L350" class="number ">350</th>
+                    <th id="L349" class="number ">349</th>
 
                     <td class="" >
                         <pre>
@@ -2893,42 +2893,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L351" class="number uncovered">351</th>
+                    <th id="L350" class="number uncovered">350</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L352" class="number uncovered">352</th>
+                    <th id="L351" class="number uncovered">351</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L353" class="number uncovered">353</th>
+                    <th id="L352" class="number uncovered">352</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L353" class="number uncovered">353</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;         =&gt; &#039;version&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L354" class="number uncovered">354</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;icon&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;version&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L355" class="number uncovered">355</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;icon&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L356" class="number ">356</th>
+                    <th id="L355" class="number ">355</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -2936,14 +2936,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L357" class="number uncovered">357</th>
+                    <th id="L356" class="number uncovered">356</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;image&#039;,</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L358" class="number ">358</th>
+                    <th id="L357" class="number ">357</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2951,7 +2951,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L359" class="number ">359</th>
+                    <th id="L358" class="number ">358</th>
 
                     <td class="" >
                         <pre>
@@ -2959,45 +2959,53 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L360" class="number uncovered">360</th>
+                    <th id="L359" class="number uncovered">359</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L360" class="number uncovered">360</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L361" class="number uncovered">361</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;                 =&gt; &#039;6&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L362" class="number uncovered">362</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;              =&gt; &#039;glpi_entities&#039;,</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;icon&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L363" class="number uncovered">363</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;              =&gt; &#039;completename&#039;,</pre>
+                        <pre>         &#039;name&#039;          =&gt; __(&#039;icon&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L364" class="number uncovered">364</th>
+                    <th id="L364" class="number ">364</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;               =&gt; __(&#039;Entity&#039;),</pre>
+                    <td class="" >
+                        <pre>         &#039;massiveaction&#039; =&gt; false,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L365" class="number uncovered">365</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;           =&gt; &#039;dropdown&#039;</pre>
+                        <pre>         &#039;datatype&#039;      =&gt; &#039;image&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3020,306 +3028,46 @@ layout: coverage
                     <th id="L368" class="number uncovered">368</th>
 
                     <td class="uncovered" >
-                        <pre>      return $tab;</pre>
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L369" class="number unreach">369</th>
+                    <th id="L369" class="number uncovered">369</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;id&#039;                 =&gt; &#039;6&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L370" class="number ">370</th>
+                    <th id="L370" class="number uncovered">370</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;table&#039;              =&gt; &#039;glpi_entities&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L371" class="number ">371</th>
+                    <th id="L371" class="number uncovered">371</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;field&#039;              =&gt; &#039;completename&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L372" class="number ">372</th>
+                    <th id="L372" class="number uncovered">372</th>
 
-                    <td class="" >
-                        <pre>    * get Cron description parameter for this class
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;name&#039;               =&gt; __(&#039;Entity&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L373" class="number ">373</th>
+                    <th id="L373" class="number uncovered">373</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>         &#039;datatype&#039;           =&gt; &#039;dropdown&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L374" class="number ">374</th>
-
-                    <td class="" >
-                        <pre>    * @param $name string name of the task
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L375" class="number ">375</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L376" class="number ">376</th>
-
-                    <td class="" >
-                        <pre>    * @return array of string
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L377" class="number ">377</th>
-
-                    <td class="" >
-                        <pre>    **/
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="cronInfo">
-                    <th id="L378" class="number ">378</th>
-
-                    <td class="" id="cronInfo">
-                        <pre>   static function cronInfo($name) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L379" class="number ">379</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L380" class="number ">380</th>
-
-                    <td class="" >
-                        <pre>      switch ($name) {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L381" class="number uncovered">381</th>
-
-                    <td class="uncovered" >
-                        <pre>         case &#039;ParseApplication&#039; :</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L382" class="number uncovered">382</th>
-
-                    <td class="uncovered" >
-                        <pre>            return [&#039;description&#039; =&gt; __(&#039;Parse an application to find metadata&#039;, &#039;flyvemdm&#039;)];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L383" class="number ">383</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L384" class="number uncovered">384</th>
-
-                    <td class="uncovered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L385" class="number ">385</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L386" class="number ">386</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L387" class="number ">387</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L388" class="number ">388</th>
-
-                    <td class="" >
-                        <pre>    * Launches parsing of applciation files
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L389" class="number ">389</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L390" class="number ">390</th>
-
-                    <td class="" >
-                        <pre>    * @see PluginFlyvemdmPackage::parseApplication()
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L391" class="number ">391</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L392" class="number ">392</th>
-
-                    <td class="" >
-                        <pre>    * @param CronTask $crontask
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L393" class="number ">393</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L394" class="number ">394</th>
-
-                    <td class="" >
-                        <pre>    * @return integer &gt;0 means done, &lt; 0 means not finished, 0 means nothing to do
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L395" class="number ">395</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="cronParseApplication">
-                    <th id="L396" class="number ">396</th>
-
-                    <td class="" id="cronParseApplication">
-                        <pre>   public static function cronParseApplication(CronTask $crontask) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L397" class="number uncovered">397</th>
-
-                    <td class="uncovered" >
-                        <pre>      global $DB;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L398" class="number ">398</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L399" class="number ">399</th>
-
-                    <td class="" >
-                        <pre>      $request = [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L400" class="number uncovered">400</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;FROM&#039;  =&gt; static::getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L401" class="number ">401</th>
-
-                    <td class="" >
-                        <pre>         &#039;WHERE&#039; =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L402" class="number ">402</th>
-
-                    <td class="" >
-                        <pre>            &#039;AND&#039; =&gt; [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L403" class="number ">403</th>
-
-                    <td class="" >
-                        <pre>               &#039;parse_status&#039; =&gt; &#039;pending&#039;,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L404" class="number ">404</th>
-
-                    <td class="" >
-                        <pre>            ],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L405" class="number ">405</th>
-
-                    <td class="" >
-                        <pre>         ],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L406" class="number uncovered">406</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;LIMIT&#039; =&gt; 10,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L407" class="number ">407</th>
 
                     <td class="" >
                         <pre>      ];
@@ -3327,58 +3075,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L408" class="number uncovered">408</th>
-
-                    <td class="uncovered" >
-                        <pre>      foreach ($DB-&gt;request($request) as $data) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L409" class="number uncovered">409</th>
-
-                    <td class="uncovered" >
-                        <pre>         $package = new static();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L410" class="number uncovered">410</th>
-
-                    <td class="uncovered" >
-                        <pre>         $package-&gt;getFromDB($data[&#039;id&#039;]);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L411" class="number uncovered">411</th>
-
-                    <td class="uncovered" >
-                        <pre>         if ($package-&gt;parseApplication()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L412" class="number uncovered">412</th>
-
-                    <td class="uncovered" >
-                        <pre>            $crontask-&gt;addVolume(1);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L413" class="number ">413</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L414" class="number ">414</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L415" class="number ">415</th>
+                    <th id="L375" class="number ">375</th>
 
                     <td class="" >
                         <pre>
@@ -3386,28 +3083,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L416" class="number uncovered">416</th>
+                    <th id="L376" class="number uncovered">376</th>
 
                     <td class="uncovered" >
-                        <pre>      $cronStatus = 1;</pre>
+                        <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L417" class="number uncovered">417</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $cronStatus;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L418" class="number unreach">418</th>
+                    <th id="L377" class="number unreach">377</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L419" class="number ">419</th>
+                    <th id="L378" class="number ">378</th>
 
                     <td class="" >
                         <pre>
@@ -3415,7 +3105,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L420" class="number ">420</th>
+                    <th id="L379" class="number ">379</th>
 
                     <td class="" >
                         <pre>   /**
@@ -3423,15 +3113,15 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L421" class="number ">421</th>
+                    <th id="L380" class="number ">380</th>
 
                     <td class="" >
-                        <pre>    * Analyzes an application (APK or UPK) to collect metadata
+                        <pre>    * get Cron description parameter for this class
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L422" class="number ">422</th>
+                    <th id="L381" class="number ">381</th>
 
                     <td class="" >
                         <pre>    *
@@ -3439,7 +3129,383 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L382" class="number ">382</th>
+
+                    <td class="" >
+                        <pre>    * @param $name string name of the task
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L383" class="number ">383</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L384" class="number ">384</th>
+
+                    <td class="" >
+                        <pre>    * @return array of string
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L385" class="number ">385</th>
+
+                    <td class="" >
+                        <pre>    **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="cronInfo">
+                    <th id="L386" class="number ">386</th>
+
+                    <td class="" id="cronInfo">
+                        <pre>   static function cronInfo($name) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L387" class="number ">387</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L388" class="number ">388</th>
+
+                    <td class="" >
+                        <pre>      switch ($name) {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L389" class="number uncovered">389</th>
+
+                    <td class="uncovered" >
+                        <pre>         case &#039;ParseApplication&#039; :</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L390" class="number uncovered">390</th>
+
+                    <td class="uncovered" >
+                        <pre>            return [&#039;description&#039; =&gt; __(&#039;Parse an application to find metadata&#039;, &#039;flyvemdm&#039;)];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L391" class="number ">391</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L392" class="number uncovered">392</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L393" class="number ">393</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L394" class="number ">394</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L395" class="number ">395</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L396" class="number ">396</th>
+
+                    <td class="" >
+                        <pre>    * Launches parsing of applciation files
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L397" class="number ">397</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L398" class="number ">398</th>
+
+                    <td class="" >
+                        <pre>    * @see PluginFlyvemdmPackage::parseApplication()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L399" class="number ">399</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L400" class="number ">400</th>
+
+                    <td class="" >
+                        <pre>    * @param CronTask $crontask
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L401" class="number ">401</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L402" class="number ">402</th>
+
+                    <td class="" >
+                        <pre>    * @return integer &gt;0 means done, &lt; 0 means not finished, 0 means nothing to do
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L403" class="number ">403</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="cronParseApplication">
+                    <th id="L404" class="number ">404</th>
+
+                    <td class="" id="cronParseApplication">
+                        <pre>   public static function cronParseApplication(CronTask $crontask) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L405" class="number uncovered">405</th>
+
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L406" class="number ">406</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L407" class="number ">407</th>
+
+                    <td class="" >
+                        <pre>      $request = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L408" class="number uncovered">408</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;FROM&#039;  =&gt; static::getTable(),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L409" class="number ">409</th>
+
+                    <td class="" >
+                        <pre>         &#039;WHERE&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L410" class="number ">410</th>
+
+                    <td class="" >
+                        <pre>            &#039;AND&#039; =&gt; [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L411" class="number ">411</th>
+
+                    <td class="" >
+                        <pre>               &#039;parse_status&#039; =&gt; &#039;pending&#039;,
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L412" class="number ">412</th>
+
+                    <td class="" >
+                        <pre>            ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L413" class="number ">413</th>
+
+                    <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L414" class="number uncovered">414</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;LIMIT&#039; =&gt; 10,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L415" class="number ">415</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L416" class="number uncovered">416</th>
+
+                    <td class="uncovered" >
+                        <pre>      foreach ($DB-&gt;request($request) as $data) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L417" class="number uncovered">417</th>
+
+                    <td class="uncovered" >
+                        <pre>         $package = new static();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L418" class="number uncovered">418</th>
+
+                    <td class="uncovered" >
+                        <pre>         $package-&gt;getFromDB($data[&#039;id&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L419" class="number uncovered">419</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ($package-&gt;parseApplication()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L420" class="number uncovered">420</th>
+
+                    <td class="uncovered" >
+                        <pre>            $crontask-&gt;addVolume(1);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L421" class="number ">421</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L422" class="number ">422</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L423" class="number ">423</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L424" class="number uncovered">424</th>
+
+                    <td class="uncovered" >
+                        <pre>      $cronStatus = 1;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L425" class="number uncovered">425</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $cronStatus;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L426" class="number unreach">426</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L427" class="number ">427</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L428" class="number ">428</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L429" class="number ">429</th>
+
+                    <td class="" >
+                        <pre>    * Analyzes an application (APK or UPK) to collect metadata
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L430" class="number ">430</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L431" class="number ">431</th>
 
                     <td class="" >
                         <pre>    * @return boolean true if success, false otherwise
@@ -3447,7 +3513,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L424" class="number ">424</th>
+                    <th id="L432" class="number ">432</th>
 
                     <td class="" >
                         <pre>    */
@@ -3455,35 +3521,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="parseApplication">
-                    <th id="L425" class="number ">425</th>
+                    <th id="L433" class="number ">433</th>
 
                     <td class="" id="parseApplication">
                         <pre>   private function parseApplication() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L426" class="number uncovered">426</th>
+                    <th id="L434" class="number uncovered">434</th>
 
                     <td class="uncovered" >
                         <pre>      $destination = GLPI_PLUGIN_DOC_DIR . &#039;/&#039; . $this-&gt;fields[&#039;filename&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L427" class="number uncovered">427</th>
+                    <th id="L435" class="number uncovered">435</th>
 
                     <td class="uncovered" >
                         <pre>      $fileExtension = pathinfo($destination, PATHINFO_EXTENSION);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L428" class="number uncovered">428</th>
+                    <th id="L436" class="number uncovered">436</th>
 
                     <td class="uncovered" >
                         <pre>      if ($fileExtension == &#039;apk&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L429" class="number ">429</th>
+                    <th id="L437" class="number ">437</th>
 
                     <td class="" >
                         <pre>         try {
@@ -3491,95 +3557,38 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L430" class="number uncovered">430</th>
+                    <th id="L438" class="number uncovered">438</th>
 
                     <td class="uncovered" >
                         <pre>            $apk = new \ApkParser\Parser($destination);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L431" class="number uncovered">431</th>
+                    <th id="L439" class="number uncovered">439</th>
 
                     <td class="uncovered" >
                         <pre>         } catch (Exception $e) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L432" class="number uncovered">432</th>
+                    <th id="L440" class="number uncovered">440</th>
 
                     <td class="uncovered" >
                         <pre>            Toolbox::logInFile(&#039;php-errors&#039;, &#039;plugin Flyve MDM: &#039; . $e-&gt;getMessage() . PHP_EOL);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L433" class="number uncovered">433</th>
+                    <th id="L441" class="number uncovered">441</th>
 
                     <td class="uncovered" >
                         <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L434" class="number ">434</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L435" class="number uncovered">435</th>
-
-                    <td class="uncovered" >
-                        <pre>      } else if ($fileExtension == &#039;upk&#039;) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L436" class="number uncovered">436</th>
-
-                    <td class="uncovered" >
-                        <pre>         $upkParser = new PluginFlyvemdmUpkparser($destination);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L437" class="number uncovered">437</th>
-
-                    <td class="uncovered" >
-                        <pre>         $apk = $upkParser-&gt;getApkParser();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L438" class="number uncovered">438</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!($apk instanceof \ApkParser\Parser)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L439" class="number uncovered">439</th>
-
-                    <td class="uncovered" >
-                        <pre>            $this-&gt;update([</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L440" class="number uncovered">440</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;id&#039;           =&gt; $this-&gt;fields[&#039;id&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L441" class="number uncovered">441</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;parse_status&#039; =&gt; &#039;failed&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L442" class="number ">442</th>
 
                     <td class="" >
-                        <pre>            ]);
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -3587,11 +3596,68 @@ layout: coverage
                     <th id="L443" class="number uncovered">443</th>
 
                     <td class="uncovered" >
+                        <pre>      } else if ($fileExtension == &#039;upk&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L444" class="number uncovered">444</th>
+
+                    <td class="uncovered" >
+                        <pre>         $upkParser = new PluginFlyvemdmUpkparser($destination);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L445" class="number uncovered">445</th>
+
+                    <td class="uncovered" >
+                        <pre>         $apk = $upkParser-&gt;getApkParser();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L446" class="number uncovered">446</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (!($apk instanceof \ApkParser\Parser)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L447" class="number uncovered">447</th>
+
+                    <td class="uncovered" >
+                        <pre>            $this-&gt;update([</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L448" class="number uncovered">448</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;id&#039;           =&gt; $this-&gt;fields[&#039;id&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L449" class="number uncovered">449</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;parse_status&#039; =&gt; &#039;failed&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L450" class="number ">450</th>
+
+                    <td class="" >
+                        <pre>            ]);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L451" class="number uncovered">451</th>
+
+                    <td class="uncovered" >
                         <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L444" class="number ">444</th>
+                    <th id="L452" class="number ">452</th>
 
                     <td class="" >
                         <pre>         }
@@ -3599,7 +3665,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L445" class="number ">445</th>
+                    <th id="L453" class="number ">453</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -3607,155 +3673,95 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L446" class="number uncovered">446</th>
+                    <th id="L454" class="number uncovered">454</th>
 
                     <td class="uncovered" >
                         <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L447" class="number ">447</th>
+                    <th id="L455" class="number ">455</th>
 
                     <td class="" >
                         <pre>      }
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L448" class="number uncovered">448</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input = [];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L449" class="number uncovered">449</th>
-
-                    <td class="uncovered" >
-                        <pre>      $manifest = $apk-&gt;getManifest();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L450" class="number uncovered">450</th>
-
-                    <td class="uncovered" >
-                        <pre>      $iconResources = $apk-&gt;getResources($manifest-&gt;getApplication()-&gt;getIcon());</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L451" class="number uncovered">451</th>
-
-                    <td class="uncovered" >
-                        <pre>      $apkLabel = $apk-&gt;getResources($manifest-&gt;getApplication()-&gt;getLabel());</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L452" class="number uncovered">452</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input[&#039;icon&#039;] = base64_encode(stream_get_contents($apk-&gt;getStream($iconResources[0])));</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L453" class="number uncovered">453</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input[&#039;package_name&#039;] = $manifest-&gt;getPackageName();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L454" class="number uncovered">454</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input[&#039;version&#039;] = $manifest-&gt;getVersionName();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L455" class="number uncovered">455</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input[&#039;version_code&#039;] = $manifest-&gt;getVersionCode();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L456" class="number uncovered">456</th>
 
                     <td class="uncovered" >
-                        <pre>      if ((!isset($input[&#039;alias&#039;])) || (strlen($input[&#039;alias&#039;]) == 0)) {</pre>
+                        <pre>      $input = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L457" class="number uncovered">457</th>
 
                     <td class="uncovered" >
-                        <pre>         $input[&#039;alias&#039;] = $apkLabel[0]; // Get the first item</pre>
+                        <pre>      $manifest = $apk-&gt;getManifest();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L458" class="number ">458</th>
+                    <th id="L458" class="number uncovered">458</th>
 
-                    <td class="" >
-                        <pre>      }
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $iconResources = $apk-&gt;getResources($manifest-&gt;getApplication()-&gt;getIcon());</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L459" class="number ">459</th>
+                    <th id="L459" class="number uncovered">459</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $apkLabel = $apk-&gt;getResources($manifest-&gt;getApplication()-&gt;getLabel());</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L460" class="number uncovered">460</th>
 
                     <td class="uncovered" >
-                        <pre>      $input[&#039;id&#039;] = $this-&gt;fields[&#039;id&#039;];</pre>
+                        <pre>      $input[&#039;icon&#039;] = base64_encode(stream_get_contents($apk-&gt;getStream($iconResources[0])));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L461" class="number uncovered">461</th>
 
                     <td class="uncovered" >
-                        <pre>      $input[&#039;parse_status&#039;] = &#039;parsed&#039;;</pre>
+                        <pre>      $input[&#039;package_name&#039;] = $manifest-&gt;getPackageName();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L462" class="number uncovered">462</th>
 
                     <td class="uncovered" >
-                        <pre>      return $this-&gt;update($input);</pre>
+                        <pre>      $input[&#039;version&#039;] = $manifest-&gt;getVersionName();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L463" class="number unreach">463</th>
+                    <th id="L463" class="number uncovered">463</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="uncovered" >
+                        <pre>      $input[&#039;version_code&#039;] = $manifest-&gt;getVersionCode();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L464" class="number ">464</th>
+                    <th id="L464" class="number uncovered">464</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      if ((!isset($input[&#039;alias&#039;])) || (strlen($input[&#039;alias&#039;]) == 0)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L465" class="number ">465</th>
+                    <th id="L465" class="number uncovered">465</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $input[&#039;alias&#039;] = $apkLabel[0]; // Get the first item</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L466" class="number ">466</th>
 
                     <td class="" >
-                        <pre>    * Deletes the packages related to the entity
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -3763,48 +3769,40 @@ layout: coverage
                     <th id="L467" class="number ">467</th>
 
                     <td class="" >
-                        <pre>    * @param CommonDBTM $item
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L468" class="number ">468</th>
+                    <th id="L468" class="number uncovered">468</th>
 
-                    <td class="" >
-                        <pre>    */
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $input[&#039;id&#039;] = $this-&gt;fields[&#039;id&#039;];</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="hook_entity_purge">
-                    <th id="L469" class="number ">469</th>
+                            <tr class="line" id="">
+                    <th id="L469" class="number uncovered">469</th>
 
-                    <td class="" id="hook_entity_purge">
-                        <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="uncovered" >
+                        <pre>      $input[&#039;parse_status&#039;] = &#039;parsed&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L470" class="number uncovered">470</th>
 
                     <td class="uncovered" >
-                        <pre>      $package = new static();</pre>
+                        <pre>      return $this-&gt;update($input);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L471" class="number uncovered">471</th>
+                    <th id="L471" class="number unreach">471</th>
 
-                    <td class="uncovered" >
-                        <pre>      $package-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L472" class="number uncovered">472</th>
-
-                    <td class="uncovered" >
+                    <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L473" class="number ">473</th>
+                    <th id="L472" class="number ">472</th>
 
                     <td class="" >
                         <pre>
@@ -3812,7 +3810,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L474" class="number ">474</th>
+                    <th id="L473" class="number ">473</th>
 
                     <td class="" >
                         <pre>   /**
@@ -3820,10 +3818,18 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L474" class="number ">474</th>
+
+                    <td class="" >
+                        <pre>    * Deletes the packages related to the entity
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L475" class="number ">475</th>
 
                     <td class="" >
-                        <pre>    * @param string $destination filename with full path to be written
+                        <pre>    * @param CommonDBTM $item
 </pre>
                     </td>
                 </tr>
@@ -3835,58 +3841,36 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="logErrorIfDirNotWritable">
+                            <tr class="line" id="hook_entity_purge">
                     <th id="L477" class="number ">477</th>
 
-                    <td class="" id="logErrorIfDirNotWritable">
-                        <pre>   private function logErrorIfDirNotWritable($destination) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="hook_entity_purge">
+                        <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L478" class="number uncovered">478</th>
 
                     <td class="uncovered" >
-                        <pre>      $dirname = dirname($destination);</pre>
+                        <pre>      $package = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L479" class="number uncovered">479</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!is_writable($dirname)) {</pre>
+                        <pre>      $package-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L480" class="number uncovered">480</th>
 
                     <td class="uncovered" >
-                        <pre>         Toolbox::logInFile(&#039;php-errors&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L481" class="number uncovered">481</th>
-
-                    <td class="uncovered" >
-                        <pre>            &quot;Plugin Flyvemdm : Directory &#039;$dirname&#039; is not writeable&quot;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L482" class="number ">482</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L483" class="number uncovered">483</th>
-
-                    <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L484" class="number ">484</th>
+                    <th id="L481" class="number ">481</th>
 
                     <td class="" >
                         <pre>
@@ -3894,7 +3878,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L485" class="number ">485</th>
+                    <th id="L482" class="number ">482</th>
 
                     <td class="" >
                         <pre>   /**
@@ -3902,62 +3886,84 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L486" class="number ">486</th>
+                    <th id="L483" class="number ">483</th>
 
                     <td class="" >
-                        <pre>    * @param string $filename
+                        <pre>    * @param string $destination filename with full path to be written
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L487" class="number ">487</th>
-
-                    <td class="" >
-                        <pre>    * @return bool
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L488" class="number ">488</th>
+                    <th id="L484" class="number ">484</th>
 
                     <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="isFileUploadValid">
-                    <th id="L489" class="number ">489</th>
+                            <tr class="line" id="logErrorIfDirNotWritable">
+                    <th id="L485" class="number ">485</th>
 
-                    <td class="" id="isFileUploadValid">
-                        <pre>   private function isFileUploadValid($filename) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="logErrorIfDirNotWritable">
+                        <pre>   private function logErrorIfDirNotWritable($destination) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L490" class="number uncovered">490</th>
+                    <th id="L486" class="number uncovered">486</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!isset($filename) || !$filename) {</pre>
+                        <pre>      $dirname = dirname($destination);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L487" class="number uncovered">487</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!is_writable($dirname)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L488" class="number uncovered">488</th>
+
+                    <td class="uncovered" >
+                        <pre>         Toolbox::logInFile(&#039;php-errors&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L489" class="number uncovered">489</th>
+
+                    <td class="uncovered" >
+                        <pre>            &quot;Plugin Flyvemdm : Directory &#039;$dirname&#039; is not writeable&quot;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L490" class="number ">490</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L491" class="number uncovered">491</th>
 
                     <td class="uncovered" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;File uploaded without name&#039;, &quot;flyvemdm&quot;));</pre>
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L492" class="number uncovered">492</th>
+                    <th id="L492" class="number ">492</th>
 
-                    <td class="uncovered" >
-                        <pre>         return false;</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L493" class="number ">493</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -3965,40 +3971,56 @@ layout: coverage
                     <th id="L494" class="number ">494</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @param string $filename
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L495" class="number uncovered">495</th>
+                    <th id="L495" class="number ">495</th>
 
-                    <td class="uncovered" >
-                        <pre>      $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);</pre>
+                    <td class="" >
+                        <pre>    * @return bool
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L496" class="number uncovered">496</th>
+                    <th id="L496" class="number ">496</th>
 
-                    <td class="uncovered" >
-                        <pre>      if (!in_array($fileExtension, [&#039;apk&#039;, &#039;upk&#039;])) {</pre>
+                    <td class="" >
+                        <pre>    */
+</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L497" class="number uncovered">497</th>
+                            <tr class="line" id="isFileUploadValid">
+                    <th id="L497" class="number ">497</th>
 
-                    <td class="uncovered" >
-                        <pre>         Session::addMessageAfterRedirect(__(&#039;Only APK and UPK files are allowed&#039;, &#039;flyvemdm&#039;));</pre>
+                    <td class="" id="isFileUploadValid">
+                        <pre>   private function isFileUploadValid($filename) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L498" class="number uncovered">498</th>
 
                     <td class="uncovered" >
+                        <pre>      if (!isset($filename) || !$filename) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L499" class="number uncovered">499</th>
+
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;File uploaded without name&#039;, &quot;flyvemdm&quot;));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L500" class="number uncovered">500</th>
+
+                    <td class="uncovered" >
                         <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L499" class="number ">499</th>
+                    <th id="L501" class="number ">501</th>
 
                     <td class="" >
                         <pre>      }
@@ -4006,7 +4028,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L500" class="number ">500</th>
+                    <th id="L502" class="number ">502</th>
 
                     <td class="" >
                         <pre>
@@ -4014,21 +4036,65 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L501" class="number uncovered">501</th>
+                    <th id="L503" class="number uncovered">503</th>
+
+                    <td class="uncovered" >
+                        <pre>      $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L504" class="number uncovered">504</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!in_array($fileExtension, [&#039;apk&#039;, &#039;upk&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L505" class="number uncovered">505</th>
+
+                    <td class="uncovered" >
+                        <pre>         Session::addMessageAfterRedirect(__(&#039;Only APK and UPK files are allowed&#039;, &#039;flyvemdm&#039;));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L506" class="number uncovered">506</th>
+
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L507" class="number ">507</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L508" class="number ">508</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L509" class="number uncovered">509</th>
 
                     <td class="uncovered" >
                         <pre>      return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L502" class="number unreach">502</th>
+                    <th id="L510" class="number unreach">510</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L503" class="number ">503</th>
+                    <th id="L511" class="number ">511</th>
 
                     <td class="" >
                         <pre>
@@ -4036,7 +4102,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L504" class="number ">504</th>
+                    <th id="L512" class="number ">512</th>
 
                     <td class="" >
                         <pre>   /**
@@ -4044,7 +4110,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L505" class="number ">505</th>
+                    <th id="L513" class="number ">513</th>
 
                     <td class="" >
                         <pre>    * Find the added file
@@ -4052,7 +4118,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L506" class="number ">506</th>
+                    <th id="L514" class="number ">514</th>
 
                     <td class="" >
                         <pre>    * @return array|bool
@@ -4060,7 +4126,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L507" class="number ">507</th>
+                    <th id="L515" class="number ">515</th>
 
                     <td class="" >
                         <pre>    */
@@ -4068,21 +4134,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="prepareFileUpload">
-                    <th id="L508" class="number ">508</th>
+                    <th id="L516" class="number ">516</th>
 
                     <td class="" id="prepareFileUpload">
                         <pre>   private function prepareFileUpload() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L509" class="number uncovered">509</th>
+                    <th id="L517" class="number uncovered">517</th>
 
                     <td class="uncovered" >
                         <pre>      if (!isAPI()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L510" class="number ">510</th>
+                    <th id="L518" class="number ">518</th>
 
                     <td class="" >
                         <pre>         // from GLPI UI
@@ -4090,76 +4156,17 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L511" class="number uncovered">511</th>
+                    <th id="L519" class="number uncovered">519</th>
 
                     <td class="uncovered" >
                         <pre>         $postFile = $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L512" class="number uncovered">512</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!isset($postFile) || !is_string($postFile)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L513" class="number uncovered">513</th>
-
-                    <td class="uncovered" >
-                        <pre>            Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &quot;flyvemdm&quot;));</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L514" class="number uncovered">514</th>
-
-                    <td class="uncovered" >
-                        <pre>            return false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L515" class="number ">515</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L516" class="number uncovered">516</th>
-
-                    <td class="uncovered" >
-                        <pre>         $actualFilename = $postFile;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L517" class="number uncovered">517</th>
-
-                    <td class="uncovered" >
-                        <pre>         $uploadedFile = GLPI_TMP_DIR . &quot;/&quot; . $postFile;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L518" class="number ">518</th>
-
-                    <td class="" >
-                        <pre>      } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L519" class="number ">519</th>
-
-                    <td class="" >
-                        <pre>         // from API
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L520" class="number uncovered">520</th>
 
                     <td class="uncovered" >
-                        <pre>         if (!isset($_FILES[&#039;file&#039;])) {</pre>
+                        <pre>         if (!isset($postFile) || !is_string($postFile)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4185,47 +4192,47 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L524" class="number ">524</th>
+                    <th id="L524" class="number uncovered">524</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>         $actualFilename = $postFile;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L525" class="number uncovered">525</th>
 
                     <td class="uncovered" >
-                        <pre>         $fileError = $_FILES[&#039;file&#039;][&#039;error&#039;];</pre>
+                        <pre>         $uploadedFile = GLPI_TMP_DIR . &quot;/&quot; . $postFile;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L526" class="number uncovered">526</th>
+                    <th id="L526" class="number ">526</th>
 
-                    <td class="uncovered" >
-                        <pre>         if (!$fileError == 0) {</pre>
+                    <td class="" >
+                        <pre>      } else {
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L527" class="number uncovered">527</th>
+                    <th id="L527" class="number ">527</th>
 
-                    <td class="uncovered" >
-                        <pre>            if (!$fileError == 4) {</pre>
+                    <td class="" >
+                        <pre>         // from API
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L528" class="number uncovered">528</th>
 
                     <td class="uncovered" >
-                        <pre>               Session::addMessageAfterRedirect(__(&#039;File upload failed&#039;, &quot;flyvemdm&quot;));</pre>
+                        <pre>         if (!isset($_FILES[&#039;file&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L529" class="number ">529</th>
+                    <th id="L529" class="number uncovered">529</th>
 
-                    <td class="" >
-                        <pre>            }
-</pre>
+                    <td class="uncovered" >
+                        <pre>            Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &quot;flyvemdm&quot;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4255,35 +4262,35 @@ layout: coverage
                     <th id="L533" class="number uncovered">533</th>
 
                     <td class="uncovered" >
-                        <pre>         $fileName = $_FILES[&#039;file&#039;][&#039;name&#039;];</pre>
+                        <pre>         $fileError = $_FILES[&#039;file&#039;][&#039;error&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L534" class="number uncovered">534</th>
 
                     <td class="uncovered" >
-                        <pre>         $fileTmpName = $_FILES[&#039;file&#039;][&#039;tmp_name&#039;];</pre>
+                        <pre>         if (!$fileError == 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L535" class="number uncovered">535</th>
 
                     <td class="uncovered" >
-                        <pre>         $destination = GLPI_TMP_DIR . &#039;/&#039; . $fileName;</pre>
+                        <pre>            if (!$fileError == 4) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L536" class="number uncovered">536</th>
 
                     <td class="uncovered" >
-                        <pre>         if (is_readable($fileTmpName) &amp;&amp; !is_readable($destination)) {</pre>
+                        <pre>               Session::addMessageAfterRedirect(__(&#039;File upload failed&#039;, &quot;flyvemdm&quot;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L537" class="number ">537</th>
 
                     <td class="" >
-                        <pre>            // Move the file to GLPI_TMP_DIR
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4291,40 +4298,11 @@ layout: coverage
                     <th id="L538" class="number uncovered">538</th>
 
                     <td class="uncovered" >
-                        <pre>            if (!is_dir(GLPI_TMP_DIR)) {</pre>
+                        <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L539" class="number uncovered">539</th>
-
-                    <td class="uncovered" >
-                        <pre>               Session::addMessageAfterRedirect(__(&quot;Temp directory doesn&#039;t exist&quot;), false,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L540" class="number uncovered">540</th>
-
-                    <td class="uncovered" >
-                        <pre>                  ERROR);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L541" class="number uncovered">541</th>
-
-                    <td class="uncovered" >
-                        <pre>               return false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L542" class="number ">542</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L543" class="number ">543</th>
+                    <th id="L539" class="number ">539</th>
 
                     <td class="" >
                         <pre>         }
@@ -4332,7 +4310,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L544" class="number ">544</th>
+                    <th id="L540" class="number ">540</th>
 
                     <td class="" >
                         <pre>
@@ -4340,353 +4318,71 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L545" class="number uncovered">545</th>
+                    <th id="L541" class="number uncovered">541</th>
 
                     <td class="uncovered" >
-                        <pre>         $actualFilename = $fileName;</pre>
+                        <pre>         $fileName = $_FILES[&#039;file&#039;][&#039;name&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L542" class="number uncovered">542</th>
+
+                    <td class="uncovered" >
+                        <pre>         $fileTmpName = $_FILES[&#039;file&#039;][&#039;tmp_name&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L543" class="number uncovered">543</th>
+
+                    <td class="uncovered" >
+                        <pre>         $destination = GLPI_TMP_DIR . &#039;/&#039; . $fileName;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L544" class="number uncovered">544</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (is_readable($fileTmpName) &amp;&amp; !is_readable($destination)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L545" class="number ">545</th>
+
+                    <td class="" >
+                        <pre>            // Move the file to GLPI_TMP_DIR
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L546" class="number uncovered">546</th>
 
                     <td class="uncovered" >
-                        <pre>         $uploadedFile = $destination;</pre>
+                        <pre>            if (!is_dir(GLPI_TMP_DIR)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L547" class="number ">547</th>
+                    <th id="L547" class="number uncovered">547</th>
 
-                    <td class="" >
-                        <pre>      }
-</pre>
+                    <td class="uncovered" >
+                        <pre>               Session::addMessageAfterRedirect(__(&quot;Temp directory doesn&#039;t exist&quot;), false,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L548" class="number ">548</th>
+                    <th id="L548" class="number uncovered">548</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>                  ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L549" class="number uncovered">549</th>
 
                     <td class="uncovered" >
-                        <pre>      return [&#039;uploadedFile&#039; =&gt; $uploadedFile, &#039;filename&#039; =&gt; $actualFilename];</pre>
+                        <pre>               return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L550" class="number unreach">550</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L551" class="number ">551</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L552" class="number ">552</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L553" class="number ">553</th>
-
-                    <td class="" >
-                        <pre>    * Gets the filename of a package
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L554" class="number ">554</th>
-
-                    <td class="" >
-                        <pre>    * @return string|NULL the path to tie file relative to the DOC ROOT àf GLPI
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L555" class="number ">555</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getFilename">
-                    <th id="L556" class="number ">556</th>
-
-                    <td class="" id="getFilename">
-                        <pre>   public function getFilename() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L557" class="number uncovered">557</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (!$this-&gt;isNewItem()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L558" class="number uncovered">558</th>
-
-                    <td class="uncovered" >
-                        <pre>         return $this-&gt;fields[&#039;filename&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L559" class="number ">559</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L560" class="number ">560</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L561" class="number uncovered">561</th>
-
-                    <td class="uncovered" >
-                        <pre>      return null;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L562" class="number unreach">562</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L563" class="number ">563</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L564" class="number ">564</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L565" class="number ">565</th>
-
-                    <td class="" >
-                        <pre>    * Adds extra fields to the itemType
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L566" class="number ">566</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="addExtraFileInfo">
-                    <th id="L567" class="number ">567</th>
-
-                    <td class="" id="addExtraFileInfo">
-                        <pre>   protected function addExtraFileInfo() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L568" class="number covered">568</th>
-
-                    <td class="covered" >
-                        <pre>      $filename = GLPI_PLUGIN_DOC_DIR . &#039;/&#039; . $this-&gt;fields[&#039;filename&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L569" class="number covered">569</th>
-
-                    <td class="covered" >
-                        <pre>      $isFile = is_file($filename);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L570" class="number covered">570</th>
-
-                    <td class="covered" >
-                        <pre>      $this-&gt;fields[&#039;filesize&#039;] = ($isFile) ? fileSize($filename) : 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L571" class="number covered">571</th>
-
-                    <td class="covered" >
-                        <pre>      $this-&gt;fields[&#039;mime_type&#039;] = ($isFile) ? mime_content_type($filename) : &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L572" class="number covered">572</th>
-
-                    <td class="covered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L573" class="number ">573</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L574" class="number ">574</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L575" class="number ">575</th>
-
-                    <td class="" >
-                        <pre>    * Define how to display a specific value in search result table
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L576" class="number ">576</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L577" class="number ">577</th>
-
-                    <td class="" >
-                        <pre>    * @param  string $field   Name of the field as define in $this-&gt;getSearchOptions()
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L578" class="number ">578</th>
-
-                    <td class="" >
-                        <pre>    * @param  string $values  The value as it is stored in DB
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L579" class="number ">579</th>
-
-                    <td class="" >
-                        <pre>    * @param  array  $options Options (optional)
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L580" class="number ">580</th>
-
-                    <td class="" >
-                        <pre>    * @return string          Value to be displayed
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L581" class="number ">581</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getSpecificValueToDisplay">
-                    <th id="L582" class="number ">582</th>
-
-                    <td class="" id="getSpecificValueToDisplay">
-                        <pre>   public static function getSpecificValueToDisplay($field, $values, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L583" class="number uncovered">583</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (!is_array($values)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L584" class="number uncovered">584</th>
-
-                    <td class="uncovered" >
-                        <pre>         $values = [$field =&gt; $values];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L585" class="number ">585</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L586" class="number ">586</th>
-
-                    <td class="" >
-                        <pre>      switch ($field) {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L587" class="number uncovered">587</th>
-
-                    <td class="uncovered" >
-                        <pre>         case &#039;icon&#039;:</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L588" class="number uncovered">588</th>
-
-                    <td class="uncovered" >
-                        <pre>            if (!isAPI()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L589" class="number uncovered">589</th>
-
-                    <td class="uncovered" >
-                        <pre>               $output = &#039;&lt;img style=&quot;height: 14px&quot; src=&quot;data:image/png;base64,&#039;. $values[$field] .&#039;&quot;&gt;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L590" class="number uncovered">590</th>
-
-                    <td class="uncovered" >
-                        <pre>               return $output;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L591" class="number ">591</th>
+                    <th id="L550" class="number ">550</th>
 
                     <td class="" >
                         <pre>            }
@@ -4694,10 +4390,321 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L551" class="number ">551</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L552" class="number ">552</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L553" class="number uncovered">553</th>
+
+                    <td class="uncovered" >
+                        <pre>         $actualFilename = $fileName;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L554" class="number uncovered">554</th>
+
+                    <td class="uncovered" >
+                        <pre>         $uploadedFile = $destination;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L555" class="number ">555</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L556" class="number ">556</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L557" class="number uncovered">557</th>
+
+                    <td class="uncovered" >
+                        <pre>      return [&#039;uploadedFile&#039; =&gt; $uploadedFile, &#039;filename&#039; =&gt; $actualFilename];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L558" class="number unreach">558</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L559" class="number ">559</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L560" class="number ">560</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L561" class="number ">561</th>
+
+                    <td class="" >
+                        <pre>    * Gets the filename of a package
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L562" class="number ">562</th>
+
+                    <td class="" >
+                        <pre>    * @return string|NULL the path to tie file relative to the DOC ROOT àf GLPI
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L563" class="number ">563</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getFilename">
+                    <th id="L564" class="number ">564</th>
+
+                    <td class="" id="getFilename">
+                        <pre>   public function getFilename() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L565" class="number uncovered">565</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!$this-&gt;isNewItem()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L566" class="number uncovered">566</th>
+
+                    <td class="uncovered" >
+                        <pre>         return $this-&gt;fields[&#039;filename&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L567" class="number ">567</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L568" class="number ">568</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L569" class="number uncovered">569</th>
+
+                    <td class="uncovered" >
+                        <pre>      return null;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L570" class="number unreach">570</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L571" class="number ">571</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L572" class="number ">572</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L573" class="number ">573</th>
+
+                    <td class="" >
+                        <pre>    * Adds extra fields to the itemType
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L574" class="number ">574</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="addExtraFileInfo">
+                    <th id="L575" class="number ">575</th>
+
+                    <td class="" id="addExtraFileInfo">
+                        <pre>   protected function addExtraFileInfo() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L576" class="number covered">576</th>
+
+                    <td class="covered" >
+                        <pre>      $filename = GLPI_PLUGIN_DOC_DIR . &#039;/&#039; . $this-&gt;fields[&#039;filename&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L577" class="number covered">577</th>
+
+                    <td class="covered" >
+                        <pre>      $isFile = is_file($filename);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L578" class="number covered">578</th>
+
+                    <td class="covered" >
+                        <pre>      $this-&gt;fields[&#039;filesize&#039;] = ($isFile) ? fileSize($filename) : 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L579" class="number covered">579</th>
+
+                    <td class="covered" >
+                        <pre>      $this-&gt;fields[&#039;mime_type&#039;] = ($isFile) ? mime_content_type($filename) : &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L580" class="number covered">580</th>
+
+                    <td class="covered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L581" class="number ">581</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L582" class="number ">582</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L583" class="number ">583</th>
+
+                    <td class="" >
+                        <pre>    * Define how to display a specific value in search result table
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L584" class="number ">584</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L585" class="number ">585</th>
+
+                    <td class="" >
+                        <pre>    * @param  string $field   Name of the field as define in $this-&gt;getSearchOptions()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L586" class="number ">586</th>
+
+                    <td class="" >
+                        <pre>    * @param  string $values  The value as it is stored in DB
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L587" class="number ">587</th>
+
+                    <td class="" >
+                        <pre>    * @param  array  $options Options (optional)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L588" class="number ">588</th>
+
+                    <td class="" >
+                        <pre>    * @return string          Value to be displayed
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L589" class="number ">589</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getSpecificValueToDisplay">
+                    <th id="L590" class="number ">590</th>
+
+                    <td class="" id="getSpecificValueToDisplay">
+                        <pre>   public static function getSpecificValueToDisplay($field, $values, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L591" class="number uncovered">591</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!is_array($values)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L592" class="number uncovered">592</th>
 
                     <td class="uncovered" >
-                        <pre>            break;</pre>
+                        <pre>         $values = [$field =&gt; $values];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4709,21 +4716,80 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L594" class="number uncovered">594</th>
+                    <th id="L594" class="number ">594</th>
+
+                    <td class="" >
+                        <pre>      switch ($field) {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L595" class="number uncovered">595</th>
+
+                    <td class="uncovered" >
+                        <pre>         case &#039;icon&#039;:</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L596" class="number uncovered">596</th>
+
+                    <td class="uncovered" >
+                        <pre>            if (!isAPI()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L597" class="number uncovered">597</th>
+
+                    <td class="uncovered" >
+                        <pre>               $output = &#039;&lt;img style=&quot;height: 14px&quot; src=&quot;data:image/png;base64,&#039;. $values[$field] .&#039;&quot;&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L598" class="number uncovered">598</th>
+
+                    <td class="uncovered" >
+                        <pre>               return $output;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L599" class="number ">599</th>
+
+                    <td class="" >
+                        <pre>            }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L600" class="number uncovered">600</th>
+
+                    <td class="uncovered" >
+                        <pre>            break;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L601" class="number ">601</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L602" class="number uncovered">602</th>
 
                     <td class="uncovered" >
                         <pre>      return parent::getSpecificValueToDisplay($field, $values, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L595" class="number unreach">595</th>
+                    <th id="L603" class="number unreach">603</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L596" class="number ">596</th>
+                    <th id="L604" class="number ">604</th>
 
                     <td class="" >
                         <pre>}
