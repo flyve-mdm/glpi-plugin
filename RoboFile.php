@@ -205,6 +205,10 @@ class RoboFile extends Glpi\Tools\RoboFile {
          throw new Exception("$version is not semver compliant. See http://semver.org/");
       }
 
+      if (!$this->checkUpgrade('head')) {
+         throw new Exception("Bad upgrade code");
+      }
+
       $tag = self::$tagPrefix . $version;
       if ($release != 'release') {
          if ($this->getIsRelease() === 'true') {
@@ -681,5 +685,14 @@ class RoboFile extends Glpi\Tools\RoboFile {
       }
 
        return true;
+   }
+
+   private function checkUpgrade($rev) {
+      $fileContent = $this->getFileFromGit('install/upgrade_to_develop.php', $rev);
+      if ($fileContent != '') {
+         throw new Exception ('upgrade_to_develop.php must be renamed !');
+         return false;
+      }
+      return true;
    }
 }
