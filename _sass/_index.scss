@@ -773,8 +773,31 @@ blockquote {
 
   &.visible-xs-inline-block {
     &.visible-sm-inline-block {
-      padding: 4% 0 0;
       width: 260px;
+    }
+  }
+
+  @media (max-width: 414px) {
+    &.visible-xs-inline-block {
+      &.visible-sm-inline-block {
+        padding: 3% 0 0;
+      }
+    }
+  }
+
+  @media (min-width: 414px) and (max-width: 767px) {
+    &.visible-xs-inline-block {
+      &.visible-sm-inline-block {
+        padding: 3% 0 0;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    &.visible-xs-inline-block {
+      &.visible-sm-inline-block {
+        padding: 10% 0 0;
+      }
     }
   }
 
