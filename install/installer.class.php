@@ -105,7 +105,8 @@ class PluginFlyvemdmInstaller {
 
       // adding DB model from sql file
       // TODO : migrate in-code DB model setup here
-      if (self::getCurrentVersion() == '') {
+      $schemaVersion = self::getSchemaVersion();
+      if ($schemaVersion === null) {
          // Setup DB model
          $dbFile = PLUGIN_FLYVEMDM_ROOT . "/install/mysql/plugin_flyvemdm_empty.sql";
          if (!$DB->runFile($dbFile)) {
@@ -115,12 +116,7 @@ class PluginFlyvemdmInstaller {
 
          $this->createInitialConfig();
       } else {
-         if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION,
-               "-dev") || (version_compare(self::getCurrentVersion(),
-                  PLUGIN_FLYVEMDM_VERSION) != 0)) {
-            // TODO : Upgrade (or downgrade)
-            $this->upgrade(self::getCurrentVersion());
-         }
+         $this->upgrade($schemaVersion);
       }
 
       $this->migration->executeMigration();
@@ -139,7 +135,10 @@ class PluginFlyvemdmInstaller {
       $this->createRootEntityConfig();
       $this->createDisplayPreferences();
 
-      Config::setConfigurationValues('flyvemdm', ['version' => PLUGIN_FLYVEMDM_VERSION]);
+      Config::setConfigurationValues('flyvemdm', [
+         'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
+         'version' => PLUGIN_FLYVEMDM_VERSION
+      ]);
 
       return true;
    }
@@ -207,16 +206,35 @@ class PluginFlyvemdmInstaller {
    /**
     * @return null|string
     */
-   public static function getCurrentVersion() {
-      if (self::$currentVersion === null) {
-         $config = \Config::getConfigurationValues('flyvemdm', ['version']);
-         if (!isset($config['version'])) {
-            self::$currentVersion = '';
-         } else {
-            self::$currentVersion = $config['version'];
+   public function getSchemaVersion() {
+      if ($this->isPluginInstalled()) {
+         $config = Config::getConfigurationValues('flyvemdm', ['schema_version']);
+         if (!isset($config['schema_version'])) {
+            return '0.0';
+         }
+         return $config['schema_version'];
+      }
+
+      return null;
+   }
+
+   /**
+    * is the plugin already installed ?
+    *
+    * @return boolean
+    */
+   protected function isPluginInstalled() {
+      global $DB;
+
+      // Check tables of the plugin between 1.1 and 2.0 releases
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm_%'");
+      if ($result) {
+         if ($DB->numrows($result) > 0) {
+            return true;
          }
       }
-      return self::$currentVersion;
+
+      return false;
    }
 
    protected function createRootEntityConfig() {
@@ -495,21 +513,37 @@ Regards,
    /**
     * Upgrade the plugin to the current code version
     *
-    * @param string $fromVersion
+    * @param string version to upgrade from
     */
-   protected function upgrade($fromVersion) {
-      switch ($fromVersion) {
-         case '2.0.0':
-            // Example : upgrade to version 3.0.0
-            // $this->upgradeOneStep('3.0.0');
-         case '3.0.0':
-            // Example : upgrade to version 4.0.0
-            // $this->upgradeOneStep('4.0.0');
+   protected function upgrade($fromSchemaVersion) {
+      switch ($fromSchemaVersion) {
+         case '0.0':
+            // Upgrade to 2.0
+            require_once(__DIR__ . '/upgrade_to_2.0.php');
+            $upgradeStep = new PluginFlyvemdmUpgradeTo2_0();
+            $upgradeStep->upgrade(new Migration('2.0'));
+
+         case '2.0':
+            // Example : upgrade to version 2.1
+            // require_once(__DIR__ . '/upgrade_to_2.1.php');
+            // $upgradeStep = new PluginFlyvemdmUpgradeTo2_1();
+            // $upgradeStep->upgrade(new Migration('2.1'));
+
+         case '3.0':
+            // Example : upgrade to version 3.0
+            // require_once(__DIR__ . '/upgrade_to_3.0.php');
+            // $upgradeStep = new PluginFlyvemdmUpgradeTo3_0();
+            // $upgradeStep->upgrade(new Migration('3.0'));
 
          default:
+            // Must be the last case
+            // Unknown version
       }
-      if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
-         $this->upgradeOneStep('dev');
+      if (is_readable(__DIR__ . '/upgrade_to_develop.php')
+         && PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, 'develop')
+      ) {
+         $upgradeStep = new PluginFlyvemdmUpgradeToDevelop();
+         $upgradeStep->upgrade(new Migration('develop'));
       }
    }
 
