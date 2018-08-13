@@ -10,38 +10,27 @@ header {
     }
   }
 
-  .submenu {
-    &:hover {
-      ul {
-        display: block;
-        position: relative;
+  .dropdown-submenu {
+    display: list-item;
+    position: relative;
+
+    &>.dropdown-menu {
+      left: 100%;
+      margin-top: -52px;
+      top: 0;
+    }
+
+    .pull-left {
+      float: none;
+
+      &>.dropdown-menu {
+        left: -100%;
       }
     }
 
-    ul {
-      display: none;
-      list-style: none;
-
-      .submenu-items {
-        background-color: $darkcyan2;
-        display: inline-block;
-        left: 240px;
-        position: absolute;
-        top: -54px;
-        width: 240px;
-
-        li {
-          height: 52px;
-        }
-
-        a {
-          color: $white;
-          display: block;
-          height: auto;
-          line-height: 1.5;
-          padding: 15px 24px;
-        }
-      }
+    i {
+      font-size: 6px;
+      line-height: 15px;
     }
   }
 
