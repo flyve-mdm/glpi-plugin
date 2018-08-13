@@ -1,9 +1,6 @@
 <header class="site-header" role="banner">
-
   <div class="wrapper">
-
     <nav class="navbar navbar-default">
-
         <div class="navbar-global theme-default">
             <div class="container">
                 <div class="navbar-header">
@@ -13,7 +10,7 @@
                 </div>
             </div>
         </div>
-
+    
         <div class="navbar-local color-accent theme-dark">
             <div class="container">
                 <div class="navbar-header">
@@ -27,111 +24,95 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">
-
+    
                         <li>
                             <a class="color-type-secondary" href="{{ '/news' | absolute_url }}">News</a>
                         </li>
-
+    
                         <li class="dropdown .theme-light">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Development<i class="glyph glyph-chevron-down-2"></i></a>
                             <ul class="dropdown-menu dropdown-menu2" role="menu">
-                                <div class="acrylic2"></div>
-                                <li class="submenu">
-                                    <a>Code Documentation</a>
-                                    <div>
-                                        <ul class="dropdown-menu">
-                                            <div class="submenu-items">
-                                                <li>
-                                                    <a href="{{ 'development/code-documentation/master/' | absolute_url }}">Latest version</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ 'development/code-documentation/develop/' | absolute_url }}">Develop version</a>
-                                                </li>
-                                            </div>
-                                        </ul>
-                                    </div>
+    
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Code Documentation <i class="glyph glyph-chevron-right"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ 'development/code-documentation/master/' | absolute_url }}">Latest version</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ 'development/code-documentation/develop/' | absolute_url }}">Develop version</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="submenu">
-                                    <a>Coverage</a>
-                                    <div>
-                                        <ul class="dropdown-menu">
-                                            <div class="submenu-items">
-                                                <li>
-                                                    <a href="{{ 'development/coverage/master/' | absolute_url }}">Latest version</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ 'development/coverage/develop/' | absolute_url }}">Develop version</a>
-                                                </li>
-                                            </div>
-                                        </ul>
-                                    </div>
+    
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Coverage <i class="glyph glyph-chevron-right"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ 'development/coverage/master/' | absolute_url }}">Latest version</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ 'development/coverage/develop/' | absolute_url }}">Develop version</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <!--<li><a href="{{ 'build/tests/coverage/' | absolute_url }}">Code coverage</a></li> -->
+    
                                 <li><a href="{{ '/development/specifications' | absolute_url }}">M2M Specifications</a></li>
                                 <li><a href="{{ '/development/DB-scheme' | absolute_url }}">DB scheme</a></li>
                             </ul>
                         </li>
-
+    
                         <li>
                             <a class="color-type-secondary" href="{{ '/howtos' | absolute_url }}">How-tos</a>
                         </li>
-
+    
                         <li>
                             <a class="color-type-secondary" href="{{ '/projects' | absolute_url }}">Projects</a>
                         </li>
-
+    
                         <li>
                             <a type="button" class="color-type-secondary" data-toggle="modal" data-target="#myModal" href="#" >
                                 Changelog
                             </a>
                         </li>
-
+    
                         <li>
                             <a class="color-type-secondary" href="{{ '/contact' | absolute_url }}">Contact</a>
                         </li>
-
+    
                         <li class="hidden">
                             <a class="color-type-secondary" href="#">Roadmap</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
-
         </div>
-
-<!--GHOST MENU - WILL APPEAR WHEN THE USER SCROLLS DOWN-->
-         <div class="navbar-local color-accent theme-dark ghost-menu">
-
+    
+        <!--GHOST MENU - WILL APPEAR WHEN THE USER SCROLLS DOWN-->
+        <div class="navbar-local color-accent theme-dark ghost-menu">
             <div class="container">
-
                 <div class="acrylic2"></div>
-
-
-
+    
                 <div class="navbar-collapse ghost-menu-icons">
-
-                           <a href="{{ '/contact' | absolute_url }}" class="navbar-brand">
-                             <img src="{{ 'images/email-3.svg' | absolute_url }}" alt="Contact" class="logo" title="Contact us!"/>
-                           </a>
-
+                    <a href="{{ '/contact' | absolute_url }}" class="navbar-brand">
+                        <img src="{{ 'images/email-3.svg' | absolute_url }}" alt="Contact" class="lo  go" title="Contact us!"/>
+                    </a>
                 </div>
-
+    
                 <div class="navbar-collapse ghost-menu-icons">
-
-                           <a href="{{ '/' | absolute_url }}" class="navbar-brand">
-                             <img src="{{ 'images/home-3.svg' | absolute_url }}" alt="Home" class="logo" title="Home"/>
-                           </a>
-
+                    <a href="{{ '/' | absolute_url }}" class="navbar-brand">
+                        <img src="{{ 'images/home-3.svg' | absolute_url }}" alt="Home" class="logo" title="Home"/>
+                    </a>
                 </div>
-
-
             </div>
-
         </div>
-
-
+    </nav>
 </header>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -139,16 +120,19 @@
             <div class="acrylic"></div>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                             		{% capture my_include %}{% include CHANGELOG.md %}{% endcapture %}
-                		{{ my_include | markdownify }}
+                {% capture my_include %}{% include CHANGELOG.md %}{% endcapture %}
+                {{ my_include | markdownify }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"
-                        data-dismiss="modal">
+                <button 
+                    type="button" 
+                    class="btn btn-primary"
+                    data-dismiss="modal"
+                >
                     Close
                 </button>
             </div>
