@@ -277,8 +277,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $table = 'glpi_plugin_flyvemdm_packages';
       $migration->addField($table, 'parse_status', "enum('pending', 'parsed', 'failed') NOT NULL DEFAULT 'pending'",
          ['after' => 'dl_filename', 'default' => 'pending']);
-      $migration->addfield($table, 'plugin_orion_tasks_id', 'integer', ['after' => 'dl_filename']);
-      $migration->changeField($table, 'name', 'package_name', 'string');
+      $migration->addfield($table, 'name', 'string', ['after' => 'id']);
       $migration->migrationOneTable($table);
       $migration->dropField($table, 'filesize');
       $migration->addField($table, 'name', 'string', ['after' => 'id']);
