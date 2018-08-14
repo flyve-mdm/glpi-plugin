@@ -53,7 +53,7 @@ $lightgray2: rgba(0, 0, 0, .2);
 // NAVIGATION MENU
 //
 
-.dropdown-menu {
+ .dropdown-menu {
 
   &.dropdown-menu2 {
 
@@ -293,6 +293,8 @@ $lightgray2: rgba(0, 0, 0, .2);
     li {max-width: 75%};
 
   };
+
+  .container {height: 100%};
 
 }
 
@@ -648,6 +650,12 @@ Blockquote {
 
 }
 
+// LARGE SCREEN: Large Tablets, iPad Pro
+//@media (min-width: 800px) and (max-width: 1024px) {
+
+  //body {height: 1052px};
+
+//}
 
 // **************
 // *STYLE UPDATE*
