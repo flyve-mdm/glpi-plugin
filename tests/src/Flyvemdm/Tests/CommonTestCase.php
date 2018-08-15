@@ -187,11 +187,15 @@ class CommonTestCase extends GlpiCommonTestCase {
 
    /**
     * @param array $input input data
+    * @param boolean $noPostActions
     * @return \PluginFlyvemdmTask
     */
-   protected function createTask($input) {
+   protected function createTask($input, $noPostActions = true) {
       $task = $this->newMockInstance(\PluginFlyvemdmTask::class, '\MyMock');
-      $task->getMockController()->post_addItem = function () {};
+      if ($noPostActions) {
+         $task->getMockController()->post_addItem = function () {};
+         $task->getMockController()->post_updateItem = function () {};
+      }
       $taskId = $task->add($input);
       $this->boolean($task->isNewItem())->isFalse();
 
@@ -203,12 +207,13 @@ class CommonTestCase extends GlpiCommonTestCase {
 
    /**
     * @param string $policySymbol
+    * @param boolean $noPostActions
     * @return array
     */
-   protected function createFleetAndTask($policySymbol = 'storageEncryption') {
-      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
-      $policy = $this->newMockInstance(\PluginFlyvemdmPolicy::class, '\MyMock');
+   protected function createFleetAndTask($policySymbol = 'storageEncryption', $noPostActions = true) {
+      $policy = new \PluginFlyvemdmPolicy();
       $policy->getFromDbBySymbol($policySymbol);
+      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
       $task = $this->createTask([
          'value'                       => '0',
          'plugin_flyvemdm_policies_id' => $policy->getID(),
@@ -216,18 +221,21 @@ class CommonTestCase extends GlpiCommonTestCase {
          'items_id_applied'            => $fleet->getID(),
          'itemtype'                    => '',
          'items_id'                    => '',
-      ]);
-      return [$fleet, $task];
+      ], $noPostActions);
+      return [$fleet, $task, $policy];
    }
 
    /**
     * @return array
     */
    protected function createAgentTaskstatus() {
-      list($fleet, $task) = $this->createFleetAndTask();
+      list($fleet, $task) = $this->createFleetAndTask('storageEncryption', false);
       $agent = $this->createAgent();
-      $agent->update([\PluginFlyvemdmFleet::getForeignKeyField() => $fleet->getID()]);
-      $taskStatus = $this->newMockInstance(\PluginFlyvemdmTaskStatus::class, '\MyMock');
+      $agent->update([
+         'id' => $agent->getID(),
+         \PluginFlyvemdmFleet::getForeignKeyField() => $fleet->getID(),
+         ]);
+      $taskStatus = new \PluginFlyvemdmTaskStatus;
       $taskStatus->getFromDBByCrit([
          \PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
          \PluginFlyvemdmTask::getForeignKeyField()  => $task->getID(),
