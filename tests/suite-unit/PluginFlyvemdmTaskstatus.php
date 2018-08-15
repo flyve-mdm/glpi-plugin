@@ -75,18 +75,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    public function providerPrepareInputForAdd() {
-      $policy = new \PluginFlyvemdmPolicy();
-      $policy->getFromDbBySymbol('storageEncryption');
-      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
-      $task = $this->createTask([
-         'value'                       => '0',
-         'plugin_flyvemdm_policies_id' => $policy->getID(),
-         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
-         'items_id_applied'            => $fleet->getID(),
-         'itemtype'                    => '',
-         'items_id'                    => '',
-      ]);
-
+      list($fleet, $task, $policy) = $this->createFleetAndTask();
       $validInput = [
          'status'                      => 'pending',
          'plugin_flyvemdm_tasks_id'    => $task->getID(),
@@ -139,10 +128,27 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    public function providerPrepareInputForUpdate() {
+      list($taskStatus, $fleet, $task) = $this->createAgentTaskstatus();
       return [
          'no status' => [
-            'input'    => [],
+            'input'    => ['id' => null],
             'expected' => false,
+         ],
+         'invalid status' => [
+            'input' => [
+               'status'                   => 'lorem',
+               'id'                       => $taskStatus->getID(),
+               'plugin_flyvemdm_tasks_id' => $task->getID(),
+            ],
+            'expected' => false,
+         ],
+         'valid status' => [
+            'input' => [
+               'status'                   => 'received',
+               'id'                       => $taskStatus->getID(),
+               'plugin_flyvemdm_tasks_id' => $task->getID(),
+            ],
+            'expected' => ['status', 'id'],
          ],
       ];
    }
@@ -155,13 +161,15 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
     * @param boolean $expected
     */
    public function testPrepareInputForUpdate($input, $expected) {
-      // TODO: try to complete the test for more coverage
       $instance = $this->newTestedInstance();
+      if ($input['id']) {
+         $instance->getFromDB($input['id']);
+      }
       $output = $instance->prepareInputForUpdate($input);
       if ($expected === false) {
          $this->boolean($output)->isFalse();
       } else {
-         $this->array($output)->hasKeys(array_keys($expected))
+         $this->array($output)->hasKeys($expected)
             ->size->isEqualTo(count($expected));
       }
    }
@@ -175,7 +183,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $this->variable($instance->updateStatus($policy, ''))->isNull();
    }
 
-   public function displayTabForItemProvider() {
+   public function providerDisplayTabForItem() {
       return [
          'no tasks for agents' => [
             'item'     => new \PluginFlyvemdmAgent(),
@@ -189,7 +197,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    /**
-    * @dataProvider displayTabForItemProvider
+    * @dataProvider providerDisplayTabForItem
     * @tags testDisplayTabContentForItem
     * @param \CommonGLPI $item
     * @param string $expected
@@ -203,7 +211,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $this->string($result)->contains($expected);
    }
 
-   public function tabNameForItemProvider() {
+   public function providerTabNameForItem() {
       return [
          'for agents' => [
             'item'     => new \PluginFlyvemdmAgent(),
@@ -221,7 +229,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    }
 
    /**
-    * @dataProvider tabNameForItemProvider
+    * @dataProvider providerTabNameForItem
     * @tags testGetTabNameForItem
     * @param \CommonGLPI $item
     * @param string $expected
