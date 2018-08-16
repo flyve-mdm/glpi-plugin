@@ -158,10 +158,12 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
     */
    public function testGetRights() {
       $instance = $this->newTestedInstance();
-      $this->array($result = $instance->getRights())->containsValues([
+      $result = $instance->getRights();
+      $this->array($result)->containsValues([
          'Read',
          'Update',
-      ]);
+      ])
+      ->hasKeys([READ, UPDATE]);
    }
 
    public function providerCronInfo() {
@@ -237,7 +239,7 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
       $this->boolean($instance->getFromDB($output))->isTrue();
    }
 
-   public function providerPrepareInputForAdd() {
+   public function providerPrepareInputForUpdate() {
       return [
          'no checks' => [
             'input' => [
@@ -249,13 +251,25 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
                'something' => 'random',
             ]
          ],
+         'checks' => [
+            'input' => [
+               'something' => 'random',
+            ],
+            'expected' => [
+               'something' => 'random',
+               'import_status' => 'no_import',
+            ]
+         ],
       ];
    }
 
    /**
-    * @dataProvider providerPrepareInputForAdd
+    * @dataProvider providerPrepareInputForUpdate
     */
-   public function testPrepareInputForAdd($input, $expected) {
-
+   public function testPrepareInputForUpdate($input, $expected) {
+      $instance = $this->newTestedInstance();
+      $output = $instance->prepareInputForUpdate($input);
+      $this->array($output)->size->isEqualTo(count($expected));
+      $this->array($output)->hasKeys(array_keys($expected));
    }
 }

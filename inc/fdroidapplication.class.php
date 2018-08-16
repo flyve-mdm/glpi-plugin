@@ -188,17 +188,16 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          return false;
       }
 
-      $id = $this->getFromDBByCrit(['name' => $input['name']]);
-      if ($id === false) {
+      if ($this->getFromDBByCrit(['name' => $input['name']]) === false) {
          return $this->add($input);
       }
 
-      $input['id'] = $id;
+      $input['id'] = $this->getID();
       $input['is_available'] = '1';
       if ($this->update($input) === false) {
          return false;
       }
-      return $id;
+      return $this->getID();
    }
 
    public function prepareInputForUpdate($input) {
@@ -207,7 +206,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       }
 
       if (!isset($input['import_status'])) {
-         $input = ['import_status' => 'no_import'];
+         $input['import_status'] = 'no_import';
       }
 
       return $input;
@@ -290,7 +289,15 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    }
 
    public function getSearchOptionsNew() {
-      $tab = parent::getSearchOptionsNew();
+      return $this->rawSearchOptions();
+   }
+
+   public function rawSearchOptions() {
+      if (method_exists('CommonDBTM', 'rawSearchOptions')) {
+         $tab = parent::rawSearchOptions();
+      } else {
+         $tab = parent::getSearchOptionsNew();
+      }
 
       $tab[] = [
          'id'                 => '2',

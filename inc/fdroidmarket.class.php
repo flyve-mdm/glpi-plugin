@@ -84,7 +84,7 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
     */
    static function cronInfo($name) {
       switch ($name) {
-         case 'UpdateRepository' :
+         case 'UpdateRepositories' :
             return ['description' => __('Updates the list of applications')];
       }
    }
@@ -119,7 +119,7 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
     * Updates the list of applications from a F Droid like repository
     * @return integer
     */
-   public function updateRepository() {
+   private function updateRepository() {
       global $DB;
 
       $volume = 0;
