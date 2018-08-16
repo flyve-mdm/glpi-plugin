@@ -235,6 +235,34 @@ class RoboFile extends Glpi\Tools\RoboFile {
             throw new Exception('The Official release constant must be false');
          }
 
+         // update version in package.json
+         $this->sourceUpdatePackageJson($version);
+
+         $this->updateChangelog();
+
+         $diff = $this->gitDiff(['package.json']);
+         $diff = implode("\n", $diff);
+         if ($diff != '') {
+            $this->taskGitStack()
+               ->stopOnFail()
+               ->add('package.json')
+               ->commit('docs: bump version package.json')
+               ->run();
+         }
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->add('CHANGELOG.md')
+            ->commit('docs(changelog): update changelog')
+            ->run();
+
+         // Update locales
+         $this->localesGenerate();
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->add('locales/*')
+            ->commit('docs(locales): update translations')
+            ->run();
+
          $rev = 'HEAD';
       } else {
          // check a tag exists for the version
