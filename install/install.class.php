@@ -493,15 +493,12 @@ Regards,
             // Example : upgrade to version 3.0
             // $this->upgradeOneStep('3.0');
 
-         default:
-            // Must be the last case
-            // Unknown version
-            return false;
       }
-      $this->upgradeOneStep('develop');
-      $this->installUpgradeCommonTasks();
-
-      return true;
+      if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
+         $this->upgradeOneStep('develop');
+       }
+       $this->installUpgradeCommonTasks();
+       return true;
    }
 
    private function installUpgradeCommonTasks() {
