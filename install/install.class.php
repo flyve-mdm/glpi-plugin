@@ -39,35 +39,11 @@ if (!defined('GLPI_ROOT')) {
  * @since 0.1.0
  *
  */
-class PluginFlyvemdmInstaller {
+class PluginFlyvemdmInstall {
 
    const DEFAULT_CIPHERS_LIST = 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:ECDHE-RSA-RC4-SHA:ECDHE-ECDSA-RC4-SHA:AES128:AES256:RC4-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK';
 
    const BACKEND_MQTT_USER = 'flyvemdm-backend';
-
-   // Order of this array is mandatory due tu dependancies on install and uninstall
-   protected static $itemtypesToInstall = [
-      'mqttuser',
-      // Must be before config because config creates a mqtt user for the plugin
-      'mqttacl',
-      // Must be before config because config creates a mqtt ACL for the plugin
-      'config',
-      'entityconfig',
-      'mqttlog',
-      'agent',
-      'package',
-      'file',
-      'fleet',
-      'profile',
-      'notificationtargetinvitation',
-      'geolocation',
-      'policy',
-      'policycategory',
-      'fleet_policy',
-      'wellknownpath',
-      'invitation',
-      'invitationlog',
-   ];
 
    protected static $currentVersion = null;
 
@@ -78,7 +54,7 @@ class PluginFlyvemdmInstaller {
     * @param string $classname
     * @return bool
     */
-   public function autoload($classname) {
+   public static function autoload($classname) {
       // useful only for installer GLPI autoloader already handles inc/ folder
       $filename = dirname(__DIR__) . '/inc/' . strtolower(str_replace('PluginFlyvemdm', '',
             $classname)) . '.class.php';
@@ -95,52 +71,34 @@ class PluginFlyvemdmInstaller {
     * @return boolean true (assume success, needs enhancement)
     *
     */
-   public function install() {
+   public function install(Migration $migration) {
       global $DB;
 
+      $this->migration = $migration;
       spl_autoload_register([__CLASS__, 'autoload']);
 
-      $this->migration = new Migration(PLUGIN_FLYVEMDM_VERSION);
-      $this->migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
-
-      // adding DB model from sql file
-      // TODO : migrate in-code DB model setup here
-      if (self::getCurrentVersion() == '') {
-         // Setup DB model
-         $dbFile = PLUGIN_FLYVEMDM_ROOT . "/install/mysql/plugin_flyvemdm_empty.sql";
-         if (!$DB->runFile($dbFile)) {
-            $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
-            return false;
-         }
-
-         $this->createInitialConfig();
-      } else {
-         if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION,
-               "-dev") || (version_compare(self::getCurrentVersion(),
-                  PLUGIN_FLYVEMDM_VERSION) != 0)) {
-            // TODO : Upgrade (or downgrade)
-            $this->upgrade(self::getCurrentVersion());
-         }
-      }
-
+      $this->installSchema();
+      $this->createInitialConfig();
       $this->migration->executeMigration();
+      $this->installUpgradeCommonTasks();
+
+      return true;
+   }
+
+   protected function installSchema() {
+      global $DB;
+
+      $this->migration->displayMessage("create database schema");
+
+      $dbFile = __DIR__ . '/mysql/plugin_flyvemdm_empty.sql';
+      if (!$DB->runFile($dbFile)) {
+         $this->migration->displayWarning("Error creating tables : " . $DB->error(), true);
+         return false;
+      }
 
       if (version_compare(GLPI_VERSION, '9.3.0') >= 0) {
          $this->migrateToInnodb();
       }
-      $this->createDirectories();
-      $this->createFirstAccess();
-      $this->createGuestProfileAccess();
-      $this->createAgentProfileAccess();
-      $this->createDefaultFleet();
-      $this->createPolicies();
-      $this->createNotificationTargetInvitation();
-      $this->createJobs();
-      $this->createRootEntityConfig();
-      $this->createDisplayPreferences();
-
-      Config::setConfigurationValues('flyvemdm', ['version' => PLUGIN_FLYVEMDM_VERSION]);
-
       return true;
    }
 
@@ -208,16 +166,35 @@ class PluginFlyvemdmInstaller {
    /**
     * @return null|string
     */
-   public static function getCurrentVersion() {
-      if (self::$currentVersion === null) {
-         $config = \Config::getConfigurationValues('flyvemdm', ['version']);
-         if (!isset($config['version'])) {
-            self::$currentVersion = '';
-         } else {
-            self::$currentVersion = $config['version'];
+   public function getSchemaVersion() {
+      if ($this->isPluginInstalled()) {
+         $config = Config::getConfigurationValues('flyvemdm', ['schema_version']);
+         if (!isset($config['schema_version'])) {
+            return '0.0';
+         }
+         return $config['schema_version'];
+      }
+
+      return null;
+   }
+
+   /**
+    * is the plugin already installed ?
+    *
+    * @return boolean
+    */
+   public function isPluginInstalled() {
+      global $DB;
+
+      // Check tables of the plugin between 1.1 and 2.0 releases
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm_%'");
+      if ($result) {
+         if ($DB->numrows($result) > 0) {
+            return true;
          }
       }
-      return self::$currentVersion;
+
+      return false;
    }
 
    protected function createRootEntityConfig() {
@@ -498,22 +475,53 @@ Regards,
    /**
     * Upgrade the plugin to the current code version
     *
-    * @param string $fromVersion
+    * @param string version to upgrade from
     */
-   protected function upgrade($fromVersion) {
-      switch ($fromVersion) {
-         case '2.0.0':
-            // Example : upgrade to version 3.0.0
-            // $this->upgradeOneStep('3.0.0');
-         case '3.0.0':
-            // Example : upgrade to version 4.0.0
-            // $this->upgradeOneStep('4.0.0');
+   public function upgrade(Migration $migration) {
+      spl_autoload_register([__CLASS__, 'autoload']);
 
-         default:
+      $this->migration = $migration;
+      $fromSchemaVersion = $this->getSchemaVersion();
+
+      switch ($fromSchemaVersion) {
+         case '0.0':
+            // Upgrade to 2.0
+            $this->upgradeOneStep('2.0');
+
+         case '2.0':
+            // Example : upgrade to version 2.1
+            // $this->upgradeOneStep('2.1');
+
+         case '3.0':
+            // Example : upgrade to version 3.0
+            // $this->upgradeOneStep('3.0');
+
       }
-      if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
-         $this->upgradeOneStep('dev');
-      }
+      if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
+         $this->upgradeOneStep('develop');
+       }
+       $this->installUpgradeCommonTasks();
+       return true;
+   }
+
+   private function installUpgradeCommonTasks() {
+      $this->createDirectories();
+      $this->createFirstAccess();
+      $this->createGuestProfileAccess();
+      $this->createAgentProfileAccess();
+      $this->createDefaultFleet();
+      $this->createPolicies();
+      $this->createNotificationTargetInvitation();
+      $this->createJobs();
+      $this->createRootEntityConfig();
+      $this->createDisplayPreferences();
+
+      Config::setConfigurationValues(
+         'flyvemdm', [
+            'version' => PLUGIN_FLYVEMDM_VERSION,
+            'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
+         ]
+      );
    }
 
    /**
@@ -522,21 +530,19 @@ Regards,
     * @param string $toVersion
     */
    protected function upgradeOneStep($toVersion) {
-
       ini_set("max_execution_time", "0");
       ini_set("memory_limit", "-1");
 
       $suffix = str_replace('.', '_', $toVersion);
-      $includeFile = __DIR__ . "/upgrade/update_to_$suffix.php";
+      $includeFile = __DIR__ . "/update_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
          include_once $includeFile;
-         $updateFunction = "plugin_flyvemdm_update_to_$suffix";
-         if (function_exists($updateFunction)) {
-            $this->migration->addNewMessageArea("Upgrade to $toVersion");
-            $updateFunction($this->migration);
-            $this->migration->executeMigration();
-            $this->migration->displayMessage('Done');
-         }
+         $updateClass = "PluginFlyvemdmUpgradeTo$suffix";
+         $this->migration->addNewMessageArea("Upgrade to $toVersion");
+         $upgradeStep = new $updateClass();
+         $upgradeStep->upgrade($this->migration);
+         $this->migration->executeMigration();
+         $this->migration->displayMessage('Done');
       }
    }
 

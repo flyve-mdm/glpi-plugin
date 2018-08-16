@@ -187,6 +187,56 @@ class CommonTestCase extends GlpiCommonTestCase {
    }
 
    /**
+    * @param array $input input data
+    * @return \PluginFlyvemdmTask
+    */
+   protected function createTask($input) {
+      $task = $this->newMockInstance(\PluginFlyvemdmTask::class, '\MyMock');
+      $task->getMockController()->post_addItem = function () {};
+      $taskId = $task->add($input);
+      $this->boolean($task->isNewItem())->isFalse();
+
+      $task = new \PluginFlyvemdmTask();
+      $task->getFromDB($taskId);
+
+      return $task;
+   }
+
+   /**
+    * @param string $policySymbol
+    * @return array
+    */
+   protected function createFleetAndTask($policySymbol = 'storageEncryption') {
+      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
+      $policy = $this->newMockInstance(\PluginFlyvemdmPolicy::class, '\MyMock');
+      $policy->getFromDbBySymbol($policySymbol);
+      $task = $this->createTask([
+         'value'                       => '0',
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+         'items_id_applied'            => $fleet->getID(),
+         'itemtype'                    => '',
+         'items_id'                    => '',
+      ]);
+      return [$fleet, $task];
+   }
+
+   /**
+    * @return array
+    */
+   protected function createAgentTaskstatus() {
+      list($fleet, $task) = $this->createFleetAndTask();
+      $agent = $this->createAgent();
+      $agent->update([\PluginFlyvemdmFleet::getForeignKeyField() => $fleet->getID()]);
+      $taskStatus = $this->newMockInstance(\PluginFlyvemdmTaskStatus::class, '\MyMock');
+      $taskStatus->getFromDBByCrit([
+         \PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
+         \PluginFlyvemdmTask::getForeignKeyField()  => $task->getID(),
+      ]);
+      return [$taskStatus, $fleet, $task];
+   }
+
+   /**
     * Create a new enrolled agent in the database
     *
     * @param array $input

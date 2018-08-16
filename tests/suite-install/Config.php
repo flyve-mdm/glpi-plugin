@@ -50,7 +50,8 @@ class Config extends CommonTestCase {
 
          case 'testUpgradePlugin':
             $this->olddb = new \DB();
-            $this->olddb->dbdefault = 'glpiupgradetest';
+            $this->string(getenv('OLDDBNAME'));
+            $this->olddb->dbdefault = getenv('OLDDBNAME');
             $this->olddb->connect();
             $this->boolean($this->olddb->connected)->isTrue();
             break;
@@ -112,6 +113,16 @@ class Config extends CommonTestCase {
       // Enable the plugin
       $plugin->activate($plugin->fields['id']);
       $this->boolean($plugin->isActivated($pluginName))->isTrue('Cannot enable the plugin');
+
+      // Check version and schema version are in the configuration
+      $config = \Config::getConfigurationValues(
+         $pluginName, [
+            'version',
+            'schema_version'
+         ]
+      );
+      $this->string($config['version']);
+      $this->string($config['schema_version']);
 
       // Enable debug mode for enrollment messages
       \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
