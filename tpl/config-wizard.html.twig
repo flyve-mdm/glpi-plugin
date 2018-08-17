@@ -162,7 +162,7 @@ bind-address = 0.0.0.0
 </textarea></p>
 				<p>{{ __('Restart your DBMS daemon and check it listens to the expected interface.', 'flyvemdm') }}</p>
 				<p>netstat -taupen | grep 3306</p>
-				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('Check you can login to your DBMS from the host which will run Mosquitto.', 'flyvemdm') }}</p>
 				<p>{{ __('The following command will ask for the password you choosed earlier', 'flyvemdm') }}</p>
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
