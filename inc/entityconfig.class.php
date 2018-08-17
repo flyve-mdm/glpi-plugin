@@ -422,6 +422,10 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
+      return $this->rawSearchOptions();
+   }
+
+   public function rawSearchOptions() {
       $tab = [];
 
       $tab[] = [

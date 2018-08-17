@@ -29,7 +29,7 @@
  * ------------------------------------------------------------------------------
  */
 
-define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-rc.2');
+define('PLUGIN_FLYVEMDM_VERSION', 'develop');
 // is or is not an official release of the plugin
 define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive

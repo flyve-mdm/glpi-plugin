@@ -63,6 +63,10 @@ class PluginFlyvemdmInvitationlog extends CommonDBTM {
     * @return array
     */
    public function getSearchOptionsNew() {
+      return $this->rawSearchOptions();
+   }
+
+   public function rawSearchOptions() {
       $tab = [];
 
       $tab[] = [
