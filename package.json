@@ -12,7 +12,7 @@
     "test-sass": "./node_modules/.bin/sass-lint --config .sass-lint.yml '**/*.scss' --verbose --no-exit",
     "test-js": "./node_modules/.bin/eslint js/*.js",
     "test-yaml": "ci/yamllint.sh",
-    "test-site": "ci/tets-jekyll.sh",
+    "test-site": "ci/test-jekyll.sh",
     "test": "npm run update-version && npm run test-sass & npm run test-js & npm run test-yaml & npm run test-site"
   },
   "keywords": [],
