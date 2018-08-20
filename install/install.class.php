@@ -499,9 +499,9 @@ Regards,
       }
       if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
          $this->upgradeOneStep('develop');
-       }
-       $this->installUpgradeCommonTasks();
-       return true;
+      }
+      $this->installUpgradeCommonTasks();
+      return true;
    }
 
    private function installUpgradeCommonTasks() {

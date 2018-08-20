@@ -183,21 +183,27 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
     * @param array $input
     * @return integer|false ID of the imported item or false on error
     */
-   public function import($input) {
-      if (!isset($input['name'])) {
+   public static function import($input) {
+      $marketFk = PluginFlyvemdmFDroidMarket::getForeignKeyField();
+      if (!isset($input['name']) || !isset($input[$marketFk])) {
          return false;
       }
 
-      if ($this->getFromDBByCrit(['name' => $input['name']]) === false) {
-         return $this->add($input);
+      $application = new self();
+      $application->getFromDBByCrit([
+         'name'      => $input['name'],
+         $marketFk   => $input[$marketFk],
+      ]);
+      if ($application->isNewItem()) {
+         return $application->add($input);
       }
 
-      $input['id'] = $this->getID();
+      $input['id'] = $application->getID();
       $input['is_available'] = '1';
-      if ($this->update($input) === false) {
+      if ($application->update($input) === false) {
          return false;
       }
-      return $this->getID();
+      return $application->getID();
    }
 
    public function prepareInputForUpdate($input) {
@@ -252,8 +258,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       }
       $searchParams = Search::manageParams(PluginFlyvemdmApplication::class, $searchParams);
       $searchParams['showbookmark'] = false;
-      $searchParams['target'] = PluginFlyvemdmFDroidMarket::getFormUrlWithID($item->getID())
-         . "&_glpi_tab=" . PluginFlyvemdmFDroidMarket::class . "$1";
+      $searchParams['target'] = PluginFlyvemdmFDroidMarket::getFormUrlWithID($item->getID());
       $searchParams['addhidden'] = [
          'id' => $item->getID(),
          PluginFlyvemdmFDroidMarket::getForeignKeyField() => $item->getID(),

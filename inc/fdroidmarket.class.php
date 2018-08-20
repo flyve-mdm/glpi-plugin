@@ -99,7 +99,7 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
       global $DB;
 
       $cronStatus = 0;
-      $cronTask->log("Update the list of applications available from F-Droid like repositories");
+      $cronTask->log('Update the list of applications available from F-Droid like repositories');
 
       $request = [
          'FROM'   => static::getTable(),
@@ -128,15 +128,16 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
       unset($xml);
 
       if (isset($fdroid->application)) {
+         $marketFk = $this::getForeignKeyField();
          $fdroidApplication = new PluginFlyvemdmFDroidApplication();
-         $DB->query("UPDATE `" . $fdroidApplication::getTable() . "` SET `is_available` = '0' WHERE `plugin_flyvemdm_fdroidmarkets_id`");
+         $DB->query("UPDATE `" . PluginFlyvemdmFDroidApplication::getTable() . "` SET `is_available` = '0' WHERE `$marketFk`=" . $this->getID());
          foreach ($fdroid->application as $application) {
             $input = [
                'name'         => Toolbox::addslashes_deep($application->name),
                'package_name' => Toolbox::addslashes_deep($application->id),
                'entities_id'  => $this->fields['entities_id'],
                'is_recursive' => $this->fields['is_recursive'],
-               $this::getForeignKeyField() => $this->getID(),
+               $marketFk      => $this->getID(),
                'alias'        => Toolbox::addslashes_deep($application->name),
                'version'      => Toolbox::addslashes_deep($application->package[0]->version),
                'version_code' => Toolbox::addslashes_deep($application->package[0]->versioncode),
@@ -144,12 +145,21 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
                'filename'     => Toolbox::addslashes_deep($application->package[0]->apkname),
                'desc'         => Toolbox::addslashes_deep($application->desc),
             ];
-            $fdroidApplication->import($input);
+            if (isCommandline()) {
+               // TRANS: %1$s is the name of the application being updated %2$s is the name of the repository
+               echo sprintf(__('Updating application %1$s in repository %2$s', 'flyvemdm'), $input['name'], $this->getField('name')) . PHP_EOL;
+            }
+            PluginFlyvemdmFDroidApplication::import($input);
          }
 
          // Delete applications vanished from the repo
-         $fdroidApplication->deleteByCriteria(['plugin_flyvemdm_fdroidmarkets_id' => $this->getID(), 'is_available' => '0']);
-         $volume = count($fdroid->application);
+         $criteria = [$marketFk => $this->getID(), 'is_available' => '0'];
+         if (isCommandline()) {
+            $dbUtils = new DbUtils();
+            $deleteCount = $dbUtils->countElementsInTable(PluginFlyvemdmFDroidApplication::getTable(), $criteria);
+         }
+         $fdroidApplication->deleteByCriteria($criteria);
+         $volume = count($fdroid->application) + $deleteCount;
       }
 
       return $volume;

@@ -71,7 +71,8 @@ if (isset($_POST["add"])) {
    if (isset($_GET['search'])) {
       $criterias = array_intersect_key($_GET, ['criteria' => null, 'metacriteria' => null]);
       $_SESSION['glpisearch'][PluginFlyvemdmFDroidApplication::class] = $criterias;
-      // Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmFDroidMarket::class)."?id=".$_GET['id']);
+   } else if (isset($_GET['reset'])) {
+      unset($_SESSION['glpisearch'][PluginFlyvemdmFDroidApplication::class]);
    }
    $market->check($_GET['id'], READ);
    Html::header(

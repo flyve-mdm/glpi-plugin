@@ -56,8 +56,9 @@ class PluginFlyvemdmUpgradeTodevelop {
       $query = "CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_fdroidapplications` (
          `id`                    int(11)                                  NOT NULL AUTO_INCREMENT,
          `name`                  varchar(255)                             NOT NULL DEFAULT '',
-         `package_name`                varchar(255)                             NOT NULL DEFAULT '',
-         `entities_id`                 int(11)                                  NOT NULL DEFAULT '0',
+         `package_name`                varchar(255)                       NOT NULL DEFAULT '',
+         `entities_id`                 int(11)                            NOT NULL DEFAULT '0',
+         `is_recursive`                tinyint(1)                         NOT NULL DEFAULT '0',
          `plugin_flyvemdm_fdroidmarkets_id` int(11)                       NOT NULL DEFAULT '0',
          `plugin_flyvemdm_packages_id` int(11)                            NOT NULL DEFAULT '0',
          `alias`                 varchar(255)                             NOT NULL DEFAULT '',

@@ -202,10 +202,21 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
          'name' => $applicationName
       ]);
       $this->boolean($instance->isNewItem())->isFalse();
+      $market = new \PluginFlyvemdmFDroidMarket();
+      $market->add([
+         'name' => $his->getUniqueString(),
+      ]);
+      $this->boolean($market->isNewItem())->isFalse();
       return [
          'no name' => [
             'input' => [
-               'key' => 'something',
+               'plugin_flyvemdm_fdroidmarkets_id' => $market->getID(),
+            ],
+            'expected' => false,
+         ],
+         'no repository' => [
+            'input' => [
+               'name' => 'something',
             ],
             'expected' => false,
          ],
@@ -223,8 +234,7 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
     * @dataProvider providerTestImport
     */
    public function testImport($input, $expected) {
-      $instance = $this->newTestedInstance();
-      $output = $instance->import($input);
+      $output = \PluginFlyvemdmFDroidApplication::import($input);
       $this->variable($output)->isEqualTo($expected);
       if ($expected === false) {
          $this->boolean($output);
@@ -232,7 +242,7 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
 
       // test non existing item
       $missingName = 'I miss' . $this->getUniqueString();
-      $output = $instance->import([
+      $output = \PluginFlyvemdmFDroidApplication::import([
          'name' => $missingName,
       ]);
       $instance = $this->newTestedInstance();
