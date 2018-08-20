@@ -87,7 +87,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
                   $pluralNumber = Session::getPluralNumber();
                   if ($_SESSION['glpishow_count_on_tabs']) {
                      $DbUtil = new DbUtils();
-                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
+                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fdroidmarkets_id' => $fleetId]);
                   }
                   return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
                }
@@ -246,46 +246,21 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          return false;
       }
 
-      if (isset($_GET["start"])) {
-         $start = intval($_GET["start"]);
-      } else {
-         $start = 0;
+      $searchParams = [];
+      if (isset($_SESSION['glpisearch'][PluginFlyvemdmFDroidApplication::class])) {
+         $searchParams = $_SESSION['glpisearch'][PluginFlyvemdmFDroidApplication::class];
       }
-
-      // get items
-      $items_id = $item->getField('id');
-      $itemFk = $item::getForeignKeyField();
-      $condition = "`$itemFk` = '$items_id' ";
-      $request = [
-         'FROM' => PluginFlyvemdmFDroidApplication::getTable(),
-         'WHERE' => [
-            PluginFlyvemdmFDroidMarket::getForeignKeyField() => $item->getID(),
-         ]
+      $searchParams = Search::manageParams(PluginFlyvemdmApplication::class, $searchParams);
+      $searchParams['showbookmark'] = false;
+      $searchParams['target'] = PluginFlyvemdmFDroidMarket::getFormUrlWithID($item->getID())
+         . "&_glpi_tab=" . PluginFlyvemdmFDroidMarket::class . "$1";
+      $searchParams['addhidden'] = [
+         'id' => $item->getID(),
+         PluginFlyvemdmFDroidMarket::getForeignKeyField() => $item->getID(),
       ];
-      $result = $DB->request($request);
-      $number = count($result);
-      $rows = [];
-      foreach ($result as $row) {
-         if ($row['name'] == '') {
-            $row['name'] = '(' . $row['id'] .')';
-         }
-         $row['itemUrl'] = PluginFlyvemdmFDroidApplication::getFormURLWithID($row['id']);
-         $rows[] = $row;
-      }
+      Search::showGenericSearch(PluginFlyvemdmFDroidApplication::class, $searchParams);
 
-      // get the pager
-      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
-
-      $data = [
-         'number'             => $number,
-         'pager'              => $pager,
-         'fdroidapplications' => $rows,
-         'start'              => $start,
-         'stop'               => $start + $_SESSION['glpilist_limit']
-      ];
-
-      $twig = plugin_flyvemdm_getTemplateEngine();
-      echo $twig->render('fdroidmarket_fdroidapplication.html.twig', $data);
+      Search::showList(PluginFlyvemdmFDroidApplication::class, $searchParams);
    }
 
    public function getSearchOptionsNew() {
@@ -332,18 +307,69 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          'field'              => 'filesize',
          'name'               => __('Size'),
          'massiveaction'      => false,
-         'datatype'           => 'string'
+         'datatype'           => 'number'
       ];
 
       $tab[] = [
          'id'                 => '7',
          'table'              => $this->getTable(),
-         'field'              => 'is_imported',
+         'field'              => 'import_status',
          'name'               => __('Import status', 'flyvemdm'),
+         'searchtype'         => ['equals', 'notequals'],
          'massiveaction'      => false,
-         'datatype'           => 'string'
+         'datatype'           => 'specific'
+      ];
+
+      $tab[] = [
+         'id'                 => '8',
+         'table'              => $this::getTable(),
+         'field'              => PluginFlyvemdmFDroidMarket::getForeignKeyField(),
+         'name'               => __('FDroid market', 'flyvemdm'),
+         'massiveaction'      => false,
       ];
 
       return $tab;
+   }
+
+   public static function addDefaultJoin($ref_table, $already_link_tables) {
+      $join = '';
+
+      $table = PluginFlyvemdmFDroidMarket::getTable();
+      $fkTable = PluginFlyvemdmFDroidMarket::getForeignKeyField();
+      $join = "LEFT JOIN `$table` ON `$table`.`id`=`$ref_table`.`$fkTable` ";
+
+      return $join;
+   }
+
+   public static function addDefaultWhere() {
+      $where = '';
+
+      $fkFDroidMarket = PluginFlyvemdmFDroidMarket::getForeignKeyField();
+      if (isset($_GET['id'])) {
+         $fDfroidMarketId = (int) $_GET['id'];
+         $where = " `$fkFDroidMarket` = '$fDfroidMarketId'";
+      }
+      return $where;
+   }
+
+   public static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      switch ($field) {
+         case 'import_status':
+            $elements = self::getEnumImportStatus();
+            $output = Dropdown::showFromArray(
+               $name,
+               $elements,
+               [
+                  'display' => false,
+                  'value' => $values[$field]
+               ]
+            );
+            return $output;
+            break;
+      }
+      return parent::getSpecificValueToSelect($field, $name, $values, $options);
    }
 }
