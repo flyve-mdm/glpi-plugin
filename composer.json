@@ -1,10 +1,10 @@
 {
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "title": "Flyve MDM",
+    "name": "Flyve MDM",
     "description": "Flyve MDM plugin for GLPI",
     "type": "project",
-    "licence": "AGPL-3.0-or-later",
+    "license": "AGPL-3.0-or-later",
     "keywords": [
         "glpi",
         "flyve",

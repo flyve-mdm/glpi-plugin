@@ -112,6 +112,12 @@ class PluginFlyvemdmMenu extends CommonGLPI {
                         'pic'  => PluginFlyvemdmFile::getMenuPicture(),
                   ],
             ],
+            __('Markets', 'flyvemdm') => [
+               PluginFlyvemdmFDroidMarket::getTypeName($pluralNumber) => [
+                  'link' => Toolbox::getItemTypeSearchURL(PluginFlyvemdmFDroidMarket::class),
+                  'pic'  => PluginFlyvemdmFDroidMarket::getMenuPicture(),
+               ],
+            ],
             __('Configuration', 'flyvemdm') => [
                __('General')       => [
                   'link' => Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class) . '?forcetab='.PluginFlyvemdmConfig::class.'$2',
@@ -134,17 +140,20 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     */
    public static function getMenuContent() {
       $front_flyvemdm = "/plugins/flyvemdm/front";
+      $pics_flyvemdm = "/plugins/flyvemdm/pics";
 
       $menu = [];
       $menu['title'] = self::getMenuName();
       $menu['page']  = "$front_flyvemdm/menu.php";
 
       $itemtypes = [
-         PluginFlyvemdmAgent::class        => 'agent',
-         PluginFlyvemdmPackage::class      => 'package',
-         PluginFlyvemdmFile::class         => 'file',
-         PluginFlyvemdmFleet::class        => 'fleet',
-         PluginFlyvemdmInvitation::class   => 'invitation',
+         PluginFlyvemdmAgent::class       => 'agent',
+         PluginFlyvemdmPackage::class     => 'package',
+         PluginFlyvemdmFile::class        => 'file',
+         PluginFlyvemdmFleet::class       => 'fleet',
+         PluginFlyvemdmInvitation::class  => 'invitation',
+         PluginFlyvemdmFDroidMarket::class => 'fdroid market',
+         PluginFlyvemdmFDroidApplication::class => 'fdroid application',
       ];
 
       $pluralNumber = Session::getPluralNumber();
@@ -154,6 +163,17 @@ class PluginFlyvemdmMenu extends CommonGLPI {
          $menu['options'][$option]['links']['search'] = $itemtype::getSearchURL(false);
          if ($itemtype::canCreate()) {
             $menu['options'][$option]['links']['add'] = $itemtype::getFormURL(false);
+         }
+
+         // MenuInterface not yet used
+         // Issue: cannot use font awesome because GLPI escapes the picture
+         // if the picture string does not starts with "<img"
+         if (is_subclass_of($itemtype, PluginFlyvemdmMenuInterface::class)) {
+            $links = (new $itemtype())->getAdditionalLinks();
+            foreach ($links as $link) {
+               $image = $link['pic'];
+               $menu['options'][$option]['links'][$image] = $link['link'];
+            }
          }
       }
       return $menu;

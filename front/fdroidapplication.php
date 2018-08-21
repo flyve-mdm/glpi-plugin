@@ -29,54 +29,26 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace tests\units;
-
-use Flyvemdm\Tests\CommonTestCase;
-
-class Config extends CommonTestCase
-{
-
-   public function beforeTestMethod($method) {
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
-   }
-
-   /**
-    * @engine inline
-    */
-   public function testUninstallPlugin() {
-      global $DB;
-
-      $pluginName = TEST_PLUGIN_NAME;
-
-      $plugin = new \Plugin();
-      $plugin->getFromDBbyDir($pluginName);
-
-      // Uninstall the plugin
-      $log = '';
-      ob_start(function($in) use ($log) {
-         $log .= $in;
-         return '';
-      });
-      $plugin->uninstall($plugin->getID());
-      ob_end_clean();
-      $this->boolean($plugin->isInstalled($pluginName))->isFalse($log);
-
-      // Check the plugin is not installed
-      $this->boolean($plugin->isInstalled($pluginName))->isFalse();
-
-      // Check all plugin's tables are dropped
-      $tables = [];
-      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_" . $pluginName . "_%'");
-      while ($row = $DB->fetch_assoc($result)) {
-         $tables[] = array_pop($row);
-      }
-      $this->integer(count($tables))->isEqualTo(0, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
-
-      // TODO: need to find a r eliable way to detect not clenaed
-      // - NotificationTemplateTranslation
-      // - Notification_NotificationTemplate
-
-   }
-
+include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if (!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
 }
+
+Session::checkRight("flyvemdm:flyvemdm", PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
+Session::checkRight("flyvemdm:fdroidapplication", READ);
+
+Html::header(
+   PluginFlyvemdmFDroidApplication::getTypeName(Session::getPluralNumber()),
+   '',
+   'admin',
+   PluginFlyvemdmMenu::class,
+   'fdroid application'
+);
+
+$menu = new PluginFlyvemdmMenu();
+$menu->displayMenu('mini');
+
+Search::show(PluginFlyvemdmFDroidApplication::class);
+
+Html::footer();

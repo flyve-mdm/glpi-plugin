@@ -70,12 +70,23 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       return 'fa-file';
    }
 
+   public function getAdditionalLinks() {
+      return [];
+   }
+
+   /**
+    * @see CommonDBTM::addNeededInfoToInput()
+    */
    public function addNeededInfoToInput($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
    }
 
+   /**
+    * (non-PHPdoc)
+    * @see CommonDBTM::prepareInputForAdd()
+    */
    public function prepareInputForAdd($input) {
       list($actualFilename, $uploadedFile) = $this->getUploadedFile(true);
       if ($actualFilename === null) {
@@ -272,6 +283,10 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       }
    }
 
+   /**
+    * @see CommonDBTM::post_updateItem()
+    * @param integer $history
+    */
    public function post_updateItem($history = 1) {
       // Check if the source changed
       if (!isset($this->oldvalues['source'])) {
@@ -304,7 +319,6 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
-      $twig = plugin_flyvemdm_getTemplateEngine();
       $fields = $this->fields;
       $fields['filesize'] = '';
       if (!$this->isNewID($ID)) {
@@ -319,6 +333,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
          'upload'       => Html::file(['name' => 'file', 'display' => false]),
          'comment'      => $fields['comment'],
       ];
+      $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('file.html.twig', $data);
 
       $this->showFormButtons($options);

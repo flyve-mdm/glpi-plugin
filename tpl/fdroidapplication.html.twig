@@ -1,0 +1,31 @@
+{% if not isNewID %}
+<tr class='tab_bg_1'>
+	<td colspan="4">{% if not package.icon %} {% else %} <img
+		width="64px" height="64px"
+		src="data:image/png;base64,{{ package.icon }}" /> {% endif %}
+	</td>
+</tr>
+{% endif %}
+<tr class='tab_bg_1'>
+	<td>{{ __('Name') }}{{ withTemplate }}</td>
+	<td>{{ fdroidapplication.name }}</td>
+	<td>{{ __('Alias', 'flyvemdm') }}</td>
+	<td>{{ fdroidapplication.alias }}</td>
+</tr>
+<tr class='tab_bg_1'>
+	<td>{{ __('Version') }}</td>
+	<td>{{ fdroidapplication.version }}</td>
+	<td>{{ __('file size', 'flyvemdm') }}</td>
+	<td>{{ fdroidapplication.filesize|fileSize }}</td>
+</tr>
+<tr class='tab_bg_1'>
+	<td>{{ __('Description', 'flyvemdm') }}</td>
+	<td colspan="3">{{ fdroidapplication.desc|raw }}</td>
+</tr>
+<tr>
+   <th colspan="4" class="">{{ __('Import status', 'flyvemdm') }}</th>
+</tr>
+<tr class='tab_bg_1'>
+	<td>{{ __('Import status', 'flyvemdm') }}</td>
+	<td colspan="3">{{ fdroidapplication.import_status }}</td>
+</tr>

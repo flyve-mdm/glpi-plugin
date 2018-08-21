@@ -58,6 +58,26 @@ class RoboFile extends Glpi\Tools\RoboFile {
       'save.sql',
    ];
 
+   protected static $toArchive = [
+      '*.md',
+      '*.js',
+      '*.php',
+      'composer.*',
+      'package.json',
+      'tools',
+      'scripts',
+      'inc',
+      'pics',
+      'css',
+      'tpl',
+      'locales',
+      'images',
+      'install',
+      'front',
+      'lib',
+      'ajax',
+   ];
+
    protected static $tagPrefix = 'v';
 
    protected static $pluginXmlFile = 'plugin.xml';
@@ -205,17 +225,62 @@ class RoboFile extends Glpi\Tools\RoboFile {
          throw new Exception("$version is not semver compliant. See http://semver.org/");
       }
 
-      $tag = self::$tagPrefix . $version;
+      if (!$this->checkUpgrade('head')) {
+         throw new Exception("Bad upgrade code");
+      }
+
       if ($release != 'release') {
+         // check the release constant
          if ($this->getIsRelease() === 'true') {
             throw new Exception('The Official release constant must be false');
          }
 
-         // update version in package.json
+         $rev = 'HEAD';
+      } else {
+         // check a tag exists for the version
+         $tag = self::$tagPrefix . $version;
+         if (!$this->tagExists($tag)) {
+            throw new Exception("The tag $tag does not exists");
+         }
+
+         // check the current head matches the tag
+         if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
+            throw new Exception("HEAD is not pointing to the tag of the version to build");
+         }
+
+         // check the release constant
+         if ($this->getIsRelease() !== 'true') {
+            throw new Exception('The Official release constant must be true');
+         }
+
+         // check the version is declared in plugin.xml
+         $versionTag = $this->getVersionTagFromXML($version);
+         if (!is_array($versionTag)) {
+            throw new Exception("The version does not exists in the XML file");
+         }
+
+         $rev = $tag;
+      }
+
+      // Update locales
+      $this->localesGenerate();
+
+      if ($release == 'release') {
+
+         // commit locales update
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->add('locales/*.po')
+            ->add('locales/*.mo')
+            ->add("locales/$pluginName.pot")
+            ->commit('docs(locales): update translations')
+            ->run();
+
+         // bump version in package.json
          $this->sourceUpdatePackageJson($version);
 
+         // updte changelog
          $this->updateChangelog();
-
          $diff = $this->gitDiff(['package.json']);
          $diff = implode("\n", $diff);
          if ($diff != '') {
@@ -230,52 +295,20 @@ class RoboFile extends Glpi\Tools\RoboFile {
             ->add('CHANGELOG.md')
             ->commit('docs(changelog): update changelog')
             ->run();
-
-         // Update locales
-         $this->localesGenerate();
-         $this->taskGitStack()
-            ->stopOnFail()
-            ->add('locales/*')
-            ->commit('docs(locales): update translations')
-            ->run();
-
-         $rev = 'HEAD';
-      } else {
-         // check a tag exists for the version
-         if ($this->getIsRelease() !== 'true') {
-            throw new Exception('The Official release constant must be true');
-         }
-
-         if (!$this->tagExists($tag)) {
-            throw new Exception("The tag $tag does not exists");
-         }
-
-         //check the current head matches the tag
-         if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
-            throw new Exception("HEAD is not pointing to the tag of the version to build");
-         }
-
-         // check the version is declared in plugin.xml
-         $versionTag = $this->getVersionTagFromXML($version);
-         if (!is_array($versionTag)) {
-            throw new Exception("The version does not exists in the XML file");
-         }
-
-         $rev = $tag;
       }
 
       // Build archive
       $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
       $archiveWorkdir = "$pluginPath/output/dist/archive_workdir";
-      $archiveFile = "$pluginPath/output/dist/glpi-" . $this->getPluginName() . "-$version.tar.bz2";
+      $archiveFile = "$pluginPath/output/dist/glpi-$pluginName-$version.tar.bz2";
       $this->taskDeleteDir($archiveWorkdir)->run();
       mkdir($archiveWorkdir, 0777, true);
-      $filesToArchive = implode(' ', $this->getFileToArchive($rev));
-      $this->_exec("git archive --prefix=$pluginName/ $rev $filesToArchive | tar x -C '$archiveWorkdir'");
-      $this->_exec("composer install --no-dev --working-dir='$archiveWorkdir/flyvemdm'");
+      $filesToArchive = implode(' ', static::$toArchive);
+      $this->_exec("git archive --prefix=$pluginName/ $rev $filesToArchive | tar x -C '$archiveWorkdir' ");
+      $this->_exec("composer install --no-dev --working-dir='$archiveWorkdir/$pluginName'");
       $this->taskPack($archiveFile)
-         ->addDir('/flyvemdm', "$archiveWorkdir/flyvemdm")
+         ->addDir("/$pluginName", "$archiveWorkdir/$pluginName")
          ->run();
    }
 
@@ -365,41 +398,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
          throw new Exception("Unable to get tracked files for $version");
       }
       return $output;
-   }
-
-   /**
-    * Enumerates all files to save in  the distribution archive
-    *
-    * @param $version
-    * @return array
-    */
-   protected function getFileToArchive($version) {
-      $filesToArchive = $this->getTrackedFiles($version);
-
-      // prepare banned items for regex
-      $patterns = [];
-      foreach ($this->getBannedFiles() as $bannedItem) {
-         $pattern = "#" . preg_quote("$bannedItem", "#") . "#";
-         $pattern = str_replace("\\?", ".", $pattern);
-         $pattern = str_replace("\\*", ".*", $pattern);
-         $patterns[] = $pattern;
-      }
-
-      // remove banned files from the list
-      foreach ($patterns as $pattern) {
-         $filteredFiles = [];
-         foreach ($filesToArchive as $file) {
-            if (preg_match($pattern, $file) == 0) {
-               //Include the tracked file
-               $filteredFiles[] = $file;
-            }
-         }
-
-         // Repeat filtering from result with next banned files pattern
-         $filesToArchive = $filteredFiles;
-      }
-
-      return $filesToArchive;
    }
 
    /**
@@ -493,7 +491,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
    protected function getCurrentCommitHash() {
       exec('git rev-parse HEAD', $output, $retCode);
       if ($retCode != '0') {
-         throw new Exception("failed to get curent commit hash");
+         throw new Exception("failed to get current commit hash");
       }
       return $output[0];
    }
@@ -675,11 +673,20 @@ class RoboFile extends Glpi\Tools\RoboFile {
    /**
     */
    protected function updateChangelog() {
-       exec("node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s", $output, $retCode);
+      exec("node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s", $output, $retCode);
       if ($retCode > 0) {
          throw new Exception("Failed to update the changelog");
       }
 
-       return true;
+      return true;
+   }
+
+   private function checkUpgrade($rev) {
+      $fileContent = $this->getFileFromGit('install/upgrade_to_develop.php', $rev);
+      if ($fileContent != '') {
+         throw new Exception ('upgrade_to_develop.php must be renamed !');
+         return false;
+      }
+      return true;
    }
 }

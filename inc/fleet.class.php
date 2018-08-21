@@ -84,6 +84,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       return 'fa-group';
    }
 
+   public function getAdditionalLinks() {
+      return [];
+   }
+
    /**
     * @see CommonGLPI::defineTabs()
     */
@@ -122,7 +126,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
 
-      $twig = plugin_flyvemdm_getTemplateEngine();
       $fields              = $this->fields;
       $objectName          = $DbUtil->autoName($this->fields["name"], "name",
             (isset($options['withtemplate']) && $options['withtemplate'] == 2),
@@ -131,10 +134,12 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
                              ['value' => $objectName, 'display' => false]);
       $fields['is_default'] = $fields['is_default'] ? __('No') : __('Yes');
       $data = [
-            'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
-            'fleet'        => $fields,
+         'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
+         'isNewID'      => $this->isNewID($ID),
+         'fleet'        => $fields,
       ];
 
+      $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('fleet.html.twig', $data);
 
       $this->showFormButtons($options);

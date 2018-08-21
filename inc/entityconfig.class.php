@@ -86,6 +86,17 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
       }
    }
 
+   function getRights($interface = 'central') {
+      $values = [
+         READ                                       => __('Read'),
+         self::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    => __('Write device limit'),
+         self::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      => __('Set agent download URL'),
+         self::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE => __('Set invitation tiken lifetime'),
+      ];
+
+      return $values;
+   }
+
    /**
     * Actions done after the getFromDB method
     */

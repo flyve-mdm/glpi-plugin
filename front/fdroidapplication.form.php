@@ -29,54 +29,49 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace tests\units;
+include ('../../../inc/includes.php');
+$plugin = new Plugin();
+if (!$plugin->isActivated('flyvemdm')) {
+   Html::displayNotFoundError();
+}
 
-use Flyvemdm\Tests\CommonTestCase;
+Session::checkRight('flyvemdm:flyvemdm', PluginFlyvemdmProfile::RIGHT_FLYVEMDM_USE);
 
-class Config extends CommonTestCase
-{
+if (!isset($_GET['id'])) {
+   $_GET['id'] = '';
+}
 
-   public function beforeTestMethod($method) {
-      parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
+if (!isset($_GET['withtemplate'])) {
+   $_GET['withtemplate'] = '';
+}
+
+$fdroidApplication = new PluginFlyvemdmFDroidApplication();
+if (isset($_POST['import'])) {
+   unset($_POST['_skip_checks']);
+   $fdroidApplication->update(['id' => $_POST['id'], 'import_status' => 'to_import']);
+   Html::back();
+} else {
+   $fdroidApplication->check($_GET['id'], READ);
+   Html::header(
+      PluginFlyvemdmFDroidApplication::getTypeName(Session::getPluralNumber()),
+      '',
+      'admin',
+      PluginFlyvemdmMenu::class,
+      'fdroid application'
+   );
+
+   $menu = new PluginFlyvemdmMenu();
+   $menu->displayMenu('mini');
+
+   $fdroidApplication->display([
+      'id' => $_GET['id'],
+      'withtemplate' => $_GET['withtemplate']
+   ]);
+
+   // Footer
+   if (strstr($_SERVER['PHP_SELF'], 'popup')) {
+      Html::popFooter();
+   } else {
+      Html::footer();
    }
-
-   /**
-    * @engine inline
-    */
-   public function testUninstallPlugin() {
-      global $DB;
-
-      $pluginName = TEST_PLUGIN_NAME;
-
-      $plugin = new \Plugin();
-      $plugin->getFromDBbyDir($pluginName);
-
-      // Uninstall the plugin
-      $log = '';
-      ob_start(function($in) use ($log) {
-         $log .= $in;
-         return '';
-      });
-      $plugin->uninstall($plugin->getID());
-      ob_end_clean();
-      $this->boolean($plugin->isInstalled($pluginName))->isFalse($log);
-
-      // Check the plugin is not installed
-      $this->boolean($plugin->isInstalled($pluginName))->isFalse();
-
-      // Check all plugin's tables are dropped
-      $tables = [];
-      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_" . $pluginName . "_%'");
-      while ($row = $DB->fetch_assoc($result)) {
-         $tables[] = array_pop($row);
-      }
-      $this->integer(count($tables))->isEqualTo(0, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
-
-      // TODO: need to find a r eliable way to detect not clenaed
-      // - NotificationTemplateTranslation
-      // - Notification_NotificationTemplate
-
-   }
-
 }
