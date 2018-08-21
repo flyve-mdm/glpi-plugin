@@ -30,10 +30,7 @@
  */
 
 namespace Glpi\Tests;
-use Session;
-use Html;
-use DB;
-use Auth;
+
 
 abstract class CommonTestCase extends CommonDBTestCase {
    protected $str = null;
@@ -70,7 +67,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
    protected function login($name, $password, $noauto = false) {
       global $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
-      $glpi_use_mode = $_SESSION['glpi_use_mode'];
+      $glpi_use_mode = (isset($_SESSION['glpi_use_mode'])) ? $_SESSION['glpi_use_mode'] : \Session::DEBUG_MODE;
       $this->terminateSession(); // force clean up current session
 
       $LOADED_PLUGINS = null;
@@ -152,7 +149,7 @@ abstract class CommonTestCase extends CommonDBTestCase {
 
    protected function terminateSession() {
       // based on glpi logout script
-      Session::destroy();
+      \Session::destroy();
 
       //Remove cookie to allow new login
       $cookie_name = session_name() . '_rememberme';

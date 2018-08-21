@@ -53,7 +53,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
          case 'testDisplayTabContentForItem':
          case 'testGetTabNameForItem':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }
@@ -112,7 +112,6 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    /**
     * @dataProvider providerPrepareInputForAdd
     * @tags testPrepareInputForAdd
-    * @engine inline
     * @param array $input
     * @param boolean $expected
     */
@@ -156,7 +155,6 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
    /**
     * @dataProvider providerPrepareInputForUpdate
     * @tags testPrepareInputForUpdate
-    * @engine inline
     * @param array $input
     * @param boolean $expected
     */

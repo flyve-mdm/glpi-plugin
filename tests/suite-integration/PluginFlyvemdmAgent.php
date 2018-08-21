@@ -77,7 +77,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ['entities_id' => $activeEntity]
       );
       $this->given(
-         $deviceLimit = ($agents + 5),
+         $deviceLimit = ($agents + 3),
          $entityConfig,
          $entityConfig->update([
             'id'           => $activeEntity,
@@ -450,7 +450,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Test online status change on MQTT message
     * @tags testDeviceOnlineChange
-    * @engine inline
     */
    public function testDeviceOnlineChange() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
