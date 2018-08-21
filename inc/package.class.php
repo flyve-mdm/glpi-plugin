@@ -215,37 +215,42 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @see CommonDBTM::prepareInputForUpdate()
     */
    public function prepareInputForUpdate($input) {
-      if (!Session::isCron()) {
+      if (is_int(Session::getLoginUserID()) && strpos($_SERVER['REQUEST_URI'], "front/crontask.form.php") !== false) {
+         // a user is loged in and is not in the automatic actions page
          unset($input['package_name']);
       }
-      // Find the added file
-      $preparedFile = $this->prepareFileUpload();
 
-      if ($preparedFile && is_array($preparedFile)) {
-         try {
-            if (!$this->isFileUploadValid($preparedFile['filename'])) {
-               return false;
-            }
-            $uploadedFile = $preparedFile['uploadedFile'];
-            $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-            $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
-            $this->createEntityDirectory(dirname($destination));
-            if (rename($uploadedFile, $destination)) {
-               $filename = pathinfo($destination, PATHINFO_FILENAME);
-               $input['dl_filename'] = basename($destination);
-               if ($filename != $this->fields['filename']) {
-                  unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
+      if (!Session::isCron()) {
+         // Find the added file
+         $preparedFile = $this->prepareFileUpload();
+
+         if ($preparedFile && is_array($preparedFile)) {
+            try {
+               if (!$this->isFileUploadValid($preparedFile['filename'])) {
+                  return false;
                }
-            } else {
-               $this->logErrorIfDirNotWritable($destination);
-               Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+               $uploadedFile = $preparedFile['uploadedFile'];
+               $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+               $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
+               $this->createEntityDirectory(dirname($destination));
+               if (rename($uploadedFile, $destination)) {
+                  $filename = pathinfo($destination, PATHINFO_FILENAME);
+                  $input['dl_filename'] = basename($destination);
+                  if ($filename != $this->fields['filename']) {
+                     unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
+                  }
+               } else {
+                  $this->logErrorIfDirNotWritable($destination);
+                  Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+                  $input = false;
+               }
+            } catch (Exception $e) {
+               // Ignore exceptions for now
                $input = false;
             }
-         } catch (Exception $e) {
-            // Ignore exceptions for now
-            $input = false;
          }
       }
+
       return $input;
    }
 
