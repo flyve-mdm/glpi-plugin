@@ -36,6 +36,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 define('TEST_PLUGIN_NAME', 'flyvemdm');
 
+// glpi/inc/oolbox.class.php tests TU_USER to decide if it warns or not about mcrypt extension
+define('TU_USER', '_test_user');
+define('TU_PASS', 'PhpUnit_4');
+
+
 define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
 define('GLPI_CONFIG_DIR', GLPI_ROOT . '/tests');
 if (!file_exists(GLPI_CONFIG_DIR . '/config_db.php')) {
