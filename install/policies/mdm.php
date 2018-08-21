@@ -35,4 +35,22 @@ if (!defined('GLPI_ROOT')) {
 
 $category = 'Mobile Device Management';
 return [
+   [
+      'name'                                => __('Enable policies test console', 'flyvemdm'),
+      'symbol'                              => 'enablePoliciesTest',
+      'group'                               => 'mdm',
+      'type'                                => 'bool',
+      'type_data'                           => '',
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Give access to the policies test user interface.',
+         'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '0',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '3.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
 ];
