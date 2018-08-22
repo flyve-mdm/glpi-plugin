@@ -39,19 +39,26 @@ if [[ $TRAVIS_BRANCH =~ $REGEX_BRANCH ]] && [ "$TRAVIS_PULL_REQUEST" = false ]; 
         echo "generating the docs"
         # clean the repo and generate the docs
         git checkout .
-        #php $HOME/bin/sami.phar update "$TRAVIS_BUILD_DIR"/.github/samiConfig.php --force
+        echo "code documentation"
+        wget http://apigen.org/apigen.phar
+        php apigen.phar generate -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
+        echo "code coverage"
         find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
         find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
         find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "/report.css/d" "{}" \;
 
         # commit_website_files
+        echo "adding the code documentation report"
+        git add development/code-documentation/"$TRAVIS_BRANCH"/*
         echo "adding the coverage report"
         git add development/coverage/"$TRAVIS_BRANCH"/*
         echo "creating a branch for the new documents"
         git checkout -b localCi
         git commit -m "changes to be merged"
         git checkout -b gh-pages origin-pages/gh-pages
+        git rm -r development/code-documentation/"$TRAVIS_BRANCH"/*
         git rm -r development/coverage/"$TRAVIS_BRANCH"/*
+        git checkout localCi development/code-documentation/"$TRAVIS_BRANCH"/
         git checkout localCi development/coverage/"$TRAVIS_BRANCH"/
 
         # upload_files

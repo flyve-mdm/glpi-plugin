@@ -30,10 +30,8 @@
     },
     "require-dev": {
         "ext-bz2": "*",
-        "phpdocumentor/phpdocumentor": "^2.9",
-        "evert/phpdoc-md": "^0.2.0",
         "atoum/atoum": "^3.1",
-        "consolidation/robo": "dev-master",
+        "consolidation/robo": "^1.3",
         "glpi-project/tools": "^0.1.2",
         "atoum/stubs": "^2.5",
         "atoum/reports-extension": "^3.0",
