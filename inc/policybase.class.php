@@ -68,11 +68,11 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
     */
    protected $specificStatuses = [];
 
-    /**
-     * get common task statuses
-     *
-     * @return array
-     */
+   /**
+    * get common task statuses
+    *
+    * @return array
+    */
    public static final function getEnumBaseTaskStatus() {
       return [
          'pending'      => __('Pending', 'flyvemdm'),
@@ -90,17 +90,17 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       ];
    }
 
-    /**
-     * get specific task statuses
-     * To be overriden in child class
-     *
-     * @return array
-     */
+   /**
+    * get specific task statuses
+    * To be overriden in child class
+    *
+    * @return array
+    */
    public static function getEnumSpecificStatus() {
       return [];
    }
 
-    /**
+   /**
     * PluginFlyvemdmPolicyBase constructor.
     * @param PluginFlyvemdmPolicy $policy
     */
@@ -162,84 +162,34 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       return (count($relationCollection) === 0);
    }
 
-   /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmNotifiableInterface $notifiable
-    *
-    * @return boolean
-    */
    public function conflictCheck($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
-   /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    *
-    * @return bool
-    */
    public function integrityCheck($value, $itemtype, $itemId) {
       return true;
    }
 
-   /**
-    * @return string
-    */
    public function translateData() {
       return '';
    }
 
-   /**
-    * @return string
-    */
    public function getGroup() {
       return $this->group;
    }
 
-   /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmNotifiableInterface $notifiable
-    *
-    * @return bool
-    */
    public function pre_apply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       return true;
    }
 
-   /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmNotifiableInterface $notifiable
-    *
-    * @return bool
-    */
    public function pre_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {
       // Do nothing by default
       // May be overriden by inhrited classes
       return true;
    }
 
-   /**
-    * @param mixed $value
-    * @param mixed $itemtype
-    * @param integer $itemId
-    * @param PluginFlyvemdmNotifiableInterface $notifiable
-    */
    public function post_unapply($value, $itemtype, $itemId, PluginFlyvemdmNotifiableInterface $notifiable) {}
 
-   /**
-    * @param string $value value of the task
-    * @param string $itemType type of the item linked to the task
-    * @param integer $itemId ID of the item
-    *
-    * @return string
-    */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
 
       $data['itemtype'] = $itemType;
@@ -249,20 +199,10 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       return $twig->render('policy_value.html.twig', ['data' => $data]);
    }
 
-   /**
-    * @param PluginFlyvemdmTask $task
-    *
-    * @return mixed
-    */
    public function showValue(PluginFlyvemdmTask $task) {
       return $task->getField('value');
    }
 
-   /**
-    * @param array $input
-    *
-    * @return array
-    */
    public function preprocessFormData($input) {
       return $input;
    }
