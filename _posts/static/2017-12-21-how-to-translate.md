@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: Contribute Translating
 permalink: howtos/contribute-translating
 description: We Translate with Transifex

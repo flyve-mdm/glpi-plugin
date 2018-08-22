@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: How it works
 permalink: howtos/how-it-works
 description: What you need to know

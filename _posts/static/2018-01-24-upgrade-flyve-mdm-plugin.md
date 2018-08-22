@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: Upgrade Flyve MDM Plugin
 permalink: howtos/upgrade-glpi-plugin
 description: Stay up-to-date

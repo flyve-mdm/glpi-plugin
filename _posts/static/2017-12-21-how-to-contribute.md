@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: Join our Community!
 permalink: howtos/contribute
 description: Be part of our awesome team

@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: Installation v2.0.0
 permalink: howtos/installation-wizard
 description: Now with Wizard
