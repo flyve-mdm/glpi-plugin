@@ -39,14 +39,14 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                             <li>
-                                                <a href="{{ 'development/code-documentation/develop/' | absolute_url }}">Develop</a>
+                                                <a href="{{ 'development/code-documentation/develop/' | absolute_url }}" target="_blank">Develop</a>
                                             </li>
                                             <li>
-                                                <a href="{{ 'development/code-documentation/master/' | absolute_url }}">Master</a>
+                                                <a href="{{ 'development/code-documentation/master/' | absolute_url }}" target="_blank">Master</a>
                                             </li>
                                         {% for version in site.data.whitelist_version %}
                                             <li>
-                                                <a href="{{ 'development/code-documentation/support/' | absolute_url }}{{ version }}">{{ version }}</a>
+                                                <a href="{{ 'development/code-documentation/support/' | absolute_url }}{{ version }}" target="_blank">{{ version }}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -65,7 +65,7 @@
                                         </li>
                                         {% for version in site.data.whitelist_version %}
                                             <li>
-                                                <a href="{{ 'development/coverage/support/' | absolute_url }}{{ version }}">{{ version }}</a>
+                                                <a href="{{ 'development/coverage/support/' | absolute_url }}{{ version }}" target="_blank">{{ version }}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -75,7 +75,7 @@
                         </li>
     
                         <li>
-                            <a class="color-type-secondary" href="{{ '/howtos' | absolute_url }}">How-tos</a>
+                            <a class="color-type-secondary" href="https://flyvemdm-doc.readthedocs.io/en/latest/index.html" target="_blank">How-tos</a>
                         </li>
     
                         <li>
