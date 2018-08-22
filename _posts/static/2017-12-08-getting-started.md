@@ -2,7 +2,7 @@
 layout: static-docs
 code: false
 howtos: true
-published: true
+published: false
 title: Getting Started
 permalink: howtos/getting-started
 description: Welcome to Flyve MDM
