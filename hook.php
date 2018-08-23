@@ -132,13 +132,13 @@ function plugin_flyvemdm_addDefaultSelect($itemtype) {
  * @param string $itemtype Itemtype
  * @return string
  */
-function plugin_Flyvemdm_addDefaultJoin($itemtype) {
+function plugin_Flyvemdm_addDefaultJoin($itemtype, $ref_table, $already_link_tables) {
    switch ($itemtype) {
       case PluginFlyvemdmGeolocation::class:
-         return PluginFlyvemdmGeolocation::addDefaultJoin();
+         return PluginFlyvemdmGeolocation::addDefaultJoin($ref_table, $already_link_tables);
 
       case PluginFlyvemdmAgent::class:
-         return PluginFlyvemdmAgent::addDefaultJoin();
+         return PluginFlyvemdmAgent::addDefaultJoin($ref_table, $already_link_tables);
    }
 }
 
