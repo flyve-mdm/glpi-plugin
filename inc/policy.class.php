@@ -211,6 +211,8 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
    public static function dropdown($options = []) {
       global $DB;
 
+      // Startiing from GLPI 9.3.1 ability to do more complex requests
+      // and simplify this code
       $request = [
          'FROM' => PluginFlyvemdmPolicyCategory::getTable(),
       ];
@@ -228,6 +230,8 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          $categoryName = $category[$row['plugin_flyvemdm_policycategories_id']];
          $elements[$categoryName][$row['id']] = $row['name'];
       }
+
+      $elements = array_filter($elements, function($value) { return (count($value) > 0); });
       return Dropdown::showFromArray(static::getForeignKeyField(), $elements, $options);
    }
 
