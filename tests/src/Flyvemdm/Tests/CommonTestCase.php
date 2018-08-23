@@ -645,6 +645,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableStreamDTMF',
          'Policy/disableStreamSystem',
          'Policy/defaultStreamType',
+         'Policy/periodicGeolocation',
       ];
    }
 }
