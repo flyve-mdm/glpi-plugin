@@ -923,7 +923,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
          $userId = $_SESSION['glpiID'];
-         $where = " AND `c`.`users_id`='$userId'";
+         $where = " `c`.`users_id`='$userId'";
       }
 
       return $where;
