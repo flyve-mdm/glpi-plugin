@@ -21,15 +21,21 @@ else
     echo "skipping source language update"
 fi
 
-# please set the $GH_TOKEN in your travis dashboard
-REGEX_BRANCH="^(master|develop|support/|release/)"
-if [[ $TRAVIS_BRANCH =~ $REGEX_BRANCH ]] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
+# find if we are in a valid branch to build docs
+if echo "$TRAVIS_BRANCH" | grep -q -P '^(master|develop|support/|release/)'; then
+    REGEX_BRANCH=true
+else
+    REGEX_BRANCH=false
+fi
+
+if [ "$REGEX_BRANCH" = true ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
     #wget http://get.sensiolabs.org/sami.phar -O "$HOME/bin/sami.phar"
     # setup_git only for the main repo and not forks
     echo "Configuring git user"
     git config --global user.email "apps@teclib.com"
     git config --global user.name "Teclib' bot"
     echo "adding a new remote"
+    # please set the $GH_TOKEN in your travis dashboard
     git remote add origin-pages https://"$GH_TOKEN"@github.com/"$TRAVIS_REPO_SLUG".git > /dev/null 2>&1
     echo "fetching from the new remote"
     git fetch origin-pages
@@ -39,9 +45,9 @@ if [[ $TRAVIS_BRANCH =~ $REGEX_BRANCH ]] && [ "$TRAVIS_PULL_REQUEST" = false ]; 
         echo "generating the docs"
         # clean the repo and generate the docs
         git checkout .
-        echo "code documentation"
-        wget http://apigen.org/apigen.phar
-        php apigen.phar generate -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
+#        echo "code documentation"
+#        wget -O apigen.phar https://github.com/ApiGen/ApiGen/releases/download/v4.1.0/apigen-4.1.0.phar
+#        php apigen.phar generate -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
         echo "code coverage"
         find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: coverage\\n---\\n/" "{}" \;
         find development/coverage/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "/bootstrap.min.css/d" "{}" \;
