@@ -247,7 +247,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     */
    public function testAddDefaultJoin() {
       $instance = $this->newTestedInstance();
-      $result = $instance::addDefaultJoin();
+      $result = $instance::addDefaultJoin(PluginFlyvemdmAgent::getTable(), []);
       $this->string($result)->isEmpty();
    }
 
