@@ -1087,8 +1087,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $invitationToken  = isset($input['_invitation_token']) ? $input['_invitation_token'] : null;
       $email            = isset($input['_email']) ? $input['_email'] : null;
-      $serial           = isset($input['_serial']) ? $input['_serial'] : null;
-      $uuid             = isset($input['_uuid']) ? $input['_uuid'] : null;
       $csr              = isset($input['csr']) ? $input['csr'] : null;
       $firstname        = isset($input['firstname']) ? $input['firstname'] : null;
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
@@ -1115,13 +1113,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $invitation = new PluginFlyvemdmInvitation();
       if (!$invitation->getFromDBByToken($invitationToken)) {
          $this->filterMessages(__('Invitation token invalid', 'flyvemdm'));
-         return false;
-      }
-
-      if (empty($serial) && empty($uuid)) {
-         $event = __('One of serial and uuid is mandatory', 'flyvemdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
          return false;
       }
 
@@ -1334,7 +1325,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agentAccount->add([
          'usercategories_id' => $config['agentusercategories_id'],
          'name'              => 'flyvemdm-' . PluginFlyvemdmCommon::generateUUID(),
-         'realname'          => $serial,
+         'realname'          => $computer->getField('serial'),
          '_profiles_id'      => $config['agent_profiles_id'],
          'profiles_id'       => $config['agent_profiles_id'],      // Default profile when user logs in
          '_entities_id'      => $entityId,
