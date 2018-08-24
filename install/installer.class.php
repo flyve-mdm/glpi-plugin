@@ -125,9 +125,7 @@ class PluginFlyvemdmInstaller {
 
       $this->migration->executeMigration();
 
-      if (version_compare(GLPI_VERSION, '9.3.0') >= 0) {
-         $this->migrateToInnodb();
-      }
+      $this->migrateToInnodb();
       $this->createDirectories();
       $this->createFirstAccess();
       $this->createGuestProfileAccess();
@@ -510,6 +508,7 @@ Regards,
       }
       if (PluginFlyvemdmCommon::endsWith(PLUGIN_FLYVEMDM_VERSION, "-dev")) {
          $this->upgradeOneStep('dev');
+         $this->migrateToInnodb(); // specific for upgrade to 2.1
       }
    }
 
