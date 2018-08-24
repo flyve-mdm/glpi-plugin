@@ -115,34 +115,24 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       $user = new User();
       if (!$user->getFromDBbyName($input['_useremails'])) {
          // The user does not exists yet, create him
-         if (version_compare(PluginFlyvemdmCommon::getGlpiVersion(), '9.3.0') >= 0) {
-            // Workaround GLPI bug in commit a4bca634e4d055cdd6576000d8d0f2b89b0dcd91
-            // in GLPI 9.3.0 (waiting for a fix)
-            $userId = $user->add([
-               '_useremails'   => [$input['_useremails']],
-               'name'          => $input['_useremails'],
-               'authtype'      => Auth::DB_GLPI,
-            ]);
-            $profile_User = new Profile_User();
-            $profile_User->deleteByCriteria([
-               'users_id'     => $user->getID(),
-            ]);
-            $profile_User->add([
-               'users_id'     => $user->getID(),
-               'profiles_id'  => $guestProfileId,
-               'entities_id'  => $entityId,
-               'is_recursive' => 0,
-            ]);
-         } else {
-            $userId = $user->add([
-               '_useremails'   => [$input['_useremails']],
-               'name'          => $input['_useremails'],
-               '_profiles_id'  => $guestProfileId,
-               '_entities_id'  => $entityId,
-               '_is_recursive' => 0,
-               'authtype'      => Auth::DB_GLPI,
-            ]);
-         }
+         // Workaround GLPI 9.3.0 bug in commit a4bca634e4d055cdd6576000d8d0f2b89b0dcd91
+         // fixed in commit 79fe2a3a53da3033989e1ecbaefac72ad6b0c797 (GLPI 9.3.1)
+         $userId = $user->add([
+            '_useremails'   => [$input['_useremails']],
+            'name'          => $input['_useremails'],
+            'authtype'      => Auth::DB_GLPI,
+         ]);
+         $profile_User = new Profile_User();
+         $profile_User->deleteByCriteria([
+            'users_id'     => $user->getID(),
+         ]);
+         $profile_User->add([
+            'users_id'     => $user->getID(),
+            'profiles_id'  => $guestProfileId,
+            'entities_id'  => $entityId,
+            'is_recursive' => 0,
+         ]);
+
          if ($user->isNewItem()) {
             Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO,
                true);

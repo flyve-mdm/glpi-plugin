@@ -1209,10 +1209,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
       $userTable = User::getTable();
-      $condition = $userTable.".`id`='" . $invitation->getField('users_id') . "'";
-      if (version_compare(GLPI_VERSION, '9.3-dev') >= 0) {
-         $condition = [$userTable . '.id' => $invitation->getField('users_id')];
-      }
+      $condition = [$userTable . '.id' => $invitation->getField('users_id')];
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
