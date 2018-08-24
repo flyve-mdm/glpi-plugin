@@ -42,7 +42,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    protected $computerTypeId = 3;
 
    public function setUp() {
-      $this->resetState();
       \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $this->computerTypeId]);
    }
 
@@ -51,6 +50,11 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
       switch ($method) {
+         case 'testInvalidEnrollAgent':
+            // Enable debug mode for enrollment messages
+            \Config::setConfigurationValues(TEST_PLUGIN_NAME, ['debug_enrolment' => '1']);
+            break;
+
          case 'testDeviceCountLimit':
             \Session::changeActiveEntities(1, true);
             break;
@@ -59,11 +63,16 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function afterTestMethod($method) {
       parent::afterTestMethod($method);
+      switch ($method) {
+         case 'testInvalidEnrollAgent':
+            // Enable debug mode for enrollment messages
+            \Config::setConfigurationValues(TEST_PLUGIN_NAME, ['debug_enrolment' => '1']);
+            break;
+      }
    }
 
    /**
     * @tags testDeviceCountLimit
-    * @engine inline
     */
    public function testDeviceCountLimit() {
       $entity = new \Entity();
@@ -110,10 +119,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       // reset config for other tests
       $entityConfig->update(['id' => $activeEntity, 'device_limit' => '0']);
-      //\Session::destroy();
    }
 
-   protected function invalidEnrollmentDataProvider() {
+   protected function providerInvalidEnrollAgent() {
       $version = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';
       $serial = $this->getUniqueString();
       $inventory = base64_decode(self::AgentXmlInventory($serial));
@@ -150,12 +158,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ],
             'expected' => 'The agent version is too low',
          ],
-         'without serial or uuid' => [
-            'data'     => [
-               'serial'      => null,
-            ],
-            'expected' => 'One of serial and uuid is mandatory',
-         ],
          'without inventory'      => [
             'data'     => [
                'version'     => $version,
@@ -175,7 +177,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * @dataProvider invalidEnrollmentDataProvider
+    * @dataProvider providerInvalidEnrollAgent
     * @tags testInvalidEnrollAgent
     * @param array $data
     * @param string $expected
@@ -218,7 +220,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $invitationToken = $invitation->getField('invitation_token');
       $inviationId = $invitation->getID();
-
       // Test successful enrollment
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
       $this->boolean($agent->isNewItem())
