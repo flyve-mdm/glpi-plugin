@@ -55,7 +55,7 @@ if [ "$GENERATE_DOCS" = true ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
         echo "creating a branch for the new documents"
         git checkout -b localCi
         git commit -m "changes to be merged"
-        git checkout -b gh-pages origin-pages/gh-pages
+        git checkout -f -b gh-pages origin-pages/gh-pages
         git rm -r development/coverage/"$TRAVIS_BRANCH"/*
         git checkout localCi development/coverage/"$TRAVIS_BRANCH"/
         git add development/coverage/"$TRAVIS_BRANCH"/*
