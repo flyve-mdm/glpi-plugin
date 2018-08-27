@@ -223,6 +223,27 @@ $configurationUserInterface = [
       'apple_min_version'                   => '0',
       'apple_max_version'                   => '0',
    ],
+
+   [
+      'name'                                => __('Display orientation', 'flyvemdm'),
+      'symbol'                              => 'screenOrientation',
+      'group'                               => 'ui',
+      'type'                                => 'dropdown',
+      'type_data' => [
+         'ORIENTATION_PORTRAIT'  => __('Portait', 'flyvemdm'),
+         'ORIENTATION_LANDSCAPE' => __('Landscape', 'flyvemdm'),
+      ],
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Set defailt display orientation', 'flyvemdm'),
+      'default_value'                       => 'ORIENTATION_PORTRAIT',
+      'recommended_value'                   => 'ORIENTATION_PORTRAIT',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '1.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
 ];
 
 return array_merge($securityUserInterface, $configurationUserInterface);
