@@ -29,34 +29,30 @@ if [ "$GENERATE_DOCS" = true ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
         # clean the repo and generate the docs
         git checkout .
         wget -O apigen.phar https://github.com/ApiGen/ApiGen/releases/download/v4.1.2/apigen.phar
-        if which apigen &>/dev/null; then
-            php apigen.phar generate \
-                --access-levels=public,protected,private \
-                --todo \
-                --deprecated \
-                --tree \
-                -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
+        php apigen.phar generate \
+            --access-levels=public,protected,private \
+            --todo \
+            --deprecated \
+            --tree \
+            -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
 
-            # commit_website_files
-            echo "adding the code documentation report"
-            git add development/code-documentation/"$TRAVIS_BRANCH"/*
-            echo "creating a branch for the new documents"
-            git checkout -b localCi
-            git commit -m "changes to be merged"
-            git checkout -b gh-pages origin-pages/gh-pages
-            git rm -r development/code-documentation/"$TRAVIS_BRANCH"/*
-            git checkout localCi development/code-documentation/"$TRAVIS_BRANCH"/
-            git add development/code-documentation/"$TRAVIS_BRANCH"/*
+        # commit_website_files
+        echo "adding the code documentation report"
+        git add development/code-documentation/"$TRAVIS_BRANCH"/*
+        echo "creating a branch for the new documents"
+        git checkout -b localCi
+        git commit -m "changes to be merged"
+        git checkout -f -b gh-pages origin-pages/gh-pages
+        git rm -r development/code-documentation/"$TRAVIS_BRANCH"/*
+        git checkout localCi development/code-documentation/"$TRAVIS_BRANCH"/
+        git add development/code-documentation/"$TRAVIS_BRANCH"/*
 
-            # upload_files
-            echo "pushing the up to date documents"
-            git commit --message "docs: update code documentation report"
-            git fetch origin-pages
-            git rebase origin-pages/gh-pages
-            git push --quiet --set-upstream origin-pages gh-pages --force
-        else
-           echo "ApiGen not found, see http://www.apigen.org/"
-        fi
+        # upload_files
+        echo "pushing the up to date documents"
+        git commit --message "docs: update code documentation report"
+        git fetch origin-pages
+        git rebase origin-pages/gh-pages
+        git push --quiet --set-upstream origin-pages gh-pages --force
     fi
 else
     echo "skipping documents update"
