@@ -91,6 +91,9 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       $this->given($class)->string($class::getMenuPicture())->isEqualTo('fa-group');
    }
 
+   /**
+    * @tags testPurgeteItem
+    */
    public function testPurgeteItem() {
       $instance = \PluginFlyvemdmFleet::getDefaultFleet(0);
       $this->variable($instance)->isNotNull();
@@ -115,7 +118,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
          ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
 
-   protected function inputAddProvider() {
+   protected function providerPrepareInputForAdd() {
       return [
          'empty'          => [
             [],
@@ -129,7 +132,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    }
 
    /**
-    * @dataProvider inputAddProvider
+    * @dataProvider providerPrepareInputForAdd
     * @tags testPrepareInputForAdd
     * @param array $input
     * @param array $expected
@@ -144,7 +147,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       }
    }
 
-   protected function inputUpdateProvider() {
+   protected function providerInputUpdate() {
       return [
          [
             'initial'   => ['is_default' => 0],
@@ -170,7 +173,7 @@ class PluginFlyvemdmFleet extends CommonTestCase {
    }
 
    /**
-    * @dataProvider inputUpdateProvider
+    * @dataProvider providerInputUpdate
     * @tags testPrepareInputForUpdate
     * @param array $initial
     * @param array $input

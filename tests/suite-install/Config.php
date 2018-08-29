@@ -67,6 +67,9 @@ class Config extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testInstallPlugin
+    */
    public function testInstallPlugin() {
       global $DB;
 
@@ -74,7 +77,7 @@ class Config extends CommonTestCase {
 
       $this->given($this->boolean($DB->connected)->isTrue())
          ->and($this->configureGLPI())
-         ->and($this->installDependancies());
+         ->and($this->installDependencies());
 
       //Drop plugin configuration if exists
       $config = $this->newTestedInstance();
@@ -165,6 +168,9 @@ class Config extends CommonTestCase {
       $this->integer($length)->isGreaterThan(0);
    }
 
+   /**
+    * @tags testUpgradePlugin
+    */
    public function testUpgradePlugin() {
       global $DB;
 
@@ -239,28 +245,7 @@ class Config extends CommonTestCase {
    /**
     * install requirements for the plugin
     */
-   private function installDependancies() {
-      // $this->boolean(self::login('glpi', 'glpi', true))->isTrue();
-      // $pluginName = 'fusioninventory';
-
-      // $plugin = new \Plugin;
-      // $plugin->getFromDBbyDir($pluginName);
-
-      // // Install the plugin
-      // $installOutput = '';
-      // ob_start(function ($in) use ($installOutput) {
-      //    $installOutput .= $in;
-      //    return '';
-      // });
-      // $plugin->install($plugin->getID());
-      // ob_end_clean();
-      // $plugin->activate($plugin->getID());
-
-      // // Check the plugin is installed
-      // $this->boolean($plugin->getFromDBByDir($pluginName))->isTrue("Fusion Inventory is missing\n");
-      // $this->boolean($plugin->isActivated($pluginName))
-      //    ->isTrue("Failed to install FusionInventory\n$installOutput\n");
-
+   private function installDependencies() {
       $rule = new \Rule();
       $this->boolean($rule->getFromDBByCrit([
          'sub_type' => 'PluginFusioninventoryInventoryRuleImport',
@@ -286,6 +271,7 @@ class Config extends CommonTestCase {
    /**
     * Get table schema (copied from GLPI 9.3)
     *
+    * @param \DBmysql $db
     * @param string $table Table name,
     * @param string|null $structure Raw table structure
     *

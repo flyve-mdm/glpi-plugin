@@ -40,6 +40,9 @@ class Entity extends CommonTestCase {
       $this->login('glpi', 'glpi');
    }
 
+   /**
+    * @tags testDeleteEntity
+    */
    public function testDeleteEntity() {
       $entity = $this->newTestedInstance();
       $entityId = $entity->add([

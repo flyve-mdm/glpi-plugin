@@ -112,7 +112,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $entityConfig->update(['id' => $activeEntity, 'device_limit' => '0']);
    }
 
-   protected function invalidEnrollmentDataProvider() {
+   protected function providerInvalidEnrollmentData() {
       $version = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';
       $serial = $this->getUniqueString();
       $inventory = base64_decode(self::AgentXmlInventory($serial));
@@ -174,7 +174,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
-    * @dataProvider invalidEnrollmentDataProvider
+    * @dataProvider providerInvalidEnrollmentData
     * @tags testInvalidEnrollAgent
     * @param array $data
     * @param string $expected
@@ -669,7 +669,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test inventory message
-    * @tagsa testInventoryRequest
+    * @tags testInventoryRequest
     */
    public function testInventoryRequest() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -929,6 +929,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       return (int)$agent->getID();
    }
 
+   /**
+    * @tags testGetByTopic
+    */
    public function testGetByTopic() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,

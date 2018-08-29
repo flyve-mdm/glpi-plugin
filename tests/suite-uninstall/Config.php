@@ -41,6 +41,7 @@ class Config extends CommonTestCase
    }
 
    /**
+    * @tags testUninstallPlugin
     * @engine inline
     */
    public function testUninstallPlugin() {

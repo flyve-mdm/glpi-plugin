@@ -38,7 +38,7 @@ class PluginFlyvemdmMqttuser extends CommonTestCase {
    /**
     * @return array
     */
-   protected function mqttuserProvider() {
+   protected function providerAddAndDeleteMqttuser() {
       return [
          [['user' => 'ted']],
          [['user' => 'jack', 'enabled' => '1']],
@@ -46,7 +46,7 @@ class PluginFlyvemdmMqttuser extends CommonTestCase {
    }
 
    /**
-    * @dataProvider mqttuserProvider
+    * @dataProvider providerAddAndDeleteMqttuser
     * @param array $input
     * @tags testAddAndDeleteMqttuser
     */

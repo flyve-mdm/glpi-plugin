@@ -46,7 +46,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
    }
 
    /**
-    *
+    * @tags testCanAddAgent
     */
    public function testCanAddAgent() {
       global $DB;
@@ -129,7 +129,7 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
    /**
     * @engine inline
     * @dataProvider providerPrepareInputForUpdate
-    *
+    * @tags testPrepareInputForUpdate
     * @param array $credentials credentials used for login
     * @param array $input input of the tested method
     * @param array|boolean $output expected output
@@ -156,6 +156,9 @@ class PluginFlyvemdmEntityConfig extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testHook_entity_add
+    */
    public function testHook_entity_add() {
       $config = \Config::getConfigurationValues('flyvemdm', ['default_device_limit']);
       $defaultDeviceLimit = $config['default_device_limit'];

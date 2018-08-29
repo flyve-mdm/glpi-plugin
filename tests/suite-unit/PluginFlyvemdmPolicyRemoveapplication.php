@@ -58,7 +58,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    /**
     * @return array
     */
-   protected function policyInputProvider() {
+   protected function providerIntegrityCheck() {
       return [
          'Check Invalid arguments 1' => [
             'data'     => ['value' => '', 'itemType' => '', 'itemId' => ''],
@@ -80,7 +80,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    }
 
    /**
-    * @dataProvider policyInputProvider
+    * @dataProvider providerIntegrityCheck
     * @tags testIntegrityCheck
     *
     * @param array $data
@@ -99,7 +99,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    /**
     * @return array
     */
-   public function unicityCheckProvider() {
+   public function providerUnicityCheck() {
       return [
          'Check for invalid package' => [
             'data'     => ['value' => 'not_existing_package'],
@@ -114,7 +114,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
    }
 
    /**
-    * @dataProvider unicityCheckProvider
+    * @dataProvider providerUnicityCheck
     * @tags testUnicityCheck
     *
     * @param array $data
@@ -130,23 +130,6 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
       }
       $this->boolean($policy->unicityCheck($data['value'], '', '',
          $mockInstance))->isEqualTo($expected['return']);
-   }
-
-   /**
-    * @return array
-    */
-   public function applyProvider() {
-      $package = $this->createDummyPackage();
-      return [
-         'Check for invalid arguments 1' => [
-            'data'     => ['value' => 'fake.lorem.package'],
-            'expected' => ['return' => false, 'message' => 'Policy not found'],
-         ],
-         'Check for correct value'       => [
-            'data'     => ['value' => $package->getField('package_name')],
-            'expected' => ['return' => true],
-         ],
-      ];
    }
 
    /**
@@ -184,6 +167,7 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
 
    /**
     * @dataProvider providerFilterStatus
+    * @tags testFilterStatus
     * @param string $status
     * @param string $expected
     */
