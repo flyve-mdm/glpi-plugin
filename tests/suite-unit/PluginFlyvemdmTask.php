@@ -102,6 +102,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @dataProvider providerCanCreate
+    * @tags testCanCreate
     * @param integer $fleetRight
     * @param integer $policyRight
     * @param boolean $expected
@@ -140,6 +141,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
    /**
     * @dataProvider providerCanUpdate
+    * @tags testCanUpdate
     * @param integer $fleetRight
     * @param integer $policyRight
     * @param boolean $expected

@@ -110,6 +110,7 @@ class PluginFlyvemdmPolicyInteger extends CommonTestCase {
 
    /**
     * @dataProvider providerFilterStatus
+    * @tags testFilterStatus
     * @param string $status
     * @param string $expected
     */

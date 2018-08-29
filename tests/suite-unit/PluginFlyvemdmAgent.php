@@ -132,7 +132,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       ]);
    }
 
-
    /**
     * @tags testDefineTabs
     */
