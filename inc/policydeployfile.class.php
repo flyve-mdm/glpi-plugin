@@ -258,12 +258,6 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       $task->add($this->postUnapplyTask);
    }
 
-   /**
-    * @param string $value
-    * @param string $itemType
-    * @param int $itemId
-    * @return string|void
-    */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $itemtype = PluginFlyvemdmFile::class;
       $removeOnDelete = 1;
@@ -297,6 +291,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
             ]),
             Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false])
       ];
+      $data['android_requirements'] = $this->getAndroidCompatibilityMessage();
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_value.html.twig', ['data' => $data]);
    }

@@ -195,6 +195,7 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $data['itemtype'] = $itemType;
       $data['value'] = $value;
       $data['typeTmpl'] = PluginFlyvemdmPolicyBase::class;
+      $data['android_requirements'] = $this->getAndroidCompatibilityMessage();
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_value.html.twig', ['data' => $data]);
    }
@@ -252,13 +253,13 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       }
       $form = [
          'mode' => $mode,
-         'input' => $this->showValueInput($value, $itemtype, $itemId)
+         'input' => $this->showValueInput($value, $itemtype, $itemId),
       ];
       if ($mode == "update") {
          $form['url'] = Toolbox::getItemTypeFormURL(PluginFlyvemdmTask::class);
          $form['rand'] = mt_rand();
          $form['taskId'] = $_input['task'];
-         $form['policyId'] = $_input['policyId'];
+         $form['policyId'] = $this->policyData->getID();
          $form['itemtype_applied'] = $_input['itemtype_applied'];
          $form['items_id_applied'] = $_input['items_id_applied'];
          $form['_csrf'] = (GLPI_USE_CSRF_CHECK) ? Html::hidden('_glpi_csrf_token',
@@ -266,5 +267,35 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       }
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_form.html.twig', ['form' => $form]);
+   }
+
+   protected function getAndroidCompatibilityMessage() {
+      $min = $this->policyData->getField('android_min_version');
+      $max = $this->policyData->getField('android_max_version');
+
+      $message = '';
+      if ($min == '0' && $max != '0') {
+         $message = sprintf(
+            __('Compatibility with Android up to %1$s.', 'flyvemdm'),
+            $max
+         );
+      }
+      if ($min != '0' && $max == '0') {
+         $message = sprintf(
+            __('Compatibility with Android from %1$s.', 'flyvemdm'),
+            $min
+         );
+      }
+      if ($min != '0' && $max != '0') {
+         $message = sprintf(
+            __('Compatibility with Android %1$s to %2$s.', 'flyvemdm'),
+            $min,
+            $max
+         );
+      }
+      if ($this->policyData->getField('is_android_system') != '0') {
+         $message .= ' ' . sprintf('Requires system privileges.', 'flyvemdm');
+      }
+      return $message;
    }
 }

@@ -249,6 +249,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
                ]),
             Dropdown::showYesNo('value[remove_on_delete]', $removeOnDelete, -1, ['display' => false])
       ];
+      $data['android_requirements'] = $this->getAndroidCompatibilityMessage();
 
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_value.html.twig', ['data' => $data]);
