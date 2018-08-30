@@ -17,6 +17,13 @@
          </td>
       </tr>
       <tr>
+         <td colspan="2">
+          <span id="plugin_flyvemdm_policy_android_requirements"></span>
+          <br>
+          <!-- <span id="plugin_flyvemdm_policy_ios_requirements"></span> -->
+        </td>
+      </tr>
+      <tr>
          <td colspan="2" class="center">
             <input type="hidden" name="itemtype_applied" value="{{ task.itemtype_applied }}">
             <input type="hidden" name="items_id_applied" value="{{ task.items_id_applied }}">
@@ -62,7 +69,6 @@
          <th>{{ __('Policy', 'flyvemdm') }}</th>
          <th>{{ __('Value', 'flyvemdm') }}</th>
       </tr>
-
    </table>
    {% if canEdit %}
      {{ massiveActionForm.end|raw }}

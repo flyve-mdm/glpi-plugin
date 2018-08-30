@@ -82,18 +82,13 @@ class PluginFlyvemdmPolicyBoolean extends PluginFlyvemdmPolicyBase implements Pl
       return $array;
    }
 
-   /**
-    * @param string $value
-    * @param string $itemType
-    * @param int $itemId
-    * @return int|string
-    */
    public function showValueInput($value = '', $itemType = '', $itemId = 0) {
       $data['itemtype'] = $itemType;
       $data['typeTmpl'] = PluginFlyvemdmPolicyBoolean::class;
       $data['dropdown'] = [
           Dropdown::showYesNo('value', $value, -1, ['display' => false])
       ];
+      $data['android_requirements'] = $this->getAndroidCompatibilityMessage();
       $twig = plugin_flyvemdm_getTemplateEngine();
       return $twig->render('policy_value.html.twig', ['data' => $data]);
    }
