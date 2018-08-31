@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------------
  * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
@@ -104,13 +104,8 @@ abstract class CommonTestCase extends CommonDBTestCase {
       Session::start();
       $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
       $auth = new Auth();
-      if (defined('GLPI_PREVER') && version_compare('9.2', rtrim(GLPI_VERSION, '-dev'), 'lt')) {
-         // GLPI 9.3 and upper has this method
-         $result = $auth->login($name, $password, $noauto, false, 'local');
-      } else {
-         // older versions use this one
-         $result = $auth->Login($name, $password, $noauto);
-      }
+      $result = $auth->login($name, $password, $noauto, false, 'local');
+
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $this->setupGLPIFramework();
 
