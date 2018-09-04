@@ -35,11 +35,13 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
+   public $dohistory                   = true;
+
    /** @var string $rightname name of the right in DB */
    static $rightname                   = 'flyvemdm:fdroidapplication';
 
-   /** @var bool $usenotepad enable notepad for the itemtype (GLPi < 0.85) */
-   protected $usenotepad               = true;
+   /** @var bool $usenotepad enable notepad for the itemtype */
+   protected $usenotepad         = true;
 
    /**
     * get mdm types availables
@@ -67,6 +69,18 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
     */
    static function getTypeName($count = 0) {
       return _n('F-Droid application', 'F-Droid applications', $count);
+   }
+
+   /**
+    * Define tabs available for this itemtype
+    */
+   public function defineTabs($options = []) {
+      $tab = [];
+      $this->addDefaultFormTab($tab);
+      $this->addStandardTab(Notepad::class, $tab, $options);
+      $this->addStandardTab(Log::class, $tab, $options);
+
+      return $tab;
    }
 
    /**
@@ -215,6 +229,10 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          $input['import_status'] = 'no_import';
       }
 
+      if (!isset($input['is_auto_upgradable'])) {
+         $input['is_auto_upgradable'] = '1';
+      }
+
       return $input;
    }
 
@@ -222,10 +240,17 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       $options['canUpdate'] = (!$this->isNewID($ID)) && ($this->canUpdate() > 0);
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
+      $canedit = static::canUpdate();
       $fields = $this->fields;
 
       $importStatuses = static::getEnumImportStatus();
       $fields['import_status'] = $importStatuses[$fields['import_status']];
+      $fields['is_auto_upgradable'] = Html::getCheckbox([
+         'title'     => __('Download the application updates', 'flyvemdm'),
+         'name'      => 'is_auto_upgradable',
+         'checked'   => $fields['is_auto_upgradable'] !== '0',
+         'readonly'  => ($canedit == '0' ? '1' : '0'),
+      ]);
 
       $data = [
          'withTemplate'       => (isset($options['withtemplate']) && $options['withtemplate'] ? '*' : ''),
@@ -281,7 +306,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '2',
-         'table'              => $this->getTable(),
+         'table'              => self::getTable(),
          'field'              => 'id',
          'name'               => __('ID'),
          'massiveaction'      => false,
@@ -290,7 +315,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '3',
-         'table'              => $this->getTable(),
+         'table'              => self::getTable(),
          'field'              => 'alias',
          'name'               => __('Alias', 'flyvemdm'),
          'massiveaction'      => false,
@@ -299,7 +324,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '4',
-         'table'              => $this->getTable(),
+         'table'              => self::getTable(),
          'field'              => 'version',
          'name'               => __('Version', 'flyvemdm'),
          'massiveaction'      => false,
@@ -308,7 +333,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '6',
-         'table'              => $this->getTable(),
+         'table'              => self::getTable(),
          'field'              => 'filesize',
          'name'               => __('Size'),
          'massiveaction'      => false,
@@ -317,7 +342,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '7',
-         'table'              => $this->getTable(),
+         'table'              => self::getTable(),
          'field'              => 'import_status',
          'name'               => __('Import status', 'flyvemdm'),
          'searchtype'         => ['equals', 'notequals'],
@@ -327,9 +352,17 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $tab[] = [
          'id'                 => '8',
-         'table'              => $this::getTable(),
+         'table'              => self::getTable(),
          'field'              => PluginFlyvemdmFDroidMarket::getForeignKeyField(),
          'name'               => __('FDroid market', 'flyvemdm'),
+         'massiveaction'      => false,
+      ];
+
+      $tab[] = [
+         'id'                 => '9',
+         'table'              => self::getTable(),
+         'field'              => 'is_auto_upgradable',
+         'name'               => __('Download the application updates', 'flyvemdm'),
          'massiveaction'      => false,
       ];
 

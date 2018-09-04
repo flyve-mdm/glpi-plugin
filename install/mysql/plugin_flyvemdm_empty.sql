@@ -279,6 +279,7 @@ CREATE TABLE `glpi_plugin_flyvemdm_fdroidapplications` (
   `filesize`                    int(11)                                  NOT NULL DEFAULT '0',
   `import_status`               enum('no_import','to_import','imported') NOT NULL DEFAULT 'no_import',
   `is_available`                tinyint(1)                               NOT NULL DEFAULT '1' COMMENT 'Does the application exists in the store ?',
+  `is_auto_upgradable`          tinyint(1)                               NOT NULL DEFAULT '1' COMMENT 'Can we automatically download the upgrades ?',
   PRIMARY KEY (`id`),
   KEY `entities_id` (`entities_id`),
   KEY `plugin_flyvemdm_fdroidmarkets_id` (`plugin_flyvemdm_fdroidmarkets_id`),
