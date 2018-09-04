@@ -50,6 +50,10 @@ if (isset($_POST['import'])) {
    unset($_POST['_skip_checks']);
    $fdroidApplication->update(['id' => $_POST['id'], 'import_status' => 'to_import']);
    Html::back();
+} else if (isset($_POST['update'])) {
+   $fdroidApplication->check($_POST['id'], UPDATE);
+   $fdroidApplication->update(['id' => $_POST['id'], 'is_auto_upgradable' => $_POST['is_auto_upgradable']]);
+   Html::back();
 } else {
    $fdroidApplication->check($_GET['id'], READ);
    Html::header(

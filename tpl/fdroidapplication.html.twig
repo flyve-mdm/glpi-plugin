@@ -27,5 +27,7 @@
 </tr>
 <tr class='tab_bg_1'>
 	<td>{{ __('Import status', 'flyvemdm') }}</td>
-	<td colspan="3">{{ fdroidapplication.import_status }}</td>
+	<td>{{ fdroidapplication.import_status }}</td>
+   <td>{{ __('Download the application updates', 'flyvemdm') }}</td>
+	<td>{{ fdroidapplication.is_auto_upgradable|raw }}</td>
 </tr>
