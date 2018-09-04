@@ -119,7 +119,7 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
     * Updates the list of applications from a F Droid like repository
     * @return integer
     */
-   private function updateRepository() {
+   public function updateRepository() {
       global $DB;
 
       $volume = 0;
