@@ -42,7 +42,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
       'unicity'   => '0',
    ];
 
-   protected function validationProvider() {
+   protected function providerCreatePolicy() {
       $item = $this->createDummyFile(0);
       $itemId = $item->getID();
       return [
@@ -182,7 +182,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    }
 
    /**
-    * @dataProvider validationProvider
+    * @dataProvider providerCreatePolicy
     * @tags testCreatePolicy
     * @param array $data
     * @param array $expected
@@ -247,7 +247,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    }
 
    /**
-    * @tags testUnApply
+    * @tags testPre_unapply
     */
    public function testPre_unapply() {
       list($policy) = $this->createNewPolicyInstance();
@@ -337,6 +337,7 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
 
    /**
     * @dataProvider providerFilterStatus
+    * @tags testFilterStatus
     * @param string $status
     * @param string $expected
     */

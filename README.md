@@ -44,7 +44,7 @@ We created a docker environment for Flyve MDM, allowing you to have a developmen
 
 | **LTS** | **Bleeding Edge** |
 |:---:|:---:|
-| [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.org/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.org/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.org/flyve-mdm/glpi-plugin) |
+| [![Build Status](https://travis-ci.com/flyve-mdm/glpi-plugin.svg?branch=master)](https://travis-ci.com/flyve-mdm/glpi-plugin) | [![Build Status](https://travis-ci.com/flyve-mdm/glpi-plugin.svg?branch=develop)](https://travis-ci.com/flyve-mdm/glpi-plugin) |
 
 ## Compatibility Matrix
 

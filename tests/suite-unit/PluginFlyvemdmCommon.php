@@ -71,7 +71,7 @@ class PluginFlyvemdmCommon extends atoum {
    /**
     * @return array
     */
-   protected function resourcesProvider() {
+   protected function providerRecursiveRmdir() {
       $filename = uniqid('file_').'.ext';
       $dirname = uniqid('folder_');
       return [
@@ -97,8 +97,8 @@ class PluginFlyvemdmCommon extends atoum {
    }
 
    /**
+    * @dataProvider providerRecursiveRmdir
     * @tags testRecursiveRmdir
-    * @dataProvider resourcesProvider
     * @param array $data
     * @param mixed $expected
     */
@@ -137,7 +137,7 @@ class PluginFlyvemdmCommon extends atoum {
     * Used as provider for start/ends with methods
     * @return array
     */
-   protected function stringProvider() {
+   protected function providerStringSearch() {
       return [
          'Empty needle'  => [
             'data'     => ['needle' => '', 'haystack' => 'test_string'],
@@ -156,7 +156,7 @@ class PluginFlyvemdmCommon extends atoum {
 
    /**
     * @tags testStartsWith
-    * @dataProvider stringProvider
+    * @dataProvider providerStringSearch
     * @param array $data
     * @param mixed $expected
     */
@@ -168,7 +168,7 @@ class PluginFlyvemdmCommon extends atoum {
 
    /**
     * @tags testEndsWith
-    * @dataProvider stringProvider
+    * @dataProvider providerStringSearch
     * @param array $data
     * @param mixed $expected
     */

@@ -47,14 +47,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function beforeTestMethod($method) {
       parent::beforeTestMethod($method);
-      $this->setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
       switch ($method) {
-         case 'testInvalidEnrollAgent':
-            // Enable debug mode for enrollment messages
-            \Config::setConfigurationValues(TEST_PLUGIN_NAME, ['debug_enrolment' => '1']);
-            break;
-
          case 'testDeviceCountLimit':
             \Session::changeActiveEntities(1, true);
             break;
@@ -86,7 +80,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ['entities_id' => $activeEntity]
       );
       $this->given(
-         $deviceLimit = ($agents + 5),
+         $deviceLimit = ($agents + 3),
          $entityConfig,
          $entityConfig->update([
             'id'           => $activeEntity,
@@ -452,7 +446,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    /**
     * Test online status change on MQTT message
     * @tags testDeviceOnlineChange
-    * @engine inline
     */
    public function testDeviceOnlineChange() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -672,7 +665,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * test inventory message
-    * @tagsa testInventoryRequest
+    * @tags testInventoryRequest
     */
    public function testInventoryRequest() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
@@ -932,6 +925,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       return (int)$agent->getID();
    }
 
+   /**
+    * @tags testGetByTopic
+    */
    public function testGetByTopic() {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial,

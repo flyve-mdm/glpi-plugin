@@ -908,15 +908,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    /**
     * Limits search for agents of guest user
     */
-   public static function addDefaultJoin() {
+   public static function addDefaultJoin($ref_table, $already_link_tables) {
       $join = '';
 
       $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
-         $agentTable = self::getTable();
          $computerTable = Computer::getTable();
-         $join = "LEFT JOIN `$computerTable` AS `c` ON `$agentTable`.`computers_id`=`c`.`id` ";
+         $join = "LEFT JOIN `$computerTable` AS `c` ON `$ref_table`.`computers_id`=`c`.`id` ";
       }
 
       return $join;
@@ -932,7 +931,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $guestProfileId = $config['guest_profiles_id'];
       if ($_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
          $userId = $_SESSION['glpiID'];
-         $where = " AND `c`.`users_id`='$userId'";
+         $where = " `c`.`users_id`='$userId'";
       }
 
       return $where;

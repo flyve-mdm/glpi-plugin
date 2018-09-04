@@ -55,13 +55,14 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
          case 'testAddInvitationRule':
          case 'testDeleteInvitationRuleCriteria':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }
 
    /**
     * Run without concurrency, becauase it tests an inconsistency in DB
+    * @tags testAddInvitationRule
     * @engine inline
     */
    public function testAddInvitationRule() {
@@ -125,6 +126,9 @@ class PluginFlyvemdmFusionInventory extends CommonTestCase {
       $this->boolean($ruleCriteria->isNewItem())->isFalse();
    }
 
+   /**
+    * @tags testDeleteInvitationRuleCriteria
+    */
    public function testDeleteInvitationRuleCriteria() {
       // Create an invitation
       $invitation = $this->newMockInstance(\PluginFlyvemdmInvitation::class);

@@ -43,7 +43,7 @@
                         {{ data.dropdown[0]|raw }}
                     </td>
                     <td style="text-align: center;">
-                        {{ __('copy to', 'flyvemdm') }}
+                         {{ __('Remove when the policy is removed', 'flyvemdm') }}
                     </td>
                     <td>
                         {{ data.dropdown[1]|raw }}
@@ -73,3 +73,6 @@
        $(document).find(editorId).dialog("option", "width", 200);
     </script>
 {% endif %}
+<script type="text/javascript">
+   $(document).find('#plugin_flyvemdm_policy_android_requirements')[0].innerText = "{{ data.android_requirements }}";
+</script>

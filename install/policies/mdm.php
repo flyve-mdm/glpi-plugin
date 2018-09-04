@@ -34,5 +34,34 @@ if (!defined('GLPI_ROOT')) {
 }
 
 $category = 'Mobile Device Management';
-return [
+$mdm = [
 ];
+
+// TODO Specific category because we will have new features related to geolocation
+// - disable geolocation reporting with time intervals
+// - disable geolocation reporting with geographic areas
+$category = 'Mobile Device Management > Geolocation';
+$mdmGeolocation = [
+   [
+      'name'                                => __('Periodic geolocation', 'flyvemdm'),
+      'symbol'                              => 'periodicGeolocation',
+      'group'                               => 'encryption',
+      'type'                                => 'int',
+      'type_data'                           => [
+         "min" => 0,
+      ],
+      'unicity'                             => 1,
+      'plugin_flyvemdm_policycategories_id' => $category,
+      'comment'                             => __('Get geolocation with a specified periodicity (in seconds) and sends it to the server.',
+         'flyvemdm'),
+      'default_value'                       => '0',
+      'recommended_value'                   => '0',
+      'is_android_system'                   => '0',
+      'android_min_version'                 => '3.0',
+      'android_max_version'                 => '0',
+      'apple_min_version'                   => '0',
+      'apple_max_version'                   => '0',
+   ],
+];
+
+return array_merge($mdm, $mdmGeolocation);

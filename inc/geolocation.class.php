@@ -236,7 +236,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * Add default join for search on Geolocation
     * @return string
     */
-   public static function addDefaultJoin() {
+   public static function addDefaultJoin($ref_table, $already_link_tables) {
       $geolocationTable = self::getTable();
       $computerTable = Computer::getTable();
       $join = "LEFT JOIN `$computerTable` AS `c` ON `$geolocationTable`.`computers_id`=`c`.`id` ";

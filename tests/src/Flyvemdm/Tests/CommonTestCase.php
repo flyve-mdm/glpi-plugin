@@ -48,9 +48,6 @@ class CommonTestCase extends GlpiCommonTestCase {
    protected function enrollFromInvitation($userId, array $input, $keepLoggedUser = true) {
       // Close current session
       $currentUser = $_SESSION['glpiname'];
-      $this->terminateSession();
-      $this->restartSession();
-      $this->setupGLPIFramework();
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
@@ -67,9 +64,6 @@ class CommonTestCase extends GlpiCommonTestCase {
 
       if ($keepLoggedUser && $currentUser) {
          // Go back to previous logged user
-         $this->terminateSession();
-         $this->restartSession();
-         $this->setupGLPIFramework();
          $this->boolean($this->login($currentUser, $currentUser))->isTrue();
       }
 
@@ -170,9 +164,8 @@ class CommonTestCase extends GlpiCommonTestCase {
    }
 
    /**
-    * @return object PluginFlyvemdmFleet mocked
-    *
     * @param array $input input data
+    * @return \PluginFlyvemdmFleet
     */
    protected function createFleet($input) {
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
@@ -184,6 +177,64 @@ class CommonTestCase extends GlpiCommonTestCase {
       $fleet->getFromDB($fleetId);
 
       return $fleet;
+   }
+
+   /**
+    * @param array $input input data
+    * @param boolean $noPostActions
+    * @return \PluginFlyvemdmTask
+    */
+   protected function createTask($input, $noPostActions = true) {
+      $task = $this->newMockInstance(\PluginFlyvemdmTask::class, '\MyMock');
+      if ($noPostActions) {
+         $task->getMockController()->post_addItem = function () {};
+         $task->getMockController()->post_updateItem = function () {};
+      }
+      $taskId = $task->add($input);
+      $this->boolean($task->isNewItem())->isFalse();
+
+      $task = new \PluginFlyvemdmTask();
+      $task->getFromDB($taskId);
+
+      return $task;
+   }
+
+   /**
+    * @param string $policySymbol
+    * @param boolean $noPostActions
+    * @return array
+    */
+   protected function createFleetAndTask($policySymbol = 'storageEncryption', $noPostActions = true) {
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDbBySymbol($policySymbol);
+      $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
+      $task = $this->createTask([
+         'value'                       => '0',
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+         'itemtype_applied'            => \PluginFlyvemdmFleet::class,
+         'items_id_applied'            => $fleet->getID(),
+         'itemtype'                    => '',
+         'items_id'                    => '',
+      ], $noPostActions);
+      return [$fleet, $task, $policy];
+   }
+
+   /**
+    * @return array
+    */
+   protected function createAgentTaskstatus() {
+      list($fleet, $task) = $this->createFleetAndTask('storageEncryption', false);
+      $agent = $this->createAgent();
+      $agent->update([
+         'id' => $agent->getID(),
+         \PluginFlyvemdmFleet::getForeignKeyField() => $fleet->getID(),
+         ]);
+      $taskStatus = new \PluginFlyvemdmTaskStatus;
+      $taskStatus->getFromDBByCrit([
+         \PluginFlyvemdmAgent::getForeignKeyField() => $agent->getID(),
+         \PluginFlyvemdmTask::getForeignKeyField()  => $task->getID(),
+      ]);
+      return [$taskStatus, $fleet, $task];
    }
 
    /**
@@ -588,6 +639,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableStreamDTMF',
          'Policy/disableStreamSystem',
          'Policy/defaultStreamType',
+         'Policy/periodicGeolocation',
       ];
    }
 }

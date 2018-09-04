@@ -44,6 +44,19 @@ class PluginFlyvemdmFile extends CommonTestCase {
       }
    }
 
+   /**
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testPrepareInputForUpdate':
+         case 'testPostGetFromDB':
+            parent::afterTestMethod($method);
+            $this->terminateSession();
+            break;
+      }
+   }
+
    public function providerPrepareInputForAdd() {
       return [
          /*

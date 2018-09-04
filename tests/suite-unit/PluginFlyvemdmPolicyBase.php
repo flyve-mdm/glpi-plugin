@@ -37,12 +37,23 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
 
    private $dataField = [];
 
+   public function beforeTestMethod($method) {
+      parent::beforeTestMethod($method);
+      switch ($method) {
+         case 'testFormGenerator':
+            $this->login('glpi', 'glpi');
+            break;
+      }
+   }
+
    /**
     * @return array
     */
-   private function createNewPolicyInstance() {
+   private function createNewPolicyInstance($symbol = null) {
       $policyData = new \PluginFlyvemdmPolicy();
-      $policyData->fields = $this->dataField;
+      if ($symbol !== null) {
+         $policyData->getFromDbBySymbol($symbol);
+      }
       $policy = $this->newTestedInstance($policyData);
       return [$policy, $policyData];
    }
@@ -126,6 +137,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
       $data['itemtype'] = '';
       $data['value'] = '';
       $data['typeTmpl'] = \PluginFlyvemdmPolicyBase::class;
+      $data['android_requirements'] = 'Compatibility with Android N/A to N/A. Requires system privileges.';
       $twig = plugin_flyvemdm_getTemplateEngine();
       $this->string($policy->showValueInput())->isEqualTo($twig->render('policy_value.html.twig', ['data' => $data]));
    }
@@ -204,8 +216,6 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
     * @tags testFormGenerator
     */
    public function testFormGenerator() {
-      $this->login('glpi', 'glpi');
-
       $existingPolicy = new \PluginFlyvemdmPolicy();
       $existingPolicy->getFromDbBySymbol('storageEncryption');
       $fleet = $this->createFleet(['name' => $this->getUniqueString()]);
@@ -221,10 +231,9 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          'items_id' => '',
       ]);
 
-      list($policy) = $this->createNewPolicyInstance();
+      list($policy) = $this->createNewPolicyInstance($existingPolicy->getField('symbol'));
       // add action
       $html = $policy->formGenerator('add', [
-         'policyId'         => $policyId,
          'task'             => 0,
          'itemtype_applied' => '',
          'items_id_applied' => 0,
@@ -236,7 +245,6 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
       // edit action
       $taskId = $task->getID();
       $html = $policy->formGenerator('update', [
-         'policyId'         => $policyId,
          'task'             => $taskId,
          'itemtype_applied' => 'fleet',
          'items_id_applied' => $fleetId,
@@ -251,6 +259,6 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          ->contains("input type='hidden' name='itemtype_applied' value='fleet'")
          ->contains("input type='hidden' name='items_id_applied' value='" . $fleetId . "'");
 
-      \Session::destroy();
+      $this->terminateSession();
    }
 }

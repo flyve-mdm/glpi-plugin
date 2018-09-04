@@ -146,6 +146,8 @@ interface PluginFlyvemdmPolicyInterface {
    /**
     * return policy value for display
     * @param PluginFlyvemdmTask $task
+    *
+    * @return mixed
     */
    public function showValue(PluginFlyvemdmTask $task);
 

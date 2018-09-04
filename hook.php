@@ -33,12 +33,15 @@
  * Entry point for installation process
  */
 function plugin_flyvemdm_install() {
-   global $DB;
-
-   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginFlyvemdmInstaller();
-
-   return $installer->install();
+   $version   = plugin_version_flyvemdm();
+   $migration = new Migration($version['version']);
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
+   spl_autoload_register([PluginFlyvemdmInstall::class, 'autoload']);
+   $install = new PluginFlyvemdmInstall();
+   if (!$install->isPluginInstalled()) {
+      return $install->install($migration);
+   }
+   return $install->upgrade($migration);
 }
 
 /**
@@ -46,10 +49,10 @@ function plugin_flyvemdm_install() {
  * @return boolean True if success
  */
 function plugin_flyvemdm_uninstall() {
-   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/installer.class.php");
-   $installer = new PluginFlyvemdmInstaller();
+   require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
+   $install = new PluginFlyvemdmInstall();
 
-   return $installer->uninstall();
+   return $install->uninstall();
 }
 
 /**
@@ -129,13 +132,13 @@ function plugin_flyvemdm_addDefaultSelect($itemtype) {
  * @param string $itemtype Itemtype
  * @return string
  */
-function plugin_Flyvemdm_addDefaultJoin($itemtype) {
+function plugin_Flyvemdm_addDefaultJoin($itemtype, $ref_table, $already_link_tables) {
    switch ($itemtype) {
       case PluginFlyvemdmGeolocation::class:
-         return PluginFlyvemdmGeolocation::addDefaultJoin();
+         return PluginFlyvemdmGeolocation::addDefaultJoin($ref_table, $already_link_tables);
 
       case PluginFlyvemdmAgent::class:
-         return PluginFlyvemdmAgent::addDefaultJoin();
+         return PluginFlyvemdmAgent::addDefaultJoin($ref_table, $already_link_tables);
    }
 }
 

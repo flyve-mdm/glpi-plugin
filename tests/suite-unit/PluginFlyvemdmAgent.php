@@ -69,7 +69,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          case 'testGetTopic':
          case 'testGetFleet':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }
@@ -131,7 +131,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ['short' => 'Purge', 'long' => 'Delete permanently'],
       ]);
    }
-
 
    /**
     * @tags testDefineTabs
@@ -246,9 +245,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testAddDefaultJoin
     */
    public function testAddDefaultJoin() {
-      $instance = $this->newTestedInstance();
-      $result = $instance::addDefaultJoin();
+      $ref_table = \PluginFlyvemdmAgent::getTable();
+      $result = \PluginFlyvemdmAgent::addDefaultJoin($ref_table, []);
       $this->string($result)->isEmpty();
+
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $guestProfileId = $config['guest_profiles_id'];
+      $_SESSION['glpiactiveprofile']['id'] = $guestProfileId;
+
+      $result = \PluginFlyvemdmAgent::addDefaultJoin($ref_table, []);
+      $computerTable = \Computer::getTable();
+      $join = "LEFT JOIN `$computerTable` AS `c` ON `$ref_table`.`computers_id`=`c`.`id` ";
+      $this->string($result)->isEqualTo($join);
    }
 
    /**
@@ -340,5 +348,4 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->string($instance->getSpecificValueToDisplay('mdm_type',
          'android'))->contains('Android');
    }
-
 }

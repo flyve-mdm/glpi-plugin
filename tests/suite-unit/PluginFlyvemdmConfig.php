@@ -36,7 +36,6 @@ class PluginFlyvemdmConfig extends CommonTestCase {
 
    public function setUp() {
       parent::setUp();
-      self::setupGLPIFramework();
       $this->boolean($this->login('glpi', 'glpi'))->isTrue();
    }
 }

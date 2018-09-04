@@ -52,7 +52,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
       return [$policy, $policyData];
    }
 
-   protected function validationProvider() {
+   protected function providerCreatePolicy() {
       $item = $this->createDummyPackage(0);
       return [
          'Check values exist'                  => [
@@ -87,7 +87,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
    }
 
    /**
-    * @dataProvider validationProvider
+    * @dataProvider providerCreatePolicy
     * @tags testCreatePolicy
     * @param $data
     * @param $expected
@@ -235,6 +235,7 @@ class PluginFlyvemdmPolicyDeployapplication extends CommonTestCase {
 
    /**
     * @dataProvider providerFilterStatus
+    * @tags testFilterStatus
     * @param string $status
     * @param string $expected
     */

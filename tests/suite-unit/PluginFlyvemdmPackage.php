@@ -57,7 +57,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          case 'testAddNeededInfoToInput':
          case 'testPrepareInputForUpdate':
             parent::afterTestMethod($method);
-            \Session::destroy();
+            $this->terminateSession();
             break;
       }
    }

@@ -30,17 +30,13 @@
  */
 
 namespace Glpi\Tests;
-use Session;
-use Html;
-use DB;
-use Auth;
+
 
 abstract class CommonTestCase extends CommonDBTestCase {
    protected $str = null;
 
    public function beforeTestMethod($method) {
       self::resetGLPILogs();
-      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;       // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
    }
 
    protected function resetState() {
@@ -68,46 +64,28 @@ abstract class CommonTestCase extends CommonDBTestCase {
       file_put_contents(GLPI_LOG_DIR."/php-errors.log", '');
    }
 
-   protected function setupGLPIFramework() {
-      global $CFG_GLPI, $DB, $LOADED_PLUGINS, $PLUGIN_HOOKS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
+   protected function login($name, $password, $noauto = false) {
+      global $LOADED_PLUGINS, $AJAX_INCLUDE, $PLUGINS_INCLUDED;
 
-      if (session_status() == PHP_SESSION_ACTIVE) {
-         session_write_close();
-      }
+      $glpi_use_mode = (isset($_SESSION['glpi_use_mode'])) ? $_SESSION['glpi_use_mode'] : \Session::DEBUG_MODE;
+      $this->terminateSession(); // force clean up current session
+
       $LOADED_PLUGINS = null;
       $PLUGINS_INCLUDED = null;
       $AJAX_INCLUDE = null;
-      $_SESSION = [
-         // Prevents notice in execution of GLPI_ROOT . /inc/includes.php
-         'glpi_use_mode' => Session::NORMAL_MODE,
-      ];
-      if (is_readable(GLPI_ROOT . "/config/config.php")) {
-         $configFile = "/config/config.php";
+
+      \Session::start();
+      $_SESSION['glpi_use_mode'] = $glpi_use_mode;
+
+      $auth = new \Auth();
+      if (defined('GLPI_PREVER') && version_compare('9.2', rtrim(GLPI_VERSION, '-dev'), 'lt')) {
+         // GLPI 9.3 and upper has this method
+         $result = $auth->login($name, $password, $noauto, false, 'local');
       } else {
-         $configFile = "/inc/config.php";
+         // older versions use this one
+         $result = $auth->Login($name, $password, $noauto);
       }
-      include (GLPI_ROOT . $configFile);
-      require (GLPI_ROOT . "/inc/includes.php");
-
-      //To debug php fatal errors. May impact atoum workers communication
-      //\Toolbox::setDebugMode(Session::DEBUG_MODE);
-
-      $DB = new DB();
-
-      include_once (GLPI_ROOT . "/inc/timer.class.php");
-
-      // Security of PHP_SELF
-      $_SERVER['PHP_SELF'] = Html::cleanParametersURL($_SERVER['PHP_SELF']);
-   }
-
-   protected function login($name, $password, $noauto = false) {
-      Session::start();
-      $_SESSION['glpi_use_mode'] = Session::NORMAL_MODE;
-      $auth = new Auth();
-      $result = $auth->login($name, $password, $noauto, false, 'local');
-
-      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
-      $this->setupGLPIFramework();
+      include GLPI_ROOT . "/inc/includes.php";
 
       return $result;
    }
@@ -137,7 +115,6 @@ abstract class CommonTestCase extends CommonDBTestCase {
    protected function loginWithUserToken($userToken) {
       // Login as guest user
       $_REQUEST['user_token'] = $userToken;
-      Session::destroy();
       self::login('', '', false);
       unset($_REQUEST['user_token']);
    }
@@ -171,8 +148,16 @@ abstract class CommonTestCase extends CommonDBTestCase {
    }
 
    protected function terminateSession() {
-      if (session_status() == PHP_SESSION_ACTIVE) {
-         session_write_close();
+      // based on glpi logout script
+      \Session::destroy();
+
+      //Remove cookie to allow new login
+      $cookie_name = session_name() . '_rememberme';
+      $cookie_path = ini_get('session.cookie_path');
+
+      if (isset($_COOKIE[$cookie_name])) {
+         setcookie($cookie_name, '', time() - 3600, $cookie_path);
+         unset($_COOKIE[$cookie_name]);
       }
    }
 

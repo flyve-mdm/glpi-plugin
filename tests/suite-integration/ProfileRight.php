@@ -35,6 +35,9 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class ProfileRight extends CommonTestCase {
 
+   /**
+    * @tags testAgentProfileRights
+    */
    public function testAgentProfileRights() {
       $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
       $this->array($config)->hasKey('agent_profiles_id');
@@ -118,6 +121,9 @@ class ProfileRight extends CommonTestCase {
       $this->integer($result->count())->isEqualTo(count($rightsSet));
    }
 
+   /**
+    * @tags testGuestProfileRights
+    */
    public function testGuestProfileRights() {
       $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $this->array($config)->hasKey('guest_profiles_id');
