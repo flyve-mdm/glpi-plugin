@@ -531,7 +531,7 @@ Regards,
       ini_set("memory_limit", "-1");
 
       $suffix = str_replace('.', '_', $toVersion);
-      $includeFile = __DIR__ . "/update_to_$suffix.php";
+      $includeFile = __DIR__ . "/upgrade_to_$suffix.php";
       if (is_readable($includeFile) && is_file($includeFile)) {
          include_once $includeFile;
          $updateClass = "PluginFlyvemdmUpgradeTo$suffix";
