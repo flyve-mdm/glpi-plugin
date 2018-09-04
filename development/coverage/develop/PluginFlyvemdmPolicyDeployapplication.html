@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
                     69%
-                                            <small>of 112</small>
+                                            <small>of 113</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -107,9 +107,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#showValueInput">PluginFlyvemdmPolicyDeployapplication::showValueInput()</a></td>
-                                        <td style="text-align: center">15</td>
+                                        <td style="text-align: center">16</td>
                 <td style="text-align: center">    
-    <span class="label label-success">87%</span>
+    <span class="label label-success">88%</span>
 </td>
                                             </tr>
             <tr>
@@ -1896,7 +1896,7 @@ layout: coverage
                     <th id="L233" class="number ">233</th>
 
                     <td class="" id="showValueInput">
-                        <pre>   public function showValueInput($value = &#039;&#039;, $itemType = &#039;&#039;, $itemId = 0) {<span class="label label-success">87%</span><div class="btn-group"></div></pre>
+                        <pre>   public function showValueInput($value = &#039;&#039;, $itemType = &#039;&#039;, $itemId = 0) {<span class="label label-success">88%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2031,47 +2031,46 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L252" class="number ">252</th>
+                    <th id="L252" class="number covered">252</th>
+
+                    <td class="covered" >
+                        <pre>      $data[&#039;android_requirements&#039;] = $this-&gt;getAndroidCompatibilityMessage();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L253" class="number ">253</th>
 
                     <td class="" >
                         <pre>
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L253" class="number covered">253</th>
-
-                    <td class="covered" >
-                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L254" class="number covered">254</th>
 
                     <td class="covered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L255" class="number covered">255</th>
+
+                    <td class="covered" >
                         <pre>      return $twig-&gt;render(&#039;policy_value.html.twig&#039;, [&#039;data&#039; =&gt; $data]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L255" class="number unreach">255</th>
+                    <th id="L256" class="number unreach">256</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L256" class="number ">256</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L257" class="number ">257</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -2079,7 +2078,7 @@ layout: coverage
                     <th id="L258" class="number ">258</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmTask $task
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -2087,7 +2086,7 @@ layout: coverage
                     <th id="L259" class="number ">259</th>
 
                     <td class="" >
-                        <pre>    * @return string
+                        <pre>    * @param PluginFlyvemdmTask $task
 </pre>
                     </td>
                 </tr>
@@ -2095,54 +2094,62 @@ layout: coverage
                     <th id="L260" class="number ">260</th>
 
                     <td class="" >
+                        <pre>    * @return string
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L261" class="number ">261</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="showValue">
-                    <th id="L261" class="number ">261</th>
+                    <th id="L262" class="number ">262</th>
 
                     <td class="" id="showValue">
                         <pre>   public function showValue(PluginFlyvemdmTask $task) {<span class="label label-warning">50%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L262" class="number covered">262</th>
+                    <th id="L263" class="number covered">263</th>
 
                     <td class="covered" >
                         <pre>      $package = new PluginFlyvemdmPackage();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L263" class="number covered">263</th>
+                    <th id="L264" class="number covered">264</th>
 
                     <td class="covered" >
                         <pre>      if ($package-&gt;getFromDB($task-&gt;getField(&#039;items_id&#039;))) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L264" class="number uncovered">264</th>
+                    <th id="L265" class="number uncovered">265</th>
 
                     <td class="uncovered" >
                         <pre>         $alias = $package-&gt;getField(&#039;alias&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L265" class="number uncovered">265</th>
+                    <th id="L266" class="number uncovered">266</th>
 
                     <td class="uncovered" >
                         <pre>         $name  = $package-&gt;getField(&#039;name&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L266" class="number uncovered">266</th>
+                    <th id="L267" class="number uncovered">267</th>
 
                     <td class="uncovered" >
                         <pre>         return &quot;$alias ($name)&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L267" class="number ">267</th>
+                    <th id="L268" class="number ">268</th>
 
                     <td class="" >
                         <pre>      }
@@ -2150,21 +2157,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L268" class="number covered">268</th>
+                    <th id="L269" class="number covered">269</th>
 
                     <td class="covered" >
                         <pre>      return NOT_AVAILABLE;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L269" class="number unreach">269</th>
+                    <th id="L270" class="number unreach">270</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L270" class="number ">270</th>
+                    <th id="L271" class="number ">271</th>
 
                     <td class="" >
                         <pre>
@@ -2172,14 +2179,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getEnumSpecificStatus">
-                    <th id="L271" class="number ">271</th>
+                    <th id="L272" class="number ">272</th>
 
                     <td class="" id="getEnumSpecificStatus">
                         <pre>   public static function getEnumSpecificStatus() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L272" class="number ">272</th>
+                    <th id="L273" class="number ">273</th>
 
                     <td class="" >
                         <pre>      return [
@@ -2187,14 +2194,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L273" class="number covered">273</th>
+                    <th id="L274" class="number covered">274</th>
 
                     <td class="covered" >
                         <pre>         &#039;waiting&#039; =&gt; __(&#039;Waiting&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L274" class="number ">274</th>
+                    <th id="L275" class="number ">275</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2202,14 +2209,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L275" class="number unreach">275</th>
+                    <th id="L276" class="number unreach">276</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L276" class="number ">276</th>
+                    <th id="L277" class="number ">277</th>
 
                     <td class="" >
                         <pre>}
