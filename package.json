@@ -1,6 +1,6 @@
 {
     "name": "@teclib/flyve-mdm-glpi",
-    "version": "2.0.0-rc.1",
+    "version": "2.0.0-rc.2",
     "description": "Flyve MDM plugin for GLPI",
     "directories": {
         "test": "tests"
