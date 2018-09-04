@@ -389,7 +389,7 @@
 </span></span><span id="236" class="l"><span class="php-comment">    * Add default join for search on Geolocation
 </span></span><span id="237" class="l"><span class="php-comment">    * @return string
 </span></span><span id="238" class="l"><span class="php-comment">    */</span>
-</span><span id="239" class="l">   <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> addDefaultJoin() {
+</span><span id="239" class="l">   <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> <span class="php-keyword1">function</span> addDefaultJoin(<span class="php-var">$ref_table</span>, <span class="php-var">$already_link_tables</span>) {
 </span><span id="240" class="l">      <span class="php-var">$geolocationTable</span> = self::getTable();
 </span><span id="241" class="l">      <span class="php-var">$computerTable</span> = Computer::getTable();
 </span><span id="242" class="l">      <span class="php-var">$join</span> = <span class="php-quote">&quot;LEFT JOIN `</span><span class="php-var">$computerTable</span><span class="php-quote">` AS `c` ON `</span><span class="php-var">$geolocationTable</span><span class="php-quote">`.`computers_id`=`c`.`id` &quot;</span>;

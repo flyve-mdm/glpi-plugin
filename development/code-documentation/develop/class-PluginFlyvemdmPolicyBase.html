@@ -189,7 +189,7 @@
 				Thierry Bugier<br>
 				<b>Since:</b>
 				0.1.33<br>
-			<b>Located at</b> <a href="source-class-PluginFlyvemdmPolicyBase.html#36-330" title="Go to source code">policybase.class.php</a>
+			<b>Located at</b> <a href="source-class-PluginFlyvemdmPolicyBase.html#36-301" title="Go to source code">policybase.class.php</a>
 		<br>
 	</div>
 
@@ -451,14 +451,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_conflictCheck">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#165-175" title="Go to source code">conflictCheck</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#165-167" title="Go to source code">conflictCheck</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Check there is not a conflict with an already applied policy</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Check there is not a conflict with an already applied policy</p>
 
 
 				<h4>Parameters</h4>
@@ -475,7 +475,7 @@ To be overriden in child class</p>
 
 				<h4>Returns</h4>
 				<div class="list">
-					boolean
+					boolean<br>False if there is a conflict with an already applied
 				</div>
 
 
@@ -498,14 +498,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_integrityCheck">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#177-186" title="Go to source code">integrityCheck</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#169-171" title="Go to source code">integrityCheck</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Check the value used to apply a policy is valid, and check the the item to link</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Check the value used to apply a policy is valid, and check the the item to link</p>
 
 
 				<h4>Parameters</h4>
@@ -513,14 +513,14 @@ To be overriden in child class</p>
 					<dt><var>$value</var></dt>
 					<dd></dd>
 					<dt><var>$itemtype</var></dt>
-					<dd></dd>
+					<dd>the itemtype of an item</dd>
 					<dt><var>$itemId</var></dt>
-					<dd></dd>
+					<dd>the id of an item</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					boolean
+					boolean<br>False if integrity not satisfyed
 				</div>
 
 
@@ -536,28 +536,24 @@ To be overriden in child class</p>
 		<td class="attributes"><code>
 			 public 
 
-			string
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_translateData">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#188-193" title="Go to source code">translateData</a>( )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#173-175" title="Go to source code">translateData</a>( )</code>
 
 		<div class="description short">
-			
+			<p>Translate type_data field</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Translate type_data field</p>
 
 
 
-				<h4>Returns</h4>
-				<div class="list">
-					string
-				</div>
 
 
 
@@ -579,14 +575,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getGroup">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#195-200" title="Go to source code">getGroup</a>( )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#177-179" title="Go to source code">getGroup</a>( )</code>
 
 		<div class="description short">
-			
+			<p>get the group the policy belongs to</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>get the group the policy belongs to</p>
 
 
 
@@ -608,21 +604,21 @@ To be overriden in child class</p>
 		<td class="attributes"><code>
 			 public 
 
-			boolean
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_pre_apply">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#202-212" title="Go to source code">pre_apply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#181-183" title="Go to source code">pre_apply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Actions done before a policy is applied to a notifiable</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Actions done before a policy is applied to a notifiable</p>
 
 
 				<h4>Parameters</h4>
@@ -637,10 +633,6 @@ To be overriden in child class</p>
 					<dd></dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					boolean
-				</div>
 
 
 
@@ -655,21 +647,21 @@ To be overriden in child class</p>
 		<td class="attributes"><code>
 			 public 
 
-			boolean
+			
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_pre_unapply">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#214-226" title="Go to source code">pre_unapply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#185-189" title="Go to source code">pre_unapply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Actions done before a policy is unapplied to a notifiable</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Actions done before a policy is unapplied to a notifiable</p>
 
 
 				<h4>Parameters</h4>
@@ -684,10 +676,6 @@ To be overriden in child class</p>
 					<dd></dd>
 				</dl></div>
 
-				<h4>Returns</h4>
-				<div class="list">
-					boolean
-				</div>
 
 
 
@@ -709,14 +697,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post_unapply">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#228-234" title="Go to source code">post_unapply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#191" title="Go to source code">post_unapply</a>( <span>mixed <var>$value</var></span>, <span>mixed <var>$itemtype</var></span>, <span>integer <var>$itemId</var></span>, <span><code><a href="class-PluginFlyvemdmNotifiableInterface.html">PluginFlyvemdmNotifiableInterface</a></code> <var>$notifiable</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Actions done after a policy is unapplied to a notifiable</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Actions done after a policy is unapplied to a notifiable</p>
 
 
 				<h4>Parameters</h4>
@@ -752,14 +740,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_showValueInput">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#236-250" title="Go to source code">showValueInput</a>( <span>string <var>$value</var> = <span class="php-quote">''</span></span>, <span>string <var>$itemType</var> = <span class="php-quote">''</span></span>, <span>integer <var>$itemId</var> = <span class="php-num">0</span></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#193-201" title="Go to source code">showValueInput</a>( <span>string <var>$value</var> = <span class="php-quote">''</span></span>, <span>string <var>$itemType</var> = <span class="php-quote">''</span></span>, <span>integer <var>$itemId</var> = <span class="php-num">0</span></span> )</code>
 
 		<div class="description short">
-			
+			<p>return HTML input to set policy value</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>return HTML input to set policy value</p>
 
 
 				<h4>Parameters</h4>
@@ -797,14 +785,14 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_showValue">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#252-259" title="Go to source code">showValue</a>( <span><code><a href="class-PluginFlyvemdmTask.html">PluginFlyvemdmTask</a></code> <var>$task</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#203-205" title="Go to source code">showValue</a>( <span><code><a href="class-PluginFlyvemdmTask.html">PluginFlyvemdmTask</a></code> <var>$task</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>return policy value for display</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>return policy value for display</p>
 
 
 				<h4>Parameters</h4>
@@ -838,14 +826,19 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_preprocessFormData">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#261-268" title="Go to source code">preprocessFormData</a>( <span>array <var>$input</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#207-209" title="Go to source code">preprocessFormData</a>( <span>array <var>$input</var></span> )</code>
 
 		<div class="description short">
-			
+			<p>Transforms form data to match the format expected by the API</p>
 		</div>
 
 		<div class="description detailed hidden">
-			
+			<p>Transforms form data to match the format expected by the API</p>
+
+<p>When using GLPI the form data send in a different structure comapred to the API
+This method converts it back to the format used in the API</p>
+
+<p>Does nothing by default, override if needed</p>
 
 
 				<h4>Parameters</h4>
@@ -879,7 +872,7 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_filterStatus">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#270-282" title="Go to source code">filterStatus</a>( <span> <var>$status</var></span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#211-223" title="Go to source code">filterStatus</a>( <span> <var>$status</var></span> )</code>
 
 		<div class="description short">
 			
@@ -918,7 +911,7 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getPolicyData">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#284-289" title="Go to source code">getPolicyData</a>( )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#225-230" title="Go to source code">getPolicyData</a>( )</code>
 
 		<div class="description short">
 			
@@ -952,7 +945,7 @@ To be overriden in child class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_formGenerator">#</a>
-		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#291-329" title="Go to source code">formGenerator</a>( <span>string <var>$mode</var> = <span class="php-quote">'add'</span></span>, <span>array <var>$_input</var> = [] </span> )</code>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#232-270" title="Go to source code">formGenerator</a>( <span>string <var>$mode</var> = <span class="php-quote">'add'</span></span>, <span>array <var>$_input</var> = [] </span> )</code>
 
 		<div class="description short">
 			<p>Generate the form for add or edit a policy</p>
@@ -974,6 +967,36 @@ To be overriden in child class</p>
 				<div class="list">
 					string<br>html
 				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getAndroidCompatibilityMessage" id="_getAndroidCompatibilityMessage">
+
+		<td class="attributes"><code>
+			 protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getAndroidCompatibilityMessage">#</a>
+		<code><a href="source-class-PluginFlyvemdmPolicyBase.html#272-300" title="Go to source code">getAndroidCompatibilityMessage</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
 
 
 
