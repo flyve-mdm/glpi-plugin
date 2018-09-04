@@ -168,6 +168,7 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
    public function showForm($ID, $options = []) {
       $this->initForm($ID, $options);
       $this->showFormHeader($options);
+      $canedit = static::canUpdate();
       $fields = $this->fields;
 
       $data = [
