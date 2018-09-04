@@ -225,7 +225,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
          throw new Exception("$version is not semver compliant. See http://semver.org/");
       }
 
-      if (!$this->checkUpgrade('head')) {
+      if (!$this->checkUpgrade('HEAD')) {
          throw new Exception("Bad upgrade code");
       }
 
@@ -264,6 +264,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
 
       // Update locales
       $this->localesGenerate();
+      $pluginName = $this->getPluginName();
 
       if ($release == 'release') {
 
@@ -298,7 +299,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
       }
 
       // Build archive
-      $pluginName = $this->getPluginName();
       $pluginPath = $this->getPluginPath();
       $archiveWorkdir = "$pluginPath/output/dist/archive_workdir";
       $archiveFile = "$pluginPath/output/dist/glpi-$pluginName-$version.tar.bz2";
@@ -682,7 +682,11 @@ class RoboFile extends Glpi\Tools\RoboFile {
    }
 
    private function checkUpgrade($rev) {
-      $fileContent = $this->getFileFromGit('install/upgrade_to_develop.php', $rev);
+      try {
+         $fileContent = $this->getFileFromGit('install/upgrade_to_develop.php', $rev);
+      } catch (Exception $e) {
+         return true;
+      }
       if ($fileContent != '') {
          throw new Exception ('upgrade_to_develop.php must be renamed !');
          return false;
