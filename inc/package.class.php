@@ -310,21 +310,27 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @see CommonDBTM::pre_deleteItem()
     */
    public function pre_deleteItem() {
+      // Reset import status in the linked F-Droid store
+      $fDroidApplication = new PluginFlyvemdmFDroidApplication();
+      $found = $fDroidApplication->getFromDBByCrit([
+         self::getForeignKeyField() => $this->fields['id']
+      ]);
+      if ($found) {
+         $fDroidApplication->update([
+            'id'              => $fDroidApplication->getID(),
+            self::getForeignKeyField() => 0,
+            'import_status'   => 'no_import',
+         ]);
+      }
+
       // Delete tasks linked to the object
       $task = new PluginFlyvemdmTask();
-      return $task->deleteByCriteria([
+      $success = $task->deleteByCriteria([
          'itemtype' => $this->getType(),
          'items_id' => $this->getID(),
       ]);
 
-      // Reset import status in the linked F-Droid store
-      $fDroidApplication = new PluginFlyvemdmFDroidApplication();
-      if ($fDroidApplication->getFromDBByCrit(['name' => $this->fields['name']])) {
-         $fDroidApplication->update([
-            'id'              => $fDroidApplication->getID(),
-            'import_status'   => 'no_import',
-         ]);
-      }
+      return $success;
    }
 
    /**

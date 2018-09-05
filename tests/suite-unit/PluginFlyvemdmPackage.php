@@ -42,6 +42,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          case 'testAddNeededInfoToInput':
          case 'testPrepareInputForUpdate':
          case 'testPostGetFromDB':
+         case 'testPre_deleteItem':
             $this->login('glpi', 'glpi');
             break;
       }
@@ -145,5 +146,46 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $instance = $this->newTestedInstance();
       $output = $instance::getSpecificValueToDisplay('icon', ['icon' => $png]);
       $this->string($output)->isEqualTo('<img style="height: 14px" src="data:image/png;base64,'. $png .'">');
+   }
+
+
+   public function testPre_deleteItem() {
+      $instance = $this->createDummyPackage(0);
+      $fleet = $this->createFleet();
+      $policy = new \PluginFlyvemdmPolicy();
+      $policy->getFromDBBySymbol('deployApp');
+      $task = $this->createTask([
+         'itemtype_applied'            => $fleet::getType(),
+         'items_id_applied'            => $fleet->getID(),
+         'value'                       => [
+            'remove_on_delete' => '1',
+         ],
+         'plugin_flyvemdm_policies_id' => $policy->getID(),
+         'itemtype'                    => $instance::getType(),
+         'items_id'                    => $instance->getID(),
+      ]);
+      $this->boolean($task->isNewItem())->isFalse();
+
+      $fdroidApplication = new \PluginFlyvemdmFdroidApplication();
+      $fdroidApplication->add([
+         $instance::getForeignKeyField() => $instance->getID(),
+      ]);
+
+      $output = $instance->pre_deleteItem();
+
+      // check the call suceeded
+      $this->boolean($output)->isTrue();
+
+      // Check the task is removed
+      $deletedTask = new \PluginFlyvemdmTask();
+      $deletedTask->getFromDB($task->getID());
+      $this->boolean($deletedTask->isNewItem())->isTrue();
+
+      // Check the Fdroid application is unlinked
+      $packageFk = $instance::getForeignKeyField();
+      $unlinkedFdroidApplication = new \PluginFlyvemdmFdroidApplication();
+      $unlinkedFdroidApplication->getFromDB($fdroidApplication->getID());
+      $this->integer((int) $unlinkedFdroidApplication->fields[$packageFk])
+         ->isEqualTo(0);
    }
 }
