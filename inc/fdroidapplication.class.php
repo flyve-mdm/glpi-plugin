@@ -149,7 +149,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    }
 
    /**
-    * Maitnains a local list of all apps available in the repository
+    * downloads all applications marked to import
     * This algorithm is limited and cannot handle a huge quantity of applications
     * @param CronTask $cronTask
     * @return number
@@ -161,35 +161,45 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
       $cronTask->log('Download applications to import from F-Droid');
 
-      $fDroidApplication = new PluginFlyvemdmFDroidApplication();
       $request = [
          'FROM'  => PluginFlyvemdmFDroidApplication::getTable(),
          'WHERE' => ['import_status' => 'to_import']
       ];
-      $package = new PluginFlyvemdmPackage();
       $market = new PluginFlyvemdmFDroidMarket();
       foreach ($DB->request($request) as $row) {
-         if ($package->getFromDBByCrit(['name' => $row['name']])) {
-            continue;
-         }
-         $market->getFromDB($row[$market::getForeignKeyField()]);
-         $baseUrl = dirname($market->getField('url'));
-
-         $file = GLPI_TMP_DIR . "/" . $row['filename'];
-         file_put_contents($file, file_get_contents("$baseUrl/" . $row['filename']));
-         $_POST['_file'][0] = $row['filename'];
-         if ($package->add($row)) {
-            $fDroidApplication->update([
-               'id'                         => $row['id'],
-               'import_status'              => 'imported',
-            ]);
-         } else {
-            Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
-         }
+         $fDroidApplication = new PluginFlyvemdmFDroidApplication();
+         $fDroidApplication->getFromDB($row['id']);
+         $fDroidApplication->downloadApplication();
          $cronStatus = 1;
       }
 
       return $cronStatus;
+   }
+
+   /**
+    * Downloads an application
+    * @return false
+    */
+   public function downloadApplication() {
+      $package = new PluginFlyvemdmPackage();
+      $market = new PluginFlyvemdmFDroidMarket();
+      if ($package->getFromDBByCrit(['name' => $this->fields['name']])) {
+         return false;
+      }
+      $market->getFromDB($row[$market::getForeignKeyField()]);
+      $baseUrl = dirname($market->fields['url']);
+
+      $file = GLPI_TMP_DIR . "/" . $this->fields['filename'];
+      file_put_contents($file, file_get_contents("$baseUrl/" . $this->fields['filename']));
+      $_POST['_file'][0] = $this->fields['filename'];
+      if ($package->add($this->fields)) {
+         $this->update([
+            'id'                         => $this->fields['id'],
+            'import_status'              => 'imported',
+         ]);
+      } else {
+         Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
+      }
    }
 
    /**
@@ -291,6 +301,14 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       Search::showGenericSearch(PluginFlyvemdmFDroidApplication::class, $searchParams);
 
       Search::showList(PluginFlyvemdmFDroidApplication::class, $searchParams);
+   }
+
+   public function post_updateItem($history = 1) {
+      if (isset($this->oldvalues['version_code'])) {
+         if ($this->oldvalues['version_code'] < $this->fields['version_code']) {
+
+         }
+      }
    }
 
    public function getSearchOptionsNew() {
