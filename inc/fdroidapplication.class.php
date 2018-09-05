@@ -186,20 +186,30 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       if ($package->getFromDBByCrit(['name' => $this->fields['name']])) {
          return false;
       }
-      $market->getFromDB($row[$market::getForeignKeyField()]);
+      $market->getFromDB($this->fields[PluginFlyvemdmFDroidMarket::getForeignKeyField()]);
       $baseUrl = dirname($market->fields['url']);
 
       $file = GLPI_TMP_DIR . "/" . $this->fields['filename'];
       file_put_contents($file, file_get_contents("$baseUrl/" . $this->fields['filename']));
       $_POST['_file'][0] = $this->fields['filename'];
-      if ($package->add($this->fields)) {
-         $this->update([
-            'id'                         => $this->fields['id'],
-            'import_status'              => 'imported',
-         ]);
-      } else {
+      $input = [
+         'name'         => $this->fields['name'],
+         'package_name' => $this->fields['package_name'],
+         'entities_id'  => $this->fields['entities_id'],
+         'alias'        => $this->fields['alias'],
+         'version'      => $this->fields['version'],
+         'version_code' => $this->fields['version_code'],
+         'dl_filename'  => $file,
+      ];
+      if (!$package->add($input)) {
          Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
+         return false;
       }
+      $this->update([
+         'id'                         => $this->fields['id'],
+         'import_status'              => 'imported',
+      ]);
+      return true;
    }
 
    /**

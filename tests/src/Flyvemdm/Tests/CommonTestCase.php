@@ -167,7 +167,10 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @param array $input input data
     * @return \PluginFlyvemdmFleet
     */
-   protected function createFleet($input) {
+   protected function createFleet($input = []) {
+      if (!isset($input['name'])) {
+         $input['name'] = $this->getUniqueString();
+      }
       $fleet = $this->newMockInstance(\PluginFlyvemdmFleet::class, '\MyMock');
       $fleet->getMockController()->post_addItem = function () {};
       $fleetId = $fleet->add($input);
@@ -191,7 +194,7 @@ class CommonTestCase extends GlpiCommonTestCase {
          $task->getMockController()->post_updateItem = function () {};
       }
       $taskId = $task->add($input);
-      $this->boolean($task->isNewItem())->isFalse();
+      $this->boolean($task->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $task = new \PluginFlyvemdmTask();
       $task->getFromDB($taskId);
