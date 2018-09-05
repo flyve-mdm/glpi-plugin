@@ -54,13 +54,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public static $rightname            = 'flyvemdm:agent';
 
-   /**
-    * @var bool $dohistory maintain history
-    */
+   /** @var bool $dohistory maintain history */
    public $dohistory                   = true;
 
    /** @var bool $usenotepad enable notepad for the itemtype */
-   protected $usenotepadRights         = true;
+   protected $usenotepad               = true;
 
    protected $topic = null;
 
