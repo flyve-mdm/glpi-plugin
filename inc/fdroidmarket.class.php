@@ -139,17 +139,25 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
                'is_recursive' => $this->fields['is_recursive'],
                $marketFk      => $this->getID(),
                'alias'        => Toolbox::addslashes_deep($application->name),
-               'version'      => Toolbox::addslashes_deep($application->package[0]->version),
-               'version_code' => Toolbox::addslashes_deep($application->package[0]->versioncode),
-               'filesize'     => Toolbox::addslashes_deep($application->package[0]->size),
-               'filename'     => Toolbox::addslashes_deep($application->package[0]->apkname),
                'desc'         => Toolbox::addslashes_deep($application->desc),
             ];
-            if (isCommandline()) {
-               // TRANS: %1$s is the name of the application being updated %2$s is the name of the repository
-               echo sprintf(__('Updating application %1$s in repository %2$s', 'flyvemdm'), $input['name'], $this->getField('name')) . PHP_EOL;
+
+            // Find the latest published version
+            $highestVersionCode = (string) $application->marketvercode;
+            $selectedPackage = null;
+            foreach ($application->package as $key => $package) {
+               if ((string) $package->versioncode == $highestVersionCode) {
+                  $selectedPackage = $package;
+                  break;
+               }
             }
-            PluginFlyvemdmFDroidApplication::import($input);
+            if ($selectedPackage !== null) {
+               $input['version'] = Toolbox::addslashes_deep((string) $selectedPackage->version);
+               $input['version_code'] = Toolbox::addslashes_deep((string) $selectedPackage->versioncode);
+               $input['filesize'] = Toolbox::addslashes_deep((string) $selectedPackage->size);
+               $input['filename'] = Toolbox::addslashes_deep((string) $selectedPackage->apkname);
+               PluginFlyvemdmFDroidApplication::import($input);
+            }
          }
 
          // Delete applications vanished from the repo

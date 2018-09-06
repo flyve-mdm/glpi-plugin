@@ -74,9 +74,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       return [];
    }
 
-   /**
-    * @see CommonGLPI::defineTabs()
-    */
    public function defineTabs($options = []) {
       $tab = [];
       $this->addDefaultFormTab($tab);
@@ -162,18 +159,12 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $this->showFormButtons($options);
    }
 
-   /**
-    * @see CommonDBTM::addNeededInfoToInput()
-    */
    public function addNeededInfoToInput($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
       return $input;
    }
 
-   /**
-    * @see CommonDBTM::prepareInputForAdd()
-    */
    public function prepareInputForAdd($input) {
       // Name must not be populated
       if (!Session::isCron()) {
@@ -214,13 +205,9 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       return $input;
    }
 
-   /**
-    * (non-PHPdoc)
-    * @see CommonDBTM::prepareInputForUpdate()
-    */
    public function prepareInputForUpdate($input) {
       if (is_int(Session::getLoginUserID()) && strpos($_SERVER['REQUEST_URI'], "front/crontask.form.php") !== false) {
-         // a user is loged in and is not in the automatic actions page
+         // a user is logged in and is not in the automatic actions page
          unset($input['package_name']);
       }
 
@@ -258,9 +245,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       return $input;
    }
 
-   /**
-    * Actions done after the getFromDB method
-    */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
       if ($this->canView() && $this->canViewItem()) {
@@ -292,9 +276,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       }
    }
 
-   /**
-    * @see CommonDBTM::post_updateItem()
-    */
    public function post_updateItem($history = 1) {
       if (!isset($this->oldvalues['filename'])) {
          return;
@@ -306,9 +287,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $this->createOrionReport();
    }
 
-   /**
-    * @see CommonDBTM::pre_deleteItem()
-    */
    public function pre_deleteItem() {
       // Reset import status in the linked F-Droid store
       $fDroidApplication = new PluginFlyvemdmFDroidApplication();
