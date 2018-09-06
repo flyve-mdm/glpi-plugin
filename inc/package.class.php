@@ -195,7 +195,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $input['dl_filename'] = basename($uploadedFile);
+            $input['dl_filename'] = basename($preparedFile['filename']);
          } else {
             $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
@@ -235,7 +235,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
                $this->createEntityDirectory(dirname($destination));
                if (rename($uploadedFile, $destination)) {
                   $filename = pathinfo($destination, PATHINFO_FILENAME);
-                  $input['dl_filename'] = basename($uploadedFile);
+                  $input['dl_filename'] = basename($preparedFile['filename']);
                   if ($filename != $this->fields['filename']) {
                      unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
                   }
@@ -526,7 +526,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
             Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
             return false;
          }
-         $actualFilename = $postFile;
+         $actualFilename = substr($postFile, strlen($_POST['_prefix_file'][0]));
          $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
       } else {
          // from API
