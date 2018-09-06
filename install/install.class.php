@@ -234,6 +234,8 @@ class PluginFlyvemdmInstall {
             PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
             PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
+         PluginFlyvemdmFDroidApplication::$rightname  => READ | UPDATE | READNOTE | UPDATENOTE,
+         PluginFlyvemdmFDroidMarket::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -843,15 +845,20 @@ Regards,
    protected function deleteProfileRights() {
       $rights = [
          PluginFlyvemdmAgent::$rightname,
-         PluginFlyvemdmFile::$rightname,
          PluginFlyvemdmFleet::$rightname,
+         PluginFlyvemdmPackage::$rightname,
+         PluginFlyvemdmFile::$rightname,
          PluginFlyvemdmGeolocation::$rightname,
+         PluginFlyvemdmPolicy::$rightname,
+         PluginFlyvemdmPolicyCategory::$rightname,
+         PluginFlyvemdmWellknownpath::$rightname,
+         PluginFlyvemdmProfile::$rightname,
+         PluginFlyvemdmEntityConfig::$rightname,
          PluginFlyvemdmInvitation::$rightname,
          PluginFlyvemdmInvitationlog::$rightname,
-         PluginFlyvemdmPackage::$rightname,
-         PluginFlyvemdmPolicy::$rightname,
-         PluginFlyvemdmProfile::$rightname,
-         PluginFlyvemdmWellknownpath::$rightname,
+         PluginFlyvemdmTaskstatus::$rightname,
+         PluginFlyvemdmFDroidApplication::$rightname,
+         PluginFlyvemdmFDroidMarket::$rightname,
       ];
       foreach ($rights as $right) {
          ProfileRight::deleteProfileRights([$right]);
