@@ -63,7 +63,7 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
     */
    public function testGetEnumImportStatus() {
       $output = \PluginFlyvemdmFDroidApplication::getEnumImportStatus();
-      $this->array($output)->size->isEqualTo(3);
+      $this->array($output)->hasSize(3);
       $this->array($output)->hasKeys([
          'no_import',
          'to_import',
