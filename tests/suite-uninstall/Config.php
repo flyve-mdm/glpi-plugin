@@ -42,7 +42,6 @@ class Config extends CommonTestCase
 
    /**
     * @tags testUninstallPlugin
-    * @engine inline
     */
    public function testUninstallPlugin() {
       global $DB;
@@ -73,10 +72,13 @@ class Config extends CommonTestCase
       }
       $this->integer(count($tables))->isEqualTo(0, "not deleted tables \n" . json_encode($tables, JSON_PRETTY_PRINT));
 
-      // TODO: need to find a r eliable way to detect not clenaed
+      // Check no right specific to the plugin is still in the DB
+      $profileRight = new \ProfileRight();
+      $rows = $profileRight->find("`name` LIKE 'flyvemdm:%'");
+      $this->array($rows)->hasSize(0);
+
+      // TODO: need to find a reliable way to detect not clenaed
       // - NotificationTemplateTranslation
       // - Notification_NotificationTemplate
-
    }
-
 }
