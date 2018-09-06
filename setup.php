@@ -82,44 +82,23 @@ function plugin_init_flyvemdm() {
    $PLUGIN_HOOKS['undiscloseConfigValue']['flyvemdm'] = [PluginFlyvemdmConfig::class,
                                                          'undiscloseConfigValue'];
 
-   $plugin = new Plugin();
+   require_once(__DIR__ . '/vendor/autoload.php');
 
-   $config = Config::getConfigurationValues('flyvemdm', ['version']);
-   if (isset($config['version']) && $config['version'] != PLUGIN_FLYVEMDM_VERSION) {
-      $plugin->getFromDBbyDir('flyvemdm');
-      $plugin->update([
-            'id'     => $plugin->getID(),
-            'state'  => Plugin::NOTUPDATED
-      ]);
+   if (!class_exists('GlpiLocalesExtension')) {
+      require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
    }
 
-   if (!$plugin->getFromDBbyDir('flyvemdm')) {
-      // nothing more to do at this moment
-      return;
-   }
+   plugin_flyvemdm_registerClasses();
+   plugin_flyvemdm_addHooks();
 
-   $state = $plugin->getField('state');
-   if ($state != Plugin::NOTACTIVATED) {
-      require_once(__DIR__ . '/vendor/autoload.php');
-   }
+   Html::requireJs('charts');
+   $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
+   // Warning 'pluginflyvemdmmenu' MUST be lower case
+   $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
 
-   if ($state == Plugin::ACTIVATED) {
-      if (!class_exists('GlpiLocalesExtension')) {
-         require_once(__DIR__ . '/lib/GlpiLocalesExtension.php');
-      }
-
-      plugin_flyvemdm_registerClasses();
-      plugin_flyvemdm_addHooks();
-
-      Html::requireJs('charts');
-      $PLUGIN_HOOKS['add_css']['flyvemdm'][] = "css/style.css";
-      // Warning 'pluginflyvemdmmenu' MUST be lower case
-      $CFG_GLPI['javascript']['admin']['pluginflyvemdmmenu']['Menu'] = ['charts'];
-
-      if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm/front/agent.form.php") !== false) {
-         $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.css';
-         $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
-      }
+   if (strpos($_SERVER['REQUEST_URI'], "plugins/flyvemdm/front/agent.form.php") !== false) {
+      $PLUGIN_HOOKS['add_css']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.css';
+      $PLUGIN_HOOKS['add_javascript']['flyvemdm'][] = 'lib/leaflet-1.0.3/leaflet.js';
    }
 }
 
@@ -273,12 +252,30 @@ function plugin_flyvemdm_check_prerequisites() {
 }
 
 /**
- * Uninstall process for plugin : need to return true if succeeded : may display messages or add to message after redirect
+ * Check configuration process
  * @param boolean $verbose Whether to display message on failure. Defaults to false
- * @return bool
+ * @return boolean
  */
 function plugin_flyvemdm_check_config($verbose = false) {
-   return true;
+   $configurationIsGood = true;
+   $message = '';
+
+   $config = Config::getConfigurationValues('flyvemdm', ['version']);
+   if (isset($config['version']) && $config['version'] != PLUGIN_FLYVEMDM_VERSION) {
+      $configurationIsGood = false;
+      $message .= __('The version of the plugin does not match its schema in database', 'flyvemdm') . '<br/>';
+   }
+
+   if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_file(__DIR__ . '/vendor/autoload.php')) {
+      $configurationIsGood = false;
+      $message .= __('please run composer install --no-dev', 'flyvemdm') . '<br/>';
+   }
+
+   if (!$configurationIsGood) {
+      echo $message;
+   }
+
+   return $configurationIsGood;
 }
 
 /**
