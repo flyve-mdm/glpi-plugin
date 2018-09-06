@@ -140,7 +140,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
     * get Cron description parameter for this class
     * @param $name string name of the task
     * @return array of string
-    **/
+    */
    static function cronInfo($name) {
       switch ($name) {
          case 'DownloadApplications' :
@@ -189,6 +189,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
       $file = GLPI_TMP_DIR . "/" . $this->fields['filename'];
       file_put_contents($file, file_get_contents("$baseUrl/" . $this->fields['filename']));
       $_POST['_file'][0] = $this->fields['filename'];
+      $_POST['_prefix_file'][0] = '';
       $input = [
          'name'         => $this->fields['name'],
          'package_name' => $this->fields['package_name'],
