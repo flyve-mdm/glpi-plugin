@@ -35,6 +35,18 @@ use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
 
 class CommonTestCase extends GlpiCommonTestCase {
 
+   protected $deleteAfterTestMethod = [];
+
+   public function afterTestMethod($method) {
+      if (isset($this->deleteAfterTestMethod[$method])) {
+         foreach ($this->deleteAfterTestMethod[$method] as $item) {
+            if (!$item->isNewItem()) {
+               $item->delete($item->fields);
+            }
+         }
+      }
+   }
+
    /**
     * Try to enroll an device by creating an agent. If the enrollment fails
     * the agent returned will not contain an ID. To ensore the enrollment succeeded

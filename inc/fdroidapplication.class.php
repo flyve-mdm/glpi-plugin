@@ -178,14 +178,11 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
 
    /**
     * Downloads an application
-    * @return false
+    * @return boolean true if success
     */
    public function downloadApplication() {
       $package = new PluginFlyvemdmPackage();
       $market = new PluginFlyvemdmFDroidMarket();
-      if ($package->getFromDBByCrit(['name' => $this->fields['name']])) {
-         return false;
-      }
       $market->getFromDB($this->fields[PluginFlyvemdmFDroidMarket::getForeignKeyField()]);
       $baseUrl = dirname($market->fields['url']);
 
@@ -201,13 +198,23 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
          'version_code' => $this->fields['version_code'],
          'dl_filename'  => $file,
       ];
-      if (!$package->add($input)) {
-         Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
-         return false;
+      if ($package->getFromDBByCrit(['name' => $this->fields['name']])) {
+         $input['id'] = $package->getID();
+         if (!$package->update($input)) {
+            Toolbox::logInFile('php-errors', 'Failed to update an application from a F-Droid like market');
+            return false;
+         }
+       } else {
+         if (!$package->add($input)) {
+            Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
+            return false;
+         }
       }
+      $packageFk = PluginFlyvemdmPackage::getForeignKeyField();
       $this->update([
-         'id'                         => $this->fields['id'],
-         'import_status'              => 'imported',
+         'id'              => $this->fields['id'],
+         'import_status'   => 'imported',
+         $packageFk        => $package->getID(),
       ]);
       return true;
    }
@@ -243,14 +250,6 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    public function prepareInputForUpdate($input) {
       if (isset($input['_skip_checks'])) {
          return $input;
-      }
-
-      if (!isset($input['import_status'])) {
-         $input['import_status'] = 'no_import';
-      }
-
-      if (!isset($input['is_auto_upgradable'])) {
-         $input['is_auto_upgradable'] = '1';
       }
 
       return $input;
@@ -314,9 +313,14 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    }
 
    public function post_updateItem($history = 1) {
-      if (isset($this->oldvalues['version_code'])) {
-         if ($this->oldvalues['version_code'] < $this->fields['version_code']) {
-
+      if ($this->fields['import_status'] == 'imported'
+         && isset($this->oldvalues['version_code'])
+         && $this->oldvalues['version_code'] < $this->fields['version_code']
+      ) {
+         // The application was updated
+         $this->fields['version_code']++;
+         if ($this->fields['is_auto_upgradable']) {
+            $this->downloadApplication();
          }
       }
    }

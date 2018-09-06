@@ -47,12 +47,12 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
    }
 
    public function afterTestMethod($method) {
+      parent::afterTestMethod($method);
       switch ($method) {
          case 'testPrepareInputForAdd':
          case 'testPrepareInputForUpdate':
          case 'testDisplayTabContentForItem':
          case 'testGetTabNameForItem':
-            parent::afterTestMethod($method);
             \Session::destroy();
             break;
       }
@@ -272,7 +272,6 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
             ],
             'expected' => [
                'something' => 'random',
-               'import_status' => 'no_import',
             ]
          ],
       ];
@@ -286,5 +285,74 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
       $output = $instance->prepareInputForUpdate($input);
       $this->array($output)->size->isEqualTo(count($expected));
       $this->array($output)->hasKeys(array_keys($expected));
+   }
+
+   public function testPost_updateItem() {
+      // Create a market
+      $fixtureFile = __DIR__ . '/../fixtures/fdroid-app-old-version.xml';
+      $this->boolean(is_readable($fixtureFile));
+      $fdroidMarket = new \PluginFlyvemdmFdroidMarket();
+      $this->deleteAfterTestMethod[__FUNCTION__][] = $fdroidMarket;
+
+      $fdroidMarket->add([
+         'name' => $this->getUniqueString(),
+         'url'  => $fixtureFile,
+      ]);
+      $this->boolean($fdroidMarket->isNewitem())->isFalse();
+      $fdroidMarket->getFromDB($fdroidMarket->getID());
+      // Download the applciations list from the market
+      $fdroidMarket->updateRepository();
+
+      // Get an application and ensure it is auto upgradable
+      $instance = new $this->newTestedInstance();
+      $instance->getFromDBByCrit([
+         \PluginFlyvemdmFdroidMarket::getForeignKeyField() => $fdroidMarket->getID(),
+         'package_name' => 'subreddit.android.appstore',
+      ]);
+      $this->boolean($instance->isNewitem())->isFalse();
+      $instance->update([
+         'id' => $instance->getID(),
+         'is_auto_upgradable' => '1',
+      ]);
+
+      // import the application
+      $this->boolean($instance->downloadApplication())
+         ->isTrue();
+
+      // Check the package is created
+      $package = new \PluginFlyvemdmPackage();
+      $package->getFromDB($instance->fields[
+         \PluginFlyvemdmPackage::getForeignKeyField()
+      ]);
+      $this->string($package->fields['dl_filename'])
+         ->isEqualTo($instance->fields['filename']);
+
+      // Update the repository with up to date data
+      $fixtureFile = __DIR__ . '/../fixtures/fdroid-app-new-version.xml';
+      $fdroidMarket->update([
+         'id'   => $fdroidMarket->getID(),
+         'url'  => $fixtureFile,
+      ]);
+
+      // Download the applciations list from the market
+      $fdroidMarket->updateRepository();
+
+      // Get again an application and ensure it is auto upgradable
+      $instanceUpdated = new $this->newTestedInstance();
+      $instanceUpdated->getFromDBByCrit([
+         \PluginFlyvemdmFdroidMarket::getForeignKeyField() => $fdroidMarket->getID(),
+         'package_name' => 'subreddit.android.appstore',
+      ]);
+      $this->boolean($instanceUpdated->isNewitem())->isFalse();
+      $this->string($instanceUpdated->fields['filename'])
+         ->isNotEqualTo($instance->fields['filename']);
+
+      // Check the package is created
+      $packageUpdated = new \PluginFlyvemdmPackage();
+      $packageUpdated->getFromDB($instance->fields[
+         \PluginFlyvemdmPackage::getForeignKeyField()
+      ]);
+      $this->string($packageUpdated->fields['dl_filename'])
+         ->isEqualTo($packageUpdated->fields['dl_filename']);
    }
 }
