@@ -825,6 +825,8 @@ Regards,
          PluginFlyvemdmPolicyCategory::getTable(),
          PluginFlyvemdmWellknownpath::getTable(),
          PluginFlyvemdmTaskstatus::getTable(),
+         PluginFlyvemdmFdroidApplication::getTable(),
+         PluginFlyvemdmFdroidMarket::getTable(),
       ];
 
       foreach ($tables as $table) {
