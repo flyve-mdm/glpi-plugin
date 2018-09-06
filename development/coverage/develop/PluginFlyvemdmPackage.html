@@ -1766,7 +1766,7 @@ layout: coverage
                     <th id="L198" class="number uncovered">198</th>
 
                     <td class="uncovered" >
-                        <pre>            $input[&#039;dl_filename&#039;] = basename($uploadedFile);</pre>
+                        <pre>            $input[&#039;dl_filename&#039;] = basename($preparedFile[&#039;filename&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2063,7 +2063,7 @@ layout: coverage
                     <th id="L238" class="number uncovered">238</th>
 
                     <td class="uncovered" >
-                        <pre>                  $input[&#039;dl_filename&#039;] = basename($destination);</pre>
+                        <pre>                  $input[&#039;dl_filename&#039;] = basename($preparedFile[&#039;filename&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -4234,7 +4234,7 @@ layout: coverage
                     <th id="L529" class="number uncovered">529</th>
 
                     <td class="uncovered" >
-                        <pre>         $actualFilename = $postFile;</pre>
+                        <pre>         $actualFilename = substr($postFile, strlen($_POST[&#039;_prefix_file&#039;][0]));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
