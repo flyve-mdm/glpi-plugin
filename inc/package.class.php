@@ -235,7 +235,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
                $this->createEntityDirectory(dirname($destination));
                if (rename($uploadedFile, $destination)) {
                   $filename = pathinfo($destination, PATHINFO_FILENAME);
-                  $input['dl_filename'] = basename($destination);
+                  $input['dl_filename'] = basename($uploadedFile);
                   if ($filename != $this->fields['filename']) {
                      unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
                   }
