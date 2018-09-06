@@ -388,7 +388,7 @@
 </span><span id="235" class="l">               <span class="php-var">$this</span>-&gt;createEntityDirectory(<span class="php-keyword2">dirname</span>(<span class="php-var">$destination</span>));
 </span><span id="236" class="l">               <span class="php-keyword1">if</span> (<span class="php-keyword2">rename</span>(<span class="php-var">$uploadedFile</span>, <span class="php-var">$destination</span>)) {
 </span><span id="237" class="l">                  <span class="php-var">$filename</span> = <span class="php-keyword2">pathinfo</span>(<span class="php-var">$destination</span>, PATHINFO_FILENAME);
-</span><span id="238" class="l">                  <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$uploadedFile</span>);
+</span><span id="238" class="l">                  <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$destination</span>);
 </span><span id="239" class="l">                  <span class="php-keyword1">if</span> (<span class="php-var">$filename</span> != <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'filename'</span>]) {
 </span><span id="240" class="l">                     <span class="php-keyword2">unlink</span>(GLPI_PLUGIN_DOC_DIR . <span class="php-quote">&quot;/&quot;</span> . <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'filename'</span>]);
 </span><span id="241" class="l">                  }
