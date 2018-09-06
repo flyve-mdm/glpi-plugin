@@ -34,7 +34,7 @@ define('PLUGIN_FLYVEMDM_VERSION', 'develop');
 // Schema version of this version
 define('PLUGIN_FLYVEMDM_SCHEMA_VERSION', '2.1');
 // is or is not an official release of the plugin
-define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', true);
+define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
 // Minimal GLPI version, inclusive
 define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.3');
 // Maximum GLPI version, exclusive
