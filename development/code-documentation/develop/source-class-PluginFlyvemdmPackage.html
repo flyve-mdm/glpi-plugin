@@ -348,7 +348,7 @@
 </span><span id="195" class="l">         <span class="php-var">$destination</span> = GLPI_PLUGIN_DOC_DIR . <span class="php-quote">'/'</span> . <span class="php-var">$input</span>[<span class="php-quote">'filename'</span>];
 </span><span id="196" class="l">         <span class="php-var">$this</span>-&gt;createEntityDirectory(<span class="php-keyword2">dirname</span>(<span class="php-var">$destination</span>));
 </span><span id="197" class="l">         <span class="php-keyword1">if</span> (<span class="php-keyword2">rename</span>(<span class="php-var">$uploadedFile</span>, <span class="php-var">$destination</span>)) {
-</span><span id="198" class="l">            <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$uploadedFile</span>);
+</span><span id="198" class="l">            <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$preparedFile</span>[<span class="php-quote">'filename'</span>]);
 </span><span id="199" class="l">         } <span class="php-keyword1">else</span> {
 </span><span id="200" class="l">            <span class="php-var">$this</span>-&gt;logErrorIfDirNotWritable(<span class="php-var">$destination</span>);
 </span><span id="201" class="l">            Session::addMessageAfterRedirect(__(<span class="php-quote">'Unable to save the file'</span>, <span class="php-quote">'flyvemdm'</span>));
@@ -388,7 +388,7 @@
 </span><span id="235" class="l">               <span class="php-var">$this</span>-&gt;createEntityDirectory(<span class="php-keyword2">dirname</span>(<span class="php-var">$destination</span>));
 </span><span id="236" class="l">               <span class="php-keyword1">if</span> (<span class="php-keyword2">rename</span>(<span class="php-var">$uploadedFile</span>, <span class="php-var">$destination</span>)) {
 </span><span id="237" class="l">                  <span class="php-var">$filename</span> = <span class="php-keyword2">pathinfo</span>(<span class="php-var">$destination</span>, PATHINFO_FILENAME);
-</span><span id="238" class="l">                  <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$destination</span>);
+</span><span id="238" class="l">                  <span class="php-var">$input</span>[<span class="php-quote">'dl_filename'</span>] = <span class="php-keyword2">basename</span>(<span class="php-var">$preparedFile</span>[<span class="php-quote">'filename'</span>]);
 </span><span id="239" class="l">                  <span class="php-keyword1">if</span> (<span class="php-var">$filename</span> != <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'filename'</span>]) {
 </span><span id="240" class="l">                     <span class="php-keyword2">unlink</span>(GLPI_PLUGIN_DOC_DIR . <span class="php-quote">&quot;/&quot;</span> . <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'filename'</span>]);
 </span><span id="241" class="l">                  }
@@ -679,7 +679,7 @@
 </span><span id="526" class="l">            Session::addMessageAfterRedirect(__(<span class="php-quote">'No file uploaded'</span>, <span class="php-quote">&quot;flyvemdm&quot;</span>));
 </span><span id="527" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="528" class="l">         }
-</span><span id="529" class="l">         <span class="php-var">$actualFilename</span> = <span class="php-var">$postFile</span>;
+</span><span id="529" class="l">         <span class="php-var">$actualFilename</span> = <span class="php-keyword2">substr</span>(<span class="php-var">$postFile</span>, <span class="php-keyword2">strlen</span>(<span class="php-var">$_POST</span>[<span class="php-quote">'_prefix_file'</span>][<span class="php-num">0</span>]));
 </span><span id="530" class="l">         <span class="php-var">$uploadedFile</span> = GLPI_TMP_DIR . <span class="php-quote">&quot;/&quot;</span> . <span class="php-var">$postFile</span>;
 </span><span id="531" class="l">      } <span class="php-keyword1">else</span> {
 </span><span id="532" class="l">         <span class="php-comment">// from API</span>
