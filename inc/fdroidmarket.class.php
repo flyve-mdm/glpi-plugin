@@ -130,10 +130,9 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
       $fdroid = simplexml_load_string($xml);
       unset($xml);
 
+      $marketFk = $this::getForeignKeyField();
+      $DB->query("UPDATE `" . PluginFlyvemdmFDroidApplication::getTable() . "` SET `is_available` = '0' WHERE `$marketFk`=" . $this->getID());
       if (isset($fdroid->application)) {
-         $marketFk = $this::getForeignKeyField();
-         $fdroidApplication = new PluginFlyvemdmFDroidApplication();
-         $DB->query("UPDATE `" . PluginFlyvemdmFDroidApplication::getTable() . "` SET `is_available` = '0' WHERE `$marketFk`=" . $this->getID());
          foreach ($fdroid->application as $application) {
             $input = [
                'name'         => Toolbox::addslashes_deep($application->name),
@@ -163,15 +162,14 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
             }
          }
 
-         // Delete applications vanished from the repo
-         $criteria = [$marketFk => $this->getID(), 'is_available' => '0'];
-         if (isCommandline()) {
-            $dbUtils = new DbUtils();
-            $deleteCount = $dbUtils->countElementsInTable(PluginFlyvemdmFDroidApplication::getTable(), $criteria);
-         }
-         $fdroidApplication->deleteByCriteria($criteria);
-         $volume = count($fdroid->application) + $deleteCount;
       }
+      // Delete applications vanished from the repo
+      $criteria = [$marketFk => $this->getID(), 'is_available' => '0'];
+      $dbUtils = new DbUtils();
+      $deleteCount = $dbUtils->countElementsInTable(PluginFlyvemdmFDroidApplication::getTable(), $criteria);
+      $fdroidApplication = new PluginFlyvemdmFDroidApplication();
+      $fdroidApplication->deleteByCriteria($criteria);
+      $volume = count($fdroid->application) + $deleteCount;
 
       return $volume;
    }
