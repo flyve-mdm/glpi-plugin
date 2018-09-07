@@ -245,6 +245,11 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          // Ignore exceptions for now
          $input = false;
       }
+      if ($this->fields['parse_status'] === 'parsed'
+         || $this->fields['parse_status'] === 'failed'
+      ) {
+         $input['parse_status'] = 'pending';
+      }
 
       return $input;
    }
@@ -528,11 +533,11 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    private function prepareFileUpload() {
       if (!isAPI()) {
          // from GLPI UI
-         $postFile = $_POST['_file'][0];
-         if (!isset($postFile) || !is_string($postFile)) {
+         if (!isset( $_POST['_file'][0]) || !is_string($_POST['_file'][0])) {
             Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
             return false;
          }
+         $postFile = $_POST['_file'][0];
          $actualFilename = substr($postFile, strlen($_POST['_prefix_file'][0]));
          $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
       } else {

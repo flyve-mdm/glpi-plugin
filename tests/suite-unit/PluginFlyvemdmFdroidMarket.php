@@ -121,7 +121,31 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       }
    }
 
-   public function cronUpdateRepositories() {
+   public function testCronUpdateRepositories() {
+      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
+      $this->boolean(is_readable($fixtureFile));
+      $instances = [
+         $this->newTestedInstance(),
+         $this->newTestedInstance(),
+      ];
+      foreach ($instances as $instance) {
+         $instance->add([
+            'name' => $this->getUniqueString(),
+            'url'  => $fixtureFile,
+         ]);
+      }
+      \PluginFlyvemdmFDroidMarket::cronUpdateRepositories(new \CronTask());
+
+      $fdroidApplication = new \PluginFlyvemdmFDroidApplication();
+      $marketFk = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
+      foreach ($instances as $instance) {
+         $marketId = $instance->getID();
+         $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
+         $this->array($rows)->size->isEqualTo(1);
+      }
+   }
+
+   public function testUpdateRepository() {
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
       $this->boolean(is_readable($fixtureFile));
       $instance = $this->newTestedInstance();
@@ -130,12 +154,13 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
          'url'  => $fixtureFile,
       ]);
 
-      \PluginFlyvemdmFDroidMarket::cronUpdateRepositories(new \CronTask());
+      $instance->getFromDB($instance->getID());
+      $instance->updateRepository();
 
       $fdroidApplication = new \PluginFlyvemdmFDroidApplication();
-      $marketFk = \PluginFlyvemdmFDroidApplication::getForeignKeyField();
+      $marketFk = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
       $marketId = $instance->getID();
-      $rows = $fdroidApplication->find("`$marketFk` = '$instance'");
+      $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
       $this->array($rows)->size->isEqualTo(1);
    }
 }

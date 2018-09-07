@@ -324,8 +324,18 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
       $package->getFromDB($instance->fields[
          \PluginFlyvemdmPackage::getForeignKeyField()
       ]);
+
+      // Artificially mark the package parsed
+      $package->update([
+         'id' => $package->getID(),
+         'parse_status' => 'parsed',
+      ]);
       $this->string($package->fields['dl_filename'])
          ->isEqualTo($instance->fields['filename']);
+
+      // Check the file is downloaded
+      $content = file_get_contents(GLPI_PLUGIN_DOC_DIR . "/" . $package->fields['filename']);
+      $this->string($content)->contains('oldversion');
 
       // Update the repository with up to date data
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-app-new-version.xml';
@@ -352,7 +362,21 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
       $packageUpdated->getFromDB($instance->fields[
          \PluginFlyvemdmPackage::getForeignKeyField()
       ]);
+
+       // Check the file is downloaded
+       $content = file_get_contents(GLPI_PLUGIN_DOC_DIR . "/" . $packageUpdated->fields['filename']);
+       $this->string($content)->contains('newversion');
+
       $this->string($packageUpdated->fields['dl_filename'])
          ->isEqualTo($packageUpdated->fields['dl_filename']);
+      $this->string($packageUpdated->fields['parse_status'])
+         ->isEqualTo('pending');
+   }
+
+   public function testAddDefaultJoin() {
+      $output = \PluginFlyvemdmFdroidApplication::addDefaultJoin('my_ref_table', []);
+      $table = \PluginFlyvemdmFDroidMarket::getTable();
+      $fkTable = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
+      $this->string($output)->isEqualTo("LEFT JOIN `$table` ON `$table`.`id`=`my_ref_table`.`$fkTable` ");
    }
 }
