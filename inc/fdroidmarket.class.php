@@ -123,6 +123,9 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
       global $DB;
 
       $volume = 0;
+      if (strlen($this->fields['url']) === 0) {
+         return 0;
+      }
       $xml = file_get_contents($this->fields['url']);
       $fdroid = simplexml_load_string($xml);
       unset($xml);
