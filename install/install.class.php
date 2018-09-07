@@ -480,6 +480,10 @@ Regards,
       $this->migration = $migration;
       $fromSchemaVersion = $this->getSchemaVersion();
 
+      // Prevent problem of execution time
+      ini_set("max_execution_time", "0");
+      ini_set("memory_limit", "-1");
+
       switch ($fromSchemaVersion) {
          case '0.0':
             // Upgrade to 2.0

@@ -69,9 +69,7 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
    define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
 }
 
-// Prevent problem of execution time
-ini_set("max_execution_time", "0");
-ini_set("memory_limit", "-1");
+// disable session cookie for CLI mode
 ini_set("session.use_cookies", "0");
 
 include (__DIR__ . "/../../../inc/includes.php");
