@@ -177,7 +177,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    }
 
    /**
-    * Downloads an application
+    * Downloads an application and create a PluginFlyvemdmPackage in the database
     * @return boolean true if success
     */
    public function downloadApplication() {
@@ -211,6 +211,8 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
             return false;
          }
       }
+      unset($_POST['_file'][0]);
+      unset($_POST['_prefix_file'][0]);
       $packageFk = PluginFlyvemdmPackage::getForeignKeyField();
       $this->update([
          'id'              => $this->fields['id'],
@@ -221,7 +223,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
    }
 
    /**
-    * Imports an application in the database, or updates an existing one
+    * Imports an application in the database or updates an existing one
     * @param array $input
     * @return integer|false ID of the imported item or false on error
     */
