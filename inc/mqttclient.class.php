@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------------
  * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
@@ -148,6 +148,7 @@ class PluginFlyvemdmMqttclient {
             $log = new PluginFlyvemdmMqttlog();
             if (self::$mqtt->publish_sync($topic, $message, $qos, $retain)) {
                $log->saveOutgoingMqttMessage($topic, $message);
+
                return true;
             }
          } else {

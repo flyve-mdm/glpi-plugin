@@ -146,6 +146,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
    }
 
    public function testUpdateRepository() {
+      // Create a market instance for the test
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
       $this->boolean(is_readable($fixtureFile));
       $instance = $this->newTestedInstance();
@@ -157,10 +158,25 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       $instance->getFromDB($instance->getID());
       $instance->updateRepository();
 
+
+      // Check that the application found in the xml is created
       $fdroidApplication = new \PluginFlyvemdmFDroidApplication();
       $marketFk = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
       $marketId = $instance->getID();
       $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
       $this->array($rows)->size->isEqualTo(1, json_encode($rows, JSON_PRETTY_PRINT));
+
+      // Emulate an update of the market with the ap removed from it
+      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo-app-removed.xml';
+      $instance->update([
+         'id' => $instance->getID(),
+         'url' => $fixtureFile,
+      ]);
+
+      $instance->updateRepository();
+
+      // Check that the app is removed from the db
+      $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
+      $this->array($rows)->size->isEqualTo(0, json_encode($rows, JSON_PRETTY_PRINT));
    }
 }
