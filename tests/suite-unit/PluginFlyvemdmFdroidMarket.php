@@ -161,6 +161,6 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       $marketFk = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
       $marketId = $instance->getID();
       $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
-      $this->array($rows)->size->isEqualTo(1);
+      $this->array($rows)->size->isEqualTo(1, json_encode($rows, JSON_PRETTY_PRINT));
    }
 }
