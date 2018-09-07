@@ -205,7 +205,7 @@ class PluginFlyvemdmFDroidApplication extends CommonDBTM {
             Toolbox::logInFile('php-errors', 'Failed to update an application from a F-Droid like market');
             return false;
          }
-       } else {
+      } else {
          if (!$package->add($input)) {
             Toolbox::logInFile('php-errors', 'Failed to import an application from a F-Droid like market');
             return false;
