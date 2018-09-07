@@ -199,7 +199,15 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
    }
 
    public function getSearchOptionsNew() {
-      $tab = parent::getSearchOptionsNew();
+      return $this->rawSearchOptions();
+   }
+
+   public function rawSearchOptions() {
+      if (method_exists('CommonDBTM', 'rawSearchOptions')) {
+         $tab = parent::rawSearchOptions();
+      } else {
+         $tab = parent::getSearchOptionsNew();
+      }
 
       $tab[] = [
          'id'                 => '2',
@@ -210,7 +218,14 @@ class PluginFlyvemdmFDroidMarket extends CommonDBTM {
          'datatype'           => 'number'
       ];
 
-      return $tab;
+      $tab[] = [
+         'id'                 => '3',
+         'table'              => self::getTable(),
+         'field'              => 'url',
+         'name'               => __('URL', 'flyvemdm'),
+         'datatype'           => 'string'
+      ];
 
+      return $tab;
    }
 }

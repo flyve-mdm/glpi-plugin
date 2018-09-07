@@ -344,10 +344,10 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
          'url'  => $fixtureFile,
       ]);
 
-      // Download the applciations list from the market
+      // Download the applications list from the market
       $fdroidMarket->updateRepository();
 
-      // Get again an application and ensure it is auto upgradable
+      // Get again an application (the same as previously)
       $instanceUpdated = new $this->newTestedInstance();
       $instanceUpdated->getFromDBByCrit([
          \PluginFlyvemdmFdroidMarket::getForeignKeyField() => $fdroidMarket->getID(),
