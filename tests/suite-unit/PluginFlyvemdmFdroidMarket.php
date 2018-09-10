@@ -121,6 +121,9 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testCronUpdateRepositories
+    */
    public function testCronUpdateRepositories() {
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
       $this->boolean(is_readable($fixtureFile));
@@ -145,6 +148,9 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testUpdateRepository
+    */
    public function testUpdateRepository() {
       // Create a market instance for the test
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
