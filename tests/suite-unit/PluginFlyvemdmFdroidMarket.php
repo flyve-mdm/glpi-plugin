@@ -125,7 +125,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
     * @tags testCronUpdateRepositories
     */
    public function testCronUpdateRepositories() {
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo.xml');
       $this->boolean(is_readable($fixtureFile));
       $instances = [
          $this->newTestedInstance(),
@@ -134,7 +134,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       foreach ($instances as $instance) {
          $instance->add([
             'name' => $this->getUniqueString(),
-            'url'  => $fixtureFile,
+            'url'  => addslashes($fixtureFile),
          ]);
       }
       \PluginFlyvemdmFDroidMarket::cronUpdateRepositories(new \CronTask());
@@ -153,7 +153,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
     */
    public function testUpdateRepository() {
       // Create a market instance for the test
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo.xml');
       $this->boolean(is_readable($fixtureFile));
       $instance = $this->newTestedInstance();
 
@@ -162,7 +162,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
 
       $instance->add([
          'name' => $this->getUniqueString(),
-         'url'  => $fixtureFile,
+         'url'  => addslashes($fixtureFile),
       ]);
 
       // Check there is not yet any app
@@ -182,10 +182,10 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       $this->array($rows)->size->isEqualTo(1, json_encode($rows, JSON_PRETTY_PRINT));
 
       // Emulate an update of the market with the ap removed from it
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo-app-removed.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo-app-removed.xml');
       $instance->update([
          'id' => $marketId,
-         'url' => $fixtureFile,
+         'url' => addslashes($fixtureFile),
       ]);
       $instance->getFromDB($marketId);
       $volume = $instance->updateRepository();
