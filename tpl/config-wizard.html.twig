@@ -240,11 +240,18 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('Flyve MDM requires to connect to Mosquitto.', 'flyvemdm') }}</p>
-				<p>{{ __('For SYSV systems, link the init script in /etc/init.d/', 'flyvemdm') }}</p>
+				<p>{{ __('For SYSV systems', 'flyvemdm') }}</p>
+				<p>{{ __('- Adapt the user, group and path if required in the flyvemdm/scripts/service.example.sh', 'flyvemdm') }}</p>
+				<p>{{ __('- Rename the script to service.sh, then link it in etc/init.d/', 'flyvemdm') }}</p>
 				<p>ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm</p>
-				<p>{{ __('Check the user configured in the script and adapt it if needed.', 'flyvemdm') }}</p>
 				<p>update-rc.d flyvemdm defaults</p>
 				<p>service flyvemdm start</p>
+				<p>{{ __('For systemd', 'flyvemdm') }}</p>
+				<p>{{ __('- Adapt the user, group and path if required in the flyvemdm/scripts/flyvemdm.example.service', 'flyvemdm') }}</p>
+				<p>{{ __('- Rename the script to flyvemdm.service', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl daemon-reload', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl start flyvemdm.service', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl enable flyvemdm.service', 'flyvemdm') }}</p>
 			</td>
 		</tr>
 		{% endif %}
