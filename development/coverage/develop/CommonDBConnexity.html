@@ -924,7 +924,7 @@ layout: coverage
                     <th id="L97" class="number ">97</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype the type of the item to look for
+                        <pre>    * @param string  $itemtype the type of the item to look for
 </pre>
                     </td>
                 </tr>
@@ -932,7 +932,7 @@ layout: coverage
                     <th id="L98" class="number ">98</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id the id of the item to look for
+                        <pre>    * @param integer $items_id the id of the item to look for
 </pre>
                     </td>
                 </tr>
@@ -948,7 +948,7 @@ layout: coverage
                     <th id="L100" class="number ">100</th>
 
                     <td class="" >
-                        <pre>    * @return the SQL request of &#039;&#039; if it is not possible
+                        <pre>    * @return string the SQL request of &#039;&#039; if it is not possible
 </pre>
                     </td>
                 </tr>
@@ -1036,7 +1036,7 @@ layout: coverage
                     <th id="L111" class="number ">111</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype  type of the item
+                        <pre>    * @param string  $itemtype  type of the item
 </pre>
                     </td>
                 </tr>
@@ -1044,7 +1044,7 @@ layout: coverage
                     <th id="L112" class="number ">112</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id   id of the item
+                        <pre>    * @param integer $items_id  id of the item
 </pre>
                     </td>
                 </tr>
@@ -1219,7 +1219,7 @@ layout: coverage
                     <th id="L135" class="number ">135</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype                    the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype          the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1227,7 +1227,7 @@ layout: coverage
                     <th id="L136" class="number ">136</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id                    the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id          the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1235,7 +1235,7 @@ layout: coverage
                     <th id="L137" class="number ">137</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDB         boolean   do we have to load the item from the DB ? (true by default)
+                        <pre>    * @param boolean $getFromDB         do we have to load the item from the DB ?
 </pre>
                     </td>
                 </tr>
@@ -1243,7 +1243,7 @@ layout: coverage
                     <th id="L138" class="number ">138</th>
 
                     <td class="" >
-                        <pre>    * @param $getEmpty          boolean   else : do we have to load an empty item ? (true by default)
+                        <pre>    * @param boolean $getEmpty          else : do we have to load an empty item ?
 </pre>
                     </td>
                 </tr>
@@ -1251,7 +1251,7 @@ layout: coverage
                     <th id="L139" class="number ">139</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDBOrEmpty  boolean   get from DB if possible, else, getEmpty (false by default)
+                        <pre>    * @param boolean $getFromDBOrEmpty  get from DB if possible, else, getEmpty
 </pre>
                     </td>
                 </tr>
@@ -1267,7 +1267,7 @@ layout: coverage
                     <th id="L141" class="number ">141</th>
 
                     <td class="" >
-                        <pre>    * @return the item or false if we cannot load the item
+                        <pre>    * @return CommonDBTM|boolean the item or false if we cannot load the item
 </pre>
                     </td>
                 </tr>
@@ -1367,7 +1367,7 @@ layout: coverage
                     <th id="L154" class="number ">154</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype                 the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype          the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1375,7 +1375,7 @@ layout: coverage
                     <th id="L155" class="number ">155</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id                 the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id          the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1383,7 +1383,7 @@ layout: coverage
                     <th id="L156" class="number ">156</th>
 
                     <td class="" >
-                        <pre>    * @param $array            array   the array in we have to search ($input, $this-&gt;fields ...)
+                        <pre>    * @param array   $array             the array in we have to search ($input, $this-&gt;fields ...)
 </pre>
                     </td>
                 </tr>
@@ -1391,7 +1391,7 @@ layout: coverage
                     <th id="L157" class="number ">157</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDB        boolean do we have to load the item from the DB ? (true by default)
+                        <pre>    * @param boolean $getFromDB         do we have to load the item from the DB ?
 </pre>
                     </td>
                 </tr>
@@ -1399,7 +1399,7 @@ layout: coverage
                     <th id="L158" class="number ">158</th>
 
                     <td class="" >
-                        <pre>    * @param $getEmpty         boolean else : do we have to load an empty item ? (true by default)
+                        <pre>    * @param boolean $getEmpty          else : do we have to load an empty item ?
 </pre>
                     </td>
                 </tr>
@@ -1407,7 +1407,7 @@ layout: coverage
                     <th id="L159" class="number ">159</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDBOrEmpty boolean get from DB if possible, else, getEmpty (false by default)
+                        <pre>    * @param boolean $getFromDBOrEmpty  get from DB if possible, else, getEmpty
 </pre>
                     </td>
                 </tr>
@@ -1423,7 +1423,7 @@ layout: coverage
                     <th id="L161" class="number ">161</th>
 
                     <td class="" >
-                        <pre>    * @return the item or false if we cannot load the item
+                        <pre>    * @return CommonDBTM|boolean the item or false if we cannot load the item
 </pre>
                     </td>
                 </tr>
@@ -2306,7 +2306,7 @@ layout: coverage
                     <th id="L277" class="number ">277</th>
 
                     <td class="" >
-                        <pre>    * @param $method     the method to check (canCreate, canView, canUpdate of canDelete)
+                        <pre>    * @param string  $method     the method to check (canCreate, canView, canUpdate of canDelete)
 </pre>
                     </td>
                 </tr>
@@ -2314,7 +2314,7 @@ layout: coverage
                     <th id="L278" class="number ">278</th>
 
                     <td class="" >
-                        <pre>    * @param $item_right the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
+                        <pre>    * @param integer $item_right the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
 </pre>
                     </td>
                 </tr>
@@ -2322,7 +2322,7 @@ layout: coverage
                     <th id="L279" class="number ">279</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype   the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype   the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2330,7 +2330,7 @@ layout: coverage
                     <th id="L280" class="number ">280</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id   the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id   the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2346,7 +2346,7 @@ layout: coverage
                     <th id="L282" class="number ">282</th>
 
                     <td class="" >
-                        <pre>    * @return true if we have absolute right to create the current connexity
+                        <pre>    * @return boolean true if we have absolute right to create the current connexity
 </pre>
                     </td>
                 </tr>
@@ -2513,7 +2513,7 @@ layout: coverage
                     <th id="L304" class="number ">304</th>
 
                     <td class="" >
-                        <pre>    * @param $methodItem    the method to check (canCreateItem, canViewItem, canUpdateItem of
+                        <pre>    * @param string          $methodItem    the method to check (canCreateItem, canViewItem,
 </pre>
                     </td>
                 </tr>
@@ -2521,7 +2521,7 @@ layout: coverage
                     <th id="L305" class="number ">305</th>
 
                     <td class="" >
-                        <pre>                            canDeleteItem)
+                        <pre>                                            canUpdateItem or canDeleteItem)
 </pre>
                     </td>
                 </tr>
@@ -2529,7 +2529,7 @@ layout: coverage
                     <th id="L306" class="number ">306</th>
 
                     <td class="" >
-                        <pre>    * @param $methodNotItem the method to check (canCreate, canView, canUpdate of canDelete)
+                        <pre>    * @param string          $methodNotItem the method to check (canCreate, canView, canUpdate of canDelete)
 </pre>
                     </td>
                 </tr>
@@ -2537,7 +2537,7 @@ layout: coverage
                     <th id="L307" class="number ">307</th>
 
                     <td class="" >
-                        <pre>    * @param $item_right    the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
+                        <pre>    * @param integer         $item_right    the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
 </pre>
                     </td>
                 </tr>
@@ -2545,7 +2545,7 @@ layout: coverage
                     <th id="L308" class="number ">308</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype      the name of the field of the type of the item to get
+                        <pre>    * @param string          $itemtype      the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2553,7 +2553,7 @@ layout: coverage
                     <th id="L309" class="number ">309</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id      the name of the field of the id of the item to get
+                        <pre>    * @param string          $items_id      the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2561,7 +2561,7 @@ layout: coverage
                     <th id="L310" class="number ">310</th>
 
                     <td class="" >
-                        <pre>    * @param &amp;$item         the item concerned by the item (default NULL)
+                        <pre>    * @param CommonDBTM|null &amp;$item         the item concerned by the item
 </pre>
                     </td>
                 </tr>
@@ -2600,7 +2600,7 @@ layout: coverage
                     <th id="L315" class="number ">315</th>
 
                     <td class="" >
-                        <pre>                             &amp;$item = null) {
+                        <pre>                             CommonDBTM &amp;$item = null) {
 </pre>
                     </td>
                 </tr>
@@ -2858,7 +2858,7 @@ layout: coverage
                     <th id="L349" class="number ">349</th>
 
                     <td class="" >
-                        <pre>    * @param $field the name of the field that has changed
+                        <pre>    * @param string $field the name of the field that has changed
 </pre>
                     </td>
                 </tr>
@@ -2975,7 +2975,7 @@ layout: coverage
                     <th id="L364" class="number ">364</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype      the name of the field of the type of the item to get
+                        <pre>    * @param string $itemtype  the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2983,7 +2983,7 @@ layout: coverage
                     <th id="L365" class="number ">365</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id      the name of the field of the id of the item to get
+                        <pre>    * @param string $items_id  the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -4761,7 +4761,7 @@ layout: coverage
                     <th id="L593" class="number ">593</th>
 
                     <td class="" >
-                        <pre>    * @param $action          the name of the action
+                        <pre>    * @param string     $action  the name of the action
 </pre>
                     </td>
                 </tr>
@@ -4769,7 +4769,7 @@ layout: coverage
                     <th id="L594" class="number ">594</th>
 
                     <td class="" >
-                        <pre>    * @param $item            the item on which apply the massive action
+                        <pre>    * @param CommonDBTM $item    the item on which apply the massive action
 </pre>
                     </td>
                 </tr>
@@ -4777,7 +4777,7 @@ layout: coverage
                     <th id="L595" class="number ">595</th>
 
                     <td class="" >
-                        <pre>    * @param $ids      array  of the ids of the item on which apply the action
+                        <pre>    * @param integer[]  $ids     the ids of the item on which apply the action
 </pre>
                     </td>
                 </tr>
@@ -4785,7 +4785,7 @@ layout: coverage
                     <th id="L596" class="number ">596</th>
 
                     <td class="" >
-                        <pre>    * @param $input    array  of the input provided by the form ($_POST, $_GET ...)
+                        <pre>    * @param array      $input   the input provided by the form ($_POST, $_GET ...)
 </pre>
                     </td>
                 </tr>
