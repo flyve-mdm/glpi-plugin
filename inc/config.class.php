@@ -58,11 +58,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    // first and last steps of requirement pages of wizard
    const WIZARD_REQUIREMENT_BEGIN = 100;
-   const WIZARD_REQUIREMENT_END = 106;
+   const WIZARD_REQUIREMENT_END = 107;
 
    // first and last steps of the MQTT pages of wizard
-   const WIZARD_MQTT_BEGIN = 107;
-   const WIZARD_MQTT_END = 110;
+   const WIZARD_MQTT_BEGIN = 108;
+   const WIZARD_MQTT_END = 111;
 
    const WIZARD_FINISH = -1;
    static $config = [];
