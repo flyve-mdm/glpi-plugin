@@ -141,6 +141,18 @@ upload_max_filesize = 8M
 		</tr>
 		{% endif %} {% if step == 107 %}
 		<tr>
+			<th colspan="3" class="">{{ __('Flyve MDM Deeplink Microservice', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('We host an instance of this microservice and provide it by default in the plugin configuration.', 'flyvemdm') }}</p>
+				<p>{{ __('In case you would like to host the microservice by yourself, just follow the documentation', 'flyvemdm') }}</p>
+				<p><a href="https://github.com/flyve-mdm/deeplink#installation" target="_blank">{{ __('Flyve MDM Deeplink', 'flyvemdm' )}}</a></p>
+				<p>{{ __(' Then update the URL in the General Configuration tab', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 108 %}
+		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
@@ -167,7 +179,7 @@ bind-address = 0.0.0.0
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 108 %}
+		{% endif %} {% if step == 109 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -194,7 +206,7 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 109 %}
+		{% endif %} {% if step == 110 %}
 		<tr>
 			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
 		</tr>
@@ -233,7 +245,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('This will launch openssl as a client using the TLS protocol and leave the terminal in a state similar to telnet') }}</p>
 				<p>{{ __('Many debug information is displayed during TLS negociation, useful to diagnose TLS problems') }}</p>			</td>
 		</tr>
-		{% endif %} {% if step == 110 %}
+		{% endif %} {% if step == 111 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
