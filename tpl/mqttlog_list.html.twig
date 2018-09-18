@@ -1,0 +1,37 @@
+{% if number < 1 %}
+   <div class='center'>
+      <table class='tab_cadre_fixe'>
+         <tr><th>{{ __(empty_msg) }}</th></tr>
+      </table>
+   </div>
+   <br>
+{% else %}
+   {{ pager|raw }}
+   <div class='center'>
+      <table class='tab_cadre_fixehov'>
+         <tr>
+            <th>{{ __('ID', 'flyvemdm') }}</th>
+            <th>{{ __('Date', 'flyvemdm') }}</th>
+            <th>{{ __('Topic', 'flyvemdm') }}</th>
+            <th>{{ __('Message', 'flyvemdm') }}</th>
+         </tr>
+         {% for log in logs %}
+            {% if loop.index > start and loop.index <= stop %}
+               <tr class='tab_bg_2'>
+                  <td><div class="center">{{ log.ID }}</div></td>
+                  <td>{{ log.date }}</td>
+                  <td>{{ log.topic }}</td>
+                  <td>{{ log.message }}</td>
+               </tr>
+            {% endif %}
+         {% endfor %}
+         <tr>
+            <th>{{ __('ID', 'flyvemdm') }}</th>
+            <th>{{ __('Date', 'flyvemdm') }}</th>
+            <th>{{ __('Topic', 'flyvemdm') }}</th>
+            <th>{{ __('Message', 'flyvemdm') }}</th>
+         </tr>
+      </table>
+   </div>
+   {{ pager|raw }}
+{% endif %}
