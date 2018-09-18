@@ -97,6 +97,7 @@ class ProfileRight extends CommonTestCase {
          \PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
          \PluginFlyvemdmInvitationLog::$rightname  => READ,
          \PluginFlyvemdmTaskstatus::$rightname     => READ,
+         \PluginFlyvemdmMqttlog::$rightname        => READ,
       ];
 
       $profileRight = $this->newTestedInstance();
