@@ -41,11 +41,20 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    const MQTT_MAXIMUM_DURATION = 60;
 
    /**
+    * @var string $rightname name of the right in DB
+    */
+   public static $rightname = 'flyvemdm:mqttlog';
+
+   /**
     * PluginFlyvemdmMqttlog constructor.
     */
    public function __construct() {
       parent::__construct();
 
+   }
+
+   public function getRights($interface = 'central') {
+      return [READ  => __('Read')];
    }
 
    /**
@@ -98,5 +107,95 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
          unset($this->fields['id']);
          $this->addToDB();
       }
+   }
+
+   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
+      if (!self::canView()) {
+         return '';
+      }
+
+      if ($item instanceof PluginFlyvemdmNotifiableInterface) {
+         // Agent or Fleet
+         if (!$withtemplate) {
+            $nb = 0;
+            $topic = $item->getTopic();
+            if ($_SESSION['glpishow_count_on_tabs'] && $topic) {
+               $logs = self::findLogs($item);
+               $nb = $logs->count();
+            }
+            return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);
+         }
+      }
+      return '';
+   }
+
+   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+      if ($item instanceof PluginFlyvemdmNotifiableInterface) {
+         // Agent or Fleet
+         self::showMqttLogs($item);
+         return true;
+      }
+   }
+
+   /**
+    * @param PluginFlyvemdmNotifiableInterface $item
+    */
+   public static function showMqttLogs(PluginFlyvemdmNotifiableInterface $item) {
+      if (!self::canView()) {
+         return;
+      }
+
+      $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
+
+      // get items
+      $rows = [];
+      $topic = $item->getTopic();
+      if ($topic) {
+         foreach (self::findLogs($item) as $id => $row) {
+            $rows[] = [
+               'ID'      => $row['id'],
+               'date'    => $row['date'],
+               'topic'   => $row['topic'],
+               'message' => $row['message'],
+            ];
+         }
+      }
+      $number = count($rows);
+
+      // get the pager
+      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+
+      $data = [
+         'empty_msg' => 'No item found',
+         'number'    => $number,
+         'pager'     => $pager,
+         'logs'      => $rows,
+         'start'     => $start,
+         'stop'      => $start + $_SESSION['glpilist_limit'],
+      ];
+
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('mqttlog_list.html.twig', $data);
+   }
+
+
+   /**
+    * Get the broker message logs of a notifiable item
+    *
+    * @param PluginFlyvemdmNotifiableInterface $item
+    * @return DBmysqlIterator
+    */
+   public static function findLogs(PluginFlyvemdmNotifiableInterface $item) {
+      global $DB;
+
+      $condition = [
+         'DISTINCT FIELDS' => ['id', 'date', 'topic', 'message'],
+         'WHERE'           => ['topic' => ['LIKE', $item->getTopic() . '%']],
+         'GROUPBY'         => 'topic',
+         'ORDER'           => ['date DESC', 'id DESC'],
+      ];
+
+      $result = $DB->request(static::getTable(), $condition);
+      return $result;
    }
 }

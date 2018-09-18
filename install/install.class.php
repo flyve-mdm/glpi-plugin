@@ -231,9 +231,10 @@ class PluginFlyvemdmInstall {
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-            PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
-            PluginFlyvemdmInvitationLog::$rightname  => READ,
+         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
+         PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
+         PluginFlyvemdmMqttlog::$rightname        => READ,
       ];
 
       $profileRight->updateProfileRights($_SESSION['glpiactiveprofile']['id'], $newRights);
@@ -854,6 +855,7 @@ Regards,
          PluginFlyvemdmPolicy::$rightname,
          PluginFlyvemdmProfile::$rightname,
          PluginFlyvemdmWellknownpath::$rightname,
+         PluginFlyvemdmMqttlog::$rightname,
       ];
       foreach ($rights as $right) {
          ProfileRight::deleteProfileRights([$right]);

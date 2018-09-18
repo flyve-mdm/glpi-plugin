@@ -140,7 +140,15 @@ class PluginFlyvemdmProfile extends Profile {
             'rights'      => [
                READ                                                              => __('Read'),
             ]
-         ]
+         ],
+         [
+            'itemtype' => PluginFlyvemdmMqttlog::class,
+            'label'    => PluginFlyvemdmMqttlog::getTypeName(2),
+            'field'    => PluginFlyvemdmMqttlog::$rightname,
+            'rights'   => [
+               READ => __('Read'),
+            ],
+         ],
       ];
 
       return $rights;
