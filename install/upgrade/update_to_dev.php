@@ -75,6 +75,8 @@ function plugin_flyvemdm_update_to_dev(Migration $migration) {
       // Split TLS setting for client in one hand and backend in the other hand
       $config['mqtt_tls_for_clients'] = $config['mqtt_broker_tls'];
       $config['mqtt_tls_for_backend'] = $config['mqtt_broker_tls'];
+      $config['mqtt_broker_tls_port_backend'] = $config['mqtt_broker_tls_port'];
+      $config['mqtt_broker_port_backend'] = $config['mqtt_broker_port'];
       Config::setConfigurationValues('flyvemdm', $config);
       Config::deleteConfigurationValues('flyvemdm', ['mqtt_broker_tls']);
    }

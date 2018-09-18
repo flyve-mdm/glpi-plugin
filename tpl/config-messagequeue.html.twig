@@ -1,18 +1,12 @@
 <table class="tab_cadre_fixe" cellpadding="5">
    <tbody>
       <tr>
-         <th colspan="3" class="">{{ __('MQTT broker', 'flyvemdm') }}</th>
+         <th colspan="3" class="">{{ __('MQTT broker for Clients', 'flyvemdm') }}</th>
       </tr>
       <tr class="tab_bg_1">
-         <td>{{ __('MQTT broker address for clients', 'flyvemdm') }}</td>
+         <td>{{ __('MQTT broker address', 'flyvemdm') }}</td>
          <td><input type="text" name="mqtt_broker_address" value="{{ config.mqtt_broker_address }}"></td>
          <td>{{ __('An IP address or a hostname used by the client devices to communicate with the broker', 'flyvemdm') }}</td>
-      </tr>
-      <tr class="tab_bg_1">
-         <td>{{ __('MQTT broker address for backend', 'flyvemdm') }}</td>
-         <td><input type="text" name="mqtt_broker_internal_address"
-            value="{{ config.mqtt_broker_internal_address }}"></td>
-         <td>{{ __('An IP address or a hostname used by the backend to communicate with the broker', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
          <td>{{ __('MQTT broker port', 'flyvemdm') }}</td>
@@ -27,13 +21,34 @@
          <td>{{ __('A port number between 1025 and 65535, standard port is 8883', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
-         <td>{{ __('Use TLS for clients', 'flyvemdm') }}</td>
+         <td>{{ __('Use TLS', 'flyvemdm') }}</td>
          <td>{{ config.mqtt_tls_for_clients|raw }}
          </td>
          <td>{{ __('Use TLS for MQTT communication between the broker and the client devices', 'flyvemdm') }}</td>
       </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('MQTT broker for Backend', 'flyvemdm') }}</th>
+      </tr>
       <tr class="tab_bg_1">
-         <td>{{ __('Use TLS for backend', 'flyvemdm') }}</td>
+         <td>{{ __('MQTT broker address', 'flyvemdm') }}</td>
+         <td><input type="text" name="mqtt_broker_internal_address"
+            value="{{ config.mqtt_broker_internal_address }}"></td>
+         <td>{{ __('An IP address or a hostname used by the backend to communicate with the broker', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('MQTT broker port', 'flyvemdm') }}</td>
+         <td><input type="number" name="mqtt_broker_port_backend" value="{{ config.mqtt_broker_port_backend }}"
+            min="1" max="65535"></td>
+         <td>{{ __('A port number between 1025 and 65535, standard port is 1883', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('MQTT broker port for TLS', 'flyvemdm') }}</td>
+         <td><input type="number" name="mqtt_broker_tls_port_backend" value="{{ config.mqtt_broker_tls_port_backend }}"
+            min="1" max="65535"></td>
+         <td>{{ __('A port number between 1025 and 65535, standard port is 8883', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Use TLS', 'flyvemdm') }}</td>
          <td>{{ config.mqtt_tls_for_backend|raw }}
          </td>
          <td>{{ __('Use TLS for MQTT communication between the broker and the backend', 'flyvemdm') }}</td>
