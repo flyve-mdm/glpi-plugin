@@ -163,15 +163,17 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
       $number = count($rows);
 
       // get the pager
-      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
 
       $data = [
-         'empty_msg' => 'No item found',
-         'number'    => $number,
-         'pager'     => $pager,
-         'logs'      => $rows,
-         'start'     => $start,
-         'stop'      => $start + $_SESSION['glpilist_limit'],
+         'empty_msg'    => 'No item found',
+         'number'       => $number,
+         'pager_top'    => $pager_top,
+         'pager_bottom' => $pager_bottom,
+         'logs'         => $rows,
+         'start'        => $start,
+         'stop'         => $start + $_SESSION['glpilist_limit'],
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();

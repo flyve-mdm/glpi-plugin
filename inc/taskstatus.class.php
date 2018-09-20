@@ -236,14 +236,16 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       $number = count($rows);
 
       // get the pager
-      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
 
       $data = [
          'number'       => $number,
-         'pager'        => $pager,
+         'pager_top'    => $pager_top,
+         'pager_bottom' => $pager_bottom,
          'taskstatuses' => $rows,
          'start'        => $start,
-         'stop'         => $start + $_SESSION['glpilist_limit']
+         'stop'         => $start + $_SESSION['glpilist_limit'],
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
@@ -308,14 +310,16 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       $number = $rows->count();
 
       // get the pager
-      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
 
       $data = [
          'number'       => $number,
-         'pager'        => $pager,
+         'pager_top'    => $pager_top,
+         'pager_bottom' => $pager_bottom,
          'taskstatuses' => $rows,
          'start'        => $start,
-         'stop'         => $start + $_SESSION['glpilist_limit']
+         'stop'         => $start + $_SESSION['glpilist_limit'],
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('fleet_taskstatus.html.twig', $data);
