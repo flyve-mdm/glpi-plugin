@@ -437,7 +437,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Invalid itemType
       $instance = $this->newTestedInstance();
       $result = $instance->getTabNameForItem($mockInstance);
-      $this->variable($result)->isNull();
+      $this->string($result)->isEmpty();
       // Valid itemType
       $result = $instance->getTabNameForItem(new \PluginFlyvemdmFleet);
       $this->string($result)->isEqualTo('Tasks');

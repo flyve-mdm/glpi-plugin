@@ -201,7 +201,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the general configuration form for the plugin.
     */
    public function showFormGeneral() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -237,7 +237,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormMessageQueue() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -283,7 +283,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormDebug() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -334,30 +334,32 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormWizard() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
-      if ($canedit) {
-         if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
-            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
-         }
-         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+      $canedit = self::canUpdate();
+      if (!$canedit) {
+         return;
+      }
 
-         $texts = [];
-         $data = [];
-         switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
-            default:
-               // Nothing here for now
-         }
+      if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
+         $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
+      }
+      echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
 
-         $data = $data + [
+      $texts = [];
+      $data = [];
+      switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+         default:
+            // Nothing here for now
+      }
+
+      $data = $data + [
             'texts'  => $texts,
             'update' => $_SESSION['plugin_flyvemdm_wizard_step'] === static::WIZARD_FINISH ? __('Finish', 'flyvemdm') : __('Next', 'flyvemdm'),
             'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
          ];
-         $twig = plugin_flyvemdm_getTemplateEngine();
-         echo $twig->render('config-wizard.html.twig', $data);
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('config-wizard.html.twig', $data);
 
-         Html::closeForm();
-      }
+      Html::closeForm();
    }
 
    /**

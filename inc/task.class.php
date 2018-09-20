@@ -83,39 +83,32 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       return _n('Task', 'Tasks', $nb, 'flyvemdm');
    }
 
-   /**
-    * Gets the tab name for the item
-    * @param CommonGLPI $item
-    * @param integer $withtemplate
-    * @return string the tab name
-    */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if (static::canView()) {
-         switch ($item->getType()) {
-            case PluginFlyvemdmFleet::class:
-            case PluginFlyvemdmAgent::class:
-               if (!$withtemplate) {
-                  $nb = 0;
-                  $pluralNumber = Session::getPluralNumber();
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $notifiableType = $item->getType();
-                     $notifiableId = $item->getID();
-                     $pluralNumber = Session::getPluralNumber();
-                     $DbUtil = new DbUtils();
-                     $nb = $DbUtil->countElementsInTable(
-                        static::getTable(),
-                        [
-                           'AND' => [
-                              'itemtype_applied' => $notifiableType,
-                              'items_id_applied' => $notifiableId,
-                           ]
-                        ]
-                     );
-                  }
-                  return self::createTabEntry(PluginFlyvemdmTask::getTypeName($pluralNumber), $nb);
-               }
+      if (!static::canView()){
+         return '';
+      }
+
+      if ($item instanceof PluginFlyvemdmNotifiableInterface) {
+         if (!$withtemplate) {
+            $nb = 0;
+            $pluralNumber = Session::getPluralNumber();
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               $notifiableType = $item->getType();
+               $notifiableId = $item->getID();
+               $pluralNumber = Session::getPluralNumber();
+               $DbUtil = new DbUtils();
+               $nb = $DbUtil->countElementsInTable(
+                  static::getTable(),
+                  [
+                     'itemtype_applied' => $notifiableType,
+                     'items_id_applied' => $notifiableId,
+                  ]
+               );
+            }
+            return self::createTabEntry(PluginFlyvemdmTask::getTypeName($pluralNumber), $nb);
          }
       }
+      return '';
    }
 
    /**

@@ -158,32 +158,33 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|string
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if (static::canView()) {
-         switch ($item->getType()) {
-            case __CLASS__ :
-               $tab = [1 => __('Danger zone !', 'flyvemdm')];
-               return $tab;
-               break;
-
-            case PluginFlyvemdmFleet::class:
-               if (!$withtemplate) {
-                  $nb = 0;
-                  $fleetId = $item->getID();
-                  $pluralNumber = Session::getPluralNumber();
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $DbUtil = new DbUtils();
-                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
-                  }
-                  return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
-               }
-               break;
-
-            case Computer::class:
-               return __('Flyve MDM Agent', 'flyvemdm');
-               break;
-         }
+      if (!static::canView()) {
+         return '';
       }
 
+      switch ($item->getType()) {
+         case __CLASS__ :
+            $tab = [1 => __('Danger zone !', 'flyvemdm')];
+            return $tab;
+            break;
+
+         case PluginFlyvemdmFleet::class:
+            if (!$withtemplate) {
+               $nb = 0;
+               $fleetId = $item->getID();
+               $pluralNumber = Session::getPluralNumber();
+               if ($_SESSION['glpishow_count_on_tabs']) {
+                  $DbUtil = new DbUtils();
+                  $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
+               }
+               return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+            }
+            break;
+
+         case Computer::class:
+            return __('Flyve MDM Agent', 'flyvemdm');
+            break;
+      }
       return '';
    }
 
@@ -308,7 +309,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
       if (!PluginFlyvemdmFleet::canView()) {
-         return false;
+         return;
       }
 
       $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
