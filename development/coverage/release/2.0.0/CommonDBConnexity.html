@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    40%
-                                            <small>of 112</small>
+                    42%
+                                            <small>of 115</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -100,9 +100,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#canConnexityItem">CommonDBConnexity::canConnexityItem()</a></td>
-                                        <td style="text-align: center">13</td>
+                                        <td style="text-align: center">16</td>
                 <td style="text-align: center">    
-    <span class="label label-success">77%</span>
+    <span class="label label-success">81%</span>
 </td>
                                             </tr>
             <tr>
@@ -924,7 +924,7 @@ layout: coverage
                     <th id="L97" class="number ">97</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype the type of the item to look for
+                        <pre>    * @param string  $itemtype the type of the item to look for
 </pre>
                     </td>
                 </tr>
@@ -932,7 +932,7 @@ layout: coverage
                     <th id="L98" class="number ">98</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id the id of the item to look for
+                        <pre>    * @param integer $items_id the id of the item to look for
 </pre>
                     </td>
                 </tr>
@@ -948,7 +948,7 @@ layout: coverage
                     <th id="L100" class="number ">100</th>
 
                     <td class="" >
-                        <pre>    * @return the SQL request of &#039;&#039; if it is not possible
+                        <pre>    * @return string the SQL request of &#039;&#039; if it is not possible
 </pre>
                     </td>
                 </tr>
@@ -1036,7 +1036,7 @@ layout: coverage
                     <th id="L111" class="number ">111</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype  type of the item
+                        <pre>    * @param string  $itemtype  type of the item
 </pre>
                     </td>
                 </tr>
@@ -1044,7 +1044,7 @@ layout: coverage
                     <th id="L112" class="number ">112</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id   id of the item
+                        <pre>    * @param integer $items_id  id of the item
 </pre>
                     </td>
                 </tr>
@@ -1219,7 +1219,7 @@ layout: coverage
                     <th id="L135" class="number ">135</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype                    the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype          the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1227,7 +1227,7 @@ layout: coverage
                     <th id="L136" class="number ">136</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id                    the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id          the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1235,7 +1235,7 @@ layout: coverage
                     <th id="L137" class="number ">137</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDB         boolean   do we have to load the item from the DB ? (true by default)
+                        <pre>    * @param boolean $getFromDB         do we have to load the item from the DB ?
 </pre>
                     </td>
                 </tr>
@@ -1243,7 +1243,7 @@ layout: coverage
                     <th id="L138" class="number ">138</th>
 
                     <td class="" >
-                        <pre>    * @param $getEmpty          boolean   else : do we have to load an empty item ? (true by default)
+                        <pre>    * @param boolean $getEmpty          else : do we have to load an empty item ?
 </pre>
                     </td>
                 </tr>
@@ -1251,7 +1251,7 @@ layout: coverage
                     <th id="L139" class="number ">139</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDBOrEmpty  boolean   get from DB if possible, else, getEmpty (false by default)
+                        <pre>    * @param boolean $getFromDBOrEmpty  get from DB if possible, else, getEmpty
 </pre>
                     </td>
                 </tr>
@@ -1267,7 +1267,7 @@ layout: coverage
                     <th id="L141" class="number ">141</th>
 
                     <td class="" >
-                        <pre>    * @return the item or false if we cannot load the item
+                        <pre>    * @return CommonDBTM|boolean the item or false if we cannot load the item
 </pre>
                     </td>
                 </tr>
@@ -1367,7 +1367,7 @@ layout: coverage
                     <th id="L154" class="number ">154</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype                 the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype          the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1375,7 +1375,7 @@ layout: coverage
                     <th id="L155" class="number ">155</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id                 the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id          the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -1383,7 +1383,7 @@ layout: coverage
                     <th id="L156" class="number ">156</th>
 
                     <td class="" >
-                        <pre>    * @param $array            array   the array in we have to search ($input, $this-&gt;fields ...)
+                        <pre>    * @param array   $array             the array in we have to search ($input, $this-&gt;fields ...)
 </pre>
                     </td>
                 </tr>
@@ -1391,7 +1391,7 @@ layout: coverage
                     <th id="L157" class="number ">157</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDB        boolean do we have to load the item from the DB ? (true by default)
+                        <pre>    * @param boolean $getFromDB         do we have to load the item from the DB ?
 </pre>
                     </td>
                 </tr>
@@ -1399,7 +1399,7 @@ layout: coverage
                     <th id="L158" class="number ">158</th>
 
                     <td class="" >
-                        <pre>    * @param $getEmpty         boolean else : do we have to load an empty item ? (true by default)
+                        <pre>    * @param boolean $getEmpty          else : do we have to load an empty item ?
 </pre>
                     </td>
                 </tr>
@@ -1407,7 +1407,7 @@ layout: coverage
                     <th id="L159" class="number ">159</th>
 
                     <td class="" >
-                        <pre>    * @param $getFromDBOrEmpty boolean get from DB if possible, else, getEmpty (false by default)
+                        <pre>    * @param boolean $getFromDBOrEmpty  get from DB if possible, else, getEmpty
 </pre>
                     </td>
                 </tr>
@@ -1423,7 +1423,7 @@ layout: coverage
                     <th id="L161" class="number ">161</th>
 
                     <td class="" >
-                        <pre>    * @return the item or false if we cannot load the item
+                        <pre>    * @return CommonDBTM|boolean the item or false if we cannot load the item
 </pre>
                     </td>
                 </tr>
@@ -2306,7 +2306,7 @@ layout: coverage
                     <th id="L277" class="number ">277</th>
 
                     <td class="" >
-                        <pre>    * @param $method     the method to check (canCreate, canView, canUpdate of canDelete)
+                        <pre>    * @param string  $method     the method to check (canCreate, canView, canUpdate of canDelete)
 </pre>
                     </td>
                 </tr>
@@ -2314,7 +2314,7 @@ layout: coverage
                     <th id="L278" class="number ">278</th>
 
                     <td class="" >
-                        <pre>    * @param $item_right the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
+                        <pre>    * @param integer $item_right the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
 </pre>
                     </td>
                 </tr>
@@ -2322,7 +2322,7 @@ layout: coverage
                     <th id="L279" class="number ">279</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype   the name of the field of the type of the item to get
+                        <pre>    * @param string  $itemtype   the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2330,7 +2330,7 @@ layout: coverage
                     <th id="L280" class="number ">280</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id   the name of the field of the id of the item to get
+                        <pre>    * @param string  $items_id   the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2346,7 +2346,7 @@ layout: coverage
                     <th id="L282" class="number ">282</th>
 
                     <td class="" >
-                        <pre>    * @return true if we have absolute right to create the current connexity
+                        <pre>    * @return boolean true if we have absolute right to create the current connexity
 </pre>
                     </td>
                 </tr>
@@ -2513,7 +2513,7 @@ layout: coverage
                     <th id="L304" class="number ">304</th>
 
                     <td class="" >
-                        <pre>    * @param $methodItem    the method to check (canCreateItem, canViewItem, canUpdateItem of
+                        <pre>    * @param string          $methodItem    the method to check (canCreateItem, canViewItem,
 </pre>
                     </td>
                 </tr>
@@ -2521,7 +2521,7 @@ layout: coverage
                     <th id="L305" class="number ">305</th>
 
                     <td class="" >
-                        <pre>                            canDeleteItem)
+                        <pre>                                            canUpdateItem or canDeleteItem)
 </pre>
                     </td>
                 </tr>
@@ -2529,7 +2529,7 @@ layout: coverage
                     <th id="L306" class="number ">306</th>
 
                     <td class="" >
-                        <pre>    * @param $methodNotItem the method to check (canCreate, canView, canUpdate of canDelete)
+                        <pre>    * @param string          $methodNotItem the method to check (canCreate, canView, canUpdate of canDelete)
 </pre>
                     </td>
                 </tr>
@@ -2537,7 +2537,7 @@ layout: coverage
                     <th id="L307" class="number ">307</th>
 
                     <td class="" >
-                        <pre>    * @param $item_right    the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
+                        <pre>    * @param integer         $item_right    the right to check (DONT_CHECK_ITEM_RIGHTS, HAVE_VIEW_RIGHT_ON_ITEM ...)
 </pre>
                     </td>
                 </tr>
@@ -2545,7 +2545,7 @@ layout: coverage
                     <th id="L308" class="number ">308</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype      the name of the field of the type of the item to get
+                        <pre>    * @param string          $itemtype      the name of the field of the type of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2553,7 +2553,7 @@ layout: coverage
                     <th id="L309" class="number ">309</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id      the name of the field of the id of the item to get
+                        <pre>    * @param string          $items_id      the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -2561,7 +2561,7 @@ layout: coverage
                     <th id="L310" class="number ">310</th>
 
                     <td class="" >
-                        <pre>    * @param &amp;$item         the item concerned by the item (default NULL)
+                        <pre>    * @param CommonDBTM|null &amp;$item         the item concerned by the item
 </pre>
                     </td>
                 </tr>
@@ -2593,14 +2593,14 @@ layout: coverage
                     <th id="L314" class="number ">314</th>
 
                     <td class="" id="canConnexityItem">
-                        <pre>   function canConnexityItem($methodItem, $methodNotItem, $item_right, $itemtype, $items_id,<span class="label label-success">77%</span><div class="btn-group"></div></pre>
+                        <pre>   function canConnexityItem($methodItem, $methodNotItem, $item_right, $itemtype, $items_id,<span class="label label-success">81%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L315" class="number ">315</th>
 
                     <td class="" >
-                        <pre>                             &amp;$item = null) {
+                        <pre>                             CommonDBTM &amp;$item = null) {
 </pre>
                     </td>
                 </tr>
@@ -2624,18 +2624,63 @@ layout: coverage
                     <th id="L318" class="number covered">318</th>
 
                     <td class="covered" >
-                        <pre>      if ($item == null) {</pre>
+                        <pre>      $connexityItem = $item;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L319" class="number covered">319</th>
 
                     <td class="covered" >
-                        <pre>         $item = $this-&gt;getConnexityItem($itemtype, $items_id);</pre>
+                        <pre>      if ($connexityItem == null) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L320" class="number ">320</th>
+                    <th id="L320" class="number covered">320</th>
+
+                    <td class="covered" >
+                        <pre>         $connexityItem = $this-&gt;getConnexityItem($itemtype, $items_id);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L321" class="number ">321</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L322" class="number ">322</th>
+
+                    <td class="" >
+                        <pre>         // Set value in $item to reuse it on future calls
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L323" class="number covered">323</th>
+
+                    <td class="covered" >
+                        <pre>         if ($connexityItem instanceof CommonDBTM) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L324" class="number covered">324</th>
+
+                    <td class="covered" >
+                        <pre>            $item = $this-&gt;getConnexityItem($itemtype, $items_id);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L325" class="number ">325</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L326" class="number ">326</th>
 
                     <td class="" >
                         <pre>      }
@@ -2643,83 +2688,38 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L321" class="number covered">321</th>
+                    <th id="L327" class="number covered">327</th>
 
                     <td class="covered" >
                         <pre>      if ($item_right != self::DONT_CHECK_ITEM_RIGHTS) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L322" class="number covered">322</th>
-
-                    <td class="covered" >
-                        <pre>         if ($item !== false) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L323" class="number covered">323</th>
-
-                    <td class="covered" >
-                        <pre>            if ($item_right == self::HAVE_VIEW_RIGHT_ON_ITEM) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L324" class="number covered">324</th>
-
-                    <td class="covered" >
-                        <pre>               $methodNotItem = &#039;canView&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L325" class="number covered">325</th>
-
-                    <td class="covered" >
-                        <pre>               $methodItem    = &#039;canViewItem&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L326" class="number ">326</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L327" class="number ">327</th>
-
-                    <td class="" >
-                        <pre>            // here, we can check item&#039;s global rights
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L328" class="number covered">328</th>
 
                     <td class="covered" >
-                        <pre>            if (preg_match(&#039;/^itemtype/&#039;, $itemtype)) {</pre>
+                        <pre>         if ($connexityItem !== false) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L329" class="number covered">329</th>
 
                     <td class="covered" >
-                        <pre>               if (!$item-&gt;$methodNotItem()) {</pre>
+                        <pre>            if ($item_right == self::HAVE_VIEW_RIGHT_ON_ITEM) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L330" class="number uncovered">330</th>
+                    <th id="L330" class="number covered">330</th>
 
-                    <td class="uncovered" >
-                        <pre>                  return false;</pre>
+                    <td class="covered" >
+                        <pre>               $methodNotItem = &#039;canView&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L331" class="number ">331</th>
+                    <th id="L331" class="number covered">331</th>
 
-                    <td class="" >
-                        <pre>               }
-</pre>
+                    <td class="covered" >
+                        <pre>               $methodItem    = &#039;canViewItem&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2731,40 +2731,39 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L333" class="number covered">333</th>
+                    <th id="L333" class="number ">333</th>
+
+                    <td class="" >
+                        <pre>            // here, we can check item&#039;s global rights
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L334" class="number covered">334</th>
 
                     <td class="covered" >
-                        <pre>            return $item-&gt;$methodItem();</pre>
+                        <pre>            if (preg_match(&#039;/^itemtype/&#039;, $itemtype)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L334" class="number ">334</th>
+                    <th id="L335" class="number covered">335</th>
 
-                    <td class="" >
-                        <pre>         } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L335" class="number ">335</th>
-
-                    <td class="" >
-                        <pre>            // if we cannot get the parent, then we throw an exception
-</pre>
+                    <td class="covered" >
+                        <pre>               if (!$connexityItem-&gt;$methodNotItem()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L336" class="number uncovered">336</th>
 
                     <td class="uncovered" >
-                        <pre>            throw new CommonDBConnexityItemNotFound();</pre>
+                        <pre>                  return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L337" class="number ">337</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -2772,45 +2771,45 @@ layout: coverage
                     <th id="L338" class="number ">338</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L339" class="number uncovered">339</th>
+                    <th id="L339" class="number covered">339</th>
 
-                    <td class="uncovered" >
-                        <pre>      return true;</pre>
+                    <td class="covered" >
+                        <pre>            return $connexityItem-&gt;$methodItem();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L340" class="number unreach">340</th>
+                    <th id="L340" class="number ">340</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>         } else {
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L341" class="number ">341</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            // if we cannot get the parent, then we throw an exception
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L342" class="number ">342</th>
+                    <th id="L342" class="number uncovered">342</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>            throw new CommonDBConnexityItemNotFound();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L343" class="number ">343</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -2818,31 +2817,29 @@ layout: coverage
                     <th id="L344" class="number ">344</th>
 
                     <td class="" >
-                        <pre>    * @since 0.84
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L345" class="number ">345</th>
+                    <th id="L345" class="number uncovered">345</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L346" class="number ">346</th>
+                    <th id="L346" class="number unreach">346</th>
 
-                    <td class="" >
-                        <pre>    * Get the change values for history when only the fields of the CommonDBChild are updated
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L347" class="number ">347</th>
 
                     <td class="" >
-                        <pre>    * @warning can be call as many time as fields are updated
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -2850,7 +2847,7 @@ layout: coverage
                     <th id="L348" class="number ">348</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -2858,7 +2855,7 @@ layout: coverage
                     <th id="L349" class="number ">349</th>
 
                     <td class="" >
-                        <pre>    * @param $field the name of the field that has changed
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -2866,7 +2863,7 @@ layout: coverage
                     <th id="L350" class="number ">350</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @since 0.84
 </pre>
                     </td>
                 </tr>
@@ -2874,7 +2871,7 @@ layout: coverage
                     <th id="L351" class="number ">351</th>
 
                     <td class="" >
-                        <pre>    * @return array as the third parameter of Log::history() method or false if we don&#039;t want to
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -2882,7 +2879,7 @@ layout: coverage
                     <th id="L352" class="number ">352</th>
 
                     <td class="" >
-                        <pre>    *         log for the given field
+                        <pre>    * Get the change values for history when only the fields of the CommonDBChild are updated
 </pre>
                     </td>
                 </tr>
@@ -2890,44 +2887,47 @@ layout: coverage
                     <th id="L353" class="number ">353</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    * @warning can be call as many time as fields are updated
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getHistoryChangeWhenUpdateField">
+                            <tr class="line" id="">
                     <th id="L354" class="number ">354</th>
 
-                    <td class="" id="getHistoryChangeWhenUpdateField">
-                        <pre>   function getHistoryChangeWhenUpdateField($field) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L355" class="number ">355</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @param string $field the name of the field that has changed
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L356" class="number uncovered">356</th>
+                    <th id="L356" class="number ">356</th>
 
-                    <td class="uncovered" >
-                        <pre>      return [&#039;0&#039;, addslashes($this-&gt;oldvalues[$field]), addslashes($this-&gt;fields[$field])];</pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L357" class="number unreach">357</th>
+                    <th id="L357" class="number ">357</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>    * @return array as the third parameter of Log::history() method or false if we don&#039;t want to
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L358" class="number ">358</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    *         log for the given field
 </pre>
                     </td>
                 </tr>
@@ -2935,47 +2935,44 @@ layout: coverage
                     <th id="L359" class="number ">359</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getHistoryChangeWhenUpdateField">
                     <th id="L360" class="number ">360</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="" id="getHistoryChangeWhenUpdateField">
+                        <pre>   function getHistoryChangeWhenUpdateField($field) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L361" class="number ">361</th>
 
                     <td class="" >
-                        <pre>    * Factorized method to search difference when updating a connexity : return both previous
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L362" class="number ">362</th>
+                    <th id="L362" class="number uncovered">362</th>
 
-                    <td class="" >
-                        <pre>    * item and new item if both are different. Otherwise returns new items
-</pre>
+                    <td class="uncovered" >
+                        <pre>      return [&#039;0&#039;, addslashes($this-&gt;oldvalues[$field]), addslashes($this-&gt;fields[$field])];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L363" class="number ">363</th>
+                    <th id="L363" class="number unreach">363</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L364" class="number ">364</th>
 
                     <td class="" >
-                        <pre>    * @param $itemtype      the name of the field of the type of the item to get
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -2983,7 +2980,7 @@ layout: coverage
                     <th id="L365" class="number ">365</th>
 
                     <td class="" >
-                        <pre>    * @param $items_id      the name of the field of the id of the item to get
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -2991,7 +2988,7 @@ layout: coverage
                     <th id="L366" class="number ">366</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -2999,7 +2996,7 @@ layout: coverage
                     <th id="L367" class="number ">367</th>
 
                     <td class="" >
-                        <pre>    * @return array containing &quot;previous&quot; (if exists) and &quot;new&quot;. Beware that both can be equal
+                        <pre>    * Factorized method to search difference when updating a connexity : return both previous
 </pre>
                     </td>
                 </tr>
@@ -3007,7 +3004,7 @@ layout: coverage
                     <th id="L368" class="number ">368</th>
 
                     <td class="" >
-                        <pre>    *         to false
+                        <pre>    * item and new item if both are different. Otherwise returns new items
 </pre>
                     </td>
                 </tr>
@@ -3015,22 +3012,23 @@ layout: coverage
                     <th id="L369" class="number ">369</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getItemsForLog">
+                            <tr class="line" id="">
                     <th id="L370" class="number ">370</th>
 
-                    <td class="" id="getItemsForLog">
-                        <pre>   function getItemsForLog($itemtype, $items_id) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * @param string $itemtype  the name of the field of the type of the item to get
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L371" class="number ">371</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @param string $items_id  the name of the field of the id of the item to get
 </pre>
                     </td>
                 </tr>
@@ -3038,34 +3036,43 @@ layout: coverage
                     <th id="L372" class="number ">372</th>
 
                     <td class="" >
-                        <pre>      $newItemArray = [
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L373" class="number uncovered">373</th>
+                    <th id="L373" class="number ">373</th>
 
-                    <td class="uncovered" >
-                        <pre>         $items_id =&gt; $this-&gt;fields[$items_id],</pre>
+                    <td class="" >
+                        <pre>    * @return array containing &quot;previous&quot; (if exists) and &quot;new&quot;. Beware that both can be equal
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L374" class="number ">374</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>    *         to false
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L375" class="number uncovered">375</th>
+                    <th id="L375" class="number ">375</th>
 
-                    <td class="uncovered" >
-                        <pre>      $previousItemArray = [];</pre>
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getItemsForLog">
+                    <th id="L376" class="number ">376</th>
+
+                    <td class="" id="getItemsForLog">
+                        <pre>   function getItemsForLog($itemtype, $items_id) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L376" class="number ">376</th>
+                    <th id="L377" class="number ">377</th>
 
                     <td class="" >
                         <pre>
@@ -3073,40 +3080,33 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L377" class="number uncovered">377</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (isset($this-&gt;oldvalues[$items_id])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L378" class="number uncovered">378</th>
-
-                    <td class="uncovered" >
-                        <pre>         $previousItemArray[$items_id] = $this-&gt;oldvalues[$items_id];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L379" class="number ">379</th>
+                    <th id="L378" class="number ">378</th>
 
                     <td class="" >
-                        <pre>      } else {
+                        <pre>      $newItemArray = [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L380" class="number uncovered">380</th>
+                    <th id="L379" class="number uncovered">379</th>
 
                     <td class="uncovered" >
-                        <pre>         $previousItemArray[$items_id] = $this-&gt;fields[$items_id];</pre>
+                        <pre>         $items_id =&gt; $this-&gt;fields[$items_id],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L381" class="number ">381</th>
+                    <th id="L380" class="number ">380</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>      ];
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L381" class="number uncovered">381</th>
+
+                    <td class="uncovered" >
+                        <pre>      $previousItemArray = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3121,492 +3121,18 @@ layout: coverage
                     <th id="L383" class="number uncovered">383</th>
 
                     <td class="uncovered" >
-                        <pre>      if (preg_match(&#039;/^itemtype/&#039;, $itemtype)) {</pre>
+                        <pre>      if (isset($this-&gt;oldvalues[$items_id])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L384" class="number uncovered">384</th>
 
                     <td class="uncovered" >
-                        <pre>         $newItemArray[$itemtype] = $this-&gt;fields[$itemtype];</pre>
+                        <pre>         $previousItemArray[$items_id] = $this-&gt;oldvalues[$items_id];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L385" class="number uncovered">385</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (isset($this-&gt;oldvalues[$itemtype])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L386" class="number uncovered">386</th>
-
-                    <td class="uncovered" >
-                        <pre>            $previousItemArray[$itemtype] = $this-&gt;oldvalues[$itemtype];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L387" class="number ">387</th>
-
-                    <td class="" >
-                        <pre>         } else {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L388" class="number uncovered">388</th>
-
-                    <td class="uncovered" >
-                        <pre>            $previousItemArray[$itemtype] = $this-&gt;fields[$itemtype];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L389" class="number ">389</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L390" class="number ">390</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L391" class="number ">391</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L392" class="number uncovered">392</th>
-
-                    <td class="uncovered" >
-                        <pre>      $result = [&#039;new&#039; =&gt; self::getItemFromArray($itemtype, $items_id, $newItemArray)];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L393" class="number uncovered">393</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($previousItemArray !== $newItemArray) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L394" class="number uncovered">394</th>
-
-                    <td class="uncovered" >
-                        <pre>         $result[&#039;previous&#039;] = self::getItemFromArray($itemtype, $items_id, $previousItemArray);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L395" class="number ">395</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L396" class="number ">396</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L397" class="number uncovered">397</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $result;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L398" class="number unreach">398</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L399" class="number ">399</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L400" class="number ">400</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L401" class="number ">401</th>
-
-                    <td class="" >
-                        <pre>    * Get all specificities of the current itemtype concerning the massive actions
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L402" class="number ">402</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L403" class="number ">403</th>
-
-                    <td class="" >
-                        <pre>    * @since 0.85
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L404" class="number ">404</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L405" class="number ">405</th>
-
-                    <td class="" >
-                        <pre>    * @return array of the specificities:
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L406" class="number ">406</th>
-
-                    <td class="" >
-                        <pre>    *        &#039;reaffect&#039;   is it possible to reaffect the connexity (1 or 2 for CommonDBRelation)
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L407" class="number ">407</th>
-
-                    <td class="" >
-                        <pre>    *        &#039;itemtypes&#039;  the types of the item in cas of reaffectation
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L408" class="number ">408</th>
-
-                    <td class="" >
-                        <pre>    *        &#039;normalized&#039; array(&#039;affect&#039;, &#039;unaffect&#039;) of arrays containing each action
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L409" class="number ">409</th>
-
-                    <td class="" >
-                        <pre>    *        &#039;button_labels&#039;          array of the labels of the button indexed by the action name
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L410" class="number ">410</th>
-
-                    <td class="" >
-                        <pre>   **/
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getConnexityMassiveActionsSpecificities">
-                    <th id="L411" class="number ">411</th>
-
-                    <td class="" id="getConnexityMassiveActionsSpecificities">
-                        <pre>   static function getConnexityMassiveActionsSpecificities() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L412" class="number ">412</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L413" class="number uncovered">413</th>
-
-                    <td class="uncovered" >
-                        <pre>      return [&#039;reaffect&#039;      =&gt; false,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L414" class="number ">414</th>
-
-                    <td class="" >
-                        <pre>                   &#039;itemtypes&#039;     =&gt; [],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L415" class="number ">415</th>
-
-                    <td class="" >
-                        <pre>                   &#039;normalized&#039;    =&gt; [&#039;affect&#039;   =&gt; [&#039;affect&#039;],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L416" class="number ">416</th>
-
-                    <td class="" >
-                        <pre>                                            &#039;unaffect&#039; =&gt; [&#039;unaffect&#039;]],
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L417" class="number uncovered">417</th>
-
-                    <td class="uncovered" >
-                        <pre>                   &#039;action_name&#039;   =&gt; [&#039;affect&#039;   =&gt; _x(&#039;button&#039;, &#039;Associate&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L418" class="number uncovered">418</th>
-
-                    <td class="uncovered" >
-                        <pre>                                            &#039;unaffect&#039; =&gt; _x(&#039;button&#039;, &#039;Dissociate&#039;)]];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L419" class="number unreach">419</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L420" class="number ">420</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L421" class="number ">421</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L422" class="number ">422</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L423" class="number ">423</th>
-
-                    <td class="" >
-                        <pre>    * @since 0.85
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L424" class="number ">424</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L425" class="number ">425</th>
-
-                    <td class="" >
-                        <pre>    * @see CommonDBTM::getMassiveActionsForItemtype()
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L426" class="number ">426</th>
-
-                    <td class="" >
-                        <pre>   **/
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getMassiveActionsForItemtype">
-                    <th id="L427" class="number ">427</th>
-
-                    <td class="" id="getMassiveActionsForItemtype">
-                        <pre>   static function getMassiveActionsForItemtype(array &amp;$actions, $itemtype, $is_deleted = 0,<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L428" class="number ">428</th>
-
-                    <td class="" >
-                        <pre>                                                CommonDBTM $checkitem = null) {
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L429" class="number ">429</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L430" class="number uncovered">430</th>
-
-                    <td class="uncovered" >
-                        <pre>      $unaffect = false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L431" class="number uncovered">431</th>
-
-                    <td class="uncovered" >
-                        <pre>      $affect   = false;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L432" class="number uncovered">432</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (is_a($itemtype, &#039;CommonDBChild&#039;, true)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L433" class="number uncovered">433</th>
-
-                    <td class="uncovered" >
-                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L434" class="number uncovered">434</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!$itemtype::$mustBeAttached) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L435" class="number uncovered">435</th>
-
-                    <td class="uncovered" >
-                        <pre>            $unaffect = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L436" class="number uncovered">436</th>
-
-                    <td class="uncovered" >
-                        <pre>            $affect   = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L437" class="number uncovered">437</th>
-
-                    <td class="uncovered" >
-                        <pre>         } else if ($specificities[&#039;reaffect&#039;]) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L438" class="number uncovered">438</th>
-
-                    <td class="uncovered" >
-                        <pre>            $affect = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L439" class="number ">439</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L440" class="number uncovered">440</th>
-
-                    <td class="uncovered" >
-                        <pre>      } else if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L441" class="number uncovered">441</th>
-
-                    <td class="uncovered" >
-                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L442" class="number uncovered">442</th>
-
-                    <td class="uncovered" >
-                        <pre>         if ((!$itemtype::$mustBeAttached_1) || (!$itemtype::$mustBeAttached_2)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L443" class="number uncovered">443</th>
-
-                    <td class="uncovered" >
-                        <pre>            $unaffect = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L444" class="number uncovered">444</th>
-
-                    <td class="uncovered" >
-                        <pre>            $affect   = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L445" class="number uncovered">445</th>
-
-                    <td class="uncovered" >
-                        <pre>         } else if ($specificities[&#039;reaffect&#039;]) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L446" class="number uncovered">446</th>
-
-                    <td class="uncovered" >
-                        <pre>            $affect = true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L447" class="number ">447</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L448" class="number ">448</th>
+                    <th id="L385" class="number ">385</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -3614,14 +3140,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L449" class="number uncovered">449</th>
+                    <th id="L386" class="number uncovered">386</th>
 
                     <td class="uncovered" >
-                        <pre>         return;</pre>
+                        <pre>         $previousItemArray[$items_id] = $this-&gt;fields[$items_id];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L450" class="number ">450</th>
+                    <th id="L387" class="number ">387</th>
 
                     <td class="" >
                         <pre>      }
@@ -3629,40 +3155,514 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L451" class="number ">451</th>
+                    <th id="L388" class="number ">388</th>
 
                     <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L389" class="number uncovered">389</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (preg_match(&#039;/^itemtype/&#039;, $itemtype)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L390" class="number uncovered">390</th>
+
+                    <td class="uncovered" >
+                        <pre>         $newItemArray[$itemtype] = $this-&gt;fields[$itemtype];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L391" class="number uncovered">391</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (isset($this-&gt;oldvalues[$itemtype])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L392" class="number uncovered">392</th>
+
+                    <td class="uncovered" >
+                        <pre>            $previousItemArray[$itemtype] = $this-&gt;oldvalues[$itemtype];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L393" class="number ">393</th>
+
+                    <td class="" >
+                        <pre>         } else {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L394" class="number uncovered">394</th>
+
+                    <td class="uncovered" >
+                        <pre>            $previousItemArray[$itemtype] = $this-&gt;fields[$itemtype];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L395" class="number ">395</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L396" class="number ">396</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L397" class="number ">397</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L398" class="number uncovered">398</th>
+
+                    <td class="uncovered" >
+                        <pre>      $result = [&#039;new&#039; =&gt; self::getItemFromArray($itemtype, $items_id, $newItemArray)];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L399" class="number uncovered">399</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($previousItemArray !== $newItemArray) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L400" class="number uncovered">400</th>
+
+                    <td class="uncovered" >
+                        <pre>         $result[&#039;previous&#039;] = self::getItemFromArray($itemtype, $items_id, $previousItemArray);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L401" class="number ">401</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L402" class="number ">402</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L403" class="number uncovered">403</th>
+
+                    <td class="uncovered" >
+                        <pre>      return $result;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L404" class="number unreach">404</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L405" class="number ">405</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L406" class="number ">406</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L407" class="number ">407</th>
+
+                    <td class="" >
+                        <pre>    * Get all specificities of the current itemtype concerning the massive actions
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L408" class="number ">408</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L409" class="number ">409</th>
+
+                    <td class="" >
+                        <pre>    * @since 0.85
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L410" class="number ">410</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L411" class="number ">411</th>
+
+                    <td class="" >
+                        <pre>    * @return array of the specificities:
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L412" class="number ">412</th>
+
+                    <td class="" >
+                        <pre>    *        &#039;reaffect&#039;   is it possible to reaffect the connexity (1 or 2 for CommonDBRelation)
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L413" class="number ">413</th>
+
+                    <td class="" >
+                        <pre>    *        &#039;itemtypes&#039;  the types of the item in cas of reaffectation
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L414" class="number ">414</th>
+
+                    <td class="" >
+                        <pre>    *        &#039;normalized&#039; array(&#039;affect&#039;, &#039;unaffect&#039;) of arrays containing each action
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L415" class="number ">415</th>
+
+                    <td class="" >
+                        <pre>    *        &#039;button_labels&#039;          array of the labels of the button indexed by the action name
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L416" class="number ">416</th>
+
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getConnexityMassiveActionsSpecificities">
+                    <th id="L417" class="number ">417</th>
+
+                    <td class="" id="getConnexityMassiveActionsSpecificities">
+                        <pre>   static function getConnexityMassiveActionsSpecificities() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L418" class="number ">418</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L419" class="number uncovered">419</th>
+
+                    <td class="uncovered" >
+                        <pre>      return [&#039;reaffect&#039;      =&gt; false,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L420" class="number ">420</th>
+
+                    <td class="" >
+                        <pre>                   &#039;itemtypes&#039;     =&gt; [],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L421" class="number ">421</th>
+
+                    <td class="" >
+                        <pre>                   &#039;normalized&#039;    =&gt; [&#039;affect&#039;   =&gt; [&#039;affect&#039;],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L422" class="number ">422</th>
+
+                    <td class="" >
+                        <pre>                                            &#039;unaffect&#039; =&gt; [&#039;unaffect&#039;]],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L423" class="number uncovered">423</th>
+
+                    <td class="uncovered" >
+                        <pre>                   &#039;action_name&#039;   =&gt; [&#039;affect&#039;   =&gt; _x(&#039;button&#039;, &#039;Associate&#039;),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L424" class="number uncovered">424</th>
+
+                    <td class="uncovered" >
+                        <pre>                                            &#039;unaffect&#039; =&gt; _x(&#039;button&#039;, &#039;Dissociate&#039;)]];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L425" class="number unreach">425</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L426" class="number ">426</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L427" class="number ">427</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L428" class="number ">428</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L429" class="number ">429</th>
+
+                    <td class="" >
+                        <pre>    * @since 0.85
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L430" class="number ">430</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L431" class="number ">431</th>
+
+                    <td class="" >
+                        <pre>    * @see CommonDBTM::getMassiveActionsForItemtype()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L432" class="number ">432</th>
+
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getMassiveActionsForItemtype">
+                    <th id="L433" class="number ">433</th>
+
+                    <td class="" id="getMassiveActionsForItemtype">
+                        <pre>   static function getMassiveActionsForItemtype(array &amp;$actions, $itemtype, $is_deleted = 0,<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L434" class="number ">434</th>
+
+                    <td class="" >
+                        <pre>                                                CommonDBTM $checkitem = null) {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L435" class="number ">435</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L436" class="number uncovered">436</th>
+
+                    <td class="uncovered" >
+                        <pre>      $unaffect = false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L437" class="number uncovered">437</th>
+
+                    <td class="uncovered" >
+                        <pre>      $affect   = false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L438" class="number uncovered">438</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (is_a($itemtype, &#039;CommonDBChild&#039;, true)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L439" class="number uncovered">439</th>
+
+                    <td class="uncovered" >
+                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L440" class="number uncovered">440</th>
+
+                    <td class="uncovered" >
+                        <pre>         if (!$itemtype::$mustBeAttached) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L441" class="number uncovered">441</th>
+
+                    <td class="uncovered" >
+                        <pre>            $unaffect = true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L442" class="number uncovered">442</th>
+
+                    <td class="uncovered" >
+                        <pre>            $affect   = true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L443" class="number uncovered">443</th>
+
+                    <td class="uncovered" >
+                        <pre>         } else if ($specificities[&#039;reaffect&#039;]) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L444" class="number uncovered">444</th>
+
+                    <td class="uncovered" >
+                        <pre>            $affect = true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L445" class="number ">445</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L446" class="number uncovered">446</th>
+
+                    <td class="uncovered" >
+                        <pre>      } else if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L447" class="number uncovered">447</th>
+
+                    <td class="uncovered" >
+                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L448" class="number uncovered">448</th>
+
+                    <td class="uncovered" >
+                        <pre>         if ((!$itemtype::$mustBeAttached_1) || (!$itemtype::$mustBeAttached_2)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L449" class="number uncovered">449</th>
+
+                    <td class="uncovered" >
+                        <pre>            $unaffect = true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L450" class="number uncovered">450</th>
+
+                    <td class="uncovered" >
+                        <pre>            $affect   = true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L451" class="number uncovered">451</th>
+
+                    <td class="uncovered" >
+                        <pre>         } else if ($specificities[&#039;reaffect&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L452" class="number uncovered">452</th>
 
                     <td class="uncovered" >
-                        <pre>      $prefix = __CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR;</pre>
+                        <pre>            $affect = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L453" class="number ">453</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L454" class="number uncovered">454</th>
+                    <th id="L454" class="number ">454</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ($unaffect) {</pre>
+                    <td class="" >
+                        <pre>      } else {
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L455" class="number uncovered">455</th>
 
                     <td class="uncovered" >
-                        <pre>         $actions[$prefix.&#039;unaffect&#039;] = $specificities[&#039;action_name&#039;][&#039;unaffect&#039;];</pre>
+                        <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -3685,18 +3685,33 @@ layout: coverage
                     <th id="L458" class="number uncovered">458</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($affect) {</pre>
+                        <pre>      $prefix = __CLASS__.MassiveAction::CLASS_ACTION_SEPARATOR;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L459" class="number uncovered">459</th>
+                    <th id="L459" class="number ">459</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L460" class="number uncovered">460</th>
 
                     <td class="uncovered" >
-                        <pre>         $actions[$prefix.&#039;affect&#039;] = $specificities[&#039;action_name&#039;][&#039;affect&#039;];</pre>
+                        <pre>      if ($unaffect) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L460" class="number ">460</th>
+                    <th id="L461" class="number uncovered">461</th>
+
+                    <td class="uncovered" >
+                        <pre>         $actions[$prefix.&#039;unaffect&#039;] = $specificities[&#039;action_name&#039;][&#039;unaffect&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L462" class="number ">462</th>
 
                     <td class="" >
                         <pre>      }
@@ -3704,7 +3719,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L461" class="number ">461</th>
+                    <th id="L463" class="number ">463</th>
 
                     <td class="" >
                         <pre>
@@ -3712,40 +3727,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L462" class="number uncovered">462</th>
+                    <th id="L464" class="number uncovered">464</th>
 
                     <td class="uncovered" >
-                        <pre>      parent::getMassiveActionsForItemtype($actions, $itemtype, $is_deleted, $checkitem);</pre>
+                        <pre>      if ($affect) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L463" class="number uncovered">463</th>
+                    <th id="L465" class="number uncovered">465</th>
 
                     <td class="uncovered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L464" class="number ">464</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L465" class="number ">465</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
+                        <pre>         $actions[$prefix.&#039;affect&#039;] = $specificities[&#039;action_name&#039;][&#039;affect&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L466" class="number ">466</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -3753,31 +3752,29 @@ layout: coverage
                     <th id="L467" class="number ">467</th>
 
                     <td class="" >
-                        <pre>    * @since 0.85
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L468" class="number ">468</th>
+                    <th id="L468" class="number uncovered">468</th>
 
-                    <td class="" >
-                        <pre>    *
-</pre>
+                    <td class="uncovered" >
+                        <pre>      parent::getMassiveActionsForItemtype($actions, $itemtype, $is_deleted, $checkitem);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L469" class="number ">469</th>
+                    <th id="L469" class="number uncovered">469</th>
 
-                    <td class="" >
-                        <pre>    * @see CommonDBTM::showMassiveActionsSubForm()
-</pre>
+                    <td class="uncovered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L470" class="number ">470</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3785,7 +3782,7 @@ layout: coverage
                     <th id="L471" class="number ">471</th>
 
                     <td class="" >
-                        <pre>   static function showMassiveActionsSubForm(MassiveAction $ma) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3793,7 +3790,7 @@ layout: coverage
                     <th id="L472" class="number ">472</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -3801,7 +3798,7 @@ layout: coverage
                     <th id="L473" class="number ">473</th>
 
                     <td class="" >
-                        <pre>      $action = $ma-&gt;getAction();
+                        <pre>    * @since 0.85
 </pre>
                     </td>
                 </tr>
@@ -3809,7 +3806,7 @@ layout: coverage
                     <th id="L474" class="number ">474</th>
 
                     <td class="" >
-                        <pre>      $items  = $ma-&gt;getItems();
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -3817,7 +3814,7 @@ layout: coverage
                     <th id="L475" class="number ">475</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @see CommonDBTM::showMassiveActionsSubForm()
 </pre>
                     </td>
                 </tr>
@@ -3825,7 +3822,7 @@ layout: coverage
                     <th id="L476" class="number ">476</th>
 
                     <td class="" >
-                        <pre>      $itemtypes_affect   = [];
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
@@ -3833,7 +3830,7 @@ layout: coverage
                     <th id="L477" class="number ">477</th>
 
                     <td class="" >
-                        <pre>      $itemtypes_unaffect = [];
+                        <pre>   static function showMassiveActionsSubForm(MassiveAction $ma) {
 </pre>
                     </td>
                 </tr>
@@ -3841,7 +3838,7 @@ layout: coverage
                     <th id="L478" class="number ">478</th>
 
                     <td class="" >
-                        <pre>      foreach (array_keys($items) as $itemtype) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3849,7 +3846,7 @@ layout: coverage
                     <th id="L479" class="number ">479</th>
 
                     <td class="" >
-                        <pre>         if (!is_a($itemtype, __CLASS__, true)) {
+                        <pre>      $action = $ma-&gt;getAction();
 </pre>
                     </td>
                 </tr>
@@ -3857,7 +3854,7 @@ layout: coverage
                     <th id="L480" class="number ">480</th>
 
                     <td class="" >
-                        <pre>            continue;
+                        <pre>      $items  = $ma-&gt;getItems();
 </pre>
                     </td>
                 </tr>
@@ -3865,7 +3862,7 @@ layout: coverage
                     <th id="L481" class="number ">481</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -3873,7 +3870,7 @@ layout: coverage
                     <th id="L482" class="number ">482</th>
 
                     <td class="" >
-                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();
+                        <pre>      $itemtypes_affect   = [];
 </pre>
                     </td>
                 </tr>
@@ -3881,7 +3878,7 @@ layout: coverage
                     <th id="L483" class="number ">483</th>
 
                     <td class="" >
-                        <pre>         if (in_array($action, $specificities[&#039;normalized&#039;][&#039;affect&#039;])) {
+                        <pre>      $itemtypes_unaffect = [];
 </pre>
                     </td>
                 </tr>
@@ -3889,7 +3886,7 @@ layout: coverage
                     <th id="L484" class="number ">484</th>
 
                     <td class="" >
-                        <pre>            $itemtypes_affect[$itemtype] = $specificities;
+                        <pre>      foreach (array_keys($items) as $itemtype) {
 </pre>
                     </td>
                 </tr>
@@ -3897,7 +3894,7 @@ layout: coverage
                     <th id="L485" class="number ">485</th>
 
                     <td class="" >
-                        <pre>            continue;
+                        <pre>         if (!is_a($itemtype, __CLASS__, true)) {
 </pre>
                     </td>
                 </tr>
@@ -3905,7 +3902,7 @@ layout: coverage
                     <th id="L486" class="number ">486</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>            continue;
 </pre>
                     </td>
                 </tr>
@@ -3913,7 +3910,7 @@ layout: coverage
                     <th id="L487" class="number ">487</th>
 
                     <td class="" >
-                        <pre>         if (in_array($action, $specificities[&#039;normalized&#039;][&#039;unaffect&#039;])) {
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -3921,7 +3918,7 @@ layout: coverage
                     <th id="L488" class="number ">488</th>
 
                     <td class="" >
-                        <pre>            $itemtypes_unaffect[$itemtype] = $specificities;
+                        <pre>         $specificities = $itemtype::getConnexityMassiveActionsSpecificities();
 </pre>
                     </td>
                 </tr>
@@ -3929,7 +3926,7 @@ layout: coverage
                     <th id="L489" class="number ">489</th>
 
                     <td class="" >
-                        <pre>            continue;
+                        <pre>         if (in_array($action, $specificities[&#039;normalized&#039;][&#039;affect&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -3937,7 +3934,7 @@ layout: coverage
                     <th id="L490" class="number ">490</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>            $itemtypes_affect[$itemtype] = $specificities;
 </pre>
                     </td>
                 </tr>
@@ -3945,7 +3942,7 @@ layout: coverage
                     <th id="L491" class="number ">491</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>            continue;
 </pre>
                     </td>
                 </tr>
@@ -3953,7 +3950,7 @@ layout: coverage
                     <th id="L492" class="number ">492</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -3961,7 +3958,7 @@ layout: coverage
                     <th id="L493" class="number ">493</th>
 
                     <td class="" >
-                        <pre>      if (count($itemtypes_affect) &gt; count($itemtypes_unaffect)) {
+                        <pre>         if (in_array($action, $specificities[&#039;normalized&#039;][&#039;unaffect&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -3969,7 +3966,7 @@ layout: coverage
                     <th id="L494" class="number ">494</th>
 
                     <td class="" >
-                        <pre>         $normalized_action = &#039;affect&#039;;
+                        <pre>            $itemtypes_unaffect[$itemtype] = $specificities;
 </pre>
                     </td>
                 </tr>
@@ -3977,7 +3974,7 @@ layout: coverage
                     <th id="L495" class="number ">495</th>
 
                     <td class="" >
-                        <pre>         $itemtypes         = $itemtypes_affect;
+                        <pre>            continue;
 </pre>
                     </td>
                 </tr>
@@ -3985,7 +3982,7 @@ layout: coverage
                     <th id="L496" class="number ">496</th>
 
                     <td class="" >
-                        <pre>      } else if (count($itemtypes_affect) &lt; count($itemtypes_unaffect)) {
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -3993,7 +3990,7 @@ layout: coverage
                     <th id="L497" class="number ">497</th>
 
                     <td class="" >
-                        <pre>         $normalized_action = &#039;unaffect&#039;;
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4001,7 +3998,7 @@ layout: coverage
                     <th id="L498" class="number ">498</th>
 
                     <td class="" >
-                        <pre>         $itemtypes         = $itemtypes_unaffect;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4009,7 +4006,7 @@ layout: coverage
                     <th id="L499" class="number ">499</th>
 
                     <td class="" >
-                        <pre>      } else {
+                        <pre>      if (count($itemtypes_affect) &gt; count($itemtypes_unaffect)) {
 </pre>
                     </td>
                 </tr>
@@ -4017,7 +4014,7 @@ layout: coverage
                     <th id="L500" class="number ">500</th>
 
                     <td class="" >
-                        <pre>         return parent::showMassiveActionsSubForm($ma);
+                        <pre>         $normalized_action = &#039;affect&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4025,7 +4022,7 @@ layout: coverage
                     <th id="L501" class="number ">501</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>         $itemtypes         = $itemtypes_affect;
 </pre>
                     </td>
                 </tr>
@@ -4033,7 +4030,7 @@ layout: coverage
                     <th id="L502" class="number ">502</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      } else if (count($itemtypes_affect) &lt; count($itemtypes_unaffect)) {
 </pre>
                     </td>
                 </tr>
@@ -4041,7 +4038,7 @@ layout: coverage
                     <th id="L503" class="number ">503</th>
 
                     <td class="" >
-                        <pre>      switch ($normalized_action) {
+                        <pre>         $normalized_action = &#039;unaffect&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4049,7 +4046,7 @@ layout: coverage
                     <th id="L504" class="number ">504</th>
 
                     <td class="" >
-                        <pre>         case &#039;unaffect&#039; :
+                        <pre>         $itemtypes         = $itemtypes_unaffect;
 </pre>
                     </td>
                 </tr>
@@ -4057,7 +4054,7 @@ layout: coverage
                     <th id="L505" class="number ">505</th>
 
                     <td class="" >
-                        <pre>            foreach ($itemtypes as $itemtype =&gt; $specificities) {
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
@@ -4065,7 +4062,7 @@ layout: coverage
                     <th id="L506" class="number ">506</th>
 
                     <td class="" >
-                        <pre>               if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {
+                        <pre>         return parent::showMassiveActionsSubForm($ma);
 </pre>
                     </td>
                 </tr>
@@ -4073,7 +4070,7 @@ layout: coverage
                     <th id="L507" class="number ">507</th>
 
                     <td class="" >
-                        <pre>                  $peer_field = &quot;peer[$itemtype]&quot;;
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4081,7 +4078,7 @@ layout: coverage
                     <th id="L508" class="number ">508</th>
 
                     <td class="" >
-                        <pre>                  if ((!$itemtype::$mustBeAttached_1) &amp;&amp; (!$itemtype::$mustBeAttached_2)) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4089,7 +4086,7 @@ layout: coverage
                     <th id="L509" class="number ">509</th>
 
                     <td class="" >
-                        <pre>                     // Should never occur ... But we must care !
+                        <pre>      switch ($normalized_action) {
 </pre>
                     </td>
                 </tr>
@@ -4097,7 +4094,7 @@ layout: coverage
                     <th id="L510" class="number ">510</th>
 
                     <td class="" >
-                        <pre>                     $values = [];
+                        <pre>         case &#039;unaffect&#039; :
 </pre>
                     </td>
                 </tr>
@@ -4105,7 +4102,7 @@ layout: coverage
                     <th id="L511" class="number ">511</th>
 
                     <td class="" >
-                        <pre>                     if ((empty($itemtype::$itemtype_1))
+                        <pre>            foreach ($itemtypes as $itemtype =&gt; $specificities) {
 </pre>
                     </td>
                 </tr>
@@ -4113,7 +4110,7 @@ layout: coverage
                     <th id="L512" class="number ">512</th>
 
                     <td class="" >
-                        <pre>                      || (preg_match(&#039;/^itemtype/&#039;, $itemtype::$itemtype_1))) {
+                        <pre>               if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {
 </pre>
                     </td>
                 </tr>
@@ -4121,7 +4118,7 @@ layout: coverage
                     <th id="L513" class="number ">513</th>
 
                     <td class="" >
-                        <pre>                        $values[0] = __(&#039;First Item&#039;);
+                        <pre>                  $peer_field = &quot;peer[$itemtype]&quot;;
 </pre>
                     </td>
                 </tr>
@@ -4129,7 +4126,7 @@ layout: coverage
                     <th id="L514" class="number ">514</th>
 
                     <td class="" >
-                        <pre>                     } else {
+                        <pre>                  if ((!$itemtype::$mustBeAttached_1) &amp;&amp; (!$itemtype::$mustBeAttached_2)) {
 </pre>
                     </td>
                 </tr>
@@ -4137,7 +4134,7 @@ layout: coverage
                     <th id="L515" class="number ">515</th>
 
                     <td class="" >
-                        <pre>                        $itemtype_1 = $itemtype::$itemtype_1;
+                        <pre>                     // Should never occur ... But we must care !
 </pre>
                     </td>
                 </tr>
@@ -4145,7 +4142,7 @@ layout: coverage
                     <th id="L516" class="number ">516</th>
 
                     <td class="" >
-                        <pre>                        $values[0]  = $itemtype_1::getTypeName(Session::getPluralNumber());
+                        <pre>                     $values = [];
 </pre>
                     </td>
                 </tr>
@@ -4153,7 +4150,7 @@ layout: coverage
                     <th id="L517" class="number ">517</th>
 
                     <td class="" >
-                        <pre>                     }
+                        <pre>                     if ((empty($itemtype::$itemtype_1))
 </pre>
                     </td>
                 </tr>
@@ -4161,7 +4158,7 @@ layout: coverage
                     <th id="L518" class="number ">518</th>
 
                     <td class="" >
-                        <pre>                     if ((empty($itemtype::$itemtype_2))
+                        <pre>                      || (preg_match(&#039;/^itemtype/&#039;, $itemtype::$itemtype_1))) {
 </pre>
                     </td>
                 </tr>
@@ -4169,7 +4166,7 @@ layout: coverage
                     <th id="L519" class="number ">519</th>
 
                     <td class="" >
-                        <pre>                         || (preg_match(&#039;/^itemtype/&#039;, $itemtype::$itemtype_2))) {
+                        <pre>                        $values[0] = __(&#039;First Item&#039;);
 </pre>
                     </td>
                 </tr>
@@ -4177,7 +4174,7 @@ layout: coverage
                     <th id="L520" class="number ">520</th>
 
                     <td class="" >
-                        <pre>                        $values[1] = __(&#039;Second Item&#039;);
+                        <pre>                     } else {
 </pre>
                     </td>
                 </tr>
@@ -4185,7 +4182,7 @@ layout: coverage
                     <th id="L521" class="number ">521</th>
 
                     <td class="" >
-                        <pre>                     } else {
+                        <pre>                        $itemtype_1 = $itemtype::$itemtype_1;
 </pre>
                     </td>
                 </tr>
@@ -4193,7 +4190,7 @@ layout: coverage
                     <th id="L522" class="number ">522</th>
 
                     <td class="" >
-                        <pre>                        $itemtype_2 = $itemtype::$itemtype_2;
+                        <pre>                        $values[0]  = $itemtype_1::getTypeName(Session::getPluralNumber());
 </pre>
                     </td>
                 </tr>
@@ -4201,7 +4198,7 @@ layout: coverage
                     <th id="L523" class="number ">523</th>
 
                     <td class="" >
-                        <pre>                        $values[1]  = $itemtype_2::getTypeName(Session::getPluralNumber());
+                        <pre>                     }
 </pre>
                     </td>
                 </tr>
@@ -4209,7 +4206,7 @@ layout: coverage
                     <th id="L524" class="number ">524</th>
 
                     <td class="" >
-                        <pre>                     }
+                        <pre>                     if ((empty($itemtype::$itemtype_2))
 </pre>
                     </td>
                 </tr>
@@ -4217,7 +4214,7 @@ layout: coverage
                     <th id="L525" class="number ">525</th>
 
                     <td class="" >
-                        <pre>                     echo sprintf(__(&#039;Select a peer for %s:&#039;), $itemtype::getTypeName());
+                        <pre>                         || (preg_match(&#039;/^itemtype/&#039;, $itemtype::$itemtype_2))) {
 </pre>
                     </td>
                 </tr>
@@ -4225,7 +4222,7 @@ layout: coverage
                     <th id="L526" class="number ">526</th>
 
                     <td class="" >
-                        <pre>                     Dropdown::showFromArray($peer_field, $values);
+                        <pre>                        $values[1] = __(&#039;Second Item&#039;);
 </pre>
                     </td>
                 </tr>
@@ -4233,7 +4230,7 @@ layout: coverage
                     <th id="L527" class="number ">527</th>
 
                     <td class="" >
-                        <pre>                     echo &quot;&lt;br&gt;\n&quot;;
+                        <pre>                     } else {
 </pre>
                     </td>
                 </tr>
@@ -4241,7 +4238,7 @@ layout: coverage
                     <th id="L528" class="number ">528</th>
 
                     <td class="" >
-                        <pre>                  } else if (!$itemtype::$mustBeAttached_1) {
+                        <pre>                        $itemtype_2 = $itemtype::$itemtype_2;
 </pre>
                     </td>
                 </tr>
@@ -4249,7 +4246,7 @@ layout: coverage
                     <th id="L529" class="number ">529</th>
 
                     <td class="" >
-                        <pre>                     echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$peer_field&#039; value=&#039;0&#039;&gt;&quot;;
+                        <pre>                        $values[1]  = $itemtype_2::getTypeName(Session::getPluralNumber());
 </pre>
                     </td>
                 </tr>
@@ -4257,7 +4254,7 @@ layout: coverage
                     <th id="L530" class="number ">530</th>
 
                     <td class="" >
-                        <pre>                  } else if (!$itemtype::$mustBeAttached_2) {
+                        <pre>                     }
 </pre>
                     </td>
                 </tr>
@@ -4265,7 +4262,7 @@ layout: coverage
                     <th id="L531" class="number ">531</th>
 
                     <td class="" >
-                        <pre>                     echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$peer_field&#039; value=&#039;1&#039;&gt;&quot;;
+                        <pre>                     echo sprintf(__(&#039;Select a peer for %s:&#039;), $itemtype::getTypeName());
 </pre>
                     </td>
                 </tr>
@@ -4273,7 +4270,7 @@ layout: coverage
                     <th id="L532" class="number ">532</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>                     Dropdown::showFromArray($peer_field, $values);
 </pre>
                     </td>
                 </tr>
@@ -4281,7 +4278,7 @@ layout: coverage
                     <th id="L533" class="number ">533</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>                     echo &quot;&lt;br&gt;\n&quot;;
 </pre>
                     </td>
                 </tr>
@@ -4289,7 +4286,7 @@ layout: coverage
                     <th id="L534" class="number ">534</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>                  } else if (!$itemtype::$mustBeAttached_1) {
 </pre>
                     </td>
                 </tr>
@@ -4297,7 +4294,7 @@ layout: coverage
                     <th id="L535" class="number ">535</th>
 
                     <td class="" >
-                        <pre>            echo &quot;&lt;br&gt;&lt;br&gt;&quot;.Html::submit(_x(&#039;button&#039;, &#039;Dissociate&#039;), [&#039;name&#039; =&gt; &#039;massiveaction&#039;]);
+                        <pre>                     echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$peer_field&#039; value=&#039;0&#039;&gt;&quot;;
 </pre>
                     </td>
                 </tr>
@@ -4305,7 +4302,7 @@ layout: coverage
                     <th id="L536" class="number ">536</th>
 
                     <td class="" >
-                        <pre>            return true;
+                        <pre>                  } else if (!$itemtype::$mustBeAttached_2) {
 </pre>
                     </td>
                 </tr>
@@ -4313,7 +4310,7 @@ layout: coverage
                     <th id="L537" class="number ">537</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>                     echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;$peer_field&#039; value=&#039;1&#039;&gt;&quot;;
 </pre>
                     </td>
                 </tr>
@@ -4321,7 +4318,7 @@ layout: coverage
                     <th id="L538" class="number ">538</th>
 
                     <td class="" >
-                        <pre>         case &#039;affect&#039; :
+                        <pre>                  }
 </pre>
                     </td>
                 </tr>
@@ -4329,7 +4326,7 @@ layout: coverage
                     <th id="L539" class="number ">539</th>
 
                     <td class="" >
-                        <pre>            $peertypes = [];
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -4337,7 +4334,7 @@ layout: coverage
                     <th id="L540" class="number ">540</th>
 
                     <td class="" >
-                        <pre>            foreach ($itemtypes as $itemtype =&gt; $specificities) {
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4345,7 +4342,7 @@ layout: coverage
                     <th id="L541" class="number ">541</th>
 
                     <td class="" >
-                        <pre>               if (!$specificities[&#039;reaffect&#039;]) {
+                        <pre>            echo &quot;&lt;br&gt;&lt;br&gt;&quot;.Html::submit(_x(&#039;button&#039;, &#039;Dissociate&#039;), [&#039;name&#039; =&gt; &#039;massiveaction&#039;]);
 </pre>
                     </td>
                 </tr>
@@ -4353,7 +4350,7 @@ layout: coverage
                     <th id="L542" class="number ">542</th>
 
                     <td class="" >
-                        <pre>                  continue;
+                        <pre>            return true;
 </pre>
                     </td>
                 </tr>
@@ -4361,7 +4358,7 @@ layout: coverage
                     <th id="L543" class="number ">543</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4369,7 +4366,7 @@ layout: coverage
                     <th id="L544" class="number ">544</th>
 
                     <td class="" >
-                        <pre>               if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {
+                        <pre>         case &#039;affect&#039; :
 </pre>
                     </td>
                 </tr>
@@ -4377,7 +4374,7 @@ layout: coverage
                     <th id="L545" class="number ">545</th>
 
                     <td class="" >
-                        <pre>                  if ($specificities[&#039;reaffect&#039;] == 1) {
+                        <pre>            $peertypes = [];
 </pre>
                     </td>
                 </tr>
@@ -4385,7 +4382,7 @@ layout: coverage
                     <th id="L546" class="number ">546</th>
 
                     <td class="" >
-                        <pre>                     $peertype = $itemtype::$itemtype_1;
+                        <pre>            foreach ($itemtypes as $itemtype =&gt; $specificities) {
 </pre>
                     </td>
                 </tr>
@@ -4393,7 +4390,7 @@ layout: coverage
                     <th id="L547" class="number ">547</th>
 
                     <td class="" >
-                        <pre>                  } else {
+                        <pre>               if (!$specificities[&#039;reaffect&#039;]) {
 </pre>
                     </td>
                 </tr>
@@ -4401,7 +4398,7 @@ layout: coverage
                     <th id="L548" class="number ">548</th>
 
                     <td class="" >
-                        <pre>                     $peertype = $itemtype::$itemtype_2;
+                        <pre>                  continue;
 </pre>
                     </td>
                 </tr>
@@ -4409,7 +4406,7 @@ layout: coverage
                     <th id="L549" class="number ">549</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -4417,7 +4414,7 @@ layout: coverage
                     <th id="L550" class="number ">550</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>               if (is_a($itemtype, &#039;CommonDBRelation&#039;, true)) {
 </pre>
                     </td>
                 </tr>
@@ -4425,7 +4422,7 @@ layout: coverage
                     <th id="L551" class="number ">551</th>
 
                     <td class="" >
-                        <pre>                  $peertype = $itemtype::$itemtype;
+                        <pre>                  if ($specificities[&#039;reaffect&#039;] == 1) {
 </pre>
                     </td>
                 </tr>
@@ -4433,7 +4430,7 @@ layout: coverage
                     <th id="L552" class="number ">552</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>                     $peertype = $itemtype::$itemtype_1;
 </pre>
                     </td>
                 </tr>
@@ -4441,7 +4438,7 @@ layout: coverage
                     <th id="L553" class="number ">553</th>
 
                     <td class="" >
-                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
+                        <pre>                  } else {
 </pre>
                     </td>
                 </tr>
@@ -4449,7 +4446,7 @@ layout: coverage
                     <th id="L554" class="number ">554</th>
 
                     <td class="" >
-                        <pre>                  $peertypes = array_merge($peertypes, $specificities[&#039;itemtypes&#039;]);
+                        <pre>                     $peertype = $itemtype::$itemtype_2;
 </pre>
                     </td>
                 </tr>
@@ -4457,7 +4454,7 @@ layout: coverage
                     <th id="L555" class="number ">555</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>                  }
 </pre>
                     </td>
                 </tr>
@@ -4465,7 +4462,7 @@ layout: coverage
                     <th id="L556" class="number ">556</th>
 
                     <td class="" >
-                        <pre>                  $peertypes[] = $peertype;
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -4473,7 +4470,7 @@ layout: coverage
                     <th id="L557" class="number ">557</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>                  $peertype = $itemtype::$itemtype;
 </pre>
                     </td>
                 </tr>
@@ -4481,7 +4478,7 @@ layout: coverage
                     <th id="L558" class="number ">558</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -4489,7 +4486,7 @@ layout: coverage
                     <th id="L559" class="number ">559</th>
 
                     <td class="" >
-                        <pre>            $peertypes = array_unique($peertypes);
+                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
 </pre>
                     </td>
                 </tr>
@@ -4497,7 +4494,7 @@ layout: coverage
                     <th id="L560" class="number ">560</th>
 
                     <td class="" >
-                        <pre>            if (count($peertypes) == 0) {
+                        <pre>                  $peertypes = array_merge($peertypes, $specificities[&#039;itemtypes&#039;]);
 </pre>
                     </td>
                 </tr>
@@ -4505,7 +4502,7 @@ layout: coverage
                     <th id="L561" class="number ">561</th>
 
                     <td class="" >
-                        <pre>               echo __(&#039;Unable to reaffect given elements !&#039;);
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -4513,7 +4510,7 @@ layout: coverage
                     <th id="L562" class="number ">562</th>
 
                     <td class="" >
-                        <pre>               exit();
+                        <pre>                  $peertypes[] = $peertype;
 </pre>
                     </td>
                 </tr>
@@ -4521,7 +4518,7 @@ layout: coverage
                     <th id="L563" class="number ">563</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -4529,7 +4526,7 @@ layout: coverage
                     <th id="L564" class="number ">564</th>
 
                     <td class="" >
-                        <pre>            $options = [];
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4537,7 +4534,7 @@ layout: coverage
                     <th id="L565" class="number ">565</th>
 
                     <td class="" >
-                        <pre>            if (count($peertypes) == 1) {
+                        <pre>            $peertypes = array_unique($peertypes);
 </pre>
                     </td>
                 </tr>
@@ -4545,7 +4542,7 @@ layout: coverage
                     <th id="L566" class="number ">566</th>
 
                     <td class="" >
-                        <pre>               $options[&#039;name&#039;]   = &#039;peers_id&#039;;
+                        <pre>            if (count($peertypes) == 0) {
 </pre>
                     </td>
                 </tr>
@@ -4553,7 +4550,7 @@ layout: coverage
                     <th id="L567" class="number ">567</th>
 
                     <td class="" >
-                        <pre>               $type_for_dropdown = $peertypes[0];
+                        <pre>               echo __(&#039;Unable to reaffect given elements !&#039;);
 </pre>
                     </td>
                 </tr>
@@ -4561,7 +4558,7 @@ layout: coverage
                     <th id="L568" class="number ">568</th>
 
                     <td class="" >
-                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
+                        <pre>               exit();
 </pre>
                     </td>
                 </tr>
@@ -4569,7 +4566,7 @@ layout: coverage
                     <th id="L569" class="number ">569</th>
 
                     <td class="" >
-                        <pre>                  echo Html::hidden(&#039;peertype&#039;, [&#039;value&#039; =&gt; $type_for_dropdown]);
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4577,7 +4574,7 @@ layout: coverage
                     <th id="L570" class="number ">570</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>            $options = [];
 </pre>
                     </td>
                 </tr>
@@ -4585,7 +4582,7 @@ layout: coverage
                     <th id="L571" class="number ">571</th>
 
                     <td class="" >
-                        <pre>               $type_for_dropdown::dropdown($options);
+                        <pre>            if (count($peertypes) == 1) {
 </pre>
                     </td>
                 </tr>
@@ -4593,7 +4590,7 @@ layout: coverage
                     <th id="L572" class="number ">572</th>
 
                     <td class="" >
-                        <pre>            } else {
+                        <pre>               $options[&#039;name&#039;]   = &#039;peers_id&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4601,7 +4598,7 @@ layout: coverage
                     <th id="L573" class="number ">573</th>
 
                     <td class="" >
-                        <pre>               $options[&#039;itemtype_name&#039;] = &#039;peertype&#039;;
+                        <pre>               $type_for_dropdown = $peertypes[0];
 </pre>
                     </td>
                 </tr>
@@ -4609,7 +4606,7 @@ layout: coverage
                     <th id="L574" class="number ">574</th>
 
                     <td class="" >
-                        <pre>               $options[&#039;items_id_name&#039;] = &#039;peers_id&#039;;
+                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
 </pre>
                     </td>
                 </tr>
@@ -4617,7 +4614,7 @@ layout: coverage
                     <th id="L575" class="number ">575</th>
 
                     <td class="" >
-                        <pre>               $options[&#039;itemtypes&#039;]     = $peertypes;
+                        <pre>                  echo Html::hidden(&#039;peertype&#039;, [&#039;value&#039; =&gt; $type_for_dropdown]);
 </pre>
                     </td>
                 </tr>
@@ -4625,7 +4622,7 @@ layout: coverage
                     <th id="L576" class="number ">576</th>
 
                     <td class="" >
-                        <pre>               Dropdown::showSelectItemFromItemtypes($options);
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -4633,7 +4630,7 @@ layout: coverage
                     <th id="L577" class="number ">577</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>               $type_for_dropdown::dropdown($options);
 </pre>
                     </td>
                 </tr>
@@ -4641,7 +4638,7 @@ layout: coverage
                     <th id="L578" class="number ">578</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            } else {
 </pre>
                     </td>
                 </tr>
@@ -4649,7 +4646,7 @@ layout: coverage
                     <th id="L579" class="number ">579</th>
 
                     <td class="" >
-                        <pre>            echo &quot;&lt;br&gt;&lt;br&gt;&quot;.Html::submit(_x(&#039;button&#039;, &#039;Associate&#039;), [&#039;name&#039; =&gt; &#039;massiveaction&#039;]);
+                        <pre>               $options[&#039;itemtype_name&#039;] = &#039;peertype&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4657,7 +4654,7 @@ layout: coverage
                     <th id="L580" class="number ">580</th>
 
                     <td class="" >
-                        <pre>            return true;
+                        <pre>               $options[&#039;items_id_name&#039;] = &#039;peers_id&#039;;
 </pre>
                     </td>
                 </tr>
@@ -4665,7 +4662,7 @@ layout: coverage
                     <th id="L581" class="number ">581</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>               $options[&#039;itemtypes&#039;]     = $peertypes;
 </pre>
                     </td>
                 </tr>
@@ -4673,7 +4670,7 @@ layout: coverage
                     <th id="L582" class="number ">582</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>               Dropdown::showSelectItemFromItemtypes($options);
 </pre>
                     </td>
                 </tr>
@@ -4681,7 +4678,7 @@ layout: coverage
                     <th id="L583" class="number ">583</th>
 
                     <td class="" >
-                        <pre>      return parent::showMassiveActionsSubForm($ma);
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -4689,7 +4686,7 @@ layout: coverage
                     <th id="L584" class="number ">584</th>
 
                     <td class="" >
-                        <pre>   }
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4697,7 +4694,7 @@ layout: coverage
                     <th id="L585" class="number ">585</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            echo &quot;&lt;br&gt;&lt;br&gt;&quot;.Html::submit(_x(&#039;button&#039;, &#039;Associate&#039;), [&#039;name&#039; =&gt; &#039;massiveaction&#039;]);
 </pre>
                     </td>
                 </tr>
@@ -4705,7 +4702,7 @@ layout: coverage
                     <th id="L586" class="number ">586</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            return true;
 </pre>
                     </td>
                 </tr>
@@ -4713,7 +4710,7 @@ layout: coverage
                     <th id="L587" class="number ">587</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -4721,7 +4718,7 @@ layout: coverage
                     <th id="L588" class="number ">588</th>
 
                     <td class="" >
-                        <pre>    * @since 0.85
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4729,7 +4726,7 @@ layout: coverage
                     <th id="L589" class="number ">589</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>      return parent::showMassiveActionsSubForm($ma);
 </pre>
                     </td>
                 </tr>
@@ -4737,7 +4734,7 @@ layout: coverage
                     <th id="L590" class="number ">590</th>
 
                     <td class="" >
-                        <pre>    * Set based array for static::add or static::update in case of massive actions are doing
+                        <pre>   }
 </pre>
                     </td>
                 </tr>
@@ -4745,7 +4742,7 @@ layout: coverage
                     <th id="L591" class="number ">591</th>
 
                     <td class="" >
-                        <pre>    * something.
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4753,7 +4750,7 @@ layout: coverage
                     <th id="L592" class="number ">592</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4761,7 +4758,7 @@ layout: coverage
                     <th id="L593" class="number ">593</th>
 
                     <td class="" >
-                        <pre>    * @param $action          the name of the action
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4769,7 +4766,7 @@ layout: coverage
                     <th id="L594" class="number ">594</th>
 
                     <td class="" >
-                        <pre>    * @param $item            the item on which apply the massive action
+                        <pre>    * @since 0.85
 </pre>
                     </td>
                 </tr>
@@ -4777,7 +4774,7 @@ layout: coverage
                     <th id="L595" class="number ">595</th>
 
                     <td class="" >
-                        <pre>    * @param $ids      array  of the ids of the item on which apply the action
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -4785,7 +4782,7 @@ layout: coverage
                     <th id="L596" class="number ">596</th>
 
                     <td class="" >
-                        <pre>    * @param $input    array  of the input provided by the form ($_POST, $_GET ...)
+                        <pre>    * Set based array for static::add or static::update in case of massive actions are doing
 </pre>
                     </td>
                 </tr>
@@ -4793,7 +4790,7 @@ layout: coverage
                     <th id="L597" class="number ">597</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * something.
 </pre>
                     </td>
                 </tr>
@@ -4801,7 +4798,7 @@ layout: coverage
                     <th id="L598" class="number ">598</th>
 
                     <td class="" >
-                        <pre>    * @return array containing the elements
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -4809,73 +4806,36 @@ layout: coverage
                     <th id="L599" class="number ">599</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>    * @param string     $action  the name of the action
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getConnexityInputForProcessingOfMassiveActions">
+                            <tr class="line" id="">
                     <th id="L600" class="number ">600</th>
 
-                    <td class="" id="getConnexityInputForProcessingOfMassiveActions">
-                        <pre>   static function getConnexityInputForProcessingOfMassiveActions($action, CommonDBTM $item,<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    * @param CommonDBTM $item    the item on which apply the massive action
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L601" class="number ">601</th>
 
                     <td class="" >
-                        <pre>                                                                  array $ids, array $input) {
+                        <pre>    * @param integer[]  $ids     the ids of the item on which apply the action
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L602" class="number uncovered">602</th>
-
-                    <td class="uncovered" >
-                        <pre>      return [];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L603" class="number unreach">603</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L604" class="number ">604</th>
+                    <th id="L602" class="number ">602</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @param array      $input   the input provided by the form ($_POST, $_GET ...)
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L605" class="number ">605</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L606" class="number ">606</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L607" class="number ">607</th>
-
-                    <td class="" >
-                        <pre>    * @since 0.85
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L608" class="number ">608</th>
+                    <th id="L603" class="number ">603</th>
 
                     <td class="" >
                         <pre>    *
@@ -4883,18 +4843,55 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L609" class="number ">609</th>
+                    <th id="L604" class="number ">604</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::processMassiveActionsForOneItemtype()
+                        <pre>    * @return array containing the elements
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L605" class="number ">605</th>
+
+                    <td class="" >
+                        <pre>   **/
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getConnexityInputForProcessingOfMassiveActions">
+                    <th id="L606" class="number ">606</th>
+
+                    <td class="" id="getConnexityInputForProcessingOfMassiveActions">
+                        <pre>   static function getConnexityInputForProcessingOfMassiveActions($action, CommonDBTM $item,<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L607" class="number ">607</th>
+
+                    <td class="" >
+                        <pre>                                                                  array $ids, array $input) {
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L608" class="number uncovered">608</th>
+
+                    <td class="uncovered" >
+                        <pre>      return [];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L609" class="number unreach">609</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L610" class="number ">610</th>
 
                     <td class="" >
-                        <pre>   **/
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4902,7 +4899,7 @@ layout: coverage
                     <th id="L611" class="number ">611</th>
 
                     <td class="" >
-                        <pre>   static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4910,7 +4907,7 @@ layout: coverage
                     <th id="L612" class="number ">612</th>
 
                     <td class="" >
-                        <pre>                                                       array $ids) {
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -4918,7 +4915,7 @@ layout: coverage
                     <th id="L613" class="number ">613</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @since 0.85
 </pre>
                     </td>
                 </tr>
@@ -4926,7 +4923,7 @@ layout: coverage
                     <th id="L614" class="number ">614</th>
 
                     <td class="" >
-                        <pre>      if (!is_a($item, __CLASS__, true)) {
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -4934,7 +4931,7 @@ layout: coverage
                     <th id="L615" class="number ">615</th>
 
                     <td class="" >
-                        <pre>         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+                        <pre>    * @see CommonDBTM::processMassiveActionsForOneItemtype()
 </pre>
                     </td>
                 </tr>
@@ -4942,7 +4939,7 @@ layout: coverage
                     <th id="L616" class="number ">616</th>
 
                     <td class="" >
-                        <pre>         return;
+                        <pre>   **/
 </pre>
                     </td>
                 </tr>
@@ -4950,7 +4947,7 @@ layout: coverage
                     <th id="L617" class="number ">617</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>   static function processMassiveActionsForOneItemtype(MassiveAction $ma, CommonDBTM $item,
 </pre>
                     </td>
                 </tr>
@@ -4958,7 +4955,7 @@ layout: coverage
                     <th id="L618" class="number ">618</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>                                                       array $ids) {
 </pre>
                     </td>
                 </tr>
@@ -4966,7 +4963,7 @@ layout: coverage
                     <th id="L619" class="number ">619</th>
 
                     <td class="" >
-                        <pre>      $itemtype      = $item-&gt;getType();
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -4974,7 +4971,7 @@ layout: coverage
                     <th id="L620" class="number ">620</th>
 
                     <td class="" >
-                        <pre>      $specificities = $itemtype::getConnexityMassiveActionsSpecificities();
+                        <pre>      if (!is_a($item, __CLASS__, true)) {
 </pre>
                     </td>
                 </tr>
@@ -4982,7 +4979,7 @@ layout: coverage
                     <th id="L621" class="number ">621</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
 </pre>
                     </td>
                 </tr>
@@ -4990,7 +4987,7 @@ layout: coverage
                     <th id="L622" class="number ">622</th>
 
                     <td class="" >
-                        <pre>      $action        = $ma-&gt;getAction();
+                        <pre>         return;
 </pre>
                     </td>
                 </tr>
@@ -4998,7 +4995,7 @@ layout: coverage
                     <th id="L623" class="number ">623</th>
 
                     <td class="" >
-                        <pre>      $input         = $ma-&gt;getInput();
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -5014,7 +5011,7 @@ layout: coverage
                     <th id="L625" class="number ">625</th>
 
                     <td class="" >
-                        <pre>      // First, get normalized action : affect or unaffect
+                        <pre>      $itemtype      = $item-&gt;getType();
 </pre>
                     </td>
                 </tr>
@@ -5022,7 +5019,7 @@ layout: coverage
                     <th id="L626" class="number ">626</th>
 
                     <td class="" >
-                        <pre>      if (in_array($action, $specificities[&#039;normalized&#039;][&#039;affect&#039;])) {
+                        <pre>      $specificities = $itemtype::getConnexityMassiveActionsSpecificities();
 </pre>
                     </td>
                 </tr>
@@ -5030,7 +5027,7 @@ layout: coverage
                     <th id="L627" class="number ">627</th>
 
                     <td class="" >
-                        <pre>         $normalized_action = &#039;affect&#039;;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5038,7 +5035,7 @@ layout: coverage
                     <th id="L628" class="number ">628</th>
 
                     <td class="" >
-                        <pre>      } else if (in_array($action, $specificities[&#039;normalized&#039;][&#039;unaffect&#039;])) {
+                        <pre>      $action        = $ma-&gt;getAction();
 </pre>
                     </td>
                 </tr>
@@ -5046,7 +5043,7 @@ layout: coverage
                     <th id="L629" class="number ">629</th>
 
                     <td class="" >
-                        <pre>         $normalized_action = &#039;unaffect&#039;;
+                        <pre>      $input         = $ma-&gt;getInput();
 </pre>
                     </td>
                 </tr>
@@ -5054,7 +5051,7 @@ layout: coverage
                     <th id="L630" class="number ">630</th>
 
                     <td class="" >
-                        <pre>      } else {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5062,7 +5059,7 @@ layout: coverage
                     <th id="L631" class="number ">631</th>
 
                     <td class="" >
-                        <pre>         // If we cannot get normalized action, then, its not for this method !
+                        <pre>      // First, get normalized action : affect or unaffect
 </pre>
                     </td>
                 </tr>
@@ -5070,7 +5067,7 @@ layout: coverage
                     <th id="L632" class="number ">632</th>
 
                     <td class="" >
-                        <pre>         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+                        <pre>      if (in_array($action, $specificities[&#039;normalized&#039;][&#039;affect&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -5078,7 +5075,7 @@ layout: coverage
                     <th id="L633" class="number ">633</th>
 
                     <td class="" >
-                        <pre>         return;
+                        <pre>         $normalized_action = &#039;affect&#039;;
 </pre>
                     </td>
                 </tr>
@@ -5086,7 +5083,7 @@ layout: coverage
                     <th id="L634" class="number ">634</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>      } else if (in_array($action, $specificities[&#039;normalized&#039;][&#039;unaffect&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -5094,7 +5091,7 @@ layout: coverage
                     <th id="L635" class="number ">635</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         $normalized_action = &#039;unaffect&#039;;
 </pre>
                     </td>
                 </tr>
@@ -5102,7 +5099,7 @@ layout: coverage
                     <th id="L636" class="number ">636</th>
 
                     <td class="" >
-                        <pre>      switch ($normalized_action) {
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
@@ -5110,7 +5107,7 @@ layout: coverage
                     <th id="L637" class="number ">637</th>
 
                     <td class="" >
-                        <pre>         case &#039;unaffect&#039; :
+                        <pre>         // If we cannot get normalized action, then, its not for this method !
 </pre>
                     </td>
                 </tr>
@@ -5118,7 +5115,7 @@ layout: coverage
                     <th id="L638" class="number ">638</th>
 
                     <td class="" >
-                        <pre>            foreach ($ids as $key) {
+                        <pre>         parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
 </pre>
                     </td>
                 </tr>
@@ -5126,7 +5123,7 @@ layout: coverage
                     <th id="L639" class="number ">639</th>
 
                     <td class="" >
-                        <pre>               if ($item-&gt;can($key, UPDATE)) {
+                        <pre>         return;
 </pre>
                     </td>
                 </tr>
@@ -5134,7 +5131,7 @@ layout: coverage
                     <th id="L640" class="number ">640</th>
 
                     <td class="" >
-                        <pre>                  if ($item instanceof CommonDBRelation) {
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -5142,7 +5139,7 @@ layout: coverage
                     <th id="L641" class="number ">641</th>
 
                     <td class="" >
-                        <pre>                     if (isset($input[&#039;peer&#039;][$item-&gt;getType()])) {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5150,7 +5147,7 @@ layout: coverage
                     <th id="L642" class="number ">642</th>
 
                     <td class="" >
-                        <pre>                        if ($item-&gt;affectRelation($key, $input[&#039;peer&#039;][$item-&gt;getType()])) {
+                        <pre>      switch ($normalized_action) {
 </pre>
                     </td>
                 </tr>
@@ -5158,7 +5155,7 @@ layout: coverage
                     <th id="L643" class="number ">643</th>
 
                     <td class="" >
-                        <pre>                           $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
+                        <pre>         case &#039;unaffect&#039; :
 </pre>
                     </td>
                 </tr>
@@ -5166,7 +5163,7 @@ layout: coverage
                     <th id="L644" class="number ">644</th>
 
                     <td class="" >
-                        <pre>                        } else {
+                        <pre>            foreach ($ids as $key) {
 </pre>
                     </td>
                 </tr>
@@ -5174,7 +5171,7 @@ layout: coverage
                     <th id="L645" class="number ">645</th>
 
                     <td class="" >
-                        <pre>                           $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>               if ($item-&gt;can($key, UPDATE)) {
 </pre>
                     </td>
                 </tr>
@@ -5182,7 +5179,7 @@ layout: coverage
                     <th id="L646" class="number ">646</th>
 
                     <td class="" >
-                        <pre>                           $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
+                        <pre>                  if ($item instanceof CommonDBRelation) {
 </pre>
                     </td>
                 </tr>
@@ -5190,7 +5187,7 @@ layout: coverage
                     <th id="L647" class="number ">647</th>
 
                     <td class="" >
-                        <pre>                        }
+                        <pre>                     if (isset($input[&#039;peer&#039;][$item-&gt;getType()])) {
 </pre>
                     </td>
                 </tr>
@@ -5198,7 +5195,7 @@ layout: coverage
                     <th id="L648" class="number ">648</th>
 
                     <td class="" >
-                        <pre>                     } else {
+                        <pre>                        if ($item-&gt;affectRelation($key, $input[&#039;peer&#039;][$item-&gt;getType()])) {
 </pre>
                     </td>
                 </tr>
@@ -5206,7 +5203,7 @@ layout: coverage
                     <th id="L649" class="number ">649</th>
 
                     <td class="" >
-                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>                           $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
 </pre>
                     </td>
                 </tr>
@@ -5214,7 +5211,7 @@ layout: coverage
                     <th id="L650" class="number ">650</th>
 
                     <td class="" >
-                        <pre>                        $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
+                        <pre>                        } else {
 </pre>
                     </td>
                 </tr>
@@ -5222,7 +5219,7 @@ layout: coverage
                     <th id="L651" class="number ">651</th>
 
                     <td class="" >
-                        <pre>                     }
+                        <pre>                           $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5230,7 +5227,7 @@ layout: coverage
                     <th id="L652" class="number ">652</th>
 
                     <td class="" >
-                        <pre>                  } else if ($item instanceof CommonDBChild) {
+                        <pre>                           $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
 </pre>
                     </td>
                 </tr>
@@ -5238,7 +5235,7 @@ layout: coverage
                     <th id="L653" class="number ">653</th>
 
                     <td class="" >
-                        <pre>                     if ($item-&gt;affectChild($key)) {
+                        <pre>                        }
 </pre>
                     </td>
                 </tr>
@@ -5246,7 +5243,7 @@ layout: coverage
                     <th id="L654" class="number ">654</th>
 
                     <td class="" >
-                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
+                        <pre>                     } else {
 </pre>
                     </td>
                 </tr>
@@ -5254,7 +5251,7 @@ layout: coverage
                     <th id="L655" class="number ">655</th>
 
                     <td class="" >
-                        <pre>                     } else {
+                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5262,7 +5259,7 @@ layout: coverage
                     <th id="L656" class="number ">656</th>
 
                     <td class="" >
-                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>                        $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
 </pre>
                     </td>
                 </tr>
@@ -5270,7 +5267,7 @@ layout: coverage
                     <th id="L657" class="number ">657</th>
 
                     <td class="" >
-                        <pre>                        $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
+                        <pre>                     }
 </pre>
                     </td>
                 </tr>
@@ -5278,7 +5275,7 @@ layout: coverage
                     <th id="L658" class="number ">658</th>
 
                     <td class="" >
-                        <pre>                     }
+                        <pre>                  } else if ($item instanceof CommonDBChild) {
 </pre>
                     </td>
                 </tr>
@@ -5286,7 +5283,7 @@ layout: coverage
                     <th id="L659" class="number ">659</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>                     if ($item-&gt;affectChild($key)) {
 </pre>
                     </td>
                 </tr>
@@ -5294,7 +5291,7 @@ layout: coverage
                     <th id="L660" class="number ">660</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
 </pre>
                     </td>
                 </tr>
@@ -5302,7 +5299,7 @@ layout: coverage
                     <th id="L661" class="number ">661</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_NORIGHT);
+                        <pre>                     } else {
 </pre>
                     </td>
                 </tr>
@@ -5310,7 +5307,7 @@ layout: coverage
                     <th id="L662" class="number ">662</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_RIGHT));
+                        <pre>                        $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5318,7 +5315,7 @@ layout: coverage
                     <th id="L663" class="number ">663</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>                        $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
 </pre>
                     </td>
                 </tr>
@@ -5326,7 +5323,7 @@ layout: coverage
                     <th id="L664" class="number ">664</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>                     }
 </pre>
                     </td>
                 </tr>
@@ -5334,7 +5331,7 @@ layout: coverage
                     <th id="L665" class="number ">665</th>
 
                     <td class="" >
-                        <pre>            return;
+                        <pre>                  }
 </pre>
                     </td>
                 </tr>
@@ -5342,7 +5339,7 @@ layout: coverage
                     <th id="L666" class="number ">666</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -5350,7 +5347,7 @@ layout: coverage
                     <th id="L667" class="number ">667</th>
 
                     <td class="" >
-                        <pre>         case &#039;affect&#039; :
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_NORIGHT);
 </pre>
                     </td>
                 </tr>
@@ -5358,7 +5355,7 @@ layout: coverage
                     <th id="L668" class="number ">668</th>
 
                     <td class="" >
-                        <pre>            if (!$specificities[&#039;reaffect&#039;]) {
+                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_RIGHT));
 </pre>
                     </td>
                 </tr>
@@ -5366,7 +5363,7 @@ layout: coverage
                     <th id="L669" class="number ">669</th>
 
                     <td class="" >
-                        <pre>               $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5374,7 +5371,7 @@ layout: coverage
                     <th id="L670" class="number ">670</th>
 
                     <td class="" >
-                        <pre>               $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -5382,7 +5379,7 @@ layout: coverage
                     <th id="L671" class="number ">671</th>
 
                     <td class="" >
-                        <pre>               return;
+                        <pre>            return;
 </pre>
                     </td>
                 </tr>
@@ -5390,7 +5387,7 @@ layout: coverage
                     <th id="L672" class="number ">672</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -5398,7 +5395,7 @@ layout: coverage
                     <th id="L673" class="number ">673</th>
 
                     <td class="" >
-                        <pre>            if (is_a($item, &#039;CommonDBRelation&#039;, true)) {
+                        <pre>         case &#039;affect&#039; :
 </pre>
                     </td>
                 </tr>
@@ -5406,7 +5403,7 @@ layout: coverage
                     <th id="L674" class="number ">674</th>
 
                     <td class="" >
-                        <pre>               if ($specificities[&#039;reaffect&#039;] == 1) {
+                        <pre>            if (!$specificities[&#039;reaffect&#039;]) {
 </pre>
                     </td>
                 </tr>
@@ -5414,7 +5411,7 @@ layout: coverage
                     <th id="L675" class="number ">675</th>
 
                     <td class="" >
-                        <pre>                  $peertype = $itemtype::$itemtype_1;
+                        <pre>               $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5422,7 +5419,7 @@ layout: coverage
                     <th id="L676" class="number ">676</th>
 
                     <td class="" >
-                        <pre>                  $peers_id = $itemtype::$items_id_1;
+                        <pre>               $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
 </pre>
                     </td>
                 </tr>
@@ -5430,7 +5427,7 @@ layout: coverage
                     <th id="L677" class="number ">677</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>               return;
 </pre>
                     </td>
                 </tr>
@@ -5438,7 +5435,7 @@ layout: coverage
                     <th id="L678" class="number ">678</th>
 
                     <td class="" >
-                        <pre>                  $peertype = $itemtype::$itemtype_2;
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -5446,7 +5443,7 @@ layout: coverage
                     <th id="L679" class="number ">679</th>
 
                     <td class="" >
-                        <pre>                  $peers_id = $itemtype::$items_id_2;
+                        <pre>            if (is_a($item, &#039;CommonDBRelation&#039;, true)) {
 </pre>
                     </td>
                 </tr>
@@ -5454,7 +5451,7 @@ layout: coverage
                     <th id="L680" class="number ">680</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>               if ($specificities[&#039;reaffect&#039;] == 1) {
 </pre>
                     </td>
                 </tr>
@@ -5462,7 +5459,7 @@ layout: coverage
                     <th id="L681" class="number ">681</th>
 
                     <td class="" >
-                        <pre>            } else {
+                        <pre>                  $peertype = $itemtype::$itemtype_1;
 </pre>
                     </td>
                 </tr>
@@ -5470,7 +5467,7 @@ layout: coverage
                     <th id="L682" class="number ">682</th>
 
                     <td class="" >
-                        <pre>               $peertype = $itemtype::$itemtype;
+                        <pre>                  $peers_id = $itemtype::$items_id_1;
 </pre>
                     </td>
                 </tr>
@@ -5478,7 +5475,7 @@ layout: coverage
                     <th id="L683" class="number ">683</th>
 
                     <td class="" >
-                        <pre>               $peers_id = $itemtype::$items_id;
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -5486,7 +5483,7 @@ layout: coverage
                     <th id="L684" class="number ">684</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>                  $peertype = $itemtype::$itemtype_2;
 </pre>
                     </td>
                 </tr>
@@ -5494,7 +5491,7 @@ layout: coverage
                     <th id="L685" class="number ">685</th>
 
                     <td class="" >
-                        <pre>            $input2 = $itemtype::getConnexityInputForProcessingOfMassiveActions($action, $item,
+                        <pre>                  $peers_id = $itemtype::$items_id_2;
 </pre>
                     </td>
                 </tr>
@@ -5502,7 +5499,7 @@ layout: coverage
                     <th id="L686" class="number ">686</th>
 
                     <td class="" >
-                        <pre>                                                                                $ids, $input);
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5510,7 +5507,7 @@ layout: coverage
                     <th id="L687" class="number ">687</th>
 
                     <td class="" >
-                        <pre>            $input2[$peers_id] = $input[&#039;peers_id&#039;];
+                        <pre>            } else {
 </pre>
                     </td>
                 </tr>
@@ -5518,7 +5515,7 @@ layout: coverage
                     <th id="L688" class="number ">688</th>
 
                     <td class="" >
-                        <pre>            if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
+                        <pre>               $peertype = $itemtype::$itemtype;
 </pre>
                     </td>
                 </tr>
@@ -5526,7 +5523,7 @@ layout: coverage
                     <th id="L689" class="number ">689</th>
 
                     <td class="" >
-                        <pre>               if (!in_array($input[&#039;peertype&#039;], $specificities[&#039;itemtypes&#039;])) {
+                        <pre>               $peers_id = $itemtype::$items_id;
 </pre>
                     </td>
                 </tr>
@@ -5534,7 +5531,7 @@ layout: coverage
                     <th id="L690" class="number ">690</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -5542,7 +5539,7 @@ layout: coverage
                     <th id="L691" class="number ">691</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
+                        <pre>            $input2 = $itemtype::getConnexityInputForProcessingOfMassiveActions($action, $item,
 </pre>
                     </td>
                 </tr>
@@ -5550,7 +5547,7 @@ layout: coverage
                     <th id="L692" class="number ">692</th>
 
                     <td class="" >
-                        <pre>                  return;
+                        <pre>                                                                                $ids, $input);
 </pre>
                     </td>
                 </tr>
@@ -5558,7 +5555,7 @@ layout: coverage
                     <th id="L693" class="number ">693</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>            $input2[$peers_id] = $input[&#039;peers_id&#039;];
 </pre>
                     </td>
                 </tr>
@@ -5566,7 +5563,7 @@ layout: coverage
                     <th id="L694" class="number ">694</th>
 
                     <td class="" >
-                        <pre>               $input2[$peertype] = $input[&#039;peertype&#039;];
+                        <pre>            if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
 </pre>
                     </td>
                 </tr>
@@ -5574,7 +5571,7 @@ layout: coverage
                     <th id="L695" class="number ">695</th>
 
                     <td class="" >
-                        <pre>            } else {
+                        <pre>               if (!in_array($input[&#039;peertype&#039;], $specificities[&#039;itemtypes&#039;])) {
 </pre>
                     </td>
                 </tr>
@@ -5582,7 +5579,7 @@ layout: coverage
                     <th id="L696" class="number ">696</th>
 
                     <td class="" >
-                        <pre>               if ($peertype != $input[&#039;peertype&#039;]) {
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5590,7 +5587,7 @@ layout: coverage
                     <th id="L697" class="number ">697</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
+                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
 </pre>
                     </td>
                 </tr>
@@ -5598,7 +5595,7 @@ layout: coverage
                     <th id="L698" class="number ">698</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
+                        <pre>                  return;
 </pre>
                     </td>
                 </tr>
@@ -5606,7 +5603,7 @@ layout: coverage
                     <th id="L699" class="number ">699</th>
 
                     <td class="" >
-                        <pre>                  return;
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5614,7 +5611,7 @@ layout: coverage
                     <th id="L700" class="number ">700</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>               $input2[$peertype] = $input[&#039;peertype&#039;];
 </pre>
                     </td>
                 </tr>
@@ -5622,7 +5619,7 @@ layout: coverage
                     <th id="L701" class="number ">701</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>            } else {
 </pre>
                     </td>
                 </tr>
@@ -5630,7 +5627,7 @@ layout: coverage
                     <th id="L702" class="number ">702</th>
 
                     <td class="" >
-                        <pre>            foreach ($ids as $key) {
+                        <pre>               if ($peertype != $input[&#039;peertype&#039;]) {
 </pre>
                     </td>
                 </tr>
@@ -5638,7 +5635,7 @@ layout: coverage
                     <th id="L703" class="number ">703</th>
 
                     <td class="" >
-                        <pre>               if (!$item-&gt;getFromDB($key)) {
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $ids, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5646,7 +5643,7 @@ layout: coverage
                     <th id="L704" class="number ">704</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
 </pre>
                     </td>
                 </tr>
@@ -5654,7 +5651,7 @@ layout: coverage
                     <th id="L705" class="number ">705</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
+                        <pre>                  return;
 </pre>
                     </td>
                 </tr>
@@ -5662,7 +5659,7 @@ layout: coverage
                     <th id="L706" class="number ">706</th>
 
                     <td class="" >
-                        <pre>                  continue;
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5670,7 +5667,7 @@ layout: coverage
                     <th id="L707" class="number ">707</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
@@ -5678,7 +5675,7 @@ layout: coverage
                     <th id="L708" class="number ">708</th>
 
                     <td class="" >
-                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
+                        <pre>            foreach ($ids as $key) {
 </pre>
                     </td>
                 </tr>
@@ -5686,7 +5683,7 @@ layout: coverage
                     <th id="L709" class="number ">709</th>
 
                     <td class="" >
-                        <pre>                  if (($input2[$peertype] == $item-&gt;fields[$peertype])
+                        <pre>               if (!$item-&gt;getFromDB($key)) {
 </pre>
                     </td>
                 </tr>
@@ -5694,7 +5691,7 @@ layout: coverage
                     <th id="L710" class="number ">710</th>
 
                     <td class="" >
-                        <pre>                      &amp;&amp; ($input2[$peers_id] == $item-&gt;fields[$peers_id])) {
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5702,7 +5699,7 @@ layout: coverage
                     <th id="L711" class="number ">711</th>
 
                     <td class="" >
-                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_NOT_FOUND));
 </pre>
                     </td>
                 </tr>
@@ -5710,7 +5707,7 @@ layout: coverage
                     <th id="L712" class="number ">712</th>
 
                     <td class="" >
-                        <pre>                     $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ALREADY_DEFINED));
+                        <pre>                  continue;
 </pre>
                     </td>
                 </tr>
@@ -5718,7 +5715,7 @@ layout: coverage
                     <th id="L713" class="number ">713</th>
 
                     <td class="" >
-                        <pre>                     continue;
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5726,7 +5723,7 @@ layout: coverage
                     <th id="L714" class="number ">714</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>               if (preg_match(&#039;/^itemtype/&#039;, $peertype)) {
 </pre>
                     </td>
                 </tr>
@@ -5734,7 +5731,7 @@ layout: coverage
                     <th id="L715" class="number ">715</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>                  if (($input2[$peertype] == $item-&gt;fields[$peertype])
 </pre>
                     </td>
                 </tr>
@@ -5742,7 +5739,7 @@ layout: coverage
                     <th id="L716" class="number ">716</th>
 
                     <td class="" >
-                        <pre>                  if ($input2[$peers_id] == $item-&gt;fields[$peers_id]) {
+                        <pre>                      &amp;&amp; ($input2[$peers_id] == $item-&gt;fields[$peers_id])) {
 </pre>
                     </td>
                 </tr>
@@ -5782,7 +5779,7 @@ layout: coverage
                     <th id="L721" class="number ">721</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -5790,7 +5787,7 @@ layout: coverage
                     <th id="L722" class="number ">722</th>
 
                     <td class="" >
-                        <pre>               $input2[$item-&gt;getIndexName()] = $item-&gt;getID();
+                        <pre>                  if ($input2[$peers_id] == $item-&gt;fields[$peers_id]) {
 </pre>
                     </td>
                 </tr>
@@ -5798,7 +5795,7 @@ layout: coverage
                     <th id="L723" class="number ">723</th>
 
                     <td class="" >
-                        <pre>               if ($item-&gt;can($item-&gt;getID(), UPDATE, $input2)) {
+                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5806,7 +5803,7 @@ layout: coverage
                     <th id="L724" class="number ">724</th>
 
                     <td class="" >
-                        <pre>                  if ($item-&gt;update($input2)) {
+                        <pre>                     $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ALREADY_DEFINED));
 </pre>
                     </td>
                 </tr>
@@ -5814,7 +5811,7 @@ layout: coverage
                     <th id="L725" class="number ">725</th>
 
                     <td class="" >
-                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
+                        <pre>                     continue;
 </pre>
                     </td>
                 </tr>
@@ -5822,7 +5819,7 @@ layout: coverage
                     <th id="L726" class="number ">726</th>
 
                     <td class="" >
-                        <pre>                  } else {
+                        <pre>                  }
 </pre>
                     </td>
                 </tr>
@@ -5830,7 +5827,7 @@ layout: coverage
                     <th id="L727" class="number ">727</th>
 
                     <td class="" >
-                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5838,7 +5835,7 @@ layout: coverage
                     <th id="L728" class="number ">728</th>
 
                     <td class="" >
-                        <pre>                     $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
+                        <pre>               $input2[$item-&gt;getIndexName()] = $item-&gt;getID();
 </pre>
                     </td>
                 </tr>
@@ -5846,7 +5843,7 @@ layout: coverage
                     <th id="L729" class="number ">729</th>
 
                     <td class="" >
-                        <pre>                  }
+                        <pre>               if ($item-&gt;can($item-&gt;getID(), UPDATE, $input2)) {
 </pre>
                     </td>
                 </tr>
@@ -5854,7 +5851,7 @@ layout: coverage
                     <th id="L730" class="number ">730</th>
 
                     <td class="" >
-                        <pre>               } else {
+                        <pre>                  if ($item-&gt;update($input2)) {
 </pre>
                     </td>
                 </tr>
@@ -5862,7 +5859,7 @@ layout: coverage
                     <th id="L731" class="number ">731</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_NORIGHT);
+                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_OK);
 </pre>
                     </td>
                 </tr>
@@ -5870,7 +5867,7 @@ layout: coverage
                     <th id="L732" class="number ">732</th>
 
                     <td class="" >
-                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_RIGHT));
+                        <pre>                  } else {
 </pre>
                     </td>
                 </tr>
@@ -5878,7 +5875,7 @@ layout: coverage
                     <th id="L733" class="number ">733</th>
 
                     <td class="" >
-                        <pre>               }
+                        <pre>                     $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_KO);
 </pre>
                     </td>
                 </tr>
@@ -5886,7 +5883,7 @@ layout: coverage
                     <th id="L734" class="number ">734</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>                     $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_ON_ACTION));
 </pre>
                     </td>
                 </tr>
@@ -5894,7 +5891,7 @@ layout: coverage
                     <th id="L735" class="number ">735</th>
 
                     <td class="" >
-                        <pre>            return;
+                        <pre>                  }
 </pre>
                     </td>
                 </tr>
@@ -5902,7 +5899,7 @@ layout: coverage
                     <th id="L736" class="number ">736</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>               } else {
 </pre>
                     </td>
                 </tr>
@@ -5910,7 +5907,7 @@ layout: coverage
                     <th id="L737" class="number ">737</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>                  $ma-&gt;itemDone($item-&gt;getType(), $key, MassiveAction::ACTION_NORIGHT);
 </pre>
                     </td>
                 </tr>
@@ -5918,7 +5915,7 @@ layout: coverage
                     <th id="L738" class="number ">738</th>
 
                     <td class="" >
-                        <pre>      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+                        <pre>                  $ma-&gt;addMessage($item-&gt;getErrorMessage(ERROR_RIGHT));
 </pre>
                     </td>
                 </tr>
@@ -5926,7 +5923,7 @@ layout: coverage
                     <th id="L739" class="number ">739</th>
 
                     <td class="" >
-                        <pre>   }
+                        <pre>               }
 </pre>
                     </td>
                 </tr>
@@ -5934,12 +5931,60 @@ layout: coverage
                     <th id="L740" class="number ">740</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L741" class="number ">741</th>
+
+                    <td class="" >
+                        <pre>            return;
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L742" class="number ">742</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L743" class="number ">743</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L744" class="number ">744</th>
+
+                    <td class="" >
+                        <pre>      parent::processMassiveActionsForOneItemtype($ma, $item, $ids);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L745" class="number ">745</th>
+
+                    <td class="" >
+                        <pre>   }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L746" class="number ">746</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L747" class="number ">747</th>
 
                     <td class="" >
                         <pre>}
