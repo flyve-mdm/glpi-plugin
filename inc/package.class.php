@@ -119,6 +119,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          self::showForSoftware($item);
          return true;
       }
+      return false;
    }
 
    /**
@@ -220,35 +221,38 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          unset($input['package_name']);
       }
 
-      if (!Session::isCron()) {
-         // Find the added file
-         $preparedFile = $this->prepareFileUpload();
+      if (Session::isCron()) {
+         return $input;
+      }
+      // Find the added file
+      $preparedFile = $this->prepareFileUpload();
 
-         if ($preparedFile && is_array($preparedFile)) {
-            try {
-               if (!$this->isFileUploadValid($preparedFile['filename'])) {
-                  return false;
-               }
-               $uploadedFile = $preparedFile['uploadedFile'];
-               $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-               $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
-               $this->createEntityDirectory(dirname($destination));
-               if (rename($uploadedFile, $destination)) {
-                  $filename = pathinfo($destination, PATHINFO_FILENAME);
-                  $input['dl_filename'] = basename($destination);
-                  if ($filename != $this->fields['filename']) {
-                     unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
-                  }
-               } else {
-                  $this->logErrorIfDirNotWritable($destination);
-                  Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
-                  $input = false;
-               }
-            } catch (Exception $e) {
-               // Ignore exceptions for now
-               $input = false;
-            }
+      if (!$preparedFile || !is_array($preparedFile)) {
+         return $input;
+      }
+
+      try {
+         if (!$this->isFileUploadValid($preparedFile['filename'])) {
+            return false;
          }
+         $uploadedFile = $preparedFile['uploadedFile'];
+         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+         $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
+         $this->createEntityDirectory(dirname($destination));
+         if (rename($uploadedFile, $destination)) {
+            $filename = pathinfo($destination, PATHINFO_FILENAME);
+            $input['dl_filename'] = basename($destination);
+            if ($filename != $this->fields['filename']) {
+               unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
+            }
+         } else {
+            $this->logErrorIfDirNotWritable($destination);
+            Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
+            $input = false;
+         }
+      } catch (Exception $e) {
+         // Ignore exceptions for now
+         $input = false;
       }
 
       return $input;
@@ -259,14 +263,15 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     */
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
-      if ($this->canView() && $this->canViewItem()) {
-         $this->addExtraFileInfo();
-         if (isAPI()
-            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-               || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
-            $this->sendFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'],
-               $this->fields['dl_filename'], $this->fields['filesize']); // and terminate script
-         }
+      if (!$this->canView() || !$this->canViewItem()) {
+         return;
+      }
+      $this->addExtraFileInfo();
+      if (isAPI()
+         && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+            || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
+         $this->sendFile(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename'],
+            $this->fields['dl_filename'], $this->fields['filesize']); // and terminate script
       }
    }
 
@@ -279,13 +284,17 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     */
    private function createOrionReport() {
       $plugin = new Plugin();
-      if ($plugin->isActivated('orion')) {
-         $orionReport = new PluginOrionReport();
-         $orionReport->add([
-            'itemtype' => $this->getType(),
-            'items_id' => $this->getID(),
-         ]);
+      if (!$plugin->isActivated('orion')) {
+         return;
       }
+      if (!class_exists('PluginOrionReport')) {
+         return;
+      }
+      $orionReport = new PluginOrionReport();
+      $orionReport->add([
+         'itemtype' => $this->getType(),
+         'items_id' => $this->getID(),
+      ]);
    }
 
    /**

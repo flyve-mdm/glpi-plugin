@@ -54,59 +54,58 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
          return '';
       }
 
+      if (!($item instanceof PluginFlyvemdmNotifiableInterface)) {
+         return '';
+      }
+      if ($withtemplate) {
+         return '';
+      }
+
+      $nb = 0;
+      $pluralNumber = Session::getPluralNumber();
       switch ($item->getType()) {
          case PluginFlyvemdmAgent::class:
-            if (!$withtemplate) {
-               $nb = 0;
-               $pluralNumber = Session::getPluralNumber();
-               if ($_SESSION['glpishow_count_on_tabs']) {
-                  $DbUtil = new DbUtils();
-                  $nb = $DbUtil->countElementsInTable(
-                     static::getTable(),
-                     [
-                        PluginFlyvemdmAgent::getForeignKeyField() => $item->getID()
-                     ]
-                  );
-               }
-               return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               $DbUtil = new DbUtils();
+               $nb = $DbUtil->countElementsInTable(
+                  static::getTable(),
+                  [
+                     PluginFlyvemdmAgent::getForeignKeyField() => $item->getID()
+                  ]
+               );
             }
             break;
 
          case PluginFlyvemdmFleet::class:
-            if (!$withtemplate) {
-               $nb = 0;
-               $pluralNumber = Session::getPluralNumber();
-               if ($_SESSION['glpishow_count_on_tabs']) {
-                  $notifiableType = $item->getType();
-                  $notifiableId = $item->getID();
-                  $tableTaskStatus = PluginFlyvemdmTaskstatus::getTable();
-                  $tableTask = PluginFlyvemdmTask::getTable();
-                  $request = [
-                     'COUNT'      => 'c',
-                     'FROM'       => $tableTaskStatus,
-                     'INNER JOIN' => [
-                        $tableTask => [
-                           'FKEY' => [
-                              $tableTaskStatus => PluginFlyvemdmTask::getForeignKeyField(),
-                              $tableTask       => 'id'
-                           ]
-                        ]
-                     ],
-                     'WHERE'      => [
-                        'AND' => [
-                           $tableTask . '.itemtype_applied' => $notifiableType,
-                           $tableTask . '.items_id_applied' => $notifiableId,
+            if ($_SESSION['glpishow_count_on_tabs']) {
+               $notifiableType = $item->getType();
+               $notifiableId = $item->getID();
+               $tableTaskStatus = PluginFlyvemdmTaskstatus::getTable();
+               $tableTask = PluginFlyvemdmTask::getTable();
+               $request = [
+                  'COUNT'      => 'c',
+                  'FROM'       => $tableTaskStatus,
+                  'INNER JOIN' => [
+                     $tableTask => [
+                        'FKEY' => [
+                           $tableTaskStatus => PluginFlyvemdmTask::getForeignKeyField(),
+                           $tableTask       => 'id'
                         ]
                      ]
-                  ];
-                  $result = $DB->request($request)->next();
-                  $nb = $result['c'];
-               }
-               return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+                  ],
+                  'WHERE'      => [
+                     'AND' => [
+                        $tableTask . '.itemtype_applied' => $notifiableType,
+                        $tableTask . '.items_id_applied' => $notifiableId,
+                     ]
+                  ]
+               ];
+               $result = $DB->request($request)->next();
+               $nb = $result['c'];
             }
             break;
       }
-      return '';
+      return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
    }
 
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {

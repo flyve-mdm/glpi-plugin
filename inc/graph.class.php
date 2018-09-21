@@ -120,27 +120,28 @@ class PluginFlyvemdmGraph extends CommonDBTM
             . '</div>';
       }
 
-      if ($result && $DB->numrows($result) > 0) {
-         $osNames = [];
-         $quantityPerOs = [];
-         while ($row = $DB->fetch_assoc($result)) {
-            $osNames[] = $row['operatingsystem'];
-            if (isset($quantityPerOs[$row['operatingsystem']])) {
-               $quantityPerOs[$row['operatingsystem']] += $row['cpt'];
-            } else {
-               $quantityPerOs[$row['operatingsystem']] = $row['cpt'];
-            }
-         }
-         $out = $this->displayStackedBarGraph(
-            __('Devices per operating system version', 'flyvemdm'),
-            array_values($osNames),
-            array_values($quantityPerOs),
-            [
-               'width'     => '100%',
-            ],
-            false
-         );
+      if (!$result || $DB->numrows($result) <= 0) {
+         return $out;
       }
+      $osNames = [];
+      $quantityPerOs = [];
+      while ($row = $DB->fetch_assoc($result)) {
+         $osNames[] = $row['operatingsystem'];
+         if (isset($quantityPerOs[$row['operatingsystem']])) {
+            $quantityPerOs[$row['operatingsystem']] += $row['cpt'];
+         } else {
+            $quantityPerOs[$row['operatingsystem']] = $row['cpt'];
+         }
+      }
+      $out = $this->displayStackedBarGraph(
+         __('Devices per operating system version', 'flyvemdm'),
+         array_values($osNames),
+         array_values($quantityPerOs),
+         [
+            'width' => '100%',
+         ],
+         false
+      );
 
       return $out;
    }

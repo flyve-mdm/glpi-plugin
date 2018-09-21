@@ -153,27 +153,34 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * @param CommonGLPI $item object
     * @param integer $tabnum (default 1)
     * @param integer $withtemplate (default 0)
+    * @return boolean
     */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-      if ($item->getType() == __CLASS__) {
-         switch ($tabnum) {
-            case 1:
-               $item->showFormWizard();
-               break;
-
-            case 2:
-               $item->showFormGeneral();
-               break;
-
-            case 3:
-               $item->showFormMessageQueue();
-               break;
-
-            case 4:
-               $item->showFormDebug();
-               break;
-         }
+      if ($item->getType() != __CLASS__) {
+         return false;
       }
+      switch ($tabnum) {
+         case 1:
+            $item->showFormWizard();
+            return true;
+            break;
+
+         case 2:
+            $item->showFormGeneral();
+            return true;
+            break;
+
+         case 3:
+            $item->showFormMessageQueue();
+            return true;
+            break;
+
+         case 4:
+            $item->showFormDebug();
+            return true;
+            break;
+      }
+      return false;
    }
 
    /**
@@ -384,12 +391,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
 
       // process certificates update
-      if (isset($input['_CACertificateFile'])) {
-         if (isset($input['_CACertificateFile'][0])) {
-            $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
-            if (is_writable($file)) {
-               rename($file, FLYVEMDM_CONFIG_CACERTMQTT);
-            }
+      if (isset($input['_CACertificateFile']) && isset($input['_CACertificateFile'][0])) {
+         $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
+         if (is_writable($file)) {
+            rename($file, FLYVEMDM_CONFIG_CACERTMQTT);
          }
       }
 

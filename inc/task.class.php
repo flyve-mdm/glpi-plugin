@@ -84,31 +84,32 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    }
 
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if (!static::canView()){
+      if (!static::canView()) {
          return '';
       }
 
-      if ($item instanceof PluginFlyvemdmNotifiableInterface) {
-         if (!$withtemplate) {
-            $nb = 0;
-            $pluralNumber = Session::getPluralNumber();
-            if ($_SESSION['glpishow_count_on_tabs']) {
-               $notifiableType = $item->getType();
-               $notifiableId = $item->getID();
-               $pluralNumber = Session::getPluralNumber();
-               $DbUtil = new DbUtils();
-               $nb = $DbUtil->countElementsInTable(
-                  static::getTable(),
-                  [
-                     'itemtype_applied' => $notifiableType,
-                     'items_id_applied' => $notifiableId,
-                  ]
-               );
-            }
-            return self::createTabEntry(PluginFlyvemdmTask::getTypeName($pluralNumber), $nb);
-         }
+      if (!($item instanceof PluginFlyvemdmNotifiableInterface)) {
+         return '';
       }
-      return '';
+      if ($withtemplate) {
+         return '';
+      }
+      $nb = 0;
+      $pluralNumber = Session::getPluralNumber();
+      if ($_SESSION['glpishow_count_on_tabs']) {
+         $notifiableType = $item->getType();
+         $notifiableId = $item->getID();
+         $pluralNumber = Session::getPluralNumber();
+         $DbUtil = new DbUtils();
+         $nb = $DbUtil->countElementsInTable(
+            static::getTable(),
+            [
+               'itemtype_applied' => $notifiableType,
+               'items_id_applied' => $notifiableId,
+            ]
+         );
+      }
+      return self::createTabEntry(PluginFlyvemdmTask::getTypeName($pluralNumber), $nb);
    }
 
    /**

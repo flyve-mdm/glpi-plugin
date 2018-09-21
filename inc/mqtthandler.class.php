@@ -252,40 +252,42 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     */
    protected function saveGeolocationPosition($topic, $message) {
       $agent = new \PluginFlyvemdmAgent();
-      if ($agent->getByTopic($topic)) {
-         $position = json_decode($message, true);
-         $dateGeolocation = false;
-         if (isset($position['datetime'])) {
-            // The datetime sent by the device is expected to be on UTC timezone
-            $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'], new \DateTimeZone("UTC"));
-            // Shift the datetime to the timezone of the server
-            $dateGeolocation->setTimezone(date_default_timezone_get());
-         }
-         if (isset($position['latitude']) && isset($position['longitude'])) {
-            if ($dateGeolocation !== false) {
-               $geolocation = new \PluginFlyvemdmGeolocation();
-               $geolocation->add([
-                     'computers_id'       => $agent->getField('computers_id'),
-                     'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
-                     'latitude'           => $position['latitude'],
-                     'longitude'          => $position['longitude']
-               ]);
-            }
-         } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
-            // No GPS geolocation available at this time, log it anyway
-            if ($dateGeolocation !== false) {
-               $geolocation = new PluginFlyvemdmGeolocation();
-               $geolocation->add([
-                     'computers_id'       => $agent->getField('computers_id'),
-                     'date'               => $dateGeolocation->format('Y-m-d H:i:s'),
-                     'latitude'           => 'na',
-                     'longitude'          => 'na'
-               ]);
-            }
-         }
-
-         $this->updateLastContact($topic, '!');
+      if (!$agent->getByTopic($topic)) {
+         return;
       }
+      $position = json_decode($message, true);
+      $dateGeolocation = false;
+      if (isset($position['datetime'])) {
+         // The datetime sent by the device is expected to be on UTC timezone
+         $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
+            new \DateTimeZone("UTC"));
+         // Shift the datetime to the timezone of the server
+         $dateGeolocation->setTimezone(date_default_timezone_get());
+      }
+      if (isset($position['latitude']) && isset($position['longitude'])) {
+         if ($dateGeolocation !== false) {
+            $geolocation = new \PluginFlyvemdmGeolocation();
+            $geolocation->add([
+               'computers_id' => $agent->getField('computers_id'),
+               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
+               'latitude'     => $position['latitude'],
+               'longitude'    => $position['longitude']
+            ]);
+         }
+      } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
+         // No GPS geolocation available at this time, log it anyway
+         if ($dateGeolocation !== false) {
+            $geolocation = new PluginFlyvemdmGeolocation();
+            $geolocation->add([
+               'computers_id' => $agent->getField('computers_id'),
+               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
+               'latitude'     => 'na',
+               'longitude'    => 'na'
+            ]);
+         }
+      }
+
+      $this->updateLastContact($topic, '!');
    }
 
    /**
@@ -351,25 +353,26 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
     */
    protected function updateOnlineStatus($topic, $message) {
       $agent = new PluginFlyvemdmAgent();
-      if ($agent->getByTopic($topic)) {
-         $feedback = json_decode($message, true);
-         if (!isset($feedback['online'])) {
-            return;
-         }
-         if ($feedback['online'] == 'false') {
-            $status = '0';
-         } else if ($feedback['online'] == 'true') {
-            $status = '1';
-         } else {
-            // Invalid value
-            return;
-         }
-         $agent->update([
-               'id'        => $agent->getID(),
-               'is_online' => $status,
-         ]);
-
-         $this->updateLastContact($topic, '!');
+      if (!$agent->getByTopic($topic)) {
+         return;
       }
+      $feedback = json_decode($message, true);
+      if (!isset($feedback['online'])) {
+         return;
+      }
+      if ($feedback['online'] == 'false') {
+         $status = '0';
+      } else if ($feedback['online'] == 'true') {
+         $status = '1';
+      } else {
+         // Invalid value
+         return;
+      }
+      $agent->update([
+         'id'        => $agent->getID(),
+         'is_online' => $status,
+      ]);
+
+      $this->updateLastContact($topic, '!');
    }
 }

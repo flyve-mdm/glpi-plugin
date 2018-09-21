@@ -302,13 +302,13 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     */
    public function showValue(PluginFlyvemdmTask $task) {
       $file = new PluginFlyvemdmFile();
-      if ($file->getFromDB($task->getField('items_id'))) {
-         $path = json_decode($task->getField('value'), JSON_OBJECT_AS_ARRAY);
-         $path = $path['destination'];
-         $name  = $file->getField('name');
-         return "$path/$name";
+      if (!$file->getFromDB($task->getField('items_id'))) {
+         return NOT_AVAILABLE;
       }
-      return NOT_AVAILABLE;
+      $path = json_decode($task->getField('value'), JSON_OBJECT_AS_ARRAY);
+      $path = $path['destination'];
+      $name = $file->getField('name');
+      return "$path/$name";
    }
 
    /**
@@ -316,11 +316,12 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
     * @return array
     */
    public function preprocessFormData($input) {
-      if (isset($input['destination_base']) && isset($input['value']['destination'])) {
-         $basePath = new PluginFlyvemdmWellknownpath();
-         if ($basePath->getFromDB(intval($input['destination_base']))) {
-            $input['value']['destination'] = $basePath->getField('name') . $input['value']['destination'];
-         }
+      if (!isset($input['destination_base']) || !isset($input['value']['destination'])) {
+         return $input;
+      }
+      $basePath = new PluginFlyvemdmWellknownpath();
+      if ($basePath->getFromDB(intval($input['destination_base']))) {
+         $input['value']['destination'] = $basePath->getField('name') . $input['value']['destination'];
       }
 
       return $input;

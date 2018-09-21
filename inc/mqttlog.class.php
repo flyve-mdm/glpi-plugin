@@ -114,19 +114,20 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
          return '';
       }
 
-      if ($item instanceof PluginFlyvemdmNotifiableInterface) {
-         // Agent or Fleet
-         if (!$withtemplate) {
-            $nb = 0;
-            $topic = $item->getTopic();
-            if ($_SESSION['glpishow_count_on_tabs'] && $topic) {
-               $logs = self::findLogs($item);
-               $nb = $logs->count();
-            }
-            return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);
-         }
+      if (!($item instanceof PluginFlyvemdmNotifiableInterface)) {
+         return '';
       }
-      return '';
+      // Agent or Fleet
+      if ($withtemplate) {
+         return '';
+      }
+      $nb = 0;
+      $topic = $item->getTopic();
+      if ($_SESSION['glpishow_count_on_tabs'] && $topic) {
+         $logs = self::findLogs($item);
+         $nb = $logs->count();
+      }
+      return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);
    }
 
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
