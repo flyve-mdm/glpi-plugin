@@ -355,6 +355,8 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
       $migration->dropTable($table);
 
+      $migration->changeField('glpi_plugin_flyvemdm_mqttlogs', 'message', 'message', 'mediumtext');
+
       // Fix PascalCase symbols
       $query = "UPDATE `glpi_plugin_flyvemdm_policies`
                   SET `symbol` = 'maximumFailedPasswordsForWipe'

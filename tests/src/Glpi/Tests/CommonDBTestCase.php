@@ -188,7 +188,8 @@ class CommonDBTestCase extends atoum {
                $s_type[0] = str_replace(" COLLATE utf8_unicode_ci", "", $s_type[0]);
                $s_type[0] = str_replace(" CHARACTER SET utf8", "", $s_type[0]);
                if (strpos(trim($s_type[0]), 'text') === 0
-                   || strpos(trim($s_type[0]), 'longtext') === 0) {
+                  || strpos(trim($s_type[0]), 'mediumtext') === 0
+                  || strpos(trim($s_type[0]), 'longtext') === 0) {
                   $s_type[0] = str_replace(" DEFAULT NULL", "", $s_type[0]);
                }
                $s_type[0] = str_replace(", ", "", $s_type[0]);
