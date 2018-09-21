@@ -189,10 +189,9 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
       global $DB;
 
       $condition = [
-         'DISTINCT FIELDS' => ['id', 'date', 'topic', 'message'],
+         'FIELDS' => ['id', 'date', 'topic', 'message'],
          'WHERE'           => ['topic' => ['LIKE', $item->getTopic() . '%']],
          'GROUPBY'         => 'topic',
-         'ORDER'           => ['date DESC', 'id DESC'],
       ];
 
       $result = $DB->request(static::getTable(), $condition);
