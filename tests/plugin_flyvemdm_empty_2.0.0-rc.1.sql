@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttlogs` (
   `date` datetime DEFAULT NULL,
   `direction` varchar(1) NOT NULL DEFAULT '' COMMENT 'I for received message, O for sent message',
   `topic` varchar(255) NOT NULL DEFAULT '',
-  `message` varchar(255) DEFAULT NULL,
+  `message` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `date` (`date`),
   KEY `topic` (`topic`)
