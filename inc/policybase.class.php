@@ -118,9 +118,8 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
    protected function jsonDecodeProperties($properties, array $defaultProperties) {
       if (empty($properties)) {
          return $defaultProperties;
-      } else {
-         $propertyCollection = json_decode($properties, true);
       }
+      $propertyCollection = json_decode($properties, true);
       if (empty($propertyCollection)) {
          return $defaultProperties;
       }

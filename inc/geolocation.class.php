@@ -73,26 +73,28 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @since version 9.1
     **/
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-
-      if (static::canView()) {
-         switch ($item->getType()) {
-            case PluginFlyvemdmAgent::class:
-               if (!$withtemplate) {
-                  $computerId = $item->getField('computers_id');
-                  $nb = $this->countComputers($computerId);
-                  return self::createTabEntry(self::getTypeName(1), $nb);
-               }
-               break;
-
-            case Computer::class:
-               if (!$withtemplate) {
-                  $computerId = $item->getField('id');
-                  $nb = $this->countComputers($computerId);
-                  return self::createTabEntry(self::getTypeName(1), $nb);
-               }
-               break;
-         }
+      if (!static::canView()) {
+         return '';
       }
+
+      switch ($item->getType()) {
+         case PluginFlyvemdmAgent::class:
+            if (!$withtemplate) {
+               $computerId = $item->getField('computers_id');
+               $nb = $this->countComputers($computerId);
+               return self::createTabEntry(self::getTypeName(1), $nb);
+            }
+            break;
+
+         case Computer::class:
+            if (!$withtemplate) {
+               $computerId = $item->getField('id');
+               $nb = $this->countComputers($computerId);
+               return self::createTabEntry(self::getTypeName(1), $nb);
+            }
+            break;
+      }
+      return '';
    }
 
    /**

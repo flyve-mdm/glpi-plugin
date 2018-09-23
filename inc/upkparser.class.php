@@ -51,21 +51,23 @@ class PluginFlyvemdmUpkparser {
    public function __construct($upkFile) {
       $zip = new ZipArchive();
       $this->apkFilename = tempnam(GLPI_TMP_DIR, 'upk_');
-      if ($zip->open($upkFile) && $this->apkFilename !== null) {
-         if ($manifestHandle = $zip->getStream('UPKManifest.xml')) {
-            $manifestContent = stream_get_contents($manifestHandle);
-            fclose($manifestHandle);
-
-            $manifest = simplexml_load_string($manifestContent);
-            $apkFile = $manifest->application[0]['fileName'];
-            $fileHandle = $zip->getStream($apkFile);
-            if ($fileHandle) {
-               file_put_contents($this->apkFilename, $fileHandle);
-               fclose($fileHandle);
-               $this->apkParser = new \ApkParser\Parser($this->apkFilename);
-            }
-         }
+      if (!$zip->open($upkFile) || $this->apkFilename === null) {
+         return;
       }
+      if (!($manifestHandle = $zip->getStream('UPKManifest.xml'))) {
+         return;
+      }
+      $manifestContent = stream_get_contents($manifestHandle);
+      fclose($manifestHandle);
+      $manifest = simplexml_load_string($manifestContent);
+      $apkFile = $manifest->application[0]['fileName'];
+      $fileHandle = $zip->getStream($apkFile);
+      if (!$fileHandle) {
+         return;
+      }
+      file_put_contents($this->apkFilename, $fileHandle);
+      fclose($fileHandle);
+      $this->apkParser = new \ApkParser\Parser($this->apkFilename);
    }
 
    /**

@@ -270,10 +270,8 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
             'enroll_token' => '',
             'device_limit' => $config['default_device_limit'],
          ]);
-         return true;
-      } else {
-         return true;
       }
+      return true;
    }
 
    /**
@@ -284,10 +282,8 @@ class PluginFlyvemdmEntityConfig extends CommonDBTM {
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
       $tabNames = [];
-      if (!$withtemplate) {
-         if ($item->getType() == 'Entity') {
-            $tabNames[1] = __('Flyve MDM supervision', 'flyvemdm');
-         }
+      if (!$withtemplate && $item->getType() == 'Entity') {
+         $tabNames[1] = __('Flyve MDM supervision', 'flyvemdm');
       }
       return $tabNames;
    }

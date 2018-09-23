@@ -76,17 +76,19 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
          $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
-      if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach ($this->input['_acl'] as $acl) {
-            if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginFlyvemdmMqttacl();
-               $mqttAcl->add([
-                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
-                  'topic'                        => $acl['topic'],
-                  'access_level'                 => $acl['access_level'],
-               ]);
-            }
+      if (!isset($this->input['_acl']) || !is_array($this->input['_acl'])) {
+         return;
+      }
+      foreach ($this->input['_acl'] as $acl) {
+         if (!isset($acl['topic']) || !isset($acl['access_level'])) {
+            continue;
          }
+         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl->add([
+            'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+            'topic'                        => $acl['topic'],
+            'access_level'                 => $acl['access_level'],
+         ]);
       }
    }
 
@@ -98,17 +100,19 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
          $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->removeAllForUser($this);
       }
-      if (isset($this->input['_acl']) && is_array($this->input['_acl'])) {
-         foreach ($this->input['_acl'] as $acl) {
-            if (isset($acl['topic']) && isset($acl['access_level'])) {
-               $mqttAcl = new PluginFlyvemdmMqttacl();
-               $mqttAcl->add([
-                  'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
-                  'topic'                        => $acl['topic'],
-                  'access_level'                 => $acl['access_level'],
-               ]);
-            }
+      if (!isset($this->input['_acl']) || !is_array($this->input['_acl'])) {
+         return;
+      }
+      foreach ($this->input['_acl'] as $acl) {
+         if (!isset($acl['topic']) || !isset($acl['access_level'])) {
+            continue;
          }
+         $mqttAcl = new PluginFlyvemdmMqttacl();
+         $mqttAcl->add([
+            'plugin_flyvemdm_mqttusers_id' => $this->fields['id'],
+            'topic'                        => $acl['topic'],
+            'access_level'                 => $acl['access_level'],
+         ]);
       }
    }
 
@@ -160,9 +164,10 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
          throw new Exception('$keyspace must be at least two characters long');
       }
 
+      $randomIntExists = function_exists('random_int');
       for ($i = 0; $i < $length; $i++) {
          // random_int needs PHP 7, not yet widely used
-         if (function_exists('random_int')) {
+         if ($randomIntExists) {
             $password .= $keyspace[random_int(0, $max)];
          } else {
             $password .= $keyspace[mt_rand(0, $max)];

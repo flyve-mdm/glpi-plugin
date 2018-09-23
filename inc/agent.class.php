@@ -158,32 +158,33 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return array|string
     */
    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if (static::canView()) {
-         switch ($item->getType()) {
-            case __CLASS__ :
-               $tab = [1 => __('Danger zone !', 'flyvemdm')];
-               return $tab;
-               break;
-
-            case PluginFlyvemdmFleet::class:
-               if (!$withtemplate) {
-                  $nb = 0;
-                  $fleetId = $item->getID();
-                  $pluralNumber = Session::getPluralNumber();
-                  if ($_SESSION['glpishow_count_on_tabs']) {
-                     $DbUtil = new DbUtils();
-                     $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
-                  }
-                  return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
-               }
-               break;
-
-            case Computer::class:
-               return __('Flyve MDM Agent', 'flyvemdm');
-               break;
-         }
+      if (!static::canView()) {
+         return '';
       }
 
+      switch ($item->getType()) {
+         case __CLASS__ :
+            $tab = [1 => __('Danger zone !', 'flyvemdm')];
+            return $tab;
+            break;
+
+         case PluginFlyvemdmFleet::class:
+            if (!$withtemplate) {
+               $nb = 0;
+               $fleetId = $item->getID();
+               $pluralNumber = Session::getPluralNumber();
+               if ($_SESSION['glpishow_count_on_tabs']) {
+                  $DbUtil = new DbUtils();
+                  $nb = $DbUtil->countElementsInTable(static::getTable(), ['plugin_flyvemdm_fleets_id' => $fleetId]);
+               }
+               return self::createTabEntry(self::getTypeName($pluralNumber), $nb);
+            }
+            break;
+
+         case Computer::class:
+            return __('Flyve MDM Agent', 'flyvemdm');
+            break;
+      }
       return '';
    }
 
@@ -308,7 +309,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
       if (!PluginFlyvemdmFleet::canView()) {
-         return false;
+         return;
       }
 
       $start = isset($_GET["start"]) ? intval($_GET["start"]) : 0;
@@ -324,14 +325,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $number = count($rows);
 
       // get the pager
-      $pager = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
+      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
 
       $data = [
-         'number' => $number,
-         'pager'  => $pager,
-         'agents' => $rows,
-         'start'  => $start,
-         'stop'   => $start + $_SESSION['glpilist_limit']
+         'number'       => $number,
+         'pager_top'    => $pager_top,
+         'pager_bottom' => $pager_bottom,
+         'agents'       => $rows,
+         'agentUrl'     => Toolbox::getItemTypeFormURL(self::class),
+         'start'        => $start,
+         'stop'         => $start + $_SESSION['glpilist_limit'],
       ];
 
       $twig = plugin_flyvemdm_getTemplateEngine();
@@ -1736,89 +1740,93 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return;
       }
 
-      if ($user = $this->getOwner()) {
-         $config = Config::getConfigurationValues('flyvemdm', [
-            'guest_profiles_id',
-            'android_bugcollecctor_url',
-            'android_bugcollector_login',
-            'android_bugcollector_passwd',
-            'mqtt_broker_address',
-            'mqtt_broker_port',
-            'mqtt_broker_tls_port',
-            'mqtt_tls_for_clients',
-         ]);
-         $guestProfileId = $config['guest_profiles_id'];
-         if ($user->getID() == $_SESSION['glpiID'] && $_SESSION['glpiactiveprofile']['id'] == $guestProfileId) {
-            $mqttClearPassword = '';
+      $user = $this->getOwner();
+      if (!$user) {
+         return;
+      }
 
-            // Create, or re-eanble the mqtt user for the device
-            $computer = new Computer();
-            if (!$computer->getFromDB($this->fields['computers_id'])) {
-               // TODO : failed to find the computer
-               return;
-            }
-            $serial = $computer->getField('serial');
-            if (!empty($serial)) {
-               $acls = [
-                  [
-                     'topic'        => $this->getTopic() . '/Status/#',
-                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                  ],
-                  [
-                     'topic'        => $this->getTopic() . '/Command/#',
-                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                  ],
-                  [
-                     'topic'        => $this->getTopic() . '/Policy/#',
-                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                  ],
-                  [
-                     'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
-                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
-                  ],
-                  [
-                     'topic'        => '/FlyvemdmManifest/#',
-                     'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
-                  ],
-               ];
+      $config = Config::getConfigurationValues('flyvemdm', [
+         'guest_profiles_id',
+         'android_bugcollecctor_url',
+         'android_bugcollector_login',
+         'android_bugcollector_passwd',
+         'mqtt_broker_address',
+         'mqtt_broker_port',
+         'mqtt_broker_tls_port',
+         'mqtt_tls_for_clients',
+      ]);
+      $guestProfileId = $config['guest_profiles_id'];
+      if ($user->getID() != $_SESSION['glpiID'] || $_SESSION['glpiactiveprofile']['id'] != $guestProfileId) {
+         return;
+      }
+      $mqttClearPassword = '';
 
-               $mqttUser = new PluginFlyvemdmMqttuser();
-               $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
-               // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
-               if (!$mqttUser->getByUser($serial)) {
-                  // The user does not exists
-                  $mqttUser->add([
-                     'user'         => $serial,
-                     'enabled'      => '1',
-                     'password'     => $mqttClearPassword,
-                     '_acl'         => $acls,
-                     '_reset_acl'   => true,
-                  ]);
-               } else {
-                  // The user exists
-                  $mqttUser->update([
-                     'id'          => $mqttUser->getID(),
-                     'enabled'     => '1',
-                     'password'    => $mqttClearPassword,
-                     '_acl'        => $acls,
-                     '_reset_acl'  => true,
-                  ]);
-               }
-            }
+      // Create, or re-eanble the mqtt user for the device
+      $computer = new Computer();
+      if (!$computer->getFromDB($this->fields['computers_id'])) {
+         // TODO : failed to find the computer
+         return;
+      }
+      $serial = $computer->getField('serial');
+      if (!empty($serial)) {
+         $acls = [
+            [
+               'topic'        => $this->getTopic() . '/Status/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+            ],
+            [
+               'topic'        => $this->getTopic() . '/Command/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+            ],
+            [
+               'topic'        => $this->getTopic() . '/Policy/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+            ],
+            [
+               'topic'        => $this->getTopic() . '/FlyvemdmManifest/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
+            ],
+            [
+               'topic'        => '/FlyvemdmManifest/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
+            ],
+         ];
 
-            // The request comes from the owner of the device or the device itself, mandated by the user
-            $this->fields['topic']                       = $this->getTopic();
-            $this->fields['mqttpasswd']                  = $mqttClearPassword;
-            $this->fields['broker']                      = $config['mqtt_broker_address'];
-            $this->fields['port']                        = $config['mqtt_tls_for_clients'] !== '0'
-                                                           ? $config['mqtt_broker_tls_port']
-                                                           : $config['mqtt_broker_port'];
-            $this->fields['tls']                         = $config['mqtt_tls_for_clients'];
-            $this->fields['android_bugcollecctor_url']   = $config['android_bugcollecctor_url'];
-            $this->fields['android_bugcollector_login']  = $config['android_bugcollector_login'];
-            $this->fields['android_bugcollector_passwd'] = $config['android_bugcollector_passwd'];
+         $mqttUser = new PluginFlyvemdmMqttuser();
+         $mqttClearPassword = PluginFlyvemdmMqttuser::getRandomPassword();
+         // TODO: try make the enrollment fails at this point if getRandomPassword throw exception.
+         if (!$mqttUser->getByUser($serial)) {
+            // The user does not exists
+            $mqttUser->add([
+               'user'       => $serial,
+               'enabled'    => '1',
+               'password'   => $mqttClearPassword,
+               '_acl'       => $acls,
+               '_reset_acl' => true,
+            ]);
+         } else {
+            // The user exists
+            $mqttUser->update([
+               'id'         => $mqttUser->getID(),
+               'enabled'    => '1',
+               'password'   => $mqttClearPassword,
+               '_acl'       => $acls,
+               '_reset_acl' => true,
+            ]);
          }
       }
+
+      // The request comes from the owner of the device or the device itself, mandated by the user
+      $this->fields['topic'] = $this->getTopic();
+      $this->fields['mqttpasswd'] = $mqttClearPassword;
+      $this->fields['broker'] = $config['mqtt_broker_address'];
+      $this->fields['port'] = $config['mqtt_tls_for_clients'] !== '0'
+         ? $config['mqtt_broker_tls_port']
+         : $config['mqtt_broker_port'];
+      $this->fields['tls'] = $config['mqtt_tls_for_clients'];
+      $this->fields['android_bugcollecctor_url'] = $config['android_bugcollecctor_url'];
+      $this->fields['android_bugcollector_login'] = $config['android_bugcollector_login'];
+      $this->fields['android_bugcollector_passwd'] = $config['android_bugcollector_passwd'];
    }
 
    /**
@@ -1870,32 +1878,34 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       } else {
          $success = $mqttUser->getFromDBByQuery("LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`='$computerId'");
       }
-      if ($success) {
-         $mqttAcl = new PluginFlyvemdmMqttacl();
-         if ($old->getField('is_default') == '0') {
-            $mqttAcl->getFromDBByCrit([
-               'AND' => [
-                  'topic' => $old->getTopic() . '/#',
-                  PluginFlyvemdmMqttuser::getForeignKeyField() => $mqttUser->getID()
-               ]
-            ]);
-            if ($new->getField('is_default') != '0') {
-               $mqttAcl->delete(['id' => $mqttAcl->getID()]);
 
-            } else {
-               $mqttAcl->update([
-                     'id'                             => $mqttAcl->getID(),
-                     'topic'                          => $new->getTopic() . '/#',
-                     'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
-               ]);
-            }
+      if (!$success) {
+         return;
+      }
+
+      $mqttAcl = new PluginFlyvemdmMqttacl();
+      if ($old->getField('is_default') == '0') {
+         $mqttAcl->getFromDBByCrit([
+            'AND' => [
+               'topic'                                      => $old->getTopic() . '/#',
+               PluginFlyvemdmMqttuser::getForeignKeyField() => $mqttUser->getID()
+            ]
+         ]);
+         if ($new->getField('is_default') != '0') {
+            $mqttAcl->delete(['id' => $mqttAcl->getID()]);
          } else {
-            $mqttAcl->add([
-                  'plugin_flyvemdm_mqttusers_id'   => $mqttUser->getID(),
-                  'topic'                          => $new->getTopic() . '/#',
-                  'access_level'                   => PluginFlyvemdmMqttacl::MQTTACL_READ
+            $mqttAcl->update([
+               'id'           => $mqttAcl->getID(),
+               'topic'        => $new->getTopic() . '/#',
+               'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
             ]);
          }
+      } else {
+         $mqttAcl->add([
+            'plugin_flyvemdm_mqttusers_id' => $mqttUser->getID(),
+            'topic'                        => $new->getTopic() . '/#',
+            'access_level'                 => PluginFlyvemdmMqttacl::MQTTACL_READ
+         ]);
       }
    }
 
