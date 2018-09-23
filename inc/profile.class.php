@@ -96,7 +96,7 @@ class PluginFlyvemdmProfile extends Profile {
     * @see Profile::getTabNameForItem()
     */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if ($item->getType() == 'Profile') {
+      if ($item->getType() == Profile::class) {
          return __('Flyve MDM', 'flyvemdm');
       }
       return '';

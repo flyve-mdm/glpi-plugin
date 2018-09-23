@@ -30,11 +30,11 @@
  */
 
 // Version of the plugin
-define('PLUGIN_FLYVEMDM_VERSION', 'develop');
+define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-rc.2');
 // Schema version of this version
 define('PLUGIN_FLYVEMDM_SCHEMA_VERSION', '2.1');
 // is or is not an official release of the plugin
-define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', false);
+define('PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE', true);
 // Minimal GLPI version, inclusive
 define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.3');
 // Maximum GLPI version, exclusive
