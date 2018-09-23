@@ -249,7 +249,7 @@
 </span></span><span id="96" class="l"><span class="php-comment">    * @see Profile::getTabNameForItem()
 </span></span><span id="97" class="l"><span class="php-comment">    */</span>
 </span><span id="98" class="l">   <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTabNameForItem(CommonGLPI <span class="php-var">$item</span>, <span class="php-var">$withtemplate</span> = <span class="php-num">0</span>) {
-</span><span id="99" class="l">      <span class="php-keyword1">if</span> (<span class="php-var">$item</span>-&gt;<span class="php-keyword2">getType</span>() == <span class="php-quote">'Profile'</span>) {
+</span><span id="99" class="l">      <span class="php-keyword1">if</span> (<span class="php-var">$item</span>-&gt;<span class="php-keyword2">getType</span>() == Profile::<span class="php-keyword1">class</span>) {
 </span><span id="100" class="l">         <span class="php-keyword1">return</span> __(<span class="php-quote">'Flyve MDM'</span>, <span class="php-quote">'flyvemdm'</span>);
 </span><span id="101" class="l">      }
 </span><span id="102" class="l">      <span class="php-keyword1">return</span> <span class="php-quote">''</span>;
