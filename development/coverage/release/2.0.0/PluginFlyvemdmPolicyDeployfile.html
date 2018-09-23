@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-success">
                     75%
-                                            <small>of 143</small>
+                                            <small>of 144</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -121,7 +121,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#preprocessFormData">PluginFlyvemdmPolicyDeployfile::preprocessFormData()</a></td>
-                                        <td style="text-align: center">5</td>
+                                        <td style="text-align: center">6</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
@@ -2435,39 +2435,18 @@ layout: coverage
                     <th id="L305" class="number covered">305</th>
 
                     <td class="covered" >
-                        <pre>      if ($file-&gt;getFromDB($task-&gt;getField(&#039;items_id&#039;))) {</pre>
+                        <pre>      if (!$file-&gt;getFromDB($task-&gt;getField(&#039;items_id&#039;))) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L306" class="number uncovered">306</th>
+                    <th id="L306" class="number covered">306</th>
 
-                    <td class="uncovered" >
-                        <pre>         $path = json_decode($task-&gt;getField(&#039;value&#039;), JSON_OBJECT_AS_ARRAY);</pre>
+                    <td class="covered" >
+                        <pre>         return NOT_AVAILABLE;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L307" class="number uncovered">307</th>
-
-                    <td class="uncovered" >
-                        <pre>         $path = $path[&#039;destination&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L308" class="number uncovered">308</th>
-
-                    <td class="uncovered" >
-                        <pre>         $name  = $file-&gt;getField(&#039;name&#039;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L309" class="number uncovered">309</th>
-
-                    <td class="uncovered" >
-                        <pre>         return &quot;$path/$name&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L310" class="number ">310</th>
+                    <th id="L307" class="number ">307</th>
 
                     <td class="" >
                         <pre>      }
@@ -2475,10 +2454,31 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L311" class="number covered">311</th>
+                    <th id="L308" class="number uncovered">308</th>
 
-                    <td class="covered" >
-                        <pre>      return NOT_AVAILABLE;</pre>
+                    <td class="uncovered" >
+                        <pre>      $path = json_decode($task-&gt;getField(&#039;value&#039;), JSON_OBJECT_AS_ARRAY);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L309" class="number uncovered">309</th>
+
+                    <td class="uncovered" >
+                        <pre>      $path = $path[&#039;destination&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L310" class="number uncovered">310</th>
+
+                    <td class="uncovered" >
+                        <pre>      $name = $file-&gt;getField(&#039;name&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L311" class="number uncovered">311</th>
+
+                    <td class="uncovered" >
+                        <pre>      return &quot;$path/$name&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2539,40 +2539,18 @@ layout: coverage
                     <th id="L319" class="number covered">319</th>
 
                     <td class="covered" >
-                        <pre>      if (isset($input[&#039;destination_base&#039;]) &amp;&amp; isset($input[&#039;value&#039;][&#039;destination&#039;])) {</pre>
+                        <pre>      if (!isset($input[&#039;destination_base&#039;]) || !isset($input[&#039;value&#039;][&#039;destination&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L320" class="number covered">320</th>
 
                     <td class="covered" >
-                        <pre>         $basePath = new PluginFlyvemdmWellknownpath();</pre>
+                        <pre>         return $input;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L321" class="number covered">321</th>
-
-                    <td class="covered" >
-                        <pre>         if ($basePath-&gt;getFromDB(intval($input[&#039;destination_base&#039;]))) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L322" class="number covered">322</th>
-
-                    <td class="covered" >
-                        <pre>            $input[&#039;value&#039;][&#039;destination&#039;] = $basePath-&gt;getField(&#039;name&#039;) . $input[&#039;value&#039;][&#039;destination&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L323" class="number ">323</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L324" class="number ">324</th>
+                    <th id="L321" class="number ">321</th>
 
                     <td class="" >
                         <pre>      }
@@ -2580,7 +2558,36 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L322" class="number covered">322</th>
+
+                    <td class="covered" >
+                        <pre>      $basePath = new PluginFlyvemdmWellknownpath();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L323" class="number covered">323</th>
+
+                    <td class="covered" >
+                        <pre>      if ($basePath-&gt;getFromDB(intval($input[&#039;destination_base&#039;]))) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L324" class="number covered">324</th>
+
+                    <td class="covered" >
+                        <pre>         $input[&#039;value&#039;][&#039;destination&#039;] = $basePath-&gt;getField(&#039;name&#039;) . $input[&#039;value&#039;][&#039;destination&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L325" class="number ">325</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L326" class="number ">326</th>
 
                     <td class="" >
                         <pre>
@@ -2588,21 +2595,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L326" class="number covered">326</th>
+                    <th id="L327" class="number covered">327</th>
 
                     <td class="covered" >
                         <pre>      return $input;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L327" class="number unreach">327</th>
+                    <th id="L328" class="number unreach">328</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L328" class="number ">328</th>
+                    <th id="L329" class="number ">329</th>
 
                     <td class="" >
                         <pre>
@@ -2610,14 +2617,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getEnumSpecificStatus">
-                    <th id="L329" class="number ">329</th>
+                    <th id="L330" class="number ">330</th>
 
                     <td class="" id="getEnumSpecificStatus">
                         <pre>   public static function getEnumSpecificStatus() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L330" class="number ">330</th>
+                    <th id="L331" class="number ">331</th>
 
                     <td class="" >
                         <pre>      return [
@@ -2625,14 +2632,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L331" class="number covered">331</th>
+                    <th id="L332" class="number covered">332</th>
 
                     <td class="covered" >
                         <pre>         &#039;waiting&#039; =&gt; __(&#039;Waiting&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L332" class="number ">332</th>
+                    <th id="L333" class="number ">333</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2640,14 +2647,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L333" class="number unreach">333</th>
+                    <th id="L334" class="number unreach">334</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L334" class="number ">334</th>
+                    <th id="L335" class="number ">335</th>
 
                     <td class="" >
                         <pre>
@@ -2655,7 +2662,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L335" class="number ">335</th>
+                    <th id="L336" class="number ">336</th>
 
                     <td class="" >
                         <pre>}

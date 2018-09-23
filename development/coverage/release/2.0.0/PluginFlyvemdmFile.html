@@ -36,7 +36,7 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    28%
+                    27%
                                             <small>of 139</small>
                                     </h1>
                 <strong>Lines</strong>
@@ -86,9 +86,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#prepareInputForUpdate">PluginFlyvemdmFile::prepareInputForUpdate()</a></td>
-                                        <td style="text-align: center">21</td>
+                                        <td style="text-align: center">20</td>
                 <td style="text-align: center">    
-    <span class="label label-warning">62%</span>
+    <span class="label label-warning">60%</span>
 </td>
                                             </tr>
             <tr>
@@ -121,9 +121,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#post_getFromDB">PluginFlyvemdmFile::post_getFromDB()</a></td>
-                                        <td style="text-align: center">11</td>
+                                        <td style="text-align: center">12</td>
                 <td style="text-align: center">    
-    <span class="label label-success">73%</span>
+    <span class="label label-warning">67%</span>
 </td>
                                             </tr>
             <tr>
@@ -1056,7 +1056,7 @@ layout: coverage
                     <th id="L116" class="number ">116</th>
 
                     <td class="" id="prepareInputForUpdate">
-                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-warning">62%</span><div class="btn-group"></div></pre>
+                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-warning">60%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -1216,33 +1216,18 @@ layout: coverage
                     <th id="L138" class="number covered">138</th>
 
                     <td class="covered" >
-                        <pre>         if ($filename != $this-&gt;fields[&#039;source&#039;]) {</pre>
+                        <pre>         if ($filename != $this-&gt;fields[&#039;source&#039;] &amp;&amp; file_exists(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L139" class="number covered">139</th>
 
                     <td class="covered" >
-                        <pre>            if (file_exists(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;])) {</pre>
+                        <pre>            unlink(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L140" class="number covered">140</th>
-
-                    <td class="covered" >
-                        <pre>               unlink(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;]);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L141" class="number ">141</th>
-
-                    <td class="" >
-                        <pre>            }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L142" class="number ">142</th>
+                    <th id="L140" class="number ">140</th>
 
                     <td class="" >
                         <pre>         }
@@ -1250,7 +1235,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L143" class="number ">143</th>
+                    <th id="L141" class="number ">141</th>
 
                     <td class="" >
                         <pre>         // File updated, then increment its version
@@ -1258,14 +1243,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L144" class="number covered">144</th>
+                    <th id="L142" class="number covered">142</th>
 
                     <td class="covered" >
                         <pre>         $input[&#039;version&#039;] = $this-&gt;fields[&#039;version&#039;] + 1;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L145" class="number ">145</th>
+                    <th id="L143" class="number ">143</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -1273,7 +1258,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L146" class="number ">146</th>
+                    <th id="L144" class="number ">144</th>
 
                     <td class="" >
                         <pre>         // No file uploaded
@@ -1281,14 +1266,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L147" class="number uncovered">147</th>
+                    <th id="L145" class="number uncovered">145</th>
 
                     <td class="uncovered" >
                         <pre>         unset($input[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L148" class="number ">148</th>
+                    <th id="L146" class="number ">146</th>
 
                     <td class="" >
                         <pre>      }
@@ -1296,7 +1281,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L149" class="number ">149</th>
+                    <th id="L147" class="number ">147</th>
 
                     <td class="" >
                         <pre>
@@ -1304,21 +1289,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L150" class="number covered">150</th>
+                    <th id="L148" class="number covered">148</th>
 
                     <td class="covered" >
                         <pre>      return $input;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L151" class="number unreach">151</th>
+                    <th id="L149" class="number unreach">149</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L152" class="number ">152</th>
+                    <th id="L150" class="number ">150</th>
 
                     <td class="" >
                         <pre>
@@ -1326,7 +1311,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L153" class="number ">153</th>
+                    <th id="L151" class="number ">151</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1334,7 +1319,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L154" class="number ">154</th>
+                    <th id="L152" class="number ">152</th>
 
                     <td class="" >
                         <pre>    * Gets the filename and the saved copy of an upload
@@ -1342,7 +1327,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L155" class="number ">155</th>
+                    <th id="L153" class="number ">153</th>
 
                     <td class="" >
                         <pre>    * @param boolean $uploadMandatory Is the upload mandatory ?
@@ -1350,7 +1335,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L156" class="number ">156</th>
+                    <th id="L154" class="number ">154</th>
 
                     <td class="" >
                         <pre>    * @return array filename of the upload, and path to the uploaded file
@@ -1358,7 +1343,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L157" class="number ">157</th>
+                    <th id="L155" class="number ">155</th>
 
                     <td class="" >
                         <pre>    */
@@ -1366,14 +1351,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getUploadedFile">
-                    <th id="L158" class="number ">158</th>
+                    <th id="L156" class="number ">156</th>
 
                     <td class="" id="getUploadedFile">
                         <pre>   private function getUploadedFile($uploadMandatory = false) {<span class="label label-danger">27%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L159" class="number ">159</th>
+                    <th id="L157" class="number ">157</th>
 
                     <td class="" >
                         <pre>      // Find the added file
@@ -1381,21 +1366,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L160" class="number covered">160</th>
+                    <th id="L158" class="number covered">158</th>
 
                     <td class="covered" >
                         <pre>      $common = new PluginFlyvemdmCommon();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L161" class="number covered">161</th>
+                    <th id="L159" class="number covered">159</th>
 
                     <td class="covered" >
                         <pre>      if (!$common-&gt;isAPI()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L162" class="number ">162</th>
+                    <th id="L160" class="number ">160</th>
 
                     <td class="" >
                         <pre>         // from GLPI UI
@@ -1403,35 +1388,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L163" class="number covered">163</th>
+                    <th id="L161" class="number covered">161</th>
 
                     <td class="covered" >
                         <pre>         if (isset($_POST[&#039;_file&#039;][0]) &amp;&amp; is_string($_POST[&#039;_file&#039;][0])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L164" class="number covered">164</th>
+                    <th id="L162" class="number covered">162</th>
 
                     <td class="covered" >
                         <pre>            $actualFilename = $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L165" class="number covered">165</th>
+                    <th id="L163" class="number covered">163</th>
 
                     <td class="covered" >
                         <pre>            $uploadedFile = GLPI_TMP_DIR . &#039;/&#039; . $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L166" class="number covered">166</th>
+                    <th id="L164" class="number covered">164</th>
 
                     <td class="covered" >
                         <pre>            return [$actualFilename, $uploadedFile];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L167" class="number ">167</th>
+                    <th id="L165" class="number ">165</th>
 
                     <td class="" >
                         <pre>         }
@@ -1439,14 +1424,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L168" class="number uncovered">168</th>
+                    <th id="L166" class="number uncovered">166</th>
 
                     <td class="uncovered" >
                         <pre>         return [null, null];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L169" class="number ">169</th>
+                    <th id="L167" class="number ">167</th>
 
                     <td class="" >
                         <pre>      }
@@ -1454,7 +1439,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L170" class="number ">170</th>
+                    <th id="L168" class="number ">168</th>
 
                     <td class="" >
                         <pre>
@@ -1462,28 +1447,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L171" class="number uncovered">171</th>
+                    <th id="L169" class="number uncovered">169</th>
 
                     <td class="uncovered" >
                         <pre>      if ($uploadMandatory &amp;&amp; !isset($_FILES[&#039;file&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L172" class="number uncovered">172</th>
+                    <th id="L170" class="number uncovered">170</th>
 
                     <td class="uncovered" >
                         <pre>         Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &#039;flyvemdm&#039;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L173" class="number uncovered">173</th>
+                    <th id="L171" class="number uncovered">171</th>
 
                     <td class="uncovered" >
                         <pre>         return [null, null];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L174" class="number ">174</th>
+                    <th id="L172" class="number ">172</th>
 
                     <td class="" >
                         <pre>      }
@@ -1491,7 +1476,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L175" class="number ">175</th>
+                    <th id="L173" class="number ">173</th>
 
                     <td class="" >
                         <pre>
@@ -1499,28 +1484,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L176" class="number uncovered">176</th>
+                    <th id="L174" class="number uncovered">174</th>
 
                     <td class="uncovered" >
                         <pre>      if (!$_FILES[&#039;file&#039;][&#039;error&#039;] == 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L177" class="number uncovered">177</th>
+                    <th id="L175" class="number uncovered">175</th>
 
                     <td class="uncovered" >
                         <pre>         if (!$_FILES[&#039;file&#039;][&#039;error&#039;] == 4) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L178" class="number uncovered">178</th>
+                    <th id="L176" class="number uncovered">176</th>
 
                     <td class="uncovered" >
                         <pre>            Session::addMessageAfterRedirect(__(&#039;File upload failed&#039;, &#039;flyvemdm&#039;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L179" class="number ">179</th>
+                    <th id="L177" class="number ">177</th>
 
                     <td class="" >
                         <pre>         }
@@ -1528,14 +1513,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L180" class="number uncovered">180</th>
+                    <th id="L178" class="number uncovered">178</th>
 
                     <td class="uncovered" >
                         <pre>         return [null, null];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L181" class="number ">181</th>
+                    <th id="L179" class="number ">179</th>
 
                     <td class="" >
                         <pre>      }
@@ -1543,7 +1528,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L182" class="number ">182</th>
+                    <th id="L180" class="number ">180</th>
 
                     <td class="" >
                         <pre>
@@ -1551,21 +1536,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L183" class="number uncovered">183</th>
+                    <th id="L181" class="number uncovered">181</th>
 
                     <td class="uncovered" >
                         <pre>      $destination = GLPI_TMP_DIR . &#039;/&#039; . $_FILES[&#039;file&#039;][&#039;name&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L184" class="number uncovered">184</th>
+                    <th id="L182" class="number uncovered">182</th>
 
                     <td class="uncovered" >
                         <pre>      if (is_readable($_FILES[&#039;file&#039;][&#039;tmp_name&#039;]) &amp;&amp; !is_readable($destination)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L185" class="number ">185</th>
+                    <th id="L183" class="number ">183</th>
 
                     <td class="" >
                         <pre>         // Move the file to GLPI_TMP_DIR
@@ -1573,28 +1558,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L186" class="number uncovered">186</th>
+                    <th id="L184" class="number uncovered">184</th>
 
                     <td class="uncovered" >
                         <pre>         if (!is_dir(GLPI_TMP_DIR)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L187" class="number uncovered">187</th>
+                    <th id="L185" class="number uncovered">185</th>
 
                     <td class="uncovered" >
                         <pre>            Session::addMessageAfterRedirect(__(&#039;Temp directory doesn\&#039;t exist&#039;, &#039;flyvemdm&#039;), false, ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L188" class="number uncovered">188</th>
+                    <th id="L186" class="number uncovered">186</th>
 
                     <td class="uncovered" >
                         <pre>            return [null, null];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L189" class="number ">189</th>
+                    <th id="L187" class="number ">187</th>
 
                     <td class="" >
                         <pre>         }
@@ -1602,7 +1587,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L190" class="number ">190</th>
+                    <th id="L188" class="number ">188</th>
 
                     <td class="" >
                         <pre>      }
@@ -1610,7 +1595,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L191" class="number ">191</th>
+                    <th id="L189" class="number ">189</th>
 
                     <td class="" >
                         <pre>
@@ -1618,21 +1603,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L192" class="number uncovered">192</th>
+                    <th id="L190" class="number uncovered">190</th>
 
                     <td class="uncovered" >
                         <pre>      $actualFilename = $_FILES[&#039;file&#039;][&#039;name&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L193" class="number uncovered">193</th>
+                    <th id="L191" class="number uncovered">191</th>
 
                     <td class="uncovered" >
                         <pre>      $uploadedFile = $destination;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L194" class="number ">194</th>
+                    <th id="L192" class="number ">192</th>
 
                     <td class="" >
                         <pre>
@@ -1640,21 +1625,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L195" class="number uncovered">195</th>
+                    <th id="L193" class="number uncovered">193</th>
 
                     <td class="uncovered" >
                         <pre>      return [$actualFilename, $uploadedFile];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L196" class="number unreach">196</th>
+                    <th id="L194" class="number unreach">194</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L197" class="number ">197</th>
+                    <th id="L195" class="number ">195</th>
 
                     <td class="" >
                         <pre>
@@ -1662,7 +1647,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L198" class="number ">198</th>
+                    <th id="L196" class="number ">196</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1670,7 +1655,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L199" class="number ">199</th>
+                    <th id="L197" class="number ">197</th>
 
                     <td class="" >
                         <pre>    * @return array
@@ -1678,7 +1663,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L200" class="number ">200</th>
+                    <th id="L198" class="number ">198</th>
 
                     <td class="" >
                         <pre>    */
@@ -1686,28 +1671,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getSearchOptionsNew">
-                    <th id="L201" class="number ">201</th>
+                    <th id="L199" class="number ">199</th>
 
                     <td class="" id="getSearchOptionsNew">
                         <pre>   public function getSearchOptionsNew() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L202" class="number uncovered">202</th>
+                    <th id="L200" class="number uncovered">200</th>
 
                     <td class="uncovered" >
                         <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L203" class="number unreach">203</th>
+                    <th id="L201" class="number unreach">201</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L204" class="number ">204</th>
+                    <th id="L202" class="number ">202</th>
 
                     <td class="" >
                         <pre>
@@ -1715,28 +1700,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="rawSearchOptions">
-                    <th id="L205" class="number ">205</th>
+                    <th id="L203" class="number ">203</th>
 
                     <td class="" id="rawSearchOptions">
                         <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L206" class="number uncovered">206</th>
+                    <th id="L204" class="number uncovered">204</th>
 
                     <td class="uncovered" >
                         <pre>      if (method_exists(&#039;CommonDBTM&#039;, &#039;rawSearchOptions&#039;)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L207" class="number uncovered">207</th>
+                    <th id="L205" class="number uncovered">205</th>
 
                     <td class="uncovered" >
                         <pre>         $tab = parent::rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L208" class="number ">208</th>
+                    <th id="L206" class="number ">206</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -1744,14 +1729,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L209" class="number uncovered">209</th>
+                    <th id="L207" class="number uncovered">207</th>
 
                     <td class="uncovered" >
                         <pre>         $tab = parent::getSearchOptionsNew();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L210" class="number ">210</th>
+                    <th id="L208" class="number ">208</th>
 
                     <td class="" >
                         <pre>      }
@@ -1759,7 +1744,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L211" class="number ">211</th>
+                    <th id="L209" class="number ">209</th>
 
                     <td class="" >
                         <pre>
@@ -1767,42 +1752,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L212" class="number uncovered">212</th>
+                    <th id="L210" class="number uncovered">210</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L213" class="number uncovered">213</th>
+                    <th id="L211" class="number uncovered">211</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L214" class="number uncovered">214</th>
+                    <th id="L212" class="number uncovered">212</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L215" class="number uncovered">215</th>
+                    <th id="L213" class="number uncovered">213</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L216" class="number uncovered">216</th>
+                    <th id="L214" class="number uncovered">214</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L217" class="number ">217</th>
+                    <th id="L215" class="number ">215</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -1810,14 +1795,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L218" class="number uncovered">218</th>
+                    <th id="L216" class="number uncovered">216</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L219" class="number ">219</th>
+                    <th id="L217" class="number ">217</th>
 
                     <td class="" >
                         <pre>      ];
@@ -1825,7 +1810,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L220" class="number ">220</th>
+                    <th id="L218" class="number ">218</th>
 
                     <td class="" >
                         <pre>
@@ -1833,49 +1818,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L221" class="number uncovered">221</th>
+                    <th id="L219" class="number uncovered">219</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L222" class="number uncovered">222</th>
+                    <th id="L220" class="number uncovered">220</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L223" class="number uncovered">223</th>
+                    <th id="L221" class="number uncovered">221</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L224" class="number uncovered">224</th>
+                    <th id="L222" class="number uncovered">222</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;source&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L225" class="number uncovered">225</th>
+                    <th id="L223" class="number uncovered">223</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;Source&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L226" class="number uncovered">226</th>
+                    <th id="L224" class="number uncovered">224</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L227" class="number ">227</th>
+                    <th id="L225" class="number ">225</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -1883,7 +1868,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L228" class="number ">228</th>
+                    <th id="L226" class="number ">226</th>
 
                     <td class="" >
                         <pre>      ];
@@ -1891,7 +1876,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L229" class="number ">229</th>
+                    <th id="L227" class="number ">227</th>
 
                     <td class="" >
                         <pre>
@@ -1899,49 +1884,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L230" class="number uncovered">230</th>
+                    <th id="L228" class="number uncovered">228</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L231" class="number uncovered">231</th>
+                    <th id="L229" class="number uncovered">229</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L232" class="number uncovered">232</th>
+                    <th id="L230" class="number uncovered">230</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L233" class="number uncovered">233</th>
+                    <th id="L231" class="number uncovered">231</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;comment&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L234" class="number uncovered">234</th>
+                    <th id="L232" class="number uncovered">232</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;Comment&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L235" class="number uncovered">235</th>
+                    <th id="L233" class="number uncovered">233</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datetype&#039;      =&gt; &#039;text&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L236" class="number ">236</th>
+                    <th id="L234" class="number ">234</th>
 
                     <td class="" >
                         <pre>      ];
@@ -1949,7 +1934,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L237" class="number ">237</th>
+                    <th id="L235" class="number ">235</th>
 
                     <td class="" >
                         <pre>
@@ -1957,49 +1942,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L238" class="number uncovered">238</th>
+                    <th id="L236" class="number uncovered">236</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L239" class="number uncovered">239</th>
+                    <th id="L237" class="number uncovered">237</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L240" class="number uncovered">240</th>
+                    <th id="L238" class="number uncovered">238</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; &#039;glpi_entities&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L241" class="number uncovered">241</th>
+                    <th id="L239" class="number uncovered">239</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;completename&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L242" class="number uncovered">242</th>
+                    <th id="L240" class="number uncovered">240</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;Entity&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L243" class="number uncovered">243</th>
+                    <th id="L241" class="number uncovered">241</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;dropdown&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L244" class="number ">244</th>
+                    <th id="L242" class="number ">242</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2007,21 +1992,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L245" class="number uncovered">245</th>
+                    <th id="L243" class="number uncovered">243</th>
 
                     <td class="uncovered" >
                         <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L246" class="number unreach">246</th>
+                    <th id="L244" class="number unreach">244</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L247" class="number ">247</th>
+                    <th id="L245" class="number ">245</th>
 
                     <td class="" >
                         <pre>
@@ -2029,42 +2014,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="pre_deleteItem">
-                    <th id="L248" class="number ">248</th>
+                    <th id="L246" class="number ">246</th>
 
                     <td class="" id="pre_deleteItem">
                         <pre>   public function pre_deleteItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L249" class="number uncovered">249</th>
+                    <th id="L247" class="number uncovered">247</th>
 
                     <td class="uncovered" >
                         <pre>      $task = new PluginFlyvemdmTask();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L250" class="number uncovered">250</th>
+                    <th id="L248" class="number uncovered">248</th>
 
                     <td class="uncovered" >
                         <pre>      return $task-&gt;deleteByCriteria([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L251" class="number uncovered">251</th>
+                    <th id="L249" class="number uncovered">249</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;itemtype&#039; =&gt; $this-&gt;getType(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L252" class="number uncovered">252</th>
+                    <th id="L250" class="number uncovered">250</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;items_id&#039; =&gt; $this-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L253" class="number ">253</th>
+                    <th id="L251" class="number ">251</th>
 
                     <td class="" >
                         <pre>      ]);
@@ -2072,14 +2057,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L254" class="number unreach">254</th>
+                    <th id="L252" class="number unreach">252</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L255" class="number ">255</th>
+                    <th id="L253" class="number ">253</th>
 
                     <td class="" >
                         <pre>
@@ -2087,7 +2072,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L256" class="number ">256</th>
+                    <th id="L254" class="number ">254</th>
 
                     <td class="" >
                         <pre>   /**
@@ -2095,7 +2080,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L257" class="number ">257</th>
+                    <th id="L255" class="number ">255</th>
 
                     <td class="" >
                         <pre>    * Actions done after the getFromFB method
@@ -2103,7 +2088,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L258" class="number ">258</th>
+                    <th id="L256" class="number ">256</th>
 
                     <td class="" >
                         <pre>    */
@@ -2111,14 +2096,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="post_getFromDB">
-                    <th id="L259" class="number ">259</th>
+                    <th id="L257" class="number ">257</th>
 
                     <td class="" id="post_getFromDB">
-                        <pre>   public function post_getFromDB() {<span class="label label-success">73%</span><div class="btn-group"></div></pre>
+                        <pre>   public function post_getFromDB() {<span class="label label-warning">67%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L260" class="number ">260</th>
+                    <th id="L258" class="number ">258</th>
 
                     <td class="" >
                         <pre>      // Check the user can view this itemtype and can view this item
@@ -2126,85 +2111,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L261" class="number covered">261</th>
+                    <th id="L259" class="number covered">259</th>
 
                     <td class="covered" >
-                        <pre>      if ($this-&gt;canView() &amp;&amp; $this-&gt;canViewItem()) {</pre>
+                        <pre>      if (!$this-&gt;canView() || !$this-&gt;canViewItem()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L262" class="number covered">262</th>
-
-                    <td class="covered" >
-                        <pre>         $filename = FLYVEMDM_FILE_PATH . &#039;/&#039; . $this-&gt;fields[&#039;source&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L263" class="number covered">263</th>
-
-                    <td class="covered" >
-                        <pre>         $isFile = is_file($filename);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L264" class="number covered">264</th>
-
-                    <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;filesize&#039;] = ($isFile) ? fileSize($filename) : 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L265" class="number covered">265</th>
-
-                    <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;mime_type&#039;] = ($isFile) ? mime_content_type($filename) : &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L266" class="number covered">266</th>
-
-                    <td class="covered" >
-                        <pre>         if (isAPI()</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L267" class="number uncovered">267</th>
+                    <th id="L260" class="number uncovered">260</th>
 
                     <td class="uncovered" >
-                        <pre>            &amp;&amp; (isset($_SERVER[&#039;HTTP_ACCEPT&#039;]) &amp;&amp; $_SERVER[&#039;HTTP_ACCEPT&#039;] == &#039;application/octet-stream&#039;</pre>
+                        <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L268" class="number covered">268</th>
-
-                    <td class="covered" >
-                        <pre>               || isset($_GET[&#039;alt&#039;]) &amp;&amp; $_GET[&#039;alt&#039;] == &#039;media&#039;)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L269" class="number uncovered">269</th>
-
-                    <td class="uncovered" >
-                        <pre>            $this-&gt;sendFile(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L270" class="number uncovered">270</th>
-
-                    <td class="uncovered" >
-                        <pre>               $this-&gt;fields[&#039;name&#039;], $this-&gt;fields[&#039;filesize&#039;]); // and terminate script</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L271" class="number ">271</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L272" class="number ">272</th>
+                    <th id="L261" class="number ">261</th>
 
                     <td class="" >
                         <pre>      }
@@ -2212,14 +2133,85 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L273" class="number covered">273</th>
+                    <th id="L262" class="number covered">262</th>
+
+                    <td class="covered" >
+                        <pre>      $filename = FLYVEMDM_FILE_PATH . &#039;/&#039; . $this-&gt;fields[&#039;source&#039;];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L263" class="number covered">263</th>
+
+                    <td class="covered" >
+                        <pre>      $isFile = is_file($filename);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L264" class="number covered">264</th>
+
+                    <td class="covered" >
+                        <pre>      $this-&gt;fields[&#039;filesize&#039;] = ($isFile) ? fileSize($filename) : 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L265" class="number covered">265</th>
+
+                    <td class="covered" >
+                        <pre>      $this-&gt;fields[&#039;mime_type&#039;] = ($isFile) ? mime_content_type($filename) : &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L266" class="number covered">266</th>
+
+                    <td class="covered" >
+                        <pre>      if (isAPI()</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L267" class="number uncovered">267</th>
+
+                    <td class="uncovered" >
+                        <pre>         &amp;&amp; (isset($_SERVER[&#039;HTTP_ACCEPT&#039;]) &amp;&amp; $_SERVER[&#039;HTTP_ACCEPT&#039;] == &#039;application/octet-stream&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L268" class="number covered">268</th>
+
+                    <td class="covered" >
+                        <pre>            || isset($_GET[&#039;alt&#039;]) &amp;&amp; $_GET[&#039;alt&#039;] == &#039;media&#039;)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L269" class="number uncovered">269</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendFile(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L270" class="number uncovered">270</th>
+
+                    <td class="uncovered" >
+                        <pre>            $this-&gt;fields[&#039;name&#039;], $this-&gt;fields[&#039;filesize&#039;]); // and terminate script</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L271" class="number ">271</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L272" class="number covered">272</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L274" class="number ">274</th>
+                    <th id="L273" class="number ">273</th>
 
                     <td class="" >
                         <pre>
@@ -2227,14 +2219,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="post_updateItem">
-                    <th id="L275" class="number ">275</th>
+                    <th id="L274" class="number ">274</th>
 
                     <td class="" id="post_updateItem">
                         <pre>   public function post_updateItem($history = 1) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L276" class="number ">276</th>
+                    <th id="L275" class="number ">275</th>
 
                     <td class="" >
                         <pre>      // Check if the source changed
@@ -2242,21 +2234,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L277" class="number uncovered">277</th>
+                    <th id="L276" class="number uncovered">276</th>
 
                     <td class="uncovered" >
                         <pre>      if (!isset($this-&gt;oldvalues[&#039;source&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L278" class="number uncovered">278</th>
+                    <th id="L277" class="number uncovered">277</th>
 
                     <td class="uncovered" >
                         <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L279" class="number ">279</th>
+                    <th id="L278" class="number ">278</th>
 
                     <td class="" >
                         <pre>      }
@@ -2264,7 +2256,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L280" class="number ">280</th>
+                    <th id="L279" class="number ">279</th>
 
                     <td class="" >
                         <pre>
@@ -2272,21 +2264,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L281" class="number uncovered">281</th>
+                    <th id="L280" class="number uncovered">280</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;deployNotification(new PluginFlyvemdmTask);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L282" class="number uncovered">282</th>
+                    <th id="L281" class="number uncovered">281</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L283" class="number ">283</th>
+                    <th id="L282" class="number ">282</th>
 
                     <td class="" >
                         <pre>
@@ -2294,24 +2286,32 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="post_purgeItem">
-                    <th id="L284" class="number ">284</th>
+                    <th id="L283" class="number ">283</th>
 
                     <td class="" id="post_purgeItem">
                         <pre>   public function post_purgeItem() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L285" class="number uncovered">285</th>
+                    <th id="L284" class="number uncovered">284</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;unlinkLocalFile(FLYVEMDM_FILE_PATH . &quot;/&quot; . $this-&gt;fields[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L286" class="number uncovered">286</th>
+                    <th id="L285" class="number uncovered">285</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L286" class="number ">286</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -2326,7 +2326,7 @@ layout: coverage
                     <th id="L288" class="number ">288</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -2334,7 +2334,7 @@ layout: coverage
                     <th id="L289" class="number ">289</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Deletes files related to the entity being purged
 </pre>
                     </td>
                 </tr>
@@ -2342,7 +2342,7 @@ layout: coverage
                     <th id="L290" class="number ">290</th>
 
                     <td class="" >
-                        <pre>    * Deletes files related to the entity being purged
+                        <pre>    * @param CommonDBTM $item
 </pre>
                     </td>
                 </tr>
@@ -2350,48 +2350,40 @@ layout: coverage
                     <th id="L291" class="number ">291</th>
 
                     <td class="" >
-                        <pre>    * @param CommonDBTM $item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L292" class="number ">292</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="hook_entity_purge">
-                    <th id="L293" class="number ">293</th>
+                    <th id="L292" class="number ">292</th>
 
                     <td class="" id="hook_entity_purge">
                         <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L294" class="number uncovered">294</th>
+                    <th id="L293" class="number uncovered">293</th>
 
                     <td class="uncovered" >
                         <pre>      $file = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L295" class="number uncovered">295</th>
+                    <th id="L294" class="number uncovered">294</th>
 
                     <td class="uncovered" >
                         <pre>      $file-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L296" class="number uncovered">296</th>
+                    <th id="L295" class="number uncovered">295</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L297" class="number ">297</th>
+                    <th id="L296" class="number ">296</th>
 
                     <td class="" >
                         <pre>
@@ -2399,7 +2391,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L298" class="number ">298</th>
+                    <th id="L297" class="number ">297</th>
 
                     <td class="" >
                         <pre>   /**
@@ -2407,7 +2399,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L299" class="number ">299</th>
+                    <th id="L298" class="number ">298</th>
 
                     <td class="" >
                         <pre>    * Display a form to view, create or edit
@@ -2415,7 +2407,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L300" class="number ">300</th>
+                    <th id="L299" class="number ">299</th>
 
                     <td class="" >
                         <pre>    * @param integer $ID ID of the item to show
@@ -2423,7 +2415,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L301" class="number ">301</th>
+                    <th id="L300" class="number ">300</th>
 
                     <td class="" >
                         <pre>    * @param array $options
@@ -2431,7 +2423,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L302" class="number ">302</th>
+                    <th id="L301" class="number ">301</th>
 
                     <td class="" >
                         <pre>    */
@@ -2439,28 +2431,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="showForm">
-                    <th id="L303" class="number ">303</th>
+                    <th id="L302" class="number ">302</th>
 
                     <td class="" id="showForm">
                         <pre>   public function showForm($ID, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L304" class="number uncovered">304</th>
+                    <th id="L303" class="number uncovered">303</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;initForm($ID, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L305" class="number uncovered">305</th>
+                    <th id="L304" class="number uncovered">304</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;showFormHeader($options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L306" class="number ">306</th>
+                    <th id="L305" class="number ">305</th>
 
                     <td class="" >
                         <pre>
@@ -2468,49 +2460,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L307" class="number uncovered">307</th>
+                    <th id="L306" class="number uncovered">306</th>
 
                     <td class="uncovered" >
                         <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L308" class="number uncovered">308</th>
+                    <th id="L307" class="number uncovered">307</th>
 
                     <td class="uncovered" >
                         <pre>      $fields = $this-&gt;fields;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L309" class="number uncovered">309</th>
+                    <th id="L308" class="number uncovered">308</th>
 
                     <td class="uncovered" >
                         <pre>      $fields[&#039;filesize&#039;] = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L310" class="number uncovered">310</th>
+                    <th id="L309" class="number uncovered">309</th>
 
                     <td class="uncovered" >
                         <pre>      if (!$this-&gt;isNewID($ID)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L311" class="number uncovered">311</th>
+                    <th id="L310" class="number uncovered">310</th>
 
                     <td class="uncovered" >
                         <pre>         $fields[&#039;filesize&#039;] = fileSize(FLYVEMDM_FILE_PATH . &#039;/&#039; . $fields[&#039;source&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L312" class="number uncovered">312</th>
+                    <th id="L311" class="number uncovered">311</th>
 
                     <td class="uncovered" >
                         <pre>         $fields[&#039;filesize&#039;] = Toolbox::getSize($fields[&#039;filesize&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L313" class="number ">313</th>
+                    <th id="L312" class="number ">312</th>
 
                     <td class="" >
                         <pre>      }
@@ -2518,7 +2510,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L314" class="number ">314</th>
+                    <th id="L313" class="number ">313</th>
 
                     <td class="" >
                         <pre>      $data = [
@@ -2526,49 +2518,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L315" class="number uncovered">315</th>
+                    <th id="L314" class="number uncovered">314</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;withTemplate&#039; =&gt; (isset($options[&#039;withtemplate&#039;]) &amp;&amp; $options[&#039;withtemplate&#039;] ? &quot;*&quot; : &quot;&quot;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L316" class="number uncovered">316</th>
+                    <th id="L315" class="number uncovered">315</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;canUpdate&#039;    =&gt; (!$this-&gt;isNewID($ID)) &amp;&amp; ($this-&gt;canUpdate() &gt; 0) || $this-&gt;isNewID($ID),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L317" class="number uncovered">317</th>
+                    <th id="L316" class="number uncovered">316</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;isNewID&#039;      =&gt; $this-&gt;isNewID($ID),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L318" class="number uncovered">318</th>
+                    <th id="L317" class="number uncovered">317</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;file&#039;         =&gt; $fields,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L319" class="number uncovered">319</th>
+                    <th id="L318" class="number uncovered">318</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;upload&#039;       =&gt; Html::file([&#039;name&#039; =&gt; &#039;file&#039;, &#039;display&#039; =&gt; false]),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L320" class="number uncovered">320</th>
+                    <th id="L319" class="number uncovered">319</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;comment&#039;      =&gt; $fields[&#039;comment&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L321" class="number ">321</th>
+                    <th id="L320" class="number ">320</th>
 
                     <td class="" >
                         <pre>      ];
@@ -2576,14 +2568,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L322" class="number uncovered">322</th>
+                    <th id="L321" class="number uncovered">321</th>
 
                     <td class="uncovered" >
                         <pre>      echo $twig-&gt;render(&#039;file.html.twig&#039;, $data);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L323" class="number ">323</th>
+                    <th id="L322" class="number ">322</th>
 
                     <td class="" >
                         <pre>
@@ -2591,21 +2583,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L324" class="number uncovered">324</th>
+                    <th id="L323" class="number uncovered">323</th>
 
                     <td class="uncovered" >
                         <pre>      $this-&gt;showFormButtons($options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L325" class="number uncovered">325</th>
+                    <th id="L324" class="number uncovered">324</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L326" class="number ">326</th>
+                    <th id="L325" class="number ">325</th>
 
                     <td class="" >
                         <pre>}
