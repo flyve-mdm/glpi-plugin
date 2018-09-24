@@ -386,6 +386,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $_SESSION['glpiID'] == $computer->getField('users_id');
    }
 
+   public function canUpdateItem() {
+      // Check the active profile
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      if ($_SESSION['glpiactiveprofile']['id'] != $config['guest_profiles_id']) {
+         return parent::canUpdateItem();
+      }
+
+      if (!$this->checkEntity(true)) {
+         return false;
+      }
+
+      return $_SESSION['glpiID'] == $this->fields[User::getForeignKeyField()];
+   }
+
    /**
     * Sends a wipe command to the agent
     */
@@ -469,6 +483,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    public function prepareInputForUpdate($input) {
+      $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      if ($_SESSION['glpiactiveprofile']['id'] == $config['guest_profiles_id']) {
+         return $this->prepareInputForUpdateFromDevice($input);
+      }
+
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
          $oldFleet = new PluginFlyvemdmFleet();
@@ -543,6 +562,31 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             return false;
          }
       }
+
+      return $input;
+   }
+
+   /**
+    * Prepare input for update from the agent itseld
+    *
+    * @param array $input
+    * @return array
+    */
+   private function prepareInputForUpdateFromDevice($input) {
+      //Sanitize input
+      unset($input[Computer::getForeignKeyField()]);
+      unset($input[User::getForeignKeyField()]);
+      unset($input[Entity::getForeignKeyField()]);
+      unset($input[PluginFlyvemdmFleet::getForeignKeyField()]);
+      unset($input['name']);
+      unset($input['wipe']);
+      unset($input['lock']);
+      unset($input['enroll_status']);
+      unset($input['last_report']);
+      unset($input['last_contact']);
+      unset($input['is_online']);
+      unset($input['certificate']);
+      unset($input['mdm_type']);
 
       return $input;
    }
@@ -1294,6 +1338,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       $computerId = $pfAgent->getField(Computer::getForeignKeyField());
 
+      // Check no Flyvemdm agent is linked to this computer
+      $agent = new self();
+      if ($agent->getFromDBByCrit(['computers_id' => $computerId])) {
+         // Save the agent ID in session to allow the device to find it
+         // and update it. Give up creation
+         $_SESSION['plugin_flyvemdm_agents_id'] = $agent->getID();
+         return false;
+      }
+
       if ($computerId === 0) {
          $event = __("Cannot create the device", 'flyvemdm');
          $this->filterMessages($event);
@@ -1355,7 +1408,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Create the agent
       $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
       if ($defaultFleet === null) {
-         $event = __("No default fleet available for the device", 'flyvemdm');
+         $event = __('No default fleet available for the device', 'flyvemdm');
          $this->filterMessages($event);
          $this->logInvitationEvent($invitation, $event);
          return false;

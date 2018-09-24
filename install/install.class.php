@@ -272,7 +272,7 @@ class PluginFlyvemdmInstall {
       Config::setConfigurationValues('flyvemdm', ['guest_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
-         PluginFlyvemdmAgent::$rightname   => READ | CREATE,
+         PluginFlyvemdmAgent::$rightname   => READ | CREATE | UPDATE,
          PluginFlyvemdmFile::$rightname    => READ,
          PluginFlyvemdmPackage::$rightname => READ,
       ]);

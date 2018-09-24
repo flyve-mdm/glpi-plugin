@@ -348,4 +348,97 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->string($instance->getSpecificValueToDisplay('mdm_type',
          'android'))->contains('Android');
    }
+
+   public function testCanUpdateItem() {
+      // Check a super admin can update the agent
+      $this->login('glpi', 'glpi');
+      $agent = $this->createAgent();
+      $output = $agent->canUpdateItem();
+      $this->boolean($output)->isTrue();
+
+      // Check if the account of the agent can update it
+      $user = new \User();
+      $user->getFromDB($agent->fields[\User::getForeignKeyField()]);
+      $this->loginWithUserToken($user->fields['api_token']);
+      $output = $agent->canUpdateItem();
+      $this->boolean($output)->isTrue();
+
+      // Check if a not authorized profile can update the item
+      $this->login('post-only', 'postonly');
+      $output = $agent->canUpdateItem();
+      $this->boolean($output)->isTrue(); // The check is only on entity restriction
+
+      // Check that canUpdate will prevent update
+      $output = \PluginFlyvemdmAgent::canUpdate();
+      $this->boolean($output)->isFalse();
+   }
+
+   /**
+    * @tags testPrepareInputForUpdate
+    */
+   public function testPrepareInputForUpdate() {
+      $this->login('glpi', 'glpi');
+      $agent = $this->createAgent();
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+      $this->loginWithUserToken($user->fields['api_token']);
+      $output = $agent->prepareInputForUpdate([
+         \Computer::getForeignKeyField() => '0',
+         \User::getForeignKeyField() => '0',
+         \Entity::getForeignKeyField() => '0',
+         \PluginFlyvemdmFleet::getForeignKeyField() => '0',
+         'name'  => '',
+         'wipe' => '0',
+         'lock' => '0',
+         'enroll_status' => '',
+         'last_report' => '',
+         'last_contact' => '',
+         'is_online' => '',
+         'certificate' => '',
+         'mdm_type' => '',
+      ]);
+
+      $this->array($output)->notHasKeys([
+         \Computer::getForeignKeyField(),
+         \User::getForeignKeyField(),
+         \Entity::getForeignKeyField(),
+         \PluginFlyvemdmFleet::getForeignKeyField(),
+         'name',
+         'wipe',
+         'lock',
+         'enroll_status',
+         'last_report',
+         'last_contact',
+         'is_online',
+         'certificate',
+         'mdm_type',
+      ]);
+   }
+
+   /**
+    * @tags testPrepareInputForAdd
+    */
+   public function testPrepareInputForAdd() {
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+      list($user2, $serial2, $guestEmail2, $invitation2) = $this->createUserInvitation(\User::getForeignKeyField());
+      $invitationToken = $invitation->fields['invitation_token'];
+      $invitationToken2 = $invitation2->fields['invitation_token'];
+      $inventory = self::AgentXmlInventory($serial);
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
+         '', $inventory, [], true);
+      $this->array($_SESSION)->notHasKey('plugin_flyvemdm_agents_id');
+
+      // Inconsistency : creating an invitation for tests should not generate a serial
+      // the serial should be crated in the caller instead
+      list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+      $newAgent = $this->agentFromInvitation($user2, $guestEmail2, $serial, $invitationToken2, 'android',
+         '', $inventory, [], false);
+      // Check the agent is not created
+      $this->boolean($newAgent->isNewItem())->isTrue();
+      // Do not test the message in session: it may be filtered when
+      // debug mode for enrollment is disabled
+      // Instead, let's check if the session contains the ID of the agent to update
+      $this->array($_SESSION)->hasKey('plugin_flyvemdm_agents_id');
+      $this->integer((int) $_SESSION['plugin_flyvemdm_agents_id'])
+         ->isEqualTo($agent->getID());
+   }
 }

@@ -133,7 +133,7 @@ class ProfileRight extends CommonTestCase {
       $profileId = $config['guest_profiles_id'];
       // Expected rights
       $rightsSet = [
-         \PluginFlyvemdmAgent::$rightname   => READ | CREATE,
+         \PluginFlyvemdmAgent::$rightname   => READ | CREATE | UPDATE,
          \PluginFlyvemdmPackage::$rightname => READ,
          \PluginFlyvemdmFile::$rightname    => READ,
       ];

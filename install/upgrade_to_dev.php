@@ -42,8 +42,6 @@ class PluginFlyvemdmUpgradeTodev {
 
       $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
-      $profileRight = new ProfileRight();
-
       $config = Config::getConfigurationValues('flyvemdm');
       if (!isset($config['mqtt_broker_port_backend'])) {
          // Split port setting for client in one hand and backend in the other hand
@@ -51,5 +49,14 @@ class PluginFlyvemdmUpgradeTodev {
          $config['mqtt_broker_port_backend'] = $config['mqtt_broker_port'];
          Config::setConfigurationValues('flyvemdm', $config);
       }
+
+      // Merge new rights into guest profile
+      $profileId = $config['guest_profiles_id'];
+      $currentRights = ProfileRight::getProfileRights($profileId);
+      $newRights = array_merge($currentRights, [
+         PluginFlyvemdmAgent::$rightname      => CREATE| READ | UPDATE ,
+      ]);
+      $profileRight = new ProfileRight();
+      $profileRight->updateProfileRights($profileId, $newRights);
    }
 }
