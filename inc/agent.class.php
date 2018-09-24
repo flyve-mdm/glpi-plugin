@@ -1392,7 +1392,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['version']                   = $version;
       $input['users_id']                  = $agentAccount->getID();
       $input['mdm_type']                  = $mdmType;
-      $input['$systemPermission']         = $systemPermission;
+      $input['systemPermission']          = $systemPermission;
       return $input;
 
    }
