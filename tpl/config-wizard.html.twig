@@ -141,6 +141,18 @@ upload_max_filesize = 8M
 		</tr>
 		{% endif %} {% if step == 107 %}
 		<tr>
+			<th colspan="3" class="">{{ __('Flyve MDM Deeplink Microservice', 'flyvemdm') }}</th>
+		</tr>
+		<tr class="tab_bg_1">
+			<td>
+				<p>{{ __('We host an instance of this microservice and provide it by default in the plugin configuration.', 'flyvemdm') }}</p>
+				<p>{{ __('In case you would like to host the microservice by yourself, just follow the documentation', 'flyvemdm') }}</p>
+				<p><a href="https://github.com/flyve-mdm/deeplink#installation" target="_blank">{{ __('Flyve MDM Deeplink', 'flyvemdm' )}}</a></p>
+				<p>{{ __(' Then update the URL in the General Configuration tab', 'flyvemdm') }}</p>
+			</td>
+		</tr>
+		{% endif %} {% if step == 108 %}
+		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
@@ -162,12 +174,12 @@ bind-address = 0.0.0.0
 </textarea></p>
 				<p>{{ __('Restart your DBMS daemon and check it listens to the expected interface.', 'flyvemdm') }}</p>
 				<p>netstat -taupen | grep 3306</p>
-				<p>{{ __('Check you can login to your DBMD from the host which will run Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('Check you can login to your DBMS from the host which will run Mosquitto.', 'flyvemdm') }}</p>
 				<p>{{ __('The following command will ask for the password you choosed earlier', 'flyvemdm') }}</p>
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 108 %}
+		{% endif %} {% if step == 109 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -194,7 +206,7 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 109 %}
+		{% endif %} {% if step == 110 %}
 		<tr>
 			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
 		</tr>
@@ -233,18 +245,25 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('This will launch openssl as a client using the TLS protocol and leave the terminal in a state similar to telnet') }}</p>
 				<p>{{ __('Many debug information is displayed during TLS negociation, useful to diagnose TLS problems') }}</p>			</td>
 		</tr>
-		{% endif %} {% if step == 110 %}
+		{% endif %} {% if step == 111 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('Flyve MDM requires to connect to Mosquitto.', 'flyvemdm') }}</p>
-				<p>{{ __('For SYSV systems, link the init script in /etc/init.d/', 'flyvemdm') }}</p>
+				<p>{{ __('For SYSV systems', 'flyvemdm') }}</p>
+				<p>{{ __('- Adapt the user, group and path if required in the flyvemdm/scripts/service.example.sh', 'flyvemdm') }}</p>
+				<p>{{ __('- Rename the script to service.sh, then link it in etc/init.d/', 'flyvemdm') }}</p>
 				<p>ln -s /var/www/html/glpi/plugins/flyvemdm/scripts/service.sh /etc/init.d/flyvemdm</p>
-				<p>{{ __('Check the user configured in the script and adapt it if needed.', 'flyvemdm') }}</p>
 				<p>update-rc.d flyvemdm defaults</p>
 				<p>service flyvemdm start</p>
+				<p>{{ __('For systemd', 'flyvemdm') }}</p>
+				<p>{{ __('- Adapt the user, group and path if required in the flyvemdm/scripts/flyvemdm.example.service', 'flyvemdm') }}</p>
+				<p>{{ __('- Rename the script to flyvemdm.service', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl daemon-reload', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl start flyvemdm.service', 'flyvemdm') }}</p>
+				<p>{{ __('systemctl enable flyvemdm.service', 'flyvemdm') }}</p>
 			</td>
 		</tr>
 		{% endif %}

@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier
+ * @author    the flyvemdm plugin team
  * @copyright Copyright © 2018 Teclib
  * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -33,35 +33,23 @@ if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-$category = 'Mobile Device Management';
-$mdm = [
-];
+class PluginFlyvemdmUpgradeTodev {
+   /**
+    * @param Migration $migration
+    */
+   function upgrade(Migration $migration) {
+      global $DB;
 
-// TODO Specific category because we will have new features related to geolocation
-// - disable geolocation reporting with time intervals
-// - disable geolocation reporting with geographic areas
-$category = 'Mobile Device Management > Geolocation';
-$mdmGeolocation = [
-   [
-      'name'                                => __('Periodic geolocation', 'flyvemdm'),
-      'symbol'                              => 'periodicGeolocation',
-      'group'                               => 'encryption',
-      'type'                                => 'int',
-      'type_data'                           => [
-         "min" => 0,
-      ],
-      'unicity'                             => 1,
-      'plugin_flyvemdm_policycategories_id' => $category,
-      'comment'                             => __('Get geolocation with a specified periodicity (in seconds) and sends it to the server.',
-         'flyvemdm'),
-      'default_value'                       => '0',
-      'recommended_value'                   => '0',
-      'is_android_system'                   => '0',
-      'android_min_version'                 => '3.0',
-      'android_max_version'                 => '0',
-      'apple_min_version'                   => '0',
-      'apple_max_version'                   => '0',
-   ],
-];
+      $migration->setVersion(PLUGIN_FLYVEMDM_VERSION);
 
-return array_merge($mdm, $mdmGeolocation);
+      $profileRight = new ProfileRight();
+
+      $config = Config::getConfigurationValues('flyvemdm');
+      if (!isset($config['mqtt_broker_port_backend'])) {
+         // Split port setting for client in one hand and backend in the other hand
+         $config['mqtt_broker_tls_port_backend'] = $config['mqtt_broker_tls_port'];
+         $config['mqtt_broker_port_backend'] = $config['mqtt_broker_port'];
+         Config::setConfigurationValues('flyvemdm', $config);
+      }
+   }
+}

@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------------
  * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+ * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
@@ -612,6 +612,8 @@ Regards,
          'mqtt_broker_internal_address'    => '127.0.0.1',
          'mqtt_broker_port'                => '1883',
          'mqtt_broker_tls_port'            => '8883',
+         'mqtt_broker_port_backend'        => '1883',
+         'mqtt_broker_tls_port_backend'    => '8883',
          'mqtt_tls_for_clients'            => '0',
          'mqtt_tls_for_backend'            => '0',
          'mqtt_use_client_cert'            => '0',

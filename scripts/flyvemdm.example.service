@@ -1,0 +1,16 @@
+[Unit]
+Description=Flyve Mobile Device Management for GLPI
+Wants=network.target
+##########################################################################
+ConditionPathExists=/var/www/html/glpi/plugins/flyvemdm/scripts/mqtt.php
+##########################################################################
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+ExecStart=/var/www/html/glpi/plugins/flyvemdm/scripts/loop-run.sh
+Restart=on-failure
+SyslogIdentifier=flyvemdm
+[Install]
+WantedBy=multi-user.target

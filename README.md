@@ -36,6 +36,10 @@ It allows the management of mobile devices of your IT infrastructure, providing 
 
 It provides a stand alone web based administration and an interface integrated in GLPI. The later one may be the preferred by those who use GLPI for asset management and ticketing.
 
+### Docker Environment
+
+We created a docker environment for Flyve MDM, allowing you to have a development instance ready to work on, to know where to start, just follow our [documentation](http://flyve.org/docker-environment/howtos/).
+
 ## Build Status
 
 | **LTS** | **Bleeding Edge** |
@@ -44,12 +48,12 @@ It provides a stand alone web based administration and an interface integrated i
 
 ## Compatibility Matrix
 
-|GLPI|9.1.x|9.2.1+  |
+|GLPI|9.1.x|9.2.1+|
 |:---|:---:|:---:|
-|Flyve MDM|1.x|2.0.0-dev|
+|Flyve MDM|1.x|2.0.0|
 |FusionInventory|9.1+1.0|9.2+2.0|
-|Demo Mode|-|1.0.0-dev|
-|Web MDM Dashboard|-|1.0.0-dev|
+|Web MDM Dashboard|-|2.0.0|
+|Android MDM Agent|-|2.0.0|
 
 ## Installation
 
@@ -59,7 +63,7 @@ Installation instructions are available on our documentation, see our [Installat
 
 Checkout our [Documentation](http://flyvemdm-doc.readthedocs.io/en/latest/) hosted on Read the Docs.
 
-We also share long-form content about the project on the website, see our [How-tos](http://flyve.org/glpi-plugin/howtos) and [Development](http://flyve.org/glpi-plugin/) sections.
+We also share long-form content about the project on the website, check our [Development](http://flyve.org/glpi-plugin/) section.
 
 ## Versioning
 
