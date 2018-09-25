@@ -231,32 +231,27 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          return $input;
       }
 
-      try {
-         if (!$this->isFileUploadValid($preparedFile['filename'])) {
-            return false;
+      if (!$this->isFileUploadValid($preparedFile['filename'])) {
+         return false;
+      }
+      $uploadedFile = $preparedFile['uploadedFile'];
+      $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
+      $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
+      $this->createEntityDirectory(dirname($destination));
+      if (@rename($uploadedFile, $destination)) {
+         $filename = pathinfo($destination, PATHINFO_FILENAME);
+         $input['dl_filename'] = basename($destination);
+         if ($filename != $this->fields['filename']) {
+            @unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
          }
-         $uploadedFile = $preparedFile['uploadedFile'];
-         $input['filename'] = 'flyvemdm/package/' . $this->fields['entities_id'] . "/" . uniqid() . "_" . basename($uploadedFile);
-         $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
-         $this->createEntityDirectory(dirname($destination));
-         if (rename($uploadedFile, $destination)) {
-            $filename = pathinfo($destination, PATHINFO_FILENAME);
-            $input['dl_filename'] = basename($destination);
-            if ($filename != $this->fields['filename']) {
-               unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
-            }
-            // force clean-up of package name and version to parsed them later.
-            $input['parse_status'] = 'pending';
-            $input['package_name'] = '';
-            $input['version_code'] = '';
-            $input['version'] = '';
-         } else {
-            $this->logErrorIfDirNotWritable($destination);
-            Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
-            $input = false;
-         }
-      } catch (Exception $e) {
-         // Ignore exceptions for now
+         // force clean-up of package name and version to parsed them later.
+         $input['parse_status'] = 'pending';
+         $input['package_name'] = '';
+         $input['version_code'] = '';
+         $input['version'] = '';
+      } else {
+         $this->logErrorIfDirNotWritable($destination);
+         Session::addMessageAfterRedirect(__('Unable to save the file', "flyvemdm"));
          $input = false;
       }
 

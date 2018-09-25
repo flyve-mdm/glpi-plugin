@@ -544,14 +544,7 @@ class CommonTestCase extends GlpiCommonTestCase {
       global $DB;
 
       // Create an file (directly in DB)
-      $uniqueString = ((null !== $filename) ? $filename : $this->getUniqueString());
-      $dumbPackageName = 'com.domain.' . $uniqueString . '.application';
-      $destination = 'flyvemdm/package/' .$entityId . '/123456789_application_' . $uniqueString . '.apk';
-      if (!is_dir($directory = FLYVEMDM_PACKAGE_PATH . "/" . $entityId)) {
-         @mkdir($directory);
-      }
-      $fileSize = file_put_contents(GLPI_PLUGIN_DOC_DIR . '/' . $destination, 'dummy');
-      $this->integer($fileSize)->isGreaterThan(0);
+      $apk = $this->createDummyApkFile($entityId, $filename, false);
       $packageTable = \PluginFlyvemdmPackage::getTable();
       $query = "INSERT INTO $packageTable (
          `package_name`,
@@ -562,21 +555,49 @@ class CommonTestCase extends GlpiCommonTestCase {
          `dl_filename`,
          `icon`
       ) VALUES (
-         '$dumbPackageName',
+         '" . $apk['package_name'] . "',
          'application',
          '$version',
-         '$destination',
+         '" . $apk['destination'] . "',
          '$entityId',
-         'application_" . $uniqueString . ".apk',
+         '" . $apk['filename'] . "',
          ''
       )";
 
       $DB->query($query);
       $mysqlError = $DB->error();
       $flyvemdmPackage = new \PluginFlyvemdmPackage();
-      $flyvemdmPackage->getFromDBByCrit(['package_name' => $dumbPackageName]);
+      $flyvemdmPackage->getFromDBByCrit(['package_name' => $apk['package_name']]);
       $this->boolean($flyvemdmPackage->isNewItem())->isFalse($mysqlError);
       return $flyvemdmPackage;
+   }
+
+   /**
+    * Creeate a physical dummy APK file for tests
+    *
+    * @param integer $entityId
+    * @param string|null $filename
+    * @param boolean $temp set the file on glpi temp or package folder
+    * @return array
+    */
+   protected function createDummyApkFile($entityId = 0, $filename = null, $temp = true) {
+      $uniqueString = ((null !== $filename) ? $filename : $this->getUniqueString());
+      $dumbPackageName = 'com.domain.' . $uniqueString . '.application';
+      $filename = '123456789_application_' . $uniqueString . '.apk';
+      $destinationFolder = ($temp) ? '' : 'flyvemdm/package/' . $entityId;
+      $rootFolder = ($temp) ? GLPI_TMP_DIR : GLPI_PLUGIN_DOC_DIR;
+      $destination = $destinationFolder . '/' . $filename;
+      if (!is_dir($directory = FLYVEMDM_PACKAGE_PATH . "/" . $entityId)) {
+         @mkdir($directory);
+      }
+      $fileSize = file_put_contents($rootFolder . '/' . $destination, 'dummy');
+      $this->integer($fileSize)->isGreaterThan(0);
+      return [
+         'uid'          => $uniqueString,
+         'package_name' => $dumbPackageName,
+         'destination'  => $destination,
+         'filename'     => $filename,
+      ];
    }
 
    /**
