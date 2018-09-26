@@ -294,7 +294,7 @@
 </span><span id="141" class="l">         <span class="php-var">$notifiableType</span> = <span class="php-var">$taskRow</span>[<span class="php-quote">'itemtype_applied'</span>];
 </span><span id="142" class="l">         <span class="php-var">$notifiable</span> = <span class="php-keyword1">new</span> <span class="php-var">$notifiableType</span>();
 </span><span id="143" class="l">         <span class="php-var">$notifiableId</span> = <span class="php-var">$taskRow</span>[<span class="php-quote">'items_id_applied'</span>];
-</span><span id="144" class="l">         <span class="php-keyword1">if</span> (<span class="php-var">$notifiable</span>-&gt;getFromDB(<span class="php-var">$notifiableId</span>)) {
+</span><span id="144" class="l">         <span class="php-keyword1">if</span> (!<span class="php-var">$notifiable</span>-&gt;getFromDB(<span class="php-var">$notifiableId</span>)) {
 </span><span id="145" class="l">            Toolbox::logInFile(<span class="php-quote">'php-errors'</span>,
 </span><span id="146" class="l">               <span class="php-quote">&quot;Plugin Flyvemdm : Could not find notifiable id = '</span><span class="php-var">$notifiableId</span><span class="php-quote">'&quot;</span>);
 </span><span id="147" class="l">            <span class="php-keyword1">continue</span>;
