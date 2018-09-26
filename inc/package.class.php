@@ -476,12 +476,12 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $manifest = $apk->getManifest();
       $iconResources = $apk->getResources($manifest->getApplication()->getIcon());
       $apkLabel = $apk->getResources($manifest->getApplication()->getLabel());
+      // Default transparent PNG icon 1x1
+      $input['icon'] = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
       $stream = $apk->getStream($iconResources[0]);
-      if (!is_resource($stream)) {
-         // Transparent 1x1 GIF
-         $stream = imagegif(imagecreate(1, 1));
+      if (is_resource($stream)) {
+         $input['icon'] = base64_encode(stream_get_contents($stream));
       }
-      $input['icon'] = base64_encode(stream_get_contents($stream));
       $input['package_name'] = $manifest->getPackageName();
       $input['version'] = $manifest->getVersionName();
       $input['version_code'] = $manifest->getVersionCode();

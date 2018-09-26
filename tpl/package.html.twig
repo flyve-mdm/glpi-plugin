@@ -1,9 +1,8 @@
 {% if not isNewID %}
 <tr class='tab_bg_1'>
    <td colspan="4">
-      {% if not package.icon %}
-      {% else %}
-         <img width="64px" height="64px" src="data:image/png;base64,{{ package.icon }}" />
+      {% if package.icon %}
+         <img src="data:image/png;base64,{{ package.icon }}" style="max-height: 64px" />
       {% endif %}
    </td>
 </tr>
