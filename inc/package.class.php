@@ -108,7 +108,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @param CommonGLPI $item
     * @param integer $tabnum
     * @param integer $withtemplate
-    * @return bool
+    * @return boolean
     */
    public static function displayTabContentForItem(
       CommonGLPI $item,
@@ -196,7 +196,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
          $destination = GLPI_PLUGIN_DOC_DIR . '/' . $input['filename'];
          $this->createEntityDirectory(dirname($destination));
          if (rename($uploadedFile, $destination)) {
-            $input['dl_filename'] = basename($uploadedFile);
+            $input['dl_filename'] = basename($preparedFile['filename']);
          } else {
             $this->logErrorIfDirNotWritable($destination);
             Session::addMessageAfterRedirect(__('Unable to save the file', 'flyvemdm'));
@@ -240,7 +240,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       $this->createEntityDirectory(dirname($destination));
       if (@rename($uploadedFile, $destination)) {
          $filename = pathinfo($destination, PATHINFO_FILENAME);
-         $input['dl_filename'] = basename($destination);
+         $input['dl_filename'] = basename($preparedFile['filename']);
          if ($filename != $this->fields['filename']) {
             @unlink(GLPI_PLUGIN_DOC_DIR . "/" . $this->fields['filename']);
          }
