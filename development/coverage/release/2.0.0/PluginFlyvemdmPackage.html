@@ -3856,47 +3856,47 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L479" class="number uncovered">479</th>
+                    <th id="L479" class="number ">479</th>
 
-                    <td class="uncovered" >
-                        <pre>      $stream = $apk-&gt;getStream($iconResources[0]);</pre>
+                    <td class="" >
+                        <pre>      // Default transparent PNG icon 1x1
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L480" class="number uncovered">480</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!is_resource($stream)) {</pre>
+                        <pre>      $input[&#039;icon&#039;] = &#039;iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L481" class="number ">481</th>
+                    <th id="L481" class="number uncovered">481</th>
 
-                    <td class="" >
-                        <pre>         // Transparent 1x1 GIF
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $stream = $apk-&gt;getStream($iconResources[0]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L482" class="number uncovered">482</th>
 
                     <td class="uncovered" >
-                        <pre>         $stream = imagegif(imagecreate(1, 1));</pre>
+                        <pre>      if (is_resource($stream)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L483" class="number ">483</th>
+                    <th id="L483" class="number uncovered">483</th>
+
+                    <td class="uncovered" >
+                        <pre>         $input[&#039;icon&#039;] = base64_encode(stream_get_contents($stream));</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L484" class="number ">484</th>
 
                     <td class="" >
                         <pre>      }
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L484" class="number uncovered">484</th>
-
-                    <td class="uncovered" >
-                        <pre>      $input[&#039;icon&#039;] = base64_encode(stream_get_contents($stream));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
