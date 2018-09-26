@@ -629,12 +629,12 @@
 </span><span id="476" class="l">      <span class="php-var">$manifest</span> = <span class="php-var">$apk</span>-&gt;getManifest();
 </span><span id="477" class="l">      <span class="php-var">$iconResources</span> = <span class="php-var">$apk</span>-&gt;getResources(<span class="php-var">$manifest</span>-&gt;getApplication()-&gt;getIcon());
 </span><span id="478" class="l">      <span class="php-var">$apkLabel</span> = <span class="php-var">$apk</span>-&gt;getResources(<span class="php-var">$manifest</span>-&gt;getApplication()-&gt;getLabel());
-</span><span id="479" class="l">      <span class="php-var">$stream</span> = <span class="php-var">$apk</span>-&gt;getStream(<span class="php-var">$iconResources</span>[<span class="php-num">0</span>]);
-</span><span id="480" class="l">      <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_resource</span>(<span class="php-var">$stream</span>)) {
-</span><span id="481" class="l">         <span class="php-comment">// Transparent 1x1 GIF</span>
-</span><span id="482" class="l">         <span class="php-var">$stream</span> = <span class="php-keyword2">imagegif</span>(<span class="php-keyword2">imagecreate</span>(<span class="php-num">1</span>, <span class="php-num">1</span>));
-</span><span id="483" class="l">      }
-</span><span id="484" class="l">      <span class="php-var">$input</span>[<span class="php-quote">'icon'</span>] = <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">stream_get_contents</span>(<span class="php-var">$stream</span>));
+</span><span id="479" class="l">      <span class="php-comment">// Default transparent PNG icon 1x1</span>
+</span><span id="480" class="l">      <span class="php-var">$input</span>[<span class="php-quote">'icon'</span>] = <span class="php-quote">'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='</span>;
+</span><span id="481" class="l">      <span class="php-var">$stream</span> = <span class="php-var">$apk</span>-&gt;getStream(<span class="php-var">$iconResources</span>[<span class="php-num">0</span>]);
+</span><span id="482" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword2">is_resource</span>(<span class="php-var">$stream</span>)) {
+</span><span id="483" class="l">         <span class="php-var">$input</span>[<span class="php-quote">'icon'</span>] = <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">stream_get_contents</span>(<span class="php-var">$stream</span>));
+</span><span id="484" class="l">      }
 </span><span id="485" class="l">      <span class="php-var">$input</span>[<span class="php-quote">'package_name'</span>] = <span class="php-var">$manifest</span>-&gt;getPackageName();
 </span><span id="486" class="l">      <span class="php-var">$input</span>[<span class="php-quote">'version'</span>] = <span class="php-var">$manifest</span>-&gt;getVersionName();
 </span><span id="487" class="l">      <span class="php-var">$input</span>[<span class="php-quote">'version_code'</span>] = <span class="php-var">$manifest</span>-&gt;getVersionCode();
