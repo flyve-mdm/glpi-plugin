@@ -108,7 +108,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @param CommonGLPI $item
     * @param integer $tabnum
     * @param integer $withtemplate
-    * @return bool
+    * @return boolean
     */
    public static function displayTabContentForItem(
       CommonGLPI $item,
@@ -541,13 +541,17 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    private function prepareFileUpload() {
       if (!isAPI()) {
          // from GLPI UI
-         $postFile = $_POST['_file'][0];
-         if (!isset($postFile) || !is_string($postFile)) {
-            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-            return false;
+         $actualFilename = '';
+         $uploadedFile = '';
+         if (isset($_POST['_file'])) {
+            $postFile = $_POST['_file'][0];
+            if (!isset($postFile) || !is_string($postFile)) {
+               Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+               return false;
+            }
+            $actualFilename = $postFile;
+            $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
          }
-         $actualFilename = $postFile;
-         $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
       } else {
          // from API
          if (!isset($_FILES['file'])) {
