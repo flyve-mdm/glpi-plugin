@@ -535,23 +535,23 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    }
 
    /**
-    * Find the added file
-    * @return array|bool
+    * Find the uploaded file
+    * @return array|boolean
     */
    private function prepareFileUpload() {
       if (!isAPI()) {
          // from GLPI UI
-         $actualFilename = '';
-         $uploadedFile = '';
-         if (isset($_POST['_file'])) {
-            $postFile = $_POST['_file'][0];
-            if (!isset($postFile) || !is_string($postFile)) {
-               Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
-               return false;
-            }
-            $actualFilename = $postFile;
-            $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
+         if (!isset($_POST['_file'][0])) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
          }
+         $postFile = $_POST['_file'][0];
+         if (!is_string($postFile)) {
+            Session::addMessageAfterRedirect(__('No file uploaded', "flyvemdm"));
+            return false;
+         }
+         $actualFilename = $postFile;
+         $uploadedFile = GLPI_TMP_DIR . "/" . $postFile;
       } else {
          // from API
          if (!isset($_FILES['file'])) {
