@@ -146,23 +146,27 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $input = $instance->addNeededInfoToInput([]);
 
       // default input
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $input = $instance->prepareInputForUpdate($input);
       $this->array($input)->hasKey('entities_id')->values->integer[0]->isEqualTo(0);
 
       $input = array_merge($input, ['id' => mt_rand(), 'alias' => 'lorem']);
 
       // update alias or package name
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $result = $instance->prepareInputForUpdate($input);
       $this->array($result)->hasKeys(['entities_id', 'id', 'alias'])->isNotEmpty();
 
       // Tests with file upload
       $_POST['_file'][0] = ''; // invalid file
       $message = 'File uploaded without name';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $result = $instance->prepareInputForUpdate($input);
       $this->assertInvalidResult($result, $message);
 
       $_POST['_file'][0] = 'invalid.file'; // invalid file
       $message = 'Only APK and UPK files are allowed';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $result = $instance->prepareInputForUpdate($input);
       $this->assertInvalidResult($result, $message);
 
@@ -174,6 +178,7 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $instance->getFromDB($pluginFlyvemdmPackage->getID());
       $_POST['_file'][0] = 'invalidfile.apk';
       $message = 'Unable to save the file';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
       $result = $instance->prepareInputForUpdate($input);
       $this->assertInvalidResult($result, $message);
 
