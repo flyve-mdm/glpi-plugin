@@ -6,7 +6,7 @@
    </div>
    <br>
 {% else %}
-   {{ pager|raw }}
+   {{ pager_top|raw }}
    <div class='center'>
       <table class='tab_cadre_fixehov'>
          <tr>
@@ -17,10 +17,11 @@
          {% if loop.index > start and loop.index <= stop %}
          <tr class='tab_bg_2'>
             <td><div class="center">{{ agent.id }}</div></td>
-            <td><div class="center">{{ agent.name }}</div></td>
+            <td><div class="center"><a href="{{ agentUrl }}?id={{ agent.id }}">{{ agent.name }}</a></div></td>
          </tr>
          {% endif %}
          {% endfor %}
       </table>
    </div>
+   {{ pager_bottom|raw }}
 {% endif %}

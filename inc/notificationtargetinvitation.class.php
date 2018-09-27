@@ -91,49 +91,52 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
    public static function getAdditionalDatasForTemplate(NotificationTarget $event) {
       switch ($event->raiseevent) {
          case self::EVENT_GUEST_INVITATION:
-            if (isset($event->obj)) {
-               $invitation = $event->obj;
-
-               // Get the document containing the QR code
-               $documentItem = new Document_Item();
-               $documentItem->getFromDBByCrit([
-                  'itemtype' => PluginFlyvemdmInvitation::class,
-                  'items_id' => $invitation->getID()
-               ]);
-               $document = new Document();
-               $document->getFromDB($documentItem->getField('documents_id'));
-
-               // Get the entitiy configuration data
-               $entityConfig = new PluginFlyvemdmEntityConfig();
-               $entityConfig->getFromDBByCrit(['entities_id' => $invitation->getField('entities_id')]);
-
-               $encodedRequest = $invitation->getEnrollmentUrl();
-
-               // Fill the template
-               $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
-               $event->data['##flyvemdm.enroll_url##'] = $encodedRequest;
-
-               // fill the application download URL tag
-               $event->obj->documents = [$document->getID()];
-               $event->data['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
-
-               // fill the helpdesk information tags
-               $event->data['##support.name##']    = $entityConfig->getField('support_name');
-               $event->data['##support.phone##']   = $entityConfig->getField('support_phone');
-               $event->data['##support.website##'] = $entityConfig->getField('support_website');
-               $event->data['##support.address##'] = $entityConfig->getField('support_address');
-               $event->data['##support.email##'] = $entityConfig->getField('support_email');
-
-               // fill tags for the Fmyve MDM fleets manager
-               if (isset($_SESSION['glpiID'])) {
-                  $user = new User();
-                  if ($user->getFromDB($_SESSION['glpiID'])) {
-                     $event->data['##user.realname##'] = $user->getField('realname');
-                     $event->data['##user.firstname##'] = $user->getField('firstname');
-                     $event->data['##user.email##'] = $user->getDefaultEmail();
-                  }
-               }
+            if (!isset($event->obj)) {
+               return;
             }
+            $invitation = $event->obj;
+
+            // Get the document containing the QR code
+            $documentItem = new Document_Item();
+            $documentItem->getFromDBByCrit([
+               'itemtype' => PluginFlyvemdmInvitation::class,
+               'items_id' => $invitation->getID()
+            ]);
+            $document = new Document();
+            $document->getFromDB($documentItem->getField('documents_id'));
+
+            // Get the entitiy configuration data
+            $entityConfig = new PluginFlyvemdmEntityConfig();
+            $entityConfig->getFromDBByCrit(['entities_id' => $invitation->getField('entities_id')]);
+
+            $encodedRequest = $invitation->getEnrollmentUrl();
+
+            // Fill the template
+            $event->data['##flyvemdm.qrcode##'] = Document::getImageTag($document->getField('tag'));
+            $event->data['##flyvemdm.enroll_url##'] = $encodedRequest;
+
+            // fill the application download URL tag
+            $event->obj->documents = [$document->getID()];
+            $event->data['##flyvemdm.download_app##'] = $entityConfig->getField('download_url');
+
+            // fill the helpdesk information tags
+            $event->data['##support.name##'] = $entityConfig->getField('support_name');
+            $event->data['##support.phone##'] = $entityConfig->getField('support_phone');
+            $event->data['##support.website##'] = $entityConfig->getField('support_website');
+            $event->data['##support.address##'] = $entityConfig->getField('support_address');
+            $event->data['##support.email##'] = $entityConfig->getField('support_email');
+
+            // fill tags for the Fmyve MDM fleets manager
+            if (!isset($_SESSION['glpiID'])) {
+               return;
+            }
+            $user = new User();
+            if (!$user->getFromDB($_SESSION['glpiID'])) {
+               return;
+            }
+            $event->data['##user.realname##'] = $user->getField('realname');
+            $event->data['##user.firstname##'] = $user->getField('firstname');
+            $event->data['##user.email##'] = $user->getDefaultEmail();
             break;
       }
    }
@@ -155,16 +158,18 @@ class PluginFlyvemdmNotificationTargetInvitation extends NotificationTarget {
     * @param  array $options
     */
    public function addSpecificTargets($data, $options) {
-      if ($data['type'] == Notification::USER_TYPE) {
-         switch ($data['items_id']) {
-            case Notification::USER :
-               if ($this->obj->getType() == PluginFlyvemdmInvitation::class) {
-                  $this->addToRecipientsList([
-                        'users_id' => $this->obj->getField('users_id')
-                  ]);
-               }
-               break;
-         }
+      if ($data['type'] != Notification::USER_TYPE) {
+         return;
+      }
+      switch ($data['items_id']) {
+         case Notification::USER :
+            if ($this->obj->getType() != PluginFlyvemdmInvitation::class) {
+               return;
+            }
+            $this->addToRecipientsList([
+               'users_id' => $this->obj->getField('users_id')
+            ]);
+            break;
       }
    }
 }

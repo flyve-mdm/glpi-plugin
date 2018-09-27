@@ -36,6 +36,29 @@ use Flyvemdm\Tests\CommonTestCase;
 class PluginFlyvemdmMqttlog extends CommonTestCase {
 
    /**
+    * @param $method
+    */
+   public function beforeTestMethod($method) {
+      switch ($method) {
+         case 'testShowMqttLogs':
+            $this->login('glpi', 'glpi');
+            break;
+      }
+   }
+
+   /**
+    * @param $method
+    */
+   public function afterTestMethod($method) {
+      switch ($method) {
+         case 'testShowMqttLogs':
+            parent::afterTestMethod($method);
+            $this->terminateSession();
+            break;
+      }
+   }
+
+   /**
     * @return object
     */
    private function createInstance() {
@@ -48,6 +71,16 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
     */
    public function testClass() {
       $this->testedClass->hasConstant('MQTT_MAXIMUM_DURATION');
+      $class = $this->testedClass->getClass();
+      $this->given($class)->string($class::$rightname)->isEqualTo('flyvemdm:mqttlog');
+   }
+
+   /**
+    * @tags testGetRights
+    */
+   public function testGetRights() {
+      $instance = $this->newTestedInstance();
+      $this->array($instance->getRights())->hasSize(1)->containsValues(['Read']);
    }
 
    /**
@@ -77,5 +110,16 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
       $instance->saveOutgoingMqttMessage('topicOutgoing', 'Outgoing message');
       $this->array($instance->find("`direction`='O' AND `topic`='topicOutgoing'"))
          ->size->isGreaterThanOrEqualTo(1);
+   }
+
+   /**
+    * @tags testShowMqttLogs
+    */
+   public function testShowMqttLogs() {
+      ob_start();
+      \PluginFlyvemdmMqttlog::showMqttLogs(new \PluginFlyvemdmFleet());
+      $result = ob_get_contents();
+      ob_end_clean();
+      $this->string($result)->contains('No item found');
    }
 }

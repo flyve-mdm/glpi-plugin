@@ -6,7 +6,7 @@
    </div>
    <br>
 {% else %}
-   {{ pager|raw }}
+   {{ pager_top|raw }}
    <div class='center'>
       <table class='tab_cadre_fixehov'>
          <tr>
@@ -30,4 +30,5 @@
          </tr>
       </table>
    </div>
+   {{ pager_bottom|raw }}
 {% endif %}

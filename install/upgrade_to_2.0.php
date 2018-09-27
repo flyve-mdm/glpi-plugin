@@ -49,6 +49,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
          PluginFlyvemdmInvitation::$rightname      => ALLSTANDARDRIGHT ,
          PluginFlyvemdmInvitationlog::$rightname   => READ,
          PluginFlyvemdmGeolocation::$rightname     => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
+         PluginFlyvemdmMqttlog::$rightname         => READ,
       ]);
       $profileRight->updateProfileRights($profiles_id, $newRights);
 

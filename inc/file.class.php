@@ -139,10 +139,8 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
             }
             return false;
          }
-         if ($filename != $this->fields['source']) {
-            if (file_exists(FLYVEMDM_FILE_PATH . "/" . $this->fields['source'])) {
-               unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
-            }
+         if ($filename != $this->fields['source'] && file_exists(FLYVEMDM_FILE_PATH . "/" . $this->fields['source'])) {
+            unlink(FLYVEMDM_FILE_PATH . "/" . $this->fields['source']);
          }
          // File updated, then increment its version
          $input['version'] = $this->fields['version'] + 1;
@@ -259,17 +257,18 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
 
    public function post_getFromDB() {
       // Check the user can view this itemtype and can view this item
-      if ($this->canView() && $this->canViewItem()) {
-         $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['source'];
-         $isFile = is_file($filename);
-         $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
-         $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
-         if (isAPI()
-            && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
-               || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
-            $this->sendFile(FLYVEMDM_FILE_PATH . "/" . $this->fields['source'],
-               $this->fields['name'], $this->fields['filesize']); // and terminate script
-         }
+      if (!$this->canView() || !$this->canViewItem()) {
+         return;
+      }
+      $filename = FLYVEMDM_FILE_PATH . '/' . $this->fields['source'];
+      $isFile = is_file($filename);
+      $this->fields['filesize'] = ($isFile) ? fileSize($filename) : 0;
+      $this->fields['mime_type'] = ($isFile) ? mime_content_type($filename) : '';
+      if (isAPI()
+         && (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] == 'application/octet-stream'
+            || isset($_GET['alt']) && $_GET['alt'] == 'media')) {
+         $this->sendFile(FLYVEMDM_FILE_PATH . "/" . $this->fields['source'],
+            $this->fields['name'], $this->fields['filesize']); // and terminate script
       }
    }
 

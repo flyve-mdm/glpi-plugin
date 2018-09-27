@@ -96,7 +96,7 @@ class PluginFlyvemdmProfile extends Profile {
    }
 
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {
-      if ($item->getType() == 'Profile') {
+      if ($item->getType() == Profile::class) {
          return __('Flyve MDM', 'flyvemdm');
       }
       return '';
@@ -137,7 +137,15 @@ class PluginFlyvemdmProfile extends Profile {
             'rights'      => [
                READ                                                              => __('Read'),
             ]
-         ]
+         ],
+         [
+            'itemtype' => PluginFlyvemdmMqttlog::class,
+            'label'    => PluginFlyvemdmMqttlog::getTypeName(2),
+            'field'    => PluginFlyvemdmMqttlog::$rightname,
+            'rights'   => [
+               READ => __('Read'),
+            ],
+         ],
       ];
 
       return $rights;

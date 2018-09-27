@@ -231,9 +231,10 @@ class PluginFlyvemdmInstall {
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL
             | PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE,
-            PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
-            PluginFlyvemdmInvitationLog::$rightname  => READ,
+         PluginFlyvemdmInvitation::$rightname     => ALLSTANDARDRIGHT,
+         PluginFlyvemdmInvitationLog::$rightname  => READ,
          PluginFlyvemdmTaskstatus::$rightname     => READ,
+         PluginFlyvemdmMqttlog::$rightname        => READ,
          PluginFlyvemdmFDroidApplication::$rightname  => READ | UPDATE | READNOTE | UPDATENOTE,
          PluginFlyvemdmFDroidMarket::$rightname    => ALLSTANDARDRIGHT | READNOTE | UPDATENOTE,
       ];
@@ -482,6 +483,10 @@ Regards,
       $this->migration = $migration;
       $fromSchemaVersion = $this->getSchemaVersion();
 
+      // Prevent problem of execution time
+      ini_set("max_execution_time", "0");
+      ini_set("memory_limit", "-1");
+
       switch ($fromSchemaVersion) {
          case '0.0':
             // Upgrade to 2.0
@@ -609,6 +614,8 @@ Regards,
          'mqtt_broker_internal_address'    => '127.0.0.1',
          'mqtt_broker_port'                => '1883',
          'mqtt_broker_tls_port'            => '8883',
+         'mqtt_broker_port_backend'        => '1883',
+         'mqtt_broker_tls_port_backend'    => '8883',
          'mqtt_tls_for_clients'            => '0',
          'mqtt_tls_for_backend'            => '0',
          'mqtt_use_client_cert'            => '0',
@@ -845,20 +852,23 @@ Regards,
    protected function deleteProfileRights() {
       $rights = [
          PluginFlyvemdmAgent::$rightname,
+         PluginFlyvemdmEntityConfig::$rightname,
+         PluginFlyvemdmFDroidApplication::$rightname,
+         PluginFlyvemdmFDroidMarket::$rightname,
          PluginFlyvemdmFleet::$rightname,
          PluginFlyvemdmPackage::$rightname,
          PluginFlyvemdmFile::$rightname,
+         PluginFlyvemdmFleet::$rightname,
          PluginFlyvemdmGeolocation::$rightname,
-         PluginFlyvemdmPolicy::$rightname,
-         PluginFlyvemdmPolicyCategory::$rightname,
-         PluginFlyvemdmWellknownpath::$rightname,
-         PluginFlyvemdmProfile::$rightname,
-         PluginFlyvemdmEntityConfig::$rightname,
          PluginFlyvemdmInvitation::$rightname,
          PluginFlyvemdmInvitationlog::$rightname,
+         PluginFlyvemdmInvitation::$rightname,
+         PluginFlyvemdmInvitationlog::$rightname,
+         PluginFlyvemdmPolicy::$rightname,
+         PluginFlyvemdmPolicyCategory::$rightname,
+         PluginFlyvemdmProfile::$rightname,
          PluginFlyvemdmTaskstatus::$rightname,
-         PluginFlyvemdmFDroidApplication::$rightname,
-         PluginFlyvemdmFDroidMarket::$rightname,
+         PluginFlyvemdmWellknownpath::$rightname,
       ];
       foreach ($rights as $right) {
          ProfileRight::deleteProfileRights([$right]);

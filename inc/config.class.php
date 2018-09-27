@@ -58,11 +58,11 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    // first and last steps of requirement pages of wizard
    const WIZARD_REQUIREMENT_BEGIN = 100;
-   const WIZARD_REQUIREMENT_END = 106;
+   const WIZARD_REQUIREMENT_END = 107;
 
    // first and last steps of the MQTT pages of wizard
-   const WIZARD_MQTT_BEGIN = 107;
-   const WIZARD_MQTT_END = 110;
+   const WIZARD_MQTT_BEGIN = 108;
+   const WIZARD_MQTT_END = 111;
 
    const WIZARD_FINISH = -1;
    static $config = [];
@@ -153,27 +153,34 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * @param CommonGLPI $item object
     * @param integer $tabnum (default 1)
     * @param integer $withtemplate (default 0)
+    * @return boolean
     */
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-      if ($item->getType() == __CLASS__) {
-         switch ($tabnum) {
-            case 1:
-               $item->showFormWizard();
-               break;
-
-            case 2:
-               $item->showFormGeneral();
-               break;
-
-            case 3:
-               $item->showFormMessageQueue();
-               break;
-
-            case 4:
-               $item->showFormDebug();
-               break;
-         }
+      if ($item->getType() != __CLASS__) {
+         return false;
       }
+      switch ($tabnum) {
+         case 1:
+            $item->showFormWizard();
+            return true;
+            break;
+
+         case 2:
+            $item->showFormGeneral();
+            return true;
+            break;
+
+         case 3:
+            $item->showFormMessageQueue();
+            return true;
+            break;
+
+         case 4:
+            $item->showFormDebug();
+            return true;
+            break;
+      }
+      return false;
    }
 
    /**
@@ -201,7 +208,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the general configuration form for the plugin.
     */
    public function showFormGeneral() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -237,7 +244,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormMessageQueue() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -283,7 +290,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormDebug() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
+      $canedit = self::canUpdate();
       if ($canedit) {
          echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
       }
@@ -334,30 +341,32 @@ class PluginFlyvemdmConfig extends CommonDBTM {
     * Displays the message queue configuration form for the plugin.
     */
    public function showFormWizard() {
-      $canedit = PluginFlyvemdmConfig::canUpdate();
-      if ($canedit) {
-         if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
-            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
-         }
-         echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
+      $canedit = self::canUpdate();
+      if (!$canedit) {
+         return;
+      }
 
-         $texts = [];
-         $data = [];
-         switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
-            default:
-               // Nothing here for now
-         }
+      if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
+         $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
+      }
+      echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
 
-         $data = $data + [
+      $texts = [];
+      $data = [];
+      switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
+         default:
+            // Nothing here for now
+      }
+
+      $data = $data + [
             'texts'  => $texts,
             'update' => $_SESSION['plugin_flyvemdm_wizard_step'] === static::WIZARD_FINISH ? __('Finish', 'flyvemdm') : __('Next', 'flyvemdm'),
             'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
          ];
-         $twig = plugin_flyvemdm_getTemplateEngine();
-         echo $twig->render('config-wizard.html.twig', $data);
+      $twig = plugin_flyvemdm_getTemplateEngine();
+      echo $twig->render('config-wizard.html.twig', $data);
 
-         Html::closeForm();
-      }
+      Html::closeForm();
    }
 
    /**
@@ -382,12 +391,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
 
       // process certificates update
-      if (isset($input['_CACertificateFile'])) {
-         if (isset($input['_CACertificateFile'][0])) {
-            $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
-            if (is_writable($file)) {
-               rename($file, FLYVEMDM_CONFIG_CACERTMQTT);
-            }
+      if (isset($input['_CACertificateFile']) && isset($input['_CACertificateFile'][0])) {
+         $file = GLPI_TMP_DIR . "/" . $input['_CACertificateFile'][0];
+         if (is_writable($file)) {
+            rename($file, FLYVEMDM_CONFIG_CACERTMQTT);
          }
       }
 

@@ -287,6 +287,9 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
       $this->array($output)->hasKeys(array_keys($expected));
    }
 
+   /**
+    * @tags testPost_updateItem
+    */
    public function testPost_updateItem() {
       // Create a market
       $fixtureFile = __DIR__ . '/../fixtures/fdroid-app-old-version.xml';
@@ -373,6 +376,9 @@ class PluginFlyvemdmFDroidApplication extends CommonTestCase {
          ->isEqualTo('pending');
    }
 
+   /**
+    * @tags testAddDefaultJoin
+    */
    public function testAddDefaultJoin() {
       $output = \PluginFlyvemdmFdroidApplication::addDefaultJoin('my_ref_table', []);
       $table = \PluginFlyvemdmFDroidMarket::getTable();

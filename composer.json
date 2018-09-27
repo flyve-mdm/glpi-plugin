@@ -23,6 +23,7 @@
         "ext-zip": "*",
         "ext-openssl": "*",
         "ext-sockets": "*",
+        "ext-simplexml": "*",
         "sskaje/mqtt": "dev-master",
         "tufanbarisyildirim/php-apk-parser": "dev-master",
         "docopt/docopt": "^1.0",

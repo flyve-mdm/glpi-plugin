@@ -121,8 +121,11 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testCronUpdateRepositories
+    */
    public function testCronUpdateRepositories() {
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo.xml');
       $this->boolean(is_readable($fixtureFile));
       $instances = [
          $this->newTestedInstance(),
@@ -131,7 +134,7 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       foreach ($instances as $instance) {
          $instance->add([
             'name' => $this->getUniqueString(),
-            'url'  => $fixtureFile,
+            'url'  => addslashes($fixtureFile),
          ]);
       }
       \PluginFlyvemdmFDroidMarket::cronUpdateRepositories(new \CronTask());
@@ -145,37 +148,50 @@ class PluginFlyvemdmFDroidMarket extends CommonTestCase {
       }
    }
 
+   /**
+    * @tags testUpdateRepository
+    */
    public function testUpdateRepository() {
       // Create a market instance for the test
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo.xml');
       $this->boolean(is_readable($fixtureFile));
       $instance = $this->newTestedInstance();
+
+      $volume = $instance->updateRepository();
+      $this->integer($volume)->isEqualTo(0);
+
       $instance->add([
          'name' => $this->getUniqueString(),
-         'url'  => $fixtureFile,
+         'url'  => addslashes($fixtureFile),
       ]);
 
-      $instance->getFromDB($instance->getID());
-      $instance->updateRepository();
-
-
-      // Check that the application found in the xml is created
+      // Check there is not yet any app
       $fdroidApplication = new \PluginFlyvemdmFDroidApplication();
       $marketFk = \PluginFlyvemdmFDroidMarket::getForeignKeyField();
       $marketId = $instance->getID();
+
+      $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
+      $this->array($rows)->size->isEqualTo(0, json_encode($rows, JSON_PRETTY_PRINT));
+
+      $instance->getFromDB($marketId);
+      $volume = $instance->updateRepository();
+
+      // Check that the application found in the xml is created
+      $this->integer($volume)->isGreaterThan(0);
       $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
       $this->array($rows)->size->isEqualTo(1, json_encode($rows, JSON_PRETTY_PRINT));
 
       // Emulate an update of the market with the ap removed from it
-      $fixtureFile = __DIR__ . '/../fixtures/fdroid-repo-app-removed.xml';
+      $fixtureFile = realpath(__DIR__ . '/../fixtures/fdroid-repo-app-removed.xml');
       $instance->update([
-         'id' => $instance->getID(),
-         'url' => $fixtureFile,
+         'id' => $marketId,
+         'url' => addslashes($fixtureFile),
       ]);
-
-      $instance->updateRepository();
+      $instance->getFromDB($marketId);
+      $volume = $instance->updateRepository();
 
       // Check that the app is removed from the db
+      $this->integer($volume)->isGreaterThan(0);
       $rows = $fdroidApplication->find("`$marketFk` = '$marketId'");
       $this->array($rows)->size->isEqualTo(0, json_encode($rows, JSON_PRETTY_PRINT));
    }

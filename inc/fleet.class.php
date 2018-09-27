@@ -99,6 +99,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          if ($this->fields['is_default'] == '0') {
             $this->addStandardTab(PluginFlyvemdmTask::class, $tab, $options);
             $this->addStandardTab(PluginFlyvemdmTaskstatus::class, $tab, $options);
+            $this->addStandardTab(PluginFlyvemdmMqttlog::class, $tab, $options);
          }
          $this->addStandardTab(Notepad::class, $tab, $options);
          $this->addStandardTab(Log::class, $tab, $options);
