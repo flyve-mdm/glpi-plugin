@@ -688,23 +688,23 @@
 </span><span id="535" class="l">   }
 </span><span id="536" class="l">
 </span><span id="537" class="l">   <span class="php-comment">/**
-</span></span><span id="538" class="l"><span class="php-comment">    * Find the added file
-</span></span><span id="539" class="l"><span class="php-comment">    * @return array|bool
+</span></span><span id="538" class="l"><span class="php-comment">    * Find the uploaded file
+</span></span><span id="539" class="l"><span class="php-comment">    * @return array|boolean
 </span></span><span id="540" class="l"><span class="php-comment">    */</span>
 </span><span id="541" class="l">   <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> prepareFileUpload() {
 </span><span id="542" class="l">      <span class="php-keyword1">if</span> (!isAPI()) {
 </span><span id="543" class="l">         <span class="php-comment">// from GLPI UI</span>
-</span><span id="544" class="l">         <span class="php-var">$actualFilename</span> = <span class="php-quote">''</span>;
-</span><span id="545" class="l">         <span class="php-var">$uploadedFile</span> = <span class="php-quote">''</span>;
-</span><span id="546" class="l">         <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$_POST</span>[<span class="php-quote">'_file'</span>])) {
-</span><span id="547" class="l">            <span class="php-var">$postFile</span> = <span class="php-var">$_POST</span>[<span class="php-quote">'_file'</span>][<span class="php-num">0</span>];
-</span><span id="548" class="l">            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$postFile</span>) || !<span class="php-keyword2">is_string</span>(<span class="php-var">$postFile</span>)) {
-</span><span id="549" class="l">               Session::addMessageAfterRedirect(__(<span class="php-quote">'No file uploaded'</span>, <span class="php-quote">&quot;flyvemdm&quot;</span>));
-</span><span id="550" class="l">               <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
-</span><span id="551" class="l">            }
-</span><span id="552" class="l">            <span class="php-var">$actualFilename</span> = <span class="php-var">$postFile</span>;
-</span><span id="553" class="l">            <span class="php-var">$uploadedFile</span> = GLPI_TMP_DIR . <span class="php-quote">&quot;/&quot;</span> . <span class="php-var">$postFile</span>;
-</span><span id="554" class="l">         }
+</span><span id="544" class="l">         <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$_POST</span>[<span class="php-quote">'_file'</span>][<span class="php-num">0</span>])) {
+</span><span id="545" class="l">            Session::addMessageAfterRedirect(__(<span class="php-quote">'No file uploaded'</span>, <span class="php-quote">&quot;flyvemdm&quot;</span>));
+</span><span id="546" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="547" class="l">         }
+</span><span id="548" class="l">         <span class="php-var">$postFile</span> = <span class="php-var">$_POST</span>[<span class="php-quote">'_file'</span>][<span class="php-num">0</span>];
+</span><span id="549" class="l">         <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_string</span>(<span class="php-var">$postFile</span>)) {
+</span><span id="550" class="l">            Session::addMessageAfterRedirect(__(<span class="php-quote">'No file uploaded'</span>, <span class="php-quote">&quot;flyvemdm&quot;</span>));
+</span><span id="551" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="552" class="l">         }
+</span><span id="553" class="l">         <span class="php-var">$actualFilename</span> = <span class="php-var">$postFile</span>;
+</span><span id="554" class="l">         <span class="php-var">$uploadedFile</span> = GLPI_TMP_DIR . <span class="php-quote">&quot;/&quot;</span> . <span class="php-var">$postFile</span>;
 </span><span id="555" class="l">      } <span class="php-keyword1">else</span> {
 </span><span id="556" class="l">         <span class="php-comment">// from API</span>
 </span><span id="557" class="l">         <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$_FILES</span>[<span class="php-quote">'file'</span>])) {
