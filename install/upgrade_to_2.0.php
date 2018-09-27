@@ -355,6 +355,10 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
       $migration->dropTable($table);
 
+      // give more room for mqtt messages in logs
+      $table = 'glpi_plugin_flyvemdm_mqttlogs';
+      $migration->changeField($table, 'message', 'message', 'mediumtext DEFAULT NOT NULL');
+
       // Fix PascalCase symbols
       $query = "UPDATE `glpi_plugin_flyvemdm_policies`
                   SET `symbol` = 'maximumFailedPasswordsForWipe'
