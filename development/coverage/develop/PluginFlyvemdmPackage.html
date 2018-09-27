@@ -4298,7 +4298,7 @@ layout: coverage
                     <th id="L538" class="number ">538</th>
 
                     <td class="" >
-                        <pre>    * Find the added file
+                        <pre>    * Find the uploaded file
 </pre>
                     </td>
                 </tr>
@@ -4306,7 +4306,7 @@ layout: coverage
                     <th id="L539" class="number ">539</th>
 
                     <td class="" >
-                        <pre>    * @return array|bool
+                        <pre>    * @return array|boolean
 </pre>
                     </td>
                 </tr>
@@ -4344,79 +4344,79 @@ layout: coverage
                     <th id="L544" class="number covered">544</th>
 
                     <td class="covered" >
-                        <pre>         $actualFilename = &#039;&#039;;</pre>
+                        <pre>         if (!isset($_POST[&#039;_file&#039;][0])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L545" class="number covered">545</th>
 
                     <td class="covered" >
-                        <pre>         $uploadedFile = &#039;&#039;;</pre>
+                        <pre>            Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &quot;flyvemdm&quot;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L546" class="number covered">546</th>
 
                     <td class="covered" >
-                        <pre>         if (isset($_POST[&#039;_file&#039;])) {</pre>
+                        <pre>            return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L547" class="number covered">547</th>
+                    <th id="L547" class="number ">547</th>
 
-                    <td class="covered" >
-                        <pre>            $postFile = $_POST[&#039;_file&#039;][0];</pre>
+                    <td class="" >
+                        <pre>         }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L548" class="number covered">548</th>
 
                     <td class="covered" >
-                        <pre>            if (!isset($postFile) || !is_string($postFile)) {</pre>
+                        <pre>         $postFile = $_POST[&#039;_file&#039;][0];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L549" class="number uncovered">549</th>
+                    <th id="L549" class="number covered">549</th>
 
-                    <td class="uncovered" >
-                        <pre>               Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &quot;flyvemdm&quot;));</pre>
+                    <td class="covered" >
+                        <pre>         if (!is_string($postFile)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L550" class="number uncovered">550</th>
 
                     <td class="uncovered" >
-                        <pre>               return false;</pre>
+                        <pre>            Session::addMessageAfterRedirect(__(&#039;No file uploaded&#039;, &quot;flyvemdm&quot;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L551" class="number ">551</th>
+                    <th id="L551" class="number uncovered">551</th>
+
+                    <td class="uncovered" >
+                        <pre>            return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L552" class="number ">552</th>
 
                     <td class="" >
-                        <pre>            }
+                        <pre>         }
 </pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L552" class="number covered">552</th>
-
-                    <td class="covered" >
-                        <pre>            $actualFilename = $postFile;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L553" class="number covered">553</th>
 
                     <td class="covered" >
-                        <pre>            $uploadedFile = GLPI_TMP_DIR . &quot;/&quot; . $postFile;</pre>
+                        <pre>         $actualFilename = $postFile;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L554" class="number ">554</th>
+                    <th id="L554" class="number covered">554</th>
 
-                    <td class="" >
-                        <pre>         }
-</pre>
+                    <td class="covered" >
+                        <pre>         $uploadedFile = GLPI_TMP_DIR . &quot;/&quot; . $postFile;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
