@@ -355,7 +355,31 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $table = 'glpi_plugin_flyvemdm_mqttupdatequeues';
       $migration->dropTable($table);
 
-      $migration->changeField('glpi_plugin_flyvemdm_mqttlogs', 'message', 'message', 'mediumtext');
+      $table = 'glpi_plugin_flyvemdm_mqttlogs';
+      $migration->changeField($table, 'message', 'message', 'mediumtext');
+      $migration->addField($table, 'itemtype', 'string', ['after' => 'message']);
+      $migration->addField($table, 'items_id', 'integer', ['after' => 'itemtype']);
+      $migration->addKey($table, 'itemtype', 'itemtype');
+      $migration->addKey($table, 'items_id', 'items_id');
+      if (!$DB->fieldExists($table, 'name')) {
+         // upgrade fleets logs to their new format
+         $migration->addPostQuery("UPDATE $table as t1,
+            (SELECT id, SUBSTRING_INDEX(SUBSTRING_INDEX(topic, '/', 3), '/', -1) as new_items_id,
+              SUBSTRING(REPLACE(topic, SUBSTRING_INDEX(topic, '/', 3), ''), 2) as new_topic
+              FROM $table WHERE topic NOT LIKE '/%' and topic like '%/fleet/%') as t2
+            SET t1.itemtype = 'PluginFlyvemdmFleet', t1.items_id = t2.new_items_id, 
+            t1.topic = t2.new_topic, t1.topic = t2.new_topic WHERE t1.id = t2.id");
+
+         // upgrade agents logs to their new format
+         $migration->addPostQuery("UPDATE $table as t1,
+            (SELECT m.id, c.id as new_items_id, 
+              SUBSTRING(REPLACE(topic, SUBSTRING_INDEX(topic, '/', 3), ''), 2) as new_topic
+              FROM $table as m, glpi_computers as c
+              WHERE topic NOT LIKE '/%' and topic like '%/agent/%' 
+              AND serial = SUBSTRING_INDEX(SUBSTRING_INDEX(topic, '/', 3), '/', -1)) as t2
+            SET t1.itemtype = 'PluginFlyvemdmAgent', t1.items_id = t2.new_items_id, 
+            t1.topic = t2.new_topic, t1.topic = t2.new_topic WHERE t1.id = t2.id");
+      }
 
       // Fix PascalCase symbols
       $query = "UPDATE `glpi_plugin_flyvemdm_policies`

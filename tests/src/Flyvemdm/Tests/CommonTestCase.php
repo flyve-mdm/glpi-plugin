@@ -32,6 +32,7 @@
 namespace Flyvemdm\Tests;
 
 use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
+use tests\units\PluginFlyvemdmAgent;
 
 class CommonTestCase extends GlpiCommonTestCase {
 
@@ -662,5 +663,29 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/defaultStreamType',
          'Policy/periodicGeolocation',
       ];
+   }
+
+   /**
+    * @param \PluginFlyvemdmNotifiableInterface $item
+    * @param \PluginFlyvemdmMqttlog $log
+    * @param string $topic
+    * @param mixed $mqttMessage
+    * @return integer
+    */
+   protected function asserLastMqttlog(
+      \PluginFlyvemdmNotifiableInterface $item,
+      \PluginFlyvemdmMqttlog $log,
+      $topic,
+      $mqttMessage
+   ) {
+      $logQuery = "itemtype='" . $item::getType() . "' AND `items_id`='" . $item->getID() . "' AND `topic`='" . $topic . "'";
+      $rows = $log->find($logQuery, '`id` DESC', 1);
+      $this->array($rows)->sizeOf($rows)->isGreaterThanOrEqualTo(1);
+      foreach ($rows as $row) {
+         // check the message
+         $this->string($row['message'])->isEqualTo($mqttMessage);
+         return (int)$row['id'];
+      }
+      return 0;
    }
 }
