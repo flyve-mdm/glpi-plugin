@@ -71,6 +71,12 @@ class CommonTestCase extends GlpiCommonTestCase {
       return $agent;
    }
 
+   protected function createUser($input) {
+      $user = new \User();
+      $user->add($input);
+      return $user;
+   }
+
    /**
     * Create a new invitation
     *
@@ -78,10 +84,17 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @return \PluginFlyvemdmInvitation
     */
    protected function createInvitation($guestEmail) {
+      $user = $this->createUser([
+         '_useremails' => [
+            $guestEmail,
+         ],
+         'name' => $guestEmail,
+         'authtype' => \Auth::DB_GLPI,
+      ]);
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
+         'users_id' => $user->getID(),
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
       if (!$invitation->isNewItem()) {
