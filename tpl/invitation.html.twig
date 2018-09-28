@@ -1,10 +1,10 @@
 {% if isNewID == true %}
 <tr>
    <td>
-      {{ __('Email') }}
+      {{ __('User') }}
    </td>
    <td>
-      <input name="_useremails" value="{{ invitation._useremails }}">
+      {{ invitation.user|raw }}
    </td>
 </tr>
 {% else %}

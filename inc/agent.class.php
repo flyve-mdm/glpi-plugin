@@ -441,7 +441,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (!$entityConfig->canAddAgent($_SESSION['glpiactive_entity'])) {
          // Too many devices
          $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));
-         $input = false;
+         return false;
       }
 
       // User already logged in : user token has been validated
@@ -450,7 +450,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       switch ($this->chooseEnrollMethod($input)) {
          case self::ENROLL_DENY:
             $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'flyvemdm')));
-            $input = false;
+            return false;
             break;
 
          case self::ENROLL_INVITATION_TOKEN:
@@ -459,7 +459,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
          case self::ENROLL_ENTITY_TOKEN:
             // Method disabled, waiting for implementation
-            $input = false;
+            return false;
             break;
       }
 

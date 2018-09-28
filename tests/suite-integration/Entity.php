@@ -46,14 +46,24 @@ class Entity extends CommonTestCase {
    public function testDeleteEntity() {
       $entity = $this->newTestedInstance();
       $entityId = $entity->add([
-         'name' => 'to be deleted',
+         'name' => $this->getUniqueString(),
       ]);
-      $guestEmail = 'a.user@localhost.local';
+      $guestEmail = $this->getUniqueEmail();
+      $user = new \User();
+      $user->add([
+         '_useremails' => [
+            $guestEmail,
+         ],
+         'authtype' => \Auth::DB_GLPI,
+         'name'     => $guestEmail,
+      ]);
+      $this->boolean($user->isNewItem())->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
          'entities_id' => $entityId,
-         '_useremails' => $guestEmail,
+         'users_id'    => $user->getID(),
       ]);
+      $this->boolean($invitation->isNewItem())->isFalse();
       $guestUser = new \User();
       $guestUser->getFromDB($invitation->getField('users_id'));
       $_REQUEST['user_token'] = \User::getToken($invitation->getField('users_id'), 'api_token');
