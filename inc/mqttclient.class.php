@@ -144,14 +144,13 @@ class PluginFlyvemdmMqttclient {
     */
    public function publish($topic, $message, $qos = 0, $retain = 0) {
       try {
-         if (self::$mqtt !== false) {
-            $log = new PluginFlyvemdmMqttlog();
-            if (self::$mqtt->publish_sync($topic, $message, $qos, $retain)) {
-               $log->saveOutgoingMqttMessage($topic, $message);
-               return true;
-            }
-         } else {
+         if (self::$mqtt === false) {
             throw new Exception("Cannot connect to broker");
+         }
+         if (self::$mqtt->publish_sync($topic, $message, $qos, $retain)) {
+            $log = new PluginFlyvemdmMqttlog();
+            $log->saveOutgoingMqttMessage($topic, $message);
+            return true;
          }
       } catch (Exception $e) {
          $error = "Exception while puslishing on $topic : '$message'\n" . $e->getMessage();

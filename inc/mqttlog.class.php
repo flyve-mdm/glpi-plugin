@@ -100,10 +100,37 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
       $msg = $DB->escape($msg);
       foreach ($topicList as $topic) {
          $topic = $DB->escape($topic);
+
+         $chunks = explode('/', $topic, 4);
+         if ($chunks[0] == '' || !isset($chunks[3])) {
+            // avoid to save invalid topic formats as starting
+            // with tailing slash or empty topic strings
+            continue;
+         }
+
+         $itemtype = '';
+         $itemId = '';
+         switch ($chunks[1]) {
+            case 'fleet':
+               $itemtype = PluginFlyvemdmFleet::getType();
+               $itemId = $chunks[2];
+               break;
+            case 'agent':
+               $computer = new Computer();
+               $computer->getFromDBByCrit(['serial' => $chunks[2]]);
+               $agent = new PluginFlyvemdmAgent();
+               $agent->getFromDBByCrit([$computer::getForeignKeyField() => $computer->getID()]);
+               $itemtype = $agent::getType();
+               $itemId = $agent->getID();
+               break;
+         }
+
          $this->fields['date'] = date('Y-m-d H:i:s');
          $this->fields['direction'] = $direction;
-         $this->fields['topic'] = $topic;
+         $this->fields['topic'] = $chunks[3];
          $this->fields['message'] = $msg;
+         $this->fields['itemtype'] = $itemtype;
+         $this->fields['items_id'] = $itemId;
          unset($this->fields['id']);
          $this->addToDB();
       }
@@ -193,7 +220,7 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
 
       $condition = [
          'FIELDS' => ['id', 'date', 'topic', 'message'],
-         'WHERE'           => ['topic' => ['LIKE', $item->getTopic() . '%']],
+         'WHERE'           => ['itemtype' => $item::getType(), 'items_id' => $item->getID()],
          'GROUPBY'         => 'topic',
       ];
 

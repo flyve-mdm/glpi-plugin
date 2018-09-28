@@ -97,8 +97,8 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
     */
    public function testSaveIngoingMqttMessage() {
       $instance = $this->createInstance();
-      $instance->saveIngoingMqttMessage('topicIngoing', 'Incoming message');
-      $this->array($instance->find("`direction`='I' AND `topic`='topicIngoing'"))
+      $instance->saveIngoingMqttMessage('exec/topic/command/ingoing', 'Incoming message');
+      $this->array($instance->find("`direction`='I' AND `items_id`='0' AND `topic`='ingoing'"))
          ->size->isGreaterThanOrEqualTo(1);
    }
 
@@ -107,8 +107,8 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
     */
    public function testSaveOutgoingMqttMessage() {
       $instance = $this->createInstance();
-      $instance->saveOutgoingMqttMessage('topicOutgoing', 'Outgoing message');
-      $this->array($instance->find("`direction`='O' AND `topic`='topicOutgoing'"))
+      $instance->saveOutgoingMqttMessage('exec/topic/command/outgoing', 'Outgoing message');
+      $this->array($instance->find("`direction`='O' AND `items_id`='0' AND `topic`='outgoing'"))
          ->size->isGreaterThanOrEqualTo(1);
    }
 
