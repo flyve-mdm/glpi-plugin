@@ -50,18 +50,23 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     */
    public function testInvitationCreation() {
       $email = $this->getUniqueEmail();
+      $user = new \User();
+      $user->add([
+         '_useremails' => [
+            $email,
+         ],
+         'authtype' => \Auth::DB_GLPI,
+         'name'     => $email,
+      ]);
+      $this->boolean($user->isNewItem())->isFalse();
       $invitation = $this->newTestedInstance();
 
       // Test an invitation with an invalid email
       $invitation->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $email,
+         'users_id'    => $user->getID(),
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
-
-      // check the guest user exists
-      $user = new \User();
-      $this->boolean($user->getFromDB($invitation->getField(\User::getForeignKeyField())))->isTrue();
 
       // check a email was queued
       $invitationType = \PluginFlyvemdmInvitation::class;
@@ -96,7 +101,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $secondInvitation = $this->newTestedInstance();
       $secondInvitation->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $email,
+         'users_id' => $user->getID(),
       ]);
       $this->boolean($secondInvitation->isNewItem())->isFalse();
 

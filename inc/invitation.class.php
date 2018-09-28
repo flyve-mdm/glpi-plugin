@@ -93,74 +93,39 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @return array|false the modified input data
     */
    public function prepareInputForAdd($input) {
-      // integrity checks
-      if (!isset($input['_useremails'])) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
-         return false;
-      }
-
-      $input['_useremails'] = filter_var($input['_useremails'], FILTER_VALIDATE_EMAIL);
-      if (!$input['_useremails']) {
-         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'));
-         return false;
-      }
-
       // Find guest profile's id
       $config = Config::getConfigurationValues("flyvemdm", ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
 
+      if (!isset($input['entities_id']) || !isset($input['users_id'])) {
+         Session::addMessageAfterRedirect(__("Invalid data", 'flyvemdm'));
+         return false;
+      }
       $entityId = $input['entities_id'];
 
-      // Find or create the user
+      // Find the user
+      $userId = (int) $input[User::getForeignKeyField()];
       $user = new User();
-      if (!$user->getFromDBbyName($input['_useremails'])) {
-         // The user does not exists yet, create him
-         // Workaround GLPI 9.3.0 bug in commit a4bca634e4d055cdd6576000d8d0f2b89b0dcd91
-         // fixed in commit 79fe2a3a53da3033989e1ecbaefac72ad6b0c797 (GLPI 9.3.1)
-         $userId = $user->add([
-            '_useremails'   => [$input['_useremails']],
-            'name'          => $input['_useremails'],
-            'authtype'      => Auth::DB_GLPI,
-         ]);
-         $profile_User = new Profile_User();
-         $profile_User->deleteByCriteria([
-            'users_id'     => $user->getID(),
-         ]);
+      $user->getFromDB($userId);
+      // Do not handle deleted users
+      if ($user->isDeleted()) {
+         Session::addMessageAfterRedirect(__("The user was deleted. You must restore him first.",
+            'flyvemdm'), false, INFO, true);
+         return false;
+      }
+
+      // The user already exists, add him in the entity
+      $userId = $user->getID();
+      $profile_User = new Profile_User();
+      $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
+      if (!isset($entities[$_SESSION['glpiactive_entity']])) {
          $profile_User->add([
-            'users_id'     => $user->getID(),
+            'users_id'     => $userId,
             'profiles_id'  => $guestProfileId,
             'entities_id'  => $entityId,
             'is_recursive' => 0,
          ]);
-
-         if ($user->isNewItem()) {
-            Session::addMessageAfterRedirect(__("Cannot create the user", 'flyvemdm'), false, INFO,
-               true);
-            return false;
-         }
-
-      } else {
-         // Do not handle deleted users
-         if ($user->isDeleted()) {
-            Session::addMessageAfterRedirect(__("The user already exists and has been deleted. You must restore or purge him first.",
-               'flyvemdm'), false, INFO, true);
-            return false;
-         }
-
-         // The user already exists, add him in the entity
-         $userId = $user->getID();
-         $profile_User = new Profile_User();
-         $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
-         if (!isset($entities[$_SESSION['glpiactive_entity']])) {
-            $profile_User->add([
-               'users_id'     => $userId,
-               'profiles_id'  => $guestProfileId,
-               'entities_id'  => $entityId,
-               'is_recursive' => 0,
-            ]);
-         }
       }
-      $input['users_id'] = $userId;
 
       // Ensure the user has a token
       $personalToken = User::getToken($user->getID(), 'api_token');
@@ -503,15 +468,20 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
     * @param integer $ID
     * @param array $options
     */
-   public function showForm($ID, $options = []) {
+   public function showForm($ID, array $options = []) {
       $this->initForm($ID, $options);
-      $this->showFormHeader();
+      $this->showFormHeader($options);
       $canUpdate = (!$this->isNewID($ID)) && ($this->canView() > 0) || $this->isNewID($ID);
 
       $fields = $this->fields;
-      $user = new User();
-      $user->getFromDB($fields['users_id']);
-      $fields['_useremails'] = $user->getDefaultEmail();
+      $fields['user'] = User::dropdown([
+         'name'      => 'users_id',
+         'value'     => $this->fields['users_id'],
+         'entity'    => $this->fields['entities_id'],
+         'right'     => 'all',
+         'rand'      => mt_rand(),
+         'display'   => false,
+      ]);
       $data = [
          'withTemplate' => (isset($options['withtemplate']) && $options['withtemplate'] ? "*" : ""),
          'canUpdate'    => $canUpdate,
@@ -570,49 +540,31 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    ) {
       switch ($ma->getAction()) {
          case 'InviteUser':
-            if ($item->getType() == User::class) {
-               // find the profile ID of the service account (demo plugin)
-               $config = Config::getConfigurationValues('flyvemdmdemo', ['service_profiles_id']);
-               if (isset($config['service_profiles_id'])) {
-                  $profile = new Profile();
-                  $profile->getFromDB($config['service_profiles_id']);
-                  $profile_user = new Profile_User();
-               }
-               foreach ($ids as $id) {
-                  $item->getFromDB($id);
-                  $reject = false;
-
-                  // Do not invite service account users (demo mode)
-                  if (isset($config['service_profiles_id'])) {
-                     if ($profile_user->getFromDBForItems($item, $profile) !== false) {
-                        $reject = true;
-                     }
-                  }
-
-                  // Do not invite users without a default email address
-                  $useremail = new UserEmail();
-                  $emailAddress = $useremail->getDefaultForUser($id);
-                  if (empty($emailAddress)) {
-                     $reject = true;
-                  }
-
-                  $result = MassiveAction::ACTION_OK;
-                  if ($reject) {
-                     $result = MassiveAction::ACTION_KO;
-                  } else {
-                     $invitation = new PluginFlyvemdmInvitation();
-                     $success = $invitation->add([
-                        '_useremails' => $emailAddress,
-                        'entities_id' => $_SESSION['glpiactive_entity'],
-                     ]);
-                     if (!$success) {
-                        $result = MassiveAction::ACTION_KO;
-                     }
-                  }
-                  $ma->itemDone($item->getType(), $id, $result);
-               }
-            } else {
+            if (!$item->getType() == User::class) {
                $ma->itemDone($item->getType(), $ids, MassiveAction::ACTION_KO);
+            }
+            foreach ($ids as $id) {
+               $item->getFromDB($id);
+
+               // Do not invite users without a default email address
+               $useremail = new UserEmail();
+               $emailAddress = $useremail->getDefaultForUser($id);
+               if (empty($emailAddress)) {
+                  $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                  continue;
+               }
+
+               $invitation = new PluginFlyvemdmInvitation();
+               $invitation->add([
+                  User::getForeignKeyField() => $id,
+                  'entities_id' => $_SESSION['glpiactive_entity'],
+               ]);
+               if ($invitation->isNewItem()) {
+                  $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_KO);
+                  continue;
+               }
+
+               $ma->itemDone($item->getType(), $id, MassiveAction::ACTION_OK);
             }
       }
 

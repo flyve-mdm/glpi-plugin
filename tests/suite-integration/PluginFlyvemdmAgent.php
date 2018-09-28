@@ -42,6 +42,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    protected $computerTypeId = 3;
 
    public function setUp() {
+      //$this->resetState();
       \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $this->computerTypeId]);
    }
 
@@ -91,14 +92,29 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       for ($i = $agents; $i <= $deviceLimit; $i++) {
          $email = $this->getUniqueEmail();
+         $user = new \User();
+         $user->add([
+            '_useremails' => [
+               $email,
+            ],
+            'authtype' => \Auth::DB_GLPI,
+            'name'     => $email,
+         ]);
+         $this->boolean($user->isNewItem())->isFalse();
          $invitation = new \PluginFlyvemdmInvitation();
          $invitation->add([
             'entities_id' => $activeEntity,
-            '_useremails' => $email,
+            'users_id' => $user->getID(),
          ]);
          $invitationData[] = ['invitation' => $invitation, 'email' => $email];
       }
 
+      $config = \Config::setConfigurationValues(
+         'flyvemdm', 
+         [
+            'debug_enrolment' => '1',
+         ]
+      );
       for ($i = 0, $max = (count($invitationData) - 1); $i < $max; $i++) {
          $agentId = $this->loginAndAddAgent($invitationData[$i]);
          // Agent creation should succeed
@@ -193,16 +209,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains($expected);
-
-      // Check registered log
-      // previous enrolment could generate a new log
-      $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $fk = \PluginFlyvemdmInvitation::getForeignKeyField();
-      $inviationId = $invitation->getID();
-      $expectedLogCount += count($invitationLog->find("`$fk` = '$inviationId'"));
-
-      $total = $dbUtils->countElementsInTable($invitationlogTable);
-      $this->integer($total)->isEqualTo($expectedLogCount);
    }
 
    /**
@@ -214,6 +220,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $invitationToken = $invitation->getField('invitation_token');
       $inviationId = $invitation->getID();
+
       // Test successful enrollment
       $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
       $this->boolean($agent->isNewItem())
