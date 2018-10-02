@@ -359,7 +359,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tplDir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
          // force compilation
          if ($file->isFile()) {
-            $twig->loadTemplate(str_replace($tplDir . '/', '', $file));
+            $twig->loadTemplate($file->getFilename());
          }
       }
 
