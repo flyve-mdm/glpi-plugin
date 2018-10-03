@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-10 09:22+0200\n"
+"POT-Creation-Date: 2018-10-03 08:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2018\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/flyve-mdm/teams/69665/cs_CZ/)\n"
@@ -18,29 +18,21 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: hook.php:78
+#: hook.php:81
 msgid "Invite to enroll a device"
 msgstr "Pozvat k registraci zařízení"
 
-#: hook.php:109
+#: hook.php:112
 msgid "Well known Android's FS paths"
 msgstr "Dobře známá umístění na souborovém systému v Android"
 
-#: hook.php:110
+#: hook.php:113
 msgid "Policy Categories"
 msgstr "Kategorie zásad"
 
-#: setup.php:206
+#: setup.php:211
 msgid "Flyve Mobile Device Management"
 msgstr "Flyve – správa mobilních zařízení"
-
-#: ajax/mqtt_test.php:86
-msgid "Test message sent"
-msgstr "Zkušební zpráva odeslána"
-
-#: ajax/mqtt_test.php:88
-msgid "Test message not sent"
-msgstr "Zkušební zpráva neodeslána"
 
 #: inc/agent.class.php:99
 msgid "Android"
@@ -50,228 +42,232 @@ msgstr "Android"
 msgid "Apple"
 msgstr "Apple"
 
-#: inc/agent.class.php:110 inc/agent.class.php:767
+#: inc/agent.class.php:110
 msgid "Agent"
 msgid_plural "Agents"
 msgstr[0] "Agent"
 msgstr[1] "Agenti"
 msgstr[2] "Agentů"
-msgstr[3] "Agentů"
+msgstr[3] "Agenti"
 
-#: inc/agent.class.php:163
+#: inc/agent.class.php:167
 msgid "Danger zone !"
 msgstr "Nebezpečná oblast!"
 
-#: inc/agent.class.php:181
+#: inc/agent.class.php:185
 msgid "Flyve MDM Agent"
 msgstr "Agent Flyve MDM"
 
-#: inc/agent.class.php:241 inc/agent.class.php:357
+#: inc/agent.class.php:243 inc/agent.class.php:358
 msgid "Never seen online"
 msgstr "Nikdy nebylo dostupné"
 
-#: inc/agent.class.php:275
+#: inc/agent.class.php:277
 msgid "Lock the device as soon as possible"
 msgstr "Zamknout zařízení jakmile to bude možné"
 
-#: inc/agent.class.php:282
+#: inc/agent.class.php:284
 msgid "Wipe the device as soon as possible"
 msgstr "Vymazat obsah zařízení jakmile to bude možné"
 
-#: inc/agent.class.php:436
+#: inc/agent.class.php:437
 msgid "Failed to read configuration of the entity"
 msgstr "Nepodařilo se načíst nastavení entity"
 
-#: inc/agent.class.php:442
+#: inc/agent.class.php:443
 msgid "Too many devices"
 msgstr "Příliš mnoho zařízení"
 
-#: inc/agent.class.php:450
+#: inc/agent.class.php:452
 msgid "Unable to find a enrollment method"
 msgstr "Nedaří se zjistit způsob registrace"
 
-#: inc/agent.class.php:475
+#: inc/agent.class.php:477
 msgid "The fleet of the device does not longer exists"
 msgstr "Flotila tohoto zařízení už neexistuje"
 
-#: inc/agent.class.php:482
+#: inc/agent.class.php:484
 msgid "The target fleet does not exists"
 msgstr "Cílová flotila neexistuje"
 
-#: inc/agent.class.php:513
+#: inc/agent.class.php:515
 msgid "The device is not enrolled yet"
 msgstr "Zařízení ještě není zaregistrováno"
 
-#: inc/agent.class.php:583
+#: inc/agent.class.php:581
 msgid "Failed to find the guest user profile"
 msgstr "Nepodařilo se nalézt profil uživatele-hosta"
 
-#: inc/agent.class.php:605
+#: inc/agent.class.php:603
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr "Nepodařilo se odebrat jmenování hosta pro uživatele zařízení"
 
-#: inc/agent.class.php:626
+#: inc/agent.class.php:624
 msgid "Failed to delete MQTT user for the device"
 msgstr "Nepodařilo se smazat MQTT uživatele pro zařízení"
 
-#: inc/agent.class.php:639
+#: inc/agent.class.php:637
 msgid "Failed to delete documents attached to the device"
 msgstr "Nepodařilo se smazat dokumenty připojené k zařízení"
 
-#: inc/agent.class.php:783 inc/fleet.class.php:74 inc/fleet.class.php:239
+#: inc/agent.class.php:786 inc/fleet.class.php:76
 msgid "Fleet"
 msgid_plural "Fleets"
 msgstr[0] "Flotila"
 msgstr[1] "Flotily"
 msgstr[2] "Flotil"
-msgstr[3] "Flotil"
+msgstr[3] "Flotila"
 
-#: inc/agent.class.php:809
+#: inc/agent.class.php:812
 msgid "Last contact"
 msgstr "Poslední kontakt"
 
-#: inc/agent.class.php:827
+#: inc/agent.class.php:830
 msgid "Is online"
 msgstr "Je dostupné"
 
-#: inc/agent.class.php:836
+#: inc/agent.class.php:839
 msgid "MDM type"
 msgstr "Typ MDM"
 
-#: inc/agent.class.php:845
+#: inc/agent.class.php:848
 msgid "Has system permission"
 msgstr "Má oprávnění systému"
 
-#: inc/agent.class.php:854
+#: inc/agent.class.php:857
 msgid "Enroll status"
 msgstr "Stav registrace"
 
-#: inc/agent.class.php:863
+#: inc/agent.class.php:866
 msgid "Wipe requested"
 msgstr "Vyžádáno vymazání obsahu zařízení"
 
-#: inc/agent.class.php:872
+#: inc/agent.class.php:875
 msgid "Lock requested"
 msgstr "Vyžádáno uzamčení"
 
-#: inc/agent.class.php:1089
+#: inc/agent.class.php:892 inc/fleet.class.php:261
+msgid "Applied policy"
+msgstr "Uplatněná zásada"
+
+#: inc/agent.class.php:1121
 msgid "Invitation token invalid"
 msgstr "Neplatný zvací token"
 
-#: inc/agent.class.php:1094
+#: inc/agent.class.php:1126
 msgid "One of serial and uuid is mandatory"
 msgstr ""
 "Je třeba zadat buď sériové číslo nebo nikde se neopakující identifikátor"
 
-#: inc/agent.class.php:1101
+#: inc/agent.class.php:1133
 msgid "Device inventory XML is mandatory"
 msgstr "Je třeba poskytnout XML s inventurou zařízení"
 
-#: inc/agent.class.php:1110
+#: inc/agent.class.php:1144
 msgid "Inventory XML is not well formed"
 msgstr "XML data s inventurou nemá správný formát"
 
-#: inc/agent.class.php:1117
+#: inc/agent.class.php:1151
 msgid "Agent version missing"
 msgstr "Chybí verze agenta"
 
-#: inc/agent.class.php:1124
+#: inc/agent.class.php:1158
 msgid "MDM type missing"
 msgstr "Chybí typ MDM"
 
-#: inc/agent.class.php:1131
+#: inc/agent.class.php:1165
 msgid "unknown MDM type"
 msgstr "neznámý typ MDM"
 
-#: inc/agent.class.php:1138
+#: inc/agent.class.php:1172
 msgid "Bad agent version"
 msgstr "Chybná verze agenta"
 
-#: inc/agent.class.php:1147
+#: inc/agent.class.php:1181
 msgid "The agent version is too low"
 msgstr "Příliš stará verze agenta"
 
-#: inc/agent.class.php:1157
+#: inc/agent.class.php:1191
 msgid "The agent does not advertise its system permissions"
 msgstr "Agent neuvádí svá oprávnění v systému"
 
-#: inc/agent.class.php:1166
+#: inc/agent.class.php:1200
 msgid "Invitation is not pending"
 msgstr "Pozvání není čekající"
 
-#: inc/agent.class.php:1174
+#: inc/agent.class.php:1208
 msgid "Expiration date of the invitation is not set"
 msgstr "Datum skončení platnosti pozvánky není nastaveno"
 
-#: inc/agent.class.php:1182
+#: inc/agent.class.php:1216
 msgid "Invitation token expired"
 msgstr "Platnost zvacího tokenu skončila"
 
-#: inc/agent.class.php:1196
+#: inc/agent.class.php:1230
 msgid "Wrong email address"
 msgstr "Chybná e-mailová adresa"
 
-#: inc/agent.class.php:1210
+#: inc/agent.class.php:1245
 msgid "Failed to sign the certificate"
 msgstr "Nepodařilo se podepsat certifikát"
 
-#: inc/agent.class.php:1233
+#: inc/agent.class.php:1266
 msgid "Failed to update the invitation"
 msgstr "Nepodařilo se aktualizovat pozvánku"
 
-#: inc/agent.class.php:1268
+#: inc/agent.class.php:1294
 msgid "Cannot get the FusionInventory agent"
 msgstr "Nedaří se získat agenta FusionInventory"
 
-#: inc/agent.class.php:1275
+#: inc/agent.class.php:1302
 msgid "FusionInventory agent not created"
 msgstr "FusionInventory agent není vytvořen"
 
-#: inc/agent.class.php:1283
+#: inc/agent.class.php:1310
 msgid "Cannot create the device"
 msgstr "Nedaří se vytvořit zařízení"
 
-#: inc/agent.class.php:1314
+#: inc/agent.class.php:1353
 msgid "Cannot create a user account for the agent"
 msgstr "Nedaří se vytvořit uživatelský účet pro agenta"
 
-#: inc/agent.class.php:1330
+#: inc/agent.class.php:1361
 msgid "Cannot create the API token for the agent"
 msgstr "Nedaří se vytvořit token k API pro agenta"
 
-#: inc/agent.class.php:1339
+#: inc/agent.class.php:1370
 msgid "No default fleet available for the device"
 msgstr "Pro zařízení není k dispozici žádná výchozí flotila"
 
-#: inc/agent.class.php:1523
+#: inc/agent.class.php:1554
 msgid "GPS is turned off or is not ready"
 msgstr "GPS je vypnuté nebo není připravené"
 
-#: inc/agent.class.php:1525
+#: inc/agent.class.php:1556
 msgid "The device sent its position"
 msgstr "Zařízení poslalo svou polohu"
 
-#: inc/agent.class.php:1529
+#: inc/agent.class.php:1560
 msgid "Timeout requesting position"
 msgstr "Překročen časový limit při dotazování na pozici"
 
-#: inc/agent.class.php:1556
+#: inc/agent.class.php:1587
 msgid "Inventory received"
 msgstr "Inventura obdržena"
 
-#: inc/agent.class.php:1560
+#: inc/agent.class.php:1591
 msgid "Timeout querying the device inventory"
 msgstr "Překročen časový limit při inventarizaci zařízení"
 
-#: inc/agent.class.php:1580
+#: inc/agent.class.php:1611
 msgid "The device answered"
 msgstr "Zařízení odpovědělo"
 
-#: inc/agent.class.php:1584
+#: inc/agent.class.php:1615
 msgid "Timeout querying the device"
 msgstr "Překročen časový limit při dotazování zařízení"
 
-#: inc/agent.class.php:1803
+#: inc/agent.class.php:1839
 msgid "Enrollment failed"
 msgstr "Registrace se nezdařila"
 
@@ -291,25 +287,29 @@ msgstr "Fronta zpráv"
 msgid "Debug"
 msgstr "Ladění"
 
-#: inc/config.class.php:210
+#: inc/config.class.php:217
 msgid "Bugcollector password"
 msgstr "Heslo ke shromažďování hlášení chyb"
 
-#: inc/config.class.php:354
+#: inc/config.class.php:363
 msgid "Finish"
 msgstr "Dokončit"
 
-#: inc/config.class.php:354
+#: inc/config.class.php:363
 msgid "Next"
 msgstr "Další"
+
+#: inc/deployable.class.php:154
+msgid "Deploy notification failed"
+msgstr "Nezdařilo se oznámit nasazení"
 
 #: inc/entityconfig.class.php:134
 msgid "You are not allowed to change the device limit"
 msgstr "Nemáte oprávnění pro změnu limitu zařízení"
 
 #: inc/entityconfig.class.php:141
-msgid "You are not allowed to download URL of the MDM agent"
-msgstr "Nemáte oprávnění na URL stahování MDM agenta"
+msgid "You are not allowed to change the download URL of the MDM agent"
+msgstr "Nemáte oprávnění měnit URL adresu pro stahování MDM agenta"
 
 #: inc/entityconfig.class.php:148
 msgid "You are not allowed to change the invitation token life"
@@ -319,17 +319,18 @@ msgstr "Nemáte oprávnění měnit životnost zvacího tokenu"
 msgid "The agent token life invalid or too long"
 msgstr "Neplatná nebo příliš dlouhá životnost tokenu agenta"
 
-#: inc/entityconfig.class.php:289
+#: inc/entityconfig.class.php:286
 msgid "Flyve MDM supervision"
 msgstr "Dohlížení Flyve MDM"
 
-#: inc/entityconfig.class.php:384
+#: inc/entityconfig.class.php:379
 msgid "Helpdesk information"
 msgstr "Informace o službě podpory"
 
-#: inc/entityconfig.class.php:430 inc/invitation.class.php:67
-#: inc/invitation.class.php:425 inc/notificationtargetinvitation.class.php:50
+#: inc/entityconfig.class.php:429 inc/invitation.class.php:67
+#: inc/notificationtargetinvitation.class.php:50
 #: inc/notificationtargetinvitation.class.php:59
+#: install/upgrade_to_2_0.php:344
 msgid "Invitation"
 msgid_plural "Invitations"
 msgstr[0] "Pozvání"
@@ -337,27 +338,28 @@ msgstr[1] "Pozvání"
 msgstr[2] "Pozvání"
 msgstr[3] "Pozvání"
 
-#: inc/file.class.php:60 inc/file.class.php:229
+#: inc/file.class.php:62
 msgid "File"
 msgid_plural "Files"
 msgstr[0] "Soubor"
 msgstr[1] "Soubory"
 msgstr[2] "Souborů"
-msgstr[3] "Souborů"
+msgstr[3] "Soubory"
 
-#: inc/file.class.php:88 inc/file.class.php:122 inc/package.class.php:609
+#: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:524
 msgid "File uploaded without name"
 msgstr "Soubor nahrán bez názvu"
 
-#: inc/file.class.php:100
+#: inc/file.class.php:102
 msgid "Failed to store the uploaded file"
 msgstr "Nahraný soubor se nepodařilo uložit"
 
-#: inc/file.class.php:170 inc/package.class.php:631 inc/package.class.php:639
+#: inc/file.class.php:170 inc/package.class.php:545 inc/package.class.php:550
+#: inc/package.class.php:558
 msgid "No file uploaded"
 msgstr "Nebyl nahrán žádný soubor"
 
-#: inc/file.class.php:176 inc/package.class.php:646
+#: inc/file.class.php:176 inc/package.class.php:565
 msgid "File upload failed"
 msgstr "Nahrání souboru se nezdařilo"
 
@@ -365,93 +367,97 @@ msgstr "Nahrání souboru se nezdařilo"
 msgid "Temp directory doesn't exist"
 msgstr "Dočasná (temp) složka neexistuje"
 
-#: inc/fleet.class.php:185
+#: inc/fleet.class.php:188
 msgid "No default fleet found to move devices"
 msgstr "Nebyla nalezena žádná výchozí flotila pro přesun zařízení"
 
-#: inc/fleet.class.php:195
+#: inc/fleet.class.php:198
 msgid "Could not move all devices to the not managed fleet"
 msgstr "Není možné přesunout všechna zařízení do nespravované flotily"
 
-#: inc/fleet.class.php:224
+#: inc/fleet.class.php:227
 msgid "Could not delete policies on the fleet"
 msgstr "Nedaří se smazat zásady na flotile"
 
-#: inc/fleet.class.php:474 install/installer.class.php:274
+#: inc/fleet.class.php:465 install/install.class.php:255
 msgid "not managed fleet"
 msgstr "nespravovaná flotila"
 
-#: inc/geolocation.class.php:67 inc/geolocation.class.php:298
+#: inc/fleet.class.php:549
+msgid "Persisted notification not updated."
+msgstr "Trvalé oznámení neaktualizováno."
+
+#: inc/fusioninventory.class.php:52
+msgid "Unable to get rule for entity"
+msgstr "Nedaří se získat pravidlo pro entitu"
+
+#: inc/geolocation.class.php:67
 msgid "Geolocation"
 msgid_plural "Geolocations"
 msgstr[0] "Geolokace"
 msgstr[1] "Geolokace"
 msgstr[2] "Geolokací"
-msgstr[3] "Geolokací"
+msgstr[3] "Geolokace"
 
-#: inc/geolocation.class.php:157
+#: inc/geolocation.class.php:165
 msgid "associated device is mandatory"
 msgstr "přiřazené zařízení je povinné"
 
-#: inc/geolocation.class.php:161 inc/geolocation.class.php:196
+#: inc/geolocation.class.php:169 inc/geolocation.class.php:204
 msgid "latitude and longitude are mandatory"
 msgstr "zeměpisná šířka a délka jsou povinné"
 
-#: inc/geolocation.class.php:171 inc/geolocation.class.php:213
+#: inc/geolocation.class.php:179 inc/geolocation.class.php:221
 msgid "latitude is invalid"
 msgstr "zeměpisná šířka není platná"
 
-#: inc/geolocation.class.php:175 inc/geolocation.class.php:220
+#: inc/geolocation.class.php:183 inc/geolocation.class.php:228
 msgid "longitude is invalid"
 msgstr "zeměpisná délka není platná"
 
-#: inc/geolocation.class.php:182 inc/geolocation.class.php:204
+#: inc/geolocation.class.php:190 inc/geolocation.class.php:212
 msgid "Device not found"
 msgstr "Zařízení nenalezeno"
 
-#: inc/googleapplication.class.php:245
-msgid "Import the package"
-msgstr ""
-
-#: inc/googleapplication.class.php:299
-msgid "Alias"
-msgstr "Alternativní název"
-
-#: inc/googleapplication.class.php:308
-msgid "Version"
-msgstr ""
-
-#: inc/googleapplication.class.php:326
-msgid "Import status"
-msgstr ""
-
-#: inc/graph.class.php:64
+#: inc/graph.class.php:57 inc/graph.class.php:65
 msgid "Invitations"
 msgstr "Pozvání"
 
-#: inc/graph.class.php:66 inc/graph.class.php:71 inc/invitation.class.php:57
-#: inc/policybase.class.php:79
+#: inc/graph.class.php:59
+msgid "No invitations stats available, send one first."
+msgstr "Nejsou k dispozici žádné statistiky pozvánek, nejprve nějaké pošlete."
+
+#: inc/graph.class.php:67 inc/graph.class.php:72 inc/invitation.class.php:57
+#: inc/policybase.class.php:80
 msgid "Done"
 msgstr "Hotovo"
 
-#: inc/graph.class.php:67 inc/graph.class.php:75 inc/invitation.class.php:56
-#: inc/policybase.class.php:77
+#: inc/graph.class.php:68 inc/graph.class.php:76 inc/invitation.class.php:56
+#: inc/policybase.class.php:78
 msgid "Pending"
 msgstr "Čekající"
 
-#: inc/graph.class.php:141
+#: inc/graph.class.php:116 inc/graph.class.php:137
 msgid "Devices per operating system version"
 msgstr "Zařízení podle verzí operačního systému"
+
+#: inc/graph.class.php:118
+msgid ""
+"No devices stats available, enrol or import your mobile computer assets "
+"first"
+msgstr ""
+"Nejsou k dispozici žádné statistiky o zařízeních, nějaké mobilní počítače "
+"napojte nebo importujte "
 
 #: inc/invitation.class.php:98 inc/invitation.class.php:104
 msgid "Email address is invalid"
 msgstr "E-mailová adresa není platná"
 
-#: inc/invitation.class.php:127
+#: inc/invitation.class.php:147
 msgid "Cannot create the user"
 msgstr "Nedaří se vytvořit uživatele"
 
-#: inc/invitation.class.php:135
+#: inc/invitation.class.php:155
 msgid ""
 "The user already exists and has been deleted. You must restore or purge him "
 "first."
@@ -459,21 +465,25 @@ msgstr ""
 "Uživatel už existuje a byl smazán. Nejprve je třeba ho buď obnovit nebo "
 "trvale smazat."
 
-#: inc/invitation.class.php:287
+#: inc/invitation.class.php:196
+msgid "Invalid token expiration date interval"
+msgstr "Neplatný interval data expirace tokenu"
+
+#: inc/invitation.class.php:313
 msgid "Cannot delete the document. Delete the attached invitation first"
 msgstr "Dokument se nedaří smazat. Nejprve smažte připojené pozvání"
 
-#: inc/invitation.class.php:351 inc/notificationtargetinvitation.class.php:68
+#: inc/invitation.class.php:375 inc/notificationtargetinvitation.class.php:68
 msgid "Enrollment QR code"
 msgstr "Registrační QR kód"
 
-#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:70
+#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:74
 msgid "Invitation log"
 msgid_plural "Invitation logs"
-msgstr[0] "Záznam událostí pozvánek"
-msgstr[1] "Záznamy událostí pozvánek"
-msgstr[2] "Záznamů událostí pozvánek"
-msgstr[3] "Záznamů událostí pozvánek"
+msgstr[0] "Záznam pozvání"
+msgstr[1] "Záznamy pozvání"
+msgstr[2] "Záznamů pozvání"
+msgstr[3] "Záznamy pozvání"
 
 #: inc/menu.class.php:93
 msgid "General"
@@ -483,13 +493,13 @@ msgstr "Obecné"
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: inc/mqttlog.class.php:57
+#: inc/mqttlog.class.php:66
 msgid "MQTT subscriber"
 msgid_plural "MQTT subscribers"
-msgstr[0] "Odběratel MQTT"
-msgstr[1] "Odběratelé MQTT"
-msgstr[2] "Odběratelů MQTT"
-msgstr[3] "Odběratelů MQTT"
+msgstr[0] "MQTT předplatitel"
+msgstr[1] "MQTT předplatitelé"
+msgstr[2] "MQTT předplatitelů"
+msgstr[3] "MQTT předplatitelé"
 
 #: inc/notificationtargetinvitation.class.php:67
 msgid "Link to download the FlyveMDM Android application"
@@ -527,7 +537,7 @@ msgstr "E-mailová adresa podpory"
 msgid "Address of the helpdesk"
 msgstr "Adresa podpory"
 
-#: inc/notificationtargetinvitation.class.php:154
+#: inc/notificationtargetinvitation.class.php:152
 msgid "Guest user"
 msgstr "Uživatel-host"
 
@@ -537,7 +547,7 @@ msgid_plural "Packages"
 msgstr[0] "Balíček"
 msgstr[1] "Balíčky"
 msgstr[2] "Balíčků"
-msgstr[3] "Balíčků"
+msgstr[3] "Balíčky"
 
 #: inc/package.class.php:99
 msgid "Package Flyve MDM"
@@ -545,145 +555,163 @@ msgid_plural "Packages Flyve MDM"
 msgstr[0] "Balíček Flyve MDM"
 msgstr[1] "Balíčky Flyve MDM"
 msgstr[2] "Balíčků Flyve MDM"
-msgstr[3] "Balíčků Flyve MDM"
+msgstr[3] "Balíčky Flyve MDM"
 
-#: inc/package.class.php:200 inc/package.class.php:240
+#: inc/package.class.php:202 inc/package.class.php:254
 msgid "Unable to save the file"
 msgstr "Soubor se nedaří uložit"
 
-#: inc/package.class.php:205
+#: inc/package.class.php:207
 msgid "Could not parse the APK file"
 msgstr "Nedaří se zanalyzovat APK soubor"
 
-#: inc/package.class.php:498
+#: inc/package.class.php:409
 msgid "Parse an application to find metadata"
 msgstr "Zjistit metadata analýzou aplikace"
 
-#: inc/package.class.php:615
+#: inc/package.class.php:530
 msgid "Only APK and UPK files are allowed"
 msgstr "Je možné použít pouze APK a UPK soubory"
 
-#: inc/policy.class.php:86 inc/policy.class.php:98
+#: inc/policy.class.php:86 inc/policy.class.php:106
 msgid "Policy"
 msgid_plural "Policies"
 msgstr[0] "Zásada"
 msgstr[1] "Zásady"
 msgstr[2] "Zásad"
-msgstr[3] "Zásad"
+msgstr[3] "Zásady"
 
-#: inc/policy.class.php:114 inc/policycategory.class.php:51
-#: inc/policycategory.class.php:63
+#: inc/policy.class.php:122 inc/policycategory.class.php:51
+#: inc/policycategory.class.php:67
 msgid "Policy category"
 msgid_plural "Policy categories"
-msgstr[0] "Kategorie zásad"
+msgstr[0] "Kategorie zásady"
 msgstr[1] "Kategorie zásad"
 msgstr[2] "Kategorií zásad"
-msgstr[3] "Kategorií zásad"
+msgstr[3] "Kategorie zásad"
 
-#: inc/policy.class.php:131
+#: inc/policy.class.php:139
 msgid "Enumeration data"
 msgstr "Data vyčíslení"
 
-#: inc/policy.class.php:149
+#: inc/policy.class.php:157
 msgid "Default value"
 msgstr "Výchozí hodnota"
 
-#: inc/policy.class.php:158
+#: inc/policy.class.php:166
 msgid "Recommended value"
 msgstr "Doporučená hodnota"
 
-#: inc/policy.class.php:167
-msgid "For Android"
-msgstr "Pro Android"
-
-#: inc/policy.class.php:176
+#: inc/policy.class.php:175
 msgid "Requires system permission"
 msgstr "Vyžaduje systémová oprávnění"
 
-#: inc/policy.class.php:185
-msgid "For iOS"
-msgstr "Pro iOS"
+#: inc/policy.class.php:184
+msgid "Android minimum version"
+msgstr "Verze systému Android nejméně"
 
-#: inc/policybase.class.php:78
+#: inc/policy.class.php:193
+msgid "Android maximum version"
+msgstr "Verze systému Android nejvýše"
+
+#: inc/policy.class.php:202
+msgid "Apple minimum version"
+msgstr "Verze systému iOS nejméně"
+
+#: inc/policy.class.php:211
+msgid "Apple maximum version"
+msgstr "Verze systému iOS nejvýše"
+
+#: inc/policybase.class.php:79
 msgid "Received"
 msgstr "Obdrženo"
 
-#: inc/policybase.class.php:80
+#: inc/policybase.class.php:81
 msgid "Failed"
 msgstr "Nedařilo se"
 
-#: inc/policybase.class.php:81
+#: inc/policybase.class.php:82
 msgid "Canceled"
 msgstr "Zrušeno"
 
-#: inc/policybase.class.php:87
+#: inc/policybase.class.php:83
+msgid "Incompatible"
+msgstr "Neslučitelné"
+
+#: inc/policybase.class.php:89
 msgid "Overriden"
 msgstr "Přepsáno"
 
-#: inc/policydeployapplication.class.php:61
+#: inc/policybase.class.php:278
+#, php-format
+msgid "Compatibility with Android up to %1$s."
+msgstr "Kompatibilita s Android až po %1$s."
+
+#: inc/policybase.class.php:284
+#, php-format
+msgid "Compatibility with Android from %1$s."
+msgstr "Kompatibilita s Android od %1$s."
+
+#: inc/policybase.class.php:290
+#, php-format
+msgid "Compatibility with Android %1$s to %2$s."
+msgstr "Kompatibilita s Android %1$s po %2$s."
+
+#: inc/policydeployapplication.class.php:64
 msgid "The remove on delete flag is mandatory"
 msgstr "Příznak odebrat při smazání je povinný"
 
-#: inc/policydeployapplication.class.php:67 inc/policydeployfile.class.php:67
+#: inc/policydeployapplication.class.php:70 inc/policydeployfile.class.php:70
 msgid "The remove on delete flag must be 0 or 1"
 msgstr "Je třeba, aby příznak odebrat při smazání byl 0 nebo 1"
 
-#: inc/policydeployapplication.class.php:73
+#: inc/policydeployapplication.class.php:76
 msgid "You must choose an application to apply this policy"
 msgstr "Je třeba zvolit aplikaci na kterou uplatnit tuto zásadu"
 
-#: inc/policydeployapplication.class.php:80
-#: inc/policydeployapplication.class.php:143
+#: inc/policydeployapplication.class.php:83
+#: inc/policydeployapplication.class.php:146
 msgid "The application does not exists"
 msgstr "Aplikace neexistuje"
 
-#: inc/policydeployapplication.class.php:160
+#: inc/policydeployapplication.class.php:167
 msgid ""
 "A removal policy for this application is applied. Please, remove it first."
 msgstr ""
 "Je uplatněna zásada pro odebrání této aplikace. Nejprve ji bude třeba "
 "odebrat."
 
-#: inc/policydeployapplication.class.php:240
-#: inc/policydeployfile.class.php:295
-msgid "Remove when the policy is removed"
-msgstr "Odebrat když je odebrána zásada"
-
-#: inc/policydeployapplication.class.php:263
-#: inc/policydeployfile.class.php:335
+#: inc/policydeployapplication.class.php:274
+#: inc/policydeployfile.class.php:332
 #: inc/policyremoveapplication.class.php:109
 #: inc/policyremovefile.class.php:108
 msgid "Waiting"
 msgstr "Čekání"
 
-#: inc/policydeployfile.class.php:61
+#: inc/policydeployfile.class.php:64
 msgid "A destination and the remove on delete flag are mandatory"
 msgstr "Příznak cíle a odebrat při smazání jsou povinné"
 
-#: inc/policydeployfile.class.php:73
+#: inc/policydeployfile.class.php:76
 msgid "You must choose a file to apply this policy"
 msgstr "Je třeba zvolit soubor na který uplatnit tuto zásadu"
 
-#: inc/policydeployfile.class.php:80
+#: inc/policydeployfile.class.php:83
 msgid "The file does not exists"
 msgstr "Soubor neexistuje"
 
-#: inc/policydeployfile.class.php:86 inc/policydeployfile.class.php:92
-#: inc/policydeployfile.class.php:119
+#: inc/policydeployfile.class.php:89 inc/policydeployfile.class.php:95
+#: inc/policydeployfile.class.php:122
 msgid "invalid base path"
 msgstr "neplatný základ popisu umístění"
 
-#: inc/policydeployfile.class.php:201
+#: inc/policydeployfile.class.php:204
 msgid ""
 "A removal policy is applied for this file destination. Please, remove it "
 "first."
 msgstr ""
 "Na tento cíl souboru je uplatněna zásada odebrání. Nejprve je třeba ji "
 "odebrat."
-
-#: inc/policydeployfile.class.php:284
-msgid "copy to"
-msgstr "zkopírovat do"
 
 #: inc/policyremoveapplication.class.php:60
 msgid "An application ID is required"
@@ -693,86 +721,114 @@ msgstr "Je třeba zadat identifikátor aplikace"
 msgid "Flyve MDM"
 msgstr "Flyve MDM"
 
-#: inc/task.class.php:84 inc/task.class.php:612
+#: inc/task.class.php:83
 msgid "Task"
 msgid_plural "Tasks"
-msgstr[0] "Úkol"
-msgstr[1] "Úkoly"
-msgstr[2] "Úkolů"
-msgstr[3] "Úkolů"
+msgstr[0] "Úloha"
+msgstr[1] "Úlohy"
+msgstr[2] "Úloh"
+msgstr[3] "Úlohy"
 
-#: inc/task.class.php:166
+#: inc/task.class.php:157
 msgid "Notifiable and policy must be specified"
 msgstr "Je třeba zadat na co upozorňovat a zásadu"
 
-#: inc/task.class.php:175 inc/task.class.php:250 inc/task.class.php:332
+#: inc/task.class.php:166 inc/task.class.php:246 inc/task.class.php:339
 msgid "Policy not found"
 msgstr "Zásada nenalezena"
 
-#: inc/task.class.php:183 inc/task.class.php:288
+#: inc/task.class.php:174 inc/task.class.php:284
 msgid "Incorrect value for this policy"
 msgstr "Neplatná hodnota pro tuto zásadu"
 
-#: inc/task.class.php:194
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr "Toto není oznamovatelný objekt"
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr "Objekt upozorňovatelného se nedaří najít"
 
-#: inc/task.class.php:201
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "Není možné uplatnit zásadu na nespravovanou flotilu"
 
-#: inc/task.class.php:208 inc/task.class.php:296
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr "Zásada je už uplatněna"
 
-#: inc/task.class.php:221 inc/task.class.php:303
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr "Požadavky této zásady nejsou splněny"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:273
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "Nedaří se nalézt cíl %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:281
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "Na toto %1$s se nedaří uplatnit zásadu"
 
-#: inc/task.class.php:310
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr "Nepodařilo se použít tuto zásadu"
 
-#: inc/task.class.php:338
+#: inc/task.class.php:318 inc/task.class.php:328
+msgid "Policy publish action failed."
+msgstr "Akce zveřejnění zásady se nezdařila."
+
+#: inc/task.class.php:345
 #, php-format
 msgid "%1$s not found"
 msgstr "%1$s nenalezeno"
+
+#: inc/task.class.php:530
+msgid "Policy ID"
+msgstr "Identifikátor zásady"
+
+#: inc/task.class.php:557
+msgid "policy name"
+msgstr "název zásady"
+
+#: inc/task.class.php:566
+msgid "applied itemtype"
+msgstr "uplatněný typ položky"
+
+#: inc/task.class.php:575
+msgid "applied ID"
+msgstr "uplatněný identifikátor"
 
 #: inc/taskstatus.class.php:47
 msgid "Task status"
 msgstr "Stav úkolu"
 
-#: inc/wellknownpath.class.php:50 inc/wellknownpath.class.php:90
+#: inc/taskstatus.class.php:395
+msgid "Status"
+msgstr "Stav"
+
+#: inc/wellknownpath.class.php:50
 msgid "Well known path"
 msgstr "Dobře známé umístění"
 
-#: install/installer.class.php:288
+#: install/install.class.php:269
 msgid "Flyve MDM guest users"
 msgstr "Flyve MDM uživatelé-hosté"
 
-#: install/installer.class.php:289
+#: install/install.class.php:270
 msgid ""
 "guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
 msgstr ""
 "Flyve MDM uživatelé-hosté. Vytvořeno Flyve MDM – NEupravujte tento komentář."
 
-#: install/installer.class.php:306
+#: install/install.class.php:287
 msgid "Flyve MDM device agent users"
 msgstr "Uživatelé Flyve MDM agenta zařízení"
 
-#: install/installer.class.php:307
+#: install/install.class.php:288
 msgid ""
 "device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
 "comment."
@@ -780,35 +836,35 @@ msgstr ""
 "uživatelé Flyve MDM agenta zařízení. Vytvořeno Flyve MDM – NEupravujte tento"
 " komentář."
 
-#: install/installer.class.php:366
+#: install/install.class.php:352
 msgid "User invitation"
 msgstr "Pozvání uživatele"
 
-#: install/installer.class.php:535
+#: install/install.class.php:554
 msgid "Parse uploaded applications to collect metadata"
 msgstr "Analyzovat nahrané aplikace a shromáždit tak metadata"
 
-#: install/installer.class.php:697
+#: install/install.class.php:716
 msgid "Security"
 msgstr "Zabezpečení"
 
-#: install/installer.class.php:700
+#: install/install.class.php:719
 msgid "Authentication"
 msgstr "Ověřování"
 
-#: install/installer.class.php:703 install/policies/password.php:46
+#: install/install.class.php:722 install/policies/password.php:46
 msgid "Password"
 msgstr "Heslo"
 
-#: install/installer.class.php:706
+#: install/install.class.php:725
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: install/installer.class.php:709
+#: install/install.class.php:728
 msgid "Peripherals"
 msgstr "Periferie"
 
-#: install/installer.class.php:712
+#: install/install.class.php:731
 msgid "Deployment"
 msgstr "Nasazení"
 
@@ -817,52 +873,59 @@ msgid "Deploy application"
 msgstr "Nasadit aplikaci"
 
 #: install/policies/deployment.php:46
-msgid "Deploy an application on the device"
-msgstr "Nasadit aplikaci na zařízení"
+msgid "Deploy an application on the device."
+msgstr "Nasadit aplikaci na zařízení."
 
-#: install/policies/deployment.php:56
+#: install/policies/deployment.php:58
 msgid "Remove application"
 msgstr "Odebrat aplikaci"
 
-#: install/policies/deployment.php:63
-msgid "Uninstall an application on the device"
-msgstr "Odinstalovat aplikaci ze zařízení"
+#: install/policies/deployment.php:65
+msgid "Uninstall an application on the device."
+msgstr "Odinstalovat aplikaci ze zařízení."
 
-#: install/policies/deployment.php:73
+#: install/policies/deployment.php:77
 msgid "Deploy file"
 msgstr "Nasadit soubor"
 
-#: install/policies/deployment.php:80
-msgid "Deploy a file on the device"
-msgstr "Nasadit soubor na zařízení"
+#: install/policies/deployment.php:84
+msgid "Deploy a file on the device."
+msgstr "Nasadit soubor na zařízení."
 
-#: install/policies/deployment.php:89
+#: install/policies/deployment.php:95
 msgid "Remove file"
 msgstr "Odebrat soubor"
 
-#: install/policies/deployment.php:96
-msgid "Uninstall a file on the device"
-msgstr "Odebrat soubor ze zařízení"
+#: install/policies/deployment.php:102
+msgid "Uninstall a file on the device."
+msgstr "Odebrat soubor ze zařízení."
+
+#: install/policies/deployment.php:114
+msgid "Disable unknown sources"
+msgstr "Vypnout neznámé zdroje"
+
+#: install/policies/deployment.php:121
+msgid "Disable installation of apps from unknown sources."
+msgstr "Neumožnit instalaci aplikací z neznámých zdrojů."
 
 #: install/policies/encryption.php:39
 msgid "Internal Storage encryption"
 msgstr "Šifrování vnitřního úložiště"
 
 #: install/policies/encryption.php:46
-msgid "Force internal storage encryption"
-msgstr "Vynutit šifrování vnitřního úložiště"
+msgid "Force internal storage encryption."
+msgstr "Vynutit šifrování vestavěného úložiště."
 
-#: install/policies/mdm.php:39 install/policies/mdm.php:46
-msgid "use TLS"
-msgstr "šifrovat pomocí TLS"
+#: install/policies/mdm.php:46
+msgid "Periodic geolocation"
+msgstr "Opakovaná geolokace"
 
 #: install/policies/mdm.php:55
-msgid "Set an inventory frequency"
-msgstr "Nastavit četnost inventur"
-
-#: install/policies/mdm.php:62
-msgid "Sets the recurrence of inventory in minutes"
-msgstr "Nastaví opakovanost inventarizace (v minutách)"
+msgid ""
+"Get geolocation with a specified periodicity (in seconds) and sends it to "
+"the server."
+msgstr ""
+"Získat geolokaci v zadané častosti (v sekundách) a poslat ji na server."
 
 #: install/policies/password.php:39
 msgid "Password enabled"
@@ -877,254 +940,246 @@ msgid "Pin"
 msgstr "PIN kód"
 
 #: install/policies/password.php:50
-msgid "Enable the password"
-msgstr "Zapnout heslo"
+msgid "Enable the password."
+msgstr "Zapnout heslo."
 
-#: install/policies/password.php:59
+#: install/policies/password.php:61
 msgid "Minimum password length"
 msgstr "Minimální délka hesla"
 
-#: install/policies/password.php:68
+#: install/policies/password.php:70
 msgid ""
 "Set the required number of characters for the password. For example, you can"
-" require PIN or passwords to have at least six characters"
+" require PIN or passwords to have at least six characters."
 msgstr ""
-"Nastavit požadovaný počet znaků pro heslo. Například je možné vyžadovat PIN "
-"kód nebo heslo které má přinejmenším šest znaků"
+"Nastavit počet znaků, vyžadovaný pro heslo. Například je možné vyžadovat PIN"
+" nebo heslo, které má přinejmenším šest znaků."
 
-#: install/policies/password.php:78
+#: install/policies/password.php:82
 msgid "Password quality"
 msgstr "Odolnost hesla"
 
-#: install/policies/password.php:83
+#: install/policies/password.php:87
 msgid "Unspecified"
 msgstr "Neurčeno"
 
-#: install/policies/password.php:84
+#: install/policies/password.php:88
 msgid "Something"
 msgstr "Něco"
 
-#: install/policies/password.php:85
+#: install/policies/password.php:89
 msgid "Numeric"
 msgstr "Číselné"
 
-#: install/policies/password.php:86
+#: install/policies/password.php:90
 msgid "Alphabetic"
 msgstr "Abecední"
 
-#: install/policies/password.php:87
+#: install/policies/password.php:91
 msgid "Alphanumeric"
 msgstr "Písmena a číslice"
 
-#: install/policies/password.php:88
+#: install/policies/password.php:92
 msgid "Complex"
 msgstr "Komplexní"
 
-#: install/policies/password.php:92
-msgid "Complexity of allowed password"
-msgstr "Komplexita umožněných hesel"
+#: install/policies/password.php:96
+msgid "Complexity of allowed password."
+msgstr "Komplexita umožněného hesla."
 
-#: install/policies/password.php:102
+#: install/policies/password.php:108
 msgid "Minimum letters required in password"
 msgstr "Minimální počet znaků vyžadovaných v hesle"
 
-#: install/policies/password.php:112
+#: install/policies/password.php:118
 msgid ""
 "The minimum number of letters required in the password for all admins or a "
-"particular one"
+"particular one."
 msgstr ""
-"Minimální počet znaků vyžadovaný v hesle pro všechny nebo konkrétního "
-"správce"
+" Minimální počet znaků vyžadovaný v heslo pro všechny nebo konkrétního "
+"správce."
 
-#: install/policies/password.php:122
+#: install/policies/password.php:130
 msgid "Minimum lowercase letters required in password"
 msgstr "Minimální počet malých písmen vyžadovaný v hesle"
 
-#: install/policies/password.php:132
+#: install/policies/password.php:140
 msgid ""
 "The minimum number of lowercase letters required in the password for all "
-"admins or a particular one"
+"admins or a particular one."
 msgstr ""
-"Minimální počet malých písmen vyžadovaný v hesle pro všechny nebo "
-"konkrétního správce"
+"Minimální počet malých písmen vyžadovaný v heslo pro všechny nebo "
+"konkrétního správce."
 
-#: install/policies/password.php:142
+#: install/policies/password.php:152
 msgid "Minimum non-letter characters required in password"
 msgstr "Minimální počet speciálních znaků vyžadovaný v hesle"
 
-#: install/policies/password.php:152
+#: install/policies/password.php:162
 msgid ""
 "The minimum number of non-letter characters required in the password for all"
-" admins or a particular one"
+" admins or a particular one."
 msgstr ""
-"Minimální počet speciálních znaků vyžadovaný v hesle pro všechny nebo "
-"konkrétního správce"
+"Minimální počet speciálních znaků vyžadovaný v heslo pro všechny nebo "
+"konkrétního správce."
 
-#: install/policies/password.php:162
+#: install/policies/password.php:174
 msgid "Minimum numerical digits required in password"
 msgstr "Minimální počet číslic vyžadovaný v hesle"
 
-#: install/policies/password.php:172
+#: install/policies/password.php:184
 msgid ""
 "The minimum number of numerical digits required in the password for all "
-"admins or a particular one"
+"admins or a particular one."
 msgstr ""
-"Minimální počet číslic vyžadovaný v hesle pro všechny nebo konkrétního "
-"správce"
+"Minimální počet číslic vyžadovaný v heslo pro všechny nebo konkrétního "
+"správce."
 
-#: install/policies/password.php:182
+#: install/policies/password.php:196
 msgid "Minimum symbols required in password"
 msgstr "Minimální počet symbolů vyžadovaný v hesle"
 
-#: install/policies/password.php:192
+#: install/policies/password.php:206
 msgid ""
 "The minimum number of symbols required in the password for all admins or a "
-"particular one"
+"particular one."
 msgstr ""
-"Minimální počet symbolů vyžadovaný v hesle pro všechny nebo konkrétního "
-"správce"
+"Minimální počet symbolů vyžadovaný v heslo pro všechny nebo konkrétního "
+"správce."
 
-#: install/policies/password.php:202
+#: install/policies/password.php:218
 msgid "Minimum uppercase letters required in password"
 msgstr "Minimální počet velkých písmen vyžadovaný v hesle"
 
-#: install/policies/password.php:212
+#: install/policies/password.php:228
 msgid ""
 "The minimum number of uppercase letters required in the password for all "
-"admins or a particular one"
+"admins or a particular one."
 msgstr ""
-"Minimální počet velkých písmen potřebných v hesle pro všechny nebo "
-"konkrétního správce"
+"Minimální počet velkých písmen vyžadovaný v heslo pro všechny nebo "
+"konkrétního správce."
 
-#: install/policies/password.php:222
-msgid "Maximum failed password attemps for wipe"
+#: install/policies/password.php:240
+msgid "Maximum failed password attempts for wipe"
+msgstr "Nejvýše nezdařených pokusů o zadání hesla než bude zařízení vymazáno"
+
+#: install/policies/password.php:250
+msgid "Number of consecutive failed attempts of unlock the device to wipe."
 msgstr ""
-"Maximální počet nepodařených pokusů o zadání hesla než bude vymazán obsah "
-"zařízení"
+"Počet po sobě následujících neúspěšných pokusů o odemčení zařízení než bude "
+"vymazáno."
 
-#: install/policies/password.php:232
-msgid "Number of consecutive failed attemps of unlock the device to wipe"
-msgstr ""
-"Maximální počet po sobě jdoucích nepodařených pokusů o odemknutí zařízení "
-"než bude vymazáno jeho úložiště"
-
-#: install/policies/password.php:242
+#: install/policies/password.php:262
 msgid "Maximum time to lock (milliseconds)"
 msgstr "Maximální čas před uzamčením (milisekundy)"
 
-#: install/policies/password.php:252
-msgid "Maximum time to lock the device in milliseconds"
-msgstr "Maximální čas před uzamčením zařízení v milisekundách"
-
-#: install/policies/password.php:262
-msgid "Reset password"
-msgstr "Resetovat heslo"
-
-#: install/policies/password.php:269
-msgid ""
-"Force a new password for device unlock (the password needed to access the "
-"entire device) or the work profile challenge on the current user. This takes"
-" effect immediately."
-msgstr ""
-"Vynutit nové heslo pro odemknutí zařízení (heslo vyžadováno pro přístup k "
-"celému zařízení) nebo výzva ohledně pracovního profilu pro stávajícího "
-"uživatele. Toto se uplatní okamžitě."
+#: install/policies/password.php:272
+msgid "Maximum time to lock the device in milliseconds."
+msgstr "Nejdelší doba před uzamčením zařízením (v milisekundách)."
 
 #: install/policies/peripherals.php:39
 msgid "Disable Camera"
 msgstr "Vypnout fotoaparát"
 
 #: install/policies/peripherals.php:46
-msgid "Prevent usage of the Camera"
-msgstr "Zabránit použití fotoaparátu/kamery"
+msgid "Prevent usage of the Camera."
+msgstr "Bránit používání kamery/fotoaparátu."
 
-#: install/policies/peripherals.php:55
+#: install/policies/peripherals.php:57
 msgid "Disable Wifi"
 msgstr "Vypnout Wifi"
 
-#: install/policies/peripherals.php:62
-msgid "Disable wifi connectivity"
-msgstr "Vypnout wifi připojení"
+#: install/policies/peripherals.php:64
+msgid "Disable wifi connectivity."
+msgstr "Znemožnit připojení přes WiFi."
 
-#: install/policies/peripherals.php:71
+#: install/policies/peripherals.php:75
 msgid "Disable Bluetooth"
 msgstr "Vypnout bluetooth"
 
-#: install/policies/peripherals.php:78
-msgid "Disable Bluetooth connectivity"
-msgstr "Vypnout bluetooth připojení"
+#: install/policies/peripherals.php:82
+msgid "Disable Bluetooth connectivity."
+msgstr "Znemožnit připojení přes Bluetooth."
 
-#: install/policies/peripherals.php:88 install/policies/peripherals.php:95
+#: install/policies/peripherals.php:94
 msgid "Disable roaming"
 msgstr "Vypnout roaming"
 
-#: install/policies/peripherals.php:104 install/policies/peripherals.php:111
+#: install/policies/peripherals.php:101
+msgid "Disable roaming."
+msgstr "Znemožnit využívání roamingu."
+
+#: install/policies/peripherals.php:112
 msgid "Disable GPS"
 msgstr "Vypnout GPS"
 
-#: install/policies/peripherals.php:120 install/policies/peripherals.php:127
+#: install/policies/peripherals.php:119
+msgid "Disable GPS."
+msgstr "Znemožnit využívání GPS."
+
+#: install/policies/peripherals.php:130
 msgid "Disable Mobile line"
 msgstr "Vypnout mobilní linku"
 
-#: install/policies/peripherals.php:136
+#: install/policies/peripherals.php:137
+msgid "Disable Mobile line."
+msgstr "Znemožnit telefonování."
+
+#: install/policies/peripherals.php:148
 msgid "Disable NFC"
 msgstr "Vypnout NFC"
 
-#: install/policies/peripherals.php:143
-msgid "Disable Near Field Contact"
-msgstr "Vypnout Near Field Contact"
+#: install/policies/peripherals.php:155
+msgid "Disable Near Field Contact."
+msgstr "Znemožnit NFC."
 
-#: install/policies/peripherals.php:152 install/policies/peripherals.php:160
+#: install/policies/peripherals.php:166
 msgid "Disable hotspot and tethering"
 msgstr "Vypnout mobilní přístupový bod a sdílení připojení"
 
-#: install/policies/peripherals.php:170 install/policies/peripherals.php:177
+#: install/policies/peripherals.php:174
+msgid "Disable hotspot and tethering."
+msgstr "Znemožnit vytváření WiFi přístupového bodu a sdílení připojení."
+
+#: install/policies/peripherals.php:186
 msgid "Disable airplane mode"
 msgstr "Vypnout režim letadlo"
 
-#: install/policies/peripherals.php:186
+#: install/policies/peripherals.php:193
+msgid "Disable airplane mode."
+msgstr "Znemožnit přepínání do režimu letadlo."
+
+#: install/policies/peripherals.php:204
 msgid "Disable speakerphone"
 msgstr "Vypnout hlasitý telefon"
 
-#: install/policies/peripherals.php:193
-msgid "Disable the speakerphone"
-msgstr "Vypnout telefon přes vestavěný reproduktor"
-
-#: install/policies/peripherals.php:202
-msgid "Disable create VPN profiles"
-msgstr "Vypnout vytváření VPN profilů"
-
-#: install/policies/peripherals.php:209
-msgid "Disable creation of VPN profiles"
-msgstr "Znemožnit vytváření VPN profilů"
-
-#: install/policies/phone.php:39 install/policies/phone.php:46
-msgid "Disable SMS and MMS"
-msgstr "Vypnout SMS a MMS"
+#: install/policies/peripherals.php:211
+msgid "Disable the speakerphone."
+msgstr "Znemožnit používání reproduktoru."
 
 #: install/policies/usb.php:39
 msgid "Disable USB MTP"
 msgstr "Vypnout USB MTP"
 
 #: install/policies/usb.php:46
-msgid "Disable USB Media Transfert Protocol"
-msgstr "Vypnout protokol pro přenos médií přes USB"
+msgid "Disable USB Media Transfer Protocol."
+msgstr "Vypnout USB Media Transfer Protocol."
 
-#: install/policies/usb.php:56
+#: install/policies/usb.php:58
 msgid "Disable USB PTP"
 msgstr "Vypnout USB PTP"
 
-#: install/policies/usb.php:63
-msgid "Disable USB Picture Transfert Protocol"
-msgstr "Vypnout protokol přenosu obrázků přes USB"
+#: install/policies/usb.php:65
+msgid "Disable USB Picture Transfer Protocol."
+msgstr "Vypnout USB Picture Transfer Protocol."
 
-#: install/policies/usb.php:73
+#: install/policies/usb.php:77
 msgid "Disable USB ADB"
 msgstr "Vypnout USB ADB"
 
-#: install/policies/usb.php:80
-msgid "Disable USB Android Debug Bridge"
-msgstr "Vypnout ladění systému Android přes USB"
+#: install/policies/usb.php:84
+msgid "Disable USB Android Debug Bridge."
+msgstr "Vypnout USB ladící most pro Android."
 
 #: install/policies/userInterface.php:39
 msgid "Disable status bar"
@@ -1140,11 +1195,11 @@ msgstr ""
 "ostatní překryvné prvky zobrazení, které by umožnily opustit režim "
 "jednoúčelového zařízení."
 
-#: install/policies/userInterface.php:56
+#: install/policies/userInterface.php:58
 msgid "Disable screen capture"
 msgstr "Vypnout zachycování snímků obrazovky"
 
-#: install/policies/userInterface.php:63
+#: install/policies/userInterface.php:65
 msgid ""
 "Disable screen capture. Disabling screen capture also prevents the content "
 "from being shown on display devices that do not have a secure video output."
@@ -1152,146 +1207,96 @@ msgstr ""
 "Vypnout zachycování snímků obrazovky. To také zabrání ve zobrazování obsahu "
 "na zařízeních, které nemají zabezpečený video výstup."
 
-#: install/policies/userInterface.php:73
-msgid "Disable all sounds"
-msgstr "Vypnout všechny zvuky"
-
 #: install/policies/userInterface.php:80
-msgid "Disable all sounds of device"
-msgstr "Vypnout veškeré zvuky vydávané zařízením"
+msgid "Disable media sounds"
+msgstr "Vypnout zvuky médií"
 
-msgid "Invite users to enroll one device."
-msgstr "Pozvat uživatele aby zaregistrovali jedno zařízení."
+#: install/policies/userInterface.php:87
+msgid "Disable all media sounds from device"
+msgstr "Vypnout všechny zvuky médií ze zařízení"
 
-msgid ""
-"They will receive an message to their default email address containing a QR "
-"Code and instructions to enroll."
-msgstr ""
-"Obdrží zprávu na svou výchozí e-mailovou adresu, obsahující QR kód a pokyny "
-"jak se zaregistrovat."
+#: install/policies/userInterface.php:98
+msgid "Disable ringer sounds"
+msgstr "Vypnout vyzvánění"
 
-msgid "There is no agent yet"
-msgstr "Zatím žádný agent"
+#: install/policies/userInterface.php:105
+msgid "Disable all ringer sounds from device"
+msgstr "Vypnout veškeré zvuky vyzvánění ze zařízení"
 
-msgid "There is no task status yet"
-msgstr "Doposud není k dispozici stav žádného úkolu"
+#: install/policies/userInterface.php:116
+msgid "Disable alarm sounds"
+msgstr "Vypnout zvuky upozornění"
 
-msgid "Status"
-msgstr "Stav"
+#: install/policies/userInterface.php:123
+msgid "Disable alarm sounds from device"
+msgstr "Vypnout výstražné zvuky ze zařízení"
 
-msgid "Count"
-msgstr "Počet"
+#: install/policies/userInterface.php:134
+msgid "Disable notifications sounds"
+msgstr "Vypnout zvuky upozornění"
 
-msgid "MQTT broker"
-msgstr "MQTT zprostředkovatel"
+#: install/policies/userInterface.php:141
+msgid "Disable notifications sounds from device"
+msgstr "Vypnout zvuky oznamování ze zařízení"
 
-msgid "MQTT broker address for clients"
-msgstr "Adresa MQTT zprostředkovatele pro klienty"
+#: install/policies/userInterface.php:152
+msgid "Disable accessibility sounds"
+msgstr "Vypnout zvuky zpřístupnění"
 
-msgid ""
-"An IP address or a hostname used by the client devices to communicate with "
-"the broker"
-msgstr ""
-"IP adresa nebo název stroje používaného klientskými zařízeními pro "
-"komunikaci se zprostředkovatelem"
+#: install/policies/userInterface.php:159
+msgid "Disable accessibility prompts sounds from device"
+msgstr "Vypnout zpřístupňující zvukové výzvy ze zařízení"
 
-msgid "MQTT broker address for backend"
-msgstr "Adresa MQTT zprostředkovatele pro serverovou část"
+#: install/policies/userInterface.php:170
+msgid "Disable DTMF sounds"
+msgstr "Vypnout zvuky DTMF"
 
-msgid ""
-"An IP address or a hostname used by the backend to communicate with the "
-"broker"
-msgstr ""
-"IP adresa nebo název stroje používaný serverovou částí pro komunikaci se "
-"zprostředkovatelem"
+#: install/policies/userInterface.php:177
+msgid "Disable DTMF tones sounds from device"
+msgstr "Vypnout zvuky DTMF tónů ze zařízení"
 
-msgid "MQTT broker port"
-msgstr "Port MQTT zprostředkovatele"
+#: install/policies/userInterface.php:188
+msgid "Disable system sounds"
+msgstr "Vypnout systémové zvuky"
 
-msgid "A port number between 1025 and 65535, standard port is 1883"
-msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 1883"
+#: install/policies/userInterface.php:195
+msgid "Disable system sounds from device"
+msgstr "Vypnout systémové zvuky ze zařízení"
 
-msgid "MQTT broker port for TLS"
-msgstr "Port MQTT zprostředkovatele pro TLS"
+#: install/policies/userInterface.php:206
+msgid "Audio profile mode"
+msgstr "Režim zvukového profilu"
 
-msgid "A port number between 1025 and 65535, standard port is 8883"
-msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 8883"
+#: install/policies/userInterface.php:211
+msgid "Normal"
+msgstr "Normální"
 
-msgid "Use TLS for clients"
-msgstr "Použít TLS pro klienty"
+#: install/policies/userInterface.php:212
+msgid "Silent"
+msgstr "Tichý"
 
-msgid ""
-"Use TLS for MQTT communication between the broker and the client devices"
-msgstr ""
-"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a klientskými "
-"zařízeními"
+#: install/policies/userInterface.php:213
+msgid "Vibrate"
+msgstr "Vibrace"
 
-msgid "Use TLS for backend"
-msgstr "Použít TLS pro serverovou část"
+#: install/policies/userInterface.php:217
+msgid "Audio profile mode used for device"
+msgstr "Režim zvukového profilu použitý pro zařízení"
 
-msgid "Use TLS for MQTT communication between the broker and the backend"
-msgstr ""
-"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a serverovou částí"
+msgid "Is managed"
+msgstr "Je spravováno"
 
-msgid "CA certificate"
-msgstr "Certifikát cert. autority"
+msgid "copy to"
+msgstr "zkopírovat do"
 
-msgid "Cipher suite (TLS enabled)"
-msgstr "Sada šifer (TLS zabezpečení zapnuto)"
-
-msgid "Mqtt broker cipher suite"
-msgstr "Sada šifer MQTT zprostředkovatele"
-
-msgid "test"
-msgstr "vyzkoušet"
-
-msgid "Client certificate server (Broker MQTT with TLS enabled)"
-msgstr ""
-"Server klientského certifikátu (MQTT zprostředkovatel se zapnutým TLS "
-"zabezpečením)"
-
-msgid "Use client certificates"
-msgstr "Použít klientské certifikáty"
-
-msgid "Ssl certificate server for MQTT clients"
-msgstr "Server SSL certifikátu pro MQTT klienty"
-
-msgid "https://cert.domain.com/path/to/service"
-msgstr "https://cert.domena.example/umisteni/sluzby"
+msgid "Remove when the policy is removed"
+msgstr "Odebrat když je odebrána zásada"
 
 msgid "file size"
 msgstr "velikost souboru"
 
 msgid "Update the file"
 msgstr "Aktualizovat soubor"
-
-msgid "Application date"
-msgstr "Datum aplikace"
-
-msgid "Last change date"
-msgstr "Datum poslední změny"
-
-msgid ""
-"GLPI is not properly configured. Please check the general settings, the API "
-"settings and the notification settings."
-msgstr ""
-"GLPI není správně nastaveno. Zkontrolujte obecná nastavení, nastavení API a "
-"upozorňování."
-
-msgid "Lock"
-msgstr "Zamknout"
-
-msgid "Wipe"
-msgstr "Vymazat obsah zařízení"
-
-msgid "Unenroll"
-msgstr "Zrušit registraci"
-
-msgid "Package name"
-msgstr "Název balíčku"
-
-msgid "Update the package"
-msgstr "Aktualizovat balíček"
 
 msgid "Enrollment"
 msgstr "Registrace"
@@ -1304,21 +1309,6 @@ msgstr "Při úspěšné registraci vypnout skončení platnosti tokenu"
 
 msgid "Save initial inventory in file"
 msgstr "Uložit počáteční inventuru do souboru"
-
-msgid "Bug collector"
-msgstr "Shromažďování hlášení chyb"
-
-msgid "Android bug collector URL"
-msgstr "URL adresa služby pro shromažďování hlášení chyb ze systému Android"
-
-msgid "https://bugreport.flyvemdm.com/path/to/service"
-msgstr "https://bugreport.flyvemdm.example/umisteni/sluzby"
-
-msgid "Android bug collector user"
-msgstr "Uživatelský účet na službě shromažďování hlášení chyb z Android"
-
-msgid "Android bug collector password"
-msgstr "Heslo ke službě shromažďování hlášení chyb z Android"
 
 msgid "Configuration wizard"
 msgstr "Průvodce nastavením"
@@ -1335,6 +1325,32 @@ msgstr ""
 
 msgid "Revision information"
 msgstr "Informace o revizi"
+
+msgid ""
+"GLPI is not properly configured. Please check the general settings, the API "
+"settings and the notification settings."
+msgstr ""
+"GLPI není správně nastaveno. Zkontrolujte obecná nastavení, nastavení API a "
+"upozorňování."
+
+msgid "Invite users to enroll one device."
+msgstr "Pozvat uživatele aby zaregistrovali jedno zařízení."
+
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Obdrží zprávu na svou výchozí e-mailovou adresu, obsahující QR kód a pokyny "
+"jak se zaregistrovat."
+
+msgid "Lock"
+msgstr "Zamknout"
+
+msgid "Wipe"
+msgstr "Vymazat obsah zařízení"
+
+msgid "Unenroll"
+msgstr "Zrušit registraci"
 
 msgid "Document types"
 msgstr "Typy dokumentů"
@@ -1379,33 +1395,6 @@ msgstr ""
 "Ve výchozím stavu není umožněno více zařízení na jednu entitu, než tento "
 "počet (0 = bez omezení)"
 
-msgid "Support name"
-msgstr "Jméno podpory"
-
-msgid "Support address"
-msgstr "Adresa podpory"
-
-msgid "Support phone"
-msgstr "Telefon podpory"
-
-msgid "Support website"
-msgstr "Webové stránky podpory"
-
-msgid "Support email"
-msgstr "E-mail podpory"
-
-msgid "MDM Agent URL"
-msgstr "URL adresa MDM agenta"
-
-msgid "apply a policy"
-msgstr "uplatnit zásadu"
-
-msgid "Value"
-msgstr "Hodnota"
-
-msgid "Applied policies"
-msgstr "Uplatněné zásady"
-
 msgid "Wizard complete"
 msgstr "Průvodce dokončen"
 
@@ -1439,9 +1428,6 @@ msgid ""
 msgstr ""
 "Jako správce systému (root) spusťte v terminálu následující příkaz. Namísto "
 "www-data zadejte uživatele pod kterým je spuštěný HTTP server."
-
-msgid "crontab -e -u www-data"
-msgstr "crontab -e -u www-data"
 
 msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
@@ -1574,17 +1560,18 @@ msgid "For FusionInventory greater than 9.1 + 1.1:"
 msgstr "Pro FusionInventory novější než 9.1 + 1.1:"
 
 msgid ""
-"It is required to deactivate the Computer constraint (name) rule in the "
-"Equipment import and link rules menu."
+"It is required to deactivate the following rules in the Equipment import and"
+" link rules menu: "
 msgstr ""
-"Je třeba vypnout pravidlo Computer constraint (název) v nabídce importu "
-"vybavení a pravidel propojování."
+"V nabídce Import zařízení a pravidla propojení je třeba vypnout následující "
+"pravidla:"
 
 msgid ""
-"The following link will open a new tab to the Rules section of "
-"FusionInventory "
+"The following link will open a new tab to the Rules > Equipment import and "
+"link rules section of FusionInventory "
 msgstr ""
-"Následující odkaz otevře nový panel se sekcí pravidel ve FusionInventory"
+"Následující odkaz otevře nový panel na Pravidla > Import zařízení a pravidla"
+" propojení FusionInventory"
 
 msgid "Rules"
 msgstr "Pravidla"
@@ -1614,8 +1601,11 @@ msgstr ""
 "připojovat pouze z konkrétní IP adresy."
 
 msgid ""
-"Run the following command on your MySQL host, and adapt the mqtt.server.ip"
-msgstr "Na stroji s MySQL spusťte následující příkaz a upravte mqtt.server.ip"
+"Run the following command on your MySQL host, adapt mqtt.server.ip and glpi-"
+"database-name"
+msgstr ""
+"Spusťte následující příkaz na stroji s databází, upravte mqtt.server.ip a "
+"glpi-database-name"
 
 msgid "This user should be able to only SELECT the following tables:"
 msgstr ""
@@ -1650,7 +1640,7 @@ msgstr ""
 "Ověřte že se můžete přihlásit do své databáze ze stroje, na kterém je "
 "provozováno Mosquitto."
 
-msgid "The following command will ask for the password you choose earlier"
+msgid "The following command will ask for the password you choosed earlier"
 msgstr "Následující příkaz se zeptá na heslo, které jste zvolili předtím"
 
 msgid "Mosquitto"
@@ -1751,5 +1741,145 @@ msgstr "Zpět"
 msgid "Wizard page:"
 msgstr "Stránka průvodce:"
 
+msgid "There is no task status yet"
+msgstr "Doposud není k dispozici stav žádného úkolu"
+
+msgid "Count"
+msgstr "Počet"
+
+msgid "Alias"
+msgstr "Alternativní název"
+
+msgid "Package name"
+msgstr "Název balíčku"
+
+msgid "Update the package"
+msgstr "Aktualizovat balíček"
+
 msgid "Actions"
 msgstr "Akce"
+
+msgid "MQTT broker"
+msgstr "MQTT zprostředkovatel"
+
+msgid "MQTT broker address for clients"
+msgstr "Adresa MQTT zprostředkovatele pro klienty"
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+"IP adresa nebo název stroje používaného klientskými zařízeními pro "
+"komunikaci se zprostředkovatelem"
+
+msgid "MQTT broker address for backend"
+msgstr "Adresa MQTT zprostředkovatele pro serverovou část"
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"IP adresa nebo název stroje používaný serverovou částí pro komunikaci se "
+"zprostředkovatelem"
+
+msgid "MQTT broker port"
+msgstr "Port MQTT zprostředkovatele"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 1883"
+
+msgid "MQTT broker port for TLS"
+msgstr "Port MQTT zprostředkovatele pro TLS"
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "Číslo portu z rozmezí 1025 až 65535, standardní port je 8883"
+
+msgid "Use TLS for clients"
+msgstr "Použít TLS pro klienty"
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a klientskými "
+"zařízeními"
+
+msgid "Use TLS for backend"
+msgstr "Použít TLS pro serverovou část"
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr ""
+"Použít TLS pro MQTT komunikaci mezi zprostředkovatelem a serverovou částí"
+
+msgid "CA certificate"
+msgstr "Certifikát cert. autority"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Sada šifer (TLS zabezpečení zapnuto)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Sada šifer MQTT zprostředkovatele"
+
+msgid "test"
+msgstr "vyzkoušet"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr ""
+"Server klientského certifikátu (MQTT zprostředkovatel se zapnutým TLS "
+"zabezpečením)"
+
+msgid "Use client certificates"
+msgstr "Použít klientské certifikáty"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Server SSL certifikátu pro MQTT klienty"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domena.example/umisteni/sluzby"
+
+msgid "apply a policy"
+msgstr "uplatnit zásadu"
+
+msgid "Value"
+msgstr "Hodnota"
+
+msgid "Applied policies"
+msgstr "Uplatněné zásady"
+
+msgid "Application date"
+msgstr "Datum aplikace"
+
+msgid "Last change date"
+msgstr "Datum poslední změny"
+
+msgid "There is no agent yet"
+msgstr "Zatím žádný agent"
+
+msgid "ID"
+msgstr "Identif."
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Topic"
+msgstr "Téma"
+
+msgid "Message"
+msgstr "Zpráva"
+
+msgid "Support name"
+msgstr "Jméno podpory"
+
+msgid "Support address"
+msgstr "Adresa podpory"
+
+msgid "Support phone"
+msgstr "Telefon podpory"
+
+msgid "Support website"
+msgstr "Webové stránky podpory"
+
+msgid "Support email"
+msgstr "E-mail podpory"
+
+msgid "MDM Agent URL"
+msgstr "URL adresa MDM agenta"
