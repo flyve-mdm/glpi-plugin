@@ -70,7 +70,7 @@ class PluginFlyvemdmPolicyString extends CommonTestCase {
    public function testGetMqttMessage() {
       list($policy, $policyData) = $this->createNewPolicyInstance();
       // Test the mqtt message if the policy
-      $array = $policy->getMqttMessage('a little string', null, '0');
+      $array = $policy->getBrokerMessage('a little string', null, '0');
       $symbol = $policyData->fields['symbol'];
       $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('a little string');
    }

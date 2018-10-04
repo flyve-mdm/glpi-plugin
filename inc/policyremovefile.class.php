@@ -92,7 +92,7 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
     * @param integer $itemId
     * @return array|boolean
     */
-   public function getMqttMessage($value, $itemtype, $itemId) {
+   public function getBrokerMessage($value, $itemtype, $itemId) {
       if (! $this->integrityCheck($value, $itemtype, $itemId)) {
          return false;
       }

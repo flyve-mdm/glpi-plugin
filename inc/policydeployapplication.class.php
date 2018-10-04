@@ -93,7 +93,7 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
     * @param integer $itemId
     * @return array|boolean
     */
-   public function getMqttMessage($value, $itemtype, $itemId) {
+   public function getBrokerMessage($value, $itemtype, $itemId) {
       $decodedValue = json_decode($value, JSON_OBJECT_AS_ARRAY);
       if (!$this->integrityCheck($decodedValue, $itemtype, $itemId)) {
          return false;
