@@ -210,10 +210,10 @@ class PluginFlyvemdmPolicyDeployfile extends CommonTestCase {
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();
 
-      $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
+      $this->boolean($policy->getBrokerMessage(null, null, null))->isFalse();
       $item = $this->createDummyFile(0);
       $value = '{"destination":"%SDCARD%/filename.ext","remove_on_delete":0}';
-      $result = $policy->getMqttMessage($value, $item->getType(), $item->getID());
+      $result = $policy->getBrokerMessage($value, $item->getType(), $item->getID());
       $this->array($result)->hasKeys(['id', 'version', $this->dataField['symbol']])
          ->string($result['id'])->isEqualTo($item->getID())
          ->string($result['version'])->isEqualTo("1")

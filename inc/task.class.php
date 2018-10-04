@@ -394,7 +394,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policy->getFromDB($this->fields[$policyFk]);
       $policyName = $policy->getField('symbol');
       $taskId = $this->getID();
-      $policyMessage = $appliedPolicy->getMqttMessage(
+      $policyMessage = $appliedPolicy->getBrokerMessage(
          $this->fields['value'],
          $this->fields['itemtype'],
          $this->fields['items_id']
@@ -463,7 +463,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $groupToEncode = [];
       foreach ($policiesToApply as $policyToApply) {
          $policy = $policyToApply['policyData'];
-         $policyMessage = $policy->getMqttMessage(
+         $policyMessage = $policy->getBrokerMessage(
             $policyToApply['value'],
             $policyToApply['itemtype'],
             $policyToApply['items_id']
