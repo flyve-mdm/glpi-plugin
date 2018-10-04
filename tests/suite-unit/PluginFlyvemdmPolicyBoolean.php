@@ -74,15 +74,15 @@ class PluginFlyvemdmPolicyBoolean extends CommonTestCase {
    public function testGetMqttMessage() {
       list($policy, $policyData) = $this->createNewPolicyInstance();
       // Test the mqtt message if the policy
-      $array = $policy->getMqttMessage('0', null, '0');
+      $array = $policy->getBrokerMessage('0', null, '0');
       $symbol = $policyData->fields['symbol'];
       $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('false');
 
-      $array = $policy->getMqttMessage('1', null, '0');
+      $array = $policy->getBrokerMessage('1', null, '0');
       $symbol = $policyData->fields['symbol'];
       $this->array($array)->hasKey($symbol)->string($array[$symbol])->isEqualTo('true');
 
-      $this->boolean($policy->getMqttMessage('0', null, '1'))->isFalse();
+      $this->boolean($policy->getBrokerMessage('0', null, '1'))->isFalse();
    }
 
    /**

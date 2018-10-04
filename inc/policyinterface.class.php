@@ -90,7 +90,7 @@ interface PluginFlyvemdmPolicyInterface {
     * @param integer $itemId the id of an item
     * @return array
     */
-   public function getMqttMessage($value, $itemtype, $itemId);
+   public function getBrokerMessage($value, $itemtype, $itemId);
 
    /**
     * Translate type_data field

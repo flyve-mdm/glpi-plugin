@@ -503,7 +503,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
          ]);
          $policyFactory = new PluginFlyvemdmPolicyFactory();
          $appliedPolicy = $policyFactory->createFromDBByID($row['plugin_flyvemdm_policies_id']);
-         $policyMessage = $appliedPolicy->getMqttMessage(
+         $policyMessage = $appliedPolicy->getBrokerMessage(
             $row['value'],
             $row['itemtype'],
             $row['items_id']
