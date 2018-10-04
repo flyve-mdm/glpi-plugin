@@ -141,7 +141,7 @@ abstract class PluginFlyvemdmDeployable extends CommonDBTM {
          $notifiableType = $taskRow['itemtype_applied'];
          $notifiable = new $notifiableType();
          $notifiableId = $taskRow['items_id_applied'];
-         if ($notifiable->getFromDB($notifiableId)) {
+         if (!$notifiable->getFromDB($notifiableId)) {
             Toolbox::logInFile('php-errors',
                "Plugin Flyvemdm : Could not find notifiable id = '$notifiableId'");
             continue;

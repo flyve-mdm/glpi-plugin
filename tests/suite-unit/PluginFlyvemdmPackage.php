@@ -188,4 +188,70 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       $this->integer((int) $unlinkedFdroidApplication->fields[$packageFk])
          ->isEqualTo(0);
    }
+
+   /**
+    * @tags testPrepareInputForUpdate
+    */
+   public function testPrepareInputForUpdate() {
+      $instance = $this->newTestedInstance();
+      $input = $instance->addNeededInfoToInput([]);
+
+      // default input
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $input = $instance->prepareInputForUpdate($input);
+      $this->array($input)->hasKey('entities_id')->values->integer[0]->isEqualTo(0);
+
+      $input = array_merge($input, ['id' => mt_rand(), 'alias' => 'lorem']);
+
+      // update alias or package name
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $result = $instance->prepareInputForUpdate($input);
+      $this->array($result)->hasKeys(['entities_id', 'id', 'alias'])->isNotEmpty();
+
+      // Tests with file upload
+      $_POST['_file'][0] = ''; // invalid file
+      $message = 'File uploaded without name';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $result = $instance->prepareInputForUpdate($input);
+      $this->assertInvalidResult($result, $message);
+
+      $_POST['_file'][0] = 'invalid.file'; // invalid file
+      $message = 'Only APK and UPK files are allowed';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $result = $instance->prepareInputForUpdate($input);
+      $this->assertInvalidResult($result, $message);
+
+      // just setting the default entityId for the rest of the tests
+      $entityId = $_SESSION['glpiactive_entity'];
+
+      // uploaded file can't be saved
+      $pluginFlyvemdmPackage = $this->createDummyPackage($entityId);
+      $instance->getFromDB($pluginFlyvemdmPackage->getID());
+      $_POST['_file'][0] = 'invalidfile.apk';
+      $message = 'Unable to save the file';
+      $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
+      $result = $instance->prepareInputForUpdate($input);
+      $this->assertInvalidResult($result, $message);
+
+      // valid uploaded file
+      $newApk = $this->createDummyApkFile($entityId);
+      $_POST['_file'][0] = $newApk['filename'];
+      $result = $instance->prepareInputForUpdate($input);
+      $this->array($result)->hasKeys(['parse_status', 'package_name', 'version_code', 'version'])
+         ->values
+         ->string[5]->isEqualTo('pending')
+         ->string[6]->isEqualTo('')
+         ->string[7]->isEqualTo('')
+         ->string[8]->isEqualTo('');
+   }
+
+   /**
+    * @param $result
+    * @param $message
+    */
+   private function assertInvalidResult($result, $message) {
+      $this->boolean($result)->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($message);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+   }
 }
