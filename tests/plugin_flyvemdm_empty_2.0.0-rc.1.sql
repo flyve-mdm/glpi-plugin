@@ -104,8 +104,12 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_mqttlogs` (
   `date` datetime DEFAULT NULL,
   `direction` varchar(1) NOT NULL DEFAULT '' COMMENT 'I for received message, O for sent message',
   `topic` varchar(255) NOT NULL DEFAULT '',
-  `message` varchar(255) DEFAULT NULL,
+  `message` mediumtext DEFAULT NULL,
+  `itemtype` varchar(255) DEFAULT NULL,
+  `items_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  KEY `itemtype` (`itemtype`),
+  KEY `items_id` (`items_id`),
   KEY `date` (`date`),
   KEY `topic` (`topic`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Received MQTT messages log';
