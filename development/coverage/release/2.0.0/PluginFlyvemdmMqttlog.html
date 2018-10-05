@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    57%
-                                            <small>of 68</small>
+                    55%
+                                            <small>of 88</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -93,9 +93,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#saveMqttMessage">PluginFlyvemdmMqttlog::saveMqttMessage()</a></td>
-                                        <td style="text-align: center">13</td>
+                                        <td style="text-align: center">33</td>
                 <td style="text-align: center">    
-    <span class="label label-success">100%</span>
+    <span class="label label-warning">67%</span>
 </td>
                                             </tr>
             <tr>
@@ -871,7 +871,7 @@ layout: coverage
                     <th id="L94" class="number ">94</th>
 
                     <td class="" id="saveMqttMessage">
-                        <pre>   protected function saveMqttMessage($direction, $topicList, $msg) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                        <pre>   protected function saveMqttMessage($direction, $topicList, $msg) {<span class="label label-warning">67%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -933,440 +933,52 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number covered">103</th>
+                    <th id="L103" class="number ">103</th>
 
-                    <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;date&#039;] = date(&#039;Y-m-d H:i:s&#039;);</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L104" class="number covered">104</th>
 
                     <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;direction&#039;] = $direction;</pre>
+                        <pre>         $chunks = explode(&#039;/&#039;, $topic, 4);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L105" class="number covered">105</th>
 
                     <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;topic&#039;] = $topic;</pre>
+                        <pre>         if ($chunks[0] == &#039;&#039; || !isset($chunks[3])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number covered">106</th>
+                    <th id="L106" class="number ">106</th>
 
-                    <td class="covered" >
-                        <pre>         $this-&gt;fields[&#039;message&#039;] = $msg;</pre>
+                    <td class="" >
+                        <pre>            // avoid to save invalid topic formats as starting
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number covered">107</th>
+                    <th id="L107" class="number ">107</th>
 
-                    <td class="covered" >
-                        <pre>         unset($this-&gt;fields[&#039;id&#039;]);</pre>
+                    <td class="" >
+                        <pre>            // with tailing slash or empty topic strings
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L108" class="number covered">108</th>
+                    <th id="L108" class="number uncovered">108</th>
 
-                    <td class="covered" >
-                        <pre>         $this-&gt;addToDB();</pre>
+                    <td class="uncovered" >
+                        <pre>            continue;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L109" class="number ">109</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L110" class="number covered">110</th>
-
-                    <td class="covered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L111" class="number ">111</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getTabNameForItem">
-                    <th id="L112" class="number ">112</th>
-
-                    <td class="" id="getTabNameForItem">
-                        <pre>   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L113" class="number uncovered">113</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (!self::canView()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L114" class="number uncovered">114</th>
-
-                    <td class="uncovered" >
-                        <pre>         return &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L115" class="number ">115</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L116" class="number ">116</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L117" class="number uncovered">117</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (!($item instanceof PluginFlyvemdmNotifiableInterface)) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L118" class="number uncovered">118</th>
-
-                    <td class="uncovered" >
-                        <pre>         return &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L119" class="number ">119</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L120" class="number ">120</th>
-
-                    <td class="" >
-                        <pre>      // Agent or Fleet
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L121" class="number uncovered">121</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($withtemplate) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L122" class="number uncovered">122</th>
-
-                    <td class="uncovered" >
-                        <pre>         return &#039;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L123" class="number ">123</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L124" class="number uncovered">124</th>
-
-                    <td class="uncovered" >
-                        <pre>      $nb = 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L125" class="number uncovered">125</th>
-
-                    <td class="uncovered" >
-                        <pre>      $topic = $item-&gt;getTopic();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L126" class="number uncovered">126</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($_SESSION[&#039;glpishow_count_on_tabs&#039;] &amp;&amp; $topic) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L127" class="number uncovered">127</th>
-
-                    <td class="uncovered" >
-                        <pre>         $logs = self::findLogs($item);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L128" class="number uncovered">128</th>
-
-                    <td class="uncovered" >
-                        <pre>         $nb = $logs-&gt;count();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L129" class="number ">129</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L130" class="number uncovered">130</th>
-
-                    <td class="uncovered" >
-                        <pre>      return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L131" class="number unreach">131</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L132" class="number ">132</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="displayTabContentForItem">
-                    <th id="L133" class="number ">133</th>
-
-                    <td class="" id="displayTabContentForItem">
-                        <pre>   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L134" class="number uncovered">134</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($item instanceof PluginFlyvemdmNotifiableInterface) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L135" class="number ">135</th>
-
-                    <td class="" >
-                        <pre>         // Agent or Fleet
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L136" class="number uncovered">136</th>
-
-                    <td class="uncovered" >
-                        <pre>         self::showMqttLogs($item);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L137" class="number uncovered">137</th>
-
-                    <td class="uncovered" >
-                        <pre>         return true;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L138" class="number ">138</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L139" class="number uncovered">139</th>
-
-                    <td class="uncovered" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L140" class="number ">140</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L141" class="number ">141</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L142" class="number ">142</th>
-
-                    <td class="" >
-                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L143" class="number ">143</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="showMqttLogs">
-                    <th id="L144" class="number ">144</th>
-
-                    <td class="" id="showMqttLogs">
-                        <pre>   public static function showMqttLogs(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-success">72%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L145" class="number covered">145</th>
-
-                    <td class="covered" >
-                        <pre>      if (!self::canView()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L146" class="number uncovered">146</th>
-
-                    <td class="uncovered" >
-                        <pre>         return;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L147" class="number ">147</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L148" class="number ">148</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L149" class="number covered">149</th>
-
-                    <td class="covered" >
-                        <pre>      $start = isset($_GET[&quot;start&quot;]) ? intval($_GET[&quot;start&quot;]) : 0;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L150" class="number ">150</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L151" class="number ">151</th>
-
-                    <td class="" >
-                        <pre>      // get items
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L152" class="number covered">152</th>
-
-                    <td class="covered" >
-                        <pre>      $rows = [];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L153" class="number covered">153</th>
-
-                    <td class="covered" >
-                        <pre>      $topic = $item-&gt;getTopic();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L154" class="number covered">154</th>
-
-                    <td class="covered" >
-                        <pre>      if ($topic) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L155" class="number uncovered">155</th>
-
-                    <td class="uncovered" >
-                        <pre>         foreach (self::findLogs($item) as $id =&gt; $row) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L156" class="number uncovered">156</th>
-
-                    <td class="uncovered" >
-                        <pre>            $rows[] = [</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L157" class="number uncovered">157</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;ID&#039;      =&gt; $row[&#039;id&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L158" class="number uncovered">158</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;date&#039;    =&gt; $row[&#039;date&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L159" class="number uncovered">159</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;topic&#039;   =&gt; $row[&#039;topic&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L160" class="number uncovered">160</th>
-
-                    <td class="uncovered" >
-                        <pre>               &#039;message&#039; =&gt; $row[&#039;message&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L161" class="number ">161</th>
-
-                    <td class="" >
-                        <pre>            ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L162" class="number ">162</th>
 
                     <td class="" >
                         <pre>         }
@@ -1374,7 +986,192 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L163" class="number ">163</th>
+                    <th id="L110" class="number ">110</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L111" class="number covered">111</th>
+
+                    <td class="covered" >
+                        <pre>         $itemtype = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L112" class="number covered">112</th>
+
+                    <td class="covered" >
+                        <pre>         $itemId = &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L113" class="number covered">113</th>
+
+                    <td class="covered" >
+                        <pre>         switch ($chunks[1]) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L114" class="number covered">114</th>
+
+                    <td class="covered" >
+                        <pre>            case &#039;fleet&#039;:</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L115" class="number uncovered">115</th>
+
+                    <td class="uncovered" >
+                        <pre>               $itemtype = PluginFlyvemdmFleet::getType();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L116" class="number uncovered">116</th>
+
+                    <td class="uncovered" >
+                        <pre>               $itemId = $chunks[2];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L117" class="number uncovered">117</th>
+
+                    <td class="uncovered" >
+                        <pre>               break;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L118" class="number covered">118</th>
+
+                    <td class="covered" >
+                        <pre>            case &#039;agent&#039;:</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L119" class="number uncovered">119</th>
+
+                    <td class="uncovered" >
+                        <pre>               $computer = new Computer();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L120" class="number uncovered">120</th>
+
+                    <td class="uncovered" >
+                        <pre>               $computer-&gt;getFromDBByCrit([&#039;serial&#039; =&gt; $chunks[2]]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L121" class="number uncovered">121</th>
+
+                    <td class="uncovered" >
+                        <pre>               $agent = new PluginFlyvemdmAgent();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L122" class="number uncovered">122</th>
+
+                    <td class="uncovered" >
+                        <pre>               $agent-&gt;getFromDBByCrit([$computer::getForeignKeyField() =&gt; $computer-&gt;getID()]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L123" class="number uncovered">123</th>
+
+                    <td class="uncovered" >
+                        <pre>               $itemtype = $agent::getType();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L124" class="number uncovered">124</th>
+
+                    <td class="uncovered" >
+                        <pre>               $itemId = $agent-&gt;getID();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L125" class="number uncovered">125</th>
+
+                    <td class="uncovered" >
+                        <pre>               break;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L126" class="number ">126</th>
+
+                    <td class="" >
+                        <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L127" class="number ">127</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L128" class="number covered">128</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;date&#039;] = date(&#039;Y-m-d H:i:s&#039;);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L129" class="number covered">129</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;direction&#039;] = $direction;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L130" class="number covered">130</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;topic&#039;] = $chunks[3];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L131" class="number covered">131</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;message&#039;] = $msg;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L132" class="number covered">132</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;itemtype&#039;] = $itemtype;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L133" class="number covered">133</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;fields[&#039;items_id&#039;] = $itemId;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L134" class="number covered">134</th>
+
+                    <td class="covered" >
+                        <pre>         unset($this-&gt;fields[&#039;id&#039;]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L135" class="number covered">135</th>
+
+                    <td class="covered" >
+                        <pre>         $this-&gt;addToDB();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L136" class="number ">136</th>
 
                     <td class="" >
                         <pre>      }
@@ -1382,146 +1179,51 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L164" class="number covered">164</th>
-
-                    <td class="covered" >
-                        <pre>      $number = count($rows);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L165" class="number ">165</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L166" class="number ">166</th>
-
-                    <td class="" >
-                        <pre>      // get the pager
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L167" class="number covered">167</th>
-
-                    <td class="covered" >
-                        <pre>      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, &#039;&#039;, false);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L168" class="number covered">168</th>
-
-                    <td class="covered" >
-                        <pre>      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, &#039;&#039;, false);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L169" class="number ">169</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L170" class="number ">170</th>
-
-                    <td class="" >
-                        <pre>      $data = [
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L171" class="number covered">171</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;empty_msg&#039;    =&gt; &#039;No item found&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L172" class="number covered">172</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;number&#039;       =&gt; $number,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L173" class="number covered">173</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;pager_top&#039;    =&gt; $pager_top,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L174" class="number covered">174</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;pager_bottom&#039; =&gt; $pager_bottom,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L175" class="number covered">175</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;logs&#039;         =&gt; $rows,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L176" class="number covered">176</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;start&#039;        =&gt; $start,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L177" class="number covered">177</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;stop&#039;         =&gt; $start + $_SESSION[&#039;glpilist_limit&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L178" class="number ">178</th>
-
-                    <td class="" >
-                        <pre>      ];
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L179" class="number ">179</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L180" class="number covered">180</th>
-
-                    <td class="covered" >
-                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L181" class="number covered">181</th>
-
-                    <td class="covered" >
-                        <pre>      echo $twig-&gt;render(&#039;mqttlog_list.html.twig&#039;, $data);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L182" class="number covered">182</th>
+                    <th id="L137" class="number covered">137</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L183" class="number ">183</th>
+                    <th id="L138" class="number ">138</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="getTabNameForItem">
+                    <th id="L139" class="number ">139</th>
+
+                    <td class="" id="getTabNameForItem">
+                        <pre>   function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L140" class="number uncovered">140</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!self::canView()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L141" class="number uncovered">141</th>
+
+                    <td class="uncovered" >
+                        <pre>         return &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L142" class="number ">142</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L143" class="number ">143</th>
 
                     <td class="" >
                         <pre>
@@ -1529,7 +1231,175 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L184" class="number ">184</th>
+                    <th id="L144" class="number uncovered">144</th>
+
+                    <td class="uncovered" >
+                        <pre>      if (!($item instanceof PluginFlyvemdmNotifiableInterface)) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L145" class="number uncovered">145</th>
+
+                    <td class="uncovered" >
+                        <pre>         return &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L146" class="number ">146</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L147" class="number ">147</th>
+
+                    <td class="" >
+                        <pre>      // Agent or Fleet
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L148" class="number uncovered">148</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($withtemplate) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L149" class="number uncovered">149</th>
+
+                    <td class="uncovered" >
+                        <pre>         return &#039;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L150" class="number ">150</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L151" class="number uncovered">151</th>
+
+                    <td class="uncovered" >
+                        <pre>      $nb = 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L152" class="number uncovered">152</th>
+
+                    <td class="uncovered" >
+                        <pre>      $topic = $item-&gt;getTopic();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L153" class="number uncovered">153</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($_SESSION[&#039;glpishow_count_on_tabs&#039;] &amp;&amp; $topic) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L154" class="number uncovered">154</th>
+
+                    <td class="uncovered" >
+                        <pre>         $logs = self::findLogs($item);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L155" class="number uncovered">155</th>
+
+                    <td class="uncovered" >
+                        <pre>         $nb = $logs-&gt;count();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L156" class="number ">156</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L157" class="number uncovered">157</th>
+
+                    <td class="uncovered" >
+                        <pre>      return self::createTabEntry(self::getTypeName(Session::getPluralNumber()), $nb);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L158" class="number unreach">158</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L159" class="number ">159</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="displayTabContentForItem">
+                    <th id="L160" class="number ">160</th>
+
+                    <td class="" id="displayTabContentForItem">
+                        <pre>   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L161" class="number uncovered">161</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($item instanceof PluginFlyvemdmNotifiableInterface) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L162" class="number ">162</th>
+
+                    <td class="" >
+                        <pre>         // Agent or Fleet
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L163" class="number uncovered">163</th>
+
+                    <td class="uncovered" >
+                        <pre>         self::showMqttLogs($item);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L164" class="number uncovered">164</th>
+
+                    <td class="uncovered" >
+                        <pre>         return true;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L165" class="number ">165</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L166" class="number uncovered">166</th>
+
+                    <td class="uncovered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L167" class="number ">167</th>
 
                     <td class="" >
                         <pre>
@@ -1537,7 +1407,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L185" class="number ">185</th>
+                    <th id="L168" class="number ">168</th>
 
                     <td class="" >
                         <pre>   /**
@@ -1545,23 +1415,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L186" class="number ">186</th>
-
-                    <td class="" >
-                        <pre>    * Get the broker message logs of a notifiable item
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L187" class="number ">187</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L188" class="number ">188</th>
+                    <th id="L169" class="number ">169</th>
 
                     <td class="" >
                         <pre>    * @param PluginFlyvemdmNotifiableInterface $item
@@ -1569,10 +1423,149 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L170" class="number ">170</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="showMqttLogs">
+                    <th id="L171" class="number ">171</th>
+
+                    <td class="" id="showMqttLogs">
+                        <pre>   public static function showMqttLogs(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-success">72%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L172" class="number covered">172</th>
+
+                    <td class="covered" >
+                        <pre>      if (!self::canView()) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L173" class="number uncovered">173</th>
+
+                    <td class="uncovered" >
+                        <pre>         return;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L174" class="number ">174</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L175" class="number ">175</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L176" class="number covered">176</th>
+
+                    <td class="covered" >
+                        <pre>      $start = isset($_GET[&quot;start&quot;]) ? intval($_GET[&quot;start&quot;]) : 0;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L177" class="number ">177</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L178" class="number ">178</th>
+
+                    <td class="" >
+                        <pre>      // get items
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L179" class="number covered">179</th>
+
+                    <td class="covered" >
+                        <pre>      $rows = [];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L180" class="number covered">180</th>
+
+                    <td class="covered" >
+                        <pre>      $topic = $item-&gt;getTopic();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L181" class="number covered">181</th>
+
+                    <td class="covered" >
+                        <pre>      if ($topic) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L182" class="number uncovered">182</th>
+
+                    <td class="uncovered" >
+                        <pre>         foreach (self::findLogs($item) as $id =&gt; $row) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L183" class="number uncovered">183</th>
+
+                    <td class="uncovered" >
+                        <pre>            $rows[] = [</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L184" class="number uncovered">184</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;ID&#039;      =&gt; $row[&#039;id&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L185" class="number uncovered">185</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;date&#039;    =&gt; $row[&#039;date&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L186" class="number uncovered">186</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;topic&#039;   =&gt; $row[&#039;topic&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L187" class="number uncovered">187</th>
+
+                    <td class="uncovered" >
+                        <pre>               &#039;message&#039; =&gt; $row[&#039;message&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L188" class="number ">188</th>
+
+                    <td class="" >
+                        <pre>            ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L189" class="number ">189</th>
 
                     <td class="" >
-                        <pre>    * @return DBmysqlIterator
+                        <pre>         }
 </pre>
                     </td>
                 </tr>
@@ -1580,26 +1573,19 @@ layout: coverage
                     <th id="L190" class="number ">190</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="findLogs">
-                    <th id="L191" class="number ">191</th>
+                            <tr class="line" id="">
+                    <th id="L191" class="number covered">191</th>
 
-                    <td class="" id="findLogs">
-                        <pre>   public static function findLogs(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="covered" >
+                        <pre>      $number = count($rows);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L192" class="number uncovered">192</th>
-
-                    <td class="uncovered" >
-                        <pre>      global $DB;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L193" class="number ">193</th>
+                    <th id="L192" class="number ">192</th>
 
                     <td class="" >
                         <pre>
@@ -1607,44 +1593,94 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L194" class="number ">194</th>
+                    <th id="L193" class="number ">193</th>
 
                     <td class="" >
-                        <pre>      $condition = [
+                        <pre>      // get the pager
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L195" class="number uncovered">195</th>
+                    <th id="L194" class="number covered">194</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;DISTINCT FIELDS&#039; =&gt; [&#039;id&#039;, &#039;date&#039;, &#039;topic&#039;, &#039;message&#039;],</pre>
+                    <td class="covered" >
+                        <pre>      $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, &#039;&#039;, false);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L196" class="number uncovered">196</th>
+                    <th id="L195" class="number covered">195</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;WHERE&#039;           =&gt; [&#039;topic&#039; =&gt; [&#039;LIKE&#039;, $item-&gt;getTopic() . &#039;%&#039;]],</pre>
+                    <td class="covered" >
+                        <pre>      $pager_bottom = Html::printAjaxPager(self::getTypeName(1), $start, $number, &#039;&#039;, false);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L197" class="number uncovered">197</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;GROUPBY&#039;         =&gt; &#039;topic&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L198" class="number ">198</th>
+                    <th id="L196" class="number ">196</th>
 
                     <td class="" >
-                        <pre>         &#039;ORDER&#039;           =&gt; [&#039;date DESC&#039;, &#039;id DESC&#039;],
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L199" class="number ">199</th>
+                    <th id="L197" class="number ">197</th>
+
+                    <td class="" >
+                        <pre>      $data = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L198" class="number covered">198</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;empty_msg&#039;    =&gt; &#039;No item found&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L199" class="number covered">199</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;number&#039;       =&gt; $number,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L200" class="number covered">200</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;pager_top&#039;    =&gt; $pager_top,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L201" class="number covered">201</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;pager_bottom&#039; =&gt; $pager_bottom,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L202" class="number covered">202</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;logs&#039;         =&gt; $rows,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L203" class="number covered">203</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;start&#039;        =&gt; $start,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L204" class="number covered">204</th>
+
+                    <td class="covered" >
+                        <pre>         &#039;stop&#039;         =&gt; $start + $_SESSION[&#039;glpilist_limit&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L205" class="number ">205</th>
 
                     <td class="" >
                         <pre>      ];
@@ -1652,7 +1688,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L200" class="number ">200</th>
+                    <th id="L206" class="number ">206</th>
 
                     <td class="" >
                         <pre>
@@ -1660,28 +1696,180 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L201" class="number uncovered">201</th>
+                    <th id="L207" class="number covered">207</th>
+
+                    <td class="covered" >
+                        <pre>      $twig = plugin_flyvemdm_getTemplateEngine();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L208" class="number covered">208</th>
+
+                    <td class="covered" >
+                        <pre>      echo $twig-&gt;render(&#039;mqttlog_list.html.twig&#039;, $data);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L209" class="number covered">209</th>
+
+                    <td class="covered" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L210" class="number ">210</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L211" class="number ">211</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L212" class="number ">212</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L213" class="number ">213</th>
+
+                    <td class="" >
+                        <pre>    * Get the broker message logs of a notifiable item
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L214" class="number ">214</th>
+
+                    <td class="" >
+                        <pre>    *
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L215" class="number ">215</th>
+
+                    <td class="" >
+                        <pre>    * @param PluginFlyvemdmNotifiableInterface $item
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L216" class="number ">216</th>
+
+                    <td class="" >
+                        <pre>    * @return DBmysqlIterator
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L217" class="number ">217</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="findLogs">
+                    <th id="L218" class="number ">218</th>
+
+                    <td class="" id="findLogs">
+                        <pre>   public static function findLogs(PluginFlyvemdmNotifiableInterface $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L219" class="number uncovered">219</th>
+
+                    <td class="uncovered" >
+                        <pre>      global $DB;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L220" class="number ">220</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L221" class="number ">221</th>
+
+                    <td class="" >
+                        <pre>      $condition = [
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L222" class="number uncovered">222</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;FIELDS&#039; =&gt; [&#039;id&#039;, &#039;date&#039;, &#039;topic&#039;, &#039;message&#039;],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L223" class="number uncovered">223</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;WHERE&#039;           =&gt; [&#039;itemtype&#039; =&gt; $item::getType(), &#039;items_id&#039; =&gt; $item-&gt;getID()],</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L224" class="number uncovered">224</th>
+
+                    <td class="uncovered" >
+                        <pre>         &#039;GROUPBY&#039;         =&gt; &#039;topic&#039;,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L225" class="number ">225</th>
+
+                    <td class="" >
+                        <pre>      ];
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L226" class="number ">226</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L227" class="number uncovered">227</th>
 
                     <td class="uncovered" >
                         <pre>      $result = $DB-&gt;request(static::getTable(), $condition);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L202" class="number uncovered">202</th>
+                    <th id="L228" class="number uncovered">228</th>
 
                     <td class="uncovered" >
                         <pre>      return $result;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L203" class="number unreach">203</th>
+                    <th id="L229" class="number unreach">229</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L204" class="number ">204</th>
+                    <th id="L230" class="number ">230</th>
 
                     <td class="" >
                         <pre>}
