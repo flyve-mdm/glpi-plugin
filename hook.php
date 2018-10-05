@@ -37,8 +37,18 @@ function plugin_flyvemdm_install() {
    $migration = new Migration($version['version']);
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
    spl_autoload_register([PluginFlyvemdmInstall::class, 'autoload']);
+   $forceInstall = false;
+   $forceUpgrade = false;
+   if (isCommandLine()) {
+      if (array_search('--force-install', $_SERVER['argv'])) {
+         $forceInstall = true;
+      }
+      if (array_search('--force-upgrade', $_SERVER['argv'])) {
+         $forceUpgrade = true;
+      }
+   }
    $install = new PluginFlyvemdmInstall();
-   if (!$install->isPluginInstalled()) {
+   if ($forceInstall || !$install->isPluginInstalled() && !$forceUpgrade) {
       return $install->install($migration);
    }
    return $install->upgrade($migration);

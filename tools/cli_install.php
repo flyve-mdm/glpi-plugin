@@ -39,7 +39,7 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS] [--force-install | --force-upgrade]
 
 Options:
    --as-user USER                               Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
@@ -52,6 +52,8 @@ Options:
    --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-port MQTTPORT                         Sets the Listen Port for Mosquitto MQTTPORT
    --mqtt-port-tls MQTTPORTTLS                  Sets the Listen Port TLS for Mosquitto MQTTPORTTLS
+   --force-install                              Force a fresh install
+   --force-upgrade                              Force upgrade from the latest previous version
 
 DOC;
 
