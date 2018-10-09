@@ -400,9 +400,11 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          $this->fields['items_id']
       );
       $policyMessage['taskId'] = $this->getID();
-      $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
       $topic = $item->getTopic();
-      $item->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
+      $recipient = "$topic/Policy/$policyName/Task/$taskId";
+      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+      $item->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
    }
 
    /**
@@ -447,7 +449,10 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $taskId = $this->getID();
       $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
       $policyName = $policy->getField('symbol');
-      $item->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
+      $recipient = "$topic/Policy/$policyName/Task/$taskId";
+      $message = null;
+      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+      $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
    }
 
    /**
