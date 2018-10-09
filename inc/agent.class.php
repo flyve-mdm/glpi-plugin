@@ -418,8 +418,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function sendWipeQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['wipe' => 'now'];
-         $this->notify("$topic/Command/Wipe", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $recipient = "$topic/Command/Wipe";
+         $message = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
+         $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+         $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
       }
    }
 
@@ -429,8 +431,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function sendLockQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['lock' => 'now'];
-         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $recipient = "$topic/Command/Lock";
+         $message = json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES);
+         $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+         $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
       }
    }
 
@@ -440,8 +444,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function sendUnlockQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['lock' => 'unlock'];
-         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $brokerMessage = new PluginFlyvemdmMqttMessage([
+            'topic'   => "$topic/Command/Lock",
+            'message' => json_encode(['lock' => 'unlock'], JSON_UNESCAPED_SLASHES),
+            'retain'  => 1,
+         ]);
+         $this->notify($brokerMessage);
       }
    }
 
@@ -451,8 +459,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected function sendUnenrollQuery() {
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['unenroll' => 'now'];
-         $this->notify("$topic/Command/Unenroll", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $brokerMessage = new PluginFlyvemdmMqttMessage([
+            'topic'   => "$topic/Command/Unenroll",
+            'message' => json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES),
+            'retain'  => 1,
+         ]);
+         $this->notify($brokerMessage);
       }
    }
 
@@ -1016,7 +1028,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $topic = $this->getTopic();
       if ($topicToSubscribe !== null && $topic !== null) {
-         $this->notify("$topic/Command/Subscribe", json_encode($topicList, JSON_UNESCAPED_SLASHES), 0, 1);
+         $brokerMessage = new PluginFlyvemdmMqttMessage([
+            'topic'   => "$topic/Command/Subscribe",
+            'message' => json_encode($topicList, JSON_UNESCAPED_SLASHES),
+            'retain'  => 1,
+         ]);
+         $this->notify($brokerMessage);
       }
    }
 
@@ -1096,8 +1113,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ]);
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $topic = $topic . "/Subscription";
-         $this->notify($topic, json_encode([], JSON_UNESCAPED_SLASHES));
+         $recipient = $topic . "/Subscription";
+         $message = json_encode([], JSON_UNESCAPED_SLASHES);
+         $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient);
+         $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
       }
    }
 
@@ -1548,7 +1567,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          foreach (self::getTopicsToCleanup() as $subTopic) {
-            $this->notify("$topic/$subTopic", '', 0, 1);
+            $recipient = "$topic/$subTopic";
+            $message = '';
+            $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+            $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
          }
       }
    }
@@ -1591,8 +1613,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
       $lastPosition = array_pop($lastPositionRows);
 
-      $this->notify($this->topic . "/Command/Geolocate",
-         json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $recipient = $this->topic . "/Command/Geolocate";
+      $message = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient);
+      $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
 
       // Wait for a reply within a short delay
       $loopCount = 25;
@@ -1620,8 +1644,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendInventoryQuery() {
-      $this->notify($this->topic . "/Command/Inventory",
-         json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $recipient = $this->topic . "/Command/Inventory";
+      $message = json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient);
+      $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
 
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
@@ -1651,8 +1677,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendPingQuery() {
-      $this->notify($this->topic . "/Command/Ping",
-         json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $recipient = $this->topic . "/Command/Ping";
+      $message = json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient);
+      $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
 
       $loopCount = 25;
       $updatedAgent = new self();
@@ -1980,14 +2008,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @param string $topic
-    * @param string $mqttMessage
-    * @param integer $qos
-    * @param integer $retain
+    * @see PluginFlyvemdmNotifiableInterface::notify()
+    * @param PluginFlyvemdmBrokerEnvelope $envelope
     */
-   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   public function notify(PluginFlyvemdmBrokerEnvelope $envelope) {
+      $message = $envelope->getMessage();
+      if ($message instanceof PluginFlyvemdmMqttMessage) {
+         $broker = new PluginFlyvemdmBrokerBus();
+         $broker->dispatch($message);
+      }
    }
 
    /**

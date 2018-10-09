@@ -310,7 +310,10 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       foreach ($policy->find() as $row) {
          $policyName = $row['symbol'];
          $topic = $this->getTopic();
-         $this->notify("$topic/Policy/$policyName", null, 0, 1);
+         $recipient = "$topic/Policy/$policyName";
+         $message = null;
+         $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
+         $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
       }
    }
 
@@ -495,16 +498,15 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    *
     * @see PluginFlyvemdmNotifiableInterface::notify()
-    * @param string $topic
-    * @param string $mqttMessage
-    * @param integer $qos
-    * @param integer $retain
+    * @param PluginFlyvemdmBrokerEnvelope $envelope
     */
-   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   public function notify(PluginFlyvemdmBrokerEnvelope $envelope) {
+      $message = $envelope->getMessage();
+      if ($message instanceof PluginFlyvemdmMqttMessage) {
+         $broker = new PluginFlyvemdmBrokerBus();
+         $broker->dispatch($message);
+      }
    }
 
    /**
