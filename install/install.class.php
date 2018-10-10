@@ -186,7 +186,7 @@ class PluginFlyvemdmInstall {
       global $DB;
 
       // Check tables of the plugin between 1.1 and 2.0 releases
-      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm_%'");
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm\\_%'");
       if ($result) {
          if ($DB->numrows($result) > 0) {
             return true;
