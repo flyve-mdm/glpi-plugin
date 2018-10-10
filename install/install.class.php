@@ -440,7 +440,7 @@ Regards,
                'language'                 => '',
                'subject'                  => addcslashes($data['subject'], "'\""),
                'content_text'             => addcslashes($data['content_text'], "'\""),
-               'content_html'             => addcslashes(htmlentities($contentHtml), "'\""),
+               'content_html'             => addcslashes(htmlentities($contentHtml, ENT_NOQUOTES | ENT_HTML401), "'\""),
             ]);
 
             // Create the notification
