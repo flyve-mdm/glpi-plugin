@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Domingo Oropeza
+ * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -29,15 +29,40 @@
  * ------------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Flyvemdm\Mqtt;
+
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerReceiverInterface;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-interface PluginFlyvemdmBrokerMessageInterface {
+class MqttReceiver implements BrokerReceiverInterface {
+
+   private $connection;
+
+   public function __construct(MqttConnection $connection) {
+      $this->connection = $connection;
+   }
 
    /**
-    * @return mixed The original message contained in the envelope
+    * Receive some messages to the given handler.
+    *
+    * The handler will have, as argument, the received PluginFlyvemdmBrokerEnvelope containing the message.
+    * Note that this envelope can be `null` if the timeout to receive something has expired.
+    *
+    * @param callable $handler
+    * @return void
     */
-   public function getMessage();
+   public function receive(callable $handler) {
+      // the receive actions....
+   }
 
+   /**
+    * Stop receiving some messages.
+    * @return void
+    */
+   public function stop() {
+      $this->connection->disconnect();
+   }
 }
