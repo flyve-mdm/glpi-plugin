@@ -547,7 +547,7 @@
 </span><span id="394" class="l">      <span class="php-var">$policy</span>-&gt;getFromDB(<span class="php-var">$this</span>-&gt;fields[<span class="php-var">$policyFk</span>]);
 </span><span id="395" class="l">      <span class="php-var">$policyName</span> = <span class="php-var">$policy</span>-&gt;getField(<span class="php-quote">'symbol'</span>);
 </span><span id="396" class="l">      <span class="php-var">$taskId</span> = <span class="php-var">$this</span>-&gt;getID();
-</span><span id="397" class="l">      <span class="php-var">$policyMessage</span> = <span class="php-var">$appliedPolicy</span>-&gt;getMqttMessage(
+</span><span id="397" class="l">      <span class="php-var">$policyMessage</span> = <span class="php-var">$appliedPolicy</span>-&gt;getBrokerMessage(
 </span><span id="398" class="l">         <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'value'</span>],
 </span><span id="399" class="l">         <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'itemtype'</span>],
 </span><span id="400" class="l">         <span class="php-var">$this</span>-&gt;fields[<span class="php-quote">'items_id'</span>]
@@ -616,7 +616,7 @@
 </span><span id="463" class="l">      <span class="php-var">$groupToEncode</span> = [];
 </span><span id="464" class="l">      <span class="php-keyword1">foreach</span> (<span class="php-var">$policiesToApply</span> <span class="php-keyword1">as</span> <span class="php-var">$policyToApply</span>) {
 </span><span id="465" class="l">         <span class="php-var">$policy</span> = <span class="php-var">$policyToApply</span>[<span class="php-quote">'policyData'</span>];
-</span><span id="466" class="l">         <span class="php-var">$policyMessage</span> = <span class="php-var">$policy</span>-&gt;getMqttMessage(
+</span><span id="466" class="l">         <span class="php-var">$policyMessage</span> = <span class="php-var">$policy</span>-&gt;getBrokerMessage(
 </span><span id="467" class="l">            <span class="php-var">$policyToApply</span>[<span class="php-quote">'value'</span>],
 </span><span id="468" class="l">            <span class="php-var">$policyToApply</span>[<span class="php-quote">'itemtype'</span>],
 </span><span id="469" class="l">            <span class="php-var">$policyToApply</span>[<span class="php-quote">'items_id'</span>]
