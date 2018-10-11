@@ -67,16 +67,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       ]))->isTrue();
 
       // Test apply policy
-      list($task, $taskId, $taskStatus, $taskFk, $policyName, $log, $mqttLogId) = $this->checkNotifiableMqttMessage($notifiableItem);
-
-      // Check a mqtt message is sent to remove the applied policy from MQTT
-      $rows = $log->find("`id` > '$mqttLogId' AND `direction`='O'", '`date` DESC', '1');
-      $this->array($rows)->size->isEqualTo(1);
-      $row = array_pop($rows);
-      // Check the topic of the message
-      $this->string($row['topic'])->isEqualTo($notifiableItem->getTopic() . "/Policy/$policyName/Task/$taskId");
-      // Check the message
-      $this->string($row['message'])->isEqualTo('');
+      list($task, $taskId, $taskStatus, $taskFk) = $this->checkNotifiableMqttMessage($notifiableItem);
 
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
@@ -171,15 +162,7 @@ class PluginFlyvemdmTask extends CommonTestCase {
       ]);
 
       // Test apply policy
-      list($task, $taskId, $taskStatus, $taskFk, $policyName, $log, $mqttLogId, $expectedTopic) = $this->checkNotifiableMqttMessage($notifiableItem);
-
-      // Check a mqtt message is sent to remove the applied policy from MQTT
-      $rows = $log->find("`id` > '$mqttLogId' AND `topic` = '$expectedTopic'");
-      $this->array($rows)->size->isEqualTo(1);
-      $row = array_pop($rows);
-
-      // Check the message
-      $this->string($row['message'])->isEqualTo('');
+      list($task, $taskId, $taskStatus, $taskFk) = $this->checkNotifiableMqttMessage($notifiableItem);
 
       // Check task statuses are deleted
       $rows = $taskStatus->find("`$taskFk` = '$taskId'");
@@ -217,20 +200,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check a MQTT message is sent
       sleep(2);
 
-      $policyName = $policy->getField('symbol');
-      $expectedTopic = $notifiableItem->getTopic() . "/Policy/$policyName/Task/$taskId";
-      $log = new \PluginFlyvemdmMqttlog();
-      $rows = $log->find("`topic` = '$expectedTopic'");
-      $this->array($rows)->size->isEqualTo(1);
-      $row = array_pop($rows);
-      $mqttLogId = $row['id'];
-
       // check the message
-      $receivedMqttMessage = json_decode($row['message'], JSON_OBJECT_AS_ARRAY);
-      $this->array($receivedMqttMessage)->hasKey($policyName);
-      $this->variable($receivedMqttMessage[$policyName])->isEqualTo($task->getField('value') == '0' ? 'false' : 'true');
-      $this->array($receivedMqttMessage)->hasKey('taskId');
-      $this->integer($receivedMqttMessage['taskId'])->isEqualTo($task->getID());
+      $policyName = $policy->getField('symbol');
+      $expectedTopic = "Policy/$policyName/Task/$taskId";
+      $policyValue = $task->getField('value') == '0' ? 'false' : 'true';
+      $receivedMqttMessage = ['storageEncryption' => $policyValue, 'taskId' => $taskId];
+      $encodedMessage = json_encode($receivedMqttMessage, JSON_UNESCAPED_SLASHES);
+      $log = new \PluginFlyvemdmMqttlog();
+      $mqttLogId = $this->asserLastMqttlog($notifiableItem, $log, $expectedTopic, $encodedMessage);
 
       // Test apply a policy twice fails
       $task = $this->newTestedInstance();
@@ -244,6 +221,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
 
       // Test purge task
       $task->delete(['id' => $taskId], 1);
+
+      // Check a mqtt message is sent to remove the applied policy from MQTT
+      $rows = $log->find("`id` > '$mqttLogId' AND `topic` = '$expectedTopic'", '`id` DESC', '1');
+      $this->array($rows)->size->isEqualTo(1);
+      $row = array_pop($rows);
+
+      // Check the message
+      $this->string($row['message'])->isEqualTo('');
 
       return [
          $task,

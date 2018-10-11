@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-12 11:15+0200\n"
+"POT-Creation-Date: 2018-10-03 08:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Esteban Villegas Blanxart <evillegasblanxart@gmail.com>, 2017\n"
+"Last-Translator: Esteban Villegas Blanxart <evillegasblanxart@gmail.com>, 2018\n"
 "Language-Team: Catalan (Spain) (https://www.transifex.com/flyve-mdm/teams/69665/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Language: ca_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: hook.php:78
+#: hook.php:81
 msgid "Invite to enroll a device"
 msgstr "Convidar a inscriure un dispositiu"
 
-#: hook.php:109
+#: hook.php:112
 msgid "Well known Android's FS paths"
 msgstr "Rutes FS ben conegudes d'Android"
 
-#: hook.php:110
+#: hook.php:113
 msgid "Policy Categories"
 msgstr "Categories de polítiques"
 
-#: setup.php:199
+#: setup.php:211
 msgid "Flyve Mobile Device Management"
 msgstr "Gestió de dispositius mòbils Flyve"
 
@@ -45,236 +45,230 @@ msgstr "Apple"
 #: inc/agent.class.php:110
 msgid "Agent"
 msgid_plural "Agents"
-msgstr[0] "L'agent"
-msgstr[1] "Agents"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/agent.class.php:163
+#: inc/agent.class.php:167
 msgid "Danger zone !"
 msgstr "Zona de perill !"
 
-#: inc/agent.class.php:181
+#: inc/agent.class.php:185
 msgid "Flyve MDM Agent"
 msgstr "Agents Flyve MDM"
 
-#: inc/agent.class.php:241 inc/agent.class.php:353
+#: inc/agent.class.php:243 inc/agent.class.php:358
 msgid "Never seen online"
 msgstr "Mai vist en línia"
 
-#: inc/agent.class.php:275
+#: inc/agent.class.php:277
 msgid "Lock the device as soon as possible"
 msgstr "Bloqueja el dispositiu tan aviat com sigui possible"
 
-#: inc/agent.class.php:282
+#: inc/agent.class.php:284
 msgid "Wipe the device as soon as possible"
 msgstr "Neteja el dispositiu tan aviat com sigui possible"
 
-#: inc/agent.class.php:432
+#: inc/agent.class.php:437
 msgid "Failed to read configuration of the entity"
 msgstr "No s'ha pogut llegir la configuració de l'entitat"
 
-#: inc/agent.class.php:438
+#: inc/agent.class.php:443
 msgid "Too many devices"
 msgstr " Massa dispositius"
 
-#: inc/agent.class.php:446
+#: inc/agent.class.php:452
 msgid "Unable to find a enrollment method"
 msgstr "No es pot trobar un mètode d'inscripció"
 
-#: inc/agent.class.php:471
+#: inc/agent.class.php:477
 msgid "The fleet of the device does not longer exists"
 msgstr "La flota del dispositiu ja no existeix"
 
-#: inc/agent.class.php:478
+#: inc/agent.class.php:484
 msgid "The target fleet does not exists"
 msgstr "La flota de destinació no existeix"
 
-#: inc/agent.class.php:509
+#: inc/agent.class.php:515
 msgid "The device is not enrolled yet"
 msgstr "El dispositiu encara no està inscrit"
 
-#: inc/agent.class.php:575
+#: inc/agent.class.php:581
 msgid "Failed to find the guest user profile"
 msgstr "No ha pogut trobar el perfil d'usuari convidat"
 
-#: inc/agent.class.php:597
+#: inc/agent.class.php:603
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr ""
 "No s'ha pogut eliminar l'habilitació de convidat per a l'usuari del "
 "dispositiu"
 
-#: inc/agent.class.php:618
+#: inc/agent.class.php:624
 msgid "Failed to delete MQTT user for the device"
 msgstr "No ha pogut suprimir l'usuari MQTT per al dispositiu"
 
-#: inc/agent.class.php:631
+#: inc/agent.class.php:637
 msgid "Failed to delete documents attached to the device"
 msgstr "No s'ha pogut eliminar els documents adjunts al dispositiu"
 
-#: inc/agent.class.php:772 inc/fleet.class.php:76
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:52
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:62
+#: inc/agent.class.php:786 inc/fleet.class.php:76
 msgid "Fleet"
 msgid_plural "Fleets"
-msgstr[0] "Flota"
-msgstr[1] "Flotes"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/agent.class.php:798
-#: /tmp/twig-cache/d5/d5dddd62ca2f7d541022b4df45afb1821f78e79f91d1cbea438a75a221dba46f.php:65
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:76
+#: inc/agent.class.php:812
 msgid "Last contact"
 msgstr "Últim contacte"
 
-#: inc/agent.class.php:816
+#: inc/agent.class.php:830
 msgid "Is online"
 msgstr "Està en línia"
 
-#: inc/agent.class.php:825
+#: inc/agent.class.php:839
 msgid "MDM type"
 msgstr "Tipus de MDM"
 
-#: inc/agent.class.php:834
+#: inc/agent.class.php:848
 msgid "Has system permission"
 msgstr "Té permís del sistema"
 
-#: inc/agent.class.php:843
+#: inc/agent.class.php:857
 msgid "Enroll status"
 msgstr "Estat de l'inscripció "
 
-#: inc/agent.class.php:852
+#: inc/agent.class.php:866
 msgid "Wipe requested"
 msgstr "Netegeu la sol·licitud"
 
-#: inc/agent.class.php:861
+#: inc/agent.class.php:875
 msgid "Lock requested"
 msgstr "Bloquegeu la sol·licitud"
 
-#: inc/agent.class.php:878 inc/fleet.class.php:252
+#: inc/agent.class.php:892 inc/fleet.class.php:261
 msgid "Applied policy"
 msgstr "Política aplicada"
 
-#: inc/agent.class.php:1108
+#: inc/agent.class.php:1121
 msgid "Invitation token invalid"
 msgstr "El token d'invitació no és vàlid"
 
-#: inc/agent.class.php:1113
+#: inc/agent.class.php:1126
 msgid "One of serial and uuid is mandatory"
 msgstr "Un de sèrie i uuid es obligatori"
 
-#: inc/agent.class.php:1120
+#: inc/agent.class.php:1133
 msgid "Device inventory XML is mandatory"
 msgstr "L'inventari del dispositiu XML és obligatori"
 
-#: inc/agent.class.php:1131
+#: inc/agent.class.php:1144
 msgid "Inventory XML is not well formed"
 msgstr "L'inventari XML no està ben format"
 
-#: inc/agent.class.php:1138
+#: inc/agent.class.php:1151
 msgid "Agent version missing"
 msgstr "Falta la versió d'agent"
 
-#: inc/agent.class.php:1145
+#: inc/agent.class.php:1158
 msgid "MDM type missing"
 msgstr "Falta el tipus MDM"
 
-#: inc/agent.class.php:1152
+#: inc/agent.class.php:1165
 msgid "unknown MDM type"
 msgstr "Tipus MDM desconegut"
 
-#: inc/agent.class.php:1159
+#: inc/agent.class.php:1172
 msgid "Bad agent version"
 msgstr "Mala versió de l'agent"
 
-#: inc/agent.class.php:1168
+#: inc/agent.class.php:1181
 msgid "The agent version is too low"
 msgstr "La versió de l'agent és massa baixa"
 
-#: inc/agent.class.php:1178
+#: inc/agent.class.php:1191
 msgid "The agent does not advertise its system permissions"
 msgstr "L'agent no anuncia els seus permisos del sistema"
 
-#: inc/agent.class.php:1187
+#: inc/agent.class.php:1200
 msgid "Invitation is not pending"
 msgstr "La invitació no està pendent"
 
-#: inc/agent.class.php:1195
+#: inc/agent.class.php:1208
 msgid "Expiration date of the invitation is not set"
 msgstr "La data de caducitat de la invitació no està establerta"
 
-#: inc/agent.class.php:1203
+#: inc/agent.class.php:1216
 msgid "Invitation token expired"
 msgstr "El token d'invitació ha caducat"
 
-#: inc/agent.class.php:1217
+#: inc/agent.class.php:1230
 msgid "Wrong email address"
 msgstr "Adreça electrònica incorrecta"
 
-#: inc/agent.class.php:1232
+#: inc/agent.class.php:1245
 msgid "Failed to sign the certificate"
 msgstr "No s'ha pogut signar el certificat"
 
-#: inc/agent.class.php:1253
+#: inc/agent.class.php:1266
 msgid "Failed to update the invitation"
 msgstr "No s'ha pogut actualitzar la invitació"
 
-#: inc/agent.class.php:1282
+#: inc/agent.class.php:1294
 msgid "Cannot get the FusionInventory agent"
 msgstr "No es pot obtenir l'agent FusionInventory"
 
-#: inc/agent.class.php:1289
+#: inc/agent.class.php:1302
 msgid "FusionInventory agent not created"
 msgstr "No s'ha creat l'agent FusionInventory"
 
-#: inc/agent.class.php:1297
+#: inc/agent.class.php:1310
 msgid "Cannot create the device"
 msgstr "No es pot crear el dispositiu"
 
-#: inc/agent.class.php:1340
+#: inc/agent.class.php:1353
 msgid "Cannot create a user account for the agent"
 msgstr "No es pot crear un compte d'usuari per a l'agent"
 
-#: inc/agent.class.php:1348
+#: inc/agent.class.php:1361
 msgid "Cannot create the API token for the agent"
 msgstr "No es pot crear el token de l'API per a l'agent"
 
-#: inc/agent.class.php:1357
+#: inc/agent.class.php:1370
 msgid "No default fleet available for the device"
 msgstr "Cap flota per defecte disponible per al dispositiu"
 
-#: inc/agent.class.php:1541
+#: inc/agent.class.php:1554
 msgid "GPS is turned off or is not ready"
 msgstr "GPS està desactivat o no està llest"
 
-#: inc/agent.class.php:1543
+#: inc/agent.class.php:1556
 msgid "The device sent its position"
 msgstr "El dispositiu ha enviat la seva posició"
 
-#: inc/agent.class.php:1547
+#: inc/agent.class.php:1560
 msgid "Timeout requesting position"
 msgstr "Temps d'espera per sol·licitar posició"
 
-#: inc/agent.class.php:1574
+#: inc/agent.class.php:1587
 msgid "Inventory received"
 msgstr "Inventari rebut"
 
-#: inc/agent.class.php:1578
+#: inc/agent.class.php:1591
 msgid "Timeout querying the device inventory"
 msgstr "Temps d'espera per consultar l'inventari del dispositiu"
 
-#: inc/agent.class.php:1598
+#: inc/agent.class.php:1611
 msgid "The device answered"
 msgstr "El dispositiu respon"
 
-#: inc/agent.class.php:1602
+#: inc/agent.class.php:1615
 msgid "Timeout querying the device"
 msgstr "Temps d'espera per consultar el dispositiu"
 
-#: inc/agent.class.php:1822
+#: inc/agent.class.php:1839
 msgid "Enrollment failed"
 msgstr "La inscripció ha fallat"
 
 #: inc/config.class.php:140
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:28
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:60
 msgid "Installation wizard"
 msgstr "Assistent d'instal·lació"
 
@@ -290,15 +284,15 @@ msgstr "Cua de missatges"
 msgid "Debug"
 msgstr "Depurar"
 
-#: inc/config.class.php:210
+#: inc/config.class.php:217
 msgid "Bugcollector password"
 msgstr "Contrasenya del Col·lector d'errors"
 
-#: inc/config.class.php:353
+#: inc/config.class.php:363
 msgid "Finish"
 msgstr "Finalitza"
 
-#: inc/config.class.php:353
+#: inc/config.class.php:363
 msgid "Next"
 msgstr "Següent"
 
@@ -322,29 +316,30 @@ msgstr "No teniu permís per canviar la vida del token de l'invitació"
 msgid "The agent token life invalid or too long"
 msgstr "La vida del token de l'agent és invàlida o massa llarga"
 
-#: inc/entityconfig.class.php:289
+#: inc/entityconfig.class.php:286
 msgid "Flyve MDM supervision"
 msgstr "Supervisió de FlyMe MDM"
 
-#: inc/entityconfig.class.php:383
+#: inc/entityconfig.class.php:379
 msgid "Helpdesk information"
 msgstr "Informació del Servei d'ajuda"
 
 #: inc/entityconfig.class.php:429 inc/invitation.class.php:67
 #: inc/notificationtargetinvitation.class.php:50
 #: inc/notificationtargetinvitation.class.php:59
+#: install/upgrade_to_2_0.php:344
 msgid "Invitation"
 msgid_plural "Invitations"
-msgstr[0] "Invitació"
-msgstr[1] "Invitacions"
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/file.class.php:62
 msgid "File"
 msgid_plural "Files"
-msgstr[0] "Arxiu"
-msgstr[1] "Fitxers"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:491
+#: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:524
 msgid "File uploaded without name"
 msgstr "Fitxers carregats sense nom"
 
@@ -352,35 +347,36 @@ msgstr "Fitxers carregats sense nom"
 msgid "Failed to store the uploaded file"
 msgstr "No s'ha pogut desar el fitxer carregat"
 
-#: inc/file.class.php:172 inc/package.class.php:513 inc/package.class.php:521
+#: inc/file.class.php:170 inc/package.class.php:545 inc/package.class.php:550
+#: inc/package.class.php:558
 msgid "No file uploaded"
 msgstr "Cap fitxer carregat"
 
-#: inc/file.class.php:178 inc/package.class.php:528
+#: inc/file.class.php:176 inc/package.class.php:565
 msgid "File upload failed"
 msgstr "Ha fallat la càrrega de fitxers"
 
-#: inc/file.class.php:187
+#: inc/file.class.php:185
 msgid "Temp directory doesn't exist"
 msgstr "El directori temporal no existeix"
 
-#: inc/fleet.class.php:187
+#: inc/fleet.class.php:188
 msgid "No default fleet found to move devices"
 msgstr "No s'ha trobat cap flota per defecte per moure els dispositius"
 
-#: inc/fleet.class.php:197
+#: inc/fleet.class.php:198
 msgid "Could not move all devices to the not managed fleet"
 msgstr "No s'ha pogut moure tots els dispositius a la flota no gestionada"
 
-#: inc/fleet.class.php:226
+#: inc/fleet.class.php:227
 msgid "Could not delete policies on the fleet"
 msgstr "No s'han pogut eliminar les polítiques de la flota"
 
-#: inc/fleet.class.php:456 install/installer.class.php:274
+#: inc/fleet.class.php:465 install/install.class.php:255
 msgid "not managed fleet"
 msgstr "flota no gestionada"
 
-#: inc/fleet.class.php:540
+#: inc/fleet.class.php:549
 msgid "Persisted notification not updated."
 msgstr "Notificació persistent no actualitzada."
 
@@ -391,45 +387,28 @@ msgstr "No es pot obtenir la regla de l'entitat"
 #: inc/geolocation.class.php:67
 msgid "Geolocation"
 msgid_plural "Geolocations"
-msgstr[0] "Geolocalització"
-msgstr[1] "Geolocalitzacions"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/geolocation.class.php:163
+#: inc/geolocation.class.php:165
 msgid "associated device is mandatory"
 msgstr "el dispositiu associat és obligatori"
 
-#: inc/geolocation.class.php:167 inc/geolocation.class.php:202
+#: inc/geolocation.class.php:169 inc/geolocation.class.php:204
 msgid "latitude and longitude are mandatory"
 msgstr "la latitud i la longitud són obligatòries"
 
-#: inc/geolocation.class.php:177 inc/geolocation.class.php:219
+#: inc/geolocation.class.php:179 inc/geolocation.class.php:221
 msgid "latitude is invalid"
 msgstr "la latitud no és vàlida"
 
-#: inc/geolocation.class.php:181 inc/geolocation.class.php:226
+#: inc/geolocation.class.php:183 inc/geolocation.class.php:228
 msgid "longitude is invalid"
 msgstr "la longitud no és vàlida"
 
-#: inc/geolocation.class.php:188 inc/geolocation.class.php:210
+#: inc/geolocation.class.php:190 inc/geolocation.class.php:212
 msgid "Device not found"
 msgstr "Dispositiu no trobat"
-
-#: inc/googleapplication.class.php:245
-msgid "Import the package"
-msgstr "Importa el paquet"
-
-#: inc/googleapplication.class.php:299
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:58
-msgid "Alias"
-msgstr "Àlies"
-
-#: inc/googleapplication.class.php:308
-msgid "Version"
-msgstr "Versió"
-
-#: inc/googleapplication.class.php:326
-msgid "Import status"
-msgstr "Estat d'importació"
 
 #: inc/graph.class.php:57 inc/graph.class.php:65
 msgid "Invitations"
@@ -450,7 +429,7 @@ msgstr "Fet"
 msgid "Pending"
 msgstr "Pendent"
 
-#: inc/graph.class.php:116 inc/graph.class.php:135
+#: inc/graph.class.php:116 inc/graph.class.php:137
 msgid "Devices per operating system version"
 msgstr "Dispositius per versió del sistema operatiu"
 
@@ -489,11 +468,11 @@ msgstr "No es pot suprimir el document. Suprimiu primer la invitació adjunta"
 msgid "Enrollment QR code"
 msgstr "Codi d'inscripció QR"
 
-#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:70
+#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:74
 msgid "Invitation log"
 msgid_plural "Invitation logs"
-msgstr[0] "Registre d'invitació"
-msgstr[1] "Registres d'invitació"
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/menu.class.php:93
 msgid "General"
@@ -503,11 +482,11 @@ msgstr "General"
 msgid "Configuration"
 msgstr "Configuració"
 
-#: inc/mqttlog.class.php:57
+#: inc/mqttlog.class.php:66
 msgid "MQTT subscriber"
 msgid_plural "MQTT subscribers"
-msgstr[0] "Subscriptor MQTT"
-msgstr[1] "Subscriptors MQTT"
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/notificationtargetinvitation.class.php:67
 msgid "Link to download the FlyveMDM Android application"
@@ -545,87 +524,80 @@ msgstr "Correu electrònic del servei d'ajuda"
 msgid "Address of the helpdesk"
 msgstr "Adreça del servei d'ajuda"
 
-#: inc/notificationtargetinvitation.class.php:149
+#: inc/notificationtargetinvitation.class.php:152
 msgid "Guest user"
 msgstr "Usuari convidat"
 
 #: inc/package.class.php:62
 msgid "Package"
 msgid_plural "Packages"
-msgstr[0] "Paquet"
-msgstr[1] "Paquets"
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/package.class.php:99
 msgid "Package Flyve MDM"
 msgid_plural "Packages Flyve MDM"
-msgstr[0] "Paquet Flyve MDM"
-msgstr[1] "Paquets Flyve MDM"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/package.class.php:201 inc/package.class.php:241
+#: inc/package.class.php:202 inc/package.class.php:254
 msgid "Unable to save the file"
 msgstr "No es pot desar el fitxer"
 
-#: inc/package.class.php:206
+#: inc/package.class.php:207
 msgid "Could not parse the APK file"
 msgstr "No s'ha pogut analitzar el fitxer APK"
 
-#: inc/package.class.php:382
+#: inc/package.class.php:409
 msgid "Parse an application to find metadata"
 msgstr "Analitza una aplicació per trobar metadades"
 
-#: inc/package.class.php:497
+#: inc/package.class.php:530
 msgid "Only APK and UPK files are allowed"
 msgstr "Només s'admeten arxius APK i UPK"
 
-#: inc/policy.class.php:86 inc/policy.class.php:98
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:41
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:108
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:45
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:128
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:35
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:108
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:173
+#: inc/policy.class.php:86 inc/policy.class.php:106
 msgid "Policy"
 msgid_plural "Policies"
-msgstr[0] "Política"
-msgstr[1] "Polítiques"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/policy.class.php:114 inc/policycategory.class.php:51
-#: inc/policycategory.class.php:63
+#: inc/policy.class.php:122 inc/policycategory.class.php:51
+#: inc/policycategory.class.php:67
 msgid "Policy category"
 msgid_plural "Policy categories"
-msgstr[0] "Categoria de polítiques"
-msgstr[1] "Categories de polítiques"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/policy.class.php:131
+#: inc/policy.class.php:139
 msgid "Enumeration data"
 msgstr "Dades d'enumeració"
 
-#: inc/policy.class.php:149
+#: inc/policy.class.php:157
 msgid "Default value"
 msgstr "Valor per defecte"
 
-#: inc/policy.class.php:158
+#: inc/policy.class.php:166
 msgid "Recommended value"
 msgstr "Valor recomanat"
 
-#: inc/policy.class.php:167
+#: inc/policy.class.php:175
 msgid "Requires system permission"
 msgstr "Requereix el permís del sistema"
 
-#: inc/policy.class.php:176
+#: inc/policy.class.php:184
 msgid "Android minimum version"
 msgstr "Versió mínima d'Android"
 
-#: inc/policy.class.php:185
+#: inc/policy.class.php:193
 msgid "Android maximum version"
 msgstr "Versió màxima d'Android"
 
-#: inc/policy.class.php:194
+#: inc/policy.class.php:202
 msgid "Apple minimum version"
 msgstr "Versió mínima d'Apple"
 
-#: inc/policy.class.php:203
+#: inc/policy.class.php:211
 msgid "Apple maximum version"
 msgstr "Versió màxima d'Apple"
 
@@ -649,6 +621,21 @@ msgstr "Incompatible"
 msgid "Overriden"
 msgstr "Invalidat"
 
+#: inc/policybase.class.php:278
+#, php-format
+msgid "Compatibility with Android up to %1$s."
+msgstr ""
+
+#: inc/policybase.class.php:284
+#, php-format
+msgid "Compatibility with Android from %1$s."
+msgstr ""
+
+#: inc/policybase.class.php:290
+#, php-format
+msgid "Compatibility with Android %1$s to %2$s."
+msgstr ""
+
 #: inc/policydeployapplication.class.php:64
 msgid "The remove on delete flag is mandatory"
 msgstr "És obligatori treure l'etiqueta d'eliminar"
@@ -666,15 +653,15 @@ msgstr "Heu de triar una aplicació per aplicar aquesta política"
 msgid "The application does not exists"
 msgstr "L'aplicació no existeix"
 
-#: inc/policydeployapplication.class.php:164
+#: inc/policydeployapplication.class.php:167
 msgid ""
 "A removal policy for this application is applied. Please, remove it first."
 msgstr ""
 "S'aplica una política d'eliminació per aquesta aplicació. Si us plau, "
 "elimineu-la primer."
 
-#: inc/policydeployapplication.class.php:270
-#: inc/policydeployfile.class.php:336
+#: inc/policydeployapplication.class.php:274
+#: inc/policydeployfile.class.php:332
 #: inc/policyremoveapplication.class.php:109
 #: inc/policyremovefile.class.php:108
 msgid "Waiting"
@@ -716,75 +703,79 @@ msgstr "Flyve MDM"
 #: inc/task.class.php:83
 msgid "Task"
 msgid_plural "Tasks"
-msgstr[0] "Tasca"
-msgstr[1] "Tasques"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/task.class.php:163
+#: inc/task.class.php:157
 msgid "Notifiable and policy must be specified"
 msgstr "Declaracions obligatòries i polítiques han de ser especificades"
 
-#: inc/task.class.php:172 inc/task.class.php:247 inc/task.class.php:340
+#: inc/task.class.php:166 inc/task.class.php:246 inc/task.class.php:339
 msgid "Policy not found"
 msgstr "Política no trobada"
 
-#: inc/task.class.php:180 inc/task.class.php:285
+#: inc/task.class.php:174 inc/task.class.php:284
 msgid "Incorrect value for this policy"
 msgstr "Valor incorrecte per aquesta política"
 
-#: inc/task.class.php:191
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr ""
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr "No es pot trobar l'objecte notificable"
 
-#: inc/task.class.php:198
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "No es pot aplicar una política a una flota no gestionada"
 
-#: inc/task.class.php:205 inc/task.class.php:293
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr "Política ja aplicada"
 
-#: inc/task.class.php:218 inc/task.class.php:300
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr "Els requisits d'aquesta política no es compleixen"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:270
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "No es pot trobar l'objectiu %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:278
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "No es pot aplicar una política sobre això %1$s"
 
-#: inc/task.class.php:307
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr "No ha pogut aplicar la política"
 
-#: inc/task.class.php:319 inc/task.class.php:329
+#: inc/task.class.php:318 inc/task.class.php:328
 msgid "Policy publish action failed."
 msgstr "L'acció de publicació de política ha fallat."
 
-#: inc/task.class.php:346
+#: inc/task.class.php:345
 #, php-format
 msgid "%1$s not found"
 msgstr "%1$s no trobat"
 
-#: inc/task.class.php:523
+#: inc/task.class.php:530
 msgid "Policy ID"
 msgstr "ID de la política"
 
-#: inc/task.class.php:550
+#: inc/task.class.php:557
 msgid "policy name"
 msgstr "nom de la política"
 
-#: inc/task.class.php:559
+#: inc/task.class.php:566
 msgid "applied itemtype"
 msgstr "tipus d'element aplicat"
 
-#: inc/task.class.php:568
+#: inc/task.class.php:575
 msgid "applied ID"
 msgstr "ID aplicat"
 
@@ -792,11 +783,7 @@ msgstr "ID aplicat"
 msgid "Task status"
 msgstr "Estat de la tasca"
 
-#: inc/taskstatus.class.php:378
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:45
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:112
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:49
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:132
+#: inc/taskstatus.class.php:395
 msgid "Status"
 msgstr "Estat"
 
@@ -804,22 +791,22 @@ msgstr "Estat"
 msgid "Well known path"
 msgstr "Camí conegut"
 
-#: install/installer.class.php:288
+#: install/install.class.php:269
 msgid "Flyve MDM guest users"
 msgstr "Usuaris convidats de  Flyve MDM"
 
-#: install/installer.class.php:289
+#: install/install.class.php:270
 msgid ""
 "guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
 msgstr ""
 "usuaris convidats de Flyve MDM. Creat per Flyve MDM - NO modifiqui aquest "
 "comentari."
 
-#: install/installer.class.php:306
+#: install/install.class.php:287
 msgid "Flyve MDM device agent users"
 msgstr "Usuaris de l'agent de dispositius Flyve MDM"
 
-#: install/installer.class.php:307
+#: install/install.class.php:288
 msgid ""
 "device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
 "comment."
@@ -827,35 +814,35 @@ msgstr ""
 "agent del dispositiu dels usuaris de Flyve MDM. Creat per Flyve MDM - NO "
 "modifiqui aquest comentari."
 
-#: install/installer.class.php:371
+#: install/install.class.php:352
 msgid "User invitation"
 msgstr "Invitació d'usuari"
 
-#: install/installer.class.php:540
+#: install/install.class.php:554
 msgid "Parse uploaded applications to collect metadata"
 msgstr "L'anàlisi sintàctica ha pujat aplicacions per recopilar metadades"
 
-#: install/installer.class.php:702
+#: install/install.class.php:716
 msgid "Security"
 msgstr "Seguretat"
 
-#: install/installer.class.php:705
+#: install/install.class.php:719
 msgid "Authentication"
 msgstr "L'autenticació"
 
-#: install/installer.class.php:708 install/policies/password.php:46
+#: install/install.class.php:722 install/policies/password.php:46
 msgid "Password"
 msgstr "Contrasenya"
 
-#: install/installer.class.php:711
+#: install/install.class.php:725
 msgid "Encryption"
 msgstr "Xifratge"
 
-#: install/installer.class.php:714
+#: install/install.class.php:728
 msgid "Peripherals"
 msgstr "Perifèrics"
 
-#: install/installer.class.php:717
+#: install/install.class.php:731
 msgid "Deployment"
 msgstr "Desplegament"
 
@@ -906,6 +893,16 @@ msgstr "Encriptació d'emmagatzematge intern"
 #: install/policies/encryption.php:46
 msgid "Force internal storage encryption."
 msgstr "Forçar el xifrat d'emmagatzematge intern."
+
+#: install/policies/mdm.php:46
+msgid "Periodic geolocation"
+msgstr ""
+
+#: install/policies/mdm.php:55
+msgid ""
+"Get geolocation with a specified periodicity (in seconds) and sends it to "
+"the server."
+msgstr ""
 
 #: install/policies/password.php:39
 msgid "Password enabled"
@@ -1265,200 +1262,39 @@ msgstr "Vibrar"
 msgid "Audio profile mode used for device"
 msgstr "Mode de perfil d'àudio utilitzat per a dispositius"
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:20
-msgid "Invite users to enroll one device."
-msgstr "Convida als usuaris a inscriure un dispositiu."
+msgid "Is managed"
+msgstr "Es gestionat"
 
-#: /tmp/twig-cache/ea/ea6499cd70f37bb7f2a02d3db77b08472db238d554c594b6bf2d15cbb0dd05d5.php:24
-msgid ""
-"They will receive an message to their default email address containing a QR "
-"Code and instructions to enroll."
-msgstr ""
-"Rebran un missatge a la seva adreça electrònica predeterminada que contindrà"
-" un codi QR i les instruccions per inscriure's."
+msgid "copy to"
+msgstr "copiar a"
 
-#: /tmp/twig-cache/ea/ea95147efead2a1d371576a92ee42b205b93d0f061f37285cc4a446099d30ba0.php:25
-msgid "There is no agent yet"
-msgstr "Encara no hi ha agent"
+msgid "Remove when the policy is removed"
+msgstr "Treure quan la política sigui eliminada"
 
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:25
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:25
-msgid "There is no task status yet"
-msgstr "Encara no hi ha cap estat de tasca"
-
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:49
-#: /tmp/twig-cache/58/580b343548f16f685566b8ebd668d63a43e3e54b15628f4f29a4da8f844c3ee5.php:116
-msgid "Count"
-msgstr "Compta"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:24
-msgid "MQTT broker"
-msgstr "Intermediari de MQTT"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:30
-msgid "MQTT broker address for clients"
-msgstr "Adreça d'intermediari de MQTT per a clients"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:38
-msgid ""
-"An IP address or a hostname used by the client devices to communicate with "
-"the broker"
-msgstr ""
-"Una adreça IP o un nom de host que utilitzen els dispositius del client per "
-"comunicar-se amb l'intermediari"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:44
-msgid "MQTT broker address for backend"
-msgstr "Adreça del corredor de MQTT per al back-end"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:53
-msgid ""
-"An IP address or a hostname used by the backend to communicate with the "
-"broker"
-msgstr ""
-"Una adreça IP o un nom de host que utilitza el back-end per comunicar-se amb"
-" l'intermediari"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:59
-msgid "MQTT broker port"
-msgstr "Port d'intermediari de MQTT"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:68
-msgid "A port number between 1025 and 65535, standard port is 1883"
-msgstr "Un número de port entre 1025 i 65535, el port estàndard és 1883"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:74
-msgid "MQTT broker port for TLS"
-msgstr "Port d'intermediari de MQTT per a TLS"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:83
-msgid "A port number between 1025 and 65535, standard port is 8883"
-msgstr "Un número de port entre 1025 i 65535, el port estàndard és 8883"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:89
-msgid "Use TLS for clients"
-msgstr "Utilitzeu TLS per a clients"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:98
-msgid ""
-"Use TLS for MQTT communication between the broker and the client devices"
-msgstr ""
-"Utilitzeu TLS per a la comunicació MQTT entre l'intermediari i els "
-"dispositius del client"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:104
-msgid "Use TLS for backend"
-msgstr "Utilitzeu TLS per al back-end"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:113
-msgid "Use TLS for MQTT communication between the broker and the backend"
-msgstr ""
-"Utilitzeu TLS per a la comunicació MQTT entre l'intermediari i el back-end"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:119
-msgid "CA certificate"
-msgstr "Certificat de CA"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:130
-msgid "Cipher suite (TLS enabled)"
-msgstr "Suite de xifratge (TLS habilitada)"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:139
-msgid "Mqtt broker cipher suite"
-msgstr "Suite de xifratge d'intermediari de Mqtt"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:147
-msgid "test"
-msgstr "prova"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:154
-msgid "Client certificate server (Broker MQTT with TLS enabled)"
-msgstr "Servidor de certificat de client (Intermediari MQTT amb TLS activat)"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:160
-msgid "Use client certificates"
-msgstr "Utilitza certificats de client"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:171
-msgid "Ssl certificate server for MQTT clients"
-msgstr "Servidor de certificat SSL per a clients de MQTT"
-
-#: /tmp/twig-cache/07/0713929fa9be0fd5bde3a0a673c1657382c81802da2b6959ca94093f0134fa4b.php:179
-msgid "https://cert.domain.com/path/to/service"
-msgstr "https://cert.domain.com/path/to/service"
-
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:46
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:84
 msgid "file size"
 msgstr "mida del fitxer"
 
-#: /tmp/twig-cache/2f/2f6831391026ebdc7e26c754f90778bc09999ffd1feed100fff1d1163af16ae5.php:82
 msgid "Update the file"
 msgstr "Actualitzeu el fitxer"
 
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:53
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:136
-msgid "Application date"
-msgstr "Data d'aplicació"
-
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:57
-#: /tmp/twig-cache/71/7145c865d168c2a65d95196d49792fa18296375d076f46159d4389003f6d2530.php:140
-msgid "Last change date"
-msgstr "Última data de canvi"
-
-#: /tmp/twig-cache/f9/f95e5fdae58e7d9a3dc74110bc024e6b260312ea4f49d3fbb07e7320b553c888.php:24
-msgid ""
-"GLPI is not properly configured. Please check the general settings, the API "
-"settings and the notification settings."
-msgstr ""
-"GLPI no està configurat correctament. Si us plau, comproveu la configuració "
-"general, la configuració de l'API i la configuració de notificacións."
-
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:23
-msgid "Lock"
-msgstr "Bloqueig"
-
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:35
-msgid "Wipe"
-msgstr "Netejar"
-
-#: /tmp/twig-cache/f9/f9866eefd1950802e69c4fb92d235a81e58e92e644264ab52671d4afa1ea743e.php:49
-msgid "Unenroll"
-msgstr "Anul·lar la inscripció"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:98
-msgid "Package name"
-msgstr "Nom del paquet"
-
-#: /tmp/twig-cache/78/783658c6a8d6036c1df3e4310248a80eaf30b3198abc18cc820c06c71254c745.php:120
-msgid "Update the package"
-msgstr "Actualitzeu el paquet"
-
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:24
 msgid "Enrollment"
 msgstr "Inscripció"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:30
 msgid "Enable explicit enrolment failures"
 msgstr "Activa els errors d'inscripció explícits"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:41
 msgid "Disable token expiration on successful enrolment"
 msgstr "Desactiva la caducitat del token en la inscripció satisfactòria"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:52
 msgid "Save initial inventory in file"
 msgstr "Desa l'inventari inicial al fitxer"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:65
 msgid "Configuration wizard"
 msgstr "Assistent de configuració"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:71
 msgid "Enable configuration wizard"
 msgstr "Activa l'assistent de configuració"
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:79
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
@@ -1467,72 +1303,71 @@ msgstr ""
 "l'assistent de configuració pot interrompre la comunicació amb els "
 "dispositius ja inscrits."
 
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:85
-#: /tmp/twig-cache/b1/b1a3acc4be0539b34b0efa790d2170005f25ed6c4b2ff89c6daa78983ca4706e.php:91
 msgid "Revision information"
 msgstr "Informació de revisió"
 
-#: /tmp/twig-cache/76/7601210145dc0ff375f9df1f5eaab14b56c938aaab4826252258d01dbed53dfa.php:40
-#: /tmp/twig-cache/76/7601210145dc0ff375f9df1f5eaab14b56c938aaab4826252258d01dbed53dfa.php:96
-msgid "copy to"
-msgstr "copiar a"
+msgid ""
+"GLPI is not properly configured. Please check the general settings, the API "
+"settings and the notification settings."
+msgstr ""
+"GLPI no està configurat correctament. Si us plau, comproveu la configuració "
+"general, la configuració de l'API i la configuració de notificacións."
 
-#: /tmp/twig-cache/76/7601210145dc0ff375f9df1f5eaab14b56c938aaab4826252258d01dbed53dfa.php:58
-#: /tmp/twig-cache/cd/cd0d5b0f263b75bee7fc4bdfa391975cb6fee82d0a046f59f01d3f4fedd9da9b.php:44
-#: /tmp/twig-cache/a5/a5cf7bfd00561b41c08549aa01a82ff96671d7169ef46bc4d7ce1cf0a49f2af3.php:28
-msgid "Remove when the policy is removed"
-msgstr "Treure quan la política sigui eliminada"
+msgid "Invite users to enroll one device."
+msgstr "Convida als usuaris a inscriure un dispositiu."
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:24
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Rebran un missatge a la seva adreça electrònica predeterminada que contindrà"
+" un codi QR i les instruccions per inscriure's."
+
+msgid "Lock"
+msgstr "Bloqueig"
+
+msgid "Wipe"
+msgstr "Netejar"
+
+msgid "Unenroll"
+msgstr "Anul·lar la inscripció"
+
 msgid "Document types"
 msgstr "Tipus de document"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:30
 msgid "Allow upload of APK and UPK files"
 msgstr "Permeten la càrrega de fitxers APK i UPK"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:34
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:263
 msgid "add document types"
 msgstr "afegiu el tipus de document"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:41
 msgid "Device type"
 msgstr "Tipus de dispositiu"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:47
 msgid "Computer type for the devices"
 msgstr "Tipus d'ordinador per als dispositius"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:58
 msgid "Agent account type"
 msgstr "Tipus de compte d'agent"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:64
 msgid "Account type for the devices"
 msgstr "Tipus de compte per als dispositius"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:75
 msgid "Invitation deeplink"
 msgstr "Deeplink d'invitació"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:81
 msgid "Invitation deeplink URL"
 msgstr "URL de deeplink d'invitació"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:90
 msgid "Base URL of the deeplink micro service"
 msgstr "URL base del micro servei de deeplink"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:96
 msgid "Restrictions"
 msgstr "Restriccions"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:102
 msgid "Default device limit per entity"
 msgstr "Límit predeterminat del dispositiu per entitat"
 
-#: /tmp/twig-cache/9e/9e2f50eafb5016a2221403beda7533fc182fe0f96338224b3cb843cd2717e330.php:111
 msgid ""
 "No more devices than this quantity are allowed per entity by default (0 = no"
 " limitation)"
@@ -1540,58 +1375,15 @@ msgstr ""
 "No es permeten més dispositius que aquesta quantitat per entitat per defecte"
 " (0 = sense limitacions)"
 
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:23
-msgid "Support name"
-msgstr "Nom de suport"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:45
-msgid "Support address"
-msgstr "Adreça de suport"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:69
-msgid "Support phone"
-msgstr "Telèfon de suport"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:93
-msgid "Support website"
-msgstr "Lloc web de suport"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:117
-msgid "Support email"
-msgstr "Correu electrònic de suport"
-
-#: /tmp/twig-cache/d1/d19d689018104aef85657fffe38bdfaaafe0c7a1f7a377c89e5407ad95d3fbfc.php:144
-msgid "MDM Agent URL"
-msgstr "URL de l'agent MDM"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:30
-msgid "apply a policy"
-msgstr "aplicar una política"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:48
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:112
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:177
-msgid "Value"
-msgstr "Valor"
-
-#: /tmp/twig-cache/05/05c977da483e752f5b965aeb7b84942ae475b31839326072bc490f493cb03bb9.php:84
-msgid "Applied policies"
-msgstr "Polítiques aplicades"
-
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:35
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:43
 msgid "Wizard complete"
 msgstr "Assistent complet"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:47
 msgid "This wizard will no longer be accessible."
 msgstr "Aquest assistent ja no serà accessible."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:66
 msgid "Requirements"
 msgstr "Requisits"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:74
 msgid ""
 "To setup Flyve MDM please connect to your server with a command line "
 "interface. Some operations require a root access."
@@ -1600,20 +1392,16 @@ msgstr ""
 "una interfície de línia d'ordres. Algunes operacions requereixen un accés "
 "arrel."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:78
 msgid "This wizard will guide you through the steps to setup Flyve MDM."
 msgstr ""
 "Aquest assistent us guiarà pels passos necessaris per configurar Flyve MDM."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:91
 msgid "Cron Job"
 msgstr "Cron Job"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:98
 msgid "Flyve MDM requires cron job to run automatic actions."
 msgstr "Flyve MDM requereix cron job per executar accions automàtiques."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:102
 msgid ""
 "As root in a terminal, execute the following command. Adapt www-data to the "
 "user running your HTTP server."
@@ -1621,7 +1409,6 @@ msgstr ""
 "Com a arrel en una terminal, executeu l'ordre següent. Adapteu www-data a "
 "l'usuari que executa el vostre servidor HTTP."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:107
 msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
 "to GLPI:"
@@ -1629,19 +1416,15 @@ msgstr ""
 "Afegiu, si falta, la següent línia. Adapteu la ruta a php CLI binari i la "
 "ruta a GLPI:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:112
 msgid ""
 "Automatic actions registered in the scheduler of GLPI will run every minute."
 msgstr ""
 "Les accions automàtiques registrades al planificador de GLPI s'executaran "
 "cada minut."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:125
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:136
 msgid "Email notifications"
 msgstr "Notificacions per correu electrònic"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:132
 msgid ""
 "Flyve MDM requires email notifications. The following link will open a new "
 "tab to the email notifications settings."
@@ -1650,7 +1433,6 @@ msgstr ""
 "obrirà una nova pestanya a la configuració de notificacions per correu "
 "electrònic."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:140
 msgid ""
 "The queuednotification must have set Run mode to CLI. This action will be "
 "triggered by the cron job. The following link will open a new tab to the "
@@ -1660,11 +1442,9 @@ msgstr ""
 "acció serà provocada per cron job. El següent enllaç obrirà una nova "
 "pestanya a la Llista d'accions automàtiques"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:144
 msgid "Automatic actions"
 msgstr "Accions automàtiques"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:148
 msgid ""
 "Ensure the cron job is properly configure by checking the log "
 "glpi/files/_log/cron.log. The entry should contain the word External"
@@ -1672,11 +1452,9 @@ msgstr ""
 "Assegureu-vos que cron job està configurat correctament marcant el registre "
 "glpi/files/_log/cron.log. L'entrada ha de contenir la paraula External"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:164
 msgid "REST API"
 msgstr "REST API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:171
 msgid ""
 "Flyve MDM requires REST API enabled. The following link will open a new tab "
 "to the REST API settings."
@@ -1684,31 +1462,24 @@ msgstr ""
 "Flyve MDM requereix REST API habilitada. El següent enllaç obrirà una nova "
 "pestanya a la configuració REST API."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:175
 msgid "Make sure the following setting is populated:"
 msgstr "Assegureu-vos que s'ompli la següent configuració:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:179
 msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
 msgstr "- URL de l'API (exemple: https://example.com/glpi/apirest.php/)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:183
 msgid "Make sure the following settings are enabled:"
 msgstr "Assegureu-vos que la configuració següent està habilitada:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:187
 msgid "- Rest API"
 msgstr "- Rest API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:191
 msgid "- Login with credentials"
 msgstr "- Inicieu sessió amb credencials"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:195
 msgid "- Login with external token"
 msgstr "- Inicieu sessió amb token extern"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:199
 msgid ""
 "- Add an API client leaving empty IPv4 address range, IPv6 address and "
 "application token."
@@ -1716,16 +1487,12 @@ msgstr ""
 "- Afegiu un client API que deixi buits el rang d'adreces IPv4, l'adreça IPv6"
 " i el token de l'aplicació."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:203
 msgid "API"
 msgstr "API"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:216
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:235
 msgid "General setup"
 msgstr "Configuració general"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:223
 msgid ""
 "Flyve MDM needs to know the public URL of GLPI. The following link will open"
 " a new tab to the general setup."
@@ -1733,19 +1500,15 @@ msgstr ""
 "Flyve MDM necessita saber l'URL públic de GLPI. El següent enllaç obrirà una"
 " nova pestanya a la configuració general."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:227
 msgid "Make sure the following settings is populated:"
 msgstr "Assegureu-vos que s'ompli la següent configuració:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:231
 msgid "- URL of the application (example: https://example.com/glpi)"
 msgstr "- URL de l'aplicació (exemple: https://example.com/glpi)"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:248
 msgid "Document Types"
 msgstr "Tipus de Document"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:255
 msgid ""
 "You must add the APK and UPK document types in order to upload Android and "
 "Uhuru packages."
@@ -1753,16 +1516,13 @@ msgstr ""
 "Heu d'afegir els tipus de document APK i UPK per penjar paquets d'Android i "
 "Uhuru."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:259
 msgid ""
 "Just click in the following button and they will be automatically added"
 msgstr "Només heu de feu clic al botó següent i s'afegirà automàticament"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:276
 msgid "Server Configuration"
 msgstr "Configuració del servidor"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:283
 msgid ""
 "Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
 "php.ini allows reasonable upload sizes."
@@ -1770,19 +1530,15 @@ msgstr ""
 "Flyve MDM permet pujar fitxers, paquets d'Android i d'Uhuru Mobile. "
 "Assegureu-vos que php.ini permet mides de càrrega raonables."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:287
 msgid "For example:"
 msgstr "Per exemple:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:314
 msgid "Fusion Inventory Configuration"
 msgstr "Configuració Fusion Inventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:321
 msgid "For FusionInventory greater than 9.1 + 1.1:"
 msgstr "Per a FusionInventory superior a 9.1 + 1.1:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:325
 msgid ""
 "It is required to deactivate the following rules in the Equipment import and"
 " link rules menu: "
@@ -1790,7 +1546,6 @@ msgstr ""
 "Es requereix desactivar les següents regles al menú d'Importació d'equips i "
 "regles d'enllaços:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:332
 msgid ""
 "The following link will open a new tab to the Rules > Equipment import and "
 "link rules section of FusionInventory "
@@ -1798,11 +1553,9 @@ msgstr ""
 "El següent enllaç obrirà una nova pestanya a la secció Regles > Importació "
 "d'equips i regles d'enllaços de FusionInventory"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:336
 msgid "Rules"
 msgstr "Regles"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:340
 msgid ""
 "Not disabling this rule will make FusionInventory reject inventories from "
 "devices."
@@ -1810,11 +1563,9 @@ msgstr ""
 "Si no desactiveu aquesta regla, FusionInventory rebutjarà els inventaris "
 "dels dispositius."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:353
 msgid "DBMS access for Mosquitto"
 msgstr "Accés DBMS per a Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:360
 msgid ""
 "Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
 "is for the authentication process of its clients."
@@ -1822,7 +1573,6 @@ msgstr ""
 "Flyve MDM requereix que Mosquitto tingui accés a la base de dades de GLPI, "
 "això és per al procés d'autenticació dels seus clients."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:364
 msgid ""
 "It is recommended to create a dedicated user for Mosquitto allowed to "
 "connect only from its specific IP."
@@ -1830,7 +1580,6 @@ msgstr ""
 "Es recomana crear un usuari dedicat per a Mosquitto a qui se li permeti "
 "connectar-se només des del seu IP específic."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:368
 msgid ""
 "Run the following command on your MySQL host, adapt mqtt.server.ip and glpi-"
 "database-name"
@@ -1838,11 +1587,9 @@ msgstr ""
 "Executeu el següent comandament al vostre host MySQL, adapteu mqtt.server.ip"
 " i glpi-database-name"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:373
 msgid "This user should be able to only SELECT the following tables:"
 msgstr "Aquest usuari només ha de poder TRIAR les següents taules:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:379
 msgid ""
 "Run the following commands on your MySQL host, and adapt the name of the "
 "database and the mqtt.server.ip"
@@ -1850,11 +1597,9 @@ msgstr ""
 "Executeu les ordres següents al vostre host MySQL i adapteu el nom de la "
 "base de dades i el mqtt.server.ip"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:385
 msgid "Create the file"
 msgstr "Crea el fitxer"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:389
 msgid ""
 "Insert the following content, and adapt the bind address to the interface "
 "used by Mosquitto to connect to your DBMS."
@@ -1862,59 +1607,47 @@ msgstr ""
 "Introduïu el contingut següent i adapteu l'adreça d'enllaç a la interfície "
 "que utilitza Mosquitto per connectar-vos al vostre DBMS."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:396
 msgid ""
 "Restart your DBMS daemon and check it listens to the expected interface."
 msgstr ""
 "Reinicieu el vostre DBMS daemon i comproveu que escolti la interfície "
 "esperada."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:401
 msgid ""
 "Check you can login to your DBMD from the host which will run Mosquitto."
 msgstr ""
 "Comproveu que podeu iniciar la sessió al vostre DBMD des del host que "
 "executarà Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:405
 msgid "The following command will ask for the password you choosed earlier"
 msgstr ""
 "El següent comandament demanarà la contrasenya que vau triar anteriorment"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:419
 msgid "Mosquitto"
 msgstr "Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:426
 msgid "Flyve MDM requires a Message queue server."
 msgstr "Flyve MDM requereix un Servidor de cua de missatges."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:430
 msgid "Prefer a dedicated server or VM for running Mosquitto."
 msgstr "Prefereix un servidor dedicat o VM per executar Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:434
 msgid "As root in a terminal, execute the following command"
 msgstr "Com a arrel en un terminal, executeu l'ordre següent"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:439
 msgid "Create"
 msgstr "Crerar"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:443
 msgid "Add the following content, adapting your DBMS credentials:"
 msgstr ""
 "Afegiu el contingut següent, adaptant les vostres credencials de DBMS:"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:459
 msgid "Check Mosquitto is listening to port 1883 (insecure)."
 msgstr "Comprova que Mosquitto està escoltant el port 1883 (insegur)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:472
 msgid "TLS Listener setup"
 msgstr "configuració de l'oient de TLS"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:479
 msgid ""
 "TLS provides security to the communication, through authentication of server"
 " and client, besides data encryption."
@@ -1922,18 +1655,15 @@ msgstr ""
 "TLS proporciona seguretat a la comunicació, a través de l'autenticació de "
 "servidor i client, a més del xifrat de dades."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:483
 msgid "Use TLS version 1.2, lower versions are no longer considered safe."
 msgstr ""
 "Utilitzeu la versió 1.2 de TLS, les versions inferiors ja no es consideren "
 "segures."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:487
 msgid ""
 "Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
 msgstr "Mosquitto no admet SSLv2 o SSLv3 (i ja no són segurs)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:491
 msgid ""
 "- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
 "chain and private key."
@@ -1941,16 +1671,13 @@ msgstr ""
 "- Copieu a /etc/mosquitto/certts el vostre certificat, la vostra cadena "
 "d'autorització de certificat i la clau privada."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:495
 msgid "- Secure your private key"
 msgstr "- Assegureu la vostra clau privada"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:501
 msgid "- Refresh hash and symlinks to your certificates"
 msgstr ""
 "- Actualitzeu el hash i els enllaços simbòlics als vostres certificats"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:506
 msgid ""
 "Use a certificate signed by a certified authority or you may have trouble "
 "with the android devices, using them with custom certification authorities "
@@ -1960,58 +1687,177 @@ msgstr ""
 " problemes amb els dispositius Android, usant-los amb autoritats de "
 "certificació personalitzades poden no funcionar (no provades)."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:526
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
 msgstr "Afegiu el següent a /etc/mosquitto/conf.d/flyvemdm.conf."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:538
 msgid "- Restart Mosquitto"
 msgstr "- Reinicieu Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:542
 msgid "- Test you can successfully connect to Mosquitto"
 msgstr "- Proveu que podeu connectar-vos correctament a Mosquitto"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:547
 msgid ""
 "- Check the ports that Mosquitto listens. You should see only the port 8883."
 msgstr ""
 "- Comproveu els ports que Mosquitto escolta. Només hauria d'aparèixer el "
 "port 8883."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:576
 msgid "Mosquitto client for the backend"
 msgstr "Client Mosquitto per al back-end"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:583
 msgid "Flyve MDM requires to connect to Mosquitto."
 msgstr "Flyve MDM necessita connectar-se a Mosquitto."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:587
 msgid "For SYSV systems, link the init script in /etc/init.d/"
 msgstr "Per als sistemes SYSV, enllaça el script init a /etc/init.d/"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:592
 msgid "Check the user configured in the script and adapt it if needed."
 msgstr ""
 "Comproveu l'usuari configurat en el script i adapteu-lo si és necessari."
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:611
 msgid "Back"
 msgstr "Endarrere"
 
-#: /tmp/twig-cache/f4/f4c5aa697c90c4bfd51fb99af75eb5045386c72bfc680a1d67bbce39eac083ac.php:626
 msgid "Wizard page:"
 msgstr "Pàgina de l'assistent:"
 
-#: /tmp/twig-cache/12/122e1ecbe5bad3b4b16a7b02371d313b26903b9e4fa897d608f5b942f47fc73b.php:36
-msgid "Is managed"
-msgstr "Es gestionat"
+msgid "There is no task status yet"
+msgstr "Encara no hi ha cap estat de tasca"
 
-#: /tmp/twig-cache/cd/cd0d5b0f263b75bee7fc4bdfa391975cb6fee82d0a046f59f01d3f4fedd9da9b.php:29
-msgid "Copy to"
-msgstr "Còpia a"
+msgid "Count"
+msgstr "Compta"
 
-#: /tmp/twig-cache/0a/0a887ff5a845015cb2f83172773cd227ad395c1038075cd7c1eb7e28b8a3be61.php:98
+msgid "Alias"
+msgstr "Àlies"
+
+msgid "Package name"
+msgstr "Nom del paquet"
+
+msgid "Update the package"
+msgstr "Actualitzeu el paquet"
+
 msgid "Actions"
 msgstr "Accions"
+
+msgid "MQTT broker"
+msgstr "Intermediari de MQTT"
+
+msgid "MQTT broker address for clients"
+msgstr "Adreça d'intermediari de MQTT per a clients"
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+"Una adreça IP o un nom de host que utilitzen els dispositius del client per "
+"comunicar-se amb l'intermediari"
+
+msgid "MQTT broker address for backend"
+msgstr "Adreça del corredor de MQTT per al back-end"
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"Una adreça IP o un nom de host que utilitza el back-end per comunicar-se amb"
+" l'intermediari"
+
+msgid "MQTT broker port"
+msgstr "Port d'intermediari de MQTT"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "Un número de port entre 1025 i 65535, el port estàndard és 1883"
+
+msgid "MQTT broker port for TLS"
+msgstr "Port d'intermediari de MQTT per a TLS"
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "Un número de port entre 1025 i 65535, el port estàndard és 8883"
+
+msgid "Use TLS for clients"
+msgstr "Utilitzeu TLS per a clients"
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+"Utilitzeu TLS per a la comunicació MQTT entre l'intermediari i els "
+"dispositius del client"
+
+msgid "Use TLS for backend"
+msgstr "Utilitzeu TLS per al back-end"
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr ""
+"Utilitzeu TLS per a la comunicació MQTT entre l'intermediari i el back-end"
+
+msgid "CA certificate"
+msgstr "Certificat de CA"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Suite de xifratge (TLS habilitada)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Suite de xifratge d'intermediari de Mqtt"
+
+msgid "test"
+msgstr "prova"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr "Servidor de certificat de client (Intermediari MQTT amb TLS activat)"
+
+msgid "Use client certificates"
+msgstr "Utilitza certificats de client"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Servidor de certificat SSL per a clients de MQTT"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domain.com/path/to/service"
+
+msgid "apply a policy"
+msgstr "aplicar una política"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Applied policies"
+msgstr "Polítiques aplicades"
+
+msgid "Application date"
+msgstr "Data d'aplicació"
+
+msgid "Last change date"
+msgstr "Última data de canvi"
+
+msgid "There is no agent yet"
+msgstr "Encara no hi ha agent"
+
+msgid "ID"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Topic"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Support name"
+msgstr "Nom de suport"
+
+msgid "Support address"
+msgstr "Adreça de suport"
+
+msgid "Support phone"
+msgstr "Telèfon de suport"
+
+msgid "Support website"
+msgstr "Lloc web de suport"
+
+msgid "Support email"
+msgstr "Correu electrònic de suport"
+
+msgid "MDM Agent URL"
+msgstr "URL de l'agent MDM"
