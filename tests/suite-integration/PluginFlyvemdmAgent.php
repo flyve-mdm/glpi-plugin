@@ -33,9 +33,6 @@ namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
 
-/**
- * TODO: testDeviceCountLimit should go to Entity unit test, remove inline engine when change that.
- */
 class PluginFlyvemdmAgent extends CommonTestCase {
 
    // Set a computer type
@@ -80,15 +77,13 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          \PluginFlyvemdmAgent::getTable(),
          ['entities_id' => $activeEntity]
       );
-      $this->given(
-         $deviceLimit = ($agents + 3),
-         $entityConfig,
-         $entityConfig->update([
-            'id'           => $activeEntity,
-            'device_limit' => $deviceLimit,
-         ]),
-         $invitationData = []
-      );
+      $deviceLimit = ($agents + 3);
+      $entityConfig;
+      $entityConfig->update([
+         'id'           => $activeEntity,
+         'device_limit' => $deviceLimit,
+      ]);
+      $invitationData = [];
 
       for ($i = $agents; $i <= $deviceLimit; $i++) {
          $email = $this->getUniqueEmail();
@@ -389,12 +384,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      sleep(2);
-
-      // Find the last existing ID of logged MQTT messages
-      $log = new \PluginFlyvemdmMqttlog();
-      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
-
       $agent->update([
          'id'        => $agent->getID(),
          '_unenroll' => '',
@@ -405,8 +394,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $topic = "Command/Unenroll";
       $mqttMessage = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
-      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
-      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
+      $mqttlogId = $this->asserLastMqttlog(
+         $agent,
+         new \PluginFlyvemdmMqttlog(),
+         $topic,
+         $mqttMessage
+      );
    }
 
    /**
@@ -588,10 +581,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrollment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      // Find the last existing ID of logged MQTT messages
-      $log = new \PluginFlyvemdmMqttlog();
-      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
-
       $updateSuccess = $agent->update([
          'id'    => $agent->getID(),
          '_ping' => '',
@@ -605,8 +594,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $topic = "Command/Ping";
       $mqttMessage = json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES);
-      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
-      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
+      $mqttlogId = $this->asserLastMqttlog(
+         $agent,
+         new \PluginFlyvemdmMqttlog(),
+         $topic,
+         $mqttMessage
+      );
    }
 
    /**
@@ -623,10 +616,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      // Find the last existing ID of logged MQTT messages
-      $log = new \PluginFlyvemdmMqttlog();
-      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
-
       $updateSuccess = $agent->update([
          'id'         => $agent->getID(),
          '_geolocate' => '',
@@ -638,8 +627,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $topic = "Command/Geolocate";
       $mqttMessage = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
-      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
-      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
+      $mqttlogId = $this->asserLastMqttlog(
+         $agent,
+         new \PluginFlyvemdmMqttlog(),
+         $topic,
+         $mqttMessage
+      );
    }
 
    /**
@@ -657,10 +650,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
-      // Find the last existing ID of logged MQTT messages
-      $log = new \PluginFlyvemdmMqttlog();
-      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
-
       $updateSuccess = $agent->update([
          'id'         => $agent->getID(),
          '_inventory' => '',
@@ -674,8 +663,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $topic = "Command/Inventory";
       $mqttMessage = json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES);
-      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
-      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
+      $mqttlogId = $this->asserLastMqttlog(
+         $agent,
+         new \PluginFlyvemdmMqttlog(),
+         $topic,
+         $mqttMessage
+      );
    }
 
    /**
@@ -808,10 +801,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @param bool $expected
     */
    private function wipeDevice(\PluginFlyvemdmAgent $agent, $wipe = true, $expected = true) {
-      // Find the last existing ID of logged MQTT messages
-      $log = new \PluginFlyvemdmMqttlog();
-      $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
-
       $agent->update([
          'id'   => $agent->getID(),
          'wipe' => $wipe ? '1' : '0',
@@ -826,8 +815,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $topic = "Command/Wipe";
       $mqttMessage = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
-      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
-      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
+      $mqttlogId = $this->asserLastMqttlog(
+         $agent,
+         new \PluginFlyvemdmMqttlog(),
+         $topic,
+         $mqttMessage
+      );
    }
 
    /**
