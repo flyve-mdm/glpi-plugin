@@ -110,7 +110,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       }
 
       $config = \Config::setConfigurationValues(
-         'flyvemdm', 
+         'flyvemdm',
          [
             'debug_enrolment' => '1',
          ]
@@ -585,7 +585,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      // Get enrolment data to enable the agent's MQTT account
+      // Get enrollment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       // Find the last existing ID of logged MQTT messages
