@@ -345,7 +345,6 @@ Blockquote {
 @media (max-width: 600px) {
 
   .post-content {
-    p {max-width: 100%};
 
     code {
 
@@ -363,7 +362,6 @@ Blockquote {
 @media (min-width: 600px) {
 
   .post-content {
-    p {max-width: 100%};
 
     code {
       max-width: 100%;
@@ -379,7 +377,6 @@ Blockquote {
 @media (min-width: 768px) {
 
   .post-content {
-    p {max-width: 82%};
 
     li {max-width: 95%};
 
@@ -399,7 +396,6 @@ Blockquote {
 @media (min-width: 992px) {
 
   .post-content {
-    p {max-width: 80%};
 
     li {max-width: 95%};
 
@@ -425,8 +421,6 @@ Blockquote {
 @media (min-width: 1200px) {
 
   .post-content {
-
-    p {max-width: 59%};
 
     li {max-width: 68%};
 
