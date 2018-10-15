@@ -29,8 +29,11 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -69,7 +72,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    protected $policy;
 
    /**
-    * @var PluginFlyvemdmNotifiable $notifiable Notifiable
+    * @var PluginFlyvemdmNotifiableInterface $notifiable Notifiable
     */
    protected $notifiable;
 
@@ -403,8 +406,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
       $topic = $item->getTopic();
       $recipient = "$topic/Policy/$policyName/Task/$taskId";
-      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
-      $item->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig[] = new MqttEnvelope([
+         'topic'  => $recipient,
+         'retain' => 1,
+      ]);
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
@@ -451,8 +459,13 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $policyName = $policy->getField('symbol');
       $recipient = "$topic/Policy/$policyName/Task/$taskId";
       $message = null;
-      $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
-      $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig[] = new MqttEnvelope([
+         'topic'  => $recipient,
+         'retain' => 1,
+      ]);
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
