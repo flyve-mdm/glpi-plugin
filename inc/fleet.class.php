@@ -29,7 +29,10 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -312,8 +315,13 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $topic = $this->getTopic();
          $recipient = "$topic/Policy/$policyName";
          $message = null;
-         $brokerMessage = new PluginFlyvemdmMqttMessage($message, $recipient, ['retain' => 1]);
-         $this->notify(new PluginFlyvemdmBrokerEnvelope($brokerMessage));
+         $brokerMessage = new BrokerMessage($message);
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $recipient,
+            'retain' => 1,
+         ]);
+         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+         $this->notify($envelope);
       }
    }
 
@@ -499,14 +507,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    /**
     * @see PluginFlyvemdmNotifiableInterface::notify()
-    * @param PluginFlyvemdmBrokerEnvelope $envelope
+    * @param BrokerEnvelope $envelope
     */
-   public function notify(PluginFlyvemdmBrokerEnvelope $envelope) {
-      $message = $envelope->getMessage();
-      if ($message instanceof PluginFlyvemdmMqttMessage) {
-         $broker = new PluginFlyvemdmBrokerBus();
-         $broker->dispatch($message);
-      }
+   public function notify(BrokerEnvelope $envelope) {
+      $broker = new BrokerBus();
+      $broker->dispatch($envelope);
    }
 
    /**

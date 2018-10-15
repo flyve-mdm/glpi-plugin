@@ -31,51 +31,32 @@
 
 namespace GlpiPlugin\Flyvemdm\Mqtt;
 
-use InvalidArgumentException;
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginFlyvemdmMqttMessage {
+final class MqttEnvelope implements BrokerEnvelopeItemInterface {
 
-   private $message;
-   private $recipients;
-   private $options = [];
+   private $context;
 
-   public function __construct($message, $topic, array $options = []) {
-      if (!isset($message)) {
-         throw new InvalidArgumentException(__('A message argument is needed', 'flyvemdm'));
+   public function __construct(array $context) {
+      if (!isset($context['topic'])) {
+         throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
       }
-      $this->message = $message;
 
-      if (!isset($topic)) {
-         throw new InvalidArgumentException(__('A recipient argument is needed', 'flyvemdm'));
+      if (!isset($context['qos'])) {
+         $context['qos'] = 0;
       }
-      $this->recipients = $topic;
+      if (!isset($context['retain'])) {
+         $context['retain'] = 0;
+      }
 
-      if (!isset($options['qos'])) {
-         $options['qos'] = 0;
-      }
-      if (!isset($options['retain'])) {
-         $options['retain'] = 0;
-      }
-      $this->options = $options;
+      $this->context = $context;
    }
 
-   public function getRecipients() {
-      return $this->recipients;
-   }
-
-   public function getMessage() {
-      return $this->message;
-   }
-
-   public function getQos() {
-      return $this->options['qos'];
-   }
-
-   public function getRetain() {
-      return $this->options['retain'];
+   public function getContext() {
+      return $this->context;
    }
 }
