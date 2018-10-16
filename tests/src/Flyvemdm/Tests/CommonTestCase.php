@@ -71,9 +71,22 @@ class CommonTestCase extends GlpiCommonTestCase {
       return $agent;
    }
 
-   protected function createUser($input) {
+   protected function createGuestUser($input) {
       $user = new \User();
       $user->add($input);
+      $profile_User = new \Profile_User();
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $guestProfileId = $config['guest_profiles_id'];
+      $entities = $profile_User->getEntitiesForProfileByUser($user->getID(), $guestProfileId);
+      $entityId = isset($input['entities_id']) ? $input['entities_id'] : 0;
+      if (!isset($entities[$_SESSION['glpiactive_entity']])) {
+         $profile_User->add([
+            'users_id'     => $user->getID(),
+            'profiles_id'  => $guestProfileId,
+            'entities_id'  => $entityId,
+            'is_recursive' => 0,
+         ]);
+      }
       return $user;
    }
 
@@ -84,12 +97,13 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @return \PluginFlyvemdmInvitation
     */
    protected function createInvitation($guestEmail) {
-      $user = $this->createUser([
+      $user = $this->createGuestUser([
          '_useremails' => [
             $guestEmail,
          ],
          'name' => $guestEmail,
          'authtype' => \Auth::DB_GLPI,
+         'entities_id' => $_SESSION['glpiactive_entity'],
       ]);
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
@@ -135,15 +149,15 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @return \PluginFlyvemdmAgent
     */
    protected function agentFromInvitation(
-   \User $user,
-   $guestEmail,
-   $serial,
-   $invitationToken,
-   $mdmType = 'android',
-   $version = '',
-   $inventory = null,
-   array $customInput = [],
-   $keepSession = false
+      \User $user,
+      $guestEmail,
+      $serial,
+      $invitationToken,
+      $mdmType = 'android',
+      $version = '',
+      $inventory = null,
+      array $customInput = [],
+      $keepSession = false
    ) {
       //Version change
       $finalVersion = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';
