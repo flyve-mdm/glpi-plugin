@@ -31,37 +31,32 @@
 
 namespace GlpiPlugin\Flyvemdm\Mqtt;
 
-use PluginFlyvemdmBrokerEnvelope;
-use PluginFlyvemdmBrokerSenderInterface;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerSenderInterface;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class PluginFlyvemdmMqttSender implements PluginFlyvemdmBrokerSenderInterface {
+class MqttSender implements BrokerSenderInterface {
 
    private $connection;
 
-   public function __construct(PluginFlyvemdmMqttConnection $connection) {
+   public function __construct(MqttConnection $connection) {
       $this->connection = $connection;
    }
 
    /**
     * Sends the given envelope.
     *
-    * @param PluginFlyvemdmBrokerEnvelope $envelope
+    * @param BrokerEnvelope $envelope
     */
-   public function send(PluginFlyvemdmBrokerEnvelope $envelope) {
-      $message = $envelope->getMessage();
-
-      if (!$message instanceof PluginFlyvemdmMqttMessage) {
-         throw new \InvalidArgumentException(
-            sprintf(__('This transport only supports "%s" messages.', 'flyvemdm'),
-               PluginFlyvemdmMqttMessage::class)
-         );
+   public function send(BrokerEnvelope $envelope) {
+      if (null === $envelope->get(MqttEnvelope::class)) {
+         // the envelope doesn't have a mqtt item
+         return;
       }
-
-      $this->connection->publish($message->getRecipients(), $message->getMessage(),
-         $message->getQos(), $message->getRetain());
+      $hander = new MqttSendMessageHandler($this->connection, $envelope->get(MqttEnvelope::class));
+      $hander($envelope->getMessage());
    }
 }
