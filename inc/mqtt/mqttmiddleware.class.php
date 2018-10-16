@@ -47,7 +47,7 @@ class MqttMiddleware implements BrokerMiddlewareInterface, BrokerEnvelopeAwareIn
     * @return mixed
     */
    public function handle($envelope, callable $next) {
-      if (null !== $envelope->get(MqttEnvelope::class)) {
+      if (null === $envelope->get(MqttEnvelope::class)) {
          // is not a mqtt message
          return $next($envelope);
       }

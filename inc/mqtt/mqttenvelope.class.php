@@ -41,6 +41,10 @@ final class MqttEnvelope implements BrokerEnvelopeItemInterface {
 
    private $context;
 
+   /**
+    * MqttEnvelope constructor.
+    * @param array $context
+    */
    public function __construct(array $context) {
       if (!isset($context['topic'])) {
          throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
@@ -56,7 +60,11 @@ final class MqttEnvelope implements BrokerEnvelopeItemInterface {
       $this->context = $context;
    }
 
-   public function getContext() {
-      return $this->context;
+   /**
+    * @param $name
+    * @return mixed
+    */
+   public function getContext($name) {
+      return $this->context[$name];
    }
 }
