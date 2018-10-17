@@ -29,6 +29,7 @@ fi
 mysql -u root -e 'create database $DBNAME;'
 mysql -u root -e 'create database $OLDDBNAME;'
 git clone --depth=35 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
+if [ "$GLPI_BRANCH" = "9.3/bugfixes" ] ; then git fetch --unshallow origin && git checkout 5369b1c8; fi
 composer install --no-dev --no-interaction
 mkdir plugins/fusioninventory && git clone --depth=35 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
 IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
