@@ -154,6 +154,7 @@ $plugin = new Plugin();
 // Check plugin's requirements
 try {
    if (!$plugin->checkVersions('flyvemdm')) {
+      echo PHP_EOL;
       exit(1);
    }
 } catch (LogicException $e) {
