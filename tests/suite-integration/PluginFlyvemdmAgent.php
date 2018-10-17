@@ -41,6 +41,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    public function setUp() {
       //$this->resetState();
       \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $this->computerTypeId]);
+      // Enable debug mode for enrollment messages
+      \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
    }
 
    public function beforeTestMethod($method) {
@@ -60,6 +62,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    /**
     * @tags testDeviceCountLimit
+    * @engine inline
     */
    public function testDeviceCountLimit() {
       $entity = new \Entity();
