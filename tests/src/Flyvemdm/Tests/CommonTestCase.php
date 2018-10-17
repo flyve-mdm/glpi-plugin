@@ -52,7 +52,12 @@ class CommonTestCase extends GlpiCommonTestCase {
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
+      $this->dump($_REQUEST['user_token']);
       $this->boolean($this->login('', '', false))->isTrue();
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $guestProfileId = $config['guest_profiles_id'];
+      \Session::changeProfile($guestProfileId);
+      $this->dump($_SESSION['glpiactiveprofile']['profile']);
       unset($_REQUEST['user_token']);
 
       // Try to enroll
@@ -71,22 +76,19 @@ class CommonTestCase extends GlpiCommonTestCase {
       return $agent;
    }
 
+   /**
+    * Create a user having with the flyve mddm guest profile
+    *
+    * @param array $input input data as expected by \User::add()
+    */
    protected function createGuestUser($input) {
-      $user = new \User();
-      $user->add($input);
-      $profile_User = new \Profile_User();
+      $entityId = isset($input['entities_id']) ? $input['entities_id'] : 0;
       $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
-      $entities = $profile_User->getEntitiesForProfileByUser($user->getID(), $guestProfileId);
-      $entityId = isset($input['entities_id']) ? $input['entities_id'] : 0;
-      if (!isset($entities[$_SESSION['glpiactive_entity']])) {
-         $profile_User->add([
-            'users_id'     => $user->getID(),
-            'profiles_id'  => $guestProfileId,
-            'entities_id'  => $entityId,
-            'is_recursive' => 0,
-         ]);
-      }
+      $input['_entities_id'] = $entityId;
+      $input['profiles_id'] = $guestProfileId;
+      $user = new \User();
+      $user->add($input);
       return $user;
    }
 
