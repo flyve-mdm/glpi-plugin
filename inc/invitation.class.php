@@ -115,7 +115,6 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
       }
 
       // The user already exists, add him in the entity
-      $userId = $user->getID();
       $profile_User = new Profile_User();
       $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
       if (!isset($entities[$_SESSION['glpiactive_entity']])) {
