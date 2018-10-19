@@ -594,7 +594,7 @@
 </span><span id="441" class="l">      <span class="php-keyword1">if</span> (!<span class="php-var">$entityConfig</span>-&gt;canAddAgent(<span class="php-var">$_SESSION</span>[<span class="php-quote">'glpiactive_entity'</span>])) {
 </span><span id="442" class="l">         <span class="php-comment">// Too many devices</span>
 </span><span id="443" class="l">         <span class="php-var">$this</span>-&gt;filterMessages(Session::addMessageAfterRedirect(__(<span class="php-quote">'Too many devices'</span>, <span class="php-quote">'flyvemdm'</span>)));
-</span><span id="444" class="l">         <span class="php-var">$input</span> = <span class="php-keyword1">false</span>;
+</span><span id="444" class="l">         <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="445" class="l">      }
 </span><span id="446" class="l">
 </span><span id="447" class="l">      <span class="php-comment">// User already logged in : user token has been validated</span>
@@ -603,7 +603,7 @@
 </span><span id="450" class="l">      <span class="php-keyword1">switch</span> (<span class="php-var">$this</span>-&gt;chooseEnrollMethod(<span class="php-var">$input</span>)) {
 </span><span id="451" class="l">         <span class="php-keyword1">case</span> self::ENROLL_DENY:
 </span><span id="452" class="l">            <span class="php-var">$this</span>-&gt;filterMessages(Session::addMessageAfterRedirect(__(<span class="php-quote">'Unable to find a enrollment method'</span>, <span class="php-quote">'flyvemdm'</span>)));
-</span><span id="453" class="l">            <span class="php-var">$input</span> = <span class="php-keyword1">false</span>;
+</span><span id="453" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="454" class="l">            <span class="php-keyword1">break</span>;
 </span><span id="455" class="l">
 </span><span id="456" class="l">         <span class="php-keyword1">case</span> self::ENROLL_INVITATION_TOKEN:
@@ -612,7 +612,7 @@
 </span><span id="459" class="l">
 </span><span id="460" class="l">         <span class="php-keyword1">case</span> self::ENROLL_ENTITY_TOKEN:
 </span><span id="461" class="l">            <span class="php-comment">// Method disabled, waiting for implementation</span>
-</span><span id="462" class="l">            <span class="php-var">$input</span> = <span class="php-keyword1">false</span>;
+</span><span id="462" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="463" class="l">            <span class="php-keyword1">break</span>;
 </span><span id="464" class="l">      }
 </span><span id="465" class="l">
