@@ -393,10 +393,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return parent::canUpdateItem();
       }
 
+      // The user has a guest profile
       if (!$this->checkEntity(true)) {
          return false;
       }
 
+      // Only the account of the device can update
       return $_SESSION['glpiID'] == $this->fields[User::getForeignKeyField()];
    }
 
@@ -485,6 +487,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function prepareInputForUpdate($input) {
       $config = Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       if ($_SESSION['glpiactiveprofile']['id'] == $config['guest_profiles_id']) {
+         // a guest profile is the device itself.
+         // @see self::canUpdateItem()
          return $this->prepareInputForUpdateFromDevice($input);
       }
 

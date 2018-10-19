@@ -688,4 +688,12 @@ class CommonTestCase extends GlpiCommonTestCase {
       }
       return 0;
    }
+
+   protected function assertInvitationLogHasMessage(\PluginFlyvemdmInvitation $invitation, $message) {
+      $invitationId = $invitation->getID();
+      $fk = \PluginFlyvemdmInvitation::getForeignKeyField();
+      $invitationLog = new \PluginFlyvemdmInvitationLog();
+      $found = $invitationLog->find("`$fk` = '$invitationId' AND `event` = '$message'");
+      return count($found);
+   }
 }

@@ -127,30 +127,35 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'invitationToken' => 'bad token',
             ],
             'expected' => 'Invitation token invalid',
+            'invitationlog' => false,
          ],
          'without MDM type'       => [
             'data'     => [
                'mdmType'     => null,
             ],
             'expected' => 'MDM type missing',
+            'invitationlog' => true,
          ],
          'with bad MDM type'      => [
             'data'     => [
                'mdmType'     => 'alien MDM',
             ],
             'expected' => 'unknown MDM type',
+            'invitationlog' => true,
          ],
          'with bad version'       => [
             'data'     => [
                'version'     => 'bad version',
             ],
             'expected' => 'Bad agent version',
+            'invitationlog' => true,
          ],
          'with a too low version' => [
             'data'     => [
                'version'     => '1.9.0',
             ],
             'expected' => 'The agent version is too low',
+            'invitationlog' => true,
          ],
          'without inventory'      => [
             'data'     => [
@@ -158,6 +163,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'inventory'   => '',
             ],
             'expected' => 'Device inventory XML is mandatory',
+            'invitationlog' => true,
          ],
          'with invalid inventory' => [
             'data'     => [
@@ -166,6 +172,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
                'inventory'   => $inventory,
             ],
             'expected' => 'Inventory XML is not well formed',
+            'invitationlog' => true,
          ],
       ];
    }
@@ -175,12 +182,17 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testInvalidEnrollAgent
     * @param array $data
     * @param string $expected
+    * @param boolean $invitationlog Is an invitation log entry expected ?
     */
-   public function testInvalidEnrollAgent(array $data, $expected) {
+   public function testInvalidEnrollAgent(array $data, $expected, $invitationlog) {
       $dbUtils = new \DbUtils;
       $invitationlogTable = \PluginFlyvemdmInvitationlog::getTable();
       $expectedLogCount = $dbUtils->countElementsInTable($invitationlogTable);
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
+
+      //Check there is no event for the invitation
+      $this->integer($this->assertInvitationLogHasMessage($invitation, $expected))->isEqualTo(0);
+
       $invitationToken = (isset($data['invitationToken'])) ? $data['invitationToken'] : $invitation->getField('invitation_token');
       $serial = (key_exists('serial', $data)) ? $data['serial'] : $serial;
       $mdmType = (key_exists('mdmType', $data)) ? $data['mdmType'] : 'android';
@@ -194,15 +206,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains($expected);
 
-      // Check registered log
-      // previous enrolment could generate a new log
-      $invitationLog = new \PluginFlyvemdmInvitationlog();
-      $fk = \PluginFlyvemdmInvitation::getForeignKeyField();
-      $inviationId = $invitation->getID();
-      $expectedLogCount += count($invitationLog->find("`$fk` = '$inviationId'"));
-
-      $total = $dbUtils->countElementsInTable($invitationlogTable);
-      $this->integer($total)->isEqualTo($expectedLogCount);
+      // Check that an event was created  for the invitation
+      if ($invitationlog) {
+         $this->integer($this->assertInvitationLogHasMessage($invitation, $expected))->isGreaterThan(0);
+      }
    }
 
    /**
@@ -382,7 +389,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      sleep(2);
+      $this->login('glpi', 'glpi');
 
       // Find the last existing ID of logged MQTT messages
       $log = new \PluginFlyvemdmMqttlog();
@@ -445,6 +452,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      $this->login('glpi', 'glpi');
 
       $this->deviceOnlineStatus($agent, 'true', 1);
 
@@ -581,6 +590,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
+      $this->login('glpi', 'glpi');
+
       // Find the last existing ID of logged MQTT messages
       $log = new \PluginFlyvemdmMqttlog();
       $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
@@ -616,6 +627,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
+      $this->login('glpi', 'glpi');
+
       // Find the last existing ID of logged MQTT messages
       $log = new \PluginFlyvemdmMqttlog();
       $lastLogId = \PluginFlyvemdmCommon::getMax($log, '', 'id');
@@ -646,6 +659,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      $this->login('glpi', 'glpi');
 
       // Get enrolment data to enable the agent's MQTT account
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
@@ -683,6 +698,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $invitation->getField('invitation_token'));
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
+
+      $this->login('glpi', 'glpi');
 
       // Test lock and wipe are unset after enrollment
       $this->integer((int) $agent->getField('lock'))->isEqualTo(0);
