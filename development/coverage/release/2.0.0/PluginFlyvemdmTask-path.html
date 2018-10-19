@@ -1,0 +1,760 @@
+---
+layout: coverage
+---
+<html>
+
+<head>
+    <script src="assets/d3.js" charset="utf-8"></script>
+    <script src="assets/dagre-d3.js"></script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/jquery.tablesorter.js"></script>
+    <script src="assets/report.js"></script>
+
+    <link rel="stylesheet" href="assets/font-awesome.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="assets/logo.png" alt="atoum"/> Code coverage report</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="col-lg-12">
+            <div class="row">
+        <h1>PluginFlyvemdmTask: paths coverage</h1>
+
+        
+
+
+<table class="table table-bordered">
+    <tr>
+        
+                    <td style="text-align: center; width: 100%">
+                <h1 class="text-warning">
+                    67%
+                                            <small>of 342</small>
+                                    </h1>
+                <strong>Lines</strong>
+            </td>
+        
+        
+            </tr>
+</table>
+
+<table class="table table-bordered table-striped table-hover sort">
+    <thead>
+    <tr>
+        <th>Method <i class="fa"></i></th>
+                            <th style="text-align: center">Lines <i class="fa"></i></th>
+            <th style="text-align: center">Line % <i class="fa"></i></th>
+                            </tr>
+    </thead>
+
+    <tbody>
+            <tr>
+            <td><a href="#getTypeName">PluginFlyvemdmTask::getTypeName()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTabNameForItem">PluginFlyvemdmTask::getTabNameForItem()</a></td>
+                                        <td style="text-align: center">18</td>
+                <td style="text-align: center">    
+    <span class="label label-success">89%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#addNeededInfoToInput">PluginFlyvemdmTask::addNeededInfoToInput()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-success">90%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForAdd">PluginFlyvemdmTask::prepareInputForAdd()</a></td>
+                                        <td style="text-align: center">52</td>
+                <td style="text-align: center">    
+    <span class="label label-success">81%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForUpdate">PluginFlyvemdmTask::prepareInputForUpdate()</a></td>
+                                        <td style="text-align: center">53</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">58%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_addItem">PluginFlyvemdmTask::post_addItem()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">50%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_updateItem">PluginFlyvemdmTask::post_updateItem()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#pre_deleteItem">PluginFlyvemdmTask::pre_deleteItem()</a></td>
+                                        <td style="text-align: center">12</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_purgeItem">PluginFlyvemdmTask::post_purgeItem()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#deleteTaskStatuses">PluginFlyvemdmTask::deleteTaskStatuses()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#publishPolicy">PluginFlyvemdmTask::publishPolicy()</a></td>
+                                        <td style="text-align: center">22</td>
+                <td style="text-align: center">    
+    <span class="label label-success">82%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#createTaskStatuses">PluginFlyvemdmTask::createTaskStatuses()</a></td>
+                                        <td style="text-align: center">11</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">45%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#unpublishPolicy">PluginFlyvemdmTask::unpublishPolicy()</a></td>
+                                        <td style="text-align: center">11</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">27%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#buildMqttMessage">PluginFlyvemdmTask::buildMqttMessage()</a></td>
+                                        <td style="text-align: center">14</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#cleanupPolicies">PluginFlyvemdmTask::cleanupPolicies()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getSearchOptionsNew">PluginFlyvemdmTask::getSearchOptionsNew()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmTask::rawSearchOptions()</a></td>
+                                        <td style="text-align: center">46</td>
+                <td style="text-align: center">    
+    <span class="label label-success">98%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForItem">PluginFlyvemdmTask::displayTabContentForItem()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showForNotifiable">PluginFlyvemdmTask::showForNotifiable()</a></td>
+                                        <td style="text-align: center">54</td>
+                <td style="text-align: center">    
+    <span class="label label-success">85%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#preprocessInput">PluginFlyvemdmTask::preprocessInput()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+        </tbody>
+</table>
+
+                    <div class="panel panel-default" id="getTypeName">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::getTypeName()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#getTypeName" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'getTypeName');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getTabNameForItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::getTabNameForItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#getTabNameForItem" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'getTabNameForItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="addNeededInfoToInput">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::addNeededInfoToInput()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#addNeededInfoToInput" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'addNeededInfoToInput');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="prepareInputForAdd">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::prepareInputForAdd()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#prepareInputForAdd" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'prepareInputForAdd');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="prepareInputForUpdate">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::prepareInputForUpdate()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#prepareInputForUpdate" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'prepareInputForUpdate');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_addItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::post_addItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#post_addItem" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'post_addItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_updateItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::post_updateItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#post_updateItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'post_updateItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="pre_deleteItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::pre_deleteItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#pre_deleteItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'pre_deleteItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_purgeItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::post_purgeItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#post_purgeItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'post_purgeItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="deleteTaskStatuses">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::deleteTaskStatuses()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#deleteTaskStatuses" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'deleteTaskStatuses');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="publishPolicy">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::publishPolicy()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#publishPolicy" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'publishPolicy');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="createTaskStatuses">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::createTaskStatuses()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#createTaskStatuses" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'createTaskStatuses');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="unpublishPolicy">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::unpublishPolicy()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#unpublishPolicy" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'unpublishPolicy');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="buildMqttMessage">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::buildMqttMessage()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#buildMqttMessage" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'buildMqttMessage');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="cleanupPolicies">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::cleanupPolicies()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#cleanupPolicies" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'cleanupPolicies');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getSearchOptionsNew">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::getSearchOptionsNew()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#getSearchOptionsNew" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'getSearchOptionsNew');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="rawSearchOptions">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::rawSearchOptions()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#rawSearchOptions" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'rawSearchOptions');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="displayTabContentForItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::displayTabContentForItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#displayTabContentForItem" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'displayTabContentForItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showForNotifiable">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::showForNotifiable()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#showForNotifiable" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'showForNotifiable');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="preprocessInput">
+                <div class="panel-heading">
+                    PluginFlyvemdmTask::preprocessInput()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmTask.html#preprocessInput" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmTask', 'preprocessInput');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+            </div>
+    </div>
+
+    <footer class="row">
+        <div class="col-lg-12">
+            <small class="pull-right">Powered by <a href="http://atoum.org"><img src="assets/logo.png" alt="atoum"/></a></small>
+        </div>
+    </footer>
+</div>
+
+<script>
+    $(function() {
+        $('table.sort').tablesorter();
+    })
+</script>
+
+</body>
+
+</html>
