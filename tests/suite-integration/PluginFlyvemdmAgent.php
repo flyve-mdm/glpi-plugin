@@ -450,9 +450,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
-      $this->deviceOnlineStatus($agent, 'true', 1);
+      $this->deviceOnlineStatus($agent, true, 1);
 
-      $this->deviceOnlineStatus($agent, 'false', 0);
+      $this->deviceOnlineStatus($agent, false, 0);
    }
 
    /**
