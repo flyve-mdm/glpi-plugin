@@ -218,13 +218,20 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    public static function findLogs(PluginFlyvemdmNotifiableInterface $item) {
       global $DB;
 
-      $condition = [
-         'FIELDS' => ['id', 'date', 'topic', 'message'],
-         'WHERE'           => ['itemtype' => $item::getType(), 'items_id' => $item->getID()],
-         'GROUPBY'         => 'topic',
-      ];
-
-      $result = $DB->request(static::getTable(), $condition);
+      if (version_compare(GLPI_VERSION, '9.3.1') >= 0) {
+         $condition = [
+            'FIELDS'    => ['id', 'MAX' => ['date as date'], 'topic', 'message'],
+            'WHERE'     => ['itemtype' => $item::getType(), 'items_id' => $item->getID()],
+            'GROUPBY'   => 'topic',
+         ];
+         $result = $DB->request(static::getTable(), $condition);
+      } else {
+         $result = $DB->query("SELECT id, MAX(date) as date, topic, message
+            FROM " . static::getTable() . "
+            WHERE itemtype='" . $item::getType() . "' AND items_id = '" . $item->getID() . "'
+            GROUP BY topic
+         ");
+      }
       return $result;
    }
 }
