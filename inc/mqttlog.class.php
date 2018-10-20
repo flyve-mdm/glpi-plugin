@@ -218,20 +218,23 @@ class PluginFlyvemdmMqttlog extends CommonDBTM {
    public static function findLogs(PluginFlyvemdmNotifiableInterface $item) {
       global $DB;
 
-      if (version_compare(GLPI_VERSION, '9.3.1') >= 0) {
-         $condition = [
-            'FIELDS'    => ['id', 'MAX' => ['date as date'], 'topic', 'message'],
-            'WHERE'     => ['itemtype' => $item::getType(), 'items_id' => $item->getID()],
-            'GROUPBY'   => 'topic',
-         ];
-         $result = $DB->request(static::getTable(), $condition);
-      } else {
-         $result = $DB->query("SELECT id, MAX(date) as date, topic, message
-            FROM " . static::getTable() . "
-            WHERE itemtype='" . $item::getType() . "' AND items_id = '" . $item->getID() . "'
-            GROUP BY topic
-         ");
-      }
+      // Need this PR to avoid raw SQL
+      // https://github.com/glpi-project/glpi/pull/4812
+
+      $table = self::getTable();
+      $itemtype = $item->getType();
+      $itemId = $item->getID();
+      $result = $DB->request("SELECT `l1`.*
+         FROM `$table`  AS `l1` INNER JOIN
+         (SELECT  MAX(`date`) AS `maxdate`, `topic`
+            FROM `$table`
+            WHERE `itemtype` = '$itemtype' AND `items_id` = '$itemId'
+            GROUP BY `topic`
+         ) AS `l2`
+         ON `l1`.`topic` = `l2`.`topic` AND `l1`.`date` = `l2`.`maxdate`
+         WHERE `itemtype`='$itemtype' AND `items_id` = '$itemId'
+         GROUP BY `topic`");
+
       return $result;
    }
 }
