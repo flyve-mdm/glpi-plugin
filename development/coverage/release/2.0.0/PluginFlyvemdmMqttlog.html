@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    55%
-                                            <small>of 88</small>
+                    52%
+                                            <small>of 92</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -121,7 +121,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#findLogs">PluginFlyvemdmMqttlog::findLogs()</a></td>
-                                        <td style="text-align: center">6</td>
+                                        <td style="text-align: center">10</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -1806,41 +1806,20 @@ layout: coverage
                     <th id="L221" class="number ">221</th>
 
                     <td class="" >
-                        <pre>      $condition = [
+                        <pre>      // Need this PR to avoid raw SQL
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L222" class="number uncovered">222</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;FIELDS&#039; =&gt; [&#039;id&#039;, &#039;date&#039;, &#039;topic&#039;, &#039;message&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L223" class="number uncovered">223</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;WHERE&#039;           =&gt; [&#039;itemtype&#039; =&gt; $item::getType(), &#039;items_id&#039; =&gt; $item-&gt;getID()],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L224" class="number uncovered">224</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;GROUPBY&#039;         =&gt; &#039;topic&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L225" class="number ">225</th>
+                    <th id="L222" class="number ">222</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>      // https://github.com/glpi-project/glpi/pull/4812
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L226" class="number ">226</th>
+                    <th id="L223" class="number ">223</th>
 
                     <td class="" >
                         <pre>
@@ -1848,28 +1827,125 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
+                    <th id="L224" class="number uncovered">224</th>
+
+                    <td class="uncovered" >
+                        <pre>      $table = self::getTable();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L225" class="number uncovered">225</th>
+
+                    <td class="uncovered" >
+                        <pre>      $itemtype = $item-&gt;getType();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L226" class="number uncovered">226</th>
+
+                    <td class="uncovered" >
+                        <pre>      $itemId = $item-&gt;getID();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
                     <th id="L227" class="number uncovered">227</th>
 
                     <td class="uncovered" >
-                        <pre>      $result = $DB-&gt;request(static::getTable(), $condition);</pre>
+                        <pre>      $result = $DB-&gt;request(&quot;SELECT `l1`.*</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L228" class="number uncovered">228</th>
 
                     <td class="uncovered" >
+                        <pre>         FROM `$table`  AS `l1` INNER JOIN</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L229" class="number ">229</th>
+
+                    <td class="" >
+                        <pre>         (SELECT  MAX(`date`) AS `maxdate`, `topic`
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L230" class="number uncovered">230</th>
+
+                    <td class="uncovered" >
+                        <pre>            FROM `$table`</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L231" class="number uncovered">231</th>
+
+                    <td class="uncovered" >
+                        <pre>            WHERE `itemtype` = &#039;$itemtype&#039; AND `items_id` = &#039;$itemId&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L232" class="number ">232</th>
+
+                    <td class="" >
+                        <pre>            GROUP BY `topic`
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L233" class="number ">233</th>
+
+                    <td class="" >
+                        <pre>         ) AS `l2`
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L234" class="number ">234</th>
+
+                    <td class="" >
+                        <pre>         ON `l1`.`topic` = `l2`.`topic` AND `l1`.`date` = `l2`.`maxdate`
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L235" class="number uncovered">235</th>
+
+                    <td class="uncovered" >
+                        <pre>         WHERE `itemtype`=&#039;$itemtype&#039; AND `items_id` = &#039;$itemId&#039;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L236" class="number ">236</th>
+
+                    <td class="" >
+                        <pre>         GROUP BY `topic`&quot;);
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L237" class="number ">237</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L238" class="number uncovered">238</th>
+
+                    <td class="uncovered" >
                         <pre>      return $result;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L229" class="number unreach">229</th>
+                    <th id="L239" class="number unreach">239</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L230" class="number ">230</th>
+                    <th id="L240" class="number ">240</th>
 
                     <td class="" >
                         <pre>}
