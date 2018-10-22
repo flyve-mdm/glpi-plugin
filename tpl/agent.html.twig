@@ -1,6 +1,6 @@
 <tr class='tab_bg_1'>
    <td>
-      {{ __('Name') }}{{ withTemplate }} 
+      {{ __('Name') }}{{ withTemplate }}
    </td>
    <td>
       {{ agent.name|raw }}
@@ -28,14 +28,16 @@
 </tr>
 <tr class='tab_bg_1'>
    <td>
+      {{ __('Is online', 'flyvemdm') }}
+   </td>
+   <td>
+      {{ agent.is_online|raw }}
+   </td>
+   <td>
       {{ __('Last contact', 'flyvemdm') }}
    </td>
    <td>
       {{ agent.last_contact }}
-   </td>
-   <td>
-   </td>
-   <td>
    </td>
 </tr>
 {% if canUpdate == true %}
