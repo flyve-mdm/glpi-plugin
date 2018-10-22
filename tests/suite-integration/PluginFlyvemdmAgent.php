@@ -396,19 +396,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
-      $logEntryFound = null;
-      foreach ($rows as $row) {
-         if ($row['topic'] == $agent->getTopic() . '/Command/Unenroll') {
-            $logEntryFound = $row['id'];
-            break;
-         }
-      }
-      $this->integer((int) $logEntryFound)->isGreaterThan(0, 'No MQTT message sent or logged');
-
-      // check the message
-      $mqttMessage = ['unenroll' => 'now'];
-      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
+      $topic = "Command/Unenroll";
+      $mqttMessage = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
+      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
+      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
    }
 
    /**
@@ -605,19 +596,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $logEntryFound = 0;
-      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
-      foreach ($rows as $row) {
-         if ($row['topic'] == $agent->getTopic() . '/Command/Ping') {
-            $logEntryFound = $row['id'];
-            break;
-         }
-      }
-      $this->integer((int) $logEntryFound)->isGreaterThan(0);
-
-      // check the message
-      $mqttMessage = ['query' => 'Ping'];
-      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
+      $topic = "Command/Ping";
+      $mqttMessage = json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES);
+      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
+      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
    }
 
    /**
@@ -647,20 +629,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $logEntryFound = 0;
-      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
-      foreach ($rows as $row) {
-         if ($row['topic'] == $agent->getTopic() . '/Command/Geolocate') {
-            $logEntryFound = $row['id'];
-            break;
-         }
-      }
-      $this->integer((int) $logEntryFound)->isGreaterThan(0);
-
-      // check the message
-      $mqttMessage = ['query' => 'Geolocate'];
-      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
-
+      $topic = "Command/Geolocate";
+      $mqttMessage = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
+      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
+      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
    }
 
    /**
@@ -693,20 +665,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $logEntryFound = 0;
-      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
-      foreach ($rows as $row) {
-         if ($row['topic'] == $agent->getTopic() . '/Command/Inventory') {
-            $logEntryFound = $row['id'];
-            break;
-         }
-      }
-      $this->integer((int) $logEntryFound)->isGreaterThan(0);
-
-      // check the message
-      $mqttMessage = ['query'  => 'Inventory'];
-      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
-
+      $topic = "Command/Inventory";
+      $mqttMessage = json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES);
+      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
+      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
    }
 
    /**
@@ -855,19 +817,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Get the latest MQTT message
       sleep(2);
 
-      $logEntryFound = 0;
-      $rows = $log->find("`direction` = 'O' AND `id` > '$lastLogId'");
-      foreach ($rows as $row) {
-         if ($row['topic'] == $agent->getTopic() . '/Command/Wipe') {
-            $logEntryFound = $row['id'];
-            break;
-         }
-      }
-      $this->integer((int) $logEntryFound)->isGreaterThan(0);
-
-      // check the message
-      $mqttMessage = ['wipe' => 'now'];
-      $this->string($row['message'])->isEqualTo(json_encode($mqttMessage, JSON_UNESCAPED_SLASHES));
+      $topic = "Command/Wipe";
+      $mqttMessage = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
+      $mqttlogId = $this->asserLastMqttlog($agent, $log, $topic, $mqttMessage);
+      $this->integer($mqttlogId)->isGreaterThan($lastLogId);
    }
 
    /**

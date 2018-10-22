@@ -35,9 +35,11 @@ use Flyvemdm\Tests\CommonTestCase;
 
 class PluginFlyvemdmProfile extends CommonTestCase {
    public function testChangeProfile() {
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $this->array($_SESSION)->notHasKey('plugin_flyvemdm_guest_profiles_id');
       \PluginFlyvemdmProfile::changeProfile();
       $this->array($_SESSION)->hasKey('plugin_flyvemdm_guest_profiles_id');
-      $this->string($_SESSION['plugin_flyvemdm_guest_profiles_id'])->isEqualTo('');
+      $this->string($_SESSION['plugin_flyvemdm_guest_profiles_id'])
+         ->isEqualTo($config['guest_profiles_id']);
    }
 }

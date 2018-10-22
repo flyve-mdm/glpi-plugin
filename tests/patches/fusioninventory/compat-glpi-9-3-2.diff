@@ -1,0 +1,142 @@
+diff --git a/inc/collectrule.class.php b/inc/collectrule.class.php
+index 55e700c0f..9df0c229b 100644
+--- a/inc/collectrule.class.php
++++ b/inc/collectrule.class.php
+@@ -115,7 +115,7 @@ class PluginFusioninventoryCollectRule extends Rule {
+     * @param array $params
+     * @return array
+     */
+-   function executeActions($output, $params) {
++   function executeActions($output, $params, array $input = []) {
+ 
+       PluginFusioninventoryToolbox::logIfExtradebug(
+          "pluginFusioninventory-rules-collect",
+@@ -181,7 +181,7 @@ class PluginFusioninventoryCollectRule extends Rule {
+                default:
+                   //plugins actions
+                   $executeaction = clone $this;
+-                  $output = $executeaction->executePluginsActions($action, $output, $params);
++                  $output = $executeaction->executePluginsActions($action, $output, $params, $input);
+                   break;
+ 
+             }
+diff --git a/inc/formatconvert.class.php b/inc/formatconvert.class.php
+index 506cb2aec..59ad31d96 100644
+--- a/inc/formatconvert.class.php
++++ b/inc/formatconvert.class.php
+@@ -1598,7 +1598,8 @@ class PluginFusioninventoryFormatconvert {
+                                            'VERSION'     => 'version',
+                                         'COMMENTS'        => 'comment',
+                                            'INSTALLDATE' => 'date_install',
+-                                           'SYSTEM_CATEGORY' => '_system_category']);
++                                           'SYSTEM_CATEGORY' => '_system_category',
++                                           'OPERATIONG_SYSTEM' => 'operatingsystems_id']);
+          if (!isset($array_tmp['name'])
+                  || $array_tmp['name'] == '') {
+             if (isset($a_softwares['GUID'])
+@@ -1632,11 +1633,13 @@ class PluginFusioninventoryFormatconvert {
+                //for software dictionnary
+                if ($nb_RuleDictionnarySoftware > 0) {
+                   $rule_input = [
+-                   "name"             => $array_tmp['name'],
+-                   "manufacturer"     => $array_tmp['manufacturers_id'],
+-                   "old_version"      => $array_tmp['version'],
+-                   "entities_id"      => $entities_id_software,
+-                   "_system_category" => $array_tmp['_system_category']
++                   "name"                 => $array_tmp['name'],
++                   "manufacturer"         => $array_tmp['manufacturers_id'],
++                   "old_version"          => $array_tmp['version'],
++                   "entities_id"          => $entities_id_software,
++                   "operatingsystems_id"  => $array_tmp['operatingsystems_id'],
++                   "_system_category"     => $array_tmp['_system_category'],
++                   "device_id"            => isset($a_inventory['Computer']['device_id']) ? $a_inventory['Computer']['device_id'] : 0,
+                   ];
+                   $res_rule = $rulecollection->processAllRules($rule_input);
+                }
+diff --git a/inc/inventorycomputerinventory.class.php b/inc/inventorycomputerinventory.class.php
+index 8b0a1186c..aae4783a3 100644
+--- a/inc/inventorycomputerinventory.class.php
++++ b/inc/inventorycomputerinventory.class.php
+@@ -474,6 +474,7 @@ class PluginFusioninventoryInventoryComputerInventory {
+                                                    $a_computerinventory,
+                                                    $items_id);
+          }
++         $a_computerinventory['Computer']['device_id'] = $this->device_id;
+          $a_computerinventory = $pfFormatconvert->computerSoftwareTransformation(
+                                                 $a_computerinventory,
+                                                 $entities_id);
+@@ -581,7 +582,7 @@ class PluginFusioninventoryInventoryComputerInventory {
+                     'computer');
+          }
+       } else if ($itemtype == 'PluginFusioninventoryUnmanaged') {
+-
++         $a_computerinventory['Computer']['device_id'] = $this->device_id;
+          $a_computerinventory = $pfFormatconvert->computerSoftwareTransformation(
+                                                 $a_computerinventory,
+                                                 $entities_id);
+diff --git a/inc/inventoryruleentity.class.php b/inc/inventoryruleentity.class.php
+index c4e57a977..a13e1ad7f 100644
+--- a/inc/inventoryruleentity.class.php
++++ b/inc/inventoryruleentity.class.php
+@@ -117,7 +117,7 @@ class PluginFusioninventoryInventoryRuleEntity extends Rule {
+     * @param array $params
+     * @return array
+     */
+-   function executeActions($output, $params) {
++   function executeActions($output, $params, array $input = []) {
+ 
+       PluginFusioninventoryToolbox::logIfExtradebug(
+          "pluginFusioninventory-rules-entity",
+@@ -395,7 +395,7 @@ class PluginFusioninventoryInventoryRuleEntity extends Rule {
+          if ($this->checkCriterias($input)) {
+             unset($output["_no_rule_matches"]);
+             $refoutput = $output;
+-            $output = $this->executeActions($output, $params);
++            $output = $this->executeActions($output, $params, $input);
+             if (!isset($output['pass_rule'])) {
+                $this->updateOnlyCriteria($options, $refoutput, $output);
+                //Hook
+diff --git a/inc/inventoryruleimport.class.php b/inc/inventoryruleimport.class.php
+index a9454f521..f60115f41 100644
+--- a/inc/inventoryruleimport.class.php
++++ b/inc/inventoryruleimport.class.php
+@@ -716,7 +716,7 @@ class PluginFusioninventoryInventoryRuleImport extends Rule {
+     * @param array $params
+     * @return array
+     */
+-   function executeActions($output, $params) {
++   function executeActions($output, $params, array $input = []) {
+       if (isset($params['class'])) {
+          $class = $params['class'];
+       } else if (isset($_SESSION['plugin_fusioninventory_classrulepassed'])) {
+diff --git a/inc/inventoryrulelocation.class.php b/inc/inventoryrulelocation.class.php
+index f0e8edeab..05ddf6199 100644
+--- a/inc/inventoryrulelocation.class.php
++++ b/inc/inventoryrulelocation.class.php
+@@ -117,7 +117,7 @@ class PluginFusioninventoryInventoryRuleLocation extends Rule {
+     * @param array $params
+     * @return array
+     */
+-   function executeActions($output, $params) {
++   function executeActions($output, $params, array $input = []) {
+ 
+       PluginFusioninventoryToolbox::logIfExtradebug(
+          "pluginFusioninventory-rules-location",
+diff --git a/phpunit/1_Unit/SoftwareUpdateTest.php b/phpunit/1_Unit/SoftwareUpdateTest.php
+index d5203f33a..f30f94428 100644
+--- a/phpunit/1_Unit/SoftwareUpdateTest.php
++++ b/phpunit/1_Unit/SoftwareUpdateTest.php
+@@ -162,9 +162,12 @@ class SoftwareUpdateTest extends RestoreDatabase_TestCase {
+                 'PUBLISHER' => 'fusioninventory team',
+                 'NAME'      => 'fusioninventory',
+                 'VERSION'   => '0.85+1.0',
+-                'SYSTEM_CATEGORY' => 'devel'
++                'SYSTEM_CATEGORY' => 'devel',
++                'OPERATIONG_SYSTEM' => 0
+             ];
+ 
++      $a_software['Computer']['device_id'] = 0;
++
+       $pfFormatconvert = new PluginFusioninventoryFormatconvert();
+       $a_return        = $pfFormatconvert->computerSoftwareTransformation($a_software, 0);
+ 

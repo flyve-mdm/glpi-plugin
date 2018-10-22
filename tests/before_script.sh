@@ -33,16 +33,21 @@ composer install --no-dev --no-interaction
 mkdir plugins/fusioninventory && git clone --depth=35 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
 IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
 mv ../${repo[1]} plugins/flyvemdm
+
+# patch settings
+PATCH_ARGS="-p1 -N --batch"
+
+# patch Fusion Inventory when needed
 cd plugins/fusioninventory
-if [[ $FI_BRANCH == "glpi9.2+1.0" ]] ; then patch -p1 --batch < ../flyvemdm/tests/patches/fi-fix-obsolete-query.patch; fi
-if [[ $FI_BRANCH == "master" ]] ; then patch -p1 --batch < ../flyvemdm/tests/patches/fi-raise-max-version.patch; fi
+if [[ $FI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/fi-raise-max-version.patch; fi
+if [[ $FI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/compat-glpi-9-3-2.diff; fi
+if [[ $FI_BRANCH == "glpi9.3" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/compat-glpi-9-3-2.diff; fi
 cd ../..
 
 # patch GLPI when needed
-if [[ $GLPI_BRANCH == "9.2.1" ]] ; then patch -p1 --batch < plugins/flyvemdm/tests/patches/10f8dabfc5e20bb5a4e7d4ba4b93706871156a8a.diff; fi
 
 # prepare plugin to test
 cd plugins/flyvemdm
-if [[ $GLPI_BRANCH == "master" ]] ; then patch -p1 --batch < tests/patches/glpi-allow-test-on-master-branch.patch; fi
+if [[ $GLPI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < tests/patches/allow-test-on-master-branch.patch; fi
 composer install --no-interaction
 

@@ -186,7 +186,7 @@ class PluginFlyvemdmInstall {
       global $DB;
 
       // Check tables of the plugin between 1.1 and 2.0 releases
-      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm_%'");
+      $result = $DB->query("SHOW TABLES LIKE 'glpi_plugin_flyvemdm\\_%'");
       if ($result) {
          if ($DB->numrows($result) > 0) {
             return true;
@@ -440,7 +440,7 @@ Regards,
                'language'                 => '',
                'subject'                  => addcslashes($data['subject'], "'\""),
                'content_text'             => addcslashes($data['content_text'], "'\""),
-               'content_html'             => addcslashes(htmlentities($contentHtml), "'\""),
+               'content_html'             => addcslashes(htmlentities($contentHtml, ENT_NOQUOTES | ENT_HTML401), "'\""),
             ]);
 
             // Create the notification

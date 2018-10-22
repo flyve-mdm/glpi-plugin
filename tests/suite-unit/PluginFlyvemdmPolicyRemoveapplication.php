@@ -137,9 +137,9 @@ class PluginFlyvemdmPolicyRemoveapplication extends CommonTestCase {
     */
    public function testGetMqttMessage() {
       list($policy) = $this->createNewPolicyInstance();
-      $this->boolean($policy->getMqttMessage(null, null, null))->isFalse();
+      $this->boolean($policy->getBrokerMessage(null, null, null))->isFalse();
 
-      $result = $policy->getMqttMessage($packageName = 'fake.lorem.ipsum.package', '', 0);
+      $result = $policy->getBrokerMessage($packageName = 'fake.lorem.ipsum.package', '', 0);
       $this->array($result)->hasKeys([$this->dataField['symbol']])
          ->string($result[$this->dataField['symbol']])->isEqualTo($packageName);
    }

@@ -55,7 +55,7 @@ class PluginFlyvemdmPolicyString extends PluginFlyvemdmPolicyBase implements Plu
     * @param integer $itemId
     * @return array|bool
     */
-   public function getMqttMessage($value, $itemtype, $itemId) {
+   public function getBrokerMessage($value, $itemtype, $itemId) {
       if (!$this->integrityCheck($value, $itemtype, $itemId)) {
          return false;
       }

@@ -8,768 +8,444 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-03 22:12+0100\n"
+"POT-Creation-Date: 2018-10-03 08:43-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Alexander Salas Bastidas <a.salas@ieee.org>, 2017\n"
+"Last-Translator: Halexsandro de Freitas Sales <halexsandro.sales@verdanatech.com>, 2018\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/flyve-mdm/teams/69665/pt_BR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: setup.php:169
-msgid "Flyve Mobile Device Management"
-msgstr "Flyve - Gerenciamento de Dispositivos Móveis"
-
-#: hook.php:75
+#: hook.php:81
 msgid "Invite to enroll a device"
-msgstr ""
+msgstr "Convite para registrar um dispositivo"
 
-#: hook.php:106
+#: hook.php:112
 msgid "Well known Android's FS paths"
 msgstr "Caminhos conhecidos do  sistema de arquivos do Android"
 
-#: hook.php:107
+#: hook.php:113
 msgid "Policy Categories"
 msgstr "Categorias de políticas"
 
-#: ajax/mqtt_test.php:77
-msgid "Test message sent"
-msgstr "Mensagem de texto enviada"
+#: setup.php:211
+msgid "Flyve Mobile Device Management"
+msgstr "Flyve - Gerenciamento de Dispositivos Móveis"
 
-#: ajax/mqtt_test.php:79
-msgid "Test message not sent"
-msgstr "Mensagem de texto não enviada"
-
-#: install/installer.class.php:256 inc/fleet.class.php:443
-msgid "not managed fleet"
-msgstr "Frota não gerenciada"
-
-#: install/installer.class.php:267
-msgid "Flyve MDM guest users"
-msgstr "Usuários visitantes do Flyve MDM"
-
-#: install/installer.class.php:268
-msgid ""
-"guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
-msgstr ""
-"usuários visitantes do Flyve MDM. Criado por Flive MDM - NÃO modifique este "
-"comentário."
-
-#: install/installer.class.php:316
-msgid "User invitation"
-msgstr "Convite Usuário"
-
-#: install/installer.class.php:317
-msgid "You have been invited to join Flyve MDM"
-msgstr "Você foi convidado a utilizar o Flyve MDM"
-
-#: install/installer.class.php:435
-msgid "Update retained MQTT topics for fleet policies"
-msgstr "Atualizar tópicos MQTT retidos para políticas de frota"
-
-#: install/installer.class.php:605
-msgid "Security"
-msgstr "Segurança"
-
-#: install/installer.class.php:608
-msgid "Authentication"
-msgstr "Autenticação"
-
-#: install/installer.class.php:611 install/installer.class.php:647
-msgid "Password"
-msgstr "Senha"
-
-#: install/installer.class.php:614
-msgid "Encryption"
-msgstr "Criptografia"
-
-#: install/installer.class.php:617
-msgid "Peripherals"
-msgstr "Periféricos"
-
-#: install/installer.class.php:620
-msgid "Deployment"
-msgstr "Implantação"
-
-#: install/installer.class.php:640
-msgid "Password enabled"
-msgstr "Uso de senha habilitado"
-
-#: install/installer.class.php:645
-msgid "No"
-msgstr "Não"
-
-#: install/installer.class.php:646
-msgid "Pin"
-msgstr "PIN"
-
-#: install/installer.class.php:651
-msgid "Enable the password"
-msgstr "Habilitar uso de senha"
-
-#: install/installer.class.php:657
-msgid "Minimum password length"
-msgstr "Tamanho mínimo de senha"
-
-#: install/installer.class.php:666
-msgid ""
-"Set the required number of characters for the password. For example, you can"
-" require PIN or passwords to have at least six characters"
-msgstr ""
-"Selecione o número de caracteres requerido para senha. Por exemplo, você "
-"pode solicitar que senhas ou PINs tenha pelo menos 6 caracteres"
-
-#: install/installer.class.php:672
-msgid "Password quality"
-msgstr "Qualidade de senha"
-
-#: install/installer.class.php:677
-msgid "Unspecified"
-msgstr "Não especificado"
-
-#: install/installer.class.php:678
-msgid "Something"
-msgstr "Algo"
-
-#: install/installer.class.php:679
-msgid "Numeric"
-msgstr "Numérico"
-
-#: install/installer.class.php:680
-msgid "Alphabetic"
-msgstr "Alfabético"
-
-#: install/installer.class.php:681
-msgid "Alphanumeric"
-msgstr "Alfanumérico"
-
-#: install/installer.class.php:682
-msgid "Complex"
-msgstr "Complexidade"
-
-#: install/installer.class.php:686
-msgid "Complexity of allowed password"
-msgstr "Complexidade de senha permitida"
-
-#: install/installer.class.php:692
-msgid "Minimum letters required in password"
-msgstr "Mínimo de letras necessárias na senha"
-
-#: install/installer.class.php:701
-msgid ""
-"The minimum number of letters required in the password for all admins or a "
-"particular one"
-msgstr ""
-"O número mínimo de letras necessárias na senha para todos administradores ou"
-" um em particular"
-
-#: install/installer.class.php:707
-msgid "Minimum lowercase letters required in password"
-msgstr "Mínimo de letras minúsculas necessárias na senha"
-
-#: install/installer.class.php:716
-msgid ""
-"The minimum number of lowercase letters required in the password for all "
-"admins or a particular one"
-msgstr ""
-"O número mínimo de letras minúsculas necessárias na senha para todos "
-"administradores ou um em particular"
-
-#: install/installer.class.php:722
-msgid "Minimum non-letter characters required in password"
-msgstr "Mínimo de caracteres que não sejam letras necessários na senha"
-
-#: install/installer.class.php:731
-msgid ""
-"The minimum number of non-letter characters required in the password for all"
-" admins or a particular one"
-msgstr ""
-"O número mínimo de caracteres que não sejam letras necessários na senha para"
-" todos administradores ou um em particular"
-
-#: install/installer.class.php:737
-msgid "Minimum numerical digits required in password"
-msgstr "Mínimo de dígitos numéricos necessários na senha"
-
-#: install/installer.class.php:746
-msgid ""
-"The minimum number of numerical digits required in the password for all "
-"admins or a particular one"
-msgstr ""
-"O número mínimo de caracteres numéricos necessários na senha para todos "
-"administradores ou um em particular"
-
-#: install/installer.class.php:752
-msgid "Minimum symbols required in password"
-msgstr "Mínimo de símbolos necessários na senha"
-
-#: install/installer.class.php:761
-msgid ""
-"The minimum number of symbols required in the password for all admins or a "
-"particular one"
-msgstr ""
-"O número mínimo de símbolos necessários na senha para todos administradores "
-"ou um em particular"
-
-#: install/installer.class.php:767
-msgid "Minimum uppercase letters required in password"
-msgstr "Mínimo de letras maiúsculas necessárias na senha"
-
-#: install/installer.class.php:776
-msgid ""
-"The minimum number of uppercase letters required in the password for all "
-"admins or a particular one"
-msgstr ""
-"O número mínimo de letras maiúsculas necessárias na senha para todos "
-"administradores ou um em particular"
-
-#: install/installer.class.php:782
-msgid "Maximum failed password attempts for wipe"
-msgstr "Máximo de tentativas erradas de senha antes de apagar o dispositivo"
-
-#: install/installer.class.php:791
-msgid "Number of consecutive failed attempts of unlock the device to wipe"
-msgstr ""
-"Número de tentativas erradas consecutivas de desbloqueio para apagar "
-"dispositivo"
-
-#: install/installer.class.php:797
-msgid "Maximum time to lock (milliseconds)"
-msgstr "Tempo de espera para bloqueio (milissegundos)"
-
-#: install/installer.class.php:806
-msgid "Maximum time to lock the device in milliseconds"
-msgstr "Tempo de espera máximo para bloqueio de dispositivo em milissegundos"
-
-#: install/installer.class.php:812
-msgid "Internal Storage encryption"
-msgstr "Criptografia de armazenamento interno"
-
-#: install/installer.class.php:819
-msgid "Force internal storage encryption"
-msgstr "Forçar criptografia de armazenamento interno"
-
-#: install/installer.class.php:825
-msgid "Disable Camera"
-msgstr "Desabilitar Câmera"
-
-#: install/installer.class.php:832
-msgid "Prevent usage of the Camera"
-msgstr "Impedir uso da Câmera"
-
-#: install/installer.class.php:838
-msgid "Deploy application"
-msgstr "Implantar aplicação"
-
-#: install/installer.class.php:845
-msgid "Deploy an application on the device"
-msgstr "Implantar uma aplicação no dispositivo"
-
-#: install/installer.class.php:851
-msgid "Remove application"
-msgstr "Remover aplicação"
-
-#: install/installer.class.php:858
-msgid "Uninstall an application on the device"
-msgstr "Desinstalar uma aplicação no dispositivo"
-
-#: install/installer.class.php:864
-msgid "Deploy file"
-msgstr "Implantar arquivo"
-
-#: install/installer.class.php:871
-msgid "Deploy a file on the device"
-msgstr "Implantar arquivo no dispositivo"
-
-#: install/installer.class.php:877
-msgid "Remove file"
-msgstr "Remover arquivo"
-
-#: install/installer.class.php:884
-msgid "Uninstall a file on the device"
-msgstr "Desinstalar arquivo no dispositivo"
-
-#: install/installer.class.php:890
-msgid "Disable Wifi"
-msgstr "Desabilitar Wifi"
-
-#: install/installer.class.php:897
-msgid "Disable wifi connectivity"
-msgstr "Desabilitar conexão wifi"
-
-#: install/installer.class.php:903
-msgid "Disable Bluetooth"
-msgstr "Desabilitar Bluetooth"
-
-#: install/installer.class.php:910
-msgid "Disable Bluetooth connectivity"
-msgstr "Desabilitar conexão Bluetooth"
-
-#: install/installer.class.php:916 install/installer.class.php:923
-msgid "Disable GPS"
-msgstr "Desabilitar GPS"
-
-#: inc/menu.class.php:87
-msgid "General"
+#: inc/agent.class.php:99
+msgid "Android"
 msgstr ""
 
-#: inc/menu.class.php:104
-msgid "Board"
+#: inc/agent.class.php:100
+msgid "Apple"
 msgstr ""
 
-#: inc/profile.class.php:97
-msgid "Flyve MDM"
-msgstr "Flyve MDM"
-
-#: inc/policycategory.class.php:60 inc/policy.class.php:106
-msgid "Policy category"
-msgid_plural "Policy categories"
-msgstr[0] "Categoria da política"
-msgstr[1] "Categoria da políticas"
-
-#: inc/policycategory.class.php:76 inc/wellknownpath.class.php:98
-msgid "comment"
-msgstr "Comentário"
-
-#: inc/policydeployapplication.class.php:57
-msgid "The remove on delete flag is mandatory"
-msgstr "A Flag de remoção para exclusão é obrigatório"
-
-#: inc/policydeployapplication.class.php:63 inc/policydeployfile.class.php:63
-msgid "The remove on delete flag must be 0 or 1"
-msgstr "A Flag de remoção deve ser 0 ou 1"
-
-#: inc/policydeployapplication.class.php:69
-msgid "You must choose an application to apply this policy"
-msgstr "Você deve escolher um aplicativo para aplicar esta política"
-
-#: inc/policydeployapplication.class.php:76
-#: inc/policydeployapplication.class.php:126
-msgid "The application does not exists"
-msgstr "A aplicação não existe"
-
-#: inc/policydeployapplication.class.php:141
-msgid ""
-"A removal policy for this application is applied. Please, remove it first."
-msgstr ""
-"Uma política para remoção deste aplicativo foi adicionada. Por favor, "
-"remova-a primeiro."
-
-#: inc/policy.class.php:80 inc/policy.class.php:90
-msgid "Policy"
-msgid_plural "Policies"
-msgstr[0] "Política"
-msgstr[1] "Políticas"
-
-#: inc/policy.class.php:112
-msgid "Type"
-msgstr "Tipo"
-
-#: inc/policy.class.php:117
-msgid "Enumeration data"
-msgstr "Dados de enumeração"
-
-#: inc/policy.class.php:123
-msgid "Group"
-msgstr "Grupo"
-
-#: inc/policy.class.php:129
-msgid "Default value"
-msgstr "Valor padrão"
-
-#: inc/policy.class.php:135
-msgid "Recommended value"
-msgstr "Valor recomendado"
-
-#: inc/policyremoveapplication.class.php:55
-msgid "An application ID is required"
-msgstr "Uma ID de aplicação é necessária"
-
-#: inc/wellknownpath.class.php:49 inc/wellknownpath.class.php:79
-msgid "Well known path"
-msgstr "Caminho bem conhecido"
-
-#: inc/wellknownpath.class.php:105
-msgid "default"
-msgstr "padrão"
-
-#: inc/mqttlog.class.php:67
-msgid "MQTT subscriber"
-msgid_plural "MQTT subscribers"
-msgstr[0] "MQTT assinante"
-msgstr[1] "MQTT assinantes"
-
-#: inc/agent.class.php:75 inc/agent.class.php:626
+#: inc/agent.class.php:110
 msgid "Agent"
 msgid_plural "Agents"
-msgstr[0] "Agente"
-msgstr[1] "Agentes"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/agent.class.php:116
+#: inc/agent.class.php:167
 msgid "Danger zone !"
+msgstr "Zona de perigo!"
+
+#: inc/agent.class.php:185
+msgid "Flyve MDM Agent"
 msgstr ""
 
-#: inc/agent.class.php:220
+#: inc/agent.class.php:243 inc/agent.class.php:358
+msgid "Never seen online"
+msgstr "Nunca visto on-line"
+
+#: inc/agent.class.php:277
 msgid "Lock the device as soon as possible"
-msgstr ""
+msgstr "Bloquear o dispositivo mais rápido possível"
 
-#: inc/agent.class.php:227
+#: inc/agent.class.php:284
 msgid "Wipe the device as soon as possible"
-msgstr ""
+msgstr "Limpe o aparelho logo que possível"
 
-#: inc/agent.class.php:349
+#: inc/agent.class.php:437
 msgid "Failed to read configuration of the entity"
 msgstr "Falha ao carregar configurações da entidade"
 
-#: inc/agent.class.php:358
+#: inc/agent.class.php:443
 msgid "Too many devices"
 msgstr "Muitos dispositivos"
 
-#: inc/agent.class.php:366
+#: inc/agent.class.php:452
 msgid "Unable to find a enrollment method"
 msgstr "Impossível encontrar um método de inscrição"
 
-#: inc/agent.class.php:392
+#: inc/agent.class.php:477
 msgid "The fleet of the device does not longer exists"
 msgstr "A frota do dispositivo não existe mais"
 
-#: inc/agent.class.php:399
+#: inc/agent.class.php:484
 msgid "The target fleet does not exists"
 msgstr "A frota alvo não existe"
 
-#: inc/agent.class.php:424 inc/agent.class.php:436 inc/agent.class.php:449
+#: inc/agent.class.php:515
 msgid "The device is not enrolled yet"
 msgstr "O dispositivo ainda não está inscrito"
 
-#: inc/agent.class.php:429
-msgid "Timeout querying the device"
-msgstr "Esgotado tempo limite para pesquisar o dispositivo"
-
-#: inc/agent.class.php:454
-msgid "Timeout querying the device inventory"
-msgstr "Esgotado tempo limite para pesquisar inventário no dispositivo"
-
-#: inc/agent.class.php:500
+#: inc/agent.class.php:581
 msgid "Failed to find the guest user profile"
 msgstr "Falha ao buscar o perfil de usuário visitante"
 
-#: inc/agent.class.php:522
+#: inc/agent.class.php:603
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr "Falha ao remover convidado habilitado para o usuário do dispositivo"
 
-#: inc/agent.class.php:540
+#: inc/agent.class.php:624
 msgid "Failed to delete MQTT user for the device"
 msgstr "Falha ao deletar usuário MQTT para o dispositivo"
 
-#: inc/agent.class.php:548
-msgid "Failed to delete the device"
-msgstr "Falha ao deletar dispositivo"
-
-#: inc/agent.class.php:559
+#: inc/agent.class.php:637
 msgid "Failed to delete documents attached to the device"
 msgstr "Falha ao deletar os documentos anexados ao dispositivo"
 
-#: inc/agent.class.php:645 inc/agent.class.php:677 inc/fleet.class.php:73
-#: inc/fleet.class.php:226
+#: inc/agent.class.php:786 inc/fleet.class.php:76
 msgid "Fleet"
 msgid_plural "Fleets"
-msgstr[0] "Frota"
-msgstr[1] "Frota"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/agent.class.php:684
-msgid "last contact"
-msgstr "Último Contato"
+#: inc/agent.class.php:812
+msgid "Last contact"
+msgstr "Último contato"
 
-#: inc/agent.class.php:703 inc/package.class.php:434
-msgid "version"
-msgstr "Versão"
+#: inc/agent.class.php:830
+msgid "Is online"
+msgstr ""
 
-#: inc/agent.class.php:891
+#: inc/agent.class.php:839
+msgid "MDM type"
+msgstr ""
+
+#: inc/agent.class.php:848
+msgid "Has system permission"
+msgstr ""
+
+#: inc/agent.class.php:857
+msgid "Enroll status"
+msgstr ""
+
+#: inc/agent.class.php:866
+msgid "Wipe requested"
+msgstr ""
+
+#: inc/agent.class.php:875
+msgid "Lock requested"
+msgstr ""
+
+#: inc/agent.class.php:892 inc/fleet.class.php:261
+msgid "Applied policy"
+msgstr ""
+
+#: inc/agent.class.php:1121
 msgid "Invitation token invalid"
 msgstr "Token de Convite inválido"
 
-#: inc/agent.class.php:896
-msgid "Serial missing"
-msgstr "Número de Série faltando"
+#: inc/agent.class.php:1126
+msgid "One of serial and uuid is mandatory"
+msgstr ""
 
-#: inc/agent.class.php:903
+#: inc/agent.class.php:1133
+msgid "Device inventory XML is mandatory"
+msgstr ""
+
+#: inc/agent.class.php:1144
+msgid "Inventory XML is not well formed"
+msgstr ""
+
+#: inc/agent.class.php:1151
 msgid "Agent version missing"
 msgstr "Versão do Agente faltando"
 
-#: inc/agent.class.php:910
+#: inc/agent.class.php:1158
+msgid "MDM type missing"
+msgstr ""
+
+#: inc/agent.class.php:1165
+msgid "unknown MDM type"
+msgstr ""
+
+#: inc/agent.class.php:1172
 msgid "Bad agent version"
 msgstr "Versão do agente errada"
 
-#: inc/agent.class.php:918
+#: inc/agent.class.php:1181
+msgid "The agent version is too low"
+msgstr ""
+
+#: inc/agent.class.php:1191
+msgid "The agent does not advertise its system permissions"
+msgstr ""
+
+#: inc/agent.class.php:1200
 msgid "Invitation is not pending"
 msgstr "Convite não está pendente"
 
-#: inc/agent.class.php:926
+#: inc/agent.class.php:1208
 msgid "Expiration date of the invitation is not set"
 msgstr "Data de expiração do convite não informada"
 
-#: inc/agent.class.php:934
+#: inc/agent.class.php:1216
 msgid "Invitation token expired"
 msgstr "Token de convite expirou"
 
-#: inc/agent.class.php:944
-msgid "wrong email address"
-msgstr "Endereço de e-mail inválido"
+#: inc/agent.class.php:1230
+msgid "Wrong email address"
+msgstr ""
 
-#: inc/agent.class.php:956
-msgid "The serial already exists"
-msgstr "O número de série já existe"
-
-#: inc/agent.class.php:967
+#: inc/agent.class.php:1245
 msgid "Failed to sign the certificate"
 msgstr "Falha ao assinar o certificado"
 
-#: inc/agent.class.php:990
+#: inc/agent.class.php:1266
 msgid "Failed to update the invitation"
 msgstr "Falha ao atualizar o convite"
 
-#: inc/agent.class.php:1015
+#: inc/agent.class.php:1294
+msgid "Cannot get the FusionInventory agent"
+msgstr ""
+
+#: inc/agent.class.php:1302
+msgid "FusionInventory agent not created"
+msgstr ""
+
+#: inc/agent.class.php:1310
 msgid "Cannot create the device"
 msgstr "Não foi possível criar o dispositivo"
 
-#: inc/agent.class.php:1029
+#: inc/agent.class.php:1353
+msgid "Cannot create a user account for the agent"
+msgstr ""
+
+#: inc/agent.class.php:1361
+msgid "Cannot create the API token for the agent"
+msgstr ""
+
+#: inc/agent.class.php:1370
 msgid "No default fleet available for the device"
 msgstr "Não existe frota padrão para o dispositivo"
 
-#: inc/agent.class.php:1200
-msgid "Timeout requesting position"
-msgstr "Tempo esgotado ao solicitar a localização"
-
-#: inc/agent.class.php:1227
+#: inc/agent.class.php:1554
 msgid "GPS is turned off or is not ready"
 msgstr "O GPS está desligado ou não está pronto"
 
-#: inc/agent.class.php:1502
+#: inc/agent.class.php:1556
+msgid "The device sent its position"
+msgstr ""
+
+#: inc/agent.class.php:1560
+msgid "Timeout requesting position"
+msgstr "Tempo esgotado ao solicitar a localização"
+
+#: inc/agent.class.php:1587
+msgid "Inventory received"
+msgstr ""
+
+#: inc/agent.class.php:1591
+msgid "Timeout querying the device inventory"
+msgstr "Esgotado tempo limite para pesquisar inventário no dispositivo"
+
+#: inc/agent.class.php:1611
+msgid "The device answered"
+msgstr ""
+
+#: inc/agent.class.php:1615
+msgid "Timeout querying the device"
+msgstr "Esgotado tempo limite para pesquisar o dispositivo"
+
+#: inc/agent.class.php:1839
 msgid "Enrollment failed"
 msgstr "Falha ao cadastrar"
 
-#: inc/invitationlog.class.php:48 inc/invitationlog.class.php:70
-msgid "Invitation log"
-msgid_plural "Invitation logs"
-msgstr[0] "Log de Convite"
-msgstr[1] "Logs de Convites"
+#: inc/config.class.php:140
+msgid "Installation wizard"
+msgstr ""
 
-#: inc/invitationlog.class.php:96
-msgid "event"
-msgstr "Evento"
+#: inc/config.class.php:142
+msgid "General configuration"
+msgstr ""
 
-#: inc/notificationtargetinvitation.class.php:49
-#: inc/notificationtargetinvitation.class.php:58
-#: inc/entityconfig.class.php:212 inc/invitation.class.php:62
-#: inc/invitation.class.php:343
-msgid "Invitation"
-msgid_plural "Invitations"
-msgstr[0] "Convite"
-msgstr[1] "Convites"
+#: inc/config.class.php:143 inc/menu.class.php:119
+msgid "Message queue"
+msgstr ""
 
-#: inc/notificationtargetinvitation.class.php:66
-msgid "Link to download the FlyveMDM Android application"
-msgstr "Link para download do FlyveMDM para Android"
+#: inc/config.class.php:144 inc/menu.class.php:122
+msgid "Debug"
+msgstr ""
 
-#: inc/notificationtargetinvitation.class.php:67 inc/invitation.class.php:312
-msgid "Enrollment QR code"
-msgstr "\"QR code\" de inscrição"
+#: inc/config.class.php:217
+msgid "Bugcollector password"
+msgstr ""
 
-#: inc/notificationtargetinvitation.class.php:112
-msgid "Guest user"
-msgstr "Usuário convidado"
+#: inc/config.class.php:363
+msgid "Finish"
+msgstr ""
 
-#: inc/fleet_policy.class.php:130
-msgid "Fleet and policy must be specified"
-msgstr "Frota e política devem ser especificadas"
+#: inc/config.class.php:363
+msgid "Next"
+msgstr ""
 
-#: inc/fleet_policy.class.php:138 inc/fleet_policy.class.php:215
-#: inc/fleet_policy.class.php:299
-msgid "Policy not found"
-msgstr "Política não encontrada"
+#: inc/deployable.class.php:154
+msgid "Deploy notification failed"
+msgstr ""
 
-#: inc/fleet_policy.class.php:146 inc/fleet_policy.class.php:251
-msgid "Incorrect value for this policy"
-msgstr "Valor incorreto para essa política"
+#: inc/entityconfig.class.php:134
+msgid "You are not allowed to change the device limit"
+msgstr ""
 
-#: inc/fleet_policy.class.php:155 inc/fleet_policy.class.php:239
-msgid "Cannot find the target fleet"
-msgstr "Não foi possível encontrar a frota de destino"
+#: inc/entityconfig.class.php:141
+msgid "You are not allowed to change the download URL of the MDM agent"
+msgstr ""
 
-#: inc/fleet_policy.class.php:161 inc/fleet_policy.class.php:245
-msgid "Cannot apply a policy on a not managed fleet"
-msgstr "Não é possível aplicar uma política em uma frota não gerenciada"
+#: inc/entityconfig.class.php:148
+msgid "You are not allowed to change the invitation token life"
+msgstr ""
 
-#: inc/fleet_policy.class.php:166 inc/fleet_policy.class.php:258
-msgid "Policy already applied"
-msgstr "Política já aplicada"
-
-#: inc/fleet_policy.class.php:177 inc/fleet_policy.class.php:264
-msgid "The requirements for this policy are not met"
-msgstr "Os requisitos para esta política não são atendidos"
-
-#: inc/fleet_policy.class.php:182 inc/fleet_policy.class.php:270
-msgid "Failed to apply the policy"
-msgstr "Falha ao aplicar politica"
-
-#: inc/fleet_policy.class.php:304
-msgid "Fleet not found"
-msgstr "Frota não encontrada"
-
-#: inc/geolocation.class.php:66 inc/geolocation.class.php:204
-msgid "Geolocation"
-msgid_plural "Geolocations"
-msgstr[0] "Geolocalização"
-msgstr[1] "Geolocalizações"
-
-#: inc/geolocation.class.php:100
-msgid "associated device is mandatory"
-msgstr "Dispositivo associado é obrigatório"
-
-#: inc/geolocation.class.php:104 inc/geolocation.class.php:134
-msgid "latitude and longitude are mandatory"
-msgstr "latitude e longitude são obrigatórios"
-
-#: inc/geolocation.class.php:114 inc/geolocation.class.php:151
-msgid "latitude is invalid"
-msgstr "Latitude é inválida"
-
-#: inc/geolocation.class.php:118 inc/geolocation.class.php:158
-msgid "longitude is invalid"
-msgstr "Longitude é inválida"
-
-#: inc/geolocation.class.php:125 inc/geolocation.class.php:142
-msgid "Device not found"
-msgstr "Dispositivo não encontrado"
-
-#: inc/geolocation.class.php:223
-msgid "latitude"
-msgstr "Latitude"
-
-#: inc/geolocation.class.php:230
-msgid "longitude"
-msgstr "Longitude"
-
-#: inc/entityconfig.class.php:126
+#: inc/entityconfig.class.php:194
 msgid "The agent token life invalid or too long"
 msgstr "A vida útil do token do agente é inválida ou muito longa"
 
-#: inc/entityconfig.class.php:224
-msgid "Entity enroll token"
-msgstr "Token de implantação da entidade"
+#: inc/entityconfig.class.php:286
+msgid "Flyve MDM supervision"
+msgstr ""
 
-#: inc/entityconfig.class.php:231
-msgid "Invitation token lifetime"
-msgstr "Tempo de duração do convite de token"
+#: inc/entityconfig.class.php:379
+msgid "Helpdesk information"
+msgstr ""
 
-#: inc/entityconfig.class.php:238
-msgid "dowlnoad URL"
-msgstr "URL para Download"
+#: inc/entityconfig.class.php:429 inc/invitation.class.php:67
+#: inc/notificationtargetinvitation.class.php:50
+#: inc/notificationtargetinvitation.class.php:59
+#: install/upgrade_to_2_0.php:344
+msgid "Invitation"
+msgid_plural "Invitations"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/entityconfig.class.php:245
-msgid "Device limit"
-msgstr "Limite Dispositivo"
-
-#: inc/file.class.php:59 inc/file.class.php:268
+#: inc/file.class.php:62
 msgid "File"
 msgid_plural "Files"
-msgstr[0] "Arquivo"
-msgstr[1] "Arquivos"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/file.class.php:87 inc/package.class.php:181
+#: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:524
+msgid "File uploaded without name"
+msgstr "Arquivo carregado sem nome"
+
+#: inc/file.class.php:102
+msgid "Failed to store the uploaded file"
+msgstr ""
+
+#: inc/file.class.php:170 inc/package.class.php:545 inc/package.class.php:550
+#: inc/package.class.php:558
 msgid "No file uploaded"
 msgstr "Nenhum arquivo carregado"
 
-#: inc/file.class.php:93 inc/file.class.php:157 inc/package.class.php:187
+#: inc/file.class.php:176 inc/package.class.php:565
 msgid "File upload failed"
 msgstr "Falha ao enviar arquivo"
 
-#: inc/file.class.php:118 inc/file.class.php:183 inc/package.class.php:209
-#: inc/package.class.php:282
-msgid "File uploaded without name"
-msgstr ""
+#: inc/file.class.php:185
+msgid "Temp directory doesn't exist"
+msgstr "Diretório temporário não existe"
 
-#: inc/file.class.php:225
-msgid "Could not save file"
-msgstr "Não foi possível salvar o arquivo"
-
-#: inc/file.class.php:228
-msgid "File sucessfully uploaded"
-msgstr "Arquivo enviado com sucesso"
-
-#: inc/file.class.php:284
-msgid "Source"
-msgstr "Origem"
-
-#: inc/policydeployfile.class.php:57
-msgid "A destination and the remove on delete flag are mandatory"
-msgstr "Um destino e uma marcação de exclusão são obrigatórios para apagar"
-
-#: inc/policydeployfile.class.php:69
-msgid "You must choose a file to apply this policy"
-msgstr "Você deve escolher um arquivo para aplicar essa política"
-
-#: inc/policydeployfile.class.php:76
-msgid "The file does not exists"
-msgstr "Este arquivo não existe"
-
-#: inc/policydeployfile.class.php:82 inc/policydeployfile.class.php:88
-#: inc/policydeployfile.class.php:115
-msgid "invalid base path"
-msgstr "Caminho base inválido"
-
-#: inc/policydeployfile.class.php:180
-msgid ""
-"A removal policy is applied for this file destination. Please, remove it "
-"first."
-msgstr ""
-"Uma política de remoção foi aplicada para esse destino de arquivo. Por "
-"favor, remova-o primeiro."
-
-#: inc/policydeployfile.class.php:229
-msgid "copy to"
-msgstr ""
-
-#: inc/fleet.class.php:177
+#: inc/fleet.class.php:188
 msgid "No default fleet found to move devices"
 msgstr "Nenhuma frota padrão disponível para mover o dispositivo"
 
-#: inc/fleet.class.php:187
+#: inc/fleet.class.php:198
 msgid "Could not move all devices to the not managed fleet"
 msgstr ""
 "Não foi possível mover todos os dispositivos para a frota não gerenciada"
 
-#: inc/fleet.class.php:205
+#: inc/fleet.class.php:227
 msgid "Could not delete policies on the fleet"
 msgstr "Não foi possível eliminar políticas na frota"
 
-#: inc/fleet.class.php:211
-msgid "Could not delete message queue on the fleet"
-msgstr "Não foi possível eliminar a fila de mensagens na frota"
+#: inc/fleet.class.php:465 install/install.class.php:255
+msgid "not managed fleet"
+msgstr "Frota não gerenciada"
 
-#: inc/fleet.class.php:270
-msgid "Not managed"
-msgstr "Não Gerenciado"
+#: inc/fleet.class.php:549
+msgid "Persisted notification not updated."
+msgstr ""
 
-#: inc/invitation.class.php:52 inc/graph.class.php:57 inc/graph.class.php:65
-msgid "Pending"
-msgstr "Pendente"
+#: inc/fusioninventory.class.php:52
+msgid "Unable to get rule for entity"
+msgstr ""
 
-#: inc/invitation.class.php:53 inc/graph.class.php:56 inc/graph.class.php:61
+#: inc/geolocation.class.php:67
+msgid "Geolocation"
+msgid_plural "Geolocations"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/geolocation.class.php:165
+msgid "associated device is mandatory"
+msgstr "Dispositivo associado é obrigatório"
+
+#: inc/geolocation.class.php:169 inc/geolocation.class.php:204
+msgid "latitude and longitude are mandatory"
+msgstr "latitude e longitude são obrigatórios"
+
+#: inc/geolocation.class.php:179 inc/geolocation.class.php:221
+msgid "latitude is invalid"
+msgstr "Latitude é inválida"
+
+#: inc/geolocation.class.php:183 inc/geolocation.class.php:228
+msgid "longitude is invalid"
+msgstr "Longitude é inválida"
+
+#: inc/geolocation.class.php:190 inc/geolocation.class.php:212
+msgid "Device not found"
+msgstr "Dispositivo não encontrado"
+
+#: inc/graph.class.php:57 inc/graph.class.php:65
+msgid "Invitations"
+msgstr "Convites"
+
+#: inc/graph.class.php:59
+msgid "No invitations stats available, send one first."
+msgstr ""
+
+#: inc/graph.class.php:67 inc/graph.class.php:72 inc/invitation.class.php:57
+#: inc/policybase.class.php:80
 msgid "Done"
 msgstr "Feito"
 
-#: inc/invitation.class.php:80 inc/invitation.class.php:86
+#: inc/graph.class.php:68 inc/graph.class.php:76 inc/invitation.class.php:56
+#: inc/policybase.class.php:78
+msgid "Pending"
+msgstr "Pendente"
+
+#: inc/graph.class.php:116 inc/graph.class.php:137
+msgid "Devices per operating system version"
+msgstr "Dispositivos por versão do sistema operacional"
+
+#: inc/graph.class.php:118
+msgid ""
+"No devices stats available, enrol or import your mobile computer assets "
+"first"
+msgstr ""
+
+#: inc/invitation.class.php:98 inc/invitation.class.php:104
 msgid "Email address is invalid"
 msgstr "Endereço de e-mail inválido"
 
-#: inc/invitation.class.php:111
+#: inc/invitation.class.php:147
 msgid "Cannot create the user"
 msgstr "Não foi possível criar o usuário"
 
-#: inc/invitation.class.php:118
+#: inc/invitation.class.php:155
 msgid ""
 "The user already exists and has been deleted. You must restore or purge him "
 "first."
@@ -777,71 +453,1309 @@ msgstr ""
 "O usuário já existe e foi excluído. Você deve restaurá-lo ou expurga-lo "
 "primeiro."
 
-#: inc/invitation.class.php:162
-msgid "Could not create enrollment QR code"
-msgstr "Não foi possível criar o \"QR code\" de inscrição"
+#: inc/invitation.class.php:196
+msgid "Invalid token expiration date interval"
+msgstr ""
 
-#: inc/invitation.class.php:247
+#: inc/invitation.class.php:313
 msgid "Cannot delete the document. Delete the attached invitation first"
 msgstr ""
 "Não foi possível deletar o documento. Delete o convite anexado primeiro"
 
-#: inc/invitation.class.php:369
-msgid "Expiration date"
+#: inc/invitation.class.php:375 inc/notificationtargetinvitation.class.php:68
+msgid "Enrollment QR code"
+msgstr "\"QR code\" de inscrição"
+
+#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:74
+msgid "Invitation log"
+msgid_plural "Invitation logs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/menu.class.php:93
+msgid "General"
+msgstr "Geral"
+
+#: inc/menu.class.php:115
+msgid "Configuration"
 msgstr ""
 
-#: inc/package.class.php:61 inc/package.class.php:408
+#: inc/mqttlog.class.php:66
+msgid "MQTT subscriber"
+msgid_plural "MQTT subscribers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/notificationtargetinvitation.class.php:67
+msgid "Link to download the FlyveMDM Android application"
+msgstr "Link para download do FlyveMDM para Android"
+
+#: inc/notificationtargetinvitation.class.php:69
+msgid "Enrollment URL"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:70
+msgid "First name of the Flyve MDM fleets manager"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:71
+msgid "Last name of the Flyve MDM fleets manager"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:72
+msgid "Name of the helpdesk"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:73
+msgid "Phone number of the helpdesk"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:74
+msgid "Website of the helpdesk"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:75
+msgid "Email address of the helpdesk"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:76
+msgid "Address of the helpdesk"
+msgstr ""
+
+#: inc/notificationtargetinvitation.class.php:152
+msgid "Guest user"
+msgstr "Usuário convidado"
+
+#: inc/package.class.php:62
 msgid "Package"
 msgid_plural "Packages"
-msgstr[0] "Pacote"
-msgstr[1] "Pacotes"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/package.class.php:88
+#: inc/package.class.php:99
 msgid "Package Flyve MDM"
 msgid_plural "Packages Flyve MDM"
-msgstr[0] "Pacote Flyve MDM"
-msgstr[1] "Pacotes Flyve MDM"
+msgstr[0] ""
+msgstr[1] ""
 
-#: inc/package.class.php:194
-msgid "Temp directory doesn't exist"
-msgstr ""
-
-#: inc/package.class.php:200
-msgid "Failed to save the file"
-msgstr ""
-
-#: inc/package.class.php:216
-msgid "Only APK and UPK files are allowed"
-msgstr ""
-
-#: inc/package.class.php:236 inc/package.class.php:297
-msgid "Could not parse the UPK file"
-msgstr "Não foi possível analisar o arquivo UPK"
-
-#: inc/package.class.php:259 inc/package.class.php:320
+#: inc/package.class.php:202 inc/package.class.php:254
 msgid "Unable to save the file"
 msgstr "Impossibilitado de salvar o arquivo"
 
-#: inc/package.class.php:264
+#: inc/package.class.php:207
 msgid "Could not parse the APK file"
 msgstr "Não foi possível analisar o arquivo APK"
 
-#: inc/package.class.php:427
-msgid "alias"
-msgstr "apelido"
-
-#: inc/package.class.php:441
-msgid "icon"
-msgstr "ícone"
-
-#: inc/package.class.php:448
-msgid "filesize"
-msgstr "Tamanho do Arquivo"
-
-#: inc/graph.class.php:54
-msgid "Invitations"
+#: inc/package.class.php:409
+msgid "Parse an application to find metadata"
 msgstr ""
 
-#: inc/graph.class.php:130
-msgid "Devices per operating system version"
+#: inc/package.class.php:530
+msgid "Only APK and UPK files are allowed"
+msgstr "São permitidos apenas os arquivos APK e UPK"
+
+#: inc/policy.class.php:86 inc/policy.class.php:106
+msgid "Policy"
+msgid_plural "Policies"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/policy.class.php:122 inc/policycategory.class.php:51
+#: inc/policycategory.class.php:67
+msgid "Policy category"
+msgid_plural "Policy categories"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/policy.class.php:139
+msgid "Enumeration data"
+msgstr "Dados de enumeração"
+
+#: inc/policy.class.php:157
+msgid "Default value"
+msgstr "Valor padrão"
+
+#: inc/policy.class.php:166
+msgid "Recommended value"
+msgstr "Valor recomendado"
+
+#: inc/policy.class.php:175
+msgid "Requires system permission"
+msgstr ""
+
+#: inc/policy.class.php:184
+msgid "Android minimum version"
+msgstr ""
+
+#: inc/policy.class.php:193
+msgid "Android maximum version"
+msgstr ""
+
+#: inc/policy.class.php:202
+msgid "Apple minimum version"
+msgstr ""
+
+#: inc/policy.class.php:211
+msgid "Apple maximum version"
+msgstr ""
+
+#: inc/policybase.class.php:79
+msgid "Received"
+msgstr ""
+
+#: inc/policybase.class.php:81
+msgid "Failed"
+msgstr ""
+
+#: inc/policybase.class.php:82
+msgid "Canceled"
+msgstr ""
+
+#: inc/policybase.class.php:83
+msgid "Incompatible"
+msgstr ""
+
+#: inc/policybase.class.php:89
+msgid "Overriden"
+msgstr ""
+
+#: inc/policybase.class.php:278
+#, php-format
+msgid "Compatibility with Android up to %1$s."
+msgstr ""
+
+#: inc/policybase.class.php:284
+#, php-format
+msgid "Compatibility with Android from %1$s."
+msgstr ""
+
+#: inc/policybase.class.php:290
+#, php-format
+msgid "Compatibility with Android %1$s to %2$s."
+msgstr ""
+
+#: inc/policydeployapplication.class.php:64
+msgid "The remove on delete flag is mandatory"
+msgstr "A Flag de remoção para exclusão é obrigatório"
+
+#: inc/policydeployapplication.class.php:70 inc/policydeployfile.class.php:70
+msgid "The remove on delete flag must be 0 or 1"
+msgstr "A Flag de remoção deve ser 0 ou 1"
+
+#: inc/policydeployapplication.class.php:76
+msgid "You must choose an application to apply this policy"
+msgstr "Você deve escolher um aplicativo para aplicar esta política"
+
+#: inc/policydeployapplication.class.php:83
+#: inc/policydeployapplication.class.php:146
+msgid "The application does not exists"
+msgstr "A aplicação não existe"
+
+#: inc/policydeployapplication.class.php:167
+msgid ""
+"A removal policy for this application is applied. Please, remove it first."
+msgstr ""
+"Uma política para remoção deste aplicativo foi adicionada. Por favor, "
+"remova-a primeiro."
+
+#: inc/policydeployapplication.class.php:274
+#: inc/policydeployfile.class.php:332
+#: inc/policyremoveapplication.class.php:109
+#: inc/policyremovefile.class.php:108
+msgid "Waiting"
+msgstr ""
+
+#: inc/policydeployfile.class.php:64
+msgid "A destination and the remove on delete flag are mandatory"
+msgstr "Um destino e uma marcação de exclusão são obrigatórios para apagar"
+
+#: inc/policydeployfile.class.php:76
+msgid "You must choose a file to apply this policy"
+msgstr "Você deve escolher um arquivo para aplicar essa política"
+
+#: inc/policydeployfile.class.php:83
+msgid "The file does not exists"
+msgstr "Este arquivo não existe"
+
+#: inc/policydeployfile.class.php:89 inc/policydeployfile.class.php:95
+#: inc/policydeployfile.class.php:122
+msgid "invalid base path"
+msgstr "Caminho base inválido"
+
+#: inc/policydeployfile.class.php:204
+msgid ""
+"A removal policy is applied for this file destination. Please, remove it "
+"first."
+msgstr ""
+"Uma política de remoção foi aplicada para esse destino de arquivo. Por "
+"favor, remova-o primeiro."
+
+#: inc/policyremoveapplication.class.php:60
+msgid "An application ID is required"
+msgstr "Uma ID de aplicação é necessária"
+
+#: inc/profile.class.php:100
+msgid "Flyve MDM"
+msgstr "Flyve MDM"
+
+#: inc/task.class.php:83
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/task.class.php:157
+msgid "Notifiable and policy must be specified"
+msgstr ""
+
+#: inc/task.class.php:166 inc/task.class.php:246 inc/task.class.php:339
+msgid "Policy not found"
+msgstr "Política não encontrada"
+
+#: inc/task.class.php:174 inc/task.class.php:284
+msgid "Incorrect value for this policy"
+msgstr "Valor incorreto para essa política"
+
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr ""
+
+#: inc/task.class.php:190
+msgid "Cannot find the notifiable object"
+msgstr ""
+
+#: inc/task.class.php:197
+msgid "Cannot apply a policy on a not managed fleet"
+msgstr "Não é possível aplicar uma política em uma frota não gerenciada"
+
+#: inc/task.class.php:204 inc/task.class.php:292
+msgid "Policy already applied"
+msgstr "Política já aplicada"
+
+#: inc/task.class.php:217 inc/task.class.php:299
+msgid "The requirements for this policy are not met"
+msgstr "Os requisitos para esta política não são atendidos"
+
+#. TRANS: %1$s is the type of the item on which a policy is applied
+#: inc/task.class.php:269
+#, php-format
+msgid "Cannot find the target %1$s"
+msgstr ""
+
+#. TRANS: %1$s is the type of the item on which one attempds to apply a policy
+#: inc/task.class.php:277
+#, php-format
+msgid "Cannot apply a policy on this %1$s"
+msgstr ""
+
+#: inc/task.class.php:306
+msgid "Failed to apply the policy"
+msgstr "Falha ao aplicar politica"
+
+#: inc/task.class.php:318 inc/task.class.php:328
+msgid "Policy publish action failed."
+msgstr ""
+
+#: inc/task.class.php:345
+#, php-format
+msgid "%1$s not found"
+msgstr ""
+
+#: inc/task.class.php:530
+msgid "Policy ID"
+msgstr ""
+
+#: inc/task.class.php:557
+msgid "policy name"
+msgstr ""
+
+#: inc/task.class.php:566
+msgid "applied itemtype"
+msgstr ""
+
+#: inc/task.class.php:575
+msgid "applied ID"
+msgstr ""
+
+#: inc/taskstatus.class.php:47
+msgid "Task status"
+msgstr ""
+
+#: inc/taskstatus.class.php:395
+msgid "Status"
+msgstr ""
+
+#: inc/wellknownpath.class.php:50
+msgid "Well known path"
+msgstr "Caminho bem conhecido"
+
+#: install/install.class.php:269
+msgid "Flyve MDM guest users"
+msgstr "Usuários visitantes do Flyve MDM"
+
+#: install/install.class.php:270
+msgid ""
+"guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
+msgstr ""
+"usuários visitantes do Flyve MDM. Criado por Flive MDM - NÃO modifique este "
+"comentário."
+
+#: install/install.class.php:287
+msgid "Flyve MDM device agent users"
+msgstr ""
+
+#: install/install.class.php:288
+msgid ""
+"device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
+"comment."
+msgstr ""
+
+#: install/install.class.php:352
+msgid "User invitation"
+msgstr "Convite Usuário"
+
+#: install/install.class.php:554
+msgid "Parse uploaded applications to collect metadata"
+msgstr ""
+
+#: install/install.class.php:716
+msgid "Security"
+msgstr "Segurança"
+
+#: install/install.class.php:719
+msgid "Authentication"
+msgstr "Autenticação"
+
+#: install/install.class.php:722 install/policies/password.php:46
+msgid "Password"
+msgstr "Senha"
+
+#: install/install.class.php:725
+msgid "Encryption"
+msgstr "Criptografia"
+
+#: install/install.class.php:728
+msgid "Peripherals"
+msgstr "Periféricos"
+
+#: install/install.class.php:731
+msgid "Deployment"
+msgstr "Implantação"
+
+#: install/policies/deployment.php:39
+msgid "Deploy application"
+msgstr "Implantar aplicação"
+
+#: install/policies/deployment.php:46
+msgid "Deploy an application on the device."
+msgstr ""
+
+#: install/policies/deployment.php:58
+msgid "Remove application"
+msgstr "Remover aplicação"
+
+#: install/policies/deployment.php:65
+msgid "Uninstall an application on the device."
+msgstr ""
+
+#: install/policies/deployment.php:77
+msgid "Deploy file"
+msgstr "Implantar arquivo"
+
+#: install/policies/deployment.php:84
+msgid "Deploy a file on the device."
+msgstr ""
+
+#: install/policies/deployment.php:95
+msgid "Remove file"
+msgstr "Remover arquivo"
+
+#: install/policies/deployment.php:102
+msgid "Uninstall a file on the device."
+msgstr ""
+
+#: install/policies/deployment.php:114
+msgid "Disable unknown sources"
+msgstr ""
+
+#: install/policies/deployment.php:121
+msgid "Disable installation of apps from unknown sources."
+msgstr ""
+
+#: install/policies/encryption.php:39
+msgid "Internal Storage encryption"
+msgstr "Criptografia de armazenamento interno"
+
+#: install/policies/encryption.php:46
+msgid "Force internal storage encryption."
+msgstr ""
+
+#: install/policies/mdm.php:46
+msgid "Periodic geolocation"
+msgstr ""
+
+#: install/policies/mdm.php:55
+msgid ""
+"Get geolocation with a specified periodicity (in seconds) and sends it to "
+"the server."
+msgstr ""
+
+#: install/policies/password.php:39
+msgid "Password enabled"
+msgstr "Uso de senha habilitado"
+
+#: install/policies/password.php:44
+msgid "No"
+msgstr "Não"
+
+#: install/policies/password.php:45
+msgid "Pin"
+msgstr "PIN"
+
+#: install/policies/password.php:50
+msgid "Enable the password."
+msgstr ""
+
+#: install/policies/password.php:61
+msgid "Minimum password length"
+msgstr "Tamanho mínimo de senha"
+
+#: install/policies/password.php:70
+msgid ""
+"Set the required number of characters for the password. For example, you can"
+" require PIN or passwords to have at least six characters."
+msgstr ""
+
+#: install/policies/password.php:82
+msgid "Password quality"
+msgstr "Qualidade de senha"
+
+#: install/policies/password.php:87
+msgid "Unspecified"
+msgstr "Não especificado"
+
+#: install/policies/password.php:88
+msgid "Something"
+msgstr "Algo"
+
+#: install/policies/password.php:89
+msgid "Numeric"
+msgstr "Numérico"
+
+#: install/policies/password.php:90
+msgid "Alphabetic"
+msgstr "Alfabético"
+
+#: install/policies/password.php:91
+msgid "Alphanumeric"
+msgstr "Alfanumérico"
+
+#: install/policies/password.php:92
+msgid "Complex"
+msgstr "Complexidade"
+
+#: install/policies/password.php:96
+msgid "Complexity of allowed password."
+msgstr ""
+
+#: install/policies/password.php:108
+msgid "Minimum letters required in password"
+msgstr "Mínimo de letras necessárias na senha"
+
+#: install/policies/password.php:118
+msgid ""
+"The minimum number of letters required in the password for all admins or a "
+"particular one."
+msgstr ""
+
+#: install/policies/password.php:130
+msgid "Minimum lowercase letters required in password"
+msgstr "Mínimo de letras minúsculas necessárias na senha"
+
+#: install/policies/password.php:140
+msgid ""
+"The minimum number of lowercase letters required in the password for all "
+"admins or a particular one."
+msgstr ""
+
+#: install/policies/password.php:152
+msgid "Minimum non-letter characters required in password"
+msgstr "Mínimo de caracteres que não sejam letras necessários na senha"
+
+#: install/policies/password.php:162
+msgid ""
+"The minimum number of non-letter characters required in the password for all"
+" admins or a particular one."
+msgstr ""
+
+#: install/policies/password.php:174
+msgid "Minimum numerical digits required in password"
+msgstr "Mínimo de dígitos numéricos necessários na senha"
+
+#: install/policies/password.php:184
+msgid ""
+"The minimum number of numerical digits required in the password for all "
+"admins or a particular one."
+msgstr ""
+
+#: install/policies/password.php:196
+msgid "Minimum symbols required in password"
+msgstr "Mínimo de símbolos necessários na senha"
+
+#: install/policies/password.php:206
+msgid ""
+"The minimum number of symbols required in the password for all admins or a "
+"particular one."
+msgstr ""
+
+#: install/policies/password.php:218
+msgid "Minimum uppercase letters required in password"
+msgstr "Mínimo de letras maiúsculas necessárias na senha"
+
+#: install/policies/password.php:228
+msgid ""
+"The minimum number of uppercase letters required in the password for all "
+"admins or a particular one."
+msgstr ""
+
+#: install/policies/password.php:240
+msgid "Maximum failed password attempts for wipe"
+msgstr ""
+
+#: install/policies/password.php:250
+msgid "Number of consecutive failed attempts of unlock the device to wipe."
+msgstr ""
+
+#: install/policies/password.php:262
+msgid "Maximum time to lock (milliseconds)"
+msgstr "Tempo de espera para bloqueio (milissegundos)"
+
+#: install/policies/password.php:272
+msgid "Maximum time to lock the device in milliseconds."
+msgstr ""
+
+#: install/policies/peripherals.php:39
+msgid "Disable Camera"
+msgstr "Desabilitar Câmera"
+
+#: install/policies/peripherals.php:46
+msgid "Prevent usage of the Camera."
+msgstr ""
+
+#: install/policies/peripherals.php:57
+msgid "Disable Wifi"
+msgstr "Desabilitar Wifi"
+
+#: install/policies/peripherals.php:64
+msgid "Disable wifi connectivity."
+msgstr ""
+
+#: install/policies/peripherals.php:75
+msgid "Disable Bluetooth"
+msgstr "Desabilitar Bluetooth"
+
+#: install/policies/peripherals.php:82
+msgid "Disable Bluetooth connectivity."
+msgstr ""
+
+#: install/policies/peripherals.php:94
+msgid "Disable roaming"
+msgstr ""
+
+#: install/policies/peripherals.php:101
+msgid "Disable roaming."
+msgstr ""
+
+#: install/policies/peripherals.php:112
+msgid "Disable GPS"
+msgstr "Desabilitar GPS"
+
+#: install/policies/peripherals.php:119
+msgid "Disable GPS."
+msgstr ""
+
+#: install/policies/peripherals.php:130
+msgid "Disable Mobile line"
+msgstr ""
+
+#: install/policies/peripherals.php:137
+msgid "Disable Mobile line."
+msgstr ""
+
+#: install/policies/peripherals.php:148
+msgid "Disable NFC"
+msgstr ""
+
+#: install/policies/peripherals.php:155
+msgid "Disable Near Field Contact."
+msgstr ""
+
+#: install/policies/peripherals.php:166
+msgid "Disable hotspot and tethering"
+msgstr ""
+
+#: install/policies/peripherals.php:174
+msgid "Disable hotspot and tethering."
+msgstr ""
+
+#: install/policies/peripherals.php:186
+msgid "Disable airplane mode"
+msgstr ""
+
+#: install/policies/peripherals.php:193
+msgid "Disable airplane mode."
+msgstr ""
+
+#: install/policies/peripherals.php:204
+msgid "Disable speakerphone"
+msgstr ""
+
+#: install/policies/peripherals.php:211
+msgid "Disable the speakerphone."
+msgstr ""
+
+#: install/policies/usb.php:39
+msgid "Disable USB MTP"
+msgstr ""
+
+#: install/policies/usb.php:46
+msgid "Disable USB Media Transfer Protocol."
+msgstr ""
+
+#: install/policies/usb.php:58
+msgid "Disable USB PTP"
+msgstr ""
+
+#: install/policies/usb.php:65
+msgid "Disable USB Picture Transfer Protocol."
+msgstr ""
+
+#: install/policies/usb.php:77
+msgid "Disable USB ADB"
+msgstr ""
+
+#: install/policies/usb.php:84
+msgid "Disable USB Android Debug Bridge."
+msgstr ""
+
+#: install/policies/userInterface.php:39
+msgid "Disable status bar"
+msgstr ""
+
+#: install/policies/userInterface.php:46
+msgid ""
+"Disable the status bar. Disabling the status bar blocks notifications, quick"
+" settings and other screen overlays that allow escaping from a single use "
+"device."
+msgstr ""
+
+#: install/policies/userInterface.php:58
+msgid "Disable screen capture"
+msgstr ""
+
+#: install/policies/userInterface.php:65
+msgid ""
+"Disable screen capture. Disabling screen capture also prevents the content "
+"from being shown on display devices that do not have a secure video output."
+msgstr ""
+
+#: install/policies/userInterface.php:80
+msgid "Disable media sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:87
+msgid "Disable all media sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:98
+msgid "Disable ringer sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:105
+msgid "Disable all ringer sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:116
+msgid "Disable alarm sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:123
+msgid "Disable alarm sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:134
+msgid "Disable notifications sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:141
+msgid "Disable notifications sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:152
+msgid "Disable accessibility sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:159
+msgid "Disable accessibility prompts sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:170
+msgid "Disable DTMF sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:177
+msgid "Disable DTMF tones sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:188
+msgid "Disable system sounds"
+msgstr ""
+
+#: install/policies/userInterface.php:195
+msgid "Disable system sounds from device"
+msgstr ""
+
+#: install/policies/userInterface.php:206
+msgid "Audio profile mode"
+msgstr ""
+
+#: install/policies/userInterface.php:211
+msgid "Normal"
+msgstr ""
+
+#: install/policies/userInterface.php:212
+msgid "Silent"
+msgstr ""
+
+#: install/policies/userInterface.php:213
+msgid "Vibrate"
+msgstr ""
+
+#: install/policies/userInterface.php:217
+msgid "Audio profile mode used for device"
+msgstr ""
+
+msgid "Is managed"
+msgstr ""
+
+msgid "copy to"
+msgstr "copiar para"
+
+msgid "Remove when the policy is removed"
+msgstr ""
+
+msgid "file size"
+msgstr "tamanho do arquivo"
+
+msgid "Update the file"
+msgstr "Atualizar o arquivo."
+
+msgid "Enrollment"
+msgstr ""
+
+msgid "Enable explicit enrolment failures"
+msgstr "Permitir falhas de inscrição explícita"
+
+msgid "Disable token expiration on successful enrolment"
+msgstr "Desabilitar o token expiração na inscrição bem sucedida"
+
+msgid "Save initial inventory in file"
+msgstr ""
+
+msgid "Configuration wizard"
+msgstr ""
+
+msgid "Enable configuration wizard"
+msgstr ""
+
+msgid ""
+"Warning: if the plugin is already configured, re-running the configuration "
+"wizard may break communication with already enrolled devices."
+msgstr ""
+
+msgid "Revision information"
+msgstr ""
+
+msgid ""
+"GLPI is not properly configured. Please check the general settings, the API "
+"settings and the notification settings."
+msgstr ""
+
+msgid "Invite users to enroll one device."
+msgstr "Convide usuários para registrar um dispositivo."
+
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Eles receberão uma mensagem para seu endereço de e-mail padrão contendo um "
+"código QR e instruções para se inscrever."
+
+msgid "Lock"
+msgstr "Bloquear"
+
+msgid "Wipe"
+msgstr "Limpar"
+
+msgid "Unenroll"
+msgstr "Desassociar"
+
+msgid "Document types"
+msgstr ""
+
+msgid "Allow upload of APK and UPK files"
+msgstr "Permitir o upload de arquivos APK e UPK"
+
+msgid "add document types"
+msgstr "adicionar tipos de documento"
+
+msgid "Device type"
+msgstr "Tipo de dispositivo"
+
+msgid "Computer type for the devices"
+msgstr "Tipo de computador para os dispositivos"
+
+msgid "Agent account type"
+msgstr ""
+
+msgid "Account type for the devices"
+msgstr ""
+
+msgid "Invitation deeplink"
+msgstr ""
+
+msgid "Invitation deeplink URL"
+msgstr ""
+
+msgid "Base URL of the deeplink micro service"
+msgstr ""
+
+msgid "Restrictions"
+msgstr "Restrições"
+
+msgid "Default device limit per entity"
+msgstr "Limite padrão de dispositivos por entidade"
+
+msgid ""
+"No more devices than this quantity are allowed per entity by default (0 = no"
+" limitation)"
+msgstr ""
+"Não é permitido mais do que essa quantidade de dispositivos por entidade por"
+" padrão (0 = sem limite)"
+
+msgid "Wizard complete"
+msgstr ""
+
+msgid "This wizard will no longer be accessible."
+msgstr ""
+
+msgid "Requirements"
+msgstr ""
+
+msgid ""
+"To setup Flyve MDM please connect to your server with a command line "
+"interface. Some operations require a root access."
+msgstr ""
+
+msgid "This wizard will guide you through the steps to setup Flyve MDM."
+msgstr ""
+
+msgid "Cron Job"
+msgstr ""
+
+msgid "Flyve MDM requires cron job to run automatic actions."
+msgstr ""
+
+msgid ""
+"As root in a terminal, execute the following command. Adapt www-data to the "
+"user running your HTTP server."
+msgstr ""
+
+msgid ""
+"Add, if missing, the following line. Adapt path to php CLI binary and path "
+"to GLPI:"
+msgstr ""
+
+msgid ""
+"Automatic actions registered in the scheduler of GLPI will run every minute."
+msgstr ""
+
+msgid "Email notifications"
+msgstr ""
+
+msgid ""
+"Flyve MDM requires email notifications. The following link will open a new "
+"tab to the email notifications settings."
+msgstr ""
+
+msgid ""
+"The queuednotification must have set Run mode to CLI. This action will be "
+"triggered by the cron job. The following link will open a new tab to the "
+"Automatic actions list"
+msgstr ""
+
+msgid "Automatic actions"
+msgstr ""
+
+msgid ""
+"Ensure the cron job is properly configure by checking the log "
+"glpi/files/_log/cron.log. The entry should contain the word External"
+msgstr ""
+
+msgid "REST API"
+msgstr ""
+
+msgid ""
+"Flyve MDM requires REST API enabled. The following link will open a new tab "
+"to the REST API settings."
+msgstr ""
+
+msgid "Make sure the following setting is populated:"
+msgstr ""
+
+msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
+msgstr ""
+
+msgid "Make sure the following settings are enabled:"
+msgstr ""
+
+msgid "- Rest API"
+msgstr ""
+
+msgid "- Login with credentials"
+msgstr ""
+
+msgid "- Login with external token"
+msgstr ""
+
+msgid ""
+"- Add an API client leaving empty IPv4 address range, IPv6 address and "
+"application token."
+msgstr ""
+
+msgid "API"
+msgstr ""
+
+msgid "General setup"
+msgstr ""
+
+msgid ""
+"Flyve MDM needs to know the public URL of GLPI. The following link will open"
+" a new tab to the general setup."
+msgstr ""
+
+msgid "Make sure the following settings is populated:"
+msgstr ""
+
+msgid "- URL of the application (example: https://example.com/glpi)"
+msgstr ""
+
+msgid "Document Types"
+msgstr ""
+
+msgid ""
+"You must add the APK and UPK document types in order to upload Android and "
+"Uhuru packages."
+msgstr ""
+
+msgid ""
+"Just click in the following button and they will be automatically added"
+msgstr ""
+
+msgid "Server Configuration"
+msgstr ""
+
+msgid ""
+"Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
+"php.ini allows reasonable upload sizes."
+msgstr ""
+
+msgid "For example:"
+msgstr ""
+
+msgid "Fusion Inventory Configuration"
+msgstr ""
+
+msgid "For FusionInventory greater than 9.1 + 1.1:"
+msgstr ""
+
+msgid ""
+"It is required to deactivate the following rules in the Equipment import and"
+" link rules menu: "
+msgstr ""
+
+msgid ""
+"The following link will open a new tab to the Rules > Equipment import and "
+"link rules section of FusionInventory "
+msgstr ""
+
+msgid "Rules"
+msgstr ""
+
+msgid ""
+"Not disabling this rule will make FusionInventory reject inventories from "
+"devices."
+msgstr ""
+
+msgid "DBMS access for Mosquitto"
+msgstr ""
+
+msgid ""
+"Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
+"is for the authentication process of its clients."
+msgstr ""
+
+msgid ""
+"It is recommended to create a dedicated user for Mosquitto allowed to "
+"connect only from its specific IP."
+msgstr ""
+
+msgid ""
+"Run the following command on your MySQL host, adapt mqtt.server.ip and glpi-"
+"database-name"
+msgstr ""
+
+msgid "This user should be able to only SELECT the following tables:"
+msgstr ""
+
+msgid ""
+"Run the following commands on your MySQL host, and adapt the name of the "
+"database and the mqtt.server.ip"
+msgstr ""
+
+msgid "Create the file"
+msgstr ""
+
+msgid ""
+"Insert the following content, and adapt the bind address to the interface "
+"used by Mosquitto to connect to your DBMS."
+msgstr ""
+
+msgid ""
+"Restart your DBMS daemon and check it listens to the expected interface."
+msgstr ""
+
+msgid ""
+"Check you can login to your DBMD from the host which will run Mosquitto."
+msgstr ""
+
+msgid "The following command will ask for the password you choosed earlier"
+msgstr ""
+
+msgid "Mosquitto"
+msgstr ""
+
+msgid "Flyve MDM requires a Message queue server."
+msgstr ""
+
+msgid "Prefer a dedicated server or VM for running Mosquitto."
+msgstr ""
+
+msgid "As root in a terminal, execute the following command"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Add the following content, adapting your DBMS credentials:"
+msgstr ""
+
+msgid "Check Mosquitto is listening to port 1883 (insecure)."
+msgstr ""
+
+msgid "TLS Listener setup"
+msgstr ""
+
+msgid ""
+"TLS provides security to the communication, through authentication of server"
+" and client, besides data encryption."
+msgstr ""
+
+msgid "Use TLS version 1.2, lower versions are no longer considered safe."
+msgstr ""
+
+msgid ""
+"Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
+msgstr ""
+
+msgid ""
+"- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
+"chain and private key."
+msgstr ""
+
+msgid "- Secure your private key"
+msgstr ""
+
+msgid "- Refresh hash and symlinks to your certificates"
+msgstr ""
+
+msgid ""
+"Use a certificate signed by a certified authority or you may have trouble "
+"with the android devices, using them with custom certification authorities "
+"might not work (not tested)."
+msgstr ""
+
+msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
+msgstr ""
+
+msgid "- Restart Mosquitto"
+msgstr ""
+
+msgid "- Test you can successfully connect to Mosquitto"
+msgstr ""
+
+msgid ""
+"- Check the ports that Mosquitto listens. You should see only the port 8883."
+msgstr ""
+
+msgid "Mosquitto client for the backend"
+msgstr ""
+
+msgid "Flyve MDM requires to connect to Mosquitto."
+msgstr ""
+
+msgid "For SYSV systems, link the init script in /etc/init.d/"
+msgstr ""
+
+msgid "Check the user configured in the script and adapt it if needed."
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Wizard page:"
+msgstr ""
+
+msgid "There is no task status yet"
+msgstr ""
+
+msgid "Count"
+msgstr ""
+
+msgid "Alias"
+msgstr "Apelido"
+
+msgid "Package name"
+msgstr ""
+
+msgid "Update the package"
+msgstr "Atualizar o pacote"
+
+msgid "Actions"
+msgstr "Ações"
+
+msgid "MQTT broker"
+msgstr "Corretor MQTT"
+
+msgid "MQTT broker address for clients"
+msgstr ""
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+
+msgid "MQTT broker address for backend"
+msgstr ""
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+
+msgid "MQTT broker port"
+msgstr "Porto de corretor MQTT"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr ""
+
+msgid "MQTT broker port for TLS"
+msgstr ""
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr ""
+
+msgid "Use TLS for clients"
+msgstr ""
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr ""
+
+msgid "Use TLS for backend"
+msgstr ""
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr ""
+
+msgid "CA certificate"
+msgstr "Certificado de CA"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Suíte de criptografia (TLS habilitado)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Suíte de cifra de corretor MQTT"
+
+msgid "test"
+msgstr "teste"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr "Servidor de certificado de cliente (corretor MQTT com TLS habilitado)"
+
+msgid "Use client certificates"
+msgstr "Usar certificados de cliente"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Servidor de certificados SSL para clientes MQTT"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domain.com/path/to/service"
+
+msgid "apply a policy"
+msgstr "aplicar uma política"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Applied policies"
+msgstr "Políticas aplicadas"
+
+msgid "Application date"
+msgstr ""
+
+msgid "Last change date"
+msgstr ""
+
+msgid "There is no agent yet"
+msgstr "Ainda não há nenhum agente"
+
+msgid "ID"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Topic"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Support name"
+msgstr ""
+
+msgid "Support address"
+msgstr ""
+
+msgid "Support phone"
+msgstr ""
+
+msgid "Support website"
+msgstr ""
+
+msgid "Support email"
+msgstr ""
+
+msgid "MDM Agent URL"
 msgstr ""
