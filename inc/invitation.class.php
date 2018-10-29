@@ -114,6 +114,13 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
          return false;
       }
 
+      // does the user have a default email?
+      if (!$user->getDefaultEmail()) {
+         Session::addMessageAfterRedirect(__("Email address is invalid", 'flyvemdm'),
+            false, INFO, true);
+         return false;
+      }
+
       // The user already exists, add him in the entity
       $profile_User = new Profile_User();
       $entities = $profile_User->getEntitiesForProfileByUser($userId, $guestProfileId);
@@ -298,7 +305,7 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       // Generate a QRCode
       $barcodeobj = new TCPDF2DBarcode($encodedRequest, 'QRCODE,L');
-      $qrCode = $barcodeobj->getBarcodePngData(7, 7, [0, 0, 0]);
+      $qrCode = $barcodeobj->getBarcodePngData(8, 8, [0, 0, 0]);
 
       // Add border to the QR
       // TCPDF forgets the quiet zone
@@ -474,11 +481,8 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
 
       $fields = $this->fields;
       $fields['user'] = User::dropdown([
-         'name'      => 'users_id',
-         'value'     => $this->fields['users_id'],
          'entity'    => $this->fields['entities_id'],
          'right'     => 'all',
-         'rand'      => mt_rand(),
          'display'   => false,
       ]);
       $data = [
