@@ -56,7 +56,6 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
 
 include (__DIR__ . '/../../../inc/includes.php');
 
-$mqttClient = PluginFlyvemdmMqttClient::getInstance();
 $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
 $request = [
    'SELECT' => ['id'],

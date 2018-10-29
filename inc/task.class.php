@@ -404,13 +404,15 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       );
       $policyMessage['taskId'] = $this->getID();
       $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
-      $topic = $item->getTopic();
-      $recipient = "$topic/Policy/$policyName/Task/$taskId";
       $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig[] = new MqttEnvelope([
-         'topic'  => $recipient,
-         'retain' => 1,
-      ]);
+      $envelopeConfig = [];
+      $topic = $item->getTopic();
+      if ($topic !== null) {
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => "$topic/Policy/$policyName/Task/$taskId",
+            'retain' => 1,
+         ]);
+      }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $item->notify($envelope);
    }
@@ -451,19 +453,20 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $topic = $item->getTopic();
-
       $policy = new PluginFlyvemdmPolicy();
       $taskId = $this->getID();
       $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
       $policyName = $policy->getField('symbol');
-      $recipient = "$topic/Policy/$policyName/Task/$taskId";
       $message = null;
       $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig[] = new MqttEnvelope([
-         'topic'  => $recipient,
-         'retain' => 1,
-      ]);
+      $envelopeConfig = [];
+      $topic = $item->getTopic();
+      if ($topic !== null) {
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => "$topic/Policy/$policyName/Task/$taskId",
+            'retain' => 1,
+         ]);
+      }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $item->notify($envelope);
    }
@@ -509,11 +512,20 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param array $groups array of groups to delete
     */
    public static function cleanupPolicies(PluginFlyvemdmNotifiableInterface $item, $groups = []) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      $message = null;
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {
-         $mqttClient->publish("$topic/$groupName", null, 0, 1);
+         if ($topic !== null) {
+            $envelopeConfig[] = new MqttEnvelope([
+               'topic'  => "$topic/$groupName",
+               'retain' => 1,
+            ]);
+         }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
