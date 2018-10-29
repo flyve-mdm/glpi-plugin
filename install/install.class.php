@@ -430,17 +430,14 @@ Regards,
             ]);
 
             // Add default translation
-            if (!isset($data['content_html'])) {
-               $contentHtml = self::convertTextToHtml($data['content_text']);
-            } else {
-               $contentHtml = self::convertTextToHtml($data['content_html']);
-            }
+            $contentHtml = !isset($data['content_html']) ? $data['content_text'] : $data['content_html'];
             $translation->add([
                'notificationtemplates_id' => $templateId,
                'language'                 => '',
                'subject'                  => addcslashes($data['subject'], "'\""),
                'content_text'             => addcslashes($data['content_text'], "'\""),
-               'content_html'             => addcslashes(htmlentities($contentHtml, ENT_NOQUOTES | ENT_HTML401), "'\""),
+               'content_html'             => addcslashes(htmlentities(self::convertTextToHtml($contentHtml),
+                  ENT_NOQUOTES | ENT_HTML401), "'\""),
             ]);
 
             // Create the notification
