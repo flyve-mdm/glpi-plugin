@@ -59,6 +59,6 @@ include (__DIR__ . '/../../../inc/includes.php');
 if (isset($args['--debug']) && $args['--debug'] !== false) {
    \sskaje\mqtt\Debug::Enable();
 }
-$mqttLogger = PluginFlyvemdmMqttclient::getInstance();
+$mqttLogger = \GlpiPlugin\Flyvemdm\Mqtt\MqttConnection::getInstance();
 $mqttLogger->setHandler(PluginFlyvemdmMqtthandler::getInstance());
 $mqttLogger->subscribe();

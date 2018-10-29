@@ -34,6 +34,7 @@ use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -420,72 +421,72 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Sends a wipe command to the agent
     */
    protected function sendWipeQuery() {
+      $message = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $recipient = "$topic/Command/Wipe";
-         $message = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
+            'topic'  => "$topic/Command/Wipe",
             'retain' => 1,
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends a lock command to the agent
     */
    protected function sendLockQuery() {
+      $message = json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $recipient = "$topic/Command/Lock";
-         $message = json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
+            'topic'  => "$topic/Command/Lock",
             'retain' => 1,
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends a lock command to the agent
     */
    protected function sendUnlockQuery() {
+      $message = json_encode(['lock' => 'unlock'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $recipient = "$topic/Command/Lock";
-         $message = json_encode(['lock' => 'unlock'], JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
+            'topic'  => "$topic/Command/Lock",
             'retain' => 1,
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends unenrollment command to the agent
     */
    protected function sendUnenrollQuery() {
+      $message = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $recipient = "$topic/Command/Unenroll";
-         $message = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
+            'topic'  => "$topic/Command/Unenroll",
             'retain' => 1,
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    public function prepareInputForAdd($input) {
@@ -1040,24 +1041,28 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function updateSubscription() {
       $topicToSubscribe = $this->getSubscribedTopic();
+      if (null === $topicToSubscribe) {
+         return;
+      }
+
       $topicList = [
          'subscribe' => [
             ['topic' => $topicToSubscribe]
          ]
       ];
 
+      $message = json_encode($topicList, JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
-      if ($topicToSubscribe !== null && $topic !== null) {
-         $recipient = "$topic/Command/Subscribe";
-         $message = json_encode($topicList, JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
+      if ($topic !== null) {
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
+            'topic'  => "$topic/Command/Subscribe",
             'retain' => 1,
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -1134,17 +1139,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'id' => $this->getID(),
             'plugin_flyvemdm_fleets_id' => null
       ]);
+      $message = json_encode([], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $recipient = $topic . "/Subscription";
-         $message = json_encode([], JSON_UNESCAPED_SLASHES);
-         $brokerMessage = new BrokerMessage($message);
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient
+            'topic'  => $topic . "/Subscription"
          ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -1591,20 +1596,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Erase delete persisted MQTT topics of the agent
     */
    public function cleanupSubtopics() {
+      $message = '';
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
          foreach (self::getTopicsToCleanup() as $subTopic) {
-            $recipient = "$topic/$subTopic";
-            $message = '';
-            $brokerMessage = new BrokerMessage($message);
             $envelopeConfig[] = new MqttEnvelope([
-               'topic'  => $recipient,
+               'topic'  => "$topic/$subTopic",
                'retain' => 1,
             ]);
-            $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-            $this->notify($envelope);
          }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -1645,12 +1650,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
       $lastPosition = array_pop($lastPositionRows);
 
-      $recipient = $this->topic . "/Command/Geolocate";
       $message = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
       $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig[] = new MqttEnvelope([
-         'topic'  => $recipient,
-      ]);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $topic . "/Command/Geolocate",
+         ]);
+      }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $this->notify($envelope);
 
@@ -1680,12 +1688,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendInventoryQuery() {
-      $recipient = $this->topic . "/Command/Inventory";
       $message = json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES);
       $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig[] = new MqttEnvelope([
-         'topic'  => $recipient,
-      ]);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $topic . "/Command/Inventory",
+         ]);
+      }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $this->notify($envelope);
 
@@ -1717,12 +1728,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendPingQuery() {
-      $recipient = $this->topic . "/Command/Ping";
       $message = json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES);
       $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig[] = new MqttEnvelope([
-         'topic' => $recipient,
-      ]);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $topic . "/Command/Ping",
+         ]);
+      }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $this->notify($envelope);
 
@@ -1912,7 +1926,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
             ],
             [
-               'topic'        => '/FlyvemdmManifest/#',
+               'topic'        => 'FlyvemdmManifest/#',
                'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
             ],
          ];
@@ -2056,7 +2070,11 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param BrokerEnvelope $envelope
     */
    public function notify(BrokerEnvelope $envelope) {
-      $broker = new BrokerBus();
+      $middlewareHandlers = [];
+      if (null !== $envelope->get(MqttEnvelope::class)) {
+         $middlewareHandlers[] = new MqttMiddleware();
+      }
+      $broker = new BrokerBus($middlewareHandlers);
       $broker->dispatch($envelope);
    }
 

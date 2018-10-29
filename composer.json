@@ -44,6 +44,11 @@
             "no-api": true
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "GlpiPlugin\\Flyvemdm\\": "inc/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "Flyvemdm\\Tests\\": "tests/src/Flyvemdm/Tests/",

@@ -29,10 +29,12 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
 use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -309,20 +311,22 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
+      $message = null;
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $policy = new PluginFlyvemdmPolicy();
       foreach ($policy->find() as $row) {
          $policyName = $row['symbol'];
          $topic = $this->getTopic();
-         $recipient = "$topic/Policy/$policyName";
-         $message = null;
-         $brokerMessage = new BrokerMessage($message);
-         $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $recipient,
-            'retain' => 1,
-         ]);
-         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-         $this->notify($envelope);
+         if ($topic !== null) {
+            $envelopeConfig[] = new MqttEnvelope([
+               'topic'  => "$topic/Policy/$policyName",
+               'retain' => 1,
+            ]);
+         }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -510,7 +514,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param BrokerEnvelope $envelope
     */
    public function notify(BrokerEnvelope $envelope) {
-      $broker = new BrokerBus();
+      $middlewareHandlers = [];
+      if (null !== $envelope->get(MqttEnvelope::class)) {
+         $middlewareHandlers[] = new MqttMiddleware();
+      }
+      $broker = new BrokerBus($middlewareHandlers);
       $broker->dispatch($envelope);
    }
 
