@@ -40,7 +40,7 @@ class BrokerHandlerLocator {
    /**
     * @param $message
     * @return callable|null
-    * @throws Exception
+    * @throws \Exception
     */
    public function resolve($message) {
       $class = \get_class($message);
@@ -57,7 +57,7 @@ class BrokerHandlerLocator {
             return $handler;
          }
       }
-      throw new Exception(sprintf(__('No handler for message "%s".', 'flyvemdm'), $class));
+      throw new \Exception(sprintf(__('No handler for message "%s".', 'flyvemdm'), $class));
    }
 
    /**
