@@ -33,7 +33,6 @@ namespace GlpiPlugin\Flyvemdm\Mqtt;
 
 use Config;
 use Exception;
-use PluginFlyvemdmMqttclient;
 use PluginFlyvemdmMqttlog;
 use sskaje\mqtt\Exception as MqttException;
 use sskaje\mqtt\MessageHandler;
@@ -64,12 +63,13 @@ class MqttConnection {
    protected $duration = self::MQTT_MAXIMUM_DURATION;
 
    /**
-    * @var PluginFlyvemdmMqttclient instance of this class (singleton)
+    * instance of this class (singleton)
+    * @var $this
     */
    private static $instance = null;
 
    /**
-    * PluginFlyvemdmMqttclient constructor.
+    * $this constructor.
     */
    private function __construct() {
       self::$mqtt = $this->getMQTTConnection();
