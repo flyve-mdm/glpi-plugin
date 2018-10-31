@@ -95,52 +95,8 @@ class MqttConnection {
       self::$mqtt->setHandler($mqttHandler);
    }
 
-   /**
-    * Sets the keep alive of the mqtt
-    * @param integer $keepalive
-    */
-   public function setKeepalive($keepalive = 60) {
-      if ($keepalive < 2) {
-         $keepalive = 2;
-      }
-      self::$mqtt->setKeepalive($keepalive);
-   }
-
-   /**
-    * Sets the maximun duration of the object
-    * @param integer $duration
-    */
-   public function setMaxDuration($duration) {
-      $this->duration = $duration;
-   }
-
-   /**
-    * This method is used as a service running PHP-CLI only
-    * @param string $topic
-    * @param integer $qos
-    */
-   public function subscribe($topic = "#", $qos = 0) {
-      $this->disconnect = false;
-      $this->beginTimestamp = time();
-
-      if (self::$mqtt === false) {
-         exit(1);
-      }
-      $topics = [$topic => $qos];
-      self::$mqtt->subscribe($topics);
-
-      while (!$this->mustDisconnect()) {
-         try {
-            self::$mqtt->loop();
-         } catch (Exception $e) {
-            $error = "Exception while listening MQTT messages : \n" . $e->getMessage();
-            $trace = $e->getTraceAsString();
-
-            Toolbox::logInFile("mqtt", "$error\n$trace\n\n");
-            self::$mqtt->reconnect(true);
-            self::$mqtt->subscribe($topics);
-         }
-      }
+   public function getMQTT() {
+      return self::$mqtt;
    }
 
    /**
@@ -171,25 +127,16 @@ class MqttConnection {
    }
 
    /**
-    * Breaks the infinite loop implemented in the MQTT client library using the ping response event
-    */
-   public function pingresp() {
-      if ($this->disconnect) {
-         self::$mqtt->disconnect();
-      }
-   }
-
-   /**
     * Disconnects the MQTT client
     */
    public function disconnect() {
-      $this->disconnect = true;
+      return $this->disconnect = true;
    }
 
    /**
     * Sets when it must disconnect the MQTT client
     */
-   protected function mustDisconnect() {
+   public function mustDisconnect() {
       if ((time() - $this->beginTimestamp) > $this->duration) {
          return true;
       }

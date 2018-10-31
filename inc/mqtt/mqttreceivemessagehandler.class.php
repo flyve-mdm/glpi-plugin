@@ -40,14 +40,15 @@ use PluginFlyvemdmPolicyFactory;
 use PluginFlyvemdmTask;
 use PluginFlyvemdmTaskstatus;
 use sskaje\mqtt\Message\PUBLISH;
+use sskaje\mqtt\MessageHandler;
+use sskaje\mqtt\MQTT;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-class MqttReceiveMessageHandler {
+class MqttReceiveMessageHandler extends MessageHandler {
 
-   private $startTime;
    private $log;
 
    public function __construct(PluginFlyvemdmMqttlog $mqttlog) {
@@ -60,24 +61,34 @@ class MqttReceiveMessageHandler {
       $this->log->saveIngoingMqttMessage($topic, $message);
 
       $mqttPath = explode('/', $topic, 4);
-      if (isset($mqttPath[3])) {
-         if ($mqttPath[3] == "Status/Ping") {
-            $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[3] === "Status/Geolocation" && $message != "?") {
-            $this->saveGeolocationPosition($topic, $message);
-         } else if ($mqttPath[3] === "Status/Unenroll") {
-            $this->deleteAgent($topic, $message);
-         } else if ($mqttPath[3] === "Status/Inventory") {
-            $this->updateInventory($topic, $message);
-         } else if ($mqttPath[3] === "Status/Online") {
-            $this->updateOnlineStatus($topic, $message);
-         } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
-            $this->updateTaskStatus($topic, $message);
-         }
-      } else if ($topic === 'FlyvemdmManifest/Status/Version') {
-         $this->checkManifestVersion($message);
+      if (!isset($mqttPath[3])) {
+         return;
       }
 
+      if ($mqttPath[3] == "Status/Ping") {
+         $this->updateLastContact($topic, $message);
+      } else if ($mqttPath[3] === "Status/Geolocation" && $message != "?") {
+         $this->saveGeolocationPosition($topic, $message);
+      } else if ($mqttPath[3] === "Status/Unenroll") {
+         $this->deleteAgent($topic, $message);
+      } else if ($mqttPath[3] === "Status/Inventory") {
+         $this->updateInventory($topic, $message);
+      } else if ($mqttPath[3] === "Status/Online") {
+         $this->updateOnlineStatus($topic, $message);
+      } else if (PluginFlyvemdmCommon::startsWith($mqttPath[3], "Status/Task")) {
+         $this->updateTaskStatus($topic, $message);
+      }
+   }
+
+   /**
+    * This is a callback for the MQTT loop function when the client is subscribed to a topic.
+    *
+    * @param MQTT $mqtt
+    * @param PUBLISH $publish_object
+    */
+   public function publish(MQTT $mqtt, PUBLISH $publish_object)
+   {
+      $this($publish_object); // call to __invoke();
    }
 
    /**
@@ -266,24 +277,5 @@ class MqttReceiveMessageHandler {
       $taskStatus->updateStatus($policy, $feedback['status']);
 
       $this->updateLastContact($topic, '!');
-   }
-
-   /**
-    * Check and notify any update of current version of Flyve
-    * @param string $message
-    */
-   protected function checkManifestVersion($message) {
-      // Don't use version from the cosntant in setup.php because the backend may upgrade while this script is running
-      // thus keep in RAM in an older version
-      $config = \Config::getConfigurationValues('flyvemdm', ['version']);
-      $actualVersion = $config['version'];
-      $detectedVersion = json_decode($message, JSON_OBJECT_AS_ARRAY);
-      $detectedVersion = isset($detectedVersion['version'])
-         ? $detectedVersion['version']
-         : null;
-      if ($actualVersion != $detectedVersion) {
-         $this->flyveManifestMissing = true;
-         // $this->publishManifest($mqtt);
-      }
    }
 }
