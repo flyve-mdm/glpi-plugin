@@ -29,44 +29,35 @@
  * ------------------------------------------------------------------------------
  */
 
-// Ensure current directory when run from crontab
-use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
-use GlpiPlugin\Flyvemdm\Broker\BrokerWorker;
-use GlpiPlugin\Flyvemdm\Mqtt\MqttConnection;
-use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
-use GlpiPlugin\Flyvemdm\Mqtt\MqttTransport;
+namespace GlpiPlugin\Flyvemdm\Broker;
 
-chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 
-include (__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerReceiverInterface;
 
-$doc = <<<DOC
-mqtt.php
+class BrokerWorker {
+   private $receiver;
+   private $bus;
 
-Usage:
-   cli_install.php [ --tests ] [ --debug ]
+   public function __construct(BrokerReceiverInterface $receiver, BrokerBus $bus) {
+      $this->receiver = $receiver;
+      $this->bus = $bus;
+   }
 
-Options:
-   --tests              Use GLPI test database
-   --debug              Verbose mode for debug (dumps all messages)
+   /**
+    * Receive the messages and dispatch them to the bus.
+    */
+   public function run() {
+      if (\function_exists('pcntl_signal')) {
+         pcntl_signal(SIGTERM, function () {
+            $this->receiver->stop();
+         });
+      }
 
-DOC;
-
-$docopt = new \Docopt\Handler();
-$args = $docopt->handle($doc);
-if (isset($args['--tests']) && $args['--tests'] !== false) {
-   echo 'running in testing environment' . PHP_EOL;
-   define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-   define('GLPI_CONFIG_DIR', GLPI_ROOT . '/tests');
+      $this->receiver->receive(function ($envelope) {
+         if (null === $envelope) {
+            return;
+         }
+         $this->bus->dispatch($envelope->with(new BrokerReceivedMessage()));
+      });
+   }
 }
-
-include (__DIR__ . '/../../../inc/includes.php');
-
-if (isset($args['--debug']) && $args['--debug'] !== false) {
-   \sskaje\mqtt\Debug::Enable();
-}
-
-$receiver = new MqttTransport(MqttConnection::getInstance());
-$bus = new BrokerBus(new MqttMiddleware());
-$worker = new BrokerWorker($receiver, $bus);
-$worker->run();

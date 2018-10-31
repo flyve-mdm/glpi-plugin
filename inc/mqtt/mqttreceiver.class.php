@@ -55,7 +55,29 @@ class MqttReceiver implements BrokerReceiverInterface {
     * @return void
     */
    public function receive(callable $handler) {
-      // the receive actions....
+      $connection = $this->connection;
+      $connection::getInstance();
+      $mqtt = $connection->getMQTT();
+      if ($mqtt === false) {
+         exit(1);
+      }
+
+      $topics = ['#' => 0];
+      $mqtt->setHandler(new MqttReceiveMessageHandler(new \PluginFlyvemdmMqttlog()));
+      $mqtt->subscribe($topics);
+
+      while (!$connection->mustDisconnect()) {
+         try {
+            $mqtt->loop();
+         } catch (\Exception $e) {
+            $error = "Exception while listening MQTT messages : \n" . $e->getMessage();
+            $trace = $e->getTraceAsString();
+
+            \Toolbox::logInFile("mqtt", "$error\n$trace\n\n");
+            $mqtt->reconnect(true);
+            $mqtt->subscribe($topics);
+         }
+      }
    }
 
    /**
