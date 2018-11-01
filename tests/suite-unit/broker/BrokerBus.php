@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Domingo Oropeza
+ * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -29,24 +29,34 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Interfaces;
+namespace tests\units\GlpiPlugin\Flyvemdm\Broker;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access this file directly");
-}
+use Flyvemdm\Tests\CommonTestCase;
+use Flyvemdm\Tests\DummyMessage;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
 
-interface BrokerTransportFactoryInterface {
-   /**
-    * @param string $dsn
-    * @param array $options
-    * @return BrokerTransportInterface
-    */
-   public function createTransport($dsn, array $options);
+class BrokerBus extends CommonTestCase {
 
    /**
-    * @param string $dsn
-    * @param array $options
-    * @return boolean
+    * @tags testDispatch
     */
-   public function supports($dsn, array $options);
+   public function testDispatch() {
+      // try the exception
+      $this->exception(function () {
+         $this->newTestedInstance()->dispatch('lorem');
+      })->hasMessage('Invalid type for message argument. Expected object, but got "string".');
+
+      // try to get a message
+      $message = new DummyMessage('Hello');
+      $responseFromDepthMiddleware = '1234';
+      $firstMiddleware = $this->newMockInstance(MqttMiddleware::class);
+      $this->calling($firstMiddleware)->handle = function ($message, $next) {
+         return $next($message);
+      };
+      $secondMiddleware = $this->newMockInstance(MqttMiddleware::class);
+      $this->calling($secondMiddleware)->handle = $responseFromDepthMiddleware;
+      $instance = $this->newTestedInstance([$firstMiddleware, $secondMiddleware]);
+      $this->string($instance->dispatch($message))->isEqualTo($responseFromDepthMiddleware);
+   }
+
 }
