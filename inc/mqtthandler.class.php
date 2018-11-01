@@ -360,9 +360,9 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
       if (!isset($feedback['online'])) {
          return;
       }
-      if ($feedback['online'] == 'false') {
+      if ($feedback['online'] == false) {
          $status = '0';
-      } else if ($feedback['online'] == 'true') {
+      } else if ($feedback['online'] == true) {
          $status = '1';
       } else {
          // Invalid value

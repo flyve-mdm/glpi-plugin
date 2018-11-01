@@ -239,6 +239,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                                     'value'        => $this->fields['plugin_flyvemdm_fleets_id'],
                                     'entity'       => $this->fields['entities_id']
                              ]);
+      $fields['is_online'] = self::getSpecificValueToDisplay('is_online', $fields['is_online']);
       if (empty($fields['last_contact'])) {
          $fields['last_contact'] = __('Never seen online', 'flyvemdm');
       }
@@ -441,7 +442,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (!$entityConfig->canAddAgent($_SESSION['glpiactive_entity'])) {
          // Too many devices
          $this->filterMessages(Session::addMessageAfterRedirect(__('Too many devices', 'flyvemdm')));
-         $input = false;
+         return false;
       }
 
       // User already logged in : user token has been validated
@@ -450,7 +451,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       switch ($this->chooseEnrollMethod($input)) {
          case self::ENROLL_DENY:
             $this->filterMessages(Session::addMessageAfterRedirect(__('Unable to find a enrollment method', 'flyvemdm')));
-            $input = false;
+            return false;
             break;
 
          case self::ENROLL_INVITATION_TOKEN:
@@ -459,7 +460,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
          case self::ENROLL_ENTITY_TOKEN:
             // Method disabled, waiting for implementation
-            $input = false;
+            return false;
             break;
       }
 
@@ -1986,8 +1987,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       switch ($field) {
          case 'is_online':
             if (!isAPI()) {
+               $style = '';
+               if (isset($options['center']) && $options['center']) {
+                  $style = 'style="text-align: center"';
+               }
                $class = $values[$field] == 0 ? "plugin-flyvemdm-offline" : "plugin-flyvemdm-online";
-               $output = '<div style="text-align: center"><i class="fa fa-circle '
+               $output = '<div ' . $style . '><i class="fa fa-circle '
                   . $class
                   . '" aria-hidden="true" ></i></div>';
                return $output;

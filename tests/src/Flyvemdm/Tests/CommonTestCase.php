@@ -52,7 +52,12 @@ class CommonTestCase extends GlpiCommonTestCase {
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
+      $this->dump($_REQUEST['user_token']);
       $this->boolean($this->login('', '', false))->isTrue();
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $guestProfileId = $config['guest_profiles_id'];
+      \Session::changeProfile($guestProfileId);
+      $this->dump($_SESSION['glpiactiveprofile']['profile']);
       unset($_REQUEST['user_token']);
 
       // Try to enroll
@@ -72,16 +77,40 @@ class CommonTestCase extends GlpiCommonTestCase {
    }
 
    /**
+    * Create a user having with the flyve mddm guest profile
+    *
+    * @param array $input input data as expected by \User::add()
+    */
+   protected function createGuestUser($input) {
+      $entityId = isset($input['entities_id']) ? $input['entities_id'] : 0;
+      $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
+      $guestProfileId = $config['guest_profiles_id'];
+      $input['_entities_id'] = $entityId;
+      $input['profiles_id'] = $guestProfileId;
+      $user = new \User();
+      $user->add($input);
+      return $user;
+   }
+
+   /**
     * Create a new invitation
     *
     * @param string $guestEmail
     * @return \PluginFlyvemdmInvitation
     */
    protected function createInvitation($guestEmail) {
+      $user = $this->createGuestUser([
+         '_useremails' => [
+            $guestEmail,
+         ],
+         'name' => $guestEmail,
+         'authtype' => \Auth::DB_GLPI,
+         'entities_id' => $_SESSION['glpiactive_entity'],
+      ]);
       $invitation = new \PluginFlyvemdmInvitation();
       $invitation->add([
          'entities_id' => $_SESSION['glpiactive_entity'],
-         '_useremails' => $guestEmail,
+         'users_id' => $user->getID(),
       ]);
       $this->boolean($invitation->isNewItem())->isFalse();
       if (!$invitation->isNewItem()) {
@@ -122,15 +151,15 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @return \PluginFlyvemdmAgent
     */
    protected function agentFromInvitation(
-   \User $user,
-   $guestEmail,
-   $serial,
-   $invitationToken,
-   $mdmType = 'android',
-   $version = '',
-   $inventory = null,
-   array $customInput = [],
-   $keepSession = false
+      \User $user,
+      $guestEmail,
+      $serial,
+      $invitationToken,
+      $mdmType = 'android',
+      $version = '',
+      $inventory = null,
+      array $customInput = [],
+      $keepSession = false
    ) {
       //Version change
       $finalVersion = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';

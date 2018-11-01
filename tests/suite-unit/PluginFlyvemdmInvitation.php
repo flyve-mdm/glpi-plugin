@@ -118,12 +118,9 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testPrepareInputForAdd
     */
    public function testPrepareInputForAdd() {
-      $uniqueEmail = $this->getUniqueEmail();
       $sessionMessages = [
-         'Email address is invalid',
-         'Cannot create the user',
-         'Document move succeeded.',
-         'The user already exists and has been deleted. You must restore or purge him first.',
+         'Invalid data',
+         'The user was deleted. You must restore him first.',
       ];
       $instance = $this->newTestedInstance();
 
@@ -132,20 +129,20 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[0]);
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
 
-      // invalid email
-      $this->boolean($instance->prepareInputForAdd(['_useremails' => '']))->isFalse();
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[0]);
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
-
+      $uniqueEmail = $this->getUniqueEmail();
+      $user = new \User();
+      $user->add([
+         '_useremails' => [
+            $uniqueEmail,
+         ],
+         'authtype' => \Auth::DB_GLPI,
+         'name'     => $uniqueEmail,
+      ]);
+      $this->boolean($user->isNewItem())->isFalse();
       $input = [
-         '_useremails' => $uniqueEmail,
+         'users_id' => $user->getID(),
          'entities_id' => $_SESSION['glpiactive_entity'],
       ];
-
-      // TODO: error adding user
-      /*$this->boolean($instance->prepareInputForAdd($input))->isFalse();
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[1]);
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);*/
 
       // success
       if (is_dir($destination = GLPI_DOC_DIR . '/PNG/')) {
@@ -155,12 +152,12 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $result = $instance->prepareInputForAdd($input);
       $this->boolean($instance->isNewItem())->isTrue()
          ->array($result)->hasKeys([
-            '_useremails',
+            'users_id',
             'entities_id',
             'users_id',
             'invitation_token',
             'expiration_date',])
-         ->string($result['_useremails'])->isEqualTo($uniqueEmail)
+         ->integer((int) $result['users_id'])->isEqualTo($user->getID())
          ->string($result['invitation_token'])
          ->string($expiration = $result['expiration_date']);
 
@@ -173,7 +170,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $user = new \User();
       $user->deleteByCriteria(['name' => $uniqueEmail]);
       $this->boolean($instance->prepareInputForAdd($input))->isFalse();
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[3]);
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($sessionMessages[1]);
       unset($_SESSION["MESSAGE_AFTER_REDIRECT"][0]);
    }
 
@@ -206,7 +203,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $this->string($result)
          ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
-         ->contains('input name="_useremails" value=""')
+         ->contains('name="users_id"') // GLPI 9.2 is input, 9.3 is select
          ->contains('input type="hidden" name="_glpi_csrf_token"');
    }
 
@@ -214,13 +211,23 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
     * @tags testPost_updateItem
     */
    public function testPost_updateItem() {
+      $email = $this->getUniqueEmail();
+      $user = new \User();
+      $user->add([
+         '_useremails' => [
+            $email,
+         ],
+         'authtype' => \Auth::DB_GLPI,
+         'name'     => $email,
+      ]);
+      $this->boolean($user->isNewItem())->isFalse();
       $entity = new \Entity();
       $entity->import([
          'completename' => 'post update invitation ' . $this->getUniqueString(),
       ]);
       $instance = $this->newTestedInstance();
       $instance->add([
-         '_useremails' => 'someone@localhost.local',
+         'users_id' => $user->getID(),
          'entities_id' => $entity->getID(),
       ]);
 
