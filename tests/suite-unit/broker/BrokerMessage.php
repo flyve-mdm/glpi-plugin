@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Domingo Oropeza
+ * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
  * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -29,51 +29,23 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Broker;
+namespace tests\units\GlpiPlugin\Flyvemdm\Broker;
 
-use GlpiPlugin\Flyvemdm\Interfaces\BrokerTransportFactoryInterface;
+use Flyvemdm\Tests\CommonTestCase;
+use Flyvemdm\Tests\DummyMessage;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope as RealBrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerReceivedMessage;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access this file directly");
-}
-
-class BrokerTransportFactory implements BrokerTransportFactoryInterface {
-
-   private $factories;
+class BrokerMessage extends CommonTestCase {
 
    /**
-    * @param iterable|BrokerTransportFactoryInterface[] $factories
+    * @tags testConstructor
     */
-   public function __construct($factories) {
-      $this->factories = $factories;
+   public function testConstructor() {
+      $message = 'lorem';
+      $instance = $this->newTestedInstance($message);
+      $this->string($instance->getMessage())->isEqualTo($message);
    }
 
-   /**
-    * @param string $dsn
-    * @param array $options
-    * @return GlpiPlugin\Flyvemdm\Interfaces\BrokerTransportInterface
-    */
-   public function createTransport($dsn, array $options) {
-      foreach ($this->factories as $factory) {
-         if ($factory->supports($dsn, $options)) {
-            return $factory->createTransport($dsn, $options);
-         }
-      }
-      throw new InvalidArgumentException(sprintf(__('No transport supports the given DSN "%s".',
-         'flyvemdm'), $dsn));
-   }
-
-   /**
-    * @param string $dsn
-    * @param array $options
-    * @return boolean
-    */
-   public function supports($dsn, array $options) {
-      foreach ($this->factories as $factory) {
-         if ($factory->supports($dsn, $options)) {
-            return true;
-         }
-      }
-      return false;
-   }
 }
