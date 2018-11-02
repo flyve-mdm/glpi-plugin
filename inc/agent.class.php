@@ -830,6 +830,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'is_online',
          'name'               => __('Is online', 'flyvemdm'),
          'datatype'           => 'specific',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 
@@ -848,6 +849,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'has_system_permission',
          'name'               => __('Has system permission', 'flyvemdm'),
          'datatype'           => 'bool',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 
@@ -857,6 +859,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'enroll_status',
          'name'               => __('Enroll status', 'flyvemdm'),
          'datatype'           => 'bool',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 
@@ -866,6 +869,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'wipe',
          'name'               => __('Wipe requested', 'flyvemdm'),
          'datatype'           => 'bool',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 
@@ -875,6 +879,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'lock',
          'name'               => __('Lock requested', 'flyvemdm'),
          'datatype'           => 'bool',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 
@@ -2006,5 +2011,26 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             break;
       }
       return parent::getSpecificValueToDisplay($field, $values, $options);
+   }
+
+   public static function getSpecificValueToSelect($field, $name = '', $values = '', array $options = []) {
+      if (!is_array($values)) {
+         $values = [$field => $values];
+      }
+      $options['display'] = false;
+
+      switch ($field) {
+         case 'is_online' :
+            return Dropdown::showFromArray($name, [
+               '0' => __('No', 'flyvemdm'),
+               '1' => __('Yes', 'flyvemdm'),
+            ], [
+               'value'               => $values[$field],
+               'display_emptychoice' => false,
+               'display'             => false
+            ]);
+            break;
+      }
+      return parent::getSpecificValueToSelect($field, $name, $values, $options);
    }
 }

@@ -118,6 +118,7 @@ class PluginFlyvemdmWellknownpath extends CommonDropdown {
          'name'          => __('default'),
          'massiveaction' => false,
          'datatype'      => 'bool',
+         'searchtype'    => ['equals'],
       ];
 
       return $tab;

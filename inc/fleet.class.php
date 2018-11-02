@@ -282,6 +282,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'field'              => 'is_default',
          'name'               => __('Not managed'),
          'datatype'           => 'bool',
+         'searchtype'         => ['equals'],
          'massiveaction'      => false
       ];
 

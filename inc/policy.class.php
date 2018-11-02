@@ -174,6 +174,7 @@ class PluginFlyvemdmPolicy extends CommonDBTM {
          'field'         => 'is_android_system',
          'name'          => __('Requires system permission', 'flyvemdm'),
          'datatype'      => 'bool',
+         'searchtype'    => ['equals'],
          'massiveaction' => false,
       ];
 
