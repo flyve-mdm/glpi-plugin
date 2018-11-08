@@ -100,7 +100,7 @@ class BrokerEnvelope extends CommonTestCase {
       $this->string($envelope->getMessage())->isEqualTo($message);
    }
 
-   protected function providerConstructor(){
+   protected function providerConstructor() {
       return [
          ['lorem', []],
          ['lorem', [new BrokerReceivedMessage()]],
