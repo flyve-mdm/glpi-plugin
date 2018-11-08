@@ -1132,7 +1132,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * unsibscribe from a fleet
+    * unsubscribe from a fleet
     */
    public function unsubscribe() {
       $this->update([
