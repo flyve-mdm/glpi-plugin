@@ -86,8 +86,7 @@ class MqttReceiveMessageHandler extends MessageHandler {
     * @param MQTT $mqtt
     * @param PUBLISH $publish_object
     */
-   public function publish(MQTT $mqtt, PUBLISH $publish_object)
-   {
+   public function publish(MQTT $mqtt, PUBLISH $publish_object) {
       $this($publish_object); // call to __invoke();
    }
 
