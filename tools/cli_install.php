@@ -76,6 +76,16 @@ ini_set("session.use_cookies", "0");
 
 include (__DIR__ . "/../../../inc/includes.php");
 
+$DB = new DB();
+if (!$DB->connected) {
+   die("No DB connection\n");
+}
+
+if (!$DB->tableExists("glpi_configs")) {
+   echo "GLPI not installed\n";
+   exit(1);
+}
+
 if (isset($args['--enable-api']) && $args['--enable-api'] !== false) {
    $config = [
          'enable_api'                        => '1',
@@ -127,11 +137,6 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
 //set_error_handler('userErrorHandlerDebug');
 
-$DB = new DB();
-if (!$DB->connected) {
-   die("No DB connection\n");
-}
-
 $user = new User();
 if (!$user->getFromDBbyName($asUser)) {
    die("User $asUser not found in DB\n");
@@ -145,11 +150,6 @@ $apiUserToken = $args['--api-user-token'];
 $dev = $args['--dev'];
 
 /*---------------------------------------------------------------------*/
-
-if (!$DB->tableExists("glpi_configs")) {
-   echo "GLPI not installed\n";
-   exit(1);
-}
 
 $plugin = new Plugin();
 
