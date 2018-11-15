@@ -164,7 +164,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       switch ($item->getType()) {
          case __CLASS__ :
-            $tab = [1 => __('Danger zone !', 'flyvemdm')];
+            $tab = [1 => __('Danger zone!', 'flyvemdm')];
             return $tab;
             break;
 
