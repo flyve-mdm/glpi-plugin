@@ -2004,14 +2004,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       switch ($field) {
          case 'is_online':
             if (!isAPI()) {
-               $style = '';
-               if (isset($options['center']) && $options['center']) {
-                  $style = 'style="text-align: center"';
-               }
                $class = $values[$field] == 0 ? "plugin-flyvemdm-offline" : "plugin-flyvemdm-online";
-               $output = '<div ' . $style . '><i class="fa fa-circle '
+               $output = '<i class="fa fa-circle '
                   . $class
-                  . '" aria-hidden="true" ></i></div>';
+                  . '" aria-hidden="true" ></i>';
+               if (isset($options['center']) && $options['center']) {
+                  $output = '<div style="text-align: center">' . $output . '</div>';
+               }
                return $output;
             }
             break;
