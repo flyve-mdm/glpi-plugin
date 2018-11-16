@@ -128,6 +128,10 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
       $mqttPath = explode('/', $topic, 4);
       if (isset($mqttPath[3])) {
+
+         // Workaround the current time for Log object
+         $_SESSION["glpi_currenttime"] = date("Y-m-d H:i:s");
+
          if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
          } else if ($mqttPath[3] === "Status/Geolocation"  && $message != "?") {
