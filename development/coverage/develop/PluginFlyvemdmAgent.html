@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
                     47%
-                                            <small>of 942</small>
+                                            <small>of 940</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -478,9 +478,9 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#getSpecificValueToDisplay">PluginFlyvemdmAgent::getSpecificValueToDisplay()</a></td>
-                                        <td style="text-align: center">20</td>
+                                        <td style="text-align: center">18</td>
                 <td style="text-align: center">    
-    <span class="label label-success">85%</span>
+    <span class="label label-success">83%</span>
 </td>
                                             </tr>
             <tr>
@@ -15391,7 +15391,7 @@ layout: coverage
                     <th id="L1988" class="number ">1988</th>
 
                     <td class="" id="getSpecificValueToDisplay">
-                        <pre>   public static function getSpecificValueToDisplay($field, $values, array $options = []) {<span class="label label-success">85%</span><div class="btn-group"></div></pre>
+                        <pre>   public static function getSpecificValueToDisplay($field, $values, array $options = []) {<span class="label label-success">83%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -15441,25 +15441,47 @@ layout: coverage
                     <th id="L1995" class="number covered">1995</th>
 
                     <td class="covered" >
-                        <pre>               $style = &#039;&#039;;</pre>
+                        <pre>               $class = $values[$field] == 0 ? &quot;plugin-flyvemdm-offline&quot; : &quot;plugin-flyvemdm-online&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1996" class="number covered">1996</th>
+                    <th id="L1996" class="number ">1996</th>
+
+                    <td class="" >
+                        <pre>               $output = &#039;&lt;i class=&quot;fa fa-circle &#039;
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1997" class="number covered">1997</th>
+
+                    <td class="covered" >
+                        <pre>                  . $class</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1998" class="number covered">1998</th>
+
+                    <td class="covered" >
+                        <pre>                  . &#039;&quot; aria-hidden=&quot;true&quot; &gt;&lt;/i&gt;&#039;;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1999" class="number covered">1999</th>
 
                     <td class="covered" >
                         <pre>               if (isset($options[&#039;center&#039;]) &amp;&amp; $options[&#039;center&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1997" class="number uncovered">1997</th>
+                    <th id="L2000" class="number uncovered">2000</th>
 
                     <td class="uncovered" >
-                        <pre>                  $style = &#039;style=&quot;text-align: center&quot;&#039;;</pre>
+                        <pre>                  $output = &#039;&lt;div style=&quot;text-align: center&quot;&gt;&#039; . $output . &#039;&lt;/div&gt;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1998" class="number ">1998</th>
+                    <th id="L2001" class="number ">2001</th>
 
                     <td class="" >
                         <pre>               }
@@ -15467,42 +15489,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1999" class="number covered">1999</th>
-
-                    <td class="covered" >
-                        <pre>               $class = $values[$field] == 0 ? &quot;plugin-flyvemdm-offline&quot; : &quot;plugin-flyvemdm-online&quot;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L2000" class="number covered">2000</th>
-
-                    <td class="covered" >
-                        <pre>               $output = &#039;&lt;div &#039; . $style . &#039;&gt;&lt;i class=&quot;fa fa-circle &#039;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L2001" class="number covered">2001</th>
-
-                    <td class="covered" >
-                        <pre>                  . $class</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
                     <th id="L2002" class="number covered">2002</th>
-
-                    <td class="covered" >
-                        <pre>                  . &#039;&quot; aria-hidden=&quot;true&quot; &gt;&lt;/i&gt;&lt;/div&gt;&#039;;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L2003" class="number covered">2003</th>
 
                     <td class="covered" >
                         <pre>               return $output;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2004" class="number ">2004</th>
+                    <th id="L2003" class="number ">2003</th>
 
                     <td class="" >
                         <pre>            }
@@ -15510,42 +15504,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2005" class="number uncovered">2005</th>
+                    <th id="L2004" class="number uncovered">2004</th>
 
                     <td class="uncovered" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2006" class="number covered">2006</th>
+                    <th id="L2005" class="number covered">2005</th>
 
                     <td class="covered" >
                         <pre>         case &#039;mdm_type&#039;:</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2007" class="number covered">2007</th>
+                    <th id="L2006" class="number covered">2006</th>
 
                     <td class="covered" >
                         <pre>            if (!isAPI()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2008" class="number covered">2008</th>
+                    <th id="L2007" class="number covered">2007</th>
 
                     <td class="covered" >
                         <pre>               $enumtypes = self::getEnumMdmType();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2009" class="number covered">2009</th>
+                    <th id="L2008" class="number covered">2008</th>
 
                     <td class="covered" >
                         <pre>               return $enumtypes[$values[$field]];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2010" class="number ">2010</th>
+                    <th id="L2009" class="number ">2009</th>
 
                     <td class="" >
                         <pre>            }
@@ -15553,14 +15547,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2011" class="number uncovered">2011</th>
+                    <th id="L2010" class="number uncovered">2010</th>
 
                     <td class="uncovered" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2012" class="number ">2012</th>
+                    <th id="L2011" class="number ">2011</th>
 
                     <td class="" >
                         <pre>      }
@@ -15568,21 +15562,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2013" class="number covered">2013</th>
+                    <th id="L2012" class="number covered">2012</th>
 
                     <td class="covered" >
                         <pre>      return parent::getSpecificValueToDisplay($field, $values, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2014" class="number unreach">2014</th>
+                    <th id="L2013" class="number unreach">2013</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2015" class="number ">2015</th>
+                    <th id="L2014" class="number ">2014</th>
 
                     <td class="" >
                         <pre>
@@ -15590,28 +15584,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getSpecificValueToSelect">
-                    <th id="L2016" class="number ">2016</th>
+                    <th id="L2015" class="number ">2015</th>
 
                     <td class="" id="getSpecificValueToSelect">
                         <pre>   public static function getSpecificValueToSelect($field, $name = &#039;&#039;, $values = &#039;&#039;, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2017" class="number uncovered">2017</th>
+                    <th id="L2016" class="number uncovered">2016</th>
 
                     <td class="uncovered" >
                         <pre>      if (!is_array($values)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2018" class="number uncovered">2018</th>
+                    <th id="L2017" class="number uncovered">2017</th>
 
                     <td class="uncovered" >
                         <pre>         $values = [$field =&gt; $values];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2019" class="number ">2019</th>
+                    <th id="L2018" class="number ">2018</th>
 
                     <td class="" >
                         <pre>      }
@@ -15619,14 +15613,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2020" class="number uncovered">2020</th>
+                    <th id="L2019" class="number uncovered">2019</th>
 
                     <td class="uncovered" >
                         <pre>      $options[&#039;display&#039;] = false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2021" class="number ">2021</th>
+                    <th id="L2020" class="number ">2020</th>
 
                     <td class="" >
                         <pre>
@@ -15634,7 +15628,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2022" class="number ">2022</th>
+                    <th id="L2021" class="number ">2021</th>
 
                     <td class="" >
                         <pre>      switch ($field) {
@@ -15642,35 +15636,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2023" class="number uncovered">2023</th>
+                    <th id="L2022" class="number uncovered">2022</th>
 
                     <td class="uncovered" >
                         <pre>         case &#039;is_online&#039; :</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2024" class="number uncovered">2024</th>
+                    <th id="L2023" class="number uncovered">2023</th>
 
                     <td class="uncovered" >
                         <pre>            return Dropdown::showFromArray($name, [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2025" class="number uncovered">2025</th>
+                    <th id="L2024" class="number uncovered">2024</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;0&#039; =&gt; __(&#039;No&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2026" class="number uncovered">2026</th>
+                    <th id="L2025" class="number uncovered">2025</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;1&#039; =&gt; __(&#039;Yes&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2027" class="number ">2027</th>
+                    <th id="L2026" class="number ">2026</th>
 
                     <td class="" >
                         <pre>            ], [
@@ -15678,14 +15672,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2028" class="number uncovered">2028</th>
+                    <th id="L2027" class="number uncovered">2027</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;value&#039;               =&gt; $values[$field],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2029" class="number ">2029</th>
+                    <th id="L2028" class="number ">2028</th>
 
                     <td class="" >
                         <pre>               &#039;display_emptychoice&#039; =&gt; false,
@@ -15693,7 +15687,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2030" class="number ">2030</th>
+                    <th id="L2029" class="number ">2029</th>
 
                     <td class="" >
                         <pre>               &#039;display&#039;             =&gt; false
@@ -15701,7 +15695,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2031" class="number ">2031</th>
+                    <th id="L2030" class="number ">2030</th>
 
                     <td class="" >
                         <pre>            ]);
@@ -15709,14 +15703,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2032" class="number unreach">2032</th>
+                    <th id="L2031" class="number unreach">2031</th>
 
                     <td class="unreach" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2033" class="number ">2033</th>
+                    <th id="L2032" class="number ">2032</th>
 
                     <td class="" >
                         <pre>      }
@@ -15724,21 +15718,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2034" class="number uncovered">2034</th>
+                    <th id="L2033" class="number uncovered">2033</th>
 
                     <td class="uncovered" >
                         <pre>      return parent::getSpecificValueToSelect($field, $name, $values, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2035" class="number unreach">2035</th>
+                    <th id="L2034" class="number unreach">2034</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2036" class="number ">2036</th>
+                    <th id="L2035" class="number ">2035</th>
 
                     <td class="" >
                         <pre>}
