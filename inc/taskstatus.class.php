@@ -147,21 +147,58 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       return $input;
    }
 
+   public function canUpdateItem() {
+      // Check the active profile
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+         return parent::canUpdateItem();
+      }
+
+      if (!$this->checkEntity(true)) {
+         return false;
+      }
+
+      // the active profile is agent user, then check the user is
+      // owner of the item's computer
+      $computer = $this->getComputer();
+      if ($computer === null) {
+         return false;
+      }
+   }
+
    public function prepareInputForUpdate($input) {
+      if (isAPI() && $this->canUpdateItem()) {
+         if (!isset($input['message'])) {
+            return false;
+         }
+         if (!isset($input['topic'])) {
+            return false;
+         }
+         $feedback = json_decode($input['message'], true);
+         $input['status'] = $feedback['status'];
+         $mqttPath = explode('/', $input['topic'], 4);
+         if (!isset($mqttPath[3]) || !PluginFlyvemdmCommon::startsWith($mqttPath[3],
+               "Status/Task")) {
+            return false;
+         }
+      }
+
       if (!isset($input['status'])) {
          return false;
       }
 
-      unset($input[PluginFlyvemdmPolicy::getForeignKeyField()]);
-      unset($input[PluginFlyvemdmTask::getForeignKeyField()]);
+      $taskIdFk = PluginFlyvemdmTask::getForeignKeyField();
+      $policyIdFK = PluginFlyvemdmPolicy::getForeignKeyField();
+      unset($input[$policyIdFK]);
+      unset($input[$taskIdFk]);
 
       $task = new PluginFlyvemdmTask();
-      if (!$task->getFromDB($this->fields[PluginFlyvemdmTask::getForeignKeyField()])) {
+      if (!$task->getFromDB($this->fields[$taskIdFk])) {
          return false;
       }
 
       $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $policy = $policyFactory->createFromDBByID($task->getField(PluginFlyvemdmPolicy::getForeignKeyField()));
+      $policy = $policyFactory->createFromDBByID($task->getField($policyIdFK));
 
       $input['status'] = $policy->filterStatus($input['status']);
       if ($input['status'] === null) {
@@ -171,23 +208,11 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       return $input;
    }
 
-    /**
-    * Update status of a task
-    *
-    * @param PluginFlyvemdmPolicyBase $policy
-    * @param string $status
-    */
-   public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {
-      $status = $policy->filterStatus($status);
-
-      if ($status === null) {
-         return;
+   public function post_updateItem($history = 1) {
+      if(isset($this->input['topic']) && isset($this->input['message'])) {
+         $agent = new PluginFlyvemdmAgent();
+         $agent->updateLastContact($this->input['topic'], $this->input['message']);
       }
-
-      $this->update([
-         'id'     => $this->getID(),
-         'status' => $status,
-      ]);
    }
 
    /**
