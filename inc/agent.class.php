@@ -387,6 +387,44 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $_SESSION['glpiID'] == $computer->getField('users_id');
    }
 
+   public function canUpdateItem() {
+      // Check the active profile
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+         return parent::canUpdateItem();
+      }
+
+      if (!$this->checkEntity(true)) {
+         return false;
+      }
+
+      // the active profile is agent user, then check the user is
+      // owner of the item's computer
+      $computer = $this->getComputer();
+      if ($computer === null) {
+         return false;
+      }
+   }
+
+   function canDeleteItem() {
+      // Check the active profile
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+         return parent::canDeleteItem();
+      }
+
+      if (!$this->checkEntity(true)) {
+         return false;
+      }
+
+      // the active profile is agent user, then check the user is
+      // owner of the item's computer
+      $computer = $this->getComputer();
+      if ($computer === null) {
+         return false;
+      }
+   }
+
    /**
     * Sends a wipe command to the agent
     */
@@ -545,6 +583,45 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
+      if (isAPI() && $this->canUpdateItem()) {
+         if (!isset($input['message'])) {
+            return false;
+         }
+         $message = $input['message'];
+
+         if (!isset($input['topic'])) {
+            return false;
+         }
+         $topic = $input['topic'];
+         if (!$this->getByTopic($topic)) {
+            return false;
+         }
+
+         $mqttPath = explode('/', $topic, 4);
+         if (!in_array($mqttPath[3], [
+               "Status/Ping",
+               "Status/Geolocation",
+               "Status/Inventory",
+               "Status/Online",
+            ])) {
+            return false;
+         }
+
+         if ($mqttPath[3] === "Status/Geolocation" && $message != "?") {
+            $this->saveGeolocationPosition($message);
+         } else if ($mqttPath[3] === "Status/Inventory") {
+            $this->updateInventory($message);
+         } else if ($mqttPath[3] === "Status/Online") {
+            $onlineStatus = $this->getOnlineStatusFromMessage($message);
+            if ($onlineStatus === false) {
+               return false;
+            };
+            $input['is_online'] = $onlineStatus;
+         }
+         $date = new \DateTime("now");
+         $input['last_contact'] = $date->format('Y-m-d H:i:s');
+      }
+
       return $input;
    }
 
@@ -568,6 +645,16 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
+      if (isAPI() && $this->canDeleteItem()) {
+         if (!isset($this->input['topic'])) {
+            return false;
+         }
+         $topic = $this->input['topic'];
+         if (!$this->getByTopic($topic)) {
+            return false;
+         }
+      }
+
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -2043,5 +2130,106 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             break;
       }
       return parent::getSpecificValueToSelect($field, $name, $values, $options);
+   }
+
+   /**
+    * Updates the last contact date of the agent
+    *
+    * The data to update is a datetime
+    *
+    * @param string $topic
+    * @param string $message
+    */
+   public function updateLastContact($topic, $message) {
+      if ($message !== '!') {
+         return;
+      }
+      if ($this->getByTopic($topic)) {
+         $date = new \DateTime("now");
+         $this->update([
+            'id'              => $this->getID(),
+            'last_contact'    => $date->format('Y-m-d H:i:s')
+         ]);
+      }
+   }
+
+   /**
+    * Saves geolocation position from a notification sent by a device
+    * @param string $message
+    */
+   private function saveGeolocationPosition($message) {
+      $position = json_decode($message, true);
+      $dateGeolocation = false;
+      if (isset($position['datetime'])) {
+         // The datetime sent by the device is expected to be on UTC timezone
+         $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
+            new \DateTimeZone("UTC"));
+         // Shift the datetime to the timezone of the server
+         $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+      }
+      if (isset($position['latitude']) && isset($position['longitude'])) {
+         if ($dateGeolocation !== false) {
+            $geolocation = new PluginFlyvemdmGeolocation();
+            $geolocation->add([
+               'computers_id' => $this->getField('computers_id'),
+               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
+               'latitude'     => $position['latitude'],
+               'longitude'    => $position['longitude']
+            ]);
+         }
+      } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
+         // No GPS geolocation available at this time, log it anyway
+         if ($dateGeolocation !== false) {
+            $geolocation = new PluginFlyvemdmGeolocation();
+            $geolocation->add([
+               'computers_id' => $this->getField('computers_id'),
+               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
+               'latitude'     => 'na',
+               'longitude'    => 'na'
+            ]);
+         }
+      }
+   }
+
+   /**
+    * Updates the inventory from a notification sent by a device
+    * @param string $message
+    */
+   private function updateInventory($message) {
+      if (!$this->getComputer()) {
+         return;
+      }
+      $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
+      $inventoryXML = $message;
+      $communication = new PluginFusioninventoryCommunication();
+      $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
+      if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
+         foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
+            $logMessage = "Import message: $logMessage\n";
+            \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
+         }
+      }
+   }
+
+   /**
+    * Update the status of a task from a notification sent by a device
+    *
+    * @param string $message
+    * @return boolean|string
+    */
+   private function getOnlineStatusFromMessage($message) {
+      $feedback = json_decode($message, true);
+      if (!isset($feedback['online'])) {
+         return false;
+      }
+      if ($feedback['online'] == false) {
+         $status = '0';
+      } else if ($feedback['online'] == true) {
+         $status = '1';
+      } else {
+         // Invalid value
+         return false;
+      }
+      return $status;
    }
 }

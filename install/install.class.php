@@ -291,10 +291,11 @@ class PluginFlyvemdmInstall {
       Config::setConfigurationValues('flyvemdm', ['agent_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
-         PluginFlyvemdmAgent::$rightname        => READ,
+         PluginFlyvemdmAgent::$rightname        => READ | UPDATE | PURGE,
          PluginFlyvemdmFile::$rightname         => READ,
          PluginFlyvemdmPackage::$rightname      => READ,
          PluginFlyvemdmEntityConfig::$rightname => READ,
+         PluginFlyvemdmTaskstatus::$rightname   => UPDATE,
       ]);
    }
 
@@ -851,6 +852,7 @@ Regards,
          PluginFlyvemdmPackage::$rightname,
          PluginFlyvemdmPolicy::$rightname,
          PluginFlyvemdmProfile::$rightname,
+         PluginFlyvemdmTaskstatus::$rightname,
          PluginFlyvemdmWellknownpath::$rightname,
          PluginFlyvemdmMqttlog::$rightname,
       ];
