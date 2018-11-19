@@ -168,6 +168,7 @@ class PluginFlyvemdmProfile extends Profile {
          PluginFlyvemdmGeolocation::class,
          PluginFlyvemdmPolicy::class,
          PluginFlyvemdmPolicyCategory::class,
+         PluginFlyvemdmTaskstatus::class,
          PluginFlyvemdmWellknownpath::class,
       ];
 
