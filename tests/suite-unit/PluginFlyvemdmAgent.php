@@ -214,6 +214,23 @@ class PluginFlyvemdmAgent extends CommonTestCase {
    }
 
    /**
+    * @tags testCanViewItem
+    */
+   public function testCanUpdateItem() {
+      // Simulate a profile different of agent
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'] + 1;
+
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->testCanUpdateItem())->isFalse();
+
+      // Simulate a profile equal to agent
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->testCanUpdateItem())->isFalse();
+   }
+
+   /**
     * @tags testGetTopicsToCleanup
     */
    public function testGetTopicsToCleanup() {
