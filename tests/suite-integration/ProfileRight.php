@@ -51,6 +51,7 @@ class ProfileRight extends CommonTestCase {
          \PluginFlyvemdmPackage::$rightname      => READ,
          \PluginFlyvemdmFile::$rightname         => READ,
          \PluginFlyvemdmEntityConfig::$rightname => READ,
+         \PluginFlyvemdmGeolocation::$rightname  => CREATE,
          \PluginFlyvemdmTaskstatus::$rightname   => UPDATE,
       ];
 

@@ -394,16 +394,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return parent::canUpdateItem();
       }
 
-      if (!$this->checkEntity(true)) {
+      // if the active user is an user agent profile, we check that it isn't changing another agent.
+      if ($this->fields[User::getForeignKeyField()] != Session::getLoginUserID()) {
          return false;
       }
 
-      // the active profile is agent user, then check the user is
-      // owner of the item's computer
-      $computer = $this->getComputer();
-      if ($computer === null) {
-         return false;
-      }
+      return parent::canUpdateItem();
    }
 
    function canDeleteItem() {
@@ -413,16 +409,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return parent::canDeleteItem();
       }
 
-      if (!$this->checkEntity(true)) {
+      // if the active user is an user agent profile, we check that it isn't changing another agent.
+      if ($this->fields[User::getForeignKeyField()] != Session::getLoginUserID()){
          return false;
       }
 
-      // the active profile is agent user, then check the user is
-      // owner of the item's computer
-      $computer = $this->getComputer();
-      if ($computer === null) {
-         return false;
-      }
+      return parent::canDeleteItem();
    }
 
    /**
@@ -584,15 +576,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       if (isAPI() && $this->canUpdateItem()) {
-         if (!isset($input['message'])) {
+         if (!isset($input['_message'])) {
             return false;
          }
-         $message = $input['message'];
+         $message = $input['_message'];
 
-         if (!isset($input['topic'])) {
+         if (!isset($input['_topic'])) {
             return false;
          }
-         $topic = $input['topic'];
+         $topic = $input['_topic'];
          if (!$this->getByTopic($topic)) {
             return false;
          }
@@ -646,10 +638,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function pre_deleteItem() {
       if (isAPI() && $this->canDeleteItem()) {
-         if (!isset($this->input['topic'])) {
+         if (!isset($this->input['_topic'])) {
             return false;
          }
-         $topic = $this->input['topic'];
+         $topic = $this->input['_topic'];
          if (!$this->getByTopic($topic)) {
             return false;
          }
