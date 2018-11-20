@@ -52,12 +52,12 @@ class CommonTestCase extends GlpiCommonTestCase {
 
       // login as invited user
       $_REQUEST['user_token'] = \User::getToken($userId, 'api_token');
-      $this->dump($_REQUEST['user_token']);
+      //$this->dump($_REQUEST['user_token']);
       $this->boolean($this->login('', '', false))->isTrue();
       $config = \Config::getConfigurationValues('flyvemdm', ['guest_profiles_id']);
       $guestProfileId = $config['guest_profiles_id'];
       \Session::changeProfile($guestProfileId);
-      $this->dump($_SESSION['glpiactiveprofile']['profile']);
+      //$this->dump($_SESSION['glpiactiveprofile']['profile']);
       unset($_REQUEST['user_token']);
 
       // Try to enroll
