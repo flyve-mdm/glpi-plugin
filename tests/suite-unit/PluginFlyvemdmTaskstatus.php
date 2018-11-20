@@ -236,4 +236,23 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $instance = $this->newTestedInstance();
       $this->string($instance->getTabNameForItem($item))->isEqualTo($expected);
    }
+
+   /**
+    * @tags testCanUpdateItem
+    */
+   public function testCanUpdateItem() {
+      // Simulate a profile different of agent
+      $oldProfile = (isset($_SESSION['glpiactiveprofile']['id'])) ? $_SESSION['glpiactiveprofile']['id'] : null;
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'] + 1;
+
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->canUpdateItem())->isTrue();
+
+      // Simulate a profile equal to agent
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
+      $testedInstance = $this->newTestedInstance;
+      $this->boolean($testedInstance->canUpdateItem())->isFalse();
+      $_SESSION['glpiactiveprofile']['id'] = $oldProfile;
+   }
 }

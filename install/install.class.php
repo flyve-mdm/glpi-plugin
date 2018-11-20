@@ -295,6 +295,7 @@ class PluginFlyvemdmInstall {
          PluginFlyvemdmFile::$rightname         => READ,
          PluginFlyvemdmPackage::$rightname      => READ,
          PluginFlyvemdmEntityConfig::$rightname => READ,
+         PluginFlyvemdmGeolocation::$rightname  => CREATE,
          PluginFlyvemdmTaskstatus::$rightname   => UPDATE,
       ]);
    }

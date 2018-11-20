@@ -154,29 +154,29 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
          return parent::canUpdateItem();
       }
 
-      if (!$this->checkEntity(true)) {
+      // Check the task matches the agent itself
+      $agent = new PluginFlyvemdmAgent();
+      if (!$agent->getFromDB($this->fields[PluginFlyvemdmAgent::getForeignKeyField()])) {
+         return false;
+      }
+      if ($agent->getField(User::getForeignKeyField()) != Session::getLoginUserID()) {
          return false;
       }
 
-      // the active profile is agent user, then check the user is
-      // owner of the item's computer
-      $computer = $this->getComputer();
-      if ($computer === null) {
-         return false;
-      }
+      return parent::canUpdateItem();
    }
 
    public function prepareInputForUpdate($input) {
       if (isAPI() && $this->canUpdateItem()) {
-         if (!isset($input['message'])) {
+         if (!isset($input['_message'])) {
             return false;
          }
-         if (!isset($input['topic'])) {
+         if (!isset($input['_topic'])) {
             return false;
          }
-         $feedback = json_decode($input['message'], true);
+         $feedback = json_decode($input['_message'], true);
          $input['status'] = $feedback['status'];
-         $mqttPath = explode('/', $input['topic'], 4);
+         $mqttPath = explode('/', $input['_topic'], 4);
          if (!isset($mqttPath[3]) || !PluginFlyvemdmCommon::startsWith($mqttPath[3],
                "Status/Task")) {
             return false;
