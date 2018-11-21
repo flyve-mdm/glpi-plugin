@@ -1810,14 +1810,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      $user = new User();
-      $user->update([
-          User::getForeignKeyField() => $user->getID(),
-         'password'                  => $mqttClearPassword,
-         'password2'                 => $mqttClearPassword,
-         'authtype'                  => Auth::DB_GLPI,
-      ]);
-
       // The request comes from the owner of the device or the device itself, mandated by the user
       $this->fields['topic'] = $this->getTopic();
       $this->fields['mqttpasswd'] = $mqttClearPassword;
