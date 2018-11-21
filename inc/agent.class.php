@@ -558,7 +558,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Useful for post_purgeItem
       $this->getTopic();
       $this->setupMqttAccess();
-      $this->fields['api_token'] = User::getToken($this->fields['users_id'], 'api_token');
+      $this->fields['api_token'] = User::getToken($this->fields[User::getForeignKeyField()], 'api_token');
    }
 
    /**
