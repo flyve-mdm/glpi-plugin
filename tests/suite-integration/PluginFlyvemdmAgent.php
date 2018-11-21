@@ -264,6 +264,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test the agent user does not have a password
       $this->boolean(empty($agentUser->getField('password')))->isTrue();
 
+      // Test the agent user has an API token
+      $this->boolean(empty($agentUser->getField('api_token')))->isFalse();
+
       // Test the agent's user has the expected DEFAULT profile
       $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
       $this->integer((int) $agentUser->getField('profiles_id'))->isEqualTo($config['agent_profiles_id']);
