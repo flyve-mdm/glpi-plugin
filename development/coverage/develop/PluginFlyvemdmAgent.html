@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-warning">
-                    48%
-                                            <small>of 946</small>
+                    47%
+                                            <small>of 940</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -408,7 +408,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#setupMqttAccess">PluginFlyvemdmAgent::setupMqttAccess()</a></td>
-                                        <td style="text-align: center">56</td>
+                                        <td style="text-align: center">50</td>
                 <td style="text-align: center">    
     <span class="label label-success">82%</span>
 </td>
@@ -4715,7 +4715,7 @@ layout: coverage
                     <th id="L561" class="number covered">561</th>
 
                     <td class="covered" >
-                        <pre>      $this-&gt;fields[&#039;api_token&#039;] = User::getToken($this-&gt;fields[&#039;users_id&#039;], &#039;api_token&#039;);</pre>
+                        <pre>      $this-&gt;fields[&#039;api_token&#039;] = User::getToken($this-&gt;fields[User::getForeignKeyField()], &#039;api_token&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -14072,65 +14072,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1813" class="number covered">1813</th>
-
-                    <td class="covered" >
-                        <pre>      $user = new User();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1814" class="number covered">1814</th>
-
-                    <td class="covered" >
-                        <pre>      $user-&gt;update([</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1815" class="number covered">1815</th>
-
-                    <td class="covered" >
-                        <pre>          User::getForeignKeyField() =&gt; $user-&gt;getID(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1816" class="number covered">1816</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;password&#039;                  =&gt; $mqttClearPassword,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1817" class="number covered">1817</th>
-
-                    <td class="covered" >
-                        <pre>         &#039;password2&#039;                 =&gt; $mqttClearPassword,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1818" class="number uncovered">1818</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;authtype&#039;                  =&gt; Auth::DB_GLPI,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1819" class="number ">1819</th>
-
-                    <td class="" >
-                        <pre>      ]);
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1820" class="number ">1820</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1821" class="number ">1821</th>
+                    <th id="L1813" class="number ">1813</th>
 
                     <td class="" >
                         <pre>      // The request comes from the owner of the device or the device itself, mandated by the user
@@ -14138,84 +14080,84 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1822" class="number covered">1822</th>
+                    <th id="L1814" class="number covered">1814</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;topic&#039;] = $this-&gt;getTopic();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1823" class="number covered">1823</th>
+                    <th id="L1815" class="number covered">1815</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;mqttpasswd&#039;] = $mqttClearPassword;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1824" class="number covered">1824</th>
+                    <th id="L1816" class="number covered">1816</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;broker&#039;] = $config[&#039;mqtt_broker_address&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1825" class="number covered">1825</th>
+                    <th id="L1817" class="number covered">1817</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;port&#039;] = $config[&#039;mqtt_tls_for_clients&#039;] !== &#039;0&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1826" class="number uncovered">1826</th>
+                    <th id="L1818" class="number uncovered">1818</th>
 
                     <td class="uncovered" >
                         <pre>         ? $config[&#039;mqtt_broker_tls_port&#039;]</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1827" class="number covered">1827</th>
+                    <th id="L1819" class="number covered">1819</th>
 
                     <td class="covered" >
                         <pre>         : $config[&#039;mqtt_broker_port&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1828" class="number covered">1828</th>
+                    <th id="L1820" class="number covered">1820</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;tls&#039;] = $config[&#039;mqtt_tls_for_clients&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1829" class="number covered">1829</th>
+                    <th id="L1821" class="number covered">1821</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;android_bugcollecctor_url&#039;] = $config[&#039;android_bugcollecctor_url&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1830" class="number covered">1830</th>
+                    <th id="L1822" class="number covered">1822</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;android_bugcollector_login&#039;] = $config[&#039;android_bugcollector_login&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1831" class="number covered">1831</th>
+                    <th id="L1823" class="number covered">1823</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;fields[&#039;android_bugcollector_passwd&#039;] = $config[&#039;android_bugcollector_passwd&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1832" class="number covered">1832</th>
+                    <th id="L1824" class="number covered">1824</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1833" class="number ">1833</th>
+                    <th id="L1825" class="number ">1825</th>
 
                     <td class="" >
                         <pre>
@@ -14223,7 +14165,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1834" class="number ">1834</th>
+                    <th id="L1826" class="number ">1826</th>
 
                     <td class="" >
                         <pre>   /**
@@ -14231,7 +14173,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1835" class="number ">1835</th>
+                    <th id="L1827" class="number ">1827</th>
 
                     <td class="" >
                         <pre>    * If debug node is disabled, disable detailed error messages
@@ -14239,7 +14181,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1836" class="number ">1836</th>
+                    <th id="L1828" class="number ">1828</th>
 
                     <td class="" >
                         <pre>    * @param string $error
@@ -14247,7 +14189,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1837" class="number ">1837</th>
+                    <th id="L1829" class="number ">1829</th>
 
                     <td class="" >
                         <pre>    */
@@ -14255,35 +14197,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="filterMessages">
-                    <th id="L1838" class="number ">1838</th>
+                    <th id="L1830" class="number ">1830</th>
 
                     <td class="" id="filterMessages">
                         <pre>   protected function filterMessages($error) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1839" class="number uncovered">1839</th>
+                    <th id="L1831" class="number uncovered">1831</th>
 
                     <td class="uncovered" >
                         <pre>      $config = Config::getConfigurationValues(&#039;flyvemdm&#039;, [&#039;debug_enrolment&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1840" class="number uncovered">1840</th>
+                    <th id="L1832" class="number uncovered">1832</th>
 
                     <td class="uncovered" >
                         <pre>      if ($config[&#039;debug_enrolment&#039;] == 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1841" class="number uncovered">1841</th>
+                    <th id="L1833" class="number uncovered">1833</th>
 
                     <td class="uncovered" >
                         <pre>         $error = __(&#039;Enrollment failed&#039;, &#039;flyvemdm&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1842" class="number ">1842</th>
+                    <th id="L1834" class="number ">1834</th>
 
                     <td class="" >
                         <pre>      }
@@ -14291,21 +14233,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1843" class="number uncovered">1843</th>
+                    <th id="L1835" class="number uncovered">1835</th>
 
                     <td class="uncovered" >
                         <pre>      Session::addMessageAfterRedirect($error, false, ERROR);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1844" class="number uncovered">1844</th>
+                    <th id="L1836" class="number uncovered">1836</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1845" class="number ">1845</th>
+                    <th id="L1837" class="number ">1837</th>
 
                     <td class="" >
                         <pre>   /**
@@ -14313,7 +14255,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1846" class="number ">1846</th>
+                    <th id="L1838" class="number ">1838</th>
 
                     <td class="" >
                         <pre>    * Logs invitation events
@@ -14321,7 +14263,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1847" class="number ">1847</th>
+                    <th id="L1839" class="number ">1839</th>
 
                     <td class="" >
                         <pre>    * @param PluginFlyvemdmInvitation $invitation
@@ -14329,7 +14271,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1848" class="number ">1848</th>
+                    <th id="L1840" class="number ">1840</th>
 
                     <td class="" >
                         <pre>    * @param string $event
@@ -14337,7 +14279,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1849" class="number ">1849</th>
+                    <th id="L1841" class="number ">1841</th>
 
                     <td class="" >
                         <pre>    */
@@ -14345,42 +14287,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="logInvitationEvent">
-                    <th id="L1850" class="number ">1850</th>
+                    <th id="L1842" class="number ">1842</th>
 
                     <td class="" id="logInvitationEvent">
                         <pre>   protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1851" class="number uncovered">1851</th>
+                    <th id="L1843" class="number uncovered">1843</th>
 
                     <td class="uncovered" >
                         <pre>      $invitationLog = new PluginFlyvemdmInvitationlog();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1852" class="number uncovered">1852</th>
+                    <th id="L1844" class="number uncovered">1844</th>
 
                     <td class="uncovered" >
                         <pre>      $invitationLog-&gt;add([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1853" class="number uncovered">1853</th>
+                    <th id="L1845" class="number uncovered">1845</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;plugin_flyvemdm_invitations_id&#039; =&gt; $invitation-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1854" class="number uncovered">1854</th>
+                    <th id="L1846" class="number uncovered">1846</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;event&#039;                          =&gt; $event</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1855" class="number ">1855</th>
+                    <th id="L1847" class="number ">1847</th>
 
                     <td class="" >
                         <pre>      ]);
@@ -14388,14 +14330,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1856" class="number uncovered">1856</th>
+                    <th id="L1848" class="number uncovered">1848</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1857" class="number ">1857</th>
+                    <th id="L1849" class="number ">1849</th>
 
                     <td class="" >
                         <pre>
@@ -14403,7 +14345,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1858" class="number ">1858</th>
+                    <th id="L1850" class="number ">1850</th>
 
                     <td class="" >
                         <pre>   /**
@@ -14411,7 +14353,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1859" class="number ">1859</th>
+                    <th id="L1851" class="number ">1851</th>
 
                     <td class="" >
                         <pre>    * Update settings related to fleet change
@@ -14419,7 +14361,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1860" class="number ">1860</th>
+                    <th id="L1852" class="number ">1852</th>
 
                     <td class="" >
                         <pre>    * @param PluginFlyvemdmFleet $old old fleet
@@ -14427,7 +14369,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1861" class="number ">1861</th>
+                    <th id="L1853" class="number ">1853</th>
 
                     <td class="" >
                         <pre>    * @param PluginFlyvemdmFleet $new new fleet
@@ -14435,7 +14377,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1862" class="number ">1862</th>
+                    <th id="L1854" class="number ">1854</th>
 
                     <td class="" >
                         <pre>    */
@@ -14443,14 +14385,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="changeMqttAcl">
-                    <th id="L1863" class="number ">1863</th>
+                    <th id="L1855" class="number ">1855</th>
 
                     <td class="" id="changeMqttAcl">
                         <pre>   protected function changeMqttAcl(PluginFlyvemdmFleet $old, PluginFlyvemdmFleet $new) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1864" class="number ">1864</th>
+                    <th id="L1856" class="number ">1856</th>
 
                     <td class="" >
                         <pre>      // Update MQTT account
@@ -14458,28 +14400,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1865" class="number uncovered">1865</th>
+                    <th id="L1857" class="number uncovered">1857</th>
 
                     <td class="uncovered" >
                         <pre>      $computerId = $this-&gt;getField(&#039;computers_id&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1866" class="number uncovered">1866</th>
+                    <th id="L1858" class="number uncovered">1858</th>
 
                     <td class="uncovered" >
                         <pre>      $mqttUser = new PluginFlyvemdmMqttuser();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1867" class="number uncovered">1867</th>
+                    <th id="L1859" class="number uncovered">1859</th>
 
                     <td class="uncovered" >
                         <pre>      if (method_exists($this, &#039;getFromDBByRequest&#039;)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1868" class="number ">1868</th>
+                    <th id="L1860" class="number ">1860</th>
 
                     <td class="" >
                         <pre>         $request = [
@@ -14487,7 +14429,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1869" class="number ">1869</th>
+                    <th id="L1861" class="number ">1861</th>
 
                     <td class="" >
                         <pre>            &#039;LEFT JOIN&#039; =&gt; [
@@ -14495,14 +14437,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1870" class="number uncovered">1870</th>
+                    <th id="L1862" class="number uncovered">1862</th>
 
                     <td class="uncovered" >
                         <pre>               Computer::getTable() =&gt; [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1871" class="number ">1871</th>
+                    <th id="L1863" class="number ">1863</th>
 
                     <td class="" >
                         <pre>                  &#039;FKEY&#039; =&gt; [
@@ -14510,21 +14452,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1872" class="number uncovered">1872</th>
+                    <th id="L1864" class="number uncovered">1864</th>
 
                     <td class="uncovered" >
                         <pre>                     Computer::getTable() =&gt; &#039;serial&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1873" class="number uncovered">1873</th>
+                    <th id="L1865" class="number uncovered">1865</th>
 
                     <td class="uncovered" >
                         <pre>                     PluginFlyvemdmMqttuser::getTable() =&gt; &#039;user&#039;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1874" class="number ">1874</th>
+                    <th id="L1866" class="number ">1866</th>
 
                     <td class="" >
                         <pre>                  ]
@@ -14532,7 +14474,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1875" class="number ">1875</th>
+                    <th id="L1867" class="number ">1867</th>
 
                     <td class="" >
                         <pre>               ]
@@ -14540,7 +14482,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1876" class="number ">1876</th>
+                    <th id="L1868" class="number ">1868</th>
 
                     <td class="" >
                         <pre>            ],
@@ -14548,14 +14490,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1877" class="number uncovered">1877</th>
+                    <th id="L1869" class="number uncovered">1869</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;WHERE&#039; =&gt; [Computer::getTable() . &#039;.id&#039; =&gt; $computerId]</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1878" class="number ">1878</th>
+                    <th id="L1870" class="number ">1870</th>
 
                     <td class="" >
                         <pre>         ];
@@ -14563,14 +14505,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1879" class="number uncovered">1879</th>
+                    <th id="L1871" class="number uncovered">1871</th>
 
                     <td class="uncovered" >
                         <pre>         $success = $mqttUser-&gt;getFromDBByRequest($request);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1880" class="number ">1880</th>
+                    <th id="L1872" class="number ">1872</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -14578,14 +14520,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1881" class="number uncovered">1881</th>
+                    <th id="L1873" class="number uncovered">1873</th>
 
                     <td class="uncovered" >
                         <pre>         $success = $mqttUser-&gt;getFromDBByQuery(&quot;LEFT JOIN `glpi_computers` `c` ON (`c`.`serial`=`user`) WHERE `c`.`id`=&#039;$computerId&#039;&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1882" class="number ">1882</th>
+                    <th id="L1874" class="number ">1874</th>
 
                     <td class="" >
                         <pre>      }
@@ -14593,7 +14535,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1883" class="number ">1883</th>
+                    <th id="L1875" class="number ">1875</th>
 
                     <td class="" >
                         <pre>
@@ -14601,21 +14543,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1884" class="number uncovered">1884</th>
+                    <th id="L1876" class="number uncovered">1876</th>
 
                     <td class="uncovered" >
                         <pre>      if (!$success) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1885" class="number uncovered">1885</th>
+                    <th id="L1877" class="number uncovered">1877</th>
 
                     <td class="uncovered" >
                         <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1886" class="number ">1886</th>
+                    <th id="L1878" class="number ">1878</th>
 
                     <td class="" >
                         <pre>      }
@@ -14623,7 +14565,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1887" class="number ">1887</th>
+                    <th id="L1879" class="number ">1879</th>
 
                     <td class="" >
                         <pre>
@@ -14631,28 +14573,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1888" class="number uncovered">1888</th>
+                    <th id="L1880" class="number uncovered">1880</th>
 
                     <td class="uncovered" >
                         <pre>      $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1889" class="number uncovered">1889</th>
+                    <th id="L1881" class="number uncovered">1881</th>
 
                     <td class="uncovered" >
                         <pre>      if ($old-&gt;getField(&#039;is_default&#039;) == &#039;0&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1890" class="number uncovered">1890</th>
+                    <th id="L1882" class="number uncovered">1882</th>
 
                     <td class="uncovered" >
                         <pre>         $mqttAcl-&gt;getFromDBByCrit([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1891" class="number ">1891</th>
+                    <th id="L1883" class="number ">1883</th>
 
                     <td class="" >
                         <pre>            &#039;AND&#039; =&gt; [
@@ -14660,21 +14602,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1892" class="number uncovered">1892</th>
+                    <th id="L1884" class="number uncovered">1884</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;topic&#039;                                      =&gt; $old-&gt;getTopic() . &#039;/#&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1893" class="number uncovered">1893</th>
+                    <th id="L1885" class="number uncovered">1885</th>
 
                     <td class="uncovered" >
                         <pre>               PluginFlyvemdmMqttuser::getForeignKeyField() =&gt; $mqttUser-&gt;getID()</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1894" class="number ">1894</th>
+                    <th id="L1886" class="number ">1886</th>
 
                     <td class="" >
                         <pre>            ]
@@ -14682,7 +14624,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1895" class="number ">1895</th>
+                    <th id="L1887" class="number ">1887</th>
 
                     <td class="" >
                         <pre>         ]);
@@ -14690,21 +14632,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1896" class="number uncovered">1896</th>
+                    <th id="L1888" class="number uncovered">1888</th>
 
                     <td class="uncovered" >
                         <pre>         if ($new-&gt;getField(&#039;is_default&#039;) != &#039;0&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1897" class="number uncovered">1897</th>
+                    <th id="L1889" class="number uncovered">1889</th>
 
                     <td class="uncovered" >
                         <pre>            $mqttAcl-&gt;delete([&#039;id&#039; =&gt; $mqttAcl-&gt;getID()]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1898" class="number ">1898</th>
+                    <th id="L1890" class="number ">1890</th>
 
                     <td class="" >
                         <pre>         } else {
@@ -14712,35 +14654,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1899" class="number uncovered">1899</th>
+                    <th id="L1891" class="number uncovered">1891</th>
 
                     <td class="uncovered" >
                         <pre>            $mqttAcl-&gt;update([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1900" class="number uncovered">1900</th>
+                    <th id="L1892" class="number uncovered">1892</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;id&#039;           =&gt; $mqttAcl-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1901" class="number uncovered">1901</th>
+                    <th id="L1893" class="number uncovered">1893</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;topic&#039;        =&gt; $new-&gt;getTopic() . &#039;/#&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1902" class="number uncovered">1902</th>
+                    <th id="L1894" class="number uncovered">1894</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;access_level&#039; =&gt; PluginFlyvemdmMqttacl::MQTTACL_READ</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1903" class="number ">1903</th>
+                    <th id="L1895" class="number ">1895</th>
 
                     <td class="" >
                         <pre>            ]);
@@ -14748,7 +14690,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1904" class="number ">1904</th>
+                    <th id="L1896" class="number ">1896</th>
 
                     <td class="" >
                         <pre>         }
@@ -14756,7 +14698,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1905" class="number ">1905</th>
+                    <th id="L1897" class="number ">1897</th>
 
                     <td class="" >
                         <pre>      } else {
@@ -14764,35 +14706,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1906" class="number uncovered">1906</th>
+                    <th id="L1898" class="number uncovered">1898</th>
 
                     <td class="uncovered" >
                         <pre>         $mqttAcl-&gt;add([</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1907" class="number uncovered">1907</th>
+                    <th id="L1899" class="number uncovered">1899</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;plugin_flyvemdm_mqttusers_id&#039; =&gt; $mqttUser-&gt;getID(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1908" class="number uncovered">1908</th>
+                    <th id="L1900" class="number uncovered">1900</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;topic&#039;                        =&gt; $new-&gt;getTopic() . &#039;/#&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1909" class="number uncovered">1909</th>
+                    <th id="L1901" class="number uncovered">1901</th>
 
                     <td class="uncovered" >
                         <pre>            &#039;access_level&#039;                 =&gt; PluginFlyvemdmMqttacl::MQTTACL_READ</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1910" class="number ">1910</th>
+                    <th id="L1902" class="number ">1902</th>
 
                     <td class="" >
                         <pre>         ]);
@@ -14800,7 +14742,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1911" class="number ">1911</th>
+                    <th id="L1903" class="number ">1903</th>
 
                     <td class="" >
                         <pre>      }
@@ -14808,14 +14750,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1912" class="number uncovered">1912</th>
+                    <th id="L1904" class="number uncovered">1904</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1913" class="number ">1913</th>
+                    <th id="L1905" class="number ">1905</th>
 
                     <td class="" >
                         <pre>
@@ -14823,7 +14765,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1914" class="number ">1914</th>
+                    <th id="L1906" class="number ">1906</th>
 
                     <td class="" >
                         <pre>   /**
@@ -14831,7 +14773,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1915" class="number ">1915</th>
+                    <th id="L1907" class="number ">1907</th>
 
                     <td class="" >
                         <pre>    * Get the computer associatated to the agent
@@ -14839,7 +14781,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1916" class="number ">1916</th>
+                    <th id="L1908" class="number ">1908</th>
 
                     <td class="" >
                         <pre>    * @return NULL|Computer
@@ -14847,7 +14789,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1917" class="number ">1917</th>
+                    <th id="L1909" class="number ">1909</th>
 
                     <td class="" >
                         <pre>    */
@@ -14855,32 +14797,91 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getComputer">
-                    <th id="L1918" class="number ">1918</th>
+                    <th id="L1910" class="number ">1910</th>
 
                     <td class="" id="getComputer">
                         <pre>   public function getComputer() {<span class="label label-success">83%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1919" class="number covered">1919</th>
+                    <th id="L1911" class="number covered">1911</th>
 
                     <td class="covered" >
                         <pre>      if (!isset($this-&gt;fields[&#039;computers_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1920" class="number covered">1920</th>
+                    <th id="L1912" class="number covered">1912</th>
 
                     <td class="covered" >
                         <pre>         return null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1921" class="number ">1921</th>
+                    <th id="L1913" class="number ">1913</th>
 
                     <td class="" >
                         <pre>      }
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1914" class="number ">1914</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1915" class="number covered">1915</th>
+
+                    <td class="covered" >
+                        <pre>      $computer = new Computer();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1916" class="number covered">1916</th>
+
+                    <td class="covered" >
+                        <pre>      if (!$computer-&gt;getFromDB($this-&gt;fields[&#039;computers_id&#039;])) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1917" class="number uncovered">1917</th>
+
+                    <td class="uncovered" >
+                        <pre>         return null;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1918" class="number ">1918</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1919" class="number ">1919</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1920" class="number covered">1920</th>
+
+                    <td class="covered" >
+                        <pre>      return $computer;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1921" class="number unreach">1921</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -14892,66 +14893,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1923" class="number covered">1923</th>
-
-                    <td class="covered" >
-                        <pre>      $computer = new Computer();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1924" class="number covered">1924</th>
-
-                    <td class="covered" >
-                        <pre>      if (!$computer-&gt;getFromDB($this-&gt;fields[&#039;computers_id&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1925" class="number uncovered">1925</th>
-
-                    <td class="uncovered" >
-                        <pre>         return null;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1926" class="number ">1926</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1927" class="number ">1927</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1928" class="number covered">1928</th>
-
-                    <td class="covered" >
-                        <pre>      return $computer;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1929" class="number unreach">1929</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1930" class="number ">1930</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1931" class="number ">1931</th>
+                    <th id="L1923" class="number ">1923</th>
 
                     <td class="" >
                         <pre>   /**
@@ -14959,7 +14901,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1932" class="number ">1932</th>
+                    <th id="L1924" class="number ">1924</th>
 
                     <td class="" >
                         <pre>    * @param string $topic
@@ -14967,7 +14909,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1933" class="number ">1933</th>
+                    <th id="L1925" class="number ">1925</th>
 
                     <td class="" >
                         <pre>    * @param string $mqttMessage
@@ -14975,7 +14917,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1934" class="number ">1934</th>
+                    <th id="L1926" class="number ">1926</th>
 
                     <td class="" >
                         <pre>    * @param integer $qos
@@ -14983,7 +14925,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1935" class="number ">1935</th>
+                    <th id="L1927" class="number ">1927</th>
 
                     <td class="" >
                         <pre>    * @param integer $retain
@@ -14991,7 +14933,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1936" class="number ">1936</th>
+                    <th id="L1928" class="number ">1928</th>
 
                     <td class="" >
                         <pre>    */
@@ -14999,35 +14941,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="notify">
-                    <th id="L1937" class="number ">1937</th>
+                    <th id="L1929" class="number ">1929</th>
 
                     <td class="" id="notify">
                         <pre>   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1938" class="number covered">1938</th>
+                    <th id="L1930" class="number covered">1930</th>
 
                     <td class="covered" >
                         <pre>      $mqttClient = PluginFlyvemdmMqttclient::getInstance();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1939" class="number covered">1939</th>
+                    <th id="L1931" class="number covered">1931</th>
 
                     <td class="covered" >
                         <pre>      $mqttClient-&gt;publish($topic, $mqttMessage, $qos, $retain);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1940" class="number covered">1940</th>
+                    <th id="L1932" class="number covered">1932</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1941" class="number ">1941</th>
+                    <th id="L1933" class="number ">1933</th>
 
                     <td class="" >
                         <pre>
@@ -15035,7 +14977,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1942" class="number ">1942</th>
+                    <th id="L1934" class="number ">1934</th>
 
                     <td class="" >
                         <pre>   /**
@@ -15043,7 +14985,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1943" class="number ">1943</th>
+                    <th id="L1935" class="number ">1935</th>
 
                     <td class="" >
                         <pre>    * purges agents in the entity being purged
@@ -15051,7 +14993,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1944" class="number ">1944</th>
+                    <th id="L1936" class="number ">1936</th>
 
                     <td class="" >
                         <pre>    *
@@ -15059,7 +15001,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1945" class="number ">1945</th>
+                    <th id="L1937" class="number ">1937</th>
 
                     <td class="" >
                         <pre>    * @param CommonDBTM $item
@@ -15067,7 +15009,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1946" class="number ">1946</th>
+                    <th id="L1938" class="number ">1938</th>
 
                     <td class="" >
                         <pre>    */
@@ -15075,35 +15017,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="hook_entity_purge">
-                    <th id="L1947" class="number ">1947</th>
+                    <th id="L1939" class="number ">1939</th>
 
                     <td class="" id="hook_entity_purge">
                         <pre>   public function hook_entity_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1948" class="number uncovered">1948</th>
+                    <th id="L1940" class="number uncovered">1940</th>
 
                     <td class="uncovered" >
                         <pre>      $agent = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1949" class="number uncovered">1949</th>
+                    <th id="L1941" class="number uncovered">1941</th>
 
                     <td class="uncovered" >
                         <pre>      $agent-&gt;deleteByCriteria([&#039;entities_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1950" class="number uncovered">1950</th>
+                    <th id="L1942" class="number uncovered">1942</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1951" class="number ">1951</th>
+                    <th id="L1943" class="number ">1943</th>
 
                     <td class="" >
                         <pre>
@@ -15111,7 +15053,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1952" class="number ">1952</th>
+                    <th id="L1944" class="number ">1944</th>
 
                     <td class="" >
                         <pre>   /**
@@ -15119,7 +15061,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1953" class="number ">1953</th>
+                    <th id="L1945" class="number ">1945</th>
 
                     <td class="" >
                         <pre>    * Deletes agents related to the computers id
@@ -15127,7 +15069,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1954" class="number ">1954</th>
+                    <th id="L1946" class="number ">1946</th>
 
                     <td class="" >
                         <pre>    * @param CommonDBTM $item
@@ -15135,7 +15077,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1955" class="number ">1955</th>
+                    <th id="L1947" class="number ">1947</th>
 
                     <td class="" >
                         <pre>    */
@@ -15143,35 +15085,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="hook_computer_purge">
-                    <th id="L1956" class="number ">1956</th>
+                    <th id="L1948" class="number ">1948</th>
 
                     <td class="" id="hook_computer_purge">
                         <pre>   public function hook_computer_purge(CommonDBTM $item) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1957" class="number uncovered">1957</th>
+                    <th id="L1949" class="number uncovered">1949</th>
 
                     <td class="uncovered" >
                         <pre>      $agent = new static();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1958" class="number uncovered">1958</th>
+                    <th id="L1950" class="number uncovered">1950</th>
 
                     <td class="uncovered" >
                         <pre>      $agent-&gt;deleteByCriteria([&#039;computers_id&#039; =&gt; $item-&gt;getField(&#039;id&#039;)], 1);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1959" class="number uncovered">1959</th>
+                    <th id="L1951" class="number uncovered">1951</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1960" class="number ">1960</th>
+                    <th id="L1952" class="number ">1952</th>
 
                     <td class="" >
                         <pre>
@@ -15179,24 +15121,84 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="refreshPersistedNotifications">
-                    <th id="L1961" class="number ">1961</th>
+                    <th id="L1953" class="number ">1953</th>
 
                     <td class="" id="refreshPersistedNotifications">
                         <pre>   public function refreshPersistedNotifications() {<span class="label label-danger">22%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1962" class="number covered">1962</th>
+                    <th id="L1954" class="number covered">1954</th>
 
                     <td class="covered" >
                         <pre>      if ($this-&gt;isNewItem()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1963" class="number covered">1963</th>
+                    <th id="L1955" class="number covered">1955</th>
 
                     <td class="covered" >
                         <pre>         return;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1956" class="number ">1956</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1957" class="number ">1957</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1958" class="number uncovered">1958</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fields[&#039;wipe&#039;] != &#039;0&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1959" class="number uncovered">1959</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendWipeQuery();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1960" class="number ">1960</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1961" class="number ">1961</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1962" class="number uncovered">1962</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($this-&gt;fields[&#039;lock&#039;] != &#039;0&#039;) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L1963" class="number uncovered">1963</th>
+
+                    <td class="uncovered" >
+                        <pre>         $this-&gt;sendLockQuery();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -15219,14 +15221,14 @@ layout: coverage
                     <th id="L1966" class="number uncovered">1966</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($this-&gt;fields[&#039;wipe&#039;] != &#039;0&#039;) {</pre>
+                        <pre>      if ($this-&gt;fields[&#039;enroll_status&#039;] != &#039;unenrolling&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L1967" class="number uncovered">1967</th>
 
                     <td class="uncovered" >
-                        <pre>         $this-&gt;sendWipeQuery();</pre>
+                        <pre>         $this-&gt;sendUnenrollQuery();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -15238,74 +15240,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1969" class="number ">1969</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1970" class="number uncovered">1970</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($this-&gt;fields[&#039;lock&#039;] != &#039;0&#039;) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1971" class="number uncovered">1971</th>
-
-                    <td class="uncovered" >
-                        <pre>         $this-&gt;sendLockQuery();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1972" class="number ">1972</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1973" class="number ">1973</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1974" class="number uncovered">1974</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($this-&gt;fields[&#039;enroll_status&#039;] != &#039;unenrolling&#039;) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1975" class="number uncovered">1975</th>
-
-                    <td class="uncovered" >
-                        <pre>         $this-&gt;sendUnenrollQuery();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1976" class="number ">1976</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L1977" class="number uncovered">1977</th>
+                    <th id="L1969" class="number uncovered">1969</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1978" class="number ">1978</th>
+                    <th id="L1970" class="number ">1970</th>
 
                     <td class="" >
                         <pre>
@@ -15313,7 +15255,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1979" class="number ">1979</th>
+                    <th id="L1971" class="number ">1971</th>
 
                     <td class="" >
                         <pre>   /**
@@ -15321,7 +15263,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1980" class="number ">1980</th>
+                    <th id="L1972" class="number ">1972</th>
 
                     <td class="" >
                         <pre>    * Is the agent notifiable ?
@@ -15329,7 +15271,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1981" class="number ">1981</th>
+                    <th id="L1973" class="number ">1973</th>
 
                     <td class="" >
                         <pre>    *
@@ -15337,7 +15279,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1982" class="number ">1982</th>
+                    <th id="L1974" class="number ">1974</th>
 
                     <td class="" >
                         <pre>    * @return boolean
@@ -15345,7 +15287,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1983" class="number ">1983</th>
+                    <th id="L1975" class="number ">1975</th>
 
                     <td class="" >
                         <pre>    */
@@ -15353,28 +15295,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="isNotifiable">
-                    <th id="L1984" class="number ">1984</th>
+                    <th id="L1976" class="number ">1976</th>
 
                     <td class="" id="isNotifiable">
                         <pre>   public function isNotifiable() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1985" class="number covered">1985</th>
+                    <th id="L1977" class="number covered">1977</th>
 
                     <td class="covered" >
                         <pre>      return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1986" class="number unreach">1986</th>
+                    <th id="L1978" class="number unreach">1978</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1987" class="number ">1987</th>
+                    <th id="L1979" class="number ">1979</th>
 
                     <td class="" >
                         <pre>
@@ -15382,7 +15324,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1988" class="number ">1988</th>
+                    <th id="L1980" class="number ">1980</th>
 
                     <td class="" >
                         <pre>   /**
@@ -15390,7 +15332,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1989" class="number ">1989</th>
+                    <th id="L1981" class="number ">1981</th>
 
                     <td class="" >
                         <pre>    * Define how to display a specific value in search result table
@@ -15398,7 +15340,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1990" class="number ">1990</th>
+                    <th id="L1982" class="number ">1982</th>
 
                     <td class="" >
                         <pre>    *
@@ -15406,7 +15348,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1991" class="number ">1991</th>
+                    <th id="L1983" class="number ">1983</th>
 
                     <td class="" >
                         <pre>    * @param  String $field   Name of the field as define in $this-&gt;getSearchOptions()
@@ -15414,7 +15356,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1992" class="number ">1992</th>
+                    <th id="L1984" class="number ">1984</th>
 
                     <td class="" >
                         <pre>    * @param  Mixed  $values  The value as it is stored in DB
@@ -15422,7 +15364,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1993" class="number ">1993</th>
+                    <th id="L1985" class="number ">1985</th>
 
                     <td class="" >
                         <pre>    * @param  Array  $options Options (optional)
@@ -15430,7 +15372,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1994" class="number ">1994</th>
+                    <th id="L1986" class="number ">1986</th>
 
                     <td class="" >
                         <pre>    * @return Mixed           Value to be displayed
@@ -15438,7 +15380,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1995" class="number ">1995</th>
+                    <th id="L1987" class="number ">1987</th>
 
                     <td class="" >
                         <pre>    */
@@ -15446,28 +15388,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getSpecificValueToDisplay">
-                    <th id="L1996" class="number ">1996</th>
+                    <th id="L1988" class="number ">1988</th>
 
                     <td class="" id="getSpecificValueToDisplay">
                         <pre>   public static function getSpecificValueToDisplay($field, $values, array $options = []) {<span class="label label-success">83%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1997" class="number covered">1997</th>
+                    <th id="L1989" class="number covered">1989</th>
 
                     <td class="covered" >
                         <pre>      if (!is_array($values)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1998" class="number covered">1998</th>
+                    <th id="L1990" class="number covered">1990</th>
 
                     <td class="covered" >
                         <pre>         $values = [$field =&gt; $values];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L1999" class="number ">1999</th>
+                    <th id="L1991" class="number ">1991</th>
 
                     <td class="" >
                         <pre>      }
@@ -15475,35 +15417,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2000" class="number covered">2000</th>
+                    <th id="L1992" class="number covered">1992</th>
 
                     <td class="covered" >
                         <pre>      switch ($field) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2001" class="number covered">2001</th>
+                    <th id="L1993" class="number covered">1993</th>
 
                     <td class="covered" >
                         <pre>         case &#039;is_online&#039;:</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2002" class="number covered">2002</th>
+                    <th id="L1994" class="number covered">1994</th>
 
                     <td class="covered" >
                         <pre>            if (!isAPI()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2003" class="number covered">2003</th>
+                    <th id="L1995" class="number covered">1995</th>
 
                     <td class="covered" >
                         <pre>               $class = $values[$field] == 0 ? &quot;plugin-flyvemdm-offline&quot; : &quot;plugin-flyvemdm-online&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2004" class="number ">2004</th>
+                    <th id="L1996" class="number ">1996</th>
 
                     <td class="" >
                         <pre>               $output = &#039;&lt;i class=&quot;fa fa-circle &#039;
@@ -15511,35 +15453,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2005" class="number covered">2005</th>
+                    <th id="L1997" class="number covered">1997</th>
 
                     <td class="covered" >
                         <pre>                  . $class</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2006" class="number covered">2006</th>
+                    <th id="L1998" class="number covered">1998</th>
 
                     <td class="covered" >
                         <pre>                  . &#039;&quot; aria-hidden=&quot;true&quot; &gt;&lt;/i&gt;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2007" class="number covered">2007</th>
+                    <th id="L1999" class="number covered">1999</th>
 
                     <td class="covered" >
                         <pre>               if (isset($options[&#039;center&#039;]) &amp;&amp; $options[&#039;center&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2008" class="number uncovered">2008</th>
+                    <th id="L2000" class="number uncovered">2000</th>
 
                     <td class="uncovered" >
                         <pre>                  $output = &#039;&lt;div style=&quot;text-align: center&quot;&gt;&#039; . $output . &#039;&lt;/div&gt;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2009" class="number ">2009</th>
+                    <th id="L2001" class="number ">2001</th>
 
                     <td class="" >
                         <pre>               }
@@ -15547,14 +15489,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2010" class="number covered">2010</th>
+                    <th id="L2002" class="number covered">2002</th>
 
                     <td class="covered" >
                         <pre>               return $output;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2011" class="number ">2011</th>
+                    <th id="L2003" class="number ">2003</th>
 
                     <td class="" >
                         <pre>            }
@@ -15562,42 +15504,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2012" class="number uncovered">2012</th>
+                    <th id="L2004" class="number uncovered">2004</th>
 
                     <td class="uncovered" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2013" class="number covered">2013</th>
+                    <th id="L2005" class="number covered">2005</th>
 
                     <td class="covered" >
                         <pre>         case &#039;mdm_type&#039;:</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2014" class="number covered">2014</th>
+                    <th id="L2006" class="number covered">2006</th>
 
                     <td class="covered" >
                         <pre>            if (!isAPI()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2015" class="number covered">2015</th>
+                    <th id="L2007" class="number covered">2007</th>
 
                     <td class="covered" >
                         <pre>               $enumtypes = self::getEnumMdmType();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2016" class="number covered">2016</th>
+                    <th id="L2008" class="number covered">2008</th>
 
                     <td class="covered" >
                         <pre>               return $enumtypes[$values[$field]];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2017" class="number ">2017</th>
+                    <th id="L2009" class="number ">2009</th>
 
                     <td class="" >
                         <pre>            }
@@ -15605,14 +15547,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2018" class="number uncovered">2018</th>
+                    <th id="L2010" class="number uncovered">2010</th>
 
                     <td class="uncovered" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2019" class="number ">2019</th>
+                    <th id="L2011" class="number ">2011</th>
 
                     <td class="" >
                         <pre>      }
@@ -15620,21 +15562,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2020" class="number covered">2020</th>
+                    <th id="L2012" class="number covered">2012</th>
 
                     <td class="covered" >
                         <pre>      return parent::getSpecificValueToDisplay($field, $values, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2021" class="number unreach">2021</th>
+                    <th id="L2013" class="number unreach">2013</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2022" class="number ">2022</th>
+                    <th id="L2014" class="number ">2014</th>
 
                     <td class="" >
                         <pre>
@@ -15642,28 +15584,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getSpecificValueToSelect">
-                    <th id="L2023" class="number ">2023</th>
+                    <th id="L2015" class="number ">2015</th>
 
                     <td class="" id="getSpecificValueToSelect">
                         <pre>   public static function getSpecificValueToSelect($field, $name = &#039;&#039;, $values = &#039;&#039;, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2024" class="number uncovered">2024</th>
+                    <th id="L2016" class="number uncovered">2016</th>
 
                     <td class="uncovered" >
                         <pre>      if (!is_array($values)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2025" class="number uncovered">2025</th>
+                    <th id="L2017" class="number uncovered">2017</th>
 
                     <td class="uncovered" >
                         <pre>         $values = [$field =&gt; $values];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2026" class="number ">2026</th>
+                    <th id="L2018" class="number ">2018</th>
 
                     <td class="" >
                         <pre>      }
@@ -15671,14 +15613,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2027" class="number uncovered">2027</th>
+                    <th id="L2019" class="number uncovered">2019</th>
 
                     <td class="uncovered" >
                         <pre>      $options[&#039;display&#039;] = false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2028" class="number ">2028</th>
+                    <th id="L2020" class="number ">2020</th>
 
                     <td class="" >
                         <pre>
@@ -15686,7 +15628,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2029" class="number ">2029</th>
+                    <th id="L2021" class="number ">2021</th>
 
                     <td class="" >
                         <pre>      switch ($field) {
@@ -15694,35 +15636,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2030" class="number uncovered">2030</th>
+                    <th id="L2022" class="number uncovered">2022</th>
 
                     <td class="uncovered" >
                         <pre>         case &#039;is_online&#039; :</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2031" class="number uncovered">2031</th>
+                    <th id="L2023" class="number uncovered">2023</th>
 
                     <td class="uncovered" >
                         <pre>            return Dropdown::showFromArray($name, [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2032" class="number uncovered">2032</th>
+                    <th id="L2024" class="number uncovered">2024</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;0&#039; =&gt; __(&#039;No&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2033" class="number uncovered">2033</th>
+                    <th id="L2025" class="number uncovered">2025</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;1&#039; =&gt; __(&#039;Yes&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2034" class="number ">2034</th>
+                    <th id="L2026" class="number ">2026</th>
 
                     <td class="" >
                         <pre>            ], [
@@ -15730,14 +15672,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2035" class="number uncovered">2035</th>
+                    <th id="L2027" class="number uncovered">2027</th>
 
                     <td class="uncovered" >
                         <pre>               &#039;value&#039;               =&gt; $values[$field],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2036" class="number ">2036</th>
+                    <th id="L2028" class="number ">2028</th>
 
                     <td class="" >
                         <pre>               &#039;display_emptychoice&#039; =&gt; false,
@@ -15745,7 +15687,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2037" class="number ">2037</th>
+                    <th id="L2029" class="number ">2029</th>
 
                     <td class="" >
                         <pre>               &#039;display&#039;             =&gt; false
@@ -15753,7 +15695,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2038" class="number ">2038</th>
+                    <th id="L2030" class="number ">2030</th>
 
                     <td class="" >
                         <pre>            ]);
@@ -15761,14 +15703,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2039" class="number unreach">2039</th>
+                    <th id="L2031" class="number unreach">2031</th>
 
                     <td class="unreach" >
                         <pre>            break;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2040" class="number ">2040</th>
+                    <th id="L2032" class="number ">2032</th>
 
                     <td class="" >
                         <pre>      }
@@ -15776,21 +15718,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2041" class="number uncovered">2041</th>
+                    <th id="L2033" class="number uncovered">2033</th>
 
                     <td class="uncovered" >
                         <pre>      return parent::getSpecificValueToSelect($field, $name, $values, $options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2042" class="number unreach">2042</th>
+                    <th id="L2034" class="number unreach">2034</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2043" class="number ">2043</th>
+                    <th id="L2035" class="number ">2035</th>
 
                     <td class="" >
                         <pre>}
