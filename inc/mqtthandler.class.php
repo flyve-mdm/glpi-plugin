@@ -134,7 +134,7 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
 
          if ($mqttPath[3] == "Status/Ping") {
             $this->updateLastContact($topic, $message);
-         } else if ($mqttPath[3] === "Status/Geolocation"  && $message != "?") {
+         } else if ($mqttPath[3] === "Status/Geolocation") {
             $this->saveGeolocationPosition($topic, $message);
          } else if ($mqttPath[3] === "Status/Unenroll") {
             $this->deleteAgent($topic, $message);
@@ -266,11 +266,11 @@ class PluginFlyvemdmMqtthandler extends \sskaje\mqtt\MessageHandler {
          $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
             new \DateTimeZone("UTC"));
          // Shift the datetime to the timezone of the server
-         $dateGeolocation->setTimezone(date_default_timezone_get());
+         $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
       }
       if (isset($position['latitude']) && isset($position['longitude'])) {
          if ($dateGeolocation !== false) {
-            $geolocation = new \PluginFlyvemdmGeolocation();
+            $geolocation = new PluginFlyvemdmGeolocation();
             $geolocation->add([
                'computers_id' => $agent->getField('computers_id'),
                'date'         => $dateGeolocation->format('Y-m-d H:i:s'),

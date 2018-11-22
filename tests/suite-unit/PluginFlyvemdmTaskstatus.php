@@ -179,6 +179,26 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $instance = $this->newTestedInstance();
       $policy = new \PluginFlyvemdmPolicyBoolean(new \PluginFlyvemdmPolicy());
       $this->variable($instance->updateStatus($policy, ''))->isNull();
+      $this->mockGenerator->orphanize('__construct');
+      $mock = $this->newMockInstance(\PluginFlyvemdmPolicyBase::class);
+      $mock->getMockController()->filterStatus = 'received';
+      $instance = $this->newMockInstance(\PluginFlyvemdmTaskstatus::class);
+      $instance->getMockController()->update = true;
+      $instance->updateStatus($mock, 'lorem');
+      $this->mock($instance)->call('update')->once();
+   }
+
+   /**
+    * @tags testCheckAgentResponse
+    */
+   public function testCheckAgentResponse() {
+      $class = $this->testedClass->getClass();
+      $mock = $this->newMockInstance(\CommonDBTM::class);
+      $mock->getMockController()->canView = false;
+
+      $this->boolean($class::showForFleet([]))->isFalse();
+      $this->boolean($class::checkAgentResponse(['_ack' => '']))->isFalse();
+      $this->boolean($class::checkAgentResponse(['_ack' => 'lorem']))->isTrue();
    }
 
    public function providerDisplayTabForItem() {
@@ -252,6 +272,7 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       // Simulate a profile equal to agent
       $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
       $testedInstance = $this->newTestedInstance;
+      $testedInstance->fields[\PluginFlyvemdmAgent::getForeignKeyField()] = ''; // small fix to avoid Undefined index error
       $this->boolean($testedInstance->canUpdateItem())->isFalse();
       $_SESSION['glpiactiveprofile']['id'] = $oldProfile;
    }

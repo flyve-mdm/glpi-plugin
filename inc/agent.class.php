@@ -389,32 +389,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
    public function canUpdateItem() {
       // Check the active profile
-      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
-      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+      if (!PluginFlyvemdmCommon::isAgent()) {
          return parent::canUpdateItem();
       }
 
-      // if the active user is an user agent profile, we check that it isn't changing another agent.
-      if ($this->fields[User::getForeignKeyField()] != Session::getLoginUserID()) {
-         return false;
-      }
-
-      return parent::canUpdateItem();
+      return PluginFlyvemdmCommon::isCurrentUser($this) && parent::canUpdateItem();
    }
 
    function canDeleteItem() {
       // Check the active profile
-      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
-      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+      if (!PluginFlyvemdmCommon::isAgent()) {
          return parent::canDeleteItem();
       }
 
-      // if the active user is an user agent profile, we check that it isn't changing another agent.
-      if ($this->fields[User::getForeignKeyField()] != Session::getLoginUserID()){
-         return false;
-      }
-
-      return parent::canDeleteItem();
+      return PluginFlyvemdmCommon::isCurrentUser($this) && parent::canDeleteItem();
    }
 
    /**
@@ -575,43 +563,18 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      if (isAPI() && $this->canUpdateItem()) {
-         if (!isset($input['_message'])) {
-            return false;
+      if (PluginFlyvemdmCommon::checkAgentResponse($input)) {
+         $message = json_decode($input['_ack'], true);
+         if (key_exists('inventory', $message)) {
+            $this->updateInventory($message['inventory']);
          }
-         $message = $input['_message'];
-
-         if (!isset($input['_topic'])) {
-            return false;
-         }
-         $topic = $input['_topic'];
-         if (!$this->getByTopic($topic)) {
-            return false;
-         }
-
-         $mqttPath = explode('/', $topic, 4);
-         if (!in_array($mqttPath[3], [
-               "Status/Ping",
-               "Status/Geolocation",
-               "Status/Inventory",
-               "Status/Online",
-            ])) {
-            return false;
-         }
-
-         if ($mqttPath[3] === "Status/Geolocation" && $message != "?") {
-            $this->saveGeolocationPosition($message);
-         } else if ($mqttPath[3] === "Status/Inventory") {
-            $this->updateInventory($message);
-         } else if ($mqttPath[3] === "Status/Online") {
-            $onlineStatus = $this->getOnlineStatusFromMessage($message);
-            if ($onlineStatus === false) {
+         if (key_exists('online', $message)) {
+            $input['is_online'] = $this->getOnlineStatusFromMessage($message['online']);
+            if ($input['is_online'] === false) {
                return false;
             };
-            $input['is_online'] = $onlineStatus;
          }
-         $date = new \DateTime("now");
-         $input['last_contact'] = $date->format('Y-m-d H:i:s');
+         $input['last_contact'] = $_SESSION['glpi_currenttime'];
       }
 
       return $input;
@@ -637,12 +600,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      if (isAPI() && $this->canDeleteItem()) {
-         if (!isset($this->input['_topic'])) {
-            return false;
-         }
-         $topic = $this->input['_topic'];
-         if (!$this->getByTopic($topic)) {
+      if (PluginFlyvemdmCommon::checkAgentResponse($this->input)) {
+         if (!$this->getByTopic($this->input['_topic'])) {
             return false;
          }
       }
@@ -2117,14 +2076,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     * The data to update is a datetime
     *
-    * @param string $topic
     * @param string $message
     */
-   public function updateLastContact($topic, $message) {
+   public function updateLastContact($message) {
       if ($message !== '!') {
          return;
       }
-      if ($this->getByTopic($topic)) {
+      if ($this->fields['is_online'] == 1) {
          $date = new \DateTime("now");
          $this->update([
             'id'              => $this->getID(),
@@ -2134,53 +2092,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * Saves geolocation position from a notification sent by a device
-    * @param string $message
-    */
-   private function saveGeolocationPosition($message) {
-      $position = json_decode($message, true);
-      $dateGeolocation = false;
-      if (isset($position['datetime'])) {
-         // The datetime sent by the device is expected to be on UTC timezone
-         $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
-            new \DateTimeZone("UTC"));
-         // Shift the datetime to the timezone of the server
-         $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-      }
-      if (isset($position['latitude']) && isset($position['longitude'])) {
-         if ($dateGeolocation !== false) {
-            $geolocation = new PluginFlyvemdmGeolocation();
-            $geolocation->add([
-               'computers_id' => $this->getField('computers_id'),
-               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
-               'latitude'     => $position['latitude'],
-               'longitude'    => $position['longitude']
-            ]);
-         }
-      } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
-         // No GPS geolocation available at this time, log it anyway
-         if ($dateGeolocation !== false) {
-            $geolocation = new PluginFlyvemdmGeolocation();
-            $geolocation->add([
-               'computers_id' => $this->getField('computers_id'),
-               'date'         => $dateGeolocation->format('Y-m-d H:i:s'),
-               'latitude'     => 'na',
-               'longitude'    => 'na'
-            ]);
-         }
-      }
-   }
-
-   /**
     * Updates the inventory from a notification sent by a device
-    * @param string $message
+    * @param string $inventoryXML
     */
-   private function updateInventory($message) {
+   private function updateInventory($inventoryXML) {
       if (!$this->getComputer()) {
          return;
       }
       $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
-      $inventoryXML = $message;
       $communication = new PluginFusioninventoryCommunication();
       $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
       if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
@@ -2198,13 +2117,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return boolean|string
     */
    private function getOnlineStatusFromMessage($message) {
-      $feedback = json_decode($message, true);
-      if (!isset($feedback['online'])) {
+      if (!isset($message)) {
          return false;
       }
-      if ($feedback['online'] == false) {
+      if ($message == false) {
          $status = '0';
-      } else if ($feedback['online'] == true) {
+      } else if ($message == true) {
          $status = '1';
       } else {
          // Invalid value

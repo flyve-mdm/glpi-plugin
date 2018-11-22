@@ -161,6 +161,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
+      if (PluginFlyvemdmCommon::checkAgentResponse($input)) {
+         $input = $this->agentGeolocationInputParser($input);
+      }
+
       if (!isset($input['computers_id'])) {
          Session::addMessageAfterRedirect(__('associated device is mandatory', 'flyvemdm'));
          return false;
@@ -191,6 +195,73 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          return false;
       }
 
+      return $input;
+   }
+
+   public function canCreateItem() {
+      // Check the active profile
+      if (!PluginFlyvemdmCommon::isAgent()) {
+         return parent::canCreateItem();
+      }
+
+      if ($this->isNewItem()) {
+         return false;
+      }
+      return (Session::getLoginUserID() == $this->fields[User::getForeignKeyField()]);
+   }
+
+   public function post_addItem() {
+      if (PluginFlyvemdmCommon::isAgent() && $this->input['_ack'] != '?') {
+         $agent = new PluginFlyvemdmAgent();
+         $agent->getFromDB($this->fields[PluginFlyvemdmAgent::getForeignKeyField()]);
+         $agent->updateLastContact('!');
+      }
+   }
+
+   /**
+    * Saves geolocation position from a notification sent by a device
+    *
+    * @param array $input
+    * @return array
+    */
+   private function agentGeolocationInputParser(array $input) {
+      $position = json_decode($input['_ack'], true);
+      if ($position == "?") {
+         return $input;
+      }
+
+      $agent = new PluginFlyvemdmAgent();
+      if (!$agent->getFromDB($position['agentId']) || !PluginFlyvemdmCommon::isCurrentUser($agent)) {
+         return $input;
+      }
+
+      $dateGeolocation = false;
+      $valuesChecked = false;
+      if (isset($position['datetime'])) {
+         // The datetime sent by the device is expected to be on UTC timezone
+         $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
+            new \DateTimeZone("UTC"));
+         // Shift the datetime to the timezone of the server
+         $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+      }
+      if (isset($position['latitude']) && isset($position['longitude'])) {
+         if ($dateGeolocation !== false) {
+            $valuesChecked = true;
+         }
+      } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
+         // No GPS geolocation available at this time, log it anyway
+         if ($dateGeolocation !== false) {
+            $position['latitude'] = 'na';
+            $position['longitude'] = 'na';
+            $valuesChecked = true;
+         }
+      }
+      if ($valuesChecked) {
+         $input['computers_id'] = $position['computersId'];
+         $input['date'] = $dateGeolocation->format('Y-m-d H:i:s');
+         $input['latitude'] = $position['latitude'];
+         $input['longitude'] = $position['longitude'];
+      }
       return $input;
    }
 
