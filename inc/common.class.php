@@ -207,4 +207,39 @@ class PluginFlyvemdmCommon
              ? GLPI_PREVER
              : GLPI_VERSION;
    }
+
+   /**
+    * Is the current user profile the agent profile (mdm device account) ?
+    *
+    * @return boolean
+    */
+   public static function isAgent() {
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      return ($_SESSION['glpiactiveprofile']['id'] == $config['agent_profiles_id']);
+   }
+
+   /**
+    * @param array $input
+    * @return boolean
+    */
+   public static function checkAgentResponse(array $input) {
+      if (!isset($input['_ack']) || !$input['_ack']) {
+         return false;
+      }
+
+      return true;
+   }
+
+   /**
+    * Is the curent loged user the machine account of this agent ?
+    *
+    * @param PluginFlyvemdmAgent $item
+    * @return boolean
+    */
+   public static function isCurrentUser(PluginFlyvemdmAgent $item) {
+      if ($item->isNewItem()) {
+         return false;
+      }
+      return Session::getLoginUserID() == $item->getField(User::getForeignKeyField());
+   }
 }

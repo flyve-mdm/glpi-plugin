@@ -384,4 +384,15 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->string($instance->getSpecificValueToDisplay('mdm_type',
          'android'))->contains('Android');
    }
+
+   /**
+    * @tags testUpdateLastContact
+    */
+   public function testUpdateLastContact() {
+      $instance = $this->newMockInstance(\PluginFlyvemdmAgent::class);
+      $instance->fields['is_online'] = 0;
+      $instance->getMockController()->update = true;
+      $instance->updateLastContact('', '');
+      $this->mock($instance)->call('update')->never();
+   }
 }
