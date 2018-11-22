@@ -47,7 +47,7 @@ class ProfileRight extends CommonTestCase {
 
       // Expected rights
       $rightsSet = [
-         \PluginFlyvemdmAgent::$rightname        => READ | UPDATE | PURGE,
+         \PluginFlyvemdmAgent::$rightname        => READ | UPDATE | DELETE,
          \PluginFlyvemdmPackage::$rightname      => READ,
          \PluginFlyvemdmFile::$rightname         => READ,
          \PluginFlyvemdmEntityConfig::$rightname => READ,

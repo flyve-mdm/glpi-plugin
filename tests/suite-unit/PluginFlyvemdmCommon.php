@@ -210,4 +210,33 @@ class PluginFlyvemdmCommon extends atoum {
       $class::recursiveRmdir(FLYVEMDM_INVENTORY_PATH);
       $this->string($inventoryExists)->isEqualTo($fileContent);
    }
+
+   /**
+    * @tags testIsAgent
+    */
+   public function testIsAgent() {
+      $class = $this->testedClass->getClass();
+
+      // Simulate a profile different of agent
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'] + 1;
+      $this->boolean($class::isAgent())->isFalse();
+
+      // Simulate a profile equal to agent
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
+      $this->boolean($class::isAgent())->isTrue();
+   }
+
+   /**
+    * @tags testIsCurrentUser
+    */
+   public function testIsCurrentUser() {
+      $_SESSION["glpiID"] = 1;
+      $class = $this->testedClass->getClass();
+      $this->boolean($class::isCurrentUser(new \PluginFlyvemdmAgent()))->isFalse();
+      $agent = $this->newMockInstance(\PluginFlyvemdmAgent::class);
+      $agent->getMockController()->isNewItem = false;
+      $agent->getMockController()->getField = $_SESSION["glpiID"];
+      $this->boolean($class::isCurrentUser($agent))->isTrue();
+   }
 }

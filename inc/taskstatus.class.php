@@ -149,8 +149,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
 
    public function canUpdateItem() {
       // Check the active profile
-      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
-      if ($_SESSION['glpiactiveprofile']['id'] != $config['agent_profiles_id']) {
+      if (!PluginFlyvemdmCommon::isAgent()) {
          return parent::canUpdateItem();
       }
 
@@ -159,7 +158,7 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
       if (!$agent->getFromDB($this->fields[PluginFlyvemdmAgent::getForeignKeyField()])) {
          return false;
       }
-      if ($agent->getField(User::getForeignKeyField()) != Session::getLoginUserID()) {
+      if (!PluginFlyvemdmCommon::isCurrentUser($agent)) {
          return false;
       }
 
@@ -167,22 +166,6 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    }
 
    public function prepareInputForUpdate($input) {
-      if (isAPI() && $this->canUpdateItem()) {
-         if (!isset($input['_message'])) {
-            return false;
-         }
-         if (!isset($input['_topic'])) {
-            return false;
-         }
-         $feedback = json_decode($input['_message'], true);
-         $input['status'] = $feedback['status'];
-         $mqttPath = explode('/', $input['_topic'], 4);
-         if (!isset($mqttPath[3]) || !PluginFlyvemdmCommon::startsWith($mqttPath[3],
-               "Status/Task")) {
-            return false;
-         }
-      }
-
       if (!isset($input['status'])) {
          return false;
       }
@@ -209,10 +192,32 @@ class PluginFlyvemdmTaskstatus extends CommonDBTM {
    }
 
    public function post_updateItem($history = 1) {
-      if(isset($this->input['topic']) && isset($this->input['message'])) {
+      if (PluginFlyvemdmCommon::isAgent()) {
          $agent = new PluginFlyvemdmAgent();
-         $agent->updateLastContact($this->input['topic'], $this->input['message']);
+         $agent->getFromDB($this->fields[PluginFlyvemdmAgent::getForeignKeyField()]);
+         $agent->updateLastContact('!');
       }
+   }
+
+   /**
+    * @deprecated to be replaced after remove MQTT Handler daemon
+    *
+    * Update status of a task
+    *
+    * @param PluginFlyvemdmPolicyBase $policy
+    * @param string $status
+    */
+   public function updateStatus(PluginFlyvemdmPolicyBase $policy, $status) {
+      $status = $policy->filterStatus($status);
+
+      if ($status === null) {
+         return;
+      }
+
+      $this->update([
+         'id'     => $this->getID(),
+         'status' => $status,
+      ]);
    }
 
    /**

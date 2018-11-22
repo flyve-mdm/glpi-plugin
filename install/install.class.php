@@ -291,7 +291,7 @@ class PluginFlyvemdmInstall {
       Config::setConfigurationValues('flyvemdm', ['agent_profiles_id' => $profileId]);
       $profileRight = new ProfileRight();
       $profileRight->updateProfileRights($profileId, [
-         PluginFlyvemdmAgent::$rightname        => READ | UPDATE | PURGE,
+         PluginFlyvemdmAgent::$rightname        => READ | UPDATE | DELETE,
          PluginFlyvemdmFile::$rightname         => READ,
          PluginFlyvemdmPackage::$rightname      => READ,
          PluginFlyvemdmEntityConfig::$rightname => READ,
