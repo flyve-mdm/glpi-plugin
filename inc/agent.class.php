@@ -387,6 +387,24 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       return $_SESSION['glpiID'] == $computer->getField('users_id');
    }
 
+   public function canUpdateItem() {
+      // Check the active profile
+      if (!PluginFlyvemdmCommon::isAgent()) {
+         return parent::canUpdateItem();
+      }
+
+      return $this->isCurrentUser() && parent::canUpdateItem();
+   }
+
+   function canDeleteItem() {
+      // Check the active profile
+      if (!PluginFlyvemdmCommon::isAgent()) {
+         return parent::canUpdateItem();
+      }
+
+      return $this->isCurrentUser() && parent::canUpdateItem();
+   }
+
    /**
     * Sends a wipe command to the agent
     */
@@ -470,6 +488,54 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    public function prepareInputForUpdate($input) {
+      if (!$this->checkRightPerField($input)) {
+         return false;
+      }
+
+      if (PluginFlyvemdmCommon::isAgent() && $this->isCurrentUser()
+         || Session::getLoginUserID() === false) {
+         // The curent user is an agent or the MQTT daemon
+         return prepareInputForUpdateByAgent($input);
+      }
+
+      return prepareInputForUpdateByAdmin($input);
+   }
+
+   /**
+    * Is the curent loged user the machine account of this agent ?
+    *
+    * @return boolean
+    */
+   public function isCurrentUser() {
+      if ($this->isNewItem()) {
+         return false;
+      }
+
+      return (Session::getLoginUserID() == $this->fields[User::getForeignKeyField()]);
+   }
+
+   /**
+    * Prepare input for update when the current user is the agent itself
+    */
+   public function prepareInputForUpdateByAgent($input) {
+      // Handle an inventory
+      if (isset($input['_inventory']) && $this->getComputer()) {
+         $inventoryXML = $input['_inventory'];
+         $communication = new PluginFusioninventoryCommunication();
+         $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
+         if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
+            foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
+               $logMessage = "Import message: $logMessage\n";
+               \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
+            }
+         }
+      }
+
+      $input['last_contact'] = $_SESSION['glpi_currenttime'];
+      return $input;
+   }
+
+   public function prepareInputForUpdateByAdmin($input) {
       if (isset($input['plugin_flyvemdm_fleets_id'])) {
          // Update MQTT ACL for the fleet
          $oldFleet = new PluginFlyvemdmFleet();
@@ -2051,5 +2117,29 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             break;
       }
       return parent::getSpecificValueToSelect($field, $name, $values, $options);
+   }
+
+   public function checkRightPerField($input) {
+      if (PluginFlyvemdmCommon::isAgent()) {
+         $allowedForUpdate = [
+            'last_contact',
+            'version',
+            'enroll_status',
+            'is_online',
+            '_inventory',
+         ];
+         $diff = array_diff(array_keys($input), $allowedForUpdate);
+         return (count($diff) === 0);
+      }
+
+      $allowedForUpdate = [
+         'name',
+         'wipe',
+         'lock',
+         'entities_id',
+         PluginFlyvemdmFlet::getForeignKeyField(),
+      ];
+      $diff = array_diff(array_keys($input), $allowedForUpdate);
+      return (count($diff) === 0);
    }
 }

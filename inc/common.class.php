@@ -207,4 +207,14 @@ class PluginFlyvemdmCommon
              ? GLPI_PREVER
              : GLPI_VERSION;
    }
+
+   /**
+    * Is the current user profile the agent profile (mdm device account) ?
+    *
+    * @return boolean
+    */
+   public function isAgent() {
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      return ($_SESSION['glpiactiveprofile']['id'] == $config['agent_profiles_id']);
+   }
 }
