@@ -188,19 +188,6 @@ class PluginFlyvemdmTaskstatus extends CommonTestCase {
       $this->mock($instance)->call('update')->once();
    }
 
-   /**
-    * @tags testCheckAgentResponse
-    */
-   public function testCheckAgentResponse() {
-      $class = $this->testedClass->getClass();
-      $mock = $this->newMockInstance(\CommonDBTM::class);
-      $mock->getMockController()->canView = false;
-
-      $this->boolean($class::showForFleet([]))->isFalse();
-      $this->boolean($class::checkAgentResponse(['_ack' => '']))->isFalse();
-      $this->boolean($class::checkAgentResponse(['_ack' => 'lorem']))->isTrue();
-   }
-
    public function providerDisplayTabForItem() {
       return [
          'no tasks for agents' => [
