@@ -563,16 +563,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      if (PluginFlyvemdmCommon::checkAgentResponse($input)) {
-         $message = json_decode($input['_ack'], true);
-         if (key_exists('inventory', $message)) {
-            $this->updateInventory($message['inventory']);
+      if (PluginFlyvemdmCommon::isAgent()) {
+         if (isset($input['_inventory'])) {
+            $this->updateInventory($input['_inventory']);
          }
-         if (key_exists('online', $message)) {
-            $input['is_online'] = $this->getOnlineStatusFromMessage($message['online']);
-            if ($input['is_online'] === false) {
+         if (isset($input['is_online'])) {
+            if ($input['is_online'] != "1" && $input['is_online'] != "") {
+               Session::addMessageAfterRedirect(__("Invalid status value", 'flyvemdm'));
                return false;
-            };
+            }
          }
          $input['last_contact'] = $_SESSION['glpi_currenttime'];
       }
@@ -600,12 +599,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
-      if (PluginFlyvemdmCommon::checkAgentResponse($this->input)) {
-         if (!$this->getByTopic($this->input['_topic'])) {
-            return false;
-         }
-      }
-
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -2120,26 +2113,5 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
          }
       }
-   }
-
-   /**
-    * Update the status of a task from a notification sent by a device
-    *
-    * @param string $message
-    * @return boolean|string
-    */
-   private function getOnlineStatusFromMessage($message) {
-      if (!isset($message)) {
-         return false;
-      }
-      if ($message == false) {
-         $status = '0';
-      } else if ($message == true) {
-         $status = '1';
-      } else {
-         // Invalid value
-         return false;
-      }
-      return $status;
    }
 }

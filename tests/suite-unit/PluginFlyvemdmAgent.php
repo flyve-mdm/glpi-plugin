@@ -395,4 +395,152 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $instance->updateLastContact('', '');
       $this->mock($instance)->call('update')->never();
    }
+
+   /**
+    * @tags testUnsubscribe
+    */
+   public function testUnsubscribe() {
+      $instance = $instance = $this->newMockInstance(\PluginFlyvemdmAgent::class);
+      $instance->getMockController()->update = true;
+      $topic = '0/agent/lorem';
+      $instance->getMockController()->getTopic = $topic;
+      $instance->getMockController()->notify = null;
+      $instance->unsubscribe();
+      $this->mock($instance)->call('notify')
+         ->withAtLeastArguments([$topic.'/Subscription'])->once();
+   }
+
+   /**
+    * @tags testGetByTopic
+    */
+   public function testGetByTopic() {
+      $instance = $this->newMockInstance(\PluginFlyvemdmAgent::class);
+      if (method_exists($instance, 'getFromDBByRequest')) {
+         $instance->getMockController()->getFromDbByRequest = true;
+      } else {
+         $instance->getMockController()->getFromDBByQuery = true;
+      }
+      $this->boolean($instance->getByTopic(''))->isFalse();
+      $this->boolean($instance->getByTopic('0/lorem/'))->isFalse();
+      $this->boolean($instance->getByTopic('0/agent/'))->isFalse();
+      $this->boolean($instance->getByTopic('0/agent/serial/'))->isTrue();
+   }
+
+   public function providerUpdateInput() {
+      $agentXmlInventory = CommonTestCase::AgentXmlInventory(uniqid('sn'));
+      return [
+         'invalid fleet change' => [
+            'input'    => ['plugin_flyvemdm_fleets_id' => 'lorem'],
+            'expected' => [
+               'result'  => false,
+               'message' => 'The fleet of the device does not longer exists',
+            ],
+         ],
+         'change to a non-existing fleet' => [
+            'input'    => ['plugin_flyvemdm_fleets_id' => 'lorem'],
+            'expected' => ['result' => false, 'message' => 'The target fleet does not exists'],
+            'extra'    => ['mockFleet' => 1],
+         ],
+         'ping not enrolled device' => [
+            'input'    => ['_ping_request' => 'lorem'],
+            'expected' => ['result' => false, 'message' => 'The device is not enrolled yet'],
+         ],
+         'geolocate not enrolled device' => [
+            'input'    => ['_geolocate_request' => 'lorem'],
+            'expected' => ['result' => false, 'message' => 'The device is not enrolled yet'],
+         ],
+         'inventory not enrolled device' => [
+            'input'    => ['_inventory_request' => 'lorem'],
+            'expected' => ['result' => false, 'message' => 'The device is not enrolled yet'],
+         ],
+         'lock' => [
+            'input'    => ['lock' => 'lorem'],
+            'expected' => ['result' => ['lock' => '1']],
+         ],
+         'wipe' => [
+            'input'    => ['wipe' => 'lorem'],
+            'expected' => ['result' => ['wipe' => '1']],
+         ],
+         'lock and wipe' => [
+            'input'    => ['lock' => 'lorem', 'wipe' => 'lorem'],
+            'expected' => ['result' => ['wipe' => '1']],
+         ],
+         'unenroll' => [
+            'input' => ['_unenroll_request' => 'lorem'],
+            'expected' => [
+               'result' => [
+                  '_unenroll_request' => 'lorem',
+                  'enroll_status'     => 'unenrolling',
+               ],
+            ],
+         ],
+         'agent response for inventory' => [
+            'input'    => ['_inventory' => $agentXmlInventory],
+            'expected' => [
+               'result' => [
+                  '_inventory'   => $agentXmlInventory,
+                  'last_contact' => $_SESSION['glpi_currenttime'],
+               ],
+            ],
+            'extra'    => ['isAgent' => true],
+         ],
+         'agent response for online status' => [
+            'input'    => ['is_online' => true],
+            'expected' => [
+               'result' => [
+                  'is_online'    => '1',
+                  'last_contact' => $_SESSION['glpi_currenttime'],
+               ],
+            ],
+            'extra'    => ['isAgent' => true],
+         ],
+         'agent response for offline status' => [
+            'input'    => ['is_online' => false],
+            'expected' => [
+               'result' => [
+                  'is_online'    => '0',
+                  'last_contact' => $_SESSION['glpi_currenttime'],
+               ],
+            ],
+            'extra'    => ['isAgent' => true],
+         ],
+         'agent response for invalid status' => [
+            'input'    => ['is_online' => 'lorem'],
+            'expected' => ['result' => false, 'message' => 'Invalid status value'],
+            'extra'    => ['isAgent' => true],
+         ],
+      ];
+   }
+
+   /**
+    * @dataProvider providerUpdateInput
+    * @tags testGetprepareInputForUpdate
+    *
+    * @param array $input
+    * @param array $expected
+    * @param array $extra
+    */
+   public function testGetprepareInputForUpdate(array $input, array $expected, array $extra = []) {
+      $instance = $this->newMockInstance(\PluginFlyvemdmAgent::class);
+      $instance->fields['plugin_flyvemdm_fleets_id'] = isset($extra['mockFleet']) ? $extra['mockFleet'] : null;
+      $instance->fields['wipe'] = isset($extra['mockWipe']) ? $extra['mockWipe'] : 0;
+      if (isset($extra['isAgent']) && $extra['isAgent']) {
+         $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+         $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
+      } else {
+         $_SESSION['glpiactiveprofile']['id'] = 1;
+      }
+      $instance->getMockController()->update = true;
+      $instance->getMockController()->getTopic = isset($extra['mockTopic']) ? $extra['mockTopic'] : null;
+      $instance->getMockController()->notify = null;
+      $result = $instance->prepareInputForUpdate($input);
+      if ($expected['result'] === false) {
+         $this->boolean($result)->isFalse();
+         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected['message']);
+         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+      } else {
+         $this->variable($result)->isEqualTo($expected['result']);
+      }
+   }
+
 }
