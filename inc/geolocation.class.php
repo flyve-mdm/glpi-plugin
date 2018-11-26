@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -131,38 +133,17 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       }
    }
 
-
-   /**
-    * @see CommonDBTM::getRights()
-    */
-   public function getRights($interface = 'central') {
-      $rights = parent::getRights();
-      //$values = [READ    => __('Read'),
-      //           PURGE   => ['short' => __('Purge'),
-      //                       'long'  => _x('button', 'Delete permanently')]];
-
-      //$values += ObjectLock::getRightsToAdd( get_class($this), $interface ) ;
-
-      //if ($this->maybeDeleted()) {
-      //   $values[DELETE] = ['short' => __('Delete'),
-      //                      'long'  => _x('button', 'Put in dustbin')];
-      //}
-      //if ($this->usenotepad) {
-      //   $values[READNOTE] = ['short' => __('Read notes'),
-      //                        'long' => __("Read the item's notes")];
-      //   $values[UPDATENOTE] = ['short' => __('Update notes'),
-      //                          'long' => __("Update the item's notes")];
-      //}
-
-      return $rights;
-   }
-
    /**
     * @see CommonDBTM::prepareInputForAdd()
     */
    public function prepareInputForAdd($input) {
-      if (PluginFlyvemdmCommon::checkAgentResponse($input)) {
-         $input = $this->agentGeolocationInputParser($input);
+      if (PluginFlyvemdmCommon::isAgent()) {
+         try {
+            $input = $this->agentGeolocationInputParser($input);
+         } catch (AgentSendQueryException $exception) {
+            Session::addMessageAfterRedirect($exception->getMessage());
+            return false;
+         }
       }
 
       if (!isset($input['computers_id'])) {
@@ -174,7 +155,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          return false;
       }
 
-      if (!$input['latitude'] == 'na' && !$input['longitude'] == 'na') {
+      if (!($input['latitude'] == 'na') && !($input['longitude'] == 'na')) {
          $input['latitude'] = floatval($input['latitude']);
          $input['longitude'] = floatval($input['longitude']);
          $input['computers_id'] = intval($input['computers_id']);
@@ -198,22 +179,10 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       return $input;
    }
 
-   public function canCreateItem() {
-      // Check the active profile
-      if (!PluginFlyvemdmCommon::isAgent()) {
-         return parent::canCreateItem();
-      }
-
-      if ($this->isNewItem()) {
-         return false;
-      }
-      return (Session::getLoginUserID() == $this->fields[User::getForeignKeyField()]);
-   }
-
    public function post_addItem() {
-      if (PluginFlyvemdmCommon::isAgent() && $this->input['_ack'] != '?') {
+      if (PluginFlyvemdmCommon::isAgent() && $this->input['_agents_id']) {
          $agent = new PluginFlyvemdmAgent();
-         $agent->getFromDB($this->fields[PluginFlyvemdmAgent::getForeignKeyField()]);
+         $agent->getFromDB($this->input['_agents_id']);
          $agent->updateLastContact('!');
       }
    }
@@ -223,44 +192,41 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     *
     * @param array $input
     * @return array
+    * @throws AgentSendQueryException
     */
    private function agentGeolocationInputParser(array $input) {
-      $position = json_decode($input['_ack'], true);
-      if ($position == "?") {
-         return $input;
+      if (!isset($input['_agents_id']) || !$input['_agents_id']) {
+         throw new AgentSendQueryException(__('Agent ID is mandatory', 'flyvemdm'));
       }
 
       $agent = new PluginFlyvemdmAgent();
-      if (!$agent->getFromDB($position['agentId']) || !PluginFlyvemdmCommon::isCurrentUser($agent)) {
-         return $input;
+      if (!$agent->getFromDB($input['_agents_id']) || !PluginFlyvemdmCommon::isCurrentUser($agent)) {
+         throw new AgentSendQueryException(__('Device not found', 'flyvemdm'));
       }
 
       $dateGeolocation = false;
       $valuesChecked = false;
-      if (isset($position['datetime'])) {
+      if (isset($input['_datetime'])) {
          // The datetime sent by the device is expected to be on UTC timezone
-         $dateGeolocation = \DateTime::createFromFormat('U', $position['datetime'],
+         $dateGeolocation = \DateTime::createFromFormat('U', $input['_datetime'],
             new \DateTimeZone("UTC"));
          // Shift the datetime to the timezone of the server
          $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
       }
-      if (isset($position['latitude']) && isset($position['longitude'])) {
+      if (isset($input['latitude']) && isset($input['longitude'])) {
          if ($dateGeolocation !== false) {
             $valuesChecked = true;
          }
-      } else if (isset($position['gps']) && strtolower($position['gps']) == 'off') {
+      } else if (isset($input['_gps']) && strtolower($input['_gps']) == 'off') {
          // No GPS geolocation available at this time, log it anyway
          if ($dateGeolocation !== false) {
-            $position['latitude'] = 'na';
-            $position['longitude'] = 'na';
+            $input['latitude'] = 'na';
+            $input['longitude'] = 'na';
             $valuesChecked = true;
          }
       }
       if ($valuesChecked) {
-         $input['computers_id'] = $position['computersId'];
          $input['date'] = $dateGeolocation->format('Y-m-d H:i:s');
-         $input['latitude'] = $position['latitude'];
-         $input['longitude'] = $position['longitude'];
       }
       return $input;
    }
