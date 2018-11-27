@@ -1,28 +1,52 @@
 ---
 layout: home
 ---
-<div class="parallax">
 
 <div class="container">
-    <div class="col-md-12 col-md-push-12 text-center">
-      <img class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-        alt="Flyve" src="images/logo3.png" data-source-index="2">
-    </div>
-    <div class="col-md-12 col-md-pull-12">
-      <div class="type-h2">
-        <b>What is it?.</b>
-      </div>
-      <p class="type-p2">
-        This plugin for GLPI is a subproject of Flyve MDM.
-      </p>
+  <div class="col-md-8 col-md-push-16 text-center">
+    {% include image-WebP.html img="images/logo2.png" alt="dashboard" class="img-dashboard img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block" %}
+  </div>
 
-      <p class="type-p2 p-size2">
-        It provides a stand-alone web based administration and an interface
-        integrated in GLPI. The later one may be the preferred by those who use
-        GLPI for asset management and ticketing.
-      </p>
-    </div>
+  <div class="col-md-16 col-md-pull-8">
+    <h2>
+      Manage all your mobile devices effectively
+    </h2>
+
     <br/>
+
+    <ul>
+      <li>
+        Create an inventory of all of your company terminals (mobile fleet inventory)
+      </li>
+
+      <li>
+        Configure and deploy your mobile fleet from the web-based administration console
+      </li>
+
+      <li>
+        Install and uninstall remote applications
+      </li>
+
+      <li>
+        Send files remotely to all terminals
+      </li>
+
+      <li>
+        Deploy and control Bluetooth and Wi-Fi connectivity
+      </li>
+
+      <li>
+        Activate real-time geolocation of your terminals
+      </li>
+
+      <li>
+        Delete, partially or totally, your data in case of loss or theft
+      </li>
+    </ul>
+
+    <br/>
+
+  </div>
 </div>
 
 <section id="instructions">
@@ -30,84 +54,48 @@ layout: home
     <div class="container">
       <div class="row">
         <div class="col-md-24 text-center">
-          <h3><b>Features</b></h3>
+          <h3>Features</h3>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="jumbotron theme-light">
-    <div class="container">
-
-      <div class="col-md-12 col-md-push-12 text-center">
-        <img class="img-responsive icon visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-          alt="Flyve" src="images/mobile-icon(plain).svg" data-source-index="2">
-      </div>
-
-      <div class="col-md-12 col-md-pull-12">
-
-        <h3><b>Mobile management</b></h3>
-        <p class="type-p1 p-size2">
-          Flyve MDM provides a range of policies to manage the mobile devices.
-          Access to them whether through the Web Admin Dashboard or the GLPI interface:
-        </p>
-
-        <ul class="type-p2 p-size2">
-          <li>Activate remotely encryption.</li>
-          <li>Real-time geolocation.</li>
-          <li>Bluetooth® and Wi-Fi connectivity control.</li>
-          <li>Control camera both front and facing.</li>
-          <li>Install and uninstall applications remotely.</li>
-          <li>Support to Bring Your Own Devices (BYOD).</li>
-        </ul>
-
-      </div>
-
-    </div>
-  </div>
-
   <div class="jumbotron theme-default">
     <div class="container">
-      <div class="col-md-12 col-md-push-12 text-center">
-        <img class="img-responsive icon visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-          alt="Flyve" src="images/easy-icon(plain).svg" data-source-index="2">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          {% include image-WebP.html img="images/shema01.png" alt="shema01" class="img-responsive visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block" %}
+        </div>
+
+        <br class="visible-xs-inline-block visible-sm-inline-block"/>
+        <div class="col-md-12">
+          <div class="type-h3 padding-h0">
+            Web Administration console
+          </div>
+
+          <div class="type-sh3">
+            With Flyve MDM, you can manage your company’s mobile fleet simply and easily, via a secure web browser. Flyve MDM provides access to a centralised mobile device management tool, which offers the following features:
+          </div>
+
+          <ul>
+            <li>
+              Intuitive Web interface
+            </li>
+
+            <li>
+              Users’ accounts configuration and management tool
+            </li>
+
+            <li>
+              Installation / removal of applications
+            </li>
+
+            <li>
+              Ability to control and monitor the security policy
+            </li>
+          </ul>
+        </div>
       </div>
-
-      <div class="col-md-12 col-md-pull-12">
-
-        <h3><b>Easy and simple</b></h3>
-        <p class="type-p2 p-size2">
-          Flyve MDM counts with an intuitive and smooth interface which
-          integrated with GLPI, facilitates the usage, specially for users
-          who implement this IT and asset management software.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="jumbotron theme-light">
-    <div class="container">
-
-      <div class="col-md-12 col-md-push-12 text-center">
-        <img class="img-responsive icon visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block visible-xl-inline-block"
-          alt="Flyve" src="images/security-icon(plain).svg" data-source-index="2">
-      </div>
-
-      <div class="col-md-12 col-md-pull-12">
-
-      <h3><b>Security</b></h3>
-      <p class="type-p2 p-size2">
-        Control and secure the mobile devices with the security policies.
-        In the event of lost or theft protect private and sensitive information.
-      </p>
-      <ul class="type-p2 p-size2">
-        <li>Remotely erase all content and settings on your device.</li>
-        <li>Remotely lock terminals.</li>
-        <li>Set the level of complexity of your passwords.</li>
-      </ul>
-
-    </div>
-
     </div>
   </div>
 
@@ -115,7 +103,7 @@ layout: home
     <div class="container">
       <div class="row">
         <div class="col-md-24 text-center">
-          <h3><b>Want to Contribute to Flyve MDM?</b></h3>
+          <h3>Want to Contribute to Flyve MDM? </h3>
         </div>
       </div>
     </div>
@@ -123,16 +111,15 @@ layout: home
 
   <div class="jumbotron theme-default">
     <div class="container">
-      <h3><b>Great!</b></h3>
-      <p class="type-p2 p-size">
-        Be the first to know <a href='http://flyve.org/glpi-plugin/howtos/workflow'>Flyve MDM Workflow</a>, you'll learn how we run our projects.
-        <a href="http://flyve.org/glpi-plugin/howtos/contribute"><b>Join our Community</b></a>, you can make Flyve MDM better by testing,
-        developing our source code or <a href="http://flyve.org/glpi-plugin/howtos/contribute-translating">translating</a> the project.
-        Also, check our Development and <a href="http://flyve.org/glpi-plugin/howtos/">How-tos</a> sections, for more information.
+      <h3>Great!</h3>
+
+      <p>
+        Be the first to know <a href='http://flyve.org/web-mdm-dashboard/howtos/workflow'>Flyve MDM Workflow</a>, you'll learn how we run our projects. <br />
+      </p>
+
+      <p>
+        <a href="http://flyve.org/web-mdm-dashboard/howtos/contribute">Join our Community</a>, you can make Flyve MDM better by testing, developing our source code or <a href="http://flyve.org/web-mdm-dashboard/howtos/contribute-translating">translating</a> the project. <br />
       </p>
     </div>
   </div>
-
 </section>
-
-</div>
