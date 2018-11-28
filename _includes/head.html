@@ -34,6 +34,10 @@
     <link rel="stylesheet" href="{{ 'css/codeDocumentation.css' | absolute_url }}" />
   {% endif %}
 
+  {% if page.layout == 'coverage' %}
+  <link rel="stylesheet" href="{{ "/css/coverage.css" | absolute_url }}">
+  {% endif %}
+
   <link rel="stylesheet" href="{{ "/css/main.css" | absolute_url }}">
   <link rel="stylesheet" href="{{ 'css/syntax.css' | absolute_url }}" />
   <link rel="icon" href="{{ "/images/favicon.png" | absolute_url }}">
