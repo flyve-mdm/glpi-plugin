@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: news
 published: true
 title: Hacktoberfest 2018
 ---

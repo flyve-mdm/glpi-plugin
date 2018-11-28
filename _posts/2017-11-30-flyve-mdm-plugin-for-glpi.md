@@ -1,11 +1,8 @@
 ---
-layout: static-docs
-category: blog
+layout: news
 published: true
 title: Flyve MDM plugin for GLPI
 ---
-
-
 
 We present you the Flyve MDM Plugin for GLPI.
 
