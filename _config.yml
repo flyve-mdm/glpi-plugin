@@ -1,12 +1,20 @@
 title: glpi plugin
-email: ml-flyvemdm@teclib.com
-twitter: flyvemdm
 baseurl: "/glpi-plugin"
 url: "http://flyve.org"
 image: http://flyve.org/glpi-plugin/images/logo2.png
+email: ml-flyvemdm@teclib.com
+twitter: https://twitter.com/flyvemdm
+facebook: https://www.facebook.com/FlyveMDM
+googlePlus: https://plus.google.com/collection/c32TsB
+telegram: https://t.me/flyvemdm
+irc: http://webchat.freenode.net/?channels=flyve-mdm
+reddit: https://www.reddit.com/r/FlyveMDM/
 
 # Build settings
 markdown: kramdown
+
+sass:
+  style: compressed
 
 plugins:
   - jekyll-github-metadata
@@ -70,11 +78,6 @@ prose:
           element: "text"
           label: "Permalink"
           value: ""
-      - name: "code"
-        field:
-          element: "checkbox"
-          label: "Code Documentation"
-          value: false
       - name: "howtos"
         field:
           element: "checkbox"
