@@ -659,19 +659,19 @@
 </span><span id="506" class="l">      }
 </span><span id="507" class="l">
 </span><span id="508" class="l">      <span class="php-keyword1">unset</span>(<span class="php-var">$input</span>[<span class="php-quote">'enroll_status'</span>]);
-</span><span id="509" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_unenroll'</span>])) {
+</span><span id="509" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_unenroll_request'</span>])) {
 </span><span id="510" class="l">         <span class="php-var">$input</span>[<span class="php-quote">'enroll_status'</span>] = <span class="php-quote">'unenrolling'</span>;
 </span><span id="511" class="l">      }
 </span><span id="512" class="l">
 </span><span id="513" class="l">      <span class="php-comment">//Send a connection status request to the device</span>
-</span><span id="514" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_ping'</span>]) || <span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_geolocate'</span>]) || <span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_inventory'</span>])) {
+</span><span id="514" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_ping_request'</span>]) || <span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_geolocate_request'</span>]) || <span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_inventory_request'</span>])) {
 </span><span id="515" class="l">         <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;getTopic() === <span class="php-keyword1">null</span>) {
 </span><span id="516" class="l">            Session::addMessageAfterRedirect(__(<span class="php-quote">&quot;The device is not enrolled yet&quot;</span>, <span class="php-quote">'flyvemdm'</span>));
 </span><span id="517" class="l">            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="518" class="l">         }
 </span><span id="519" class="l">      }
 </span><span id="520" class="l">
-</span><span id="521" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_ping'</span>])) {
+</span><span id="521" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_ping_request'</span>])) {
 </span><span id="522" class="l">         <span class="php-keyword1">try</span> {
 </span><span id="523" class="l">            <span class="php-var">$this</span>-&gt;sendPingQuery();
 </span><span id="524" class="l">         } <span class="php-keyword1">catch</span> (AgentSendQueryException <span class="php-var">$exception</span>) {
@@ -680,7 +680,7 @@
 </span><span id="527" class="l">         }
 </span><span id="528" class="l">      }
 </span><span id="529" class="l">
-</span><span id="530" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_geolocate'</span>])) {
+</span><span id="530" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_geolocate_request'</span>])) {
 </span><span id="531" class="l">         <span class="php-keyword1">try</span> {
 </span><span id="532" class="l">            <span class="php-var">$this</span>-&gt;sendGeolocationQuery();
 </span><span id="533" class="l">         } <span class="php-keyword1">catch</span> (AgentSendQueryException <span class="php-var">$exception</span>) {
@@ -689,7 +689,7 @@
 </span><span id="536" class="l">         }
 </span><span id="537" class="l">      }
 </span><span id="538" class="l">
-</span><span id="539" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_inventory'</span>])) {
+</span><span id="539" class="l">      <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$input</span>[<span class="php-quote">'_inventory_request'</span>])) {
 </span><span id="540" class="l">         <span class="php-keyword1">try</span> {
 </span><span id="541" class="l">            <span class="php-var">$this</span>-&gt;sendInventoryQuery();
 </span><span id="542" class="l">         } <span class="php-keyword1">catch</span> (AgentSendQueryException <span class="php-var">$exception</span>) {
