@@ -61,22 +61,22 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST['ping'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-      'id'        => $_POST['id'],
-      '_ping'     => '',
+      'id'            => $_POST['id'],
+      '_ping_request' => '',
    ]);
    Html::back();
 } else if (isset($_POST['geolocate'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-      'id'           => $_POST['id'],
-      '_geolocate'   => '',
+      'id'                 => $_POST['id'],
+      '_geolocate_request' => '',
    ]);
    Html::back();
 } else if (isset($_POST['inventory'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-      'id'           => $_POST['id'],
-      '_inventory'   => '',
+      'id'                 => $_POST['id'],
+      '_inventory_request' => '',
    ]);
    Html::back();
 } else if (isset($_POST['purge'])) {
@@ -86,8 +86,8 @@ if (isset($_POST["add"])) {
 } else if (isset($_POST['unenroll'])) {
    $agent->check($_POST['id'], UPDATE);
    $agent->update([
-      'id'           => $_POST['id'],
-      '_unenroll'   => '',
+      'id'                => $_POST['id'],
+      '_unenroll_request' => '',
    ]);
    Html::back();
 } else {

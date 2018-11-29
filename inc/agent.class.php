@@ -506,19 +506,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       unset($input['enroll_status']);
-      if (isset($input['_unenroll'])) {
+      if (isset($input['_unenroll_request'])) {
          $input['enroll_status'] = 'unenrolling';
       }
 
       //Send a connection status request to the device
-      if (isset($input['_ping']) || isset($input['_geolocate']) || isset($input['_inventory'])) {
+      if (isset($input['_ping_request']) || isset($input['_geolocate_request']) || isset($input['_inventory_request'])) {
          if ($this->getTopic() === null) {
             Session::addMessageAfterRedirect(__("The device is not enrolled yet", 'flyvemdm'));
             return false;
          }
       }
 
-      if (isset($input['_ping'])) {
+      if (isset($input['_ping_request'])) {
          try {
             $this->sendPingQuery();
          } catch (AgentSendQueryException $exception) {
@@ -527,7 +527,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      if (isset($input['_geolocate'])) {
+      if (isset($input['_geolocate_request'])) {
          try {
             $this->sendGeolocationQuery();
          } catch (AgentSendQueryException $exception) {
@@ -536,7 +536,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          }
       }
 
-      if (isset($input['_inventory'])) {
+      if (isset($input['_inventory_request'])) {
          try {
             $this->sendInventoryQuery();
          } catch (AgentSendQueryException $exception) {
