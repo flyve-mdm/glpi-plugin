@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_agents` (
   `certificate`               text                                              NOT NULL,
   `mdm_type`                  enum('android','apple')                           NOT NULL DEFAULT 'android',
   `has_system_permission`     tinyint(1)                                        NOT NULL DEFAULT '0',
+  `notification_type`         varchar(255)                                      NOT NULL DEFAULT '',
+  `notification_token`        varchar(255)                                      NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `computers_id` (`computers_id`),
   KEY `users_id` (`users_id`),

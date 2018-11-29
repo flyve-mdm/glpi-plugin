@@ -182,6 +182,8 @@ class CommonTestCase extends GlpiCommonTestCase {
          'lastname'          => 'Doe',
          'type'              => $mdmType,
          'inventory'         => $finalInventory,
+         'notification_type' => 'mqtt',
+         'notification_token'=> $this->getUniqueString(),
       ];
 
       if ($serial) {
