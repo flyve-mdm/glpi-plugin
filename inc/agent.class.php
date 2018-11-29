@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------------
  * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
@@ -70,6 +70,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    protected $usenotepadRights         = true;
 
    protected $topic = null;
+
+   /**
+    * Invitation used for an enrollment process
+    *
+    * @var PluginFlyvemdmInvitation
+    */
+   protected $invitation = null;
 
    /**
     *
@@ -1133,6 +1140,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastname         = isset($input['lastname']) ? $input['lastname'] : null;
       $version          = isset($input['version']) ? $input['version'] : null;
       $mdmType          = isset($input['type']) ? $input['type'] : null;
+      $notificationType = isset($input['notification_type']) ? $input['notification_type'] : null;
+      $notificationToken= isset($input['notification_token']) ? $input['notification_token'] : null;
       $inventory        = isset($input['inventory']) ? htmlspecialchars_decode(base64_decode($input['inventory']),
          ENT_COMPAT | ENT_XML1) : null;
       $systemPermission = isset($input['has_system_permission']) ? $input['has_system_permission'] : 0;
@@ -1151,16 +1160,29 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ]);
 
       // Find the invitation
-      $invitation = new PluginFlyvemdmInvitation();
-      if (!$invitation->getFromDBByToken($invitationToken)) {
+      // TODO : use $this->invitation for all other checks being logged in invitationlog
+      $this->invitation = new PluginFlyvemdmInvitation();
+      if (!$this->invitation->getFromDBByToken($invitationToken)) {
          $this->filterMessages(__('Invitation token invalid', 'flyvemdm'));
+         return false;
+      }
+      // TODO : use $this->invitation for all other checks being logged in invitationlog
+
+      if (!$this->checkNotificationForEnrollment($notificationType, $notificationToken)) {
+         return false;
+      }
+
+      if (empty($serial) && empty($uuid)) {
+         $event = __('One of serial and uuid is mandatory', 'flyvemdm');
+         $this->filterMessages($event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (empty($inventory)) {
          $event = __('Device inventory XML is mandatory', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1171,35 +1193,35 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (empty($version)) {
          $event = __('Agent version missing', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (empty($mdmType)) {
          $event = __('MDM type missing', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (!in_array($mdmType, array_keys($this::getEnumMdmType()))) {
          $event = __('unknown MDM type', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) !== 1) {
          $event = __('Bad agent version', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1208,7 +1230,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (version_compare($minVersion, $version) > 0) {
          $event = __('The agent version is too low', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1218,48 +1240,51 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             if ($systemPermission === null) {
                $event = __('The agent does not advertise its system permissions', 'flyvemdm');
                $this->filterMessages($event);
-               $this->logInvitationEvent($invitation, $event);
+               $this->logInvitationEvent($this->invitation, $event);
                return false;
             }
       }
 
       // Check the invitation is pending
-      if ($invitation->getField('status') != 'pending') {
+      if ($this->invitation->getField('status') != 'pending') {
          $event = __('Invitation is not pending', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       // Check the token has not yet expired
-      if ($invitation->getField('expiration_date') === null) {
+      if ($this->invitation->getField('expiration_date') === null) {
          $event = __('Expiration date of the invitation is not set', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
       $currentDatetime = new DateTime("now");
-      $expirationDatetime = new DateTime($invitation->getField('expiration_date'));
+      $expirationDatetime = new DateTime($this->invitation->getField('expiration_date'));
       if ($currentDatetime >= $expirationDatetime) {
          $event = __('Invitation token expired', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       // Check the given email belongs to the same user than the user in the invitation
       $user = new User();
       $userTable = User::getTable();
-      $condition = [$userTable . '.id' => $invitation->getField('users_id')];
+      $condition = $userTable.".`id`='" . $this->invitation->getField('users_id') . "'";
+      if (version_compare(GLPI_VERSION, '9.3-dev') >= 0) {
+         $condition = [$userTable . '.id' => $this->invitation->getField('users_id')];
+      }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
       $userId = $user->getId();
 
-      $entityId = $invitation->getField('entities_id');
+      $entityId = $this->invitation->getField('entities_id');
 
       //sign the agent's certificate (if TLS enabled)
       $input['certificate'] = '';
@@ -1269,7 +1294,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          if ($crt === false) {
             $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
             $this->filterMessages($event);
-            $this->logInvitationEvent($invitation, $event);
+            $this->logInvitationEvent($this->invitation, $event);
             return false;
          }
          $input['certificate'] = $crt;
@@ -1277,7 +1302,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Prepare invitation update
       $invitationInput = [
-         'id'                 => $invitation->getID(),
+         'id'                 => $this->invitation->getID(),
          'status'             => 'done'
       ];
 
@@ -1287,10 +1312,10 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $invitationInput['status']          = 'done';
 
          // Update the invitation
-         if (!$invitation->update($invitationInput)) {
+         if (!$this->invitation->update($invitationInput)) {
             $event = __("Failed to update the invitation", 'flyvemdm');
             $this->filterMessages($event);
-            $this->logInvitationEvent($invitation, $event);
+            $this->logInvitationEvent($this->invitation, $event);
             return false;
          }
       }
@@ -1310,7 +1335,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ob_end_clean();
       if (strlen($fiOutput) != 0) {
          // FI print errors to sdt output and agents needs a correct response, let's save this to logs.
-         $this->logInvitationEvent($invitation, $fiOutput);
+         $this->logInvitationEvent($this->invitation, $fiOutput);
       }
       unset($_SESSION['glpi_fusionionventory_nolock']);
       $fiAgentId = $_SESSION['plugin_fusioninventory_agents_id']; // generated by FusionInventory
@@ -1318,7 +1343,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($fiAgentId === 0 || !property_exists($parsedXml, 'DEVICEID')) {
          $event = __('Cannot get the FusionInventory agent', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1326,7 +1351,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if (!$pfAgent->getFromDBByCrit(['device_id' => $parsedXml->DEVICEID])) {
          $event = __('FusionInventory agent not created', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
       $computerId = $pfAgent->getField(Computer::getForeignKeyField());
@@ -1334,7 +1359,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($computerId === 0) {
          $event = __("Cannot create the device", 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1385,7 +1410,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($agentToken === false) {
          $event = __('Cannot create the API token for the agent', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1394,7 +1419,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($defaultFleet === null) {
          $event = __("No default fleet available for the device", 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
@@ -1416,14 +1441,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $input['computers_id']              = $computerId;
       $input['entities_id']               = $entityId;
       $input['plugin_flyvemdm_fleets_id'] = $defaultFleet->getID();
-      $input['_invitations_id']           = $invitation->getID();
+      $input['_invitations_id']           = $this->invitation->getID();
       $input['enroll_status']             = 'enrolled';
       $input['version']                   = $version;
       $input['users_id']                  = $agentAccount->getID();
       $input['mdm_type']                  = $mdmType;
       $input['systemPermission']          = $systemPermission;
+      $input['notification_type']         = $notificationType;
+      $input['notification_token']        = $notificationToken;
       return $input;
-
    }
 
    /**
@@ -2101,5 +2127,35 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             \Toolbox::logInFile('plugin_flyvemdm_inventory', $logMessage);
          }
       }
+   }
+
+   /**
+    * Checks that the notification settings for  an enrollment are valid
+    *
+    * @param string $notificationType
+    * @param string $notificationToken
+    * @return boolean
+    */
+   private function checkNotificationForEnrollment($notificationType, $notificationToken) {
+      switch ($notificationType) {
+         case 'mqtt':
+            return true;
+            break;
+
+         case 'fcm':
+            if ($notificationToken === null) {
+               $event = __('Notification token is missing', 'flyvemdm');
+               $this->filterMessages($event);
+               $this->logInvitationEvent($invitation, $event);
+               return false;
+            }
+            return true;
+            break;
+      }
+
+      $event = __('Notification settings are invalid', 'flyvemdm');
+      $this->filterMessages($event);
+      $this->logInvitationEvent($invitation, $event);
+      return false;
    }
 }

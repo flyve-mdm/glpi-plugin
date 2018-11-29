@@ -181,6 +181,25 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ],
             'expected' => 'Inventory XML is not well formed',
          ],
+         'with invalid notification system' => [
+            'data'     => [
+               'notification_type' => '',
+            ],
+            'expected' => 'Notification settings are invalid',
+         ],
+         'with invalid notification system 2' => [
+            'data'     => [
+               'notification_type' => 'fcm',
+               'notification_token' => null,
+            ],
+            'expected' => 'Notification settings are invalid',
+         ],
+         'with invalid notification system 3' => [
+            'data'     => [
+               'notification_type' => 'invalid',
+            ],
+            'expected' => 'Notification settings are invalid',
+         ],
       ];
    }
 

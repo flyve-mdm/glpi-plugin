@@ -102,6 +102,8 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
       $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
       $migration->addField($table, 'has_system_permission', 'bool', ['after' => 'mdm_type']);
+      $migration->addField($table, 'notification_type', 'string', ['after' => 'has_system_permission', 'value' => '']);
+      $migration->addField($table, 'notification_token', 'string', ['after' => 'notification_type', 'value' => '']);
       $migration->addKey($table, 'computers_id', 'computers_id');
       $migration->addKey($table, 'users_id', 'users_id');
       $migration->addKey($table, 'entities_id', 'entities_id');
@@ -367,17 +369,17 @@ class PluginFlyvemdmUpgradeTo2_0 {
             (SELECT id, SUBSTRING_INDEX(SUBSTRING_INDEX(topic, '/', 3), '/', -1) as new_items_id,
               SUBSTRING(REPLACE(topic, SUBSTRING_INDEX(topic, '/', 3), ''), 2) as new_topic
               FROM $table WHERE topic NOT LIKE '/%' and topic like '%/fleet/%') as t2
-            SET t1.itemtype = 'PluginFlyvemdmFleet', t1.items_id = t2.new_items_id, 
+            SET t1.itemtype = 'PluginFlyvemdmFleet', t1.items_id = t2.new_items_id,
             t1.topic = t2.new_topic, t1.topic = t2.new_topic WHERE t1.id = t2.id");
 
          // upgrade agents logs to their new format
          $migration->addPostQuery("UPDATE $table as t1,
-            (SELECT m.id, c.id as new_items_id, 
+            (SELECT m.id, c.id as new_items_id,
               SUBSTRING(REPLACE(topic, SUBSTRING_INDEX(topic, '/', 3), ''), 2) as new_topic
               FROM $table as m, glpi_computers as c
-              WHERE topic NOT LIKE '/%' and topic like '%/agent/%' 
+              WHERE topic NOT LIKE '/%' and topic like '%/agent/%'
               AND serial = SUBSTRING_INDEX(SUBSTRING_INDEX(topic, '/', 3), '/', -1)) as t2
-            SET t1.itemtype = 'PluginFlyvemdmAgent', t1.items_id = t2.new_items_id, 
+            SET t1.itemtype = 'PluginFlyvemdmAgent', t1.items_id = t2.new_items_id,
             t1.topic = t2.new_topic, t1.topic = t2.new_topic WHERE t1.id = t2.id");
       }
 
