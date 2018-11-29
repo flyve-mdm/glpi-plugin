@@ -392,8 +392,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
       $agent->update([
-         'id'        => $agent->getID(),
-         '_unenroll' => '',
+         'id'                => $agent->getID(),
+         '_unenroll_request' => '',
       ]);
 
       // Get the latest MQTT message
@@ -589,8 +589,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       $updateSuccess = $agent->update([
-         'id'    => $agent->getID(),
-         '_ping' => '',
+         'id'            => $agent->getID(),
+         '_ping_request' => '',
       ]);
 
       // Update shall fail because the ping answer will not occur
@@ -624,8 +624,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       $updateSuccess = $agent->update([
-         'id'         => $agent->getID(),
-         '_geolocate' => '',
+         'id'                 => $agent->getID(),
+         '_geolocate_request' => '',
       ]);
       $this->boolean($updateSuccess)->isFalse("Failed to update the agent");
 
@@ -658,8 +658,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->boolean($agent->getFromDB($agent->getID()))->isTrue();
 
       $updateSuccess = $agent->update([
-         'id'         => $agent->getID(),
-         '_inventory' => '',
+         'id'                 => $agent->getID(),
+         '_inventory_request' => '',
       ]);
 
       // Update shall fail because the inventory is not received
