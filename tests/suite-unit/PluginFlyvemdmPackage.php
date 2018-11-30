@@ -194,14 +194,4 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          ->string[8]->isEqualTo('');
    }
 
-   /**
-    * @param $result
-    * @param $message
-    */
-   private function assertInvalidResult($result, $message) {
-      $this->boolean($result)->isFalse();
-      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($message);
-      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
-   }
-
 }

@@ -485,7 +485,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'extra'    => ['isAgent' => true],
          ],
          'agent response for online status' => [
-            'input'    => ['is_online' => true],
+            'input'    => ['is_online' => 1],
             'expected' => [
                'result' => [
                   'is_online'    => '1',
@@ -495,7 +495,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             'extra'    => ['isAgent' => true],
          ],
          'agent response for offline status' => [
-            'input'    => ['is_online' => false],
+            'input'    => ['is_online' => 0],
             'expected' => [
                'result' => [
                   'is_online'    => '0',
@@ -518,26 +518,24 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     *
     * @param array $input
     * @param array $expected
-    * @param array $extra
+    * @param array $extraArguments
     */
-   public function testGetprepareInputForUpdate(array $input, array $expected, array $extra = []) {
+   public function testGetprepareInputForUpdate(array $input, array $expected, array $extraArguments = []) {
       $instance = $this->newMockInstance(\PluginFlyvemdmAgent::class);
-      $instance->fields['plugin_flyvemdm_fleets_id'] = isset($extra['mockFleet']) ? $extra['mockFleet'] : null;
-      $instance->fields['wipe'] = isset($extra['mockWipe']) ? $extra['mockWipe'] : 0;
-      if (isset($extra['isAgent']) && $extra['isAgent']) {
+      $instance->fields['plugin_flyvemdm_fleets_id'] = isset($extraArguments['mockFleet']) ? $extraArguments['mockFleet'] : null;
+      $instance->fields['wipe'] = isset($extraArguments['mockWipe']) ? $extraArguments['mockWipe'] : 0;
+      if (isset($extraArguments['isAgent']) && $extraArguments['isAgent']) {
          $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
          $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
       } else {
          $_SESSION['glpiactiveprofile']['id'] = 1;
       }
       $instance->getMockController()->update = true;
-      $instance->getMockController()->getTopic = isset($extra['mockTopic']) ? $extra['mockTopic'] : null;
+      $instance->getMockController()->getTopic = isset($extraArguments['mockTopic']) ? $extraArguments['mockTopic'] : null;
       $instance->getMockController()->notify = null;
       $result = $instance->prepareInputForUpdate($input);
       if ($expected['result'] === false) {
-         $this->boolean($result)->isFalse();
-         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected['message']);
-         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+         $this->assertInvalidResult($result, $expected['message']);
       } else {
          $this->variable($result)->isEqualTo($expected['result']);
       }

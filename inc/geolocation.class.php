@@ -195,7 +195,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
     * @throws AgentSendQueryException
     */
    private function agentGeolocationInputParser(array $input) {
-      if (!isset($input['_agents_id']) || !$input['_agents_id']) {
+      if (!isset($input['_agents_id'])) {
          throw new AgentSendQueryException(__('Agent ID is mandatory', 'flyvemdm'));
       }
 
