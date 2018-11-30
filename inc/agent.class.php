@@ -568,7 +568,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             $this->updateInventory($input['_inventory']);
          }
          if (isset($input['is_online'])) {
-            if ($input['is_online'] != "1" && $input['is_online'] != "") {
+            if ($input['is_online'] != "1" && $input['is_online'] != "0") {
                Session::addMessageAfterRedirect(__("Invalid status value", 'flyvemdm'));
                return false;
             }

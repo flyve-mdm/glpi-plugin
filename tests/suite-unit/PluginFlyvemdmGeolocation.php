@@ -83,11 +83,11 @@ class PluginFlyvemdmGeolocation extends CommonTestCase {
     *
     * @param array $input
     * @param array $expected
-    * @param array $extra
+    * @param array $extraArguments
     */
-   public function testGetprepareInputForAdd(array $input, array $expected, array $extra = []) {
+   public function testGetprepareInputForAdd(array $input, array $expected, array $extraArguments = []) {
       $instance = $this->newMockInstance(\PluginFlyvemdmGeolocation::class);
-      if (isset($extra['isAgent']) && $extra['isAgent']) {
+      if (isset($extraArguments['isAgent']) && $extraArguments['isAgent']) {
          $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
          $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
       } else {
@@ -95,9 +95,7 @@ class PluginFlyvemdmGeolocation extends CommonTestCase {
       }
       $result = $instance->prepareInputForAdd($input);
       if ($expected['result'] === false) {
-         $this->boolean($result)->isFalse();
-         $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($expected['message']);
-         unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
+         $this->assertInvalidResult($result, $expected['message']);
       } else {
          $this->variable($result)->isEqualTo($expected['result']);
       }

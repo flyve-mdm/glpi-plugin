@@ -33,6 +33,7 @@ namespace Flyvemdm\Tests;
 
 use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
 use tests\units\PluginFlyvemdmAgent;
+use tests\units\PluginFlyvemdmPackage;
 
 class CommonTestCase extends GlpiCommonTestCase {
 
@@ -716,5 +717,15 @@ class CommonTestCase extends GlpiCommonTestCase {
          return (int)$row['id'];
       }
       return 0;
+   }
+
+   /**
+    * @param $result
+    * @param $message
+    */
+   protected function assertInvalidResult($result, $message) {
+      $this->boolean($result)->isFalse();
+      $this->string($_SESSION["MESSAGE_AFTER_REDIRECT"][0][0])->isEqualTo($message);
+      unset($_SESSION["MESSAGE_AFTER_REDIRECT"]); // to clear the buffer
    }
 }
