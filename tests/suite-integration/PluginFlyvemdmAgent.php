@@ -40,9 +40,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
 
    public function setUp() {
       //$this->resetState();
-      \Config::setConfigurationValues('flyvemdm', ['computertypes_id' => $this->computerTypeId]);
+      \Config::setConfigurationValues(TEST_PLUGIN_NAME, ['computertypes_id' => $this->computerTypeId]);
       // Enable debug mode for enrollment messages
-      \Config::setConfigurationValues($pluginName, ['debug_enrolment' => '1']);
+      \Config::setConfigurationValues(TEST_PLUGIN_NAME, ['debug_enrolment' => '1']);
    }
 
    public function beforeTestMethod($method) {
@@ -76,7 +76,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ['entities_id' => $activeEntity]
       );
       $deviceLimit = ($agents + 3);
-      $entityConfig;
       $entityConfig->update([
          'id'           => $activeEntity,
          'device_limit' => $deviceLimit,
@@ -102,12 +101,6 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          $invitationData[] = ['invitation' => $invitation, 'email' => $email];
       }
 
-      $config = \Config::setConfigurationValues(
-         'flyvemdm',
-         [
-            'debug_enrolment' => '1',
-         ]
-      );
       for ($i = 0, $max = (count($invitationData) - 1); $i < $max; $i++) {
          $agentId = $this->loginAndAddAgent($invitationData[$i]);
          // Agent creation should succeed
@@ -184,20 +177,20 @@ class PluginFlyvemdmAgent extends CommonTestCase {
          ],
          'with invalid notification system' => [
             'data'     => [
-               'notification_type' => '',
+               'notificationType' => '',
             ],
             'expected' => 'Notification settings are invalid',
          ],
          'with invalid notification system 2' => [
             'data'     => [
-               'notification_type' => 'fcm',
-               'notification_token' => null,
+               'notificationType' => 'fcm',
+               'notificationToken' => null,
             ],
-            'expected' => 'Notification settings are invalid',
+            'expected' => 'Notification token is missing',
          ],
          'with invalid notification system 3' => [
             'data'     => [
-               'notification_type' => 'invalid',
+               'notificationType' => 'invalid',
             ],
             'expected' => 'Notification settings are invalid',
          ],
@@ -211,19 +204,33 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @param string $expected
     */
    public function testInvalidEnrollAgent(array $data, $expected) {
+      $defaults = [];
       $dbUtils = new \DbUtils;
       $invitationlogTable = \PluginFlyvemdmInvitationlog::getTable();
       $expectedLogCount = $dbUtils->countElementsInTable($invitationlogTable);
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $invitationToken = (isset($data['invitationToken'])) ? $data['invitationToken'] : $invitation->getField('invitation_token');
       $serial = (key_exists('serial', $data)) ? $data['serial'] : $serial;
-      $mdmType = (key_exists('mdmType', $data)) ? $data['mdmType'] : 'android';
-      $version = (key_exists('version', $data)) ? $data['version'] : '';
-      $inventory = (key_exists('inventory', $data)) ? $data['inventory'] : null;
+
+      if (key_exists('mdmType', $data)) {
+         $defaults['mdmType'] = $data['mdmType'];
+      }
+      if (key_exists('version', $data)) {
+         $defaults['version'] = $data['version'];
+      }
+      if (key_exists('inventory', $data)) {
+         $defaults['inventory'] = $data['inventory'];
+      }
+      if (key_exists('notificationType', $data)) {
+         $defaults['notificationType'] = $data['notificationType'];
+      }
+      if (key_exists('notificationToken', $data)) {
+         $defaults['notificationToken'] = $data['notificationToken'];
+      }
 
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, $mdmType,
-         $version, $inventory, [], false);
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, $defaults,
+         [], false);
       $this->boolean($agent->isNewItem())
          ->isTrue(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
       $this->array($_SESSION['MESSAGE_AFTER_REDIRECT'][ERROR])->contains($expected);
@@ -240,7 +247,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $inviationId = $invitation->getID();
 
       // Test successful enrollment
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken,
+         ['mdmType' => 'apple']);
       $this->boolean($agent->isNewItem())
          ->isFalse(json_encode($_SESSION['MESSAGE_AFTER_REDIRECT'], JSON_PRETTY_PRINT));
 
@@ -379,7 +387,8 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $this->string($invitation->getField('status'))->isEqualTo('done');
 
       // Check the invitation cannot be used again
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'apple');
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken,
+         ['mdmType' => 'apple']);
 
       $this->boolean($agent->isNewItem())->isTrue();
    }
@@ -888,16 +897,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $userId = $invitation->getField(\User::getForeignKeyField());
       $serial = $this->getUniqueString();
       $input = [
-         'entities_id'       => $_SESSION['glpiactive_entity'],
-         '_email'            => $email,
-         '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial'           => $serial,
-         'csr'               => '',
-         'firstname'         => 'John',
-         'lastname'          => 'Doe',
-         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
-         'type'              => 'android',
-         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
+         'entities_id'        => $_SESSION['glpiactive_entity'],
+         '_email'             => $email,
+         '_invitation_token'  => $invitation->getField('invitation_token'),
+         '_serial'            => $serial,
+         'csr'                => '',
+         'firstname'          => 'John',
+         'lastname'           => 'Doe',
+         'version'            => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
+         'type'               => 'android',
+         'inventory'          => CommonTestCase::AgentXmlInventory($serial),
+         'notification_type'  => 'mqtt',
+         'notification_token' => '',
       ];
       $agent = $this->enrollFromInvitation($userId, $input);
 
