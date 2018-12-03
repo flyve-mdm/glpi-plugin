@@ -102,7 +102,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $migration->addField($table, 'users_id', 'integer', ['after' => 'computers_id']);
       $migration->addField($table, 'is_online', 'integer', ['after' => 'last_contact']);
       $migration->addField($table, 'has_system_permission', 'bool', ['after' => 'mdm_type']);
-      $migration->addField($table, 'notification_type', 'string', ['after' => 'has_system_permission', 'value' => '']);
+      $migration->addField($table, 'notification_type', 'string', ['after' => 'has_system_permission', 'value' => 'mqtt']);
       $migration->addField($table, 'notification_token', 'string', ['after' => 'notification_type', 'value' => '']);
       $migration->addKey($table, 'computers_id', 'computers_id');
       $migration->addKey($table, 'users_id', 'users_id');

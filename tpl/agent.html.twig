@@ -40,6 +40,10 @@
       {{ agent.last_contact }}
    </td>
 </tr>
+<tr class="tab_bg_1">
+   <td>{{ __('Notification type', 'flyvemdm') }}</td>
+   <td>{{ agent.notification_type|upper }}</td>
+</tr>
 {% if canUpdate == true %}
 <tr class='tab_bg_1'>
    <td>
