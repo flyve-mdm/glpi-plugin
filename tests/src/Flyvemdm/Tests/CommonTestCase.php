@@ -32,8 +32,6 @@
 namespace Flyvemdm\Tests;
 
 use Glpi\Tests\CommonTestCase as GlpiCommonTestCase;
-use tests\units\PluginFlyvemdmAgent;
-use tests\units\PluginFlyvemdmPackage;
 
 class CommonTestCase extends GlpiCommonTestCase {
 
@@ -144,9 +142,7 @@ class CommonTestCase extends GlpiCommonTestCase {
     * @param string $guestEmail
     * @param string|null $serial if null the value is not used
     * @param string $invitationToken
-    * @param string $mdmType
-    * @param string|null $version if null the value is not used
-    * @param string $inventory xml
+    * @param array $defaults
     * @param array $customInput
     * @param boolean $keepSession
     * @return \PluginFlyvemdmAgent
@@ -156,34 +152,51 @@ class CommonTestCase extends GlpiCommonTestCase {
       $guestEmail,
       $serial,
       $invitationToken,
-      $mdmType = 'android',
-      $version = '',
-      $inventory = null,
+      array $defaults = [],
       array $customInput = [],
       $keepSession = false
    ) {
+
+      if (!key_exists('notificationType', $defaults)) {
+         $defaults['notificationType'] = 'mqtt';
+      }
+      if (!key_exists('notificationToken', $defaults)) {
+         $defaults['notificationToken'] = '';
+      }
+
+      // Default values for BC
+      if (!key_exists('mdmType', $defaults)) {
+         $defaults['mdmType'] = 'android';
+      }
+      if (!key_exists('version', $defaults)) {
+         $defaults['version'] = '';
+      }
+      if (!key_exists('inventory', $defaults)) {
+         $defaults['inventory'] = null;
+      }
+
       //Version change
       $finalVersion = \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0';
-      if ($version) {
-         $finalVersion = $version;
+      if ($defaults['version']) {
+         $finalVersion = $defaults['version'];
       }
-      if (null === $version) {
+      if (null === $defaults['version']) {
          $finalVersion = null;
       }
 
-      $finalInventory = (null !== $inventory) ? $inventory : self::AgentXmlInventory($serial);
+      $finalInventory = (null !== $defaults['inventory']) ? $defaults['inventory']: self::AgentXmlInventory($serial);
 
       $input = [
-         'entities_id'       => $_SESSION['glpiactive_entity'],
-         '_email'            => $guestEmail,
-         '_invitation_token' => $invitationToken,
-         'csr'               => '',
-         'firstname'         => 'John',
-         'lastname'          => 'Doe',
-         'type'              => $mdmType,
-         'inventory'         => $finalInventory,
-         'notification_type' => 'mqtt',
-         'notification_token'=> $this->getUniqueString(),
+         'entities_id'        => $_SESSION['glpiactive_entity'],
+         '_email'             => $guestEmail,
+         '_invitation_token'  => $invitationToken,
+         'csr'                => '',
+         'firstname'          => 'John',
+         'lastname'           => 'Doe',
+         'type'               => $defaults['mdmType'],
+         'inventory'          => $finalInventory,
+         'notification_type'  => $defaults['notificationType'],
+         'notification_token' => $defaults['notificationToken'],
       ];
 
       if ($serial) {
@@ -279,8 +292,7 @@ class CommonTestCase extends GlpiCommonTestCase {
    public function createAgent(array $input = []) {
       list($user, $serial, $guestEmail, $invitation) = $this->createUserInvitation(\User::getForeignKeyField());
       $invitationToken = $invitation->getField('invitation_token');
-      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, 'android',
-         '', null, $input, true);
+      $agent = $this->agentFromInvitation($user, $guestEmail, $serial, $invitationToken, [], $input, true);
       return $agent;
    }
 

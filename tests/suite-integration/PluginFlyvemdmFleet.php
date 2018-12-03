@@ -79,16 +79,18 @@ class PluginFlyvemdmFleet extends CommonTestCase {
       // Enroll
       $serial = $this->getUniqueString();
       $input = [
-         'entities_id'       => $_SESSION['glpiactive_entity'],
-         '_email'            => $guestEmail,
-         '_invitation_token' => $invitation->getField('invitation_token'),
-         '_serial'           => $serial,
-         'csr'               => '',
-         'firstname'         => 'John',
-         'lastname'          => 'Doe',
-         'version'           => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
-         'type'              => 'android',
-         'inventory'         => CommonTestCase::AgentXmlInventory($serial),
+         'entities_id'        => $_SESSION['glpiactive_entity'],
+         '_email'             => $guestEmail,
+         '_invitation_token'  => $invitation->getField('invitation_token'),
+         '_serial'            => $serial,
+         'csr'                => '',
+         'firstname'          => 'John',
+         'lastname'           => 'Doe',
+         'version'            => \PluginFlyvemdmAgent::MINIMUM_ANDROID_VERSION . '.0',
+         'type'               => 'android',
+         'inventory'          => CommonTestCase::AgentXmlInventory($serial),
+         'notification_type'  => 'mqtt',
+         'notification_token' => '',
       ];
       $agent = $this->enrollFromInvitation($userId, $input);
       $this->boolean($agent->isNewItem())

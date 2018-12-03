@@ -2146,7 +2146,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             if ($notificationToken === null) {
                $event = __('Notification token is missing', 'flyvemdm');
                $this->filterMessages($event);
-               $this->logInvitationEvent($invitation, $event);
+               $this->logInvitationEvent($this->invitation, $event);
                return false;
             }
             return true;
@@ -2155,7 +2155,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $event = __('Notification settings are invalid', 'flyvemdm');
       $this->filterMessages($event);
-      $this->logInvitationEvent($invitation, $event);
+      $this->logInvitationEvent($this->invitation, $event);
       return false;
    }
 }
