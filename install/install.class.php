@@ -639,6 +639,9 @@ Regards,
          'agentusercategories_id'          => '0',
          'invitation_deeplink'             => PLUGIN_FLYVEMDM_DEEPLINK,
          'show_wizard'                     => PluginFlyvemdmConfig::WIZARD_WELCOME_BEGIN,
+         'mqtt_enabled'                    => '1',
+         'fcm_enabled'                     => '0',
+         'fcm_api_token'                   => '',
       ];
       Config::setConfigurationValues('flyvemdm', $newConfig);
       $this->createBackendMqttUser(self::BACKEND_MQTT_USER, $MdmMqttPassword);
