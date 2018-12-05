@@ -66,11 +66,15 @@ class FcmSendMessageHandler {
             $devices[] = new Device($pushInfo['token']);
          }
       }
+      if (!$devices) {
+         // no devices to send notifications
+         return;
+      }
       $adapter = $this->connection->getAdapter();
       $fcmMessage = new Message($message->getMessage());
       $deviceCollection = new DeviceCollection($devices);
       $push = new Push($adapter, $deviceCollection, $fcmMessage);
-      $this->connection->add($push);
+      $this->connection->addPush($push);
       $this->connection->push();
    }
 }
