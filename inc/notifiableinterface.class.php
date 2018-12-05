@@ -87,4 +87,10 @@ interface PluginFlyvemdmNotifiableInterface {
     * @return boolean True if message may be sent
     */
    public function isNotifiable();
+
+   /**
+    * Get the notification token for each device
+    * @return array
+    */
+   public function getPushNotificationInfo();
 }

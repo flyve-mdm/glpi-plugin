@@ -779,18 +779,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
 
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      ) {
-      };
+      $mockedAgent->getMockController()->notify = null;
       $mockedAgent->update([
          'id'     => $agent->getID(),
          $fleetFk => $defaultFleet->getID(),
       ]);
-      $this->mock($mockedAgent)->call('notify')->never();
+      $this->mock($mockedAgent)->call('notify')->once();
 
    }
 

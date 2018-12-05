@@ -32,6 +32,7 @@
 namespace GlpiPlugin\Flyvemdm\Fcm;
 
 use Sly\NotificationPusher\Adapter\Gcm;
+use Sly\NotificationPusher\Model\Push;
 use Sly\NotificationPusher\PushManager;
 
 if (!defined('GLPI_ROOT')) {
@@ -60,5 +61,26 @@ class FcmConnection {
     */
    public function getAdapter() {
       return $this->adapter;
+   }
+
+   /**
+    * @param Push $push
+    */
+   public function addPush(Push $push) {
+      $this->pushManager->add($push);
+   }
+
+   /**
+    * @return \Sly\NotificationPusher\Collection\PushCollection
+    */
+   public function push() {
+      return $this->pushManager->push();
+   }
+
+   /**
+    * @return \Sly\NotificationPusher\Model\ResponseInterface
+    */
+   public function getResponse() {
+      return $this->pushManager->getResponse();
    }
 }

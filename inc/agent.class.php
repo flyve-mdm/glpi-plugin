@@ -33,6 +33,8 @@ use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
 use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
+use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
+use GlpiPlugin\Flyvemdm\Fcm\FcmMiddleware;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
 
@@ -426,9 +428,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Command/Wipe";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Command/Wipe",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -444,9 +451,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Command/Lock";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Command/Lock",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -462,9 +474,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Command/Lock";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Command/Lock",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -480,9 +497,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Command/Unenroll";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Command/Unenroll",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -1041,9 +1063,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function updateSubscription() {
       $topicToSubscribe = $this->getSubscribedTopic();
-      if (null === $topicToSubscribe) {
-         return;
-      }
 
       $topicList = [
          'subscribe' => [
@@ -1056,9 +1075,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Command/Subscribe";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Command/Subscribe",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -1144,8 +1168,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = $topic . "/Subscription";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => $topic . "/Subscription"
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -1602,9 +1631,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $topic = $this->getTopic();
       if ($topic !== null) {
          foreach (self::getTopicsToCleanup() as $subTopic) {
+            $finalTopic = "$topic/$subTopic";
             $envelopeConfig[] = new MqttEnvelope([
-               'topic'  => "$topic/$subTopic",
+               'topic'  => $finalTopic,
                'retain' => 1,
+            ]);
+            $envelopeConfig[] = new FcmEnvelope([
+               'topic' => $finalTopic,
+               'scope' => $this->getPushNotificationInfo(),
             ]);
          }
       }
@@ -1655,8 +1689,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Geolocate";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic' => $topic . "/Command/Geolocate",
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -1693,8 +1732,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Inventory";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic' => $topic . "/Command/Inventory",
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -1733,8 +1777,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Ping";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic' => $topic . "/Command/Ping",
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -2071,8 +2120,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function notify(BrokerEnvelope $envelope) {
       $middlewareHandlers = [];
-      if (null !== $envelope->get(MqttEnvelope::class)) {
+      $config = Config::getConfigurationValues('flyvemdm', ['mqtt_enabled', 'fcm_enabled']);
+      if ($config['mqtt_enabled'] && null !== $envelope->get(MqttEnvelope::class)) {
          $middlewareHandlers[] = new MqttMiddleware();
+      }
+      if ($config['fcm_enabled'] && null !== $envelope->get(FcmEnvelope::class)) {
+         $middlewareHandlers[] = new FcmMiddleware();
       }
       $broker = new BrokerBus($middlewareHandlers);
       $broker->dispatch($envelope);
@@ -2247,5 +2300,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $this->filterMessages($event);
       $this->logInvitationEvent($this->invitation, $event);
       return false;
+   }
+
+   /**
+    * Get the notification token for each device
+    * @return array
+    */
+   public function getPushNotificationInfo() {
+      $devicesInfo[] = [
+         'type'  => ($this->fields['notification_type'] != 'mqtt') ? $this->fields['notification_type'] : '',
+         'token' => $this->fields['notification_token'] ? $this->fields['notification_token'] : '',
+      ];
+      return $devicesInfo;
    }
 }

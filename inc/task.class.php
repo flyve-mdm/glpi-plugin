@@ -33,6 +33,7 @@ use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 
 if (!defined('GLPI_ROOT')) {
@@ -408,9 +409,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $envelopeConfig = [];
       $topic = $item->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Policy/$policyName/Task/$taskId",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $item->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -462,9 +468,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $envelopeConfig = [];
       $topic = $item->getTopic();
       if ($topic !== null) {
+         $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
          $envelopeConfig[] = new MqttEnvelope([
-            'topic'  => "$topic/Policy/$policyName/Task/$taskId",
+            'topic'  => $finalTopic,
             'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $item->getPushNotificationInfo(),
          ]);
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
@@ -518,9 +529,14 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {
          if ($topic !== null) {
+            $finalTopic = "$topic/$groupName";
             $envelopeConfig[] = new MqttEnvelope([
-               'topic'  => "$topic/$groupName",
+               'topic'  => $finalTopic,
                'retain' => 1,
+            ]);
+            $envelopeConfig[] = new FcmEnvelope([
+               'topic' => $finalTopic,
+               'scope' => $item->getPushNotificationInfo(),
             ]);
          }
       }
