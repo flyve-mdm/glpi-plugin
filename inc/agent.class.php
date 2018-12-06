@@ -1172,13 +1172,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          return false;
       }
 
-      if (empty($serial) && empty($uuid)) {
-         $event = __('One of serial and uuid is mandatory', 'flyvemdm');
-         $this->filterMessages($event);
-         $this->logInvitationEvent($this->invitation, $event);
-         return false;
-      }
-
       if (empty($inventory)) {
          $event = __('Device inventory XML is mandatory', 'flyvemdm');
          $this->filterMessages($event);
@@ -1402,7 +1395,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       if ($agentAccount->isNewItem()) {
          $event = __('Cannot create a user account for the agent', 'flyvemdm');
          $this->filterMessages($event);
-         $this->logInvitationEvent($invitation, $event);
+         $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
