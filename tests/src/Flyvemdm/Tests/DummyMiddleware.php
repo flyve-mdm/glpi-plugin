@@ -29,34 +29,20 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace tests\units\GlpiPlugin\Flyvemdm\Broker;
+namespace src\Flyvemdm\Tests;
 
-use Flyvemdm\Tests\CommonTestCase;
-use Flyvemdm\Tests\DummyMessage;
-use src\Flyvemdm\Tests\DummyMiddleware;
 
-class BrokerBus extends CommonTestCase {
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeAwareInterface;
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerMiddlewareInterface;
+
+class DummyMiddleware implements BrokerMiddlewareInterface, BrokerEnvelopeAwareInterface {
 
    /**
-    * @tags testDispatch
+    * @param object $message
+    * @param callable $next
+    * @return mixed
     */
-   public function testDispatch() {
-      // try the exception
-      $this->exception(function () {
-         $this->newTestedInstance()->dispatch('lorem');
-      })->hasMessage('Invalid type for message argument. Expected object, but got "string".');
-
-      // try to get a message
-      $message = new DummyMessage('Hello');
-      $responseFromDepthMiddleware = '1234';
-      $firstMiddleware = $this->newMockInstance(DummyMiddleware::class);
-      $this->calling($firstMiddleware)->handle = function ($message, $next) {
-         return $next($message);
-      };
-      $secondMiddleware = $this->newMockInstance(DummyMiddleware::class);
-      $this->calling($secondMiddleware)->handle = $responseFromDepthMiddleware;
-      $instance = $this->newTestedInstance([$firstMiddleware, $secondMiddleware]);
-      $this->string($instance->dispatch($message))->isEqualTo($responseFromDepthMiddleware);
+   public function handle($message, callable $next) {
+      // TODO: Implement handle() method.
    }
-
 }
