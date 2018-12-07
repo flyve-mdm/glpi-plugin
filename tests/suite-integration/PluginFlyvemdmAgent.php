@@ -184,18 +184,41 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ],
             'expected' => 'Notification settings are invalid',
          ],
-         'with invalid notification system 2' => [
+         'MQTT disabled' => [
+            'data'     => [
+               'notificationType' => 'mqtt',
+            ],
+            'expected' => 'MQTT service is not available',
+            'modifier' => ['mqttDisabled' => "0"],
+         ],
+         'FCM disabled' => [
+            'data'     => [
+               'notificationType' => 'fcm',
+            ],
+            'expected' => 'FCM service is not available',
+         ],
+         'with missing server token' => [
+            'data'     => [
+               'notificationType' => 'fcm',
+            ],
+            'expected' => 'FCM service is not available',
+            'modifier' => ['fcmEnabled' => "1"],
+         ],
+         'with missing agent token' => [
             'data'     => [
                'notificationType' => 'fcm',
                'notificationToken' => null,
             ],
             'expected' => 'Notification token is missing',
+            'modifier' => ['fcmEnabled' => "1", 'fcmToken' => "lorem"],
          ],
-         'with invalid notification system 3' => [
+         'with invalid fcm credential' => [
             'data'     => [
-               'notificationType' => 'invalid',
+               'notificationType' => 'fcm',
+               'notificationToken' => 'lorem',
             ],
-            'expected' => 'Notification settings are invalid',
+            'expected' => 'Invalid FCM credentials',
+            'modifier' => ['fcmEnabled' => "1", 'fcmToken' => "lorem"],
          ],
       ];
    }
@@ -205,8 +228,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testInvalidEnrollAgent
     * @param array $data
     * @param string $expected
+    * @param mixed $modifier
     */
-   public function testInvalidEnrollAgent(array $data, $expected) {
+   public function testInvalidEnrollAgent(array $data, $expected, $modifier = []) {
       $defaults = [];
       $dbUtils = new \DbUtils;
       $invitationlogTable = \PluginFlyvemdmInvitationlog::getTable();
@@ -229,6 +253,21 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       }
       if (key_exists('notificationToken', $data)) {
          $defaults['notificationToken'] = $data['notificationToken'];
+      }
+
+      \Config::setConfigurationValues('flyvemdm', [
+         'mqtt_enabled'  => "1",
+         'fcm_enabled'   => "0",
+         'fcm_api_token' => "",
+      ]);
+      if (key_exists('mqttDisabled', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['mqtt_enabled' => $modifier['mqttDisabled']]);
+      }
+      if (key_exists('fcmEnabled', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['fcm_enabled' => $modifier['fcmEnabled']]);
+      }
+      if (key_exists('fcmToken', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['fcm_api_token' => $modifier['fcmToken']]);
       }
 
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];

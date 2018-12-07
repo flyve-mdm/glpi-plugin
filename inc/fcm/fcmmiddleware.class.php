@@ -36,6 +36,7 @@ use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeAwareInterface;
 use GlpiPlugin\Flyvemdm\Interfaces\BrokerMiddlewareInterface;
 use Sly\NotificationPusher\Adapter\Gcm;
 use Sly\NotificationPusher\PushManager;
+use Toolbox;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -63,13 +64,22 @@ class FcmMiddleware implements BrokerMiddlewareInterface, BrokerEnvelopeAwareInt
          return $next($envelope);
       }
 
-      $managerMode = $_SESSION['glpi_use_mode'] == \Session::DEBUG_MODE ? PushManager::ENVIRONMENT_DEV : PushManager::ENVIRONMENT_PROD;
-      $pushManager = new PushManager($managerMode);
-      $gcmAdapter = new Gcm(['apiKey' => $config['fcm_api_token']]);
-      $sender = new FcmSender(new FcmConnection($pushManager, $gcmAdapter));
+      $connection = $this->getConnection($config['fcm_api_token']);
+      $sender = new FcmSender($connection);
       if ($sender) {
          $sender->send($envelope);
       }
       return $next($envelope);
+   }
+
+   /**
+    * @param $fcm_api_token
+    * @return FcmConnection
+    */
+   public function getConnection($fcm_api_token) {
+      $pushManager = new PushManager(PushManager::ENVIRONMENT_PROD);
+      $gcmAdapter = new Gcm(['apiKey' => $fcm_api_token]);
+      $connection = new FcmConnection($pushManager, $gcmAdapter, new Toolbox());
+      return $connection;
    }
 }

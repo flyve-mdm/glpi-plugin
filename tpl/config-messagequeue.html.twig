@@ -78,10 +78,12 @@
       <tr class="tab_bg_1">
          <td>{{ __('Enabled') }}</td>
          <td>{{ config.fcm_enabled|raw }}</td>
+         <td>{{ __('This feature is in experimental phase', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
          <td>{{ __('API token') }}</td>
          <td><input type="text" name="fcm_api_token" value="{{ config.fcm_api_token }}"></td>
+         <td>{{ __('The server key token given on Firebase settings', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
          <td class="center" colspan="2">

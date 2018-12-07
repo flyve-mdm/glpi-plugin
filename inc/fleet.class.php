@@ -607,9 +607,11 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          'SELECT' => ['notification_token', 'notification_type'],
          'FROM'   => $agentTable,
          'WHERE'  => [
-            $fleetFk             => $this->getID(),
-            'notification_type'  => ['<>' => 'mqtt'],
-            'notification_token' => ['<>' => ''],
+            $fleetFk => $this->getID(),
+            'NOT'    => [
+               'notification_type'  => 'mqtt',
+               'notification_token' => '',
+            ],
          ],
       ];
       $devicesInfo = [];
