@@ -32,6 +32,7 @@
 namespace GlpiPlugin\Flyvemdm\Fcm;
 
 use Sly\NotificationPusher\Adapter\Gcm;
+use ZendService\Google\Gcm\Message as GcmMessage;
 use Sly\NotificationPusher\Model\Push;
 use Sly\NotificationPusher\PushManager;
 
@@ -51,9 +52,15 @@ class FcmConnection {
     */
    private $adapter;
 
-   public function __construct(PushManager $pushManager, Gcm $adapter) {
+   /**
+    * @var \Toolbox
+    */
+   private $toolbox;
+
+   public function __construct(PushManager $pushManager, Gcm $adapter, \Toolbox $toolbox) {
       $this->pushManager = $pushManager;
       $this->adapter = $adapter;
+      $this->toolbox = $toolbox;
    }
 
    /**
@@ -74,7 +81,11 @@ class FcmConnection {
     * @return \Sly\NotificationPusher\Collection\PushCollection
     */
    public function push() {
-      return $this->pushManager->push();
+      try {
+         return $this->pushManager->push();
+      } catch (\RuntimeException $e) {
+         $this->logExceptionEvent($e);
+      }
    }
 
    /**
@@ -82,5 +93,37 @@ class FcmConnection {
     */
    public function getResponse() {
       return $this->pushManager->getResponse();
+   }
+
+   /**
+    * Do a dry-run push for testing the service
+    * @param GcmMessage $gcmMessage
+    * @param $deviceToken
+    * @return boolean
+    */
+   public function testConnection(GcmMessage $gcmMessage, $deviceToken) {
+      try {
+         $adapter = $this->adapter;
+         $client = $adapter->getOpenedClient();
+         $client->setApiKey($adapter->getParameter('apiKey'));
+         $gcmMessage->setDryRun(true);
+         $gcmMessage->setData(['test'=>'lorem']);
+         $gcmMessage->addRegistrationId($deviceToken);
+         $client->send($gcmMessage);
+         return true;
+      } catch (\RuntimeException $e) {
+         $this->logExceptionEvent($e);
+         return false;
+      }
+   }
+
+   /**
+    * @param \RuntimeException $e
+    */
+   protected function logExceptionEvent(\RuntimeException $e) {
+      $error = "Exception while connecting to the broker : " . $e->getMessage();
+      $trace = $e->getTraceAsString();
+      $toolbox = $this->toolbox;
+      $toolbox::logInFile("fcm", "$error\n$trace\n\n");
    }
 }

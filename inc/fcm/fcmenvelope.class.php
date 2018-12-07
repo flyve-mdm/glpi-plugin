@@ -53,6 +53,7 @@ final class FcmEnvelope implements BrokerEnvelopeItemInterface {
       if (!isset($context['topic'])) {
          throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
       }
+      $context['topic'] = str_replace('/', '-', $context['topic']);
 
       $this->context = $context;
    }

@@ -60,18 +60,20 @@ class FcmSendMessageHandler {
 
    public function __invoke(BrokerMessage $message) {
       $devices = [];
-      $scope = $this->envelope->getContext('scope');
+      $envelope = $this->envelope;
+      $scope = $envelope->getContext('scope');
       foreach ($scope as $key => $pushInfo) {
          if ($pushInfo['type'] == 'fcm') {
             $devices[] = new Device($pushInfo['token']);
          }
       }
-      if (!$devices) {
+      if (empty($devices)) {
          // no devices to send notifications
          return;
       }
       $adapter = $this->connection->getAdapter();
       $fcmMessage = new Message($message->getMessage());
+      $fcmMessage->setOption('topic', $envelope->getContext('topic'));
       $deviceCollection = new DeviceCollection($devices);
       $push = new Push($adapter, $deviceCollection, $fcmMessage);
       $this->connection->addPush($push);
