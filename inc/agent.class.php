@@ -33,6 +33,7 @@ use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
 use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
 use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
 use GlpiPlugin\Flyvemdm\Fcm\FcmMiddleware;
 use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
@@ -744,6 +745,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          $this->updateSubscription();
+         $this->pushFleetPolicies();
          $newFleet = new PluginFlyvemdmFleet();
          if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Create task status for the agent and the applied policies
@@ -1081,13 +1083,50 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
             'topic'  => $finalTopic,
             'retain' => 1,
          ]);
-         /*$envelopeConfig[] = new FcmEnvelope([
-            'topic' => $finalTopic,
-            'scope' => $this->getPushNotificationInfo(),
-         ]);*/
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
       $this->notify($envelope);
+   }
+
+   /**
+    * Update policies applied if the device change of fleet
+    */
+   public function pushFleetPolicies() {
+      $config = Config::getConfigurationValues('flyvemdm', ['fcm_enabled']);
+      if (!$config['fcm_enabled']) {
+         return;
+      }
+
+      $topic = $this->getTopic();
+      $scope = $this->getPushNotificationInfo();
+
+      $fleetId = $this->getFleet()->getID();
+      $itemtype = PluginFlyvemdmFleet::getType();
+
+      $task = new PluginFlyvemdmTask();
+      $appliedPolicies = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
+      foreach ($appliedPolicies as $taskId => $appliedPolicy) {
+         $policyId = $appliedPolicy[PluginFlyvemdmPolicy::getForeignKeyField()];
+         $envelopeConfig = [];
+         try {
+            list($policyMessage, $policyName) = $task->buildPolicyMessage($policyId,
+               $appliedPolicy['value'], $appliedPolicy['itemtype'], $appliedPolicy['items_id'],
+               $taskId);
+         } catch (TaskPublishPolicyPolicyNotFoundException $e) {
+            continue;
+         }
+         $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+         $brokerMessage = new BrokerMessage($message);
+         if ($topic !== null) {
+            $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
+            $envelopeConfig[] = new FcmEnvelope([
+               'topic'  => $finalTopic,
+               'scope' => $scope,
+            ]);
+         }
+         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+         $this->notify($envelope);
+      }
    }
 
    /**

@@ -385,25 +385,15 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $policy = new PluginFlyvemdmPolicy();
-      $policyFk = $policy::getForeignKeyField();
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
-      if ($appliedPolicy === null) {
-         $exceptionMessage = "Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
-         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : '. $exceptionMessage . PHP_EOL);
-         throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
-      }
-
-      $policy->getFromDB($this->fields[$policyFk]);
-      $policyName = $policy->getField('symbol');
+      $policyFk = PluginFlyvemdmPolicy::getForeignKeyField();
+      $policyId = $this->fields[$policyFk];
       $taskId = $this->getID();
-      $policyMessage = $appliedPolicy->getBrokerMessage(
-         $this->fields['value'],
-         $this->fields['itemtype'],
-         $this->fields['items_id']
-      );
-      $policyMessage['taskId'] = $this->getID();
+      $itemtype = $this->fields['itemtype'];
+      $itemId = $this->fields['items_id'];
+      $value = $this->fields['value'];
+
+      list($policyMessage, $policyName) = $this->buildPolicyMessage($policyId, $value, $itemtype,
+         $itemId, $taskId);
       $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
       $brokerMessage = new BrokerMessage($message);
       $envelopeConfig = [];
@@ -752,5 +742,31 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       return $input;
+   }
+
+   /**
+    * @param $policyId
+    * @param $value
+    * @param $itemtype
+    * @param $itemId
+    * @param $taskId
+    * @return array
+    * @throws TaskPublishPolicyPolicyNotFoundException
+    */
+   public function buildPolicyMessage($policyId, $value, $itemtype, $itemId, $taskId) {
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $appliedPolicy = $policyFactory->createFromDBByID($policyId);
+      if ($appliedPolicy === null) {
+         $exceptionMessage = "Policy ID " . $policyId . " not found while generating broker message";
+         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : ' . $exceptionMessage . PHP_EOL);
+         throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
+      }
+
+      $policy = new PluginFlyvemdmPolicy();
+      $policy->getFromDB($policyId);
+      $policyName = $policy->getField('symbol');
+      $policyMessage = $appliedPolicy->getBrokerMessage($value, $itemtype, $itemId);
+      $policyMessage['taskId'] = $taskId;
+      return [$policyMessage, $policyName];
    }
 }
