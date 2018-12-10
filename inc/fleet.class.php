@@ -326,10 +326,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
                'topic'  => $finalTopic,
                'retain' => 1,
             ]);
-            $envelopeConfig[] = new FcmEnvelope([
-               'topic' => $finalTopic,
-               'scope' => $this->getPushNotificationInfo(),
-            ]);
          }
       }
       $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);

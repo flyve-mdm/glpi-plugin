@@ -72,8 +72,19 @@ class FcmSendMessageHandler {
          return;
       }
       $adapter = $this->connection->getAdapter();
-      $fcmMessage = new Message($message->getMessage());
-      $fcmMessage->setOption('topic', $envelope->getContext('topic'));
+      $bodyMessage = $message->getMessage();
+      $topic = $envelope->getContext('topic');
+      if (null === $bodyMessage) {
+         $chunks = explode('-', $topic);
+         switch ($chunks[3]) {
+            case 'Policy':
+               // null messages aren't sent when reseting policies values, let's fix that
+               $bodyMessage = '{"' . $chunks[4] . '":"default","taskId":"' . $chunks[6] . '"}';
+               break;
+         }
+      }
+      $fcmMessage = new Message($bodyMessage);
+      $fcmMessage->setOption('topic', $topic);
       $deviceCollection = new DeviceCollection($devices);
       $push = new Push($adapter, $deviceCollection, $fcmMessage);
       $this->connection->addPush($push);
