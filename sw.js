@@ -25,7 +25,6 @@ self.addEventListener('install', (e) => {
         '{{ "/howtos/index.html" | absolute_url }}',
         '{{ "/news/index.html" | absolute_url }}',
         '{{ "/projects.html" | absolute_url }}',
-        '{{ "/screenshots.html" | absolute_url }}',
         '{{ "/css/main.css" | absolute_url }}',
         '{{ "/css/syntax.css" | absolute_url }}',
         '{{ "/images/typo.png" | absolute_url }}',
