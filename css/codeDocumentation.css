@@ -1,41 +1,8 @@
 body {
-	font: 13px/1.5 Verdana, 'Geneva CE', lucida, sans-serif;
 	margin: 0;
 	padding: 0;
 	background: #ffffff;
 	color: #333333;
-}
-
-h1, h2, h3, h4, caption {
-	font-family: 'Trebuchet MS', 'Geneva CE', lucida, sans-serif;
-	color: #053368;
-}
-
-h1 {
-	color: #1e5eb6;
-	font-size: 230%;
-	font-weight: normal;
-	margin: .3em 0;
-}
-
-h2 {
-	color: #1e5eb6;
-	font-size: 150%;
-	font-weight: normal;
-	margin: -.3em 0 .3em 0;
-}
-
-h3 {
-	font-size: 1.6em;
-	font-weight: normal;
-	margin-bottom: 2px;
-}
-
-h4 {
-	font-size: 100%;
-	font-weight: bold;
-	padding: 0;
-	margin: 0;
 }
 
 caption {
@@ -46,6 +13,14 @@ caption {
 	padding: 3px 5px;
 	text-align: left;
 	margin-bottom: 0;
+}
+
+h1 {
+	font-size: 25px;
+}
+
+h3 {
+	padding: 0;
 }
 
 p {
@@ -61,18 +36,8 @@ hr {
 }
 
 a {
-	color: #006aeb;
 	padding: 3px 1px;
 	text-decoration: none;
-}
-
-h1 a {
-	color: #1e5eb6;
-}
-
-a:hover, a:active, a:focus, a:hover b, a:hover var {
-	background-color: #006aeb;
-	color: #ffffff !important;
 }
 
 code, var, pre {
@@ -109,14 +74,16 @@ code a b {
 /* Left side */
 #left {
 	overflow: auto;
-	width: 270px;
 	height: 100%;
-	position: fixed;
+	width: 270px;
+	position: absolute;
+	max-height: -webkit-fill-available;
 }
 
 /* Menu */
 #menu {
 	padding: 10px;
+	overflow: auto;
 }
 
 #menu ul {
@@ -150,7 +117,7 @@ code a b {
 }
 
 #menu .active > a:hover, #menu .active > a:active, #menu .active > a:focus {
-	background-color: #006aeb;
+	background-color: $theme-darker;
 }
 
 #menu #groups span {
@@ -161,7 +128,7 @@ code a b {
 	display: block;
 	width: 12px;
 	height: 12px;
-	background: url('collapsed.png') transparent 0 0 no-repeat;
+	background: url('../development/code-documentation/develop/resources/collapsed.png') transparent 0 0 no-repeat;
 }
 
 #menu #groups span:hover {
@@ -182,9 +149,8 @@ code a b {
 
 /* Right side */
 #right {
-	overflow: auto;
 	margin-left: 275px;
-	height: 100%;
+	height: auto;
 	position: relative;
 	left: 0;
 	right: 0;
@@ -243,7 +209,6 @@ code a b {
 }
 
 .ac_over {
-	background-color: #006aeb;
 	color: #ffffff;
 }
 
@@ -280,8 +245,6 @@ code a b {
 }
 
 #navigation ul li.active {
-	background-color: #053368;
-	color: #ffffff;
 	font-weight: bold;
 }
 
@@ -294,10 +257,6 @@ code a b {
 #navigation ul li span {
 	float: left;
 	padding: 0 3px;
-}
-
-#navigation ul li a:hover span, #navigation ul li a:active span, #navigation ul li a:focus span {
-	background-color: #006aeb;
 }
 
 /* Content */
@@ -347,7 +306,7 @@ dl.tree dd {
 }
 
 .summary caption.switchable {
-	background: #ecede5 url('sort.png') no-repeat center right;
+	background: #ecede5 url('../development/code-documentation/develop/resources/sort.png') no-repeat center right;
 	cursor: pointer;
 }
 
@@ -458,8 +417,7 @@ div.invalid {
 	position: fixed;
 	height: 100%;
 	width: 5px;
-	left: 270px;
-	background: #1e5eb6 url('resize.png') left center no-repeat;
+	left: 360px;
 	cursor: e-resize;
 }
 
@@ -477,13 +435,13 @@ div.invalid {
 	padding: 20px 0 0;
 	margin: 3em 0 0;
 	height: 90px;
-	background: #ffffff url('footer.png') no-repeat center top;
+	background: #ffffff url('../development/code-documentation/develop/resources/footer.png') no-repeat center top;
 }
 
 /* Tree */
 div.tree ul {
 	list-style: none;
-	background: url('tree-vertical.png') left repeat-y;
+	background: url('../development/code-documentation/develop/resources/tree-vertical.png') left repeat-y;
 	padding: 0;
 	margin-left: 20px;
 }
@@ -498,15 +456,15 @@ div.tree div {
 }
 
 div.tree div.notlast {
-	background: url('tree-hasnext.png') left 10px no-repeat;
+	background: url('../development/code-documentation/develop/resources/tree-hasnext.png') left 10px no-repeat;
 }
 
 div.tree div.last {
-	background: url('tree-last.png') left -240px no-repeat;
+	background: url('../development/code-documentation/develop/resources/tree-last.png') left -240px no-repeat;
 }
 
 div.tree li.last {
-	background: url('tree-cleaner.png') left center repeat-y;
+	background: url('../development/code-documentation/develop/resources/tree-cleaner.png') left center repeat-y;
 }
 
 div.tree span.padding {
