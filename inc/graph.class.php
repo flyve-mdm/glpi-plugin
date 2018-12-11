@@ -60,22 +60,15 @@ class PluginFlyvemdmGraph extends CommonDBTM
             . '</div>';
       }
 
-      $stat = new Stat();
-      $out = $stat->displayPieGraph(
+      $out = $this->displayStackedBarGraph(
             __('Invitations', 'flyvemdm'),
             [
                __('Done', 'flyvemdm'),
                __('Pending', 'flyvemdm')
             ],
             [
-               [
-                  'name'   => __('Done', 'flyvemdm'),
-                  'data'   => $doneCount,
-               ],
-               [
-                  'name'   => __('Pending', 'flyvemdm'),
-                  'data'   => $pendingCount,
-               ],
+               $doneCount,
+               $pendingCount,
             ],
             false
       );
@@ -133,13 +126,16 @@ class PluginFlyvemdmGraph extends CommonDBTM
             $quantityPerOs[$row['operatingsystem']] = $row['cpt'];
          }
       }
-      $out = $this->displayStackedBarGraph(
+      array_walk($quantityPerOs, function (&$value, $key) {
+         $value = ['name' => $key, 'data' => $value];
+      });
+
+      $stat = new Stat();
+      $out = $stat->displayPieGraph(
          __('Devices per operating system version', 'flyvemdm'),
-         array_values($osNames),
-         array_values($quantityPerOs),
-         [
-            'width' => '100%',
-         ],
+         $osNames,
+         $quantityPerOs,
+         [],
          false
       );
 
