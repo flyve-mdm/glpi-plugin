@@ -100,7 +100,7 @@
                         <li><a href="{{ '/development/coverage/master/' | absolute_url }}">Master</a></li>
                         {% for version in site.data.whitelist_version %}
                           <li>
-                            <a href="{{ 'development/coverage/support/' | absolute_url | append: version | append: "/lcov-report/" }}">{{ version }}</a>
+                            <a href="{{ 'development/coverage/support/' | absolute_url | append: version }}">{{ version }}</a>
                           </li>
                         {% endfor %}
                     </ul>
