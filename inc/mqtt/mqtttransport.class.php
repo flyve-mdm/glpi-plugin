@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Thierry Bugier
+ * @author    Domingo Oropeza <doropeza@teclib.com>
  * @copyright Copyright © 2018 Teclib
  * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
@@ -29,68 +29,60 @@
  * ------------------------------------------------------------------------------
  */
 
+namespace GlpiPlugin\Flyvemdm\Mqtt;
+
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerTransportInterface;
 use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
 
-if (! defined('GLPI_ROOT')) {
+if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
 
-/**
- * @since 0.1.31
- */
-interface PluginFlyvemdmNotifiableInterface {
+class MqttTransport implements BrokerTransportInterface {
+
+   private $connection;
+   private $receiver;
+   private $sender;
+
+   public function __construct(MqttConnection $connection) {
+      $this->connection = $connection;
+   }
 
    /**
-    * Gets the topic related to the notifiable
-    */
-   public function getTopic();
-
-   /**
-    * get the agents related to the notifiable
-    * @return array the final PluginFlyvemdmAgents to be notified
-    */
-   public function getAgents();
-
-   /**
-    * get the fleet attached to the notifiable
-    * @return PluginFlyvemdmFleet the fleet associated to the notifiable
-    */
-   public function  getFleet();
-
-   /**
-    * get the applications related to the notifiable
-    * @return array of PluginFlyvemdmPackage
-    */
-   public function getPackages();
-
-   /**
-    * get the files related to the notifiable
-    * @return array of PluginFlyvemdmFile
-    */
-   public function getFiles();
-
-   /**
-    * Send a message to the broker
-    * @param BrokerEnvelope $envelope
+    * Receive some messages to the given handler.
+    *
+    * The handler will have, as argument, the received PluginFlyvemdmBrokerEnvelope containing the message.
+    * Note that this envelope can be `null` if the timeout to receive something has expired.
+    *
+    * @param callable $handler
     * @return void
     */
-   public function notify(BrokerEnvelope $envelope);
+   public function receive(callable $handler) {
+      (isset($this->receiver) ? $this->receiver : $this->getReceiver())->receive($handler);
+   }
 
    /**
-    * Send all persisted messages for the notifiable
-    * Used to regenerate messages stored by the broker if they are lost
+    * Stop receiving some messages.
+    * @return void
     */
-   public function refreshPersistedNotifications();
+   public function stop() {
+      (isset($this->receiver) ? $this->receiver : $this->getReceiver())->stop();
+   }
 
    /**
-    * is the notifiable actually notifiable ?
-    * @return boolean True if message may be sent
+    * Sends the given envelope.
+    *
+    * @param BrokerEnvelope $envelope
     */
-   public function isNotifiable();
+   public function send(BrokerEnvelope $envelope) {
+      (isset($this->sender) ? $this->sender : $this->getSender())->send($envelope);
+   }
 
-   /**
-    * Get the notification token for each device
-    * @return array
-    */
-   public function getPushNotificationInfo();
+   private function getReceiver() {
+      return $this->receiver = new MqttReceiver($this->connection);
+   }
+
+   private function getSender() {
+      return $this->sender = new MqttSender($this->connection);
+   }
 }

@@ -29,6 +29,35 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Broker;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerReceiverInterface;
+
+class BrokerWorker {
+   private $receiver;
+   private $bus;
+
+   public function __construct(BrokerReceiverInterface $receiver, BrokerBus $bus) {
+      $this->receiver = $receiver;
+      $this->bus = $bus;
+   }
+
+   /**
+    * Receive the messages and dispatch them to the bus.
+    */
+   public function run() {
+      if (\function_exists('pcntl_signal')) {
+         pcntl_signal(SIGTERM, function () {
+            $this->receiver->stop();
+         });
+      }
+
+      $this->receiver->receive(function ($envelope) {
+         if (null === $envelope) {
+            return;
+         }
+         $this->bus->dispatch($envelope->with(new BrokerReceivedMessage()));
+      });
+   }
+}

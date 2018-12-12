@@ -29,6 +29,34 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Mqtt;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerSenderInterface;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+class MqttSender implements BrokerSenderInterface {
+
+   private $connection;
+
+   public function __construct(MqttConnection $connection) {
+      $this->connection = $connection;
+   }
+
+   /**
+    * Sends the given envelope.
+    *
+    * @param BrokerEnvelope $envelope
+    */
+   public function send(BrokerEnvelope $envelope) {
+      if (null === $envelope->get(MqttEnvelope::class)) {
+         // the envelope doesn't have a mqtt item
+         return;
+      }
+      $hander = new MqttSendMessageHandler($this->connection, $envelope->get(MqttEnvelope::class));
+      $hander($envelope->getMessage());
+   }
+}

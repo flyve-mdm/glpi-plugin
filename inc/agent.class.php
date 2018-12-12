@@ -29,7 +29,16 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\AgentSendQueryException;
+use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
+use GlpiPlugin\Flyvemdm\Fcm\FcmMiddleware;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
+use ZendService\Google\Gcm\Message as ZendGcmMessage;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -416,44 +425,92 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Sends a wipe command to the agent
     */
    protected function sendWipeQuery() {
+      $message = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['wipe' => 'now'];
-         $this->notify("$topic/Command/Wipe", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $finalTopic = "$topic/Command/Wipe";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends a lock command to the agent
     */
    protected function sendLockQuery() {
+      $message = json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['lock' => 'now'];
-         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $finalTopic = "$topic/Command/Lock";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends a lock command to the agent
     */
    protected function sendUnlockQuery() {
+      $message = json_encode(['lock' => 'unlock'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['lock' => 'unlock'];
-         $this->notify("$topic/Command/Lock", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $finalTopic = "$topic/Command/Lock";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
     * Sends unenrollment command to the agent
     */
    protected function sendUnenrollQuery() {
+      $message = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $mqttMessage = ['unenroll' => 'now'];
-         $this->notify("$topic/Command/Unenroll", json_encode($mqttMessage, JSON_UNESCAPED_SLASHES), 0, 1);
+         $finalTopic = "$topic/Command/Unenroll";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    public function prepareInputForAdd($input) {
@@ -688,6 +745,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    public function post_updateItem($history = 1) {
       if (in_array('plugin_flyvemdm_fleets_id', $this->updates)) {
          $this->updateSubscription();
+         $this->pushFleetPolicies();
          $newFleet = new PluginFlyvemdmFleet();
          if ($newFleet->getFromDB($this->fields['plugin_flyvemdm_fleets_id'])) {
             // Create task status for the agent and the applied policies
@@ -1008,15 +1066,66 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function updateSubscription() {
       $topicToSubscribe = $this->getSubscribedTopic();
+
       $topicList = [
          'subscribe' => [
             ['topic' => $topicToSubscribe]
          ]
       ];
 
+      $message = json_encode($topicList, JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
-      if ($topicToSubscribe !== null && $topic !== null) {
-         $this->notify("$topic/Command/Subscribe", json_encode($topicList, JSON_UNESCAPED_SLASHES), 0, 1);
+      if ($topic !== null) {
+         $finalTopic = "$topic/Command/Subscribe";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
+   }
+
+   /**
+    * Update policies applied if the device change of fleet
+    */
+   public function pushFleetPolicies() {
+      $config = Config::getConfigurationValues('flyvemdm', ['fcm_enabled']);
+      if (!$config['fcm_enabled']) {
+         return;
+      }
+
+      $topic = $this->getTopic();
+      $scope = $this->getPushNotificationInfo();
+
+      $fleetId = $this->getFleet()->getID();
+      $itemtype = PluginFlyvemdmFleet::getType();
+
+      $task = new PluginFlyvemdmTask();
+      $appliedPolicies = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
+      foreach ($appliedPolicies as $taskId => $appliedPolicy) {
+         $policyId = $appliedPolicy[PluginFlyvemdmPolicy::getForeignKeyField()];
+         $envelopeConfig = [];
+         try {
+            list($policyMessage, $policyName) = $task->buildPolicyMessage($policyId,
+               $appliedPolicy['value'], $appliedPolicy['itemtype'], $appliedPolicy['items_id'],
+               $taskId);
+         } catch (TaskPublishPolicyPolicyNotFoundException $e) {
+            continue;
+         }
+         $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+         $brokerMessage = new BrokerMessage($message);
+         if ($topic !== null) {
+            $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
+            $envelopeConfig[] = new FcmEnvelope([
+               'topic'  => $finalTopic,
+               'scope' => $scope,
+            ]);
+         }
+         $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+         $this->notify($envelope);
       }
    }
 
@@ -1087,18 +1196,25 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * unsibscribe from a fleet
+    * unsubscribe from a fleet
     */
    public function unsubscribe() {
       $this->update([
             'id' => $this->getID(),
             'plugin_flyvemdm_fleets_id' => null
       ]);
+      $message = json_encode([], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
-         $topic = $topic . "/Subscription";
-         $this->notify($topic, json_encode([], JSON_UNESCAPED_SLASHES));
+         $finalTopic = $topic . "/Subscription";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $finalTopic,
+         ]);
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -1157,6 +1273,9 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          'computertypes_id',
          'agentusercategories_id',
          'agent_profiles_id',
+         'mqtt_enabled',
+         'fcm_enabled',
+         'fcm_api_token',
       ]);
 
       // Find the invitation
@@ -1168,13 +1287,23 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       // TODO : use $this->invitation for all other checks being logged in invitationlog
 
-      if (!$this->checkNotificationForEnrollment($notificationType, $notificationToken)) {
+      if (!$this->checkNotificationForEnrollment($notificationType, $notificationToken, $config)) {
          return false;
+      }
+
+      if ($config['fcm_enabled'] && $notificationType == 'fcm') {
+         // let's try first if the connection works
+         $fcmMiddleware = new FcmMiddleware();
+         $fcmConnection = $fcmMiddleware->getConnection($config['fcm_api_token']);
+         if (!$fcmConnection->testConnection(new ZendGcmMessage(), $notificationToken)) {
+            $event = __('Invalid FCM credentials', 'flyvemdm');
+            $this->logInvitationEvent($this->invitation, $event);
+            return false;
+         }
       }
 
       if (empty($inventory)) {
          $event = __('Device inventory XML is mandatory', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1185,35 +1314,30 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $parsedXml = PluginFlyvemdmCommon::parseXML($inventory);
       if (!$parsedXml) {
          $event = __('Inventory XML is not well formed', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (empty($version)) {
          $event = __('Agent version missing', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (empty($mdmType)) {
          $event = __('MDM type missing', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (!in_array($mdmType, array_keys($this::getEnumMdmType()))) {
          $event = __('unknown MDM type', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
 
       if (preg_match(PluginFlyvemdmCommon::SEMVER_VERSION_REGEX, $version) !== 1) {
          $event = __('Bad agent version', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1222,7 +1346,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $minVersion = $this->getMinVersioForType($mdmType);
       if (version_compare($minVersion, $version) > 0) {
          $event = __('The agent version is too low', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1232,7 +1355,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          case 'android':
             if ($systemPermission === null) {
                $event = __('The agent does not advertise its system permissions', 'flyvemdm');
-               $this->filterMessages($event);
                $this->logInvitationEvent($this->invitation, $event);
                return false;
             }
@@ -1241,7 +1363,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Check the invitation is pending
       if ($this->invitation->getField('status') != 'pending') {
          $event = __('Invitation is not pending', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1249,7 +1370,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       // Check the token has not yet expired
       if ($this->invitation->getField('expiration_date') === null) {
          $event = __('Expiration date of the invitation is not set', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1257,7 +1377,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $expirationDatetime = new DateTime($this->invitation->getField('expiration_date'));
       if ($currentDatetime >= $expirationDatetime) {
          $event = __('Invitation token expired', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1271,7 +1390,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       if ($user->getFromDBbyEmail($email, $condition) === false) {
          $event = __('Wrong email address', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1286,7 +1404,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          $crt = isset($answer['crt']) ? $answer['crt'] : false;
          if ($crt === false) {
             $event = __("Failed to sign the certificate", 'flyvemdm')  . "\n " . $answer['message'];
-            $this->filterMessages($event);
             $this->logInvitationEvent($this->invitation, $event);
             return false;
          }
@@ -1307,7 +1424,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
          // Update the invitation
          if (!$this->invitation->update($invitationInput)) {
             $event = __("Failed to update the invitation", 'flyvemdm');
-            $this->filterMessages($event);
             $this->logInvitationEvent($this->invitation, $event);
             return false;
          }
@@ -1328,14 +1444,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       ob_end_clean();
       if (strlen($fiOutput) != 0) {
          // FI print errors to sdt output and agents needs a correct response, let's save this to logs.
-         $this->logInvitationEvent($this->invitation, $fiOutput);
+         $this->logInvitationEvent($this->invitation, $fiOutput, false);
       }
       unset($_SESSION['glpi_fusionionventory_nolock']);
       $fiAgentId = $_SESSION['plugin_fusioninventory_agents_id']; // generated by FusionInventory
 
       if ($fiAgentId === 0 || !property_exists($parsedXml, 'DEVICEID')) {
          $event = __('Cannot get the FusionInventory agent', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1343,7 +1458,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $pfAgent = new PluginFusioninventoryAgent();
       if (!$pfAgent->getFromDBByCrit(['device_id' => $parsedXml->DEVICEID])) {
          $event = __('FusionInventory agent not created', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1351,7 +1465,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if ($computerId === 0) {
          $event = __("Cannot create the device", 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1394,7 +1507,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       if ($agentAccount->isNewItem()) {
          $event = __('Cannot create a user account for the agent', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1402,7 +1514,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agentToken = User::getToken($agentAccount->getID(), 'api_token');
       if ($agentToken === false) {
          $event = __('Cannot create the API token for the agent', 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1411,7 +1522,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $defaultFleet = PluginFlyvemdmFleet::getDefaultFleet();
       if ($defaultFleet === null) {
          $event = __("No default fleet available for the device", 'flyvemdm');
-         $this->filterMessages($event);
          $this->logInvitationEvent($this->invitation, $event);
          return false;
       }
@@ -1536,12 +1646,21 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * Erase delete persisted MQTT topics of the agent
     */
    public function cleanupSubtopics() {
+      $message = '';
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $this->getTopic();
       if ($topic !== null) {
          foreach (self::getTopicsToCleanup() as $subTopic) {
-            $this->notify("$topic/$subTopic", '', 0, 1);
+            $finalTopic = "$topic/$subTopic";
+            $envelopeConfig[] = new MqttEnvelope([
+               'topic'  => $finalTopic,
+               'retain' => 1,
+            ]);
          }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -1582,11 +1701,25 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
       $lastPosition = array_pop($lastPositionRows);
 
-      $this->notify($this->topic . "/Command/Geolocate",
-         json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $message = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Geolocate";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
 
       // Wait for a reply within a short delay
-      $loopCount = 25;
+      $loopCount = 50;
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
@@ -1611,8 +1744,22 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendInventoryQuery() {
-      $this->notify($this->topic . "/Command/Inventory",
-         json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $message = json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Inventory";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
 
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
@@ -1620,7 +1767,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
       $lastInventory = array_pop($inventoryRows);
 
-      $loopCount = 5 * 10; // 10 seconds
+      $loopCount = 50;
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
@@ -1642,10 +1789,24 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendPingQuery() {
-      $this->notify($this->topic . "/Command/Ping",
-         json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES), 0, 0);
+      $message = json_encode(['query' => 'Ping'], JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
+      $topic = $this->getTopic();
+      if ($topic !== null) {
+         $finalTopic = $topic . "/Command/Ping";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic' => $finalTopic,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $this->getPushNotificationInfo(),
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
 
-      $loopCount = 25;
+      $loopCount = 50;
       $updatedAgent = new self();
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
@@ -1831,7 +1992,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
                'access_level' => PluginFlyvemdmMqttacl::MQTTACL_WRITE
             ],
             [
-               'topic'        => '/FlyvemdmManifest/#',
+               'topic'        => 'FlyvemdmManifest/#',
                'access_level' => PluginFlyvemdmMqttacl::MQTTACL_READ
             ],
          ];
@@ -1884,12 +2045,17 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       Session::addMessageAfterRedirect($error, false, ERROR);
    }
+
    /**
     * Logs invitation events
     * @param PluginFlyvemdmInvitation $invitation
     * @param string $event
+    * @param boolean $filtered
     */
-   protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event) {
+   protected function logInvitationEvent(PluginFlyvemdmInvitation $invitation, $event, $filtered = true) {
+      if ($filtered) {
+         $this->filterMessages($event);
+      }
       $invitationLog = new PluginFlyvemdmInvitationlog();
       $invitationLog->add([
             'plugin_flyvemdm_invitations_id' => $invitation->getID(),
@@ -1971,14 +2137,20 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    * @param string $topic
-    * @param string $mqttMessage
-    * @param integer $qos
-    * @param integer $retain
+    * @see PluginFlyvemdmNotifiableInterface::notify()
+    * @param BrokerEnvelope $envelope
     */
-   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   public function notify(BrokerEnvelope $envelope) {
+      $middlewareHandlers = [];
+      $config = Config::getConfigurationValues('flyvemdm', ['mqtt_enabled', 'fcm_enabled']);
+      if ($config['mqtt_enabled'] && null !== $envelope->get(MqttEnvelope::class)) {
+         $middlewareHandlers[] = new MqttMiddleware();
+      }
+      if ($config['fcm_enabled'] && null !== $envelope->get(FcmEnvelope::class)) {
+         $middlewareHandlers[] = new FcmMiddleware();
+      }
+      $broker = new BrokerBus($middlewareHandlers);
+      $broker->dispatch($envelope);
    }
 
    /**
@@ -2113,7 +2285,7 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
       $_SESSION["MESSAGE_AFTER_REDIRECT"] = [];
       $communication = new PluginFusioninventoryCommunication();
-      $communication->handleOCSCommunication('', $inventoryXML, 'glpi');
+      $communication->handleOCSCommunication('', base64_decode($inventoryXML), 'glpi');
       if (count($_SESSION["MESSAGE_AFTER_REDIRECT"]) > 0) {
          foreach ($_SESSION["MESSAGE_AFTER_REDIRECT"][0] as $logMessage) {
             $logMessage = "Import message: $logMessage\n";
@@ -2127,18 +2299,28 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     *
     * @param string $notificationType
     * @param string $notificationToken
+    * @param array $config
     * @return boolean
     */
-   private function checkNotificationForEnrollment($notificationType, $notificationToken) {
+   private function checkNotificationForEnrollment($notificationType, $notificationToken, array $config) {
       switch ($notificationType) {
          case 'mqtt':
+            if (!$config['mqtt_enabled']) {
+               $event = sprintf(__('%s service is not available', 'flyvemdm'), 'MQTT');
+               $this->logInvitationEvent($this->invitation, $event);
+               return false;
+            }
             return true;
             break;
 
          case 'fcm':
+            if (!$config['fcm_enabled'] || !$config['fcm_api_token']) {
+               $event = sprintf(__('%s service is not available', 'flyvemdm'), 'FCM');
+               $this->logInvitationEvent($this->invitation, $event);
+               return false;
+            }
             if ($notificationToken === null) {
                $event = __('Notification token is missing', 'flyvemdm');
-               $this->filterMessages($event);
                $this->logInvitationEvent($this->invitation, $event);
                return false;
             }
@@ -2147,8 +2329,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       $event = __('Notification settings are invalid', 'flyvemdm');
-      $this->filterMessages($event);
       $this->logInvitationEvent($this->invitation, $event);
       return false;
+   }
+
+   /**
+    * Get the notification token for each device
+    * @return array
+    */
+   public function getPushNotificationInfo() {
+      $devicesInfo[] = [
+         'type'  => ($this->fields['notification_type'] != 'mqtt') ? $this->fields['notification_type'] : '',
+         'token' => $this->fields['notification_token'] ? $this->fields['notification_token'] : '',
+      ];
+      return $devicesInfo;
    }
 }

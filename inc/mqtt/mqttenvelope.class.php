@@ -29,6 +29,42 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Mqtt;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+final class MqttEnvelope implements BrokerEnvelopeItemInterface {
+
+   private $context;
+
+   /**
+    * MqttEnvelope constructor.
+    * @param array $context
+    */
+   public function __construct(array $context) {
+      if (!isset($context['topic'])) {
+         throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
+      }
+
+      if (!isset($context['qos'])) {
+         $context['qos'] = 0;
+      }
+      if (!isset($context['retain'])) {
+         $context['retain'] = 0;
+      }
+
+      $this->context = $context;
+   }
+
+   /**
+    * @param $name
+    * @return mixed
+    */
+   public function getContext($name) {
+      return $this->context[$name];
+   }
+}

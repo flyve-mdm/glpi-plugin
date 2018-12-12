@@ -29,6 +29,28 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Interfaces;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+interface BrokerReceiverInterface {
+
+   /**
+    * Receive some messages to the given handler.
+    *
+    * The handler will have, as argument, the received PluginFlyvemdmBrokerEnvelope containing the message.
+    * Note that this envelope can be `null` if the timeout to receive something has expired.
+    *
+    * @param callable $handler
+    * @return void
+    */
+   public function receive(callable $handler);
+
+   /**
+    * Stop receiving some messages.
+    * @return void
+    */
+   public function stop();
+}

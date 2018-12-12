@@ -29,6 +29,11 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Interfaces;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+interface BrokerEnvelopeItemInterface {
+}

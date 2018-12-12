@@ -29,6 +29,40 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Fcm;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+final class FcmEnvelope implements BrokerEnvelopeItemInterface {
+
+   private $context;
+
+   /**
+    * FcmEnvelope constructor.
+    * @param array $context
+    */
+   public function __construct(array $context) {
+      if (!isset($context['scope']) && !is_array($context['scope'])) {
+         throw new \InvalidArgumentException(__('The scope argument is needed (push type and token)', 'flyvemdm'));
+      }
+
+      if (!isset($context['topic'])) {
+         throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
+      }
+      $context['topic'] = str_replace('/', '-', $context['topic']);
+
+      $this->context = $context;
+   }
+
+   /**
+    * @param $name
+    * @return mixed
+    */
+   public function getContext($name) {
+      return $this->context[$name];
+   }
+}

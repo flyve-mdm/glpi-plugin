@@ -29,6 +29,29 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Mqtt;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+class MqttSendMessageHandler {
+
+   private $connection;
+   private $mqttEnvelope;
+
+   public function __construct(MqttConnection $connection, MqttEnvelope $mqttEnvelope) {
+      $this->connection = $connection;
+      $this->mqttEnvelope = $mqttEnvelope;
+   }
+
+   public function __invoke(BrokerMessage $message) {
+      $mqttEnvelope = $this->mqttEnvelope;
+      $qos = ($option = $mqttEnvelope->getContext('qos')) ? $option : 0;
+      $retain = ($option = $mqttEnvelope->getContext('retain')) ? $option : 0;
+      $topic = $mqttEnvelope->getContext('topic');
+      $this->connection->publish($topic, $message->getMessage(), $qos, $retain);
+   }
+}

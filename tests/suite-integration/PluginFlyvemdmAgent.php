@@ -32,6 +32,9 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope as RealBrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope as RealMqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttReceiveMessageHandler as RealMqttReceiveMessageHandler;
 
 class PluginFlyvemdmAgent extends CommonTestCase {
 
@@ -180,18 +183,41 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             ],
             'expected' => 'Notification settings are invalid',
          ],
-         'with invalid notification system 2' => [
+         'MQTT disabled' => [
+            'data'     => [
+               'notificationType' => 'mqtt',
+            ],
+            'expected' => 'MQTT service is not available',
+            'modifier' => ['mqttDisabled' => "0"],
+         ],
+         'FCM disabled' => [
+            'data'     => [
+               'notificationType' => 'fcm',
+            ],
+            'expected' => 'FCM service is not available',
+         ],
+         'with missing server token' => [
+            'data'     => [
+               'notificationType' => 'fcm',
+            ],
+            'expected' => 'FCM service is not available',
+            'modifier' => ['fcmEnabled' => "1"],
+         ],
+         'with missing agent token' => [
             'data'     => [
                'notificationType' => 'fcm',
                'notificationToken' => null,
             ],
             'expected' => 'Notification token is missing',
+            'modifier' => ['fcmEnabled' => "1", 'fcmToken' => "lorem"],
          ],
-         'with invalid notification system 3' => [
+         'with invalid fcm credential' => [
             'data'     => [
-               'notificationType' => 'invalid',
+               'notificationType' => 'fcm',
+               'notificationToken' => 'lorem',
             ],
-            'expected' => 'Notification settings are invalid',
+            'expected' => 'Invalid FCM credentials',
+            'modifier' => ['fcmEnabled' => "1", 'fcmToken' => "lorem"],
          ],
       ];
    }
@@ -201,8 +227,9 @@ class PluginFlyvemdmAgent extends CommonTestCase {
     * @tags testInvalidEnrollAgent
     * @param array $data
     * @param string $expected
+    * @param mixed $modifier
     */
-   public function testInvalidEnrollAgent(array $data, $expected) {
+   public function testInvalidEnrollAgent(array $data, $expected, $modifier = []) {
       $defaults = [];
       $dbUtils = new \DbUtils;
       $invitationlogTable = \PluginFlyvemdmInvitationlog::getTable();
@@ -225,6 +252,21 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       }
       if (key_exists('notificationToken', $data)) {
          $defaults['notificationToken'] = $data['notificationToken'];
+      }
+
+      \Config::setConfigurationValues('flyvemdm', [
+         'mqtt_enabled'  => "1",
+         'fcm_enabled'   => "0",
+         'fcm_api_token' => "",
+      ]);
+      if (key_exists('mqttDisabled', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['mqtt_enabled' => $modifier['mqttDisabled']]);
+      }
+      if (key_exists('fcmEnabled', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['fcm_enabled' => $modifier['fcmEnabled']]);
+      }
+      if (key_exists('fcmToken', $modifier)) {
+         \Config::setConfigurationValues('flyvemdm', ['fcm_api_token' => $modifier['fcmToken']]);
       }
 
       $_SESSION['MESSAGE_AFTER_REDIRECT'] = [];
@@ -345,7 +387,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
             $this->integer((int) $acl->getField('access_level'))
                ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
             $validated++;
-         } else if (preg_match("~^/FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
+         } else if (preg_match("~^FlyvemdmManifest/#$~", $acl->getField('topic')) == 1) {
             $this->integer((int) $acl->getField('access_level'))
                ->isEqualTo(\PluginFlyvemdmMqttacl::MQTTACL_READ);
             $validated++;
@@ -508,20 +550,18 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $tester = $this;
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
+      $mockedTopic = $mockedAgent->getTopic();
 
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent, $fleet) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Subscribe");
-         $tester->string($mqttMessage)
+      $mockedAgent->getMockController()->notify = function ($envelope) use ($tester, $mockedTopic, $fleet) {
+         $tester->object($envelope)->isInstanceOf(RealBrokerEnvelope::class);
+         $wrap = $envelope->get(RealMqttEnvelope::class);
+         $envelopeMessage = $envelope->getMessage();
+         $tester->string($envelopeMessage->getMessage())
             ->isEqualTo(json_encode(['subscribe' => [['topic' => $fleet->getTopic()]]],
                JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(1);
+         $tester->string($wrap->getContext('topic'))->isEqualTo($mockedTopic . "/Command/Subscribe");
+         $tester->integer($wrap->getContext('qos'))->isEqualTo(0);
+         $tester->integer($wrap->getContext('retain'))->isEqualTo(1);
       };
 
       $updateSuccess = $mockedAgent->update([
@@ -777,18 +817,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
 
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      ) {
-      };
+      $mockedAgent->getMockController()->notify = null;
       $mockedAgent->update([
          'id'     => $agent->getID(),
          $fleetFk => $defaultFleet->getID(),
       ]);
-      $this->mock($mockedAgent)->call('notify')->never();
+      $this->mock($mockedAgent)->call('notify')->once();
 
    }
 
@@ -802,21 +836,17 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $tester = $this;
       $mockedAgent = $this->newMockInstance($this->testedClass());
       $mockedAgent->getFromDB($agent->getID());
+      $mockedTopic = $mockedAgent->getTopic();
 
-      $mockedAgent->getMockController()->notify = function (
-         $topic,
-         $mqttMessage,
-         $qos = 0,
-         $retain = 0
-      )
-      use ($tester, &$mockedAgent, $lock) {
-         $tester->string($topic)->isEqualTo($mockedAgent->getTopic() . "/Command/Lock");
-         $message = [
-            'lock' => $lock ? 'now' : 'unlock',
-         ];
-         $tester->string($mqttMessage)->isEqualTo(json_encode($message, JSON_UNESCAPED_SLASHES));
-         $tester->integer($qos)->isEqualTo(0);
-         $tester->integer($retain)->isEqualTo(1);
+      $mockedAgent->getMockController()->notify = function ($envelope) use ($tester, $mockedTopic, $lock) {
+         $tester->object($envelope)->isInstanceOf(RealBrokerEnvelope::class);
+         $wrap = $envelope->get(RealMqttEnvelope::class);
+         $envelopeMessage = $envelope->getMessage();
+         $message = ['lock' => $lock ? 'now' : 'unlock'];
+         $tester->string($envelopeMessage->getMessage())->isEqualTo(json_encode($message, JSON_UNESCAPED_SLASHES));
+         $tester->string($wrap->getContext('topic'))->isEqualTo($mockedTopic . "/Command/Lock");
+         $tester->integer($wrap->getContext('qos'))->isEqualTo(0);
+         $tester->integer($wrap->getContext('retain'))->isEqualTo(1);
       };
 
       $mockedAgent->update([
@@ -870,16 +900,12 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $messageEncoded = json_encode($message, JSON_OBJECT_AS_ARRAY);
 
       $this->mockGenerator->orphanize('__construct');
-      $mqttStub = $this->newMockInstance(\sskaje\mqtt\MQTT::class);
-      $mqttStub->getMockController()->__construct = function () {};
-
-      $this->mockGenerator->orphanize('__construct');
       $publishStub = $this->newMockInstance(\sskaje\mqtt\Message\PUBLISH::class);
       $this->calling($publishStub)->getTopic = $topic;
       $this->calling($publishStub)->getMessage = $messageEncoded;
 
-      $mqttHandler = \PluginFlyvemdmMqtthandler::getInstance();
-      $mqttHandler->publish($mqttStub, $publishStub);
+      $receiverHandler = new RealMqttReceiveMessageHandler(new \PluginFlyvemdmMqttlog());
+      $receiverHandler($publishStub);
 
       // refresh the agent
       $agent->getFromDB($agent->getID());

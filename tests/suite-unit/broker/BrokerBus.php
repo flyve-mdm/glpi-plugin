@@ -21,14 +21,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Domingo Oropeza <doropeza@teclib.com>
+ * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace tests\units\GlpiPlugin\Flyvemdm\Broker;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use Flyvemdm\Tests\CommonTestCase;
+use Flyvemdm\Tests\DummyMessage;
+use src\Flyvemdm\Tests\DummyMiddleware;
+
+class BrokerBus extends CommonTestCase {
+
+   /**
+    * @tags testDispatch
+    */
+   public function testDispatch() {
+      // try the exception
+      $this->exception(function () {
+         $this->newTestedInstance()->dispatch('lorem');
+      })->hasMessage('Invalid type for message argument. Expected object, but got "string".');
+
+      // try to get a message
+      $message = new DummyMessage('Hello');
+      $responseFromDepthMiddleware = '1234';
+      $firstMiddleware = $this->newMockInstance(DummyMiddleware::class);
+      $this->calling($firstMiddleware)->handle = function ($message, $next) {
+         return $next($message);
+      };
+      $secondMiddleware = $this->newMockInstance(DummyMiddleware::class);
+      $this->calling($secondMiddleware)->handle = $responseFromDepthMiddleware;
+      $instance = $this->newTestedInstance([$firstMiddleware, $secondMiddleware]);
+      $this->string($instance->dispatch($message))->isEqualTo($responseFromDepthMiddleware);
+   }
+
+}

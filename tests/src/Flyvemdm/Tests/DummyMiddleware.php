@@ -21,14 +21,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
- * @author    Domingo Oropeza <doropeza@teclib.com>
+ * @author    Thierry Bugier
  * @copyright Copyright © 2018 Teclib
- * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace src\Flyvemdm\Tests;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeAwareInterface;
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerMiddlewareInterface;
+
+class DummyMiddleware implements BrokerMiddlewareInterface, BrokerEnvelopeAwareInterface {
+
+   /**
+    * @param object $message
+    * @param callable $next
+    * @return mixed
+    */
+   public function handle($message, callable $next) {
+      // TODO: Implement handle() method.
+   }
+}

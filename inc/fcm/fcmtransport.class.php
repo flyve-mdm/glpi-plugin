@@ -29,6 +29,55 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Fcm;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerTransportInterface;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+class FcmTransport implements BrokerTransportInterface {
+
+   private $connection;
+   private $sender;
+
+   public function __construct(FcmConnection $connection) {
+      $this->connection = $connection;
+   }
+
+   /**
+    * Receive some messages to the given handler.
+    *
+    * The handler will have, as argument, the received PluginFlyvemdmBrokerEnvelope containing the message.
+    * Note that this envelope can be `null` if the timeout to receive something has expired.
+    *
+    * @param callable $handler
+    * @return void
+    */
+   public function receive(callable $handler) {
+      return;
+   }
+
+   /**
+    * Stop receiving some messages.
+    * @return void
+    */
+   public function stop() {
+      return;
+   }
+
+   /**
+    * Sends the given envelope.
+    *
+    * @param BrokerEnvelope $envelope
+    */
+   public function send(BrokerEnvelope $envelope) {
+      (isset($this->sender) ? $this->sender : $this->getSender())->send($envelope);
+   }
+
+   private function getSender() {
+      return $this->sender = new FcmSender($this->connection);
+   }
+}

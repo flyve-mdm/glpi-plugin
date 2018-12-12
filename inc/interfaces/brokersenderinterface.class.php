@@ -29,6 +29,20 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Interfaces;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+interface BrokerSenderInterface {
+
+   /**
+    * Sends the given envelope.
+    *
+    * @param BrokerEnvelope $envelope
+    */
+   public function send(BrokerEnvelope $envelope);
+}

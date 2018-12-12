@@ -405,9 +405,10 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $topic = '0/agent/lorem';
       $instance->getMockController()->getTopic = $topic;
       $instance->getMockController()->notify = null;
+      $instance->fields['notification_type'] = 'mqtt';
+      $instance->fields['notification_token'] = '';
       $instance->unsubscribe();
-      $this->mock($instance)->call('notify')
-         ->withAtLeastArguments([$topic.'/Subscription'])->once();
+      $this->mock($instance)->call('notify')->once();
    }
 
    /**

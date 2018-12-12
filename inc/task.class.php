@@ -29,8 +29,12 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\PolicyApplicationException;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -69,7 +73,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
    protected $policy;
 
    /**
-    * @var PluginFlyvemdmNotifiable $notifiable Notifiable
+    * @var PluginFlyvemdmNotifiableInterface $notifiable Notifiable
     */
    protected $notifiable;
 
@@ -381,28 +385,32 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $policy = new PluginFlyvemdmPolicy();
-      $policyFk = $policy::getForeignKeyField();
-      $policyFactory = new PluginFlyvemdmPolicyFactory();
-      $appliedPolicy = $policyFactory->createFromDBByID($this->fields[$policyFk]);
-      if ($appliedPolicy === null) {
-         $exceptionMessage = "Policy ID " . $this->fields[$policyFk] . " not found while generating MQTT message";
-         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : '. $exceptionMessage . PHP_EOL);
-         throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
-      }
-
-      $policy->getFromDB($this->fields[$policyFk]);
-      $policyName = $policy->getField('symbol');
+      $policyFk = PluginFlyvemdmPolicy::getForeignKeyField();
+      $policyId = $this->fields[$policyFk];
       $taskId = $this->getID();
-      $policyMessage = $appliedPolicy->getBrokerMessage(
-         $this->fields['value'],
-         $this->fields['itemtype'],
-         $this->fields['items_id']
-      );
-      $policyMessage['taskId'] = $this->getID();
-      $encodedMessage = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $itemtype = $this->fields['itemtype'];
+      $itemId = $this->fields['items_id'];
+      $value = $this->fields['value'];
+
+      list($policyMessage, $policyName) = $this->buildPolicyMessage($policyId, $value, $itemtype,
+         $itemId, $taskId);
+      $message = json_encode($policyMessage, JSON_UNESCAPED_SLASHES);
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $item->getTopic();
-      $item->notify("$topic/Policy/$policyName/Task/$taskId", $encodedMessage, 0, 1);
+      if ($topic !== null) {
+         $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $item->getPushNotificationInfo(),
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
@@ -441,13 +449,27 @@ class PluginFlyvemdmTask extends CommonDBRelation {
          return;
       }
 
-      $topic = $item->getTopic();
-
       $policy = new PluginFlyvemdmPolicy();
       $taskId = $this->getID();
       $policy->getFromDB($this->fields['plugin_flyvemdm_policies_id']);
       $policyName = $policy->getField('symbol');
-      $item->notify("$topic/Policy/$policyName/Task/$taskId", null, 0, 1);
+      $message = null;
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
+      $topic = $item->getTopic();
+      if ($topic !== null) {
+         $finalTopic = "$topic/Policy/$policyName/Task/$taskId";
+         $envelopeConfig[] = new MqttEnvelope([
+            'topic'  => $finalTopic,
+            'retain' => 1,
+         ]);
+         $envelopeConfig[] = new FcmEnvelope([
+            'topic' => $finalTopic,
+            'scope' => $item->getPushNotificationInfo(),
+         ]);
+      }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
@@ -491,11 +513,25 @@ class PluginFlyvemdmTask extends CommonDBRelation {
     * @param array $groups array of groups to delete
     */
    public static function cleanupPolicies(PluginFlyvemdmNotifiableInterface $item, $groups = []) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      $message = null;
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $topic = $item->getTopic();
       foreach ($groups as $groupName) {
-         $mqttClient->publish("$topic/$groupName", null, 0, 1);
+         if ($topic !== null) {
+            $finalTopic = "$topic/$groupName";
+            $envelopeConfig[] = new MqttEnvelope([
+               'topic'  => $finalTopic,
+               'retain' => 1,
+            ]);
+            $envelopeConfig[] = new FcmEnvelope([
+               'topic' => $finalTopic,
+               'scope' => $item->getPushNotificationInfo(),
+            ]);
+         }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $item->notify($envelope);
    }
 
    /**
@@ -706,5 +742,31 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
 
       return $input;
+   }
+
+   /**
+    * @param $policyId
+    * @param $value
+    * @param $itemtype
+    * @param $itemId
+    * @param $taskId
+    * @return array
+    * @throws TaskPublishPolicyPolicyNotFoundException
+    */
+   public function buildPolicyMessage($policyId, $value, $itemtype, $itemId, $taskId) {
+      $policyFactory = new PluginFlyvemdmPolicyFactory();
+      $appliedPolicy = $policyFactory->createFromDBByID($policyId);
+      if ($appliedPolicy === null) {
+         $exceptionMessage = "Policy ID " . $policyId . " not found while generating broker message";
+         Toolbox::logInFile('php-errors', 'Plugin Flyvemdm : ' . $exceptionMessage . PHP_EOL);
+         throw new TaskPublishPolicyPolicyNotFoundException($exceptionMessage);
+      }
+
+      $policy = new PluginFlyvemdmPolicy();
+      $policy->getFromDB($policyId);
+      $policyName = $policy->getField('symbol');
+      $policyMessage = $appliedPolicy->getBrokerMessage($value, $itemtype, $itemId);
+      $policyMessage['taskId'] = $taskId;
+      return [$policyMessage, $policyName];
    }
 }

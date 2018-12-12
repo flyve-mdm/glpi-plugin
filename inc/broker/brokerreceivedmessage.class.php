@@ -29,6 +29,18 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Broker;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
+
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+/**
+ * Marker config for a received message.
+ *
+ * This is mainly used by the middleware to identify a message should not be sent if it was just received.
+ */
+final class BrokerReceivedMessage implements BrokerEnvelopeItemInterface {
+}

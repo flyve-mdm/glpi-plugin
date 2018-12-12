@@ -29,6 +29,45 @@
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Exception;
+namespace GlpiPlugin\Flyvemdm\Broker;
 
-class TaskPublishPolicyBadFleetException extends \Exception {}
+if (!defined('GLPI_ROOT')) {
+   die("Sorry. You can't access this file directly");
+}
+
+
+class BrokerHandlerLocator {
+   /**
+    * @param $message
+    * @return callable|null
+    * @throws \Exception
+    */
+   public function resolve($message) {
+      $class = \get_class($message);
+      if ($handler = $this->getHandler($class)) {
+         return $handler;
+      }
+      foreach (class_implements($class, false) as $interface) {
+         if ($handler = $this->getHandler($interface)) {
+            return $handler;
+         }
+      }
+      foreach (class_parents($class, false) as $parent) {
+         if ($handler = $this->getHandler($parent)) {
+            return $handler;
+         }
+      }
+      throw new \Exception(sprintf(__('No handler for message "%s".', 'flyvemdm'), $class));
+   }
+
+   /**
+    * @param $class
+    * @return callable|null
+    */
+   protected function getHandler($class) {
+      if (class_exists($class)) {
+         return new $class;
+      }
+      return null;
+   }
+}
