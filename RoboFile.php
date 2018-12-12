@@ -342,7 +342,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
    public function localesExtract() {
       // extract locales from twig templates
       $tplDir = __DIR__ . "/tpl";
-      $tmpDir = '/tmp/twig-cache/';
+      $tmpDir = sys_get_temp_dir().'/twig-cache/';
 
       $loader = new Twig_Loader_Filesystem($tplDir);
 
