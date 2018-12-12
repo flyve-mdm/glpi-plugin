@@ -58,11 +58,15 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    // first and last steps of requirement pages of wizard
    const WIZARD_REQUIREMENT_BEGIN = 100;
-   const WIZARD_REQUIREMENT_END = 107;
+   const WIZARD_REQUIREMENT_END = 108;
 
    // first and last steps of the MQTT pages of wizard
-   const WIZARD_MQTT_BEGIN = 108;
-   const WIZARD_MQTT_END = 111;
+   const WIZARD_MQTT_BEGIN = 109;
+   const WIZARD_MQTT_END = 110;
+
+   // first and last steps of the FCM pages of wizard
+   const WIZARD_FCM_BEGIN = 112;
+   const WIZARD_FCM_END = 112;
 
    const WIZARD_FINISH = -1;
    static $config = [];
@@ -450,6 +454,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             break;
 
          case static::WIZARD_MQTT_END:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_FCM_BEGIN;
+            break;
+
+         case static::WIZARD_FCM_END:
             $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_FINISH;
             break;
 
@@ -471,8 +479,12 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_REQUIREMENT_END;
             break;
 
-         case static::WIZARD_FINISH:
+         case static::WIZARD_FCM_BEGIN:
             $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_MQTT_END;
+            break;
+
+         case static::WIZARD_FINISH:
+            $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_FCM_END;
             break;
 
          default:
