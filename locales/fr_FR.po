@@ -3,17 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Thierry Bugier <tbugier@teclib.com>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-03 08:43-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2018-12-12 17:00-0400\n"
+"PO-Revision-Date: 2018-10-03 13:26+0000\n"
 "Last-Translator: Thierry Bugier <tbugier@teclib.com>, 2018\n"
 "Language-Team: French (France) (https://www.transifex.com/flyve-mdm/teams/69665/fr_FR/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -34,264 +37,293 @@ msgstr "Catégories de stratégie"
 msgid "Flyve Mobile Device Management"
 msgstr "Gestion d'appareil mobile Flyve MDM"
 
-#: inc/agent.class.php:99
+#: inc/agent.class.php:115
 msgid "Android"
 msgstr "Android"
 
-#: inc/agent.class.php:100
+#: inc/agent.class.php:116
 msgid "Apple"
 msgstr "Apple"
 
-#: inc/agent.class.php:110
+#: inc/agent.class.php:126
 msgid "Agent"
 msgid_plural "Agents"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/agent.class.php:167
-msgid "Danger zone !"
-msgstr "Zone de danger !"
+#: inc/agent.class.php:183
+msgid "Danger zone!"
+msgstr ""
 
-#: inc/agent.class.php:185
+#: inc/agent.class.php:201
 msgid "Flyve MDM Agent"
 msgstr "Agent Flyve MDM"
 
-#: inc/agent.class.php:243 inc/agent.class.php:358
+#: inc/agent.class.php:260 inc/agent.class.php:375
 msgid "Never seen online"
 msgstr "Jamais vu en ligne"
 
-#: inc/agent.class.php:277
+#: inc/agent.class.php:294
 msgid "Lock the device as soon as possible"
 msgstr "Verrouiller l'appareil aussi vite que possible"
 
-#: inc/agent.class.php:284
+#: inc/agent.class.php:301
 msgid "Wipe the device as soon as possible"
 msgstr "Effacer l'appareil aussi vite que possible"
 
-#: inc/agent.class.php:437
+#: inc/agent.class.php:520
 msgid "Failed to read configuration of the entity"
 msgstr "La lecture de la configuration de l'entité a échoué"
 
-#: inc/agent.class.php:443
+#: inc/agent.class.php:526
 msgid "Too many devices"
 msgstr "Trop d'appareils"
 
-#: inc/agent.class.php:452
+#: inc/agent.class.php:535
 msgid "Unable to find a enrollment method"
 msgstr "Impossible de trouver une méthode d'enrôlement"
 
-#: inc/agent.class.php:477
+#: inc/agent.class.php:560
 msgid "The fleet of the device does not longer exists"
 msgstr "LA flotte de l'appareil n'existe plus"
 
-#: inc/agent.class.php:484
+#: inc/agent.class.php:567
 msgid "The target fleet does not exists"
 msgstr "LA flotte cible n'existe pas"
 
-#: inc/agent.class.php:515
+#: inc/agent.class.php:598
 msgid "The device is not enrolled yet"
 msgstr "L'appareil n'est pas encore enrôlé"
 
-#: inc/agent.class.php:581
+#: inc/agent.class.php:636
+msgid "Invalid status value"
+msgstr ""
+
+#: inc/agent.class.php:677
 msgid "Failed to find the guest user profile"
 msgstr "La recherche du pofile invité a échoué"
 
-#: inc/agent.class.php:603
+#: inc/agent.class.php:699
 msgid "Failed to remove guest habilitation for the user of the device"
 msgstr ""
 "La suppression du profil invité de l'utilsiateur de l' appareil a échoué"
 
-#: inc/agent.class.php:624
+#: inc/agent.class.php:720
 msgid "Failed to delete MQTT user for the device"
 msgstr "La suppression de l'utilisateur MQTT pour l'appareil a échoué"
 
-#: inc/agent.class.php:637
+#: inc/agent.class.php:733
 msgid "Failed to delete documents attached to the device"
 msgstr "LA suppression des documents liés à l'appareil a échoué"
 
-#: inc/agent.class.php:786 inc/fleet.class.php:76
+#: inc/agent.class.php:883 inc/fleet.class.php:83
 msgid "Fleet"
 msgid_plural "Fleets"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/agent.class.php:812
+#: inc/agent.class.php:909
 msgid "Last contact"
 msgstr "Dernier contact"
 
-#: inc/agent.class.php:830
+#: inc/agent.class.php:927
 msgid "Is online"
 msgstr "Est en ligne"
 
-#: inc/agent.class.php:839
+#: inc/agent.class.php:937
 msgid "MDM type"
 msgstr "Tyme de MDM"
 
-#: inc/agent.class.php:848
+#: inc/agent.class.php:946
 msgid "Has system permission"
 msgstr "Possède la permission système"
 
-#: inc/agent.class.php:857
+#: inc/agent.class.php:956
 msgid "Enroll status"
 msgstr "Statut d'enrôlement"
 
-#: inc/agent.class.php:866
+#: inc/agent.class.php:966
 msgid "Wipe requested"
 msgstr "Effacement demandé"
 
-#: inc/agent.class.php:875
+#: inc/agent.class.php:976
 msgid "Lock requested"
 msgstr "Verrouillage demandé"
 
-#: inc/agent.class.php:892 inc/fleet.class.php:261
+#: inc/agent.class.php:994 inc/fleet.class.php:268
 msgid "Applied policy"
 msgstr "Stratégie appliquée"
 
-#: inc/agent.class.php:1121
+#: inc/agent.class.php:1287
 msgid "Invitation token invalid"
 msgstr "Jeton d'invitation invalide"
 
-#: inc/agent.class.php:1126
+#: inc/agent.class.php:1301
+msgid "Invalid FCM credentials"
+msgstr ""
+
+#: inc/agent.class.php:1308
 msgid "One of serial and uuid is mandatory"
 msgstr "Le numéro de série ou l'UUID est requis"
 
-#: inc/agent.class.php:1133
+#: inc/agent.class.php:1314
 msgid "Device inventory XML is mandatory"
 msgstr "L'inventaire XML de l'appareil est requis"
 
-#: inc/agent.class.php:1144
+#: inc/agent.class.php:1324
 msgid "Inventory XML is not well formed"
 msgstr "L'Inventaire XML est mal formé"
 
-#: inc/agent.class.php:1151
+#: inc/agent.class.php:1330
 msgid "Agent version missing"
 msgstr "Version de l'agent invalide"
 
-#: inc/agent.class.php:1158
+#: inc/agent.class.php:1336
 msgid "MDM type missing"
 msgstr "Type de MDM manquant"
 
-#: inc/agent.class.php:1165
+#: inc/agent.class.php:1342
 msgid "unknown MDM type"
 msgstr "Type de MDM inconnu"
 
-#: inc/agent.class.php:1172
+#: inc/agent.class.php:1348
 msgid "Bad agent version"
 msgstr "Mauvaise version de l'agent"
 
-#: inc/agent.class.php:1181
+#: inc/agent.class.php:1356
 msgid "The agent version is too low"
 msgstr "La v ersion de l'agent est trop ancienne"
 
-#: inc/agent.class.php:1191
+#: inc/agent.class.php:1365
 msgid "The agent does not advertise its system permissions"
 msgstr "L'agent n'indique pas ses permissions système"
 
-#: inc/agent.class.php:1200
+#: inc/agent.class.php:1373
 msgid "Invitation is not pending"
 msgstr "L'invitation n'est pas en attente"
 
-#: inc/agent.class.php:1208
+#: inc/agent.class.php:1380
 msgid "Expiration date of the invitation is not set"
 msgstr "La date d'expiration n'est pas définie"
 
-#: inc/agent.class.php:1216
+#: inc/agent.class.php:1387
 msgid "Invitation token expired"
 msgstr "LE jeton d'invitation a expiré"
 
-#: inc/agent.class.php:1230
+#: inc/agent.class.php:1400
 msgid "Wrong email address"
 msgstr "Mauvaise adresse email"
 
-#: inc/agent.class.php:1245
+#: inc/agent.class.php:1414
 msgid "Failed to sign the certificate"
 msgstr "La signature du certificat a échoué"
 
-#: inc/agent.class.php:1266
+#: inc/agent.class.php:1434
 msgid "Failed to update the invitation"
 msgstr "Echec lors de la mise à jour de l'invitation"
 
-#: inc/agent.class.php:1294
+#: inc/agent.class.php:1461
 msgid "Cannot get the FusionInventory agent"
 msgstr "Impossible d'obtenir l'agent FusionInventory"
 
-#: inc/agent.class.php:1302
+#: inc/agent.class.php:1468
 msgid "FusionInventory agent not created"
 msgstr "Agent FusionInventory non créé"
 
-#: inc/agent.class.php:1310
+#: inc/agent.class.php:1475
 msgid "Cannot create the device"
 msgstr "Impossible de créer l'appareil"
 
-#: inc/agent.class.php:1353
+#: inc/agent.class.php:1517
 msgid "Cannot create a user account for the agent"
 msgstr "Impossible de créer le compte utilisateur pour l'agent"
 
-#: inc/agent.class.php:1361
+#: inc/agent.class.php:1524
 msgid "Cannot create the API token for the agent"
 msgstr "Impossible de créer le jeton d'API pour l'agent"
 
-#: inc/agent.class.php:1370
+#: inc/agent.class.php:1532
 msgid "No default fleet available for the device"
 msgstr "PAs de flotte par défaut disponible pour l'appareil"
 
-#: inc/agent.class.php:1554
+#: inc/agent.class.php:1739
 msgid "GPS is turned off or is not ready"
 msgstr "Le GPS est éteint ou n'est pas prêt"
 
-#: inc/agent.class.php:1556
+#: inc/agent.class.php:1741
 msgid "The device sent its position"
 msgstr "L'appareil a envoyé sa position"
 
-#: inc/agent.class.php:1560
+#: inc/agent.class.php:1745
 msgid "Timeout requesting position"
 msgstr "Délai d'attente expiré lors de la requête de géolocalisation"
 
-#: inc/agent.class.php:1587
+#: inc/agent.class.php:1786
 msgid "Inventory received"
 msgstr "Inventaire reçu"
 
-#: inc/agent.class.php:1591
+#: inc/agent.class.php:1790
 msgid "Timeout querying the device inventory"
 msgstr "Délai d'attente expiré lors de la requête d'inventaire de l'appareil"
 
-#: inc/agent.class.php:1611
+#: inc/agent.class.php:1824
 msgid "The device answered"
 msgstr "L'appareil a répondu"
 
-#: inc/agent.class.php:1615
+#: inc/agent.class.php:1828
 msgid "Timeout querying the device"
 msgstr "Délai d'attente expiré lors de la requête vers l'appareil"
 
-#: inc/agent.class.php:1839
+#: inc/agent.class.php:2052
 msgid "Enrollment failed"
 msgstr "Echec d'enrôlemnt"
 
-#: inc/config.class.php:140
+#: inc/agent.class.php:2254 install/policies/password.php:44
+msgid "No"
+msgstr "Non"
+
+#: inc/agent.class.php:2255
+msgid "Yes"
+msgstr ""
+
+#: inc/agent.class.php:2317 inc/agent.class.php:2326
+#, php-format
+msgid "%s service is not available"
+msgstr ""
+
+#: inc/agent.class.php:2331
+msgid "Notification token is missing"
+msgstr ""
+
+#: inc/agent.class.php:2339
+msgid "Notification settings are invalid"
+msgstr ""
+
+#: inc/config.class.php:144
 msgid "Installation wizard"
 msgstr "Assistant d'installation"
 
-#: inc/config.class.php:142
+#: inc/config.class.php:146
 msgid "General configuration"
 msgstr "Configuration générale"
 
-#: inc/config.class.php:143 inc/menu.class.php:119
+#: inc/config.class.php:147 inc/menu.class.php:119
 msgid "Message queue"
 msgstr "File d'attente de message"
 
-#: inc/config.class.php:144 inc/menu.class.php:122
+#: inc/config.class.php:148 inc/menu.class.php:122
 msgid "Debug"
 msgstr "Débogage"
 
-#: inc/config.class.php:217
+#: inc/config.class.php:221
 msgid "Bugcollector password"
 msgstr "Mot de passe du collecteur de bugs"
 
-#: inc/config.class.php:363
+#: inc/config.class.php:381
 msgid "Finish"
 msgstr "Terminé"
 
-#: inc/config.class.php:363
+#: inc/config.class.php:381
 msgid "Next"
 msgstr "Suivant"
 
@@ -328,7 +360,7 @@ msgstr "Information de support"
 #: inc/entityconfig.class.php:429 inc/invitation.class.php:67
 #: inc/notificationtargetinvitation.class.php:50
 #: inc/notificationtargetinvitation.class.php:59
-#: install/upgrade_to_2_0.php:344
+#: install/upgrade_to_2_0.php:348
 msgid "Invitation"
 msgid_plural "Invitations"
 msgstr[0] ""
@@ -361,23 +393,23 @@ msgstr "Le télélversement du ficher a échoué"
 msgid "Temp directory doesn't exist"
 msgstr "Le dossier temporaire n'existe pas"
 
-#: inc/fleet.class.php:188
+#: inc/fleet.class.php:195
 msgid "No default fleet found to move devices"
 msgstr "Pas de flotte par défaut pour déplacer les appareils"
 
-#: inc/fleet.class.php:198
+#: inc/fleet.class.php:205
 msgid "Could not move all devices to the not managed fleet"
 msgstr "Impossible de déplacer tous les appareils vers la flotte non gérée"
 
-#: inc/fleet.class.php:227
+#: inc/fleet.class.php:234
 msgid "Could not delete policies on the fleet"
 msgstr "Impossible de suppriler les stratégies de la flotte"
 
-#: inc/fleet.class.php:465 install/install.class.php:255
+#: inc/fleet.class.php:484 install/install.class.php:255
 msgid "not managed fleet"
 msgstr "Flotte non gérée"
 
-#: inc/fleet.class.php:549
+#: inc/fleet.class.php:573
 msgid "Persisted notification not updated."
 msgstr "La notification persistée n'a pas été mise à jour."
 
@@ -385,33 +417,38 @@ msgstr "La notification persistée n'a pas été mise à jour."
 msgid "Unable to get rule for entity"
 msgstr "Impossible de trouver la règle pour l'entité"
 
-#: inc/geolocation.class.php:67
+#: inc/geolocation.class.php:69
 msgid "Geolocation"
 msgid_plural "Geolocations"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/geolocation.class.php:165
+#: inc/geolocation.class.php:150
 msgid "associated device is mandatory"
 msgstr "L'appareil associé est obligatoire"
 
-#: inc/geolocation.class.php:169 inc/geolocation.class.php:204
+#: inc/geolocation.class.php:154 inc/geolocation.class.php:241
 msgid "latitude and longitude are mandatory"
 msgstr "la latitude et la longitude sont obligatoires"
 
-#: inc/geolocation.class.php:179 inc/geolocation.class.php:221
+#: inc/geolocation.class.php:164 inc/geolocation.class.php:258
 msgid "latitude is invalid"
 msgstr "La latitude est invalide"
 
-#: inc/geolocation.class.php:183 inc/geolocation.class.php:228
+#: inc/geolocation.class.php:168 inc/geolocation.class.php:265
 msgid "longitude is invalid"
 msgstr "La longitude est invalide"
 
-#: inc/geolocation.class.php:190 inc/geolocation.class.php:212
+#: inc/geolocation.class.php:175 inc/geolocation.class.php:204
+#: inc/geolocation.class.php:249
 msgid "Device not found"
 msgstr "Appareil non trouvé"
 
-#: inc/graph.class.php:57 inc/graph.class.php:65
+#: inc/geolocation.class.php:199
+msgid "Agent ID is mandatory"
+msgstr ""
+
+#: inc/graph.class.php:57 inc/graph.class.php:64
 msgid "Invitations"
 msgstr "Invitations"
 
@@ -421,21 +458,21 @@ msgstr ""
 "Aucune statistique pour les invitations n'est disponible. Envoyez d'abord "
 "une invitation."
 
-#: inc/graph.class.php:67 inc/graph.class.php:72 inc/invitation.class.php:57
+#: inc/graph.class.php:66 inc/invitation.class.php:57
 #: inc/policybase.class.php:80
 msgid "Done"
 msgstr "Terminé"
 
-#: inc/graph.class.php:68 inc/graph.class.php:76 inc/invitation.class.php:56
+#: inc/graph.class.php:67 inc/invitation.class.php:56
 #: inc/policybase.class.php:78
 msgid "Pending"
 msgstr "En attente"
 
-#: inc/graph.class.php:116 inc/graph.class.php:137
+#: inc/graph.class.php:109 inc/graph.class.php:135
 msgid "Devices per operating system version"
 msgstr "Appareils par version de système d'exploitation"
 
-#: inc/graph.class.php:118
+#: inc/graph.class.php:111
 msgid ""
 "No devices stats available, enrol or import your mobile computer assets "
 "first"
@@ -443,33 +480,29 @@ msgstr ""
 "Aucune statistique pour les appareils mobiles n'est disponible. Enrôlez ou "
 "importez d'abord un appareil mobile."
 
-#: inc/invitation.class.php:98 inc/invitation.class.php:104
+#: inc/invitation.class.php:101
+msgid "Invalid data"
+msgstr ""
+
+#: inc/invitation.class.php:112
+msgid "The user was deleted. You must restore him first."
+msgstr ""
+
+#: inc/invitation.class.php:119
 msgid "Email address is invalid"
 msgstr "L'adresse email est invalide"
 
-#: inc/invitation.class.php:147
-msgid "Cannot create the user"
-msgstr "Impossible de créer l'utilsiateur"
-
-#: inc/invitation.class.php:155
-msgid ""
-"The user already exists and has been deleted. You must restore or purge him "
-"first."
-msgstr ""
-"L'utilsiateur existe déjà et a été supprimé. Vous devez le restaurer ou le "
-"purger d'abord."
-
-#: inc/invitation.class.php:196
+#: inc/invitation.class.php:157
 msgid "Invalid token expiration date interval"
 msgstr "Intervalle de date d'expiration de jeton invalide"
 
-#: inc/invitation.class.php:313
+#: inc/invitation.class.php:274
 msgid "Cannot delete the document. Delete the attached invitation first"
 msgstr ""
 "Impossible de créer le document. Supprimez d'abord les invitations "
 "rattachées"
 
-#: inc/invitation.class.php:375 inc/notificationtargetinvitation.class.php:68
+#: inc/invitation.class.php:336 inc/notificationtargetinvitation.class.php:68
 msgid "Enrollment QR code"
 msgstr "Code QR d'enrôlement"
 
@@ -590,19 +623,19 @@ msgstr "Valeur recommandée"
 msgid "Requires system permission"
 msgstr "Requiert les permissions système"
 
-#: inc/policy.class.php:184
+#: inc/policy.class.php:185
 msgid "Android minimum version"
 msgstr "Version minimum Android"
 
-#: inc/policy.class.php:193
+#: inc/policy.class.php:194
 msgid "Android maximum version"
 msgstr "Version maximum Android"
 
-#: inc/policy.class.php:202
+#: inc/policy.class.php:203
 msgid "Apple minimum version"
 msgstr "Version minimum Apple"
 
-#: inc/policy.class.php:211
+#: inc/policy.class.php:212
 msgid "Apple maximum version"
 msgstr "Version maximum Apple"
 
@@ -705,82 +738,82 @@ msgstr "Un identifiant d'application est requis"
 msgid "Flyve MDM"
 msgstr "Flyve MDM"
 
-#: inc/task.class.php:83
+#: inc/task.class.php:87
 msgid "Task"
 msgid_plural "Tasks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/task.class.php:157
+#: inc/task.class.php:161
 msgid "Notifiable and policy must be specified"
 msgstr "Un objet notifiable et une stratégie doivent être spécifiés"
 
-#: inc/task.class.php:166 inc/task.class.php:246 inc/task.class.php:339
+#: inc/task.class.php:170 inc/task.class.php:250 inc/task.class.php:343
 msgid "Policy not found"
 msgstr "Stratégie non trouvée"
 
-#: inc/task.class.php:174 inc/task.class.php:284
+#: inc/task.class.php:178 inc/task.class.php:288
 msgid "Incorrect value for this policy"
 msgstr "Valeur incorrecte pour cette stratégie"
 
-#: inc/task.class.php:184
+#: inc/task.class.php:188
 msgid "This is not a notifiable object"
 msgstr ""
 
-#: inc/task.class.php:190
+#: inc/task.class.php:194
 msgid "Cannot find the notifiable object"
 msgstr "Impossible de trouver l'objet notifiable"
 
-#: inc/task.class.php:197
+#: inc/task.class.php:201
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "Impossible d'appliquer une stratégie sur une flotte non gérée"
 
-#: inc/task.class.php:204 inc/task.class.php:292
+#: inc/task.class.php:208 inc/task.class.php:296
 msgid "Policy already applied"
 msgstr "Stratégie déjà appliquée"
 
-#: inc/task.class.php:217 inc/task.class.php:299
+#: inc/task.class.php:221 inc/task.class.php:303
 msgid "The requirements for this policy are not met"
 msgstr "Les prérequis pour cette stratégie ne sont pas remplis"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:269
+#: inc/task.class.php:273
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "Impossible de trouver la cible de type %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:277
+#: inc/task.class.php:281
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "Impossible d'appliquer une stratégie sur ce %1$s"
 
-#: inc/task.class.php:306
+#: inc/task.class.php:310
 msgid "Failed to apply the policy"
 msgstr "L'application de la stratégie a échoué"
 
-#: inc/task.class.php:318 inc/task.class.php:328
+#: inc/task.class.php:322 inc/task.class.php:332
 msgid "Policy publish action failed."
 msgstr "L'action de publication de la stratégie a échoué."
 
-#: inc/task.class.php:345
+#: inc/task.class.php:349
 #, php-format
 msgid "%1$s not found"
 msgstr "%1$s non trouvé"
 
-#: inc/task.class.php:530
+#: inc/task.class.php:566
 msgid "Policy ID"
 msgstr "Identifiant de stratégie"
 
-#: inc/task.class.php:557
+#: inc/task.class.php:593
 msgid "policy name"
 msgstr "nom de stratégie"
 
-#: inc/task.class.php:566
+#: inc/task.class.php:602
 msgid "applied itemtype"
 msgstr "Type appliqué"
 
-#: inc/task.class.php:575
+#: inc/task.class.php:611
 msgid "applied ID"
 msgstr "identifiant appliqué"
 
@@ -788,7 +821,7 @@ msgstr "identifiant appliqué"
 msgid "Task status"
 msgstr "Statut de tâche"
 
-#: inc/taskstatus.class.php:395
+#: inc/taskstatus.class.php:425
 msgid "Status"
 msgstr "Statut"
 
@@ -819,35 +852,35 @@ msgstr ""
 "Utilsiateurs d'agents Flyve MDM. Créé par Flyve MDM - ne PAS modifier ce "
 "commentaire."
 
-#: install/install.class.php:352
+#: install/install.class.php:354
 msgid "User invitation"
 msgstr "Invitation d'utilsaiteur"
 
-#: install/install.class.php:554
+#: install/install.class.php:553
 msgid "Parse uploaded applications to collect metadata"
 msgstr "Analyse les applications téléversées pour collecter les méta données"
 
-#: install/install.class.php:716
+#: install/install.class.php:718
 msgid "Security"
 msgstr "Sécurité"
 
-#: install/install.class.php:719
+#: install/install.class.php:721
 msgid "Authentication"
 msgstr "Authentification"
 
-#: install/install.class.php:722 install/policies/password.php:46
+#: install/install.class.php:724 install/policies/password.php:46
 msgid "Password"
 msgstr "Mot de passe"
 
-#: install/install.class.php:725
+#: install/install.class.php:727
 msgid "Encryption"
 msgstr "Chiffrement"
 
-#: install/install.class.php:728
+#: install/install.class.php:730
 msgid "Peripherals"
 msgstr "Périphériques"
 
-#: install/install.class.php:731
+#: install/install.class.php:733
 msgid "Deployment"
 msgstr "Déploiement"
 
@@ -912,10 +945,6 @@ msgstr ""
 #: install/policies/password.php:39
 msgid "Password enabled"
 msgstr "Mot de passe activé"
-
-#: install/policies/password.php:44
-msgid "No"
-msgstr "Non"
 
 #: install/policies/password.php:45
 msgid "Pin"
@@ -1330,6 +1359,9 @@ msgstr ""
 "Ils recevront un message dans leur adresse par défaut contenant un ode QR et"
 " les instructions pour s'enrôler."
 
+msgid "Notification type"
+msgstr ""
+
 msgid "Lock"
 msgstr "Verrouiller"
 
@@ -1493,6 +1525,14 @@ msgstr ""
 "- Ajoutez un client API en laissant vide les plages d'adresse IPv4 et IPv6, "
 "ainsi que le jeton d'application."
 
+msgid ""
+"If your GLPI server is inside a local network, you must allow external HTTP "
+"connections for getting devices responses. This configuration step depends "
+"on how is your network configured, but as a guide, it usually needs to allow"
+" HTTP connections through your firewall and forward them to your GLPI "
+"server."
+msgstr ""
+
 msgid "API"
 msgstr "API"
 
@@ -1633,14 +1673,23 @@ msgstr ""
 "La commande suivante va demander le mot de passe que vous avez choisi "
 "prédcédemment."
 
-msgid "Mosquitto"
-msgstr "Mosquitto"
-
 msgid "Flyve MDM requires a Message queue server."
 msgstr "Flyve MDM requiert un serveur file de messages."
 
 msgid "Prefer a dedicated server or VM for running Mosquitto."
 msgstr "Préférez un serveur dédié ou une VM pour exécuter Mosquitto."
+
+msgid "You could also use another service as Firebase Cloud Messaging."
+msgstr ""
+
+msgid "The following steps will guide you to configure each queue service."
+msgstr ""
+
+msgid "Mosquitto"
+msgstr "Mosquitto"
+
+msgid "Be sure that the service is enabled in the plugin settings."
+msgstr ""
 
 msgid "As root in a terminal, execute the following command"
 msgstr "En tant que root dans un terminal, exécutez la commande suivante"
@@ -1726,6 +1775,12 @@ msgstr "Pour les systèmes SYSV, liez le script init dans /etc/init.d/"
 msgid "Check the user configured in the script and adapt it if needed."
 msgstr ""
 "Vérifiez l'utilisateur configuré dans le script et adaptez-le si besoin."
+
+msgid "Firebase Cloud Messaging"
+msgstr ""
+
+msgid "Add your server key provided on your project in Firebase."
+msgstr ""
 
 msgid "Back"
 msgstr "Retour"
@@ -1826,6 +1881,12 @@ msgstr "Serveur de cerrtificats SSL pour les clients MQTT"
 msgid "https://cert.domain.com/path/to/service"
 msgstr "https://cert.domaine.com/chemin/vers/service"
 
+msgid "This feature is in experimental phase"
+msgstr ""
+
+msgid "The server key token given on Firebase settings"
+msgstr ""
+
 msgid "apply a policy"
 msgstr "Appliquer une stratégie"
 
@@ -1844,13 +1905,10 @@ msgstr "Date de la dernière modification"
 msgid "There is no agent yet"
 msgstr "Il n'y a pas encore d'agent"
 
-msgid "ID"
+msgid "Topic"
 msgstr ""
 
 msgid "Date"
-msgstr ""
-
-msgid "Topic"
 msgstr ""
 
 msgid "Message"
