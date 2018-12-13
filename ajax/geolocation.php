@@ -55,21 +55,27 @@ if (isset($_REQUEST['endDate']) && !empty(trim($_REQUEST['endDate']))) {
    $endDate = $endDate->format('Y-m-d H:i:s');
 }
 
-$geolocation = new PluginFlyvemdmGeolocation();
-$condition = "`computers_id`='$computerId' AND `date` BETWEEN '$beginDate' AND '$endDate'";
-$limit = '';
+$condition = [
+   'WHERE' => [
+      Computer::getForeignKeyField() => $computerId,
+   ],
+];
 if ($beginDate == '0000-00-00 00:00:00') {
-   $condition = "`computers_id`='$computerId' AND `date` < '$endDate'";
-   $limit = '100';
+   $condition['WHERE']['date'] = ['<' => $endDate];
+   $condition['LIMIT'] = '100';
+} else {
+   $condition['WHERE']['date'] = new \QueryExpression("BETWEEN '$beginDate' AND '$endDate'");
 }
-$rows = $geolocation->find($condition, '`date`', $limit);
+$rows = $DB->request([
+   'FROM' => PluginFlyvemdmGeolocation::getTable(),
+] + $condition);
 
 $markers = [];
 foreach ($rows as $row) {
    $markers[] = [
-         'date'      => $row['date'],
-         'latitude'  => $row['latitude'],
-         'longitude'  => $row['longitude'],
+      'date'      => $row['date'],
+      'latitude'  => $row['latitude'],
+      'longitude'  => $row['longitude'],
    ];
 }
 echo json_encode($markers);
