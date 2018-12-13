@@ -316,6 +316,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string an html with the agents
     */
    public static function showForFleet(PluginFlyvemdmFleet $item) {
+      global $DB;
+
       if (!PluginFlyvemdmFleet::canView()) {
          return;
       }
@@ -326,11 +328,13 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // get items
       $agent = new PluginFlyvemdmAgent();
-      $items_id = $item->getField('id');
-      $itemFk = $item::getForeignKeyField();
-      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
-      $rows = $agent->find($condition);
-      $number = count($rows);
+      $rows = $DB->request([
+         'FROM' => self::getTable(),
+         'WHERE' => [
+            $item::getForeignKeyField() => $item->fields['id'],
+         ] + $dbUtils->getEntitiesRestrictCriteria(),
+      ]);
+      $number = $rows->count();
 
       // get the pager
       $pager_top = Html::printAjaxPager(self::getTypeName(1), $start, $number, '', false);
@@ -606,6 +610,8 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return bool : true if item need to be deleted else false
     */
    public function pre_deleteItem() {
+      global $DB;
+
       // get serial of the computer
       $computer = $this->getComputer();
       if ($computer === null) {
@@ -628,7 +634,14 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Find other computers belong to the user in the current entity
       // TODO : maybe use getEntityRestrict for multientity support
-      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$ownerUserId' AND `id` <> '$computerId'", '', '1');
+      $rows = $DB->rqeuest([
+         'FROM' => Computer::getTable(),
+         'WHERE' = [
+            Entity::getForeignKeyField() => $entityId,
+            User::getForeignKeyField() =>$ownerUserId,
+            'id' => $computerId,
+         ],
+      ]);
       if (count($rows) == 0) {
          // Remove guest habilitation for the entity
          $profile_User = new Profile_User();
@@ -725,10 +738,18 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @param PluginFlyvemdmNotifiableInterface $notifiable
     */
    private function createTaskStatuses(PluginFlyvemdmNotifiableInterface $notifiable) {
+      global $DB;
+
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'");
+      $rows = $DB->request([
+         'FROM' => PluginFlyvemdmTask::getTable(),
+         'WHERE' => [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+         ],
+      ]);
       foreach ($rows as $row) {
          $taskStatus = new PluginFlyvemdmTaskstatus();
          $taskStatus->add([
@@ -1550,8 +1571,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @return string[]
     */
    public static function getTopicsToCleanup() {
+      global $DB;
+
       $policy = new PluginFlyvemdmPolicy();
-      $rows = $policy->find();
+      $rows = $DB->request([
+         'FROM' => PluginFlyvemdmPolicy::getTable(),
+      ]);
 
       // get all policies sub topics
       $topics = [];
@@ -1576,11 +1601,21 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendGeolocationQuery() {
+      global $DB;
 
       $computerId = $this->fields['computers_id'];
       $geolocation = new PluginFlyvemdmGeolocation();
-      $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-      $lastPosition = array_pop($lastPositionRows);
+      $$lastPosition = $DB->request([
+         PluginFlyvemdmGeolocation::getTable(),
+         'WHERE' => [
+            Computer::getForeignKeyField() => $computerId,
+         ],
+         'ORDER' => [
+            'date DESC',
+            'id DESC',
+         ],
+         'LIMIT' => '1',
+      ])->next();
 
       $this->notify($this->topic . "/Command/Geolocate",
          json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES), 0, 0);
@@ -1590,10 +1625,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
-         $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
-         $updatedPosition = array_pop($updatedPositionRows);
-         if ($lastPosition === null && $updatedPosition !== null
-            || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
+         $updatedPosition = $DB->request([
+            PluginFlyvemdmGeolocation::getTable(),
+            'WHERE' => [
+               Computer::getForeignKeyField() => $computerId,
+            ],
+            'ORDER' => [
+               'date DESC',
+               'id DESC',
+            ],
+            'LIMIT' => '1',
+         ])->next();
+         if ($lastPosition === false && $updatedPosition !== false
+            || $lastPosition !== false && $lastPosition['id'] != $updatedPosition['id']) {
             if ($updatedPosition['latitude'] == 'na') {
                throw new AgentSendQueryException(__('GPS is turned off or is not ready', 'flyvemdm'));
             }
@@ -1611,21 +1655,32 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
     * @throws AgentSendQueryException
     */
    private function sendInventoryQuery() {
+      global $DB;
+
       $this->notify($this->topic . "/Command/Inventory",
          json_encode(['query' => 'Inventory'], JSON_UNESCAPED_SLASHES), 0, 0);
 
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
       $inventory = new PluginFusioninventoryInventoryComputerComputer();
-      $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
-      $lastInventory = array_pop($inventoryRows);
-
+      $lastInventory = $DB->request([
+         'FROM'  => PluginFusioninventoryInventoryComputerComputer::getTable(),
+         'WHERE' => [
+            Computer::getForeignKeyField() => $computerId
+         ],
+         'LIMIT' => '1',
+      ])->next();
       $loopCount = 5 * 10; // 10 seconds
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
-         $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
-         $updatedInventory = array_pop($inventoryRows);
+         $updatedInventory = $DB->request([
+            'FROM'  => PluginFusioninventoryInventoryComputerComputer::getTable(),
+            'WHERE' => [
+               Computer::getForeignKeyField() => $computerId
+            ],
+            'LIMIT' => '1',
+         ])->next();
          if ($lastInventory === null && $updatedInventory !== null
             || $lastInventory !== null && $lastInventory != $updatedInventory) {
             Session::addMessageAfterRedirect(__('Inventory received', 'flyvemdm'));
