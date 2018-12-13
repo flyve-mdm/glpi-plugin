@@ -187,7 +187,7 @@ bind-address = 0.0.0.0
 		<tr class="tab_bg_1">
 			<td>
 				<p>{{ __('Be sure that the service is enabled in the plugin settings.', 'flyvemdm') }}</p>
-				<p><a href="../../../front/config.form.php?forcetab=Config$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
+				<p><a href="../../../plugins/flyvemdm/front/config.form.php?forcetab=PluginFlyvemdmConfig$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
 				<p>{{ __('As root in a terminal, execute the following command', 'flyvemdm') }}</p>
 				<p>apt-get install mosquitto mosquitto-auth-plugin</p>
 				<p>{{ __('Create', 'flyvemdm') }}&nbsp;/etc/mosquitto/conf.d/flyvemdm.conf
@@ -267,8 +267,8 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 			<tr class="tab_bg_1">
 				<td>
 					<p>{{ __('Be sure that the service is enabled in the plugin settings.', 'flyvemdm') }}</p>
-					<p>{{ __('Add your server key provided on your project in Firebase.', 'flyvemdm') }}</p>
-					<p><a href="../../../front/config.form.php?forcetab=Config$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
+					<p>{{ __('Add your server key provided on your project in Firebase. You can find it in Project settings > Cloud Messaging', 'flyvemdm') }}</p>
+					<p><a href="../../../plugins/flyvemdm/front/config.form.php?forcetab=PluginFlyvemdmConfig$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
 				</td>
 			</tr>
 		{% endif %}
