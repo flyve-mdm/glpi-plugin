@@ -4,11 +4,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Jose Augusto Ferronato <augusto.ferronato@gmail.com>, 2017
-# Halexsandro de Freitas Sales <halexsandro.sales@verdanatech.com>, 2017
-# Arthur Ramos Schaefer <arthur.r.schaefer@gmail.com>, 2018
 # Alexander Salas Bastidas <alexander.salas@gmail.com>, 2018
-# Marina Chaves <marinagc13@gmail.com>, 2018
+# SeongHyeon Cho <jaymz9634@gmail.com>, 2018
 # 
 #, fuzzy
 msgid ""
@@ -17,318 +14,317 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-03 08:43-0400\n"
 "PO-Revision-Date: 2017-02-09 10:42+0000\n"
-"Last-Translator: Marina Chaves <marinagc13@gmail.com>, 2018\n"
-"Language-Team: Portuguese (Brazil) (https://www.transifex.com/flyve-mdm/teams/69665/pt_BR/)\n"
+"Last-Translator: SeongHyeon Cho <jaymz9634@gmail.com>, 2018\n"
+"Language-Team: Korean (Korea) (https://www.transifex.com/flyve-mdm/teams/69665/ko_KR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: hook.php:81
 msgid "Invite to enroll a device"
-msgstr "Convite para registrar um dispositivo"
+msgstr "기기 등록 초대"
 
 #: hook.php:112
 msgid "Well known Android's FS paths"
-msgstr "Caminhos conhecidos do  sistema de arquivos do Android"
+msgstr "잘 알려진 안드로이드의 FS 경로"
 
 #: hook.php:113
 msgid "Policy Categories"
-msgstr "Categorias de políticas"
+msgstr "정책 범주"
 
 #: setup.php:211
 msgid "Flyve Mobile Device Management"
-msgstr "Flyve - Gerenciamento de Dispositivos Móveis"
+msgstr "Flyve 모바일 장치 관리"
 
 #: inc/agent.class.php:99
 msgid "Android"
-msgstr "Android"
+msgstr "안드로이드"
 
 #: inc/agent.class.php:100
 msgid "Apple"
-msgstr "maçã"
+msgstr "애플"
 
 #: inc/agent.class.php:110
 msgid "Agent"
 msgid_plural "Agents"
-msgstr[0] "Agente"
-msgstr[1] "Agentes"
+msgstr[0] "에이전트"
+msgstr[1] "에이전트"
 
 #: inc/agent.class.php:167
 msgid "Danger zone !"
-msgstr "Zona de perigo!"
+msgstr "위험 지역!"
 
 #: inc/agent.class.php:185
 msgid "Flyve MDM Agent"
-msgstr "Agente MDM Flyve"
+msgstr "Flyve MDM 단말기"
 
 #: inc/agent.class.php:243 inc/agent.class.php:358
 msgid "Never seen online"
-msgstr "Nunca visto on-line"
+msgstr "온라인에서 본 적 없음"
 
 #: inc/agent.class.php:277
 msgid "Lock the device as soon as possible"
-msgstr "Bloquear o dispositivo mais rápido possível"
+msgstr "가능한 빨리 기기 잠금"
 
 #: inc/agent.class.php:284
 msgid "Wipe the device as soon as possible"
-msgstr "Limpe o aparelho logo que possível"
+msgstr "가능한 빨리 기기 제거"
 
 #: inc/agent.class.php:437
 msgid "Failed to read configuration of the entity"
-msgstr "Falha ao carregar configurações da entidade"
+msgstr "요소의 구성 읽기 실패"
 
 #: inc/agent.class.php:443
 msgid "Too many devices"
-msgstr "Muitos dispositivos"
+msgstr "기기가 너무 많음"
 
 #: inc/agent.class.php:452
 msgid "Unable to find a enrollment method"
-msgstr "Impossível encontrar um método de inscrição"
+msgstr "등록 메서드를 찾을 수 없음"
 
 #: inc/agent.class.php:477
 msgid "The fleet of the device does not longer exists"
-msgstr "A frota do dispositivo não existe mais"
+msgstr "기기의 집합이 더 이상 존재하지 않습니다"
 
 #: inc/agent.class.php:484
 msgid "The target fleet does not exists"
-msgstr "A frota alvo não existe"
+msgstr "대상 집합이 존재하지 않습니다"
 
 #: inc/agent.class.php:515
 msgid "The device is not enrolled yet"
-msgstr "O dispositivo ainda não está inscrito"
+msgstr "기기가 아직 등록 되지 않았습니다"
 
 #: inc/agent.class.php:581
 msgid "Failed to find the guest user profile"
-msgstr "Falha ao buscar o perfil de usuário visitante"
+msgstr "손님 사용자 프로필 찾기 실패함"
 
 #: inc/agent.class.php:603
 msgid "Failed to remove guest habilitation for the user of the device"
-msgstr "Falha ao remover convidado habilitado para o usuário do dispositivo"
+msgstr "기기 사용자에 대한 손님 권한 부여 제거를 실패함"
 
 #: inc/agent.class.php:624
 msgid "Failed to delete MQTT user for the device"
-msgstr "Falha ao deletar usuário MQTT para o dispositivo"
+msgstr "기기의 MQTT 사용자 삭제 실패함"
 
 #: inc/agent.class.php:637
 msgid "Failed to delete documents attached to the device"
-msgstr "Falha ao deletar os documentos anexados ao dispositivo"
+msgstr "기기에 첨부된 문서 삭제 실패함"
 
 #: inc/agent.class.php:786 inc/fleet.class.php:76
 msgid "Fleet"
 msgid_plural "Fleets"
-msgstr[0] "Frota"
-msgstr[1] "Frota"
+msgstr[0] "함 대"
+msgstr[1] "집합"
 
 #: inc/agent.class.php:812
 msgid "Last contact"
-msgstr "Último contato"
+msgstr "최근 연락"
 
 #: inc/agent.class.php:830
 msgid "Is online"
-msgstr "Está online"
+msgstr "접속"
 
 #: inc/agent.class.php:839
 msgid "MDM type"
-msgstr "Tipo MDM"
+msgstr "MDM 유형"
 
 #: inc/agent.class.php:848
 msgid "Has system permission"
-msgstr "Tem permissão do sistema"
+msgstr "시스템 권한 가짐"
 
 #: inc/agent.class.php:857
 msgid "Enroll status"
-msgstr "Status da incrição"
+msgstr "등록 상태"
 
 #: inc/agent.class.php:866
 msgid "Wipe requested"
-msgstr "Limpeza solicitada"
+msgstr "완전 삭제 요청됨"
 
 #: inc/agent.class.php:875
 msgid "Lock requested"
-msgstr "Bloqueio solicitado"
+msgstr "잠금 요청됨"
 
 #: inc/agent.class.php:892 inc/fleet.class.php:261
 msgid "Applied policy"
-msgstr "Política aplicada"
+msgstr "적용된 정책"
 
 #: inc/agent.class.php:1121
 msgid "Invitation token invalid"
-msgstr "Token de Convite inválido"
+msgstr "잘못된 초청 토큰"
 
 #: inc/agent.class.php:1126
 msgid "One of serial and uuid is mandatory"
-msgstr "Um dos serial e uuid é obrigatório"
+msgstr "시리얼과 uuid 한개는 필수입니다"
 
 #: inc/agent.class.php:1133
 msgid "Device inventory XML is mandatory"
-msgstr "O inventário de dispositivos XML é obrigatório"
+msgstr "장치 인벤토리 XML은 필수입니다"
 
 #: inc/agent.class.php:1144
 msgid "Inventory XML is not well formed"
-msgstr "O inventário XML não é bem formado"
+msgstr "인벤토리 XML은 제대로 된 양식이 아닙니다"
 
 #: inc/agent.class.php:1151
 msgid "Agent version missing"
-msgstr "Versão do Agente faltando"
+msgstr "에이전트 버전 없음"
 
 #: inc/agent.class.php:1158
 msgid "MDM type missing"
-msgstr "Tipo de MDM ausente"
+msgstr "MDM 유형 누락"
 
 #: inc/agent.class.php:1165
 msgid "unknown MDM type"
-msgstr "tipo de MDM desconhecido"
+msgstr "알 수 없는 MDM 유형"
 
 #: inc/agent.class.php:1172
 msgid "Bad agent version"
-msgstr "Versão do agente errada"
+msgstr "잘못된 에이전트 버전"
 
 #: inc/agent.class.php:1181
 msgid "The agent version is too low"
-msgstr "A versão do agente é muito baixa"
+msgstr "단말기 버전이 너무 낮습니다"
 
 #: inc/agent.class.php:1191
 msgid "The agent does not advertise its system permissions"
-msgstr "O agente não anuncia suas permissões do sistema"
+msgstr "단말기가 자체 시스템 권한을 알리지 않습니다"
 
 #: inc/agent.class.php:1200
 msgid "Invitation is not pending"
-msgstr "Convite não está pendente"
+msgstr "초대장 대기 중"
 
 #: inc/agent.class.php:1208
 msgid "Expiration date of the invitation is not set"
-msgstr "Data de expiração do convite não informada"
+msgstr "초대장의 만료 날짜가 설정 되지 않음"
 
 #: inc/agent.class.php:1216
 msgid "Invitation token expired"
-msgstr "Token de convite expirou"
+msgstr "초대장 토큰 만료됨"
 
 #: inc/agent.class.php:1230
 msgid "Wrong email address"
-msgstr "Endereço de email errado"
+msgstr "잘못된 이메일 주소"
 
 #: inc/agent.class.php:1245
 msgid "Failed to sign the certificate"
-msgstr "Falha ao assinar o certificado"
+msgstr "인증서 서명 실패함"
 
 #: inc/agent.class.php:1266
 msgid "Failed to update the invitation"
-msgstr "Falha ao atualizar o convite"
+msgstr "초대장 갱신 실패함"
 
 #: inc/agent.class.php:1294
 msgid "Cannot get the FusionInventory agent"
-msgstr "Não é possível obter o agente FusionInventory"
+msgstr "FusionInventory 단말기를 얻을 수 없습니다"
 
 #: inc/agent.class.php:1302
 msgid "FusionInventory agent not created"
-msgstr "Agente FusionInventory não criado"
+msgstr "FusionInventory 단말기가 생성되지 않음"
 
 #: inc/agent.class.php:1310
 msgid "Cannot create the device"
-msgstr "Não foi possível criar o dispositivo"
+msgstr "기기 생성 할 수 없음"
 
 #: inc/agent.class.php:1353
 msgid "Cannot create a user account for the agent"
-msgstr "Não é possível criar uma conta de usuário para o agente"
+msgstr "단말기에 사용자 계정을 생성할 수 없음"
 
 #: inc/agent.class.php:1361
 msgid "Cannot create the API token for the agent"
-msgstr "Não é possível criar o token da API para o agente"
+msgstr "단말기에 API 토큰을 생성할 수 없습니다"
 
 #: inc/agent.class.php:1370
 msgid "No default fleet available for the device"
-msgstr "Não existe frota padrão para o dispositivo"
+msgstr "기기에 사용 할 기본 집합이 없음"
 
 #: inc/agent.class.php:1554
 msgid "GPS is turned off or is not ready"
-msgstr "O GPS está desligado ou não está pronto"
+msgstr "GPS가 꺼져 있거나 준비 되지 않음"
 
 #: inc/agent.class.php:1556
 msgid "The device sent its position"
-msgstr "O dispositivo enviou sua posição"
+msgstr "장치는 자체의 위치를 전송합니다"
 
 #: inc/agent.class.php:1560
 msgid "Timeout requesting position"
-msgstr "Tempo esgotado ao solicitar a localização"
+msgstr "위치 요청 시간 초과"
 
 #: inc/agent.class.php:1587
 msgid "Inventory received"
-msgstr "Inventário recebido"
+msgstr "재고 수신됨"
 
 #: inc/agent.class.php:1591
 msgid "Timeout querying the device inventory"
-msgstr "Esgotado tempo limite para pesquisar inventário no dispositivo"
+msgstr "기기 재고 쿼리 시간 초과"
 
 #: inc/agent.class.php:1611
 msgid "The device answered"
-msgstr "O dispositivo respondeu"
+msgstr "장치 응답함"
 
 #: inc/agent.class.php:1615
 msgid "Timeout querying the device"
-msgstr "Esgotado tempo limite para pesquisar o dispositivo"
+msgstr "기기에 대한 쿼리 시간 초과"
 
 #: inc/agent.class.php:1839
 msgid "Enrollment failed"
-msgstr "Falha ao cadastrar"
+msgstr "등록 실패"
 
 #: inc/config.class.php:140
 msgid "Installation wizard"
-msgstr "Assistente de instalação"
+msgstr "설치 마법사"
 
 #: inc/config.class.php:142
 msgid "General configuration"
-msgstr "Configuração geral"
+msgstr "일반 구성"
 
 #: inc/config.class.php:143 inc/menu.class.php:119
 msgid "Message queue"
-msgstr "Fila de mensagens"
+msgstr "메시지 큐"
 
 #: inc/config.class.php:144 inc/menu.class.php:122
 msgid "Debug"
-msgstr "Depurar"
+msgstr "디버그"
 
 #: inc/config.class.php:217
 msgid "Bugcollector password"
-msgstr "Senha do bugcollector"
+msgstr "버그 수집기 비밀번호"
 
 #: inc/config.class.php:363
 msgid "Finish"
-msgstr "Terminar"
+msgstr "종료"
 
 #: inc/config.class.php:363
 msgid "Next"
-msgstr "Próximo"
+msgstr "다음"
 
 #: inc/deployable.class.php:154
 msgid "Deploy notification failed"
-msgstr "A notificação de implantação falhou"
+msgstr "배포 알림 실패함"
 
 #: inc/entityconfig.class.php:134
 msgid "You are not allowed to change the device limit"
-msgstr "Você não tem permissão para alterar o limite de dispositivos"
+msgstr "장치 제한 변경이 허용되지 않았습니다"
 
 #: inc/entityconfig.class.php:141
 msgid "You are not allowed to change the download URL of the MDM agent"
-msgstr ""
-"Você não tem permissão para alterar o URL de download do agente do MDM"
+msgstr "MDM 단말기의 다운로드 URL 변경이 허용되지 않았습니다"
 
 #: inc/entityconfig.class.php:148
 msgid "You are not allowed to change the invitation token life"
-msgstr "Você não tem permissão para alterar a vida do token de convite"
+msgstr "초대 토큰 수명 변경이 허용되지 않았습니다"
 
 #: inc/entityconfig.class.php:194
 msgid "The agent token life invalid or too long"
-msgstr "A vida útil do token do agente é inválida ou muito longa"
+msgstr "에이전트 토큰 수명이 잘못되었거나 너무 김"
 
 #: inc/entityconfig.class.php:286
 msgid "Flyve MDM supervision"
-msgstr "Supervisão MDM Flyve"
+msgstr "Flyve MDM 감독"
 
 #: inc/entityconfig.class.php:379
 msgid "Helpdesk information"
-msgstr "Informação de helpdesk"
+msgstr "안내 데스크 정보"
 
 #: inc/entityconfig.class.php:429 inc/invitation.class.php:67
 #: inc/notificationtargetinvitation.class.php:50
@@ -336,373 +332,362 @@ msgstr "Informação de helpdesk"
 #: install/upgrade_to_2_0.php:344
 msgid "Invitation"
 msgid_plural "Invitations"
-msgstr[0] "Convite"
-msgstr[1] "Convites"
+msgstr[0] "초대"
+msgstr[1] "초대장"
 
 #: inc/file.class.php:62
 msgid "File"
 msgid_plural "Files"
-msgstr[0] "Arquivo"
-msgstr[1] "Arquivos"
+msgstr[0] "파일"
+msgstr[1] "파일"
 
 #: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:524
 msgid "File uploaded without name"
-msgstr "Arquivo carregado sem nome"
+msgstr "파일 이름 없이 업로드 됨"
 
 #: inc/file.class.php:102
 msgid "Failed to store the uploaded file"
-msgstr "Falha ao armazenar o arquivo enviado"
+msgstr "업로드 된 파일 저장 실패함"
 
 #: inc/file.class.php:170 inc/package.class.php:545 inc/package.class.php:550
 #: inc/package.class.php:558
 msgid "No file uploaded"
-msgstr "Nenhum arquivo carregado"
+msgstr "업로드 된 파일 없음"
 
 #: inc/file.class.php:176 inc/package.class.php:565
 msgid "File upload failed"
-msgstr "Falha ao enviar arquivo"
+msgstr "파일 업로드 실패"
 
 #: inc/file.class.php:185
 msgid "Temp directory doesn't exist"
-msgstr "Diretório temporário não existe"
+msgstr "임시 디렉터리 존재하지 않음"
 
 #: inc/fleet.class.php:188
 msgid "No default fleet found to move devices"
-msgstr "Nenhuma frota padrão disponível para mover o dispositivo"
+msgstr "기기 이동에 대한 기본 집합 없음"
 
 #: inc/fleet.class.php:198
 msgid "Could not move all devices to the not managed fleet"
-msgstr ""
-"Não foi possível mover todos os dispositivos para a frota não gerenciada"
+msgstr "관리되지 않는 집합으로 모든 기기들을 이동 할 수 없음"
 
 #: inc/fleet.class.php:227
 msgid "Could not delete policies on the fleet"
-msgstr "Não foi possível eliminar políticas na frota"
+msgstr "집합의 정책을 삭제 할 수 없음"
 
 #: inc/fleet.class.php:465 install/install.class.php:255
 msgid "not managed fleet"
-msgstr "Frota não gerenciada"
+msgstr "관리되지 않는 집합"
 
 #: inc/fleet.class.php:549
 msgid "Persisted notification not updated."
-msgstr "Notificação persistente não atualizada."
+msgstr "지속된 알림이 갱신되지 않았습니다."
 
 #: inc/fusioninventory.class.php:52
 msgid "Unable to get rule for entity"
-msgstr "Não é possível obter regra para entidade"
+msgstr "요소에 대한 규칙 획득을 할 수 없음"
 
 #: inc/geolocation.class.php:67
 msgid "Geolocation"
 msgid_plural "Geolocations"
-msgstr[0] "Geolocalização"
-msgstr[1] "Geolocalizações"
+msgstr[0] "지리적 위치"
+msgstr[1] "지리위치"
 
 #: inc/geolocation.class.php:165
 msgid "associated device is mandatory"
-msgstr "Dispositivo associado é obrigatório"
+msgstr "관련된 장치는 필수입니다"
 
 #: inc/geolocation.class.php:169 inc/geolocation.class.php:204
 msgid "latitude and longitude are mandatory"
-msgstr "latitude e longitude são obrigatórios"
+msgstr "위도 및 경도 필수는 필수입니다"
 
 #: inc/geolocation.class.php:179 inc/geolocation.class.php:221
 msgid "latitude is invalid"
-msgstr "Latitude é inválida"
+msgstr "잘못된 위도"
 
 #: inc/geolocation.class.php:183 inc/geolocation.class.php:228
 msgid "longitude is invalid"
-msgstr "Longitude é inválida"
+msgstr "잘못된 경도"
 
 #: inc/geolocation.class.php:190 inc/geolocation.class.php:212
 msgid "Device not found"
-msgstr "Dispositivo não encontrado"
+msgstr "기기를 찾을 수 없음"
 
 #: inc/graph.class.php:57 inc/graph.class.php:65
 msgid "Invitations"
-msgstr "Convites"
+msgstr "초대장"
 
 #: inc/graph.class.php:59
 msgid "No invitations stats available, send one first."
-msgstr "Não há estatísticas de convites disponíveis, envie um primeiro."
+msgstr "사용 가능한 초대 상태가 없습니다, 먼저 발송을 하세요."
 
 #: inc/graph.class.php:67 inc/graph.class.php:72 inc/invitation.class.php:57
 #: inc/policybase.class.php:80
 msgid "Done"
-msgstr "Feito"
+msgstr "완료"
 
 #: inc/graph.class.php:68 inc/graph.class.php:76 inc/invitation.class.php:56
 #: inc/policybase.class.php:78
 msgid "Pending"
-msgstr "Pendente"
+msgstr "보류 중"
 
 #: inc/graph.class.php:116 inc/graph.class.php:137
 msgid "Devices per operating system version"
-msgstr "Dispositivos por versão do sistema operacional"
+msgstr "운영 체제 버전 당 기기"
 
 #: inc/graph.class.php:118
 msgid ""
 "No devices stats available, enrol or import your mobile computer assets "
 "first"
-msgstr ""
-"Não há estatísticas de dispositivos disponíveis, inscreva-se ou importe os "
-"recursos do seu computador móvel primeiro"
+msgstr "사용 가능한 장치 "
 
 #: inc/invitation.class.php:98 inc/invitation.class.php:104
 msgid "Email address is invalid"
-msgstr "Endereço de e-mail inválido"
+msgstr "이메일 주소가 유효하지 않음"
 
 #: inc/invitation.class.php:147
 msgid "Cannot create the user"
-msgstr "Não foi possível criar o usuário"
+msgstr "사용자를 만들 수 없음"
 
 #: inc/invitation.class.php:155
 msgid ""
 "The user already exists and has been deleted. You must restore or purge him "
 "first."
-msgstr ""
-"O usuário já existe e foi excluído. Você deve restaurá-lo ou expurga-lo "
-"primeiro."
+msgstr "사용자가 이미 존재하고 삭제되었습니다. 복원하거나 그를 먼저 삭제해야 합니다."
 
 #: inc/invitation.class.php:196
 msgid "Invalid token expiration date interval"
-msgstr "Intervalo de data de expiração do token inválido"
+msgstr "잘못된 토큰 만료 일자 기간"
 
 #: inc/invitation.class.php:313
 msgid "Cannot delete the document. Delete the attached invitation first"
-msgstr ""
-"Não foi possível deletar o documento. Delete o convite anexado primeiro"
+msgstr "문서를 삭제할 수 없습니다. 먼저 첨부된 초대장을 삭제하세요"
 
 #: inc/invitation.class.php:375 inc/notificationtargetinvitation.class.php:68
 msgid "Enrollment QR code"
-msgstr "\"QR code\" de inscrição"
+msgstr "등록 QR 코드"
 
 #: inc/invitationlog.class.php:49 inc/invitationlog.class.php:74
 msgid "Invitation log"
 msgid_plural "Invitation logs"
-msgstr[0] "Log de Convite"
-msgstr[1] "Logs de Convites"
+msgstr[0] "초대 로그"
+msgstr[1] "초대 로그"
 
 #: inc/menu.class.php:93
 msgid "General"
-msgstr "Geral"
+msgstr "일반"
 
 #: inc/menu.class.php:115
 msgid "Configuration"
-msgstr "Configuração"
+msgstr "구성"
 
 #: inc/mqttlog.class.php:66
 msgid "MQTT subscriber"
 msgid_plural "MQTT subscribers"
-msgstr[0] "MQTT assinante"
-msgstr[1] "MQTT assinantes"
+msgstr[0] "MQTT 구독자"
+msgstr[1] "MQTT 구독자"
 
 #: inc/notificationtargetinvitation.class.php:67
 msgid "Link to download the FlyveMDM Android application"
-msgstr "Link para download do FlyveMDM para Android"
+msgstr "FlyveMDM 안드로이드 응용프로그램 다운로드 링크"
 
 #: inc/notificationtargetinvitation.class.php:69
 msgid "Enrollment URL"
-msgstr "URL de inscrição"
+msgstr "등록 URL"
 
 #: inc/notificationtargetinvitation.class.php:70
 msgid "First name of the Flyve MDM fleets manager"
-msgstr "Primeiro nome do gerente de frotas do Flyve MDM"
+msgstr "Flyve MDM 집합 관리자의 이름"
 
 #: inc/notificationtargetinvitation.class.php:71
 msgid "Last name of the Flyve MDM fleets manager"
-msgstr "Sobrenome do gerente de frotas do Flyve MDM"
+msgstr "Flyve MDM 집합 관리자의 성"
 
 #: inc/notificationtargetinvitation.class.php:72
 msgid "Name of the helpdesk"
-msgstr "Nome do helpdesk"
+msgstr "안내 데스크 명"
 
 #: inc/notificationtargetinvitation.class.php:73
 msgid "Phone number of the helpdesk"
-msgstr "Número de telefone do helpdesk"
+msgstr "안내 데스크 전화 번호"
 
 #: inc/notificationtargetinvitation.class.php:74
 msgid "Website of the helpdesk"
-msgstr "Website do helpdesk"
+msgstr "안내 데스크 웹사이트"
 
 #: inc/notificationtargetinvitation.class.php:75
 msgid "Email address of the helpdesk"
-msgstr "Endereço de email do helpdesk"
+msgstr "안내 데스크 이메일 주소"
 
 #: inc/notificationtargetinvitation.class.php:76
 msgid "Address of the helpdesk"
-msgstr "Endereço do helpdesk"
+msgstr "안내 데스크 주소"
 
 #: inc/notificationtargetinvitation.class.php:152
 msgid "Guest user"
-msgstr "Usuário convidado"
+msgstr "손님 사용자"
 
 #: inc/package.class.php:62
 msgid "Package"
 msgid_plural "Packages"
-msgstr[0] "Pacote"
-msgstr[1] "Pacotes"
+msgstr[0] "패키지"
+msgstr[1] "패키지"
 
 #: inc/package.class.php:99
 msgid "Package Flyve MDM"
 msgid_plural "Packages Flyve MDM"
-msgstr[0] "Pacote Flyve MDM"
-msgstr[1] "Pacotes Flyve MDM"
+msgstr[0] "패키지 Flyve MDM"
+msgstr[1] "패키지 Flyve MDM"
 
 #: inc/package.class.php:202 inc/package.class.php:254
 msgid "Unable to save the file"
-msgstr "Impossibilitado de salvar o arquivo"
+msgstr "파일을 저장할 수 없음"
 
 #: inc/package.class.php:207
 msgid "Could not parse the APK file"
-msgstr "Não foi possível analisar o arquivo APK"
+msgstr "APK 파일을 구문 분석할 수 없음"
 
 #: inc/package.class.php:409
 msgid "Parse an application to find metadata"
-msgstr "Analisar um aplicativo para encontrar metadados"
+msgstr "메타데이터 찾기를 위한 응용프로그램 분석"
 
 #: inc/package.class.php:530
 msgid "Only APK and UPK files are allowed"
-msgstr "São permitidos apenas os arquivos APK e UPK"
+msgstr "APK와 UPK 파일만이 허용됨"
 
 #: inc/policy.class.php:86 inc/policy.class.php:106
 msgid "Policy"
 msgid_plural "Policies"
-msgstr[0] "Política"
-msgstr[1] "Políticas"
+msgstr[0] "정책"
+msgstr[1] "정책"
 
 #: inc/policy.class.php:122 inc/policycategory.class.php:51
 #: inc/policycategory.class.php:67
 msgid "Policy category"
 msgid_plural "Policy categories"
 msgstr[0] ""
-msgstr[1] ""
 
 #: inc/policy.class.php:139
 msgid "Enumeration data"
-msgstr "Dados de enumeração"
+msgstr "열거형 자료"
 
 #: inc/policy.class.php:157
 msgid "Default value"
-msgstr "Valor padrão"
+msgstr "기본값"
 
 #: inc/policy.class.php:166
 msgid "Recommended value"
-msgstr "Valor recomendado"
+msgstr "권장 값"
 
 #: inc/policy.class.php:175
 msgid "Requires system permission"
-msgstr "Requer permissão do sistema"
+msgstr "시스템 권한이 필요합니다"
 
 #: inc/policy.class.php:184
 msgid "Android minimum version"
-msgstr "Versão mínima do Android"
+msgstr "안드로이드 최소 버전"
 
 #: inc/policy.class.php:193
 msgid "Android maximum version"
-msgstr "Versão máxima do Android"
+msgstr "안드로이드 최대 버전"
 
 #: inc/policy.class.php:202
 msgid "Apple minimum version"
-msgstr "Versão mínima da Apple"
+msgstr "애플 최소 버전"
 
 #: inc/policy.class.php:211
 msgid "Apple maximum version"
-msgstr "Versão máxima da Apple"
+msgstr "수신됨"
 
 #: inc/policybase.class.php:79
 msgid "Received"
-msgstr "Recebido"
+msgstr "수신됨"
 
 #: inc/policybase.class.php:81
 msgid "Failed"
-msgstr "Falhou"
+msgstr "실패함"
 
 #: inc/policybase.class.php:82
 msgid "Canceled"
-msgstr "Cancelado"
+msgstr "취소됨"
 
 #: inc/policybase.class.php:83
 msgid "Incompatible"
-msgstr "Incompatível"
+msgstr "호환안됨"
 
 #: inc/policybase.class.php:89
 msgid "Overriden"
-msgstr "Sobrescrito"
+msgstr "중첩됨"
 
 #: inc/policybase.class.php:278
 #, php-format
 msgid "Compatibility with Android up to %1$s."
-msgstr "Compatibilidade com o Android até .%1$s"
+msgstr "안드로이드 %1$s 이상의 호환성."
 
 #: inc/policybase.class.php:284
 #, php-format
 msgid "Compatibility with Android from %1$s."
-msgstr "Compatibilidade com o Android de %1$s."
+msgstr "안드로이드 %1$s 부터의 호환성."
 
 #: inc/policybase.class.php:290
 #, php-format
 msgid "Compatibility with Android %1$s to %2$s."
-msgstr "Compatibilidade com o Android %1$s para %2$s."
+msgstr "안드로이드 %1$s 에서 %2$s 까지의 호환성."
 
 #: inc/policydeployapplication.class.php:64
 msgid "The remove on delete flag is mandatory"
-msgstr "A Flag de remoção para exclusão é obrigatório"
+msgstr "삭제 플래그 제거는 필수입니다"
 
 #: inc/policydeployapplication.class.php:70 inc/policydeployfile.class.php:70
 msgid "The remove on delete flag must be 0 or 1"
-msgstr "A Flag de remoção deve ser 0 ou 1"
+msgstr "삭제 플래그의 제거는 0 또는 1 이어야 함"
 
 #: inc/policydeployapplication.class.php:76
 msgid "You must choose an application to apply this policy"
-msgstr "Você deve escolher um aplicativo para aplicar esta política"
+msgstr "이 정책을 적용할 응용프로그램을 선택해야 합니다"
 
 #: inc/policydeployapplication.class.php:83
 #: inc/policydeployapplication.class.php:146
 msgid "The application does not exists"
-msgstr "A aplicação não existe"
+msgstr "응용 프로그램이 없음"
 
 #: inc/policydeployapplication.class.php:167
 msgid ""
 "A removal policy for this application is applied. Please, remove it first."
-msgstr ""
-"Uma política para remoção deste aplicativo foi adicionada. Por favor, "
-"remova-a primeiro."
+msgstr "이 응용프로그램에 제거 정책이 적용되어 있습니다. 그것을 먼저 제거하세요."
 
 #: inc/policydeployapplication.class.php:274
 #: inc/policydeployfile.class.php:332
 #: inc/policyremoveapplication.class.php:109
 #: inc/policyremovefile.class.php:108
 msgid "Waiting"
-msgstr "Esperando"
+msgstr "대기중"
 
 #: inc/policydeployfile.class.php:64
 msgid "A destination and the remove on delete flag are mandatory"
-msgstr "Um destino e uma marcação de exclusão são obrigatórios para apagar"
+msgstr "대상과 삭제 플래그의 제거는 필수입니다"
 
 #: inc/policydeployfile.class.php:76
 msgid "You must choose a file to apply this policy"
-msgstr "Você deve escolher um arquivo para aplicar essa política"
+msgstr "이 정책을 적용할 파일을 선택해야 합니다"
 
 #: inc/policydeployfile.class.php:83
 msgid "The file does not exists"
-msgstr "Este arquivo não existe"
+msgstr "파일이 존재 하지 않습니다."
 
 #: inc/policydeployfile.class.php:89 inc/policydeployfile.class.php:95
 #: inc/policydeployfile.class.php:122
 msgid "invalid base path"
-msgstr "Caminho base inválido"
+msgstr "잘못된 기본 경로"
 
 #: inc/policydeployfile.class.php:204
 msgid ""
 "A removal policy is applied for this file destination. Please, remove it "
 "first."
-msgstr ""
-"Uma política de remoção foi aplicada para esse destino de arquivo. Por "
-"favor, remova-o primeiro."
+msgstr "제거 정책이 대상 파일에  적용되어 있습니다. 먼저 그것을 제거 하십시오."
 
 #: inc/policyremoveapplication.class.php:60
 msgid "An application ID is required"
-msgstr "Uma ID de aplicação é necessária"
+msgstr "응용프로그램 ID가 필요함"
 
 #: inc/profile.class.php:100
 msgid "Flyve MDM"
@@ -712,465 +697,442 @@ msgstr "Flyve MDM"
 msgid "Task"
 msgid_plural "Tasks"
 msgstr[0] ""
-msgstr[1] ""
 
 #: inc/task.class.php:157
 msgid "Notifiable and policy must be specified"
-msgstr "Notificável e política deve ser especificada"
+msgstr "통지가능과 정책을 지정해야 함"
 
 #: inc/task.class.php:166 inc/task.class.php:246 inc/task.class.php:339
 msgid "Policy not found"
-msgstr "Política não encontrada"
+msgstr "정책 없음"
 
 #: inc/task.class.php:174 inc/task.class.php:284
 msgid "Incorrect value for this policy"
-msgstr "Valor incorreto para essa política"
+msgstr "이 정책에 잘못된 값"
 
 #: inc/task.class.php:184
 msgid "This is not a notifiable object"
-msgstr "Este não é um objeto notificável"
+msgstr "이것은 통지가능한 객체가 아닙니다"
 
 #: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
-msgstr "Não é possível encontrar o objeto notificável"
+msgstr "통지가능한 객체를 찾을 수 없음"
 
 #: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
-msgstr "Não é possível aplicar uma política em uma frota não gerenciada"
+msgstr "관리되지 않는 집합에 정책을 적용 할 수 없음"
 
 #: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
-msgstr "Política já aplicada"
+msgstr "이미 적용된 정책"
 
 #: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
-msgstr "Os requisitos para esta política não são atendidos"
+msgstr "이 정책의 요구사항에 맞지 않음"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
 #: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
-msgstr "Não é possível encontrar o alvo %1$s"
+msgstr "대상 %1$s를 찾을 수 없음"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
 #: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
-msgstr "Não é possível aplicar uma política neste %1$s"
+msgstr "이 %1$s에 정책을 적용할 수 없음"
 
 #: inc/task.class.php:306
 msgid "Failed to apply the policy"
-msgstr "Falha ao aplicar politica"
+msgstr "정책 적용 실패함"
 
 #: inc/task.class.php:318 inc/task.class.php:328
 msgid "Policy publish action failed."
-msgstr "A ação de publicação de política falhou."
+msgstr "정책 배포 동작이 실패되었습니다."
 
 #: inc/task.class.php:345
 #, php-format
 msgid "%1$s not found"
-msgstr "%1$s não encontrado"
+msgstr "%1$s 찾을 수 없음"
 
 #: inc/task.class.php:530
 msgid "Policy ID"
-msgstr "ID da política"
+msgstr "정책 ID"
 
 #: inc/task.class.php:557
 msgid "policy name"
-msgstr "nome da política"
+msgstr "정책 명"
 
 #: inc/task.class.php:566
 msgid "applied itemtype"
-msgstr "tipo de item aplicado"
+msgstr "적용된 항목유형"
 
 #: inc/task.class.php:575
 msgid "applied ID"
-msgstr "ID aplicado"
+msgstr "적용된 ID"
 
 #: inc/taskstatus.class.php:47
 msgid "Task status"
-msgstr "Status da tarefa"
+msgstr "작업 상태"
 
 #: inc/taskstatus.class.php:395
 msgid "Status"
-msgstr "Status"
+msgstr "상태"
 
 #: inc/wellknownpath.class.php:50
 msgid "Well known path"
-msgstr "Caminho bem conhecido"
+msgstr "잘 알려진 경로"
 
 #: install/install.class.php:269
 msgid "Flyve MDM guest users"
-msgstr "Usuários visitantes do Flyve MDM"
+msgstr "Flyve MDM 손님 사용자"
 
 #: install/install.class.php:270
 msgid ""
 "guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
-msgstr ""
-"usuários visitantes do Flyve MDM. Criado por Flive MDM - NÃO modifique este "
-"comentário."
+msgstr "Flyve MDM 사용자는 손님입니다. Flyve MDM가 생성함 - 이 덧글을 수정하지 마십시오."
 
 #: install/install.class.php:287
 msgid "Flyve MDM device agent users"
-msgstr "Usuários do agente de dispositivo Flyve MDM"
+msgstr "Flyve MDM 장치 단말기 사용자"
 
 #: install/install.class.php:288
 msgid ""
 "device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
 "comment."
-msgstr ""
-"agente do dispositivo Flyve MDM users. Criado por Flyve MDM - NÃO modifique "
-"este comentário."
+msgstr "장치 단말기 Flyve MDM  사용자. Flyve MDM 가 생성함 - 이 댓글을 수정하지 마세요."
 
 #: install/install.class.php:352
 msgid "User invitation"
-msgstr "Convite Usuário"
+msgstr "사용자 초대"
 
 #: install/install.class.php:554
 msgid "Parse uploaded applications to collect metadata"
-msgstr "Analisar aplicativos enviados para coletar metadados"
+msgstr "메타데이터 수집을 위한 업로드된 응용프로그램 분석"
 
 #: install/install.class.php:716
 msgid "Security"
-msgstr "Segurança"
+msgstr "보안"
 
 #: install/install.class.php:719
 msgid "Authentication"
-msgstr "Autenticação"
+msgstr "인증"
 
 #: install/install.class.php:722 install/policies/password.php:46
 msgid "Password"
-msgstr "Senha"
+msgstr "암호"
 
 #: install/install.class.php:725
 msgid "Encryption"
-msgstr "Criptografia"
+msgstr "암호화"
 
 #: install/install.class.php:728
 msgid "Peripherals"
-msgstr "Periféricos"
+msgstr "주변기기"
 
 #: install/install.class.php:731
 msgid "Deployment"
-msgstr "Implantação"
+msgstr "배포"
 
 #: install/policies/deployment.php:39
 msgid "Deploy application"
-msgstr "Implantar aplicação"
+msgstr "응용프로그램 배포"
 
 #: install/policies/deployment.php:46
 msgid "Deploy an application on the device."
-msgstr "Implante um aplicativo no dispositivo."
+msgstr "장치에 응용프로그램을 배포합니다."
 
 #: install/policies/deployment.php:58
 msgid "Remove application"
-msgstr "Remover aplicação"
+msgstr "응용프로그램 제거"
 
 #: install/policies/deployment.php:65
 msgid "Uninstall an application on the device."
-msgstr "Desinstale um aplicativo no dispositivo."
+msgstr "장치에 응용프로그램을 제거합니다."
 
 #: install/policies/deployment.php:77
 msgid "Deploy file"
-msgstr "Implantar arquivo"
+msgstr "파일 배포"
 
 #: install/policies/deployment.php:84
 msgid "Deploy a file on the device."
-msgstr "Implante um arquivo no dispositivo."
+msgstr "장치에 파일을 배포합니다."
 
 #: install/policies/deployment.php:95
 msgid "Remove file"
-msgstr "Remover arquivo"
+msgstr "파일 제거"
 
 #: install/policies/deployment.php:102
 msgid "Uninstall a file on the device."
-msgstr "Desinstale um arquivo no dispositivo."
+msgstr "장치에 파일을 제거합니다."
 
 #: install/policies/deployment.php:114
 msgid "Disable unknown sources"
-msgstr "Desativar fontes desconhecidas"
+msgstr "알 수 없는 소스 비활성화"
 
 #: install/policies/deployment.php:121
 msgid "Disable installation of apps from unknown sources."
-msgstr "Desativar a instalação de aplicativos de fontes desconhecidas."
+msgstr "알 수 없는 출처의 응용프로그램의 설치를 비활성화합니다."
 
 #: install/policies/encryption.php:39
 msgid "Internal Storage encryption"
-msgstr "Criptografia de armazenamento interno"
+msgstr "내부 저장소 암호화"
 
 #: install/policies/encryption.php:46
 msgid "Force internal storage encryption."
-msgstr "Forçar criptografia de armazenamento interno."
+msgstr "강제로 내부 저장소를 암호화합니다."
 
 #: install/policies/mdm.php:46
 msgid "Periodic geolocation"
-msgstr "Geolocalização periódica"
+msgstr "주기적 지리위치"
 
 #: install/policies/mdm.php:55
 msgid ""
 "Get geolocation with a specified periodicity (in seconds) and sends it to "
 "the server."
-msgstr ""
-"Obter geolocalização com uma periodicidade especificada (em segundos) e "
-"envia para o servidor."
+msgstr "지리적 위치를 지정된 주기 (초 단위)로 가져와서 서버로 전송합니다."
 
 #: install/policies/password.php:39
 msgid "Password enabled"
-msgstr "Uso de senha habilitado"
+msgstr "암호 사용"
 
 #: install/policies/password.php:44
 msgid "No"
-msgstr "Não"
+msgstr "없음"
 
 #: install/policies/password.php:45
 msgid "Pin"
-msgstr "PIN"
+msgstr "핀"
 
 #: install/policies/password.php:50
 msgid "Enable the password."
-msgstr "Ative a senha."
+msgstr "비밀번호를 활성화 합니다."
 
 #: install/policies/password.php:61
 msgid "Minimum password length"
-msgstr "Tamanho mínimo de senha"
+msgstr "최소 암호 길이"
 
 #: install/policies/password.php:70
 msgid ""
 "Set the required number of characters for the password. For example, you can"
 " require PIN or passwords to have at least six characters."
-msgstr ""
-"Defina o número necessário de caracteres para a senha. Por exemplo, você "
-"pode exigir que o PIN ou as senhas tenham pelo menos seis caracteres."
+msgstr "암호에 필요한 문자 수를 설정합니다. 예를들어, PIN 또는 암호를 6 자 이상으로 입력하도록 요구할 수 있습니다."
 
 #: install/policies/password.php:82
 msgid "Password quality"
-msgstr "Qualidade de senha"
+msgstr "암호 품질"
 
 #: install/policies/password.php:87
 msgid "Unspecified"
-msgstr "Não especificado"
+msgstr "지정되지 않음"
 
 #: install/policies/password.php:88
 msgid "Something"
-msgstr "Algo"
+msgstr "어떤것"
 
 #: install/policies/password.php:89
 msgid "Numeric"
-msgstr "Numérico"
+msgstr "숫자"
 
 #: install/policies/password.php:90
 msgid "Alphabetic"
-msgstr "Alfabético"
+msgstr "알파벳"
 
 #: install/policies/password.php:91
 msgid "Alphanumeric"
-msgstr "Alfanumérico"
+msgstr "영숫자"
 
 #: install/policies/password.php:92
 msgid "Complex"
-msgstr "Complexidade"
+msgstr "복합적"
 
 #: install/policies/password.php:96
 msgid "Complexity of allowed password."
-msgstr "Complexidade da senha permitida."
+msgstr "허용된 비밀번호의 복잡성"
 
 #: install/policies/password.php:108
 msgid "Minimum letters required in password"
-msgstr "Mínimo de letras necessárias na senha"
+msgstr "암호 필수 최소 글자수"
 
 #: install/policies/password.php:118
 msgid ""
 "The minimum number of letters required in the password for all admins or a "
 "particular one."
-msgstr ""
-"O número mínimo de letras requeridas na senha para todos os administradores "
-"ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 글자 수."
 
 #: install/policies/password.php:130
 msgid "Minimum lowercase letters required in password"
-msgstr "Mínimo de letras minúsculas necessárias na senha"
+msgstr "필수 암호 최소 소문자 글자수"
 
 #: install/policies/password.php:140
 msgid ""
 "The minimum number of lowercase letters required in the password for all "
 "admins or a particular one."
-msgstr ""
-"O número mínimo de letras minúsculas requeridas na senha para todos os "
-"administradores ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 소문자 수입니다."
 
 #: install/policies/password.php:152
 msgid "Minimum non-letter characters required in password"
-msgstr "Mínimo de caracteres que não sejam letras necessários na senha"
+msgstr "필수 암호 최소 비-문자 글자 수"
 
 #: install/policies/password.php:162
 msgid ""
 "The minimum number of non-letter characters required in the password for all"
 " admins or a particular one."
-msgstr ""
-"O número mínimo de caracteres que não são letras requeridos na senha para "
-"todos os administradores ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 비-문자 수."
 
 #: install/policies/password.php:174
 msgid "Minimum numerical digits required in password"
-msgstr "Mínimo de dígitos numéricos necessários na senha"
+msgstr "필수 암호 최소 숫자 자릿수"
 
 #: install/policies/password.php:184
 msgid ""
 "The minimum number of numerical digits required in the password for all "
 "admins or a particular one."
-msgstr ""
-"O número mínimo de dígitos numéricos requeridos na senha para todos os "
-"administradores ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 숫자 자릿 수."
 
 #: install/policies/password.php:196
 msgid "Minimum symbols required in password"
-msgstr "Mínimo de símbolos necessários na senha"
+msgstr "필수 암호 최소 특수문자 수"
 
 #: install/policies/password.php:206
 msgid ""
 "The minimum number of symbols required in the password for all admins or a "
 "particular one."
-msgstr ""
-"O número mínimo de símbolos requeridos na senha para todos os "
-"administradores ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 기호 수."
 
 #: install/policies/password.php:218
 msgid "Minimum uppercase letters required in password"
-msgstr "Mínimo de letras maiúsculas necessárias na senha"
+msgstr "필 수 암호 최소 대문자 수"
 
 #: install/policies/password.php:228
 msgid ""
 "The minimum number of uppercase letters required in the password for all "
 "admins or a particular one."
-msgstr ""
-"O número mínimo de letras maiúsculas exigidas na senha para todos os "
-"administradores ou um em particular."
+msgstr "모든 관리자 또는 특정 관리자의 비밀번호에 필요한 최소 대문자 수입니다."
 
 #: install/policies/password.php:240
 msgid "Maximum failed password attempts for wipe"
-msgstr "Máximo de tentativas de senha com falha para limpeza"
+msgstr "완전 삭제에 대한 최대 비밀번호 시도 횟수"
 
 #: install/policies/password.php:250
 msgid "Number of consecutive failed attempts of unlock the device to wipe."
-msgstr ""
-"Número de tentativas com falha consecutivas de desbloquear o dispositivo "
-"para limpar."
+msgstr "완전 삭제할 장치의 잠금 해제 시도의 연속 실패 수."
 
 #: install/policies/password.php:262
 msgid "Maximum time to lock (milliseconds)"
-msgstr "Tempo de espera para bloqueio (milissegundos)"
+msgstr "잠금 최대 시간 (밀리초)"
 
 #: install/policies/password.php:272
 msgid "Maximum time to lock the device in milliseconds."
-msgstr "Tempo máximo para bloquear o dispositivo em milissegundos."
+msgstr "밀리초 단위 장치 잠금 최대 시간."
 
 #: install/policies/peripherals.php:39
 msgid "Disable Camera"
-msgstr "Desabilitar Câmera"
+msgstr "카메라 비활성화"
 
 #: install/policies/peripherals.php:46
 msgid "Prevent usage of the Camera."
-msgstr "Evite o uso da câmera."
+msgstr "카메라 사용 방지"
 
 #: install/policies/peripherals.php:57
 msgid "Disable Wifi"
-msgstr "Desabilitar Wifi"
+msgstr "Wifi 비활성화"
 
 #: install/policies/peripherals.php:64
 msgid "Disable wifi connectivity."
-msgstr "Desative a conectividade Wi-Fi."
+msgstr "wifi 연결 비활성화"
 
 #: install/policies/peripherals.php:75
 msgid "Disable Bluetooth"
-msgstr "Desabilitar Bluetooth"
+msgstr "블루투스 비활성화"
 
 #: install/policies/peripherals.php:82
 msgid "Disable Bluetooth connectivity."
-msgstr "Desativar a conectividade Bluetooth."
+msgstr "블루투스 연결 비활성화"
 
 #: install/policies/peripherals.php:94
 msgid "Disable roaming"
-msgstr "Desativar roaming"
+msgstr "로밍 비활성화"
 
 #: install/policies/peripherals.php:101
 msgid "Disable roaming."
-msgstr "Desativar o roaming."
+msgstr "로밍을 비활성화합니다."
 
 #: install/policies/peripherals.php:112
 msgid "Disable GPS"
-msgstr "Desabilitar GPS"
+msgstr "GPS 비활성화"
 
 #: install/policies/peripherals.php:119
 msgid "Disable GPS."
-msgstr "Desativar o GPS."
+msgstr "GPS를 비활성화 합니다."
 
 #: install/policies/peripherals.php:130
 msgid "Disable Mobile line"
-msgstr "Desativar linha móvel"
+msgstr "모바일 라인 비활성화"
 
 #: install/policies/peripherals.php:137
 msgid "Disable Mobile line."
-msgstr "Desativar linha móvel."
+msgstr "모바일 라인을 비활성화 합니다."
 
 #: install/policies/peripherals.php:148
 msgid "Disable NFC"
-msgstr "Desativar NFC"
+msgstr "NFC 비활성화"
 
 #: install/policies/peripherals.php:155
 msgid "Disable Near Field Contact."
-msgstr "Desativar contato de campo próximo."
+msgstr "NFC를 비활성화 합니다."
 
 #: install/policies/peripherals.php:166
 msgid "Disable hotspot and tethering"
-msgstr "Desativar ponto de acesso e compartilhamento"
+msgstr "핫스팟과 테더링 비활성화"
 
 #: install/policies/peripherals.php:174
 msgid "Disable hotspot and tethering."
-msgstr "Desativar ponto de acesso e compartilhamento."
+msgstr "핫스팟과 테더링 비활성화 합니다."
 
 #: install/policies/peripherals.php:186
 msgid "Disable airplane mode"
-msgstr "Desativar o modo avião"
+msgstr "기내 모드 비활성화"
 
 #: install/policies/peripherals.php:193
 msgid "Disable airplane mode."
-msgstr "Desative o modo avião."
+msgstr "기내 모드를 비활성화 합니다."
 
 #: install/policies/peripherals.php:204
 msgid "Disable speakerphone"
-msgstr "Desativar o viva-voz"
+msgstr "스피커폰 비활성화"
 
 #: install/policies/peripherals.php:211
 msgid "Disable the speakerphone."
-msgstr "Desative o viva-voz."
+msgstr "스피커폰을 비활성화 합니다."
 
 #: install/policies/usb.php:39
 msgid "Disable USB MTP"
-msgstr "Desativar MTP USB"
+msgstr "USB MTP 비활성화"
 
 #: install/policies/usb.php:46
 msgid "Disable USB Media Transfer Protocol."
-msgstr "Desativar o protocolo de transferência de mídia USB."
+msgstr "USB 미디어 전송 프로토콜을 비활성화 합니다."
 
 #: install/policies/usb.php:58
 msgid "Disable USB PTP"
-msgstr "Desativar PTP USB"
+msgstr "USB PTP 비활성화"
 
 #: install/policies/usb.php:65
 msgid "Disable USB Picture Transfer Protocol."
-msgstr "Desativar o protocolo de transferência de imagens USB."
+msgstr "USB 사진 전송 프로토콜을 비활성화 합니다."
 
 #: install/policies/usb.php:77
 msgid "Disable USB ADB"
-msgstr "Desativar USB ADB"
+msgstr "USB ADB 비활성화"
 
 #: install/policies/usb.php:84
 msgid "Disable USB Android Debug Bridge."
-msgstr "Desative o USB Android Debug Bridge."
+msgstr "USB 안드로이드 디버그 브릿지를 비활성화 합니다."
 
 #: install/policies/userInterface.php:39
 msgid "Disable status bar"
-msgstr "Desativar barra de status"
+msgstr "상태 바 비활성화"
 
 #: install/policies/userInterface.php:46
 msgid ""
@@ -1178,244 +1140,228 @@ msgid ""
 " settings and other screen overlays that allow escaping from a single use "
 "device."
 msgstr ""
-"Desativar a barra de status. Desativar a barra de status bloqueia "
-"notificações, configurações rápidas e outras sobreposições de tela que "
-"permitem o escape de um único dispositivo de uso."
+"상태 바를 비활성화 합니다. 상태 바 비활성화는 알림, 빠른 설정과 단일 사용 장치에서 빠져나갈 수 있게하는 다른 화면에 덧그리기들을 "
+"차단합니다."
 
 #: install/policies/userInterface.php:58
 msgid "Disable screen capture"
-msgstr "Desativar captura de tela"
+msgstr "화면 갈무리 비활성화"
 
 #: install/policies/userInterface.php:65
 msgid ""
 "Disable screen capture. Disabling screen capture also prevents the content "
 "from being shown on display devices that do not have a secure video output."
 msgstr ""
-"Desative a captura de tela. Desativar a captura de tela também impede que o "
-"conteúdo seja exibido em dispositivos de exibição que não possuem uma saída "
-"de vídeo segura."
+"화면 갈무리를 비활성화 합니다. 화면 갈무리 비활성화는 또한 보안 비디오 출력이 없는 디스플레이 장치들에 내용이 보여지는 것을 방지할 수"
+" 있습니다."
 
 #: install/policies/userInterface.php:80
 msgid "Disable media sounds"
-msgstr "Desativar sons de mídia"
+msgstr "미디어 소리 비활성화"
 
 #: install/policies/userInterface.php:87
 msgid "Disable all media sounds from device"
-msgstr "Desativar todos os sons de mídia do dispositivo"
+msgstr "장치에서의 모든 미디어 소리를 비활성화"
 
 #: install/policies/userInterface.php:98
 msgid "Disable ringer sounds"
-msgstr "Desativar sons da campainha"
+msgstr "벨소리 비활성화"
 
 #: install/policies/userInterface.php:105
 msgid "Disable all ringer sounds from device"
-msgstr "Desativar todos os sons do toque do dispositivo"
+msgstr "장치의 모든 알림 소리를 비활성화"
 
 #: install/policies/userInterface.php:116
 msgid "Disable alarm sounds"
-msgstr "Desativar sons de alarme"
+msgstr "경보음 비활성화"
 
 #: install/policies/userInterface.php:123
 msgid "Disable alarm sounds from device"
-msgstr "Desativar sons de alarme do dispositivo"
+msgstr "장치의 경보음 비활성화"
 
 #: install/policies/userInterface.php:134
 msgid "Disable notifications sounds"
-msgstr "Desativar sons de notificações"
+msgstr "알림음 비활성화"
 
 #: install/policies/userInterface.php:141
 msgid "Disable notifications sounds from device"
-msgstr "Desativar notificações de sons do dispositivo"
+msgstr "장치의 알림음 비활성화"
 
 #: install/policies/userInterface.php:152
 msgid "Disable accessibility sounds"
-msgstr "Desativar sons de acessibilidade"
+msgstr "접근성 음 비활성화"
 
 #: install/policies/userInterface.php:159
 msgid "Disable accessibility prompts sounds from device"
-msgstr "Desativar limites de acessibilidade, sons do dispositivo"
+msgstr "장치의 접근성 확인 음 비활성화"
 
 #: install/policies/userInterface.php:170
 msgid "Disable DTMF sounds"
-msgstr "Desativar sons DTMF"
+msgstr "DTMF 음 비활성화"
 
 #: install/policies/userInterface.php:177
 msgid "Disable DTMF tones sounds from device"
-msgstr "Desativar sons de tons DTMF do dispositivo"
+msgstr "장치의 DTMF 톤 소리 비활성화"
 
 #: install/policies/userInterface.php:188
 msgid "Disable system sounds"
-msgstr "Desativar sons do sistema"
+msgstr "시스템 소리 비활성화"
 
 #: install/policies/userInterface.php:195
 msgid "Disable system sounds from device"
-msgstr "Desativar sons do sistema do dispositivo"
+msgstr "장치의 시스템 소리 비활성화"
 
 #: install/policies/userInterface.php:206
 msgid "Audio profile mode"
-msgstr "Modo de perfil de áudio"
+msgstr "오디오 프로파일 모드"
 
 #: install/policies/userInterface.php:211
 msgid "Normal"
-msgstr "Normal"
+msgstr "보통"
 
 #: install/policies/userInterface.php:212
 msgid "Silent"
-msgstr "Silencioso"
+msgstr "정숙"
 
 #: install/policies/userInterface.php:213
 msgid "Vibrate"
-msgstr "Vibrar"
+msgstr "진동"
 
 #: install/policies/userInterface.php:217
 msgid "Audio profile mode used for device"
-msgstr "Modo de perfil de áudio usado para o dispositivo"
+msgstr "장치에 사용된 오디오 프로파일 모드"
 
 msgid "Is managed"
-msgstr "É gerenciado"
+msgstr "관리 됨"
 
 msgid "copy to"
-msgstr "copiar para"
+msgstr "복사"
 
 msgid "Remove when the policy is removed"
-msgstr "Remover quando a política é removida"
+msgstr "정책이 제거되면 제거"
 
 msgid "file size"
-msgstr "tamanho do arquivo"
+msgstr "파일 크기"
 
 msgid "Update the file"
-msgstr "Atualizar o arquivo."
+msgstr "파일 업데이트"
 
 msgid "Enrollment"
-msgstr "Inscrição"
+msgstr "등록"
 
 msgid "Enable explicit enrolment failures"
-msgstr "Permitir falhas de inscrição explícita"
+msgstr "명시적 등록 오류 사용"
 
 msgid "Disable token expiration on successful enrolment"
-msgstr "Desabilitar o token expiração na inscrição bem sucedida"
+msgstr "등록된 토큰에 만료 비활성화"
 
 msgid "Save initial inventory in file"
-msgstr "Salvar inventário inicial no arquivo"
+msgstr "파일의 초기 재고 저장"
 
 msgid "Configuration wizard"
-msgstr "Assistente de configuração"
+msgstr "구성 마법사"
 
 msgid "Enable configuration wizard"
-msgstr "Ativar assistente de configuração"
+msgstr "구성 마법사 활성화"
 
 msgid ""
 "Warning: if the plugin is already configured, re-running the configuration "
 "wizard may break communication with already enrolled devices."
-msgstr ""
-"Aviso: se o plug-in já estiver configurado, a execução do assistente de "
-"configuração poderá interromper a comunicação com dispositivos já inscritos."
+msgstr "경고 : 플러그인이 이미 구성되어있는 경우, 구성 마법사를 다시 실행하면 이미 등록된 장치와의 통신이 중단 될 수 있습니다."
 
 msgid "Revision information"
-msgstr "Informação de revisão"
+msgstr "수정 정보"
 
 msgid ""
 "GLPI is not properly configured. Please check the general settings, the API "
 "settings and the notification settings."
-msgstr ""
-"O GLPI não está configurado corretamente. Por favor, verifique as "
-"configurações gerais, as configurações da API e as configurações de "
-"notificação."
+msgstr "GLPI가 제대로 구성되지 않았습니다. 일반 설정, API 설정 및 알림 설정을 확인하세요."
 
 msgid "Invite users to enroll one device."
-msgstr "Convide usuários para registrar um dispositivo."
+msgstr "하나의 기기 등록에 사용자 초대."
 
 msgid ""
 "They will receive an message to their default email address containing a QR "
 "Code and instructions to enroll."
-msgstr ""
-"Eles receberão uma mensagem para seu endereço de e-mail padrão contendo um "
-"código QR e instruções para se inscrever."
+msgstr "그들은 QR 코드와 등록 안내가 포함된 메시지를 기본 이메일로 받을 것입니다."
 
 msgid "Lock"
-msgstr "Bloquear"
+msgstr "잠금"
 
 msgid "Wipe"
-msgstr "Limpar"
+msgstr "지우기"
 
 msgid "Unenroll"
-msgstr "Desassociar"
+msgstr "등록해제"
 
 msgid "Document types"
-msgstr "Tipos de documentos"
+msgstr "문서 유형"
 
 msgid "Allow upload of APK and UPK files"
-msgstr "Permitir o upload de arquivos APK e UPK"
+msgstr "APK와 UPK 파일 업로드 허용"
 
 msgid "add document types"
-msgstr "adicionar tipos de documento"
+msgstr "문서 유형 추가"
 
 msgid "Device type"
-msgstr "Tipo de dispositivo"
+msgstr "장치 유형"
 
 msgid "Computer type for the devices"
-msgstr "Tipo de computador para os dispositivos"
+msgstr "기기에 대한 컴퓨터 유형"
 
 msgid "Agent account type"
-msgstr "Tipo de conta do agente"
+msgstr "단말기 계정 유형"
 
 msgid "Account type for the devices"
-msgstr "Tipo de conta para os dispositivos"
+msgstr "장치에 대한 계정 유형"
 
 msgid "Invitation deeplink"
-msgstr "Convite deeplink"
+msgstr "딥링크 초대"
 
 msgid "Invitation deeplink URL"
-msgstr "URL de link direto do convite"
+msgstr "딥링크 URL 초대"
 
 msgid "Base URL of the deeplink micro service"
-msgstr "URL base do micro serviço deeplink"
+msgstr "세부 서비스 딥링크의 기본 URL"
 
 msgid "Restrictions"
-msgstr "Restrições"
+msgstr "제한"
 
 msgid "Default device limit per entity"
-msgstr "Limite padrão de dispositivos por entidade"
+msgstr "요소 당 기본 기기 제한"
 
 msgid ""
 "No more devices than this quantity are allowed per entity by default (0 = no"
 " limitation)"
-msgstr ""
-"Não é permitido mais do que essa quantidade de dispositivos por entidade por"
-" padrão (0 = sem limite)"
+msgstr "기본으로 요소 당 이 수량 이상의 기기가 허용되지 않습니다 (0 = 제한 없음)"
 
 msgid "Wizard complete"
-msgstr "Assistente completo"
+msgstr "마법사 완료"
 
 msgid "This wizard will no longer be accessible."
-msgstr "Este assistente não estará mais acessível."
+msgstr "이 마법사는 더 이상 접근할 수 없습니다."
 
 msgid "Requirements"
-msgstr "Requisitos"
+msgstr "요구 사항"
 
 msgid ""
 "To setup Flyve MDM please connect to your server with a command line "
 "interface. Some operations require a root access."
 msgstr ""
-"Para configurar o Flyve MDM, conecte-se ao seu servidor com uma interface de"
-" linha de comando. Algumas operações requerem um acesso root."
 
 msgid "This wizard will guide you through the steps to setup Flyve MDM."
 msgstr ""
-"Este assistente irá guiá-lo através dos passos para configurar o Flyve MDM."
 
 msgid "Cron Job"
-msgstr "Tempo de trabalho"
+msgstr "반복 작업"
 
 msgid "Flyve MDM requires cron job to run automatic actions."
-msgstr "O Flyve MDM requer tempo de trabalho para executar ações automáticas."
+msgstr ""
 
 msgid ""
 "As root in a terminal, execute the following command. Adapt www-data to the "
 "user running your HTTP server."
 msgstr ""
-"Como root em um terminal, execute o seguinte comando. Adapte o www-data ao "
-"usuário que está executando o seu servidor HTTP."
 
 msgid ""
 "Add, if missing, the following line. Adapt path to php CLI binary and path "
@@ -1427,7 +1373,7 @@ msgid ""
 msgstr ""
 
 msgid "Email notifications"
-msgstr ""
+msgstr "이메일 알림"
 
 msgid ""
 "Flyve MDM requires email notifications. The following link will open a new "
@@ -1441,7 +1387,7 @@ msgid ""
 msgstr ""
 
 msgid "Automatic actions"
-msgstr ""
+msgstr "자동 동작"
 
 msgid ""
 "Ensure the cron job is properly configure by checking the log "
@@ -1449,7 +1395,7 @@ msgid ""
 msgstr ""
 
 msgid "REST API"
-msgstr ""
+msgstr "REST API"
 
 msgid ""
 "Flyve MDM requires REST API enabled. The following link will open a new tab "
@@ -1457,22 +1403,22 @@ msgid ""
 msgstr ""
 
 msgid "Make sure the following setting is populated:"
-msgstr ""
+msgstr "다음 설정이 인기있는지 확인하세요:"
 
 msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
-msgstr ""
+msgstr "- API의 URL (예: https://example.com/glpi/apirest.php/)"
 
 msgid "Make sure the following settings are enabled:"
-msgstr ""
+msgstr "다음 설정들이 활성화되었는지 확인하세요:"
 
 msgid "- Rest API"
-msgstr ""
+msgstr "- Rest API"
 
 msgid "- Login with credentials"
-msgstr ""
+msgstr "- 인증으로 로그인"
 
 msgid "- Login with external token"
-msgstr ""
+msgstr "- 외부 토큰으로 로그인"
 
 msgid ""
 "- Add an API client leaving empty IPv4 address range, IPv6 address and "
@@ -1481,9 +1427,36 @@ msgstr ""
 
 msgid "API"
 msgstr ""
+"INSERT INTO T_CATEGORY\n"
+"SELECT\n"
+"'base',\n"
+"X.sub_name,\n"
+"2,\n"
+"cat_ord,\n"
+"Y.idx,\n"
+"0,\n"
+"0,\n"
+"sub_code ,\n"
+"getdate()\n"
+"FROM\n"
+"(\n"
+" SELECT\n"
+" (SELECT MAX(idx) FROM T_CATEGORY) as newIdx,\n"
+" LEFT(sub_code, 2) AS pCode,\n"
+" sub_code,\n"
+" sub_name,\n"
+" Row_Number() Over(Partition By LEFT(sub_code, 2) ORDER BY sub_code ASC) AS cat_ord,\n"
+" ROW_NUMBER() OVER(ORDER BY sub_code ASC) AS rowCnt\n"
+" FROM\n"
+" ERP_DB.LIFEBOOK.dbo.M_COMMON_CODE\n"
+" WHERE 1=1\n"
+" AND code_gubun = '003'\n"
+" AND sub_code <> '01'\n"
+") X\n"
+"LEFT OUTER JOIN T_CATEGORY Y ON (X.pCode = Y.ERP_CATCD)"
 
 msgid "General setup"
-msgstr ""
+msgstr "일반 설정"
 
 msgid ""
 "Flyve MDM needs to know the public URL of GLPI. The following link will open"
@@ -1494,10 +1467,10 @@ msgid "Make sure the following settings is populated:"
 msgstr ""
 
 msgid "- URL of the application (example: https://example.com/glpi)"
-msgstr ""
+msgstr "- 응용프로그램의 URL (예: https://example.com/glpi)"
 
 msgid "Document Types"
-msgstr ""
+msgstr "문서 유형"
 
 msgid ""
 "You must add the APK and UPK document types in order to upload Android and "
@@ -1509,7 +1482,7 @@ msgid ""
 msgstr ""
 
 msgid "Server Configuration"
-msgstr ""
+msgstr "서버 구성"
 
 msgid ""
 "Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
@@ -1517,13 +1490,13 @@ msgid ""
 msgstr ""
 
 msgid "For example:"
-msgstr ""
+msgstr "예제:"
 
 msgid "Fusion Inventory Configuration"
-msgstr ""
+msgstr "복합 재고 구성"
 
 msgid "For FusionInventory greater than 9.1 + 1.1:"
-msgstr ""
+msgstr "FusionInventory가 9.1 + 1.1보다 큰 경우 :"
 
 msgid ""
 "It is required to deactivate the following rules in the Equipment import and"
@@ -1533,18 +1506,18 @@ msgstr ""
 msgid ""
 "The following link will open a new tab to the Rules > Equipment import and "
 "link rules section of FusionInventory "
-msgstr ""
+msgstr "다음 링크는 FusionInventory의 규칙> 장비 가져 오기 및 링크 규칙 섹션에 대한 새 탭을 엽니다."
 
 msgid "Rules"
-msgstr ""
+msgstr "규칙"
 
 msgid ""
 "Not disabling this rule will make FusionInventory reject inventories from "
 "devices."
-msgstr ""
+msgstr "이 규칙을 비활성화하지 않으면 FusionInventory가 인벤토리를 장치에서 거부합니다."
 
 msgid "DBMS access for Mosquitto"
-msgstr ""
+msgstr "Mosquitto에 대한 DBMS 접근"
 
 msgid ""
 "Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
@@ -1570,7 +1543,7 @@ msgid ""
 msgstr ""
 
 msgid "Create the file"
-msgstr ""
+msgstr "파일 생성"
 
 msgid ""
 "Insert the following content, and adapt the bind address to the interface "
@@ -1586,31 +1559,31 @@ msgid ""
 msgstr ""
 
 msgid "The following command will ask for the password you choosed earlier"
-msgstr ""
+msgstr "다음 명령은 이전에 선택했던 비밀번호를 묻습니다"
 
 msgid "Mosquitto"
-msgstr ""
+msgstr "Mosquitto"
 
 msgid "Flyve MDM requires a Message queue server."
-msgstr ""
+msgstr "Flyve MDM는 메시지 큐 서버가 필요합니다."
 
 msgid "Prefer a dedicated server or VM for running Mosquitto."
 msgstr ""
 
 msgid "As root in a terminal, execute the following command"
-msgstr ""
+msgstr "터미널에서 root로, 다음 명령을 실행합니다"
 
 msgid "Create"
-msgstr ""
+msgstr "생성"
 
 msgid "Add the following content, adapting your DBMS credentials:"
 msgstr ""
 
 msgid "Check Mosquitto is listening to port 1883 (insecure)."
-msgstr ""
+msgstr "Mosquitto가 1883 포트에 응답하는지 확인합니다 (보안안됨)."
 
 msgid "TLS Listener setup"
-msgstr ""
+msgstr "TLS 리스너 설정"
 
 msgid ""
 "TLS provides security to the communication, through authentication of server"
@@ -1618,44 +1591,46 @@ msgid ""
 msgstr ""
 
 msgid "Use TLS version 1.2, lower versions are no longer considered safe."
-msgstr ""
+msgstr "TLS 버전 1.2를 사용하면, 낮은 버전이 더 이상 안전한 것으로 간주되지 않습니다."
 
 msgid ""
 "Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
-msgstr ""
+msgstr "Mosquitto는 SSLv2 또는 SSLv3를 지원하지 않습니다 (그리고 그것들은 더는 안전하지 않습니다)."
 
 msgid ""
 "- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
 "chain and private key."
-msgstr ""
+msgstr "- 당신의 인증, 당신의 인증 기관 체인 그리고 개인 키를 /etc/mosquitto/certs에 복사합니다."
 
 msgid "- Secure your private key"
-msgstr ""
+msgstr "- 당신의 개인 키 보안"
 
 msgid "- Refresh hash and symlinks to your certificates"
-msgstr ""
+msgstr "- 당신의 인증에 대한 해시와 단축링크 새로고침"
 
 msgid ""
 "Use a certificate signed by a certified authority or you may have trouble "
 "with the android devices, using them with custom certification authorities "
 "might not work (not tested)."
 msgstr ""
+"공인 기관에서 서명한 인증서를 사용하거나 Android 장치에 문제가 있다면, 사용자 정의 인증 기관으로 그것들을 사용하는 것은 작동하지"
+" 않을 수도 있습니다 (테스트 안 됨)."
 
 msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
-msgstr ""
+msgstr "/etc/mosquitto/conf.d/flyvemdm.conf에 다음을 추가합니다."
 
 msgid "- Restart Mosquitto"
-msgstr ""
+msgstr "- Mosquitto 재시작"
 
 msgid "- Test you can successfully connect to Mosquitto"
-msgstr ""
+msgstr "- Mosquitto에 접속할 수 있는지 시험합니다"
 
 msgid ""
 "- Check the ports that Mosquitto listens. You should see only the port 8883."
-msgstr ""
+msgstr "- 포트의 Mosquitto 응답을 확인합니다. 포트 8883에서만 표시됩니다."
 
 msgid "Mosquitto client for the backend"
-msgstr ""
+msgstr "백엔드용 Mosquitto 클라이언트"
 
 msgid "Flyve MDM requires to connect to Mosquitto."
 msgstr ""
@@ -1667,31 +1642,31 @@ msgid "Check the user configured in the script and adapt it if needed."
 msgstr ""
 
 msgid "Back"
-msgstr ""
+msgstr "돌아가기"
 
 msgid "Wizard page:"
-msgstr ""
+msgstr "마법사 페이지:"
 
 msgid "There is no task status yet"
-msgstr ""
+msgstr "아직 작업 상태가 없습니다"
 
 msgid "Count"
-msgstr ""
+msgstr "계수"
 
 msgid "Alias"
-msgstr "Apelido"
+msgstr "별칭"
 
 msgid "Package name"
-msgstr ""
+msgstr "패키지 명"
 
 msgid "Update the package"
-msgstr "Atualizar o pacote"
+msgstr "업데이트 패키지"
 
 msgid "Actions"
-msgstr "Ações"
+msgstr "작업"
 
 msgid "MQTT broker"
-msgstr "Corretor MQTT"
+msgstr "MQTT 브로커"
 
 msgid "MQTT broker address for clients"
 msgstr ""
@@ -1710,98 +1685,98 @@ msgid ""
 msgstr ""
 
 msgid "MQTT broker port"
-msgstr "Porto de corretor MQTT"
+msgstr "MQTT 브로커 포트"
 
 msgid "A port number between 1025 and 65535, standard port is 1883"
-msgstr ""
+msgstr "포트 번호는 1025에서 65535 사이이고, 표준 포트는 1883 입니다"
 
 msgid "MQTT broker port for TLS"
-msgstr ""
+msgstr "TLS용 MQTT 브로커 포트"
 
 msgid "A port number between 1025 and 65535, standard port is 8883"
-msgstr ""
+msgstr "포트 번호는 1025에서 65535 사이이고, 표준 포트는 8883 입니다"
 
 msgid "Use TLS for clients"
-msgstr ""
+msgstr "클라이언트에 TLS 사용"
 
 msgid ""
 "Use TLS for MQTT communication between the broker and the client devices"
 msgstr ""
 
 msgid "Use TLS for backend"
-msgstr ""
+msgstr "백엔드에 TLS 사용"
 
 msgid "Use TLS for MQTT communication between the broker and the backend"
 msgstr ""
 
 msgid "CA certificate"
-msgstr "Certificado de CA"
+msgstr "CA 인증서"
 
 msgid "Cipher suite (TLS enabled)"
-msgstr "Suíte de criptografia (TLS habilitado)"
+msgstr "암호화 제품군 (TLS 사용)"
 
 msgid "Mqtt broker cipher suite"
-msgstr "Suíte de cifra de corretor MQTT"
+msgstr "Mqtt 브로커 암호 제품군"
 
 msgid "test"
-msgstr "teste"
+msgstr "테스트"
 
 msgid "Client certificate server (Broker MQTT with TLS enabled)"
-msgstr "Servidor de certificado de cliente (corretor MQTT com TLS habilitado)"
+msgstr "클라이언트 인증서 서버 (TLS 활성화된 브로커 MQTT)"
 
 msgid "Use client certificates"
-msgstr "Usar certificados de cliente"
+msgstr "클라이언트 인증서 사용"
 
 msgid "Ssl certificate server for MQTT clients"
-msgstr "Servidor de certificados SSL para clientes MQTT"
+msgstr "MQTT 클라이언트 Ssl 인증서 서버"
 
 msgid "https://cert.domain.com/path/to/service"
 msgstr "https://cert.domain.com/path/to/service"
 
 msgid "apply a policy"
-msgstr "aplicar uma política"
+msgstr "정책 적용"
 
 msgid "Value"
-msgstr "Valor"
+msgstr "값"
 
 msgid "Applied policies"
-msgstr "Políticas aplicadas"
+msgstr "적용된 정책"
 
 msgid "Application date"
-msgstr ""
+msgstr "제출 일자"
 
 msgid "Last change date"
-msgstr ""
+msgstr "최근 변경 일자"
 
 msgid "There is no agent yet"
-msgstr "Ainda não há nenhum agente"
+msgstr "아직 에이전트가 없습니다"
 
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 msgid "Date"
-msgstr ""
+msgstr "일자"
 
 msgid "Topic"
-msgstr ""
+msgstr "화제"
 
 msgid "Message"
-msgstr ""
+msgstr "메시지"
 
 msgid "Support name"
-msgstr ""
+msgstr "지원 명"
 
 msgid "Support address"
-msgstr ""
+msgstr "지원 주소"
 
 msgid "Support phone"
-msgstr ""
+msgstr "지원 전화번호"
 
 msgid "Support website"
-msgstr ""
+msgstr "지원 웹사이트"
 
 msgid "Support email"
-msgstr ""
+msgstr "지원 이메일"
 
 msgid "MDM Agent URL"
-msgstr ""
+msgstr "MDM 단말기 URL"
