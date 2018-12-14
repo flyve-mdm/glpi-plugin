@@ -78,7 +78,7 @@ if ($address === false || $port === false) {
    exit();
 }
 $clientid = "flyvemdm-test";
-$mqttClient = PluginFlyvemdmMqttclient::getInstance();
+$mqttClient = \GlpiPlugin\Flyvemdm\Mqtt\MqttConnection::getInstance();
 $statusMessage = 'Test message not sent';
 if ($mqttClient->sendTestMessage($address, $port, $isTls, $sslCiphers)) {
    $statusMessage = 'Test message sent';

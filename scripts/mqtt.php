@@ -30,6 +30,12 @@
  */
 
 // Ensure current directory when run from crontab
+use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
+use GlpiPlugin\Flyvemdm\Broker\BrokerWorker;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttConnection;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttTransport;
+
 chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 
 include (__DIR__ . '/../vendor/docopt/docopt/src/docopt.php');
@@ -59,6 +65,8 @@ include (__DIR__ . '/../../../inc/includes.php');
 if (isset($args['--debug']) && $args['--debug'] !== false) {
    \sskaje\mqtt\Debug::Enable();
 }
-$mqttLogger = PluginFlyvemdmMqttclient::getInstance();
-$mqttLogger->setHandler(PluginFlyvemdmMqtthandler::getInstance());
-$mqttLogger->subscribe();
+
+$receiver = new MqttTransport(MqttConnection::getInstance());
+$bus = new BrokerBus(new MqttMiddleware());
+$worker = new BrokerWorker($receiver, $bus);
+$worker->run();

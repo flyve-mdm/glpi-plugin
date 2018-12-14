@@ -26,7 +26,8 @@
         "sskaje/mqtt": "dev-master",
         "tufanbarisyildirim/php-apk-parser": "dev-master",
         "docopt/docopt": "^1.0",
-        "twig/twig": "^1.0"
+        "twig/twig": "^1.0",
+        "sly/notification-pusher": "^2.3"
     },
     "require-dev": {
         "ext-bz2": "*",
@@ -44,6 +45,11 @@
             "no-api": true
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "GlpiPlugin\\Flyvemdm\\": "inc/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "Flyvemdm\\Tests\\": "tests/src/Flyvemdm/Tests/",

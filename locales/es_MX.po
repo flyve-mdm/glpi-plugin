@@ -6,7 +6,7 @@
 # Translators:
 # Alexander Salas Bastidas <alexander.salas@gmail.com>, 2018
 # Domingo Oropeza, 2018
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 "Last-Translator: Domingo Oropeza, 2018\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/flyve-mdm/teams/69665/es_MX/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es_MX\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -756,35 +756,39 @@ msgstr "Valor incorrecto para esta política"
 msgid "This is not a notifiable object"
 msgstr "Este no es un objeto notificable"
 
-#: inc/task.class.php:194
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr "Este no es un objeto notificable"
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr "No se puede encontrar el objeto notificable"
 
-#: inc/task.class.php:201
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "No se puede aplicar una política con una flota no administrada"
 
-#: inc/task.class.php:208 inc/task.class.php:296
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr "Política ya aplicada"
 
-#: inc/task.class.php:221 inc/task.class.php:303
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr "No se cumplen los requisitos de esta política"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:273
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "No se puede encontrar el objetivo %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:281
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "No se puede aplicar una política en %1$s"
 
-#: inc/task.class.php:310
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr "Fallo al aplicar la política"
 

@@ -29,6 +29,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+
 if (! defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -68,13 +70,11 @@ interface PluginFlyvemdmNotifiableInterface {
    public function getFiles();
 
    /**
-    * Send a MQTT message
-    * @param string $topic
-    * @param string $mqttMessage
-    * @param integer $qos
-    * @param integer $retain
+    * Send a message to the broker
+    * @param BrokerEnvelope $envelope
+    * @return void
     */
-   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0);
+   public function notify(BrokerEnvelope $envelope);
 
    /**
     * Send all persisted messages for the notifiable
@@ -87,4 +87,10 @@ interface PluginFlyvemdmNotifiableInterface {
     * @return boolean True if message may be sent
     */
    public function isNotifiable();
+
+   /**
+    * Get the notification token for each device
+    * @return array
+    */
+   public function getPushNotificationInfo();
 }

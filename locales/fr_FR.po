@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Thierry Bugier <tbugier@teclib.com>, 2018
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -760,35 +760,39 @@ msgstr "Valeur incorrecte pour cette stratégie"
 msgid "This is not a notifiable object"
 msgstr ""
 
-#: inc/task.class.php:194
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr ""
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr "Impossible de trouver l'objet notifiable"
 
-#: inc/task.class.php:201
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "Impossible d'appliquer une stratégie sur une flotte non gérée"
 
-#: inc/task.class.php:208 inc/task.class.php:296
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr "Stratégie déjà appliquée"
 
-#: inc/task.class.php:221 inc/task.class.php:303
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr "Les prérequis pour cette stratégie ne sont pas remplis"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:273
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "Impossible de trouver la cible de type %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:281
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "Impossible d'appliquer une stratégie sur ce %1$s"
 
-#: inc/task.class.php:310
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr "L'application de la stratégie a échoué"
 
