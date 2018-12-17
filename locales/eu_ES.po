@@ -1,0 +1,1916 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Erik Campos <ecampos@teclib.com>, 2018
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-12 17:00-0400\n"
+"PO-Revision-Date: 2017-02-09 10:42+0000\n"
+"Last-Translator: Erik Campos <ecampos@teclib.com>, 2018\n"
+"Language-Team: Basque (Spain) (https://www.transifex.com/flyve-mdm/teams/69665/eu_ES/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: hook.php:81
+msgid "Invite to enroll a device"
+msgstr "Gonbidatu gailua erregistratzeko"
+
+#: hook.php:112
+msgid "Well known Android's FS paths"
+msgstr "Ezagunak diren Androiden FS bideak"
+
+#: hook.php:113
+msgid "Policy Categories"
+msgstr "Politika kategoriak"
+
+#: setup.php:211
+msgid "Flyve Mobile Device Management"
+msgstr "Flyve gailu mugikorren kudeaketa"
+
+#: inc/agent.class.php:115
+msgid "Android"
+msgstr "Android"
+
+#: inc/agent.class.php:116
+msgid "Apple"
+msgstr "Apple"
+
+#: inc/agent.class.php:126
+msgid "Agent"
+msgid_plural "Agents"
+msgstr[0] "Agent"
+msgstr[1] "Eragileak"
+
+#: inc/agent.class.php:183
+msgid "Danger zone!"
+msgstr "Arrisku zona!"
+
+#: inc/agent.class.php:201
+msgid "Flyve MDM Agent"
+msgstr "Flyve MDM Eragile"
+
+#: inc/agent.class.php:260 inc/agent.class.php:375
+msgid "Never seen online"
+msgstr "Ez da inoiz ikusi konektatuta"
+
+#: inc/agent.class.php:294
+msgid "Lock the device as soon as possible"
+msgstr "Blokeatu gailua ahalik eta azkarren"
+
+#: inc/agent.class.php:301
+msgid "Wipe the device as soon as possible"
+msgstr "Garbitu gailua ahalik eta azkarren"
+
+#: inc/agent.class.php:520
+msgid "Failed to read configuration of the entity"
+msgstr "Ezin izan da entitatearen konfigurazioa irakurri"
+
+#: inc/agent.class.php:526
+msgid "Too many devices"
+msgstr "Gailu gehiegi"
+
+#: inc/agent.class.php:535
+msgid "Unable to find a enrollment method"
+msgstr "Ezin da matrikularen metodoa aurkitu"
+
+#: inc/agent.class.php:560
+msgid "The fleet of the device does not longer exists"
+msgstr "Gailuaren flota ez da existitzen"
+
+#: inc/agent.class.php:567
+msgid "The target fleet does not exists"
+msgstr "Helburu flota ez da existitzen"
+
+#: inc/agent.class.php:598
+msgid "The device is not enrolled yet"
+msgstr "Gailua ez dago oraindik erregistratuta"
+
+#: inc/agent.class.php:636
+msgid "Invalid status value"
+msgstr "Egoeraren balio baliogabea"
+
+#: inc/agent.class.php:677
+msgid "Failed to find the guest user profile"
+msgstr "Ezin izan da gonbidatutako erabiltzailearen profila aurkitu"
+
+#: inc/agent.class.php:699
+msgid "Failed to remove guest habilitation for the user of the device"
+msgstr ""
+"Ezin izan da gonbidatuaren habilitazioa ezabatu gailuaren "
+"erabiltzailearentzat"
+
+#: inc/agent.class.php:720
+msgid "Failed to delete MQTT user for the device"
+msgstr "Ezin izan da MQTT erabiltzailea ezabatu gailura"
+
+#: inc/agent.class.php:733
+msgid "Failed to delete documents attached to the device"
+msgstr "Ezin izan dira gailuari atxikitako dokumentuak ezabatu"
+
+#: inc/agent.class.php:883 inc/fleet.class.php:83
+msgid "Fleet"
+msgid_plural "Fleets"
+msgstr[0] "Fleet"
+msgstr[1] "Flotak"
+
+#: inc/agent.class.php:909
+msgid "Last contact"
+msgstr "Azken kontaktua"
+
+#: inc/agent.class.php:927
+msgid "Is online"
+msgstr "Konektatuta dago"
+
+#: inc/agent.class.php:937
+msgid "MDM type"
+msgstr "MDM mota"
+
+#: inc/agent.class.php:946
+msgid "Has system permission"
+msgstr "Sistemaren baimena du"
+
+#: inc/agent.class.php:956
+msgid "Enroll status"
+msgstr "Erregistratu egoera"
+
+#: inc/agent.class.php:966
+msgid "Wipe requested"
+msgstr "Ezabatu eskatu"
+
+#: inc/agent.class.php:976
+msgid "Lock requested"
+msgstr "Blokeatutako eskaera"
+
+#: inc/agent.class.php:994 inc/fleet.class.php:268
+msgid "Applied policy"
+msgstr "Aplikatutako politika"
+
+#: inc/agent.class.php:1287
+msgid "Invitation token invalid"
+msgstr "Gonbidapenen tokena baliogabea da"
+
+#: inc/agent.class.php:1301
+msgid "Invalid FCM credentials"
+msgstr "FCM kredentzial baliogabeak"
+
+#: inc/agent.class.php:1308
+msgid "One of serial and uuid is mandatory"
+msgstr "Serial bat eta uuid derrigorrezkoa da"
+
+#: inc/agent.class.php:1314
+msgid "Device inventory XML is mandatory"
+msgstr "Device inbentarioa XML derrigorrezkoa da"
+
+#: inc/agent.class.php:1324
+msgid "Inventory XML is not well formed"
+msgstr "XML inbentarioa ez da ondo moldatzen"
+
+#: inc/agent.class.php:1330
+msgid "Agent version missing"
+msgstr "Eragilearen bertsioa falta da"
+
+#: inc/agent.class.php:1336
+msgid "MDM type missing"
+msgstr "MDM mota falta da"
+
+#: inc/agent.class.php:1342
+msgid "unknown MDM type"
+msgstr "MDM mota ezezaguna"
+
+#: inc/agent.class.php:1348
+msgid "Bad agent version"
+msgstr "Eragilearen bertsio okerra"
+
+#: inc/agent.class.php:1356
+msgid "The agent version is too low"
+msgstr "Eragilearen bertsioa oso txikia da"
+
+#: inc/agent.class.php:1365
+msgid "The agent does not advertise its system permissions"
+msgstr "Eragileak ez du bere sistema baimenak iragartzen"
+
+#: inc/agent.class.php:1373
+msgid "Invitation is not pending"
+msgstr "Gonbidapena ez dago zain"
+
+#: inc/agent.class.php:1380
+msgid "Expiration date of the invitation is not set"
+msgstr "Ez da gonbidapenaren iraungitze data ezarri"
+
+#: inc/agent.class.php:1387
+msgid "Invitation token expired"
+msgstr "Gonbidapenen tokena iraungita dago"
+
+#: inc/agent.class.php:1400
+msgid "Wrong email address"
+msgstr "Helbide elektroniko okerra"
+
+#: inc/agent.class.php:1414
+msgid "Failed to sign the certificate"
+msgstr "Huts egin du ziurtagiria sinatzeko"
+
+#: inc/agent.class.php:1434
+msgid "Failed to update the invitation"
+msgstr "Ezin izan da gonbidapena eguneratu"
+
+#: inc/agent.class.php:1461
+msgid "Cannot get the FusionInventory agent"
+msgstr "Ezin da FusionInventory eragilea lortu"
+
+#: inc/agent.class.php:1468
+msgid "FusionInventory agent not created"
+msgstr "FusionInventory eragilea ez da sortu"
+
+#: inc/agent.class.php:1475
+msgid "Cannot create the device"
+msgstr "Ezin da gailua sortu"
+
+#: inc/agent.class.php:1517
+msgid "Cannot create a user account for the agent"
+msgstr "Ezin da reagilearen erabiltzaile kontua sortu"
+
+#: inc/agent.class.php:1524
+msgid "Cannot create the API token for the agent"
+msgstr "Ezin da eragilearen API tokena sortu"
+
+#: inc/agent.class.php:1532
+msgid "No default fleet available for the device"
+msgstr "Ez daude flota erabilgarri gailuan"
+
+#: inc/agent.class.php:1739
+msgid "GPS is turned off or is not ready"
+msgstr "GPS desaktibatuta edo ez dago prest"
+
+#: inc/agent.class.php:1741
+msgid "The device sent its position"
+msgstr "Gailua bere posizioa bidali du"
+
+#: inc/agent.class.php:1745
+msgid "Timeout requesting position"
+msgstr "Denbora-muga posizio eskatzen"
+
+#: inc/agent.class.php:1786
+msgid "Inventory received"
+msgstr "Inbentarioa jaso da"
+
+#: inc/agent.class.php:1790
+msgid "Timeout querying the device inventory"
+msgstr "Denbora-muga gailuaren inbentarioa kontsultatzen"
+
+#: inc/agent.class.php:1824
+msgid "The device answered"
+msgstr "Gailua erantzun du"
+
+#: inc/agent.class.php:1828
+msgid "Timeout querying the device"
+msgstr "Denbora-muga gailua kontsultatzen"
+
+#: inc/agent.class.php:2052
+msgid "Enrollment failed"
+msgstr "Matrikula huts egin du"
+
+#: inc/agent.class.php:2254 install/policies/password.php:44
+msgid "No"
+msgstr "Ez"
+
+#: inc/agent.class.php:2255
+msgid "Yes"
+msgstr "Bai"
+
+#: inc/agent.class.php:2317 inc/agent.class.php:2326
+#, php-format
+msgid "%s service is not available"
+msgstr "%s zerbitzua ez dago erabilgarri"
+
+#: inc/agent.class.php:2331
+msgid "Notification token is missing"
+msgstr "Jakinarazpen token falta da"
+
+#: inc/agent.class.php:2339
+msgid "Notification settings are invalid"
+msgstr "Jakinarazpen ezarpenak baliogabea da"
+
+#: inc/config.class.php:144
+msgid "Installation wizard"
+msgstr "Laguntzaile instalazioa"
+
+#: inc/config.class.php:146
+msgid "General configuration"
+msgstr "Konfigurazio orokorra"
+
+#: inc/config.class.php:147 inc/menu.class.php:119
+msgid "Message queue"
+msgstr "Mezuen ilara"
+
+#: inc/config.class.php:148 inc/menu.class.php:122
+msgid "Debug"
+msgstr "Araztu"
+
+#: inc/config.class.php:221
+msgid "Bugcollector password"
+msgstr "Labezomorrobiltegi pasahitza"
+
+#: inc/config.class.php:381
+msgid "Finish"
+msgstr "Amaitu"
+
+#: inc/config.class.php:381
+msgid "Next"
+msgstr "Hurrengo"
+
+#: inc/deployable.class.php:154
+msgid "Deploy notification failed"
+msgstr "Ezin izan da jakinarazpena inplementatu"
+
+#: inc/entityconfig.class.php:134
+msgid "You are not allowed to change the device limit"
+msgstr "Ez duzu gailuaren muga aldatzeko baimenik"
+
+#: inc/entityconfig.class.php:141
+msgid "You are not allowed to change the download URL of the MDM agent"
+msgstr "MDM eragilearen deskarga URLa aldatzeko baimenik ez duzu "
+
+#: inc/entityconfig.class.php:148
+msgid "You are not allowed to change the invitation token life"
+msgstr "Gonbidapenaren tokenaren bizitza aldatzeko ez duzu baimenik"
+
+#: inc/entityconfig.class.php:194
+msgid "The agent token life invalid or too long"
+msgstr "Eragilearen tokenaren bizitza baliogabea edo luzeegia da"
+
+#: inc/entityconfig.class.php:286
+msgid "Flyve MDM supervision"
+msgstr "Flyve MDM gainbegiratzea"
+
+#: inc/entityconfig.class.php:379
+msgid "Helpdesk information"
+msgstr "Lagun-idazmahi informazioa"
+
+#: inc/entityconfig.class.php:429 inc/invitation.class.php:67
+#: inc/notificationtargetinvitation.class.php:50
+#: inc/notificationtargetinvitation.class.php:59
+#: install/upgrade_to_2_0.php:348
+msgid "Invitation"
+msgid_plural "Invitations"
+msgstr[0] "Gonbidapena"
+msgstr[1] "Gonbidapenak"
+
+#: inc/file.class.php:62
+msgid "File"
+msgid_plural "Files"
+msgstr[0] "file"
+msgstr[1] "Fitxategiak"
+
+#: inc/file.class.php:90 inc/file.class.php:124 inc/package.class.php:524
+msgid "File uploaded without name"
+msgstr "Izenik gabe kargatutako fitxategia"
+
+#: inc/file.class.php:102
+msgid "Failed to store the uploaded file"
+msgstr "Ezin izan da kargatutako fitxategia gorde"
+
+#: inc/file.class.php:170 inc/package.class.php:545 inc/package.class.php:550
+#: inc/package.class.php:558
+msgid "No file uploaded"
+msgstr "Ez da fitxategirik kargatu"
+
+#: inc/file.class.php:176 inc/package.class.php:565
+msgid "File upload failed"
+msgstr "Fitxategiak kargatzean huts egin du"
+
+#: inc/file.class.php:185
+msgid "Temp directory doesn't exist"
+msgstr "Ekaitzlangileko direktorioa ez da existitzen"
+
+#: inc/fleet.class.php:195
+msgid "No default fleet found to move devices"
+msgstr "Ez da lehenetsitako flota aurkitu gailuak mugitzeko"
+
+#: inc/fleet.class.php:205
+msgid "Could not move all devices to the not managed fleet"
+msgstr "Ezin izan dira gailu guztiak ez kudeatutako flotara mugitu"
+
+#: inc/fleet.class.php:234
+msgid "Could not delete policies on the fleet"
+msgstr "Ezin izan dira flotarako politikak ezabatu"
+
+#: inc/fleet.class.php:484 install/install.class.php:255
+msgid "not managed fleet"
+msgstr "ez da flota kudeatzen"
+
+#: inc/fleet.class.php:573
+msgid "Persisted notification not updated."
+msgstr "Ez da eguneratu den jakinarazpen iraunkorra."
+
+#: inc/fusioninventory.class.php:52
+msgid "Unable to get rule for entity"
+msgstr "Ezin da entitatearen araua lortu"
+
+#: inc/geolocation.class.php:69
+msgid "Geolocation"
+msgid_plural "Geolocations"
+msgstr[0] "Geokokapen"
+msgstr[1] "Geolokalizazioak"
+
+#: inc/geolocation.class.php:150
+msgid "associated device is mandatory"
+msgstr "elkartutako gailua derrigorrezkoa da"
+
+#: inc/geolocation.class.php:154 inc/geolocation.class.php:241
+msgid "latitude and longitude are mandatory"
+msgstr "latitudea eta luzera derrigorrezkoak dira"
+
+#: inc/geolocation.class.php:164 inc/geolocation.class.php:258
+msgid "latitude is invalid"
+msgstr "latitude baliogabea da"
+
+#: inc/geolocation.class.php:168 inc/geolocation.class.php:265
+msgid "longitude is invalid"
+msgstr "luzera baliogabea da"
+
+#: inc/geolocation.class.php:175 inc/geolocation.class.php:204
+#: inc/geolocation.class.php:249
+msgid "Device not found"
+msgstr "Ez da aurkitu gailua"
+
+#: inc/geolocation.class.php:199
+msgid "Agent ID is mandatory"
+msgstr "Eragilearen IDa derrigorrezkoa da"
+
+#: inc/graph.class.php:57 inc/graph.class.php:64
+msgid "Invitations"
+msgstr "Gonbidapenak"
+
+#: inc/graph.class.php:59
+msgid "No invitations stats available, send one first."
+msgstr "Gonbidapenen estatistikak ez daude eskuragarri, bidali lehenengo."
+
+#: inc/graph.class.php:66 inc/invitation.class.php:57
+#: inc/policybase.class.php:80
+msgid "Done"
+msgstr "Egina"
+
+#: inc/graph.class.php:67 inc/invitation.class.php:56
+#: inc/policybase.class.php:78
+msgid "Pending"
+msgstr "Zain"
+
+#: inc/graph.class.php:109 inc/graph.class.php:135
+msgid "Devices per operating system version"
+msgstr "Sistemaren bertsio bakoitzeko gailuak"
+
+#: inc/graph.class.php:111
+msgid ""
+"No devices stats available, enrol or import your mobile computer assets "
+"first"
+msgstr ""
+"Ez dago gailuen estatistikarik eskuragarri, erregistratu edo inportatu zure "
+"ordenagailu mugikorren aktiboak lehenik"
+
+#: inc/invitation.class.php:101
+msgid "Invalid data"
+msgstr "Datu baliogabeak"
+
+#: inc/invitation.class.php:112
+msgid "The user was deleted. You must restore him first."
+msgstr "Erabiltzailea ezabatu egin da. Lehena berreskuratu behar duzu."
+
+#: inc/invitation.class.php:119
+msgid "Email address is invalid"
+msgstr "Helbide elektronikoa baliogabea da"
+
+#: inc/invitation.class.php:157
+msgid "Invalid token expiration date interval"
+msgstr "Token iraungitze data-tartea baliogabea"
+
+#: inc/invitation.class.php:274
+msgid "Cannot delete the document. Delete the attached invitation first"
+msgstr "Ezin da dokumentua ezabatu. Ezabatu erantsitako gonbidapena lehenik"
+
+#: inc/invitation.class.php:336 inc/notificationtargetinvitation.class.php:68
+msgid "Enrollment QR code"
+msgstr "Matrikula QR kodea"
+
+#: inc/invitationlog.class.php:49 inc/invitationlog.class.php:74
+msgid "Invitation log"
+msgid_plural "Invitation logs"
+msgstr[0] "Gonbidapenen erregistroa"
+msgstr[1] "Gonbidapenen erregistroak"
+
+#: inc/menu.class.php:93
+msgid "General"
+msgstr "Orokorra"
+
+#: inc/menu.class.php:115
+msgid "Configuration"
+msgstr "Konfigurazioa"
+
+#: inc/mqttlog.class.php:66
+msgid "MQTT subscriber"
+msgid_plural "MQTT subscribers"
+msgstr[0] "MQTT harpideduna"
+msgstr[1] "MQTT harpidedunak"
+
+#: inc/notificationtargetinvitation.class.php:67
+msgid "Link to download the FlyveMDM Android application"
+msgstr "FlyveMDM Android aplikazioa deskargatzeko esteka"
+
+#: inc/notificationtargetinvitation.class.php:69
+msgid "Enrollment URL"
+msgstr "Matrikula URLa"
+
+#: inc/notificationtargetinvitation.class.php:70
+msgid "First name of the Flyve MDM fleets manager"
+msgstr "Flyve MDM flotaren kudeatzailearen izena"
+
+#: inc/notificationtargetinvitation.class.php:71
+msgid "Last name of the Flyve MDM fleets manager"
+msgstr "Flyve MDM flotaren kudeatzailearen abizena"
+
+#: inc/notificationtargetinvitation.class.php:72
+msgid "Name of the helpdesk"
+msgstr "Laguntza-dokumentuaren izena"
+
+#: inc/notificationtargetinvitation.class.php:73
+msgid "Phone number of the helpdesk"
+msgstr "Laguntza-dokumentuaren telefono-zenbakia"
+
+#: inc/notificationtargetinvitation.class.php:74
+msgid "Website of the helpdesk"
+msgstr "Laguntza-dokumentatuaren webgunea"
+
+#: inc/notificationtargetinvitation.class.php:75
+msgid "Email address of the helpdesk"
+msgstr "Laguntza-dokumentatuaren helbide elektronikoa"
+
+#: inc/notificationtargetinvitation.class.php:76
+msgid "Address of the helpdesk"
+msgstr "Laguntza-dokumentatuaren helbidea"
+
+#: inc/notificationtargetinvitation.class.php:152
+msgid "Guest user"
+msgstr "Erabiltzaile gonbidatua"
+
+#: inc/package.class.php:62
+msgid "Package"
+msgid_plural "Packages"
+msgstr[0] "Package"
+msgstr[1] "Paketeak"
+
+#: inc/package.class.php:99
+msgid "Package Flyve MDM"
+msgid_plural "Packages Flyve MDM"
+msgstr[0] "Flyve MDM paketea"
+msgstr[1] "Flyve MDM paketeak"
+
+#: inc/package.class.php:202 inc/package.class.php:254
+msgid "Unable to save the file"
+msgstr "Ezin da fitxategia gorde"
+
+#: inc/package.class.php:207
+msgid "Could not parse the APK file"
+msgstr "Ezin izan da APK fitxategia analizatu"
+
+#: inc/package.class.php:409
+msgid "Parse an application to find metadata"
+msgstr "Metadatuak bilatzeko aplikazioa analizatu"
+
+#: inc/package.class.php:530
+msgid "Only APK and UPK files are allowed"
+msgstr "APK eta UPK fitxategiak soilik onartzen dira"
+
+#: inc/policy.class.php:86 inc/policy.class.php:106
+msgid "Policy"
+msgid_plural "Policies"
+msgstr[0] "politika"
+msgstr[1] "Politikak"
+
+#: inc/policy.class.php:122 inc/policycategory.class.php:51
+#: inc/policycategory.class.php:67
+msgid "Policy category"
+msgid_plural "Policy categories"
+msgstr[0] "Politika kategoria"
+msgstr[1] "Politika kategoriak"
+
+#: inc/policy.class.php:139
+msgid "Enumeration data"
+msgstr "Enumerazio datuak"
+
+#: inc/policy.class.php:157
+msgid "Default value"
+msgstr "Balio lehenetsia"
+
+#: inc/policy.class.php:166
+msgid "Recommended value"
+msgstr "Gomendatutako balioa"
+
+#: inc/policy.class.php:175
+msgid "Requires system permission"
+msgstr "Sistema baimena eskatzen du"
+
+#: inc/policy.class.php:185
+msgid "Android minimum version"
+msgstr "Android gutxieneko bertsioa"
+
+#: inc/policy.class.php:194
+msgid "Android maximum version"
+msgstr "Android gehienezko bertsioa"
+
+#: inc/policy.class.php:203
+msgid "Apple minimum version"
+msgstr "Apple gutxieneko bertsioa"
+
+#: inc/policy.class.php:212
+msgid "Apple maximum version"
+msgstr "Apple bertsio maximoa"
+
+#: inc/policybase.class.php:79
+msgid "Received"
+msgstr "Jaso"
+
+#: inc/policybase.class.php:81
+msgid "Failed"
+msgstr "Huts"
+
+#: inc/policybase.class.php:82
+msgid "Canceled"
+msgstr "Deuseztatuta"
+
+#: inc/policybase.class.php:83
+msgid "Incompatible"
+msgstr "Bateraezina"
+
+#: inc/policybase.class.php:89
+msgid "Overriden"
+msgstr "Indargabetuta"
+
+#: inc/policybase.class.php:278
+#, php-format
+msgid "Compatibility with Android up to %1$s."
+msgstr "Androiden bateragarritasuna %1$seraino."
+
+#: inc/policybase.class.php:284
+#, php-format
+msgid "Compatibility with Android from %1$s."
+msgstr "Aplikazioarekin Android bateragarritasunarekin: %1$s."
+
+#: inc/policybase.class.php:290
+#, php-format
+msgid "Compatibility with Android %1$s to %2$s."
+msgstr "Android batera %1$s eta %2$s bateragarriak."
+
+#: inc/policydeployapplication.class.php:64
+msgid "The remove on delete flag is mandatory"
+msgstr "Ezabatu marka kenduko da derrigorrezkoa"
+
+#: inc/policydeployapplication.class.php:70 inc/policydeployfile.class.php:70
+msgid "The remove on delete flag must be 0 or 1"
+msgstr "Ezabatu bandera kenduko 0 edo 1 izan behar du"
+
+#: inc/policydeployapplication.class.php:76
+msgid "You must choose an application to apply this policy"
+msgstr "Aplikazio hau aukeratu behar duzu politika hau aplikatzeko"
+
+#: inc/policydeployapplication.class.php:83
+#: inc/policydeployapplication.class.php:146
+msgid "The application does not exists"
+msgstr "Aplikazioa ez da existitzen"
+
+#: inc/policydeployapplication.class.php:167
+msgid ""
+"A removal policy for this application is applied. Please, remove it first."
+msgstr ""
+"Aplikazio honetarako kentzeko politika bat aplikatzen da. Mesedez ezabatu "
+"lehenik."
+
+#: inc/policydeployapplication.class.php:274
+#: inc/policydeployfile.class.php:332
+#: inc/policyremoveapplication.class.php:109
+#: inc/policyremovefile.class.php:108
+msgid "Waiting"
+msgstr "Zain"
+
+#: inc/policydeployfile.class.php:64
+msgid "A destination and the remove on delete flag are mandatory"
+msgstr "Helmuga eta ezabatu ezabatu beharreko bandera ez dira nahitaezkoak"
+
+#: inc/policydeployfile.class.php:76
+msgid "You must choose a file to apply this policy"
+msgstr "Politika honi aplikatzeko fitxategia aukeratu behar duzu"
+
+#: inc/policydeployfile.class.php:83
+msgid "The file does not exists"
+msgstr "Fitxategia ez da existitzen"
+
+#: inc/policydeployfile.class.php:89 inc/policydeployfile.class.php:95
+#: inc/policydeployfile.class.php:122
+msgid "invalid base path"
+msgstr "Oinarri bide okerra"
+
+#: inc/policydeployfile.class.php:204
+msgid ""
+"A removal policy is applied for this file destination. Please, remove it "
+"first."
+msgstr ""
+"Kentzeko politika bat aplikatzen da fitxategi helmuga honetarako. Mesedez "
+"ezabatu lehenik."
+
+#: inc/policyremoveapplication.class.php:60
+msgid "An application ID is required"
+msgstr "Aplikazio IDa beharrezkoa da"
+
+#: inc/profile.class.php:100
+msgid "Flyve MDM"
+msgstr "Flyve MDM"
+
+#: inc/task.class.php:87
+msgid "Task"
+msgid_plural "Tasks"
+msgstr[0] "Zeregin-"
+msgstr[1] "Zereginak"
+
+#: inc/task.class.php:161
+msgid "Notifiable and policy must be specified"
+msgstr "Jakinarazgarria eta politika zehaztu behar dira"
+
+#: inc/task.class.php:170 inc/task.class.php:250 inc/task.class.php:343
+msgid "Policy not found"
+msgstr "Ez da aurkitu politika"
+
+#: inc/task.class.php:178 inc/task.class.php:288
+msgid "Incorrect value for this policy"
+msgstr "Balio okerra politika honetarako"
+
+#: inc/task.class.php:188
+msgid "This is not a notifiable object"
+msgstr "Hau ez da objektu jakinarazgarria"
+
+#: inc/task.class.php:194
+msgid "Cannot find the notifiable object"
+msgstr "Ezin da jakinarazgarria den objektua aurkitu"
+
+#: inc/task.class.php:201
+msgid "Cannot apply a policy on a not managed fleet"
+msgstr "Ezin da kudeatu ez den flota baten gidalerro bat aplikatu"
+
+#: inc/task.class.php:208 inc/task.class.php:296
+msgid "Policy already applied"
+msgstr "Dagoeneko arauak aplikatu dira"
+
+#: inc/task.class.php:221 inc/task.class.php:303
+msgid "The requirements for this policy are not met"
+msgstr "Politikaren baldintzak ez dira betetzen"
+
+#. TRANS: %1$s is the type of the item on which a policy is applied
+#: inc/task.class.php:273
+#, php-format
+msgid "Cannot find the target %1$s"
+msgstr "Ezin da xede%1$s aurkitu "
+
+#. TRANS: %1$s is the type of the item on which one attempds to apply a policy
+#: inc/task.class.php:281
+#, php-format
+msgid "Cannot apply a policy on this %1$s"
+msgstr "Ezin da aplikatu politika honi %1$s"
+
+#: inc/task.class.php:310
+msgid "Failed to apply the policy"
+msgstr "Ezin izan da politika aplikatu"
+
+#: inc/task.class.php:322 inc/task.class.php:332
+msgid "Policy publish action failed."
+msgstr "Politika argitaratzeko ekintzak huts egin du."
+
+#: inc/task.class.php:349
+#, php-format
+msgid "%1$s not found"
+msgstr "%1$s ez da aurkitu"
+
+#: inc/task.class.php:566
+msgid "Policy ID"
+msgstr "Politika IDa"
+
+#: inc/task.class.php:593
+msgid "policy name"
+msgstr "politikaren izen"
+
+#: inc/task.class.php:602
+msgid "applied itemtype"
+msgstr "itemtype aplikatua"
+
+#: inc/task.class.php:611
+msgid "applied ID"
+msgstr "ID aplikatua"
+
+#: inc/taskstatus.class.php:47
+msgid "Task status"
+msgstr "Zereginaren egoera"
+
+#: inc/taskstatus.class.php:425
+msgid "Status"
+msgstr "Egoera"
+
+#: inc/wellknownpath.class.php:50
+msgid "Well known path"
+msgstr "Bide ezaguna"
+
+#: install/install.class.php:269
+msgid "Flyve MDM guest users"
+msgstr "Flyve MDM erabiltzaile gonbidatuak"
+
+#: install/install.class.php:270
+msgid ""
+"guest Flyve MDM users. Created by Flyve MDM - do NOT modify this comment."
+msgstr ""
+"Flyve MDM erabiltzaileak gonbidatu. Flyve MDM-ek sortua - EZ aldatu "
+"iruzkina."
+
+#: install/install.class.php:287
+msgid "Flyve MDM device agent users"
+msgstr "Flyve MDM gailuaren eragile erabiltzaileak"
+
+#: install/install.class.php:288
+msgid ""
+"device agent  Flyve MDM users. Created by Flyve MDM - do NOT modify this "
+"comment."
+msgstr ""
+"gailuaren eragile Flyve MDM erabiltzaileak. Flyve MDM-ek sortua - EZ aldatu "
+"iruzkina."
+
+#: install/install.class.php:354
+msgid "User invitation"
+msgstr "Erabiltzailearen gonbidapena"
+
+#: install/install.class.php:553
+msgid "Parse uploaded applications to collect metadata"
+msgstr "Banatu kargatutako aplikazioak metadatu biltzeko"
+
+#: install/install.class.php:718
+msgid "Security"
+msgstr "Segurtasuna"
+
+#: install/install.class.php:721
+msgid "Authentication"
+msgstr "Autentifikazioa"
+
+#: install/install.class.php:724 install/policies/password.php:46
+msgid "Password"
+msgstr "Pasahitza"
+
+#: install/install.class.php:727
+msgid "Encryption"
+msgstr "Zifratu"
+
+#: install/install.class.php:730
+msgid "Peripherals"
+msgstr "Periferikoak"
+
+#: install/install.class.php:733
+msgid "Deployment"
+msgstr "Inplementazio"
+
+#: install/policies/deployment.php:39
+msgid "Deploy application"
+msgstr "Inplementatu aplikazioa"
+
+#: install/policies/deployment.php:46
+msgid "Deploy an application on the device."
+msgstr "Aplikazio bat gailuan inplementatu."
+
+#: install/policies/deployment.php:58
+msgid "Remove application"
+msgstr "Kendu aplikazioa"
+
+#: install/policies/deployment.php:65
+msgid "Uninstall an application on the device."
+msgstr "Desinstalatu aplikazioa gailuan."
+
+#: install/policies/deployment.php:77
+msgid "Deploy file"
+msgstr "Inplementatu fitxategia"
+
+#: install/policies/deployment.php:84
+msgid "Deploy a file on the device."
+msgstr "Fitxategi bat gailuan hedatzea."
+
+#: install/policies/deployment.php:95
+msgid "Remove file"
+msgstr "Kendu fitxategia"
+
+#: install/policies/deployment.php:102
+msgid "Uninstall a file on the device."
+msgstr "Desinstalatu fitxategi bat gailuan."
+
+#: install/policies/deployment.php:114
+msgid "Disable unknown sources"
+msgstr "Desgaitu iturri ezezagunak"
+
+#: install/policies/deployment.php:121
+msgid "Disable installation of apps from unknown sources."
+msgstr "Desgaitu iturri ezezagunen aplikazioak instalatzen."
+
+#: install/policies/encryption.php:39
+msgid "Internal Storage encryption"
+msgstr "Barneko biltegiratze enkriptazioa"
+
+#: install/policies/encryption.php:46
+msgid "Force internal storage encryption."
+msgstr "Barneko biltegiratze enkriptazioa behartu."
+
+#: install/policies/mdm.php:46
+msgid "Periodic geolocation"
+msgstr "Geokokapen periodikoa"
+
+#: install/policies/mdm.php:55
+msgid ""
+"Get geolocation with a specified periodicity (in seconds) and sends it to "
+"the server."
+msgstr ""
+"Lortu geokokapen zehaztutako periodikotasun batekin (segundotan) eta "
+"zerbitzura bidali."
+
+#: install/policies/password.php:39
+msgid "Password enabled"
+msgstr "Pasahitza gaituta dago"
+
+#: install/policies/password.php:45
+msgid "Pin"
+msgstr "Pin"
+
+#: install/policies/password.php:50
+msgid "Enable the password."
+msgstr "Gaitu pasahitza."
+
+#: install/policies/password.php:61
+msgid "Minimum password length"
+msgstr "Pasahitzaren gutxieneko luzera"
+
+#: install/policies/password.php:70
+msgid ""
+"Set the required number of characters for the password. For example, you can"
+" require PIN or passwords to have at least six characters."
+msgstr ""
+"Pasahitzaren beharrezko karaktere kopurua zehaztu. Adibidez, PIN edo "
+"pasahitzak gutxienez sei karaktere izan ditzake."
+
+#: install/policies/password.php:82
+msgid "Password quality"
+msgstr "Pasahitza kalitatea"
+
+#: install/policies/password.php:87
+msgid "Unspecified"
+msgstr "Zehaztugabeko"
+
+#: install/policies/password.php:88
+msgid "Something"
+msgstr "Zerbait"
+
+#: install/policies/password.php:89
+msgid "Numeric"
+msgstr "Zenbakiz"
+
+#: install/policies/password.php:90
+msgid "Alphabetic"
+msgstr "Alfabetikokiz"
+
+#: install/policies/password.php:91
+msgid "Alphanumeric"
+msgstr "Alfanumerikokiz"
+
+#: install/policies/password.php:92
+msgid "Complex"
+msgstr "Konplexu"
+
+#: install/policies/password.php:96
+msgid "Complexity of allowed password."
+msgstr "Pasahitz baimenduaren konplexutasuna."
+
+#: install/policies/password.php:108
+msgid "Minimum letters required in password"
+msgstr "Karakter minimoak pasahitzean eskatzen dira"
+
+#: install/policies/password.php:118
+msgid ""
+"The minimum number of letters required in the password for all admins or a "
+"particular one."
+msgstr ""
+"Gutxieneko karaktereak beharrezkoa da administratzaile guztiei edo bereziki."
+
+#: install/policies/password.php:130
+msgid "Minimum lowercase letters required in password"
+msgstr "Gutxieneko letra minuskulak pasahitzean"
+
+#: install/policies/password.php:140
+msgid ""
+"The minimum number of lowercase letters required in the password for all "
+"admins or a particular one."
+msgstr ""
+"Gutxieneko minuskulen gutxieneko kopurua, administratzaile guztientzat edo "
+"bereziki pasahitzean."
+
+#: install/policies/password.php:152
+msgid "Minimum non-letter characters required in password"
+msgstr "Gutxieneko letra gabeko karaktereak pasahitzean"
+
+#: install/policies/password.php:162
+msgid ""
+"The minimum number of non-letter characters required in the password for all"
+" admins or a particular one."
+msgstr ""
+"Gutxieneko karaktere kopurua gutxienez administradore guztiei edo bereziki "
+"pasahitzean."
+
+#: install/policies/password.php:174
+msgid "Minimum numerical digits required in password"
+msgstr "Gutxieneko digitu kopuru minimoak"
+
+#: install/policies/password.php:184
+msgid ""
+"The minimum number of numerical digits required in the password for all "
+"admins or a particular one."
+msgstr ""
+"Beharrezkoa den zenbaki kopurua pasahitzan, administratzaile guztientzat edo"
+" bat bereziki."
+
+#: install/policies/password.php:196
+msgid "Minimum symbols required in password"
+msgstr "Gutxieneko ikurrak pasahitzean"
+
+#: install/policies/password.php:206
+msgid ""
+"The minimum number of symbols required in the password for all admins or a "
+"particular one."
+msgstr ""
+"Administratzaile guztiek edo berezitako pasahitzan beharrezkoak diren ikur "
+"kopuru minimoa."
+
+#: install/policies/password.php:218
+msgid "Minimum uppercase letters required in password"
+msgstr "Pasahitza eskatzen duten gutxienez maiuskulak"
+
+#: install/policies/password.php:228
+msgid ""
+"The minimum number of uppercase letters required in the password for all "
+"admins or a particular one."
+msgstr ""
+"Gutxienez maiuskulaz idatzitako karaktereak eskatzen da pasahitzan "
+"administradore guztiei edo berezitaiei."
+
+#: install/policies/password.php:240
+msgid "Maximum failed password attempts for wipe"
+msgstr "Gehitze hutseko pasahitzaren saiakera hutsak"
+
+#: install/policies/password.php:250
+msgid "Number of consecutive failed attempts of unlock the device to wipe."
+msgstr "Desinstalatu gailua ezabatzeko saiakera jarraian."
+
+#: install/policies/password.php:262
+msgid "Maximum time to lock (milliseconds)"
+msgstr "Blokeo gehieneko denbora (milisegundotan)"
+
+#: install/policies/password.php:272
+msgid "Maximum time to lock the device in milliseconds."
+msgstr "Gutxieneko denbora blokeatzeko gailua milisegundotan."
+
+#: install/policies/peripherals.php:39
+msgid "Disable Camera"
+msgstr "Desgaitu kamera"
+
+#: install/policies/peripherals.php:46
+msgid "Prevent usage of the Camera."
+msgstr "Aurrea Kameraren erabilera."
+
+#: install/policies/peripherals.php:57
+msgid "Disable Wifi"
+msgstr "Desgaitu Wifi"
+
+#: install/policies/peripherals.php:64
+msgid "Disable wifi connectivity."
+msgstr "Desgaitu wifi konexioak."
+
+#: install/policies/peripherals.php:75
+msgid "Disable Bluetooth"
+msgstr "Desgaitu Bluetooth"
+
+#: install/policies/peripherals.php:82
+msgid "Disable Bluetooth connectivity."
+msgstr "Desgaitu Bluetooth konexioa."
+
+#: install/policies/peripherals.php:94
+msgid "Disable roaming"
+msgstr "Desgaitu ibiltaritza"
+
+#: install/policies/peripherals.php:101
+msgid "Disable roaming."
+msgstr "Desgaitu ibiltaritza."
+
+#: install/policies/peripherals.php:112
+msgid "Disable GPS"
+msgstr "Desgaitu GPSa"
+
+#: install/policies/peripherals.php:119
+msgid "Disable GPS."
+msgstr "Desgaitu GPSa."
+
+#: install/policies/peripherals.php:130
+msgid "Disable Mobile line"
+msgstr "Desgaitu lineako mugikorra"
+
+#: install/policies/peripherals.php:137
+msgid "Disable Mobile line."
+msgstr "Desgaitu lineako mugikorra."
+
+#: install/policies/peripherals.php:148
+msgid "Disable NFC"
+msgstr "Desgaitu NFC"
+
+#: install/policies/peripherals.php:155
+msgid "Disable Near Field Contact."
+msgstr "Desgaitu eremuaren inguruko kontaktua."
+
+#: install/policies/peripherals.php:166
+msgid "Disable hotspot and tethering"
+msgstr "Desgaitu gatazkatsu-puntua eta ainguraketa"
+
+#: install/policies/peripherals.php:174
+msgid "Disable hotspot and tethering."
+msgstr "Desgaitu gatazkatsu-puntua eta ainguraketa."
+
+#: install/policies/peripherals.php:186
+msgid "Disable airplane mode"
+msgstr "Desgaitu hegazkin modua"
+
+#: install/policies/peripherals.php:193
+msgid "Disable airplane mode."
+msgstr "Desgaitu hegazkin modua."
+
+#: install/policies/peripherals.php:204
+msgid "Disable speakerphone"
+msgstr "Desgaitu bozgorailua"
+
+#: install/policies/peripherals.php:211
+msgid "Disable the speakerphone."
+msgstr "Desgaitu bozgorailua."
+
+#: install/policies/usb.php:39
+msgid "Disable USB MTP"
+msgstr "USB MTP desgaitu"
+
+#: install/policies/usb.php:46
+msgid "Disable USB Media Transfer Protocol."
+msgstr "USB Media Transferitzeko Protokoa desgaitu."
+
+#: install/policies/usb.php:58
+msgid "Disable USB PTP"
+msgstr "Desgaitu USB PTP"
+
+#: install/policies/usb.php:65
+msgid "Disable USB Picture Transfer Protocol."
+msgstr "USB irudien transferentziaren protokoloa desgaitu."
+
+#: install/policies/usb.php:77
+msgid "Disable USB ADB"
+msgstr "Desgaitu USB ADB"
+
+#: install/policies/usb.php:84
+msgid "Disable USB Android Debug Bridge."
+msgstr "Desgaitu USB Android araztuaren zubia."
+
+#: install/policies/userInterface.php:39
+msgid "Disable status bar"
+msgstr "Desgaitu egoera barra"
+
+#: install/policies/userInterface.php:46
+msgid ""
+"Disable the status bar. Disabling the status bar blocks notifications, quick"
+" settings and other screen overlays that allow escaping from a single use "
+"device."
+msgstr ""
+"Desgaitu egoera barra. Egoera-barra blokeen jakinarazpenak, ezarpen azkarrak"
+" eta beste pantaila-iragazkiak desgaitzea gailu bakarreko gailutik ihes "
+"egitea ahalbidetzen du."
+
+#: install/policies/userInterface.php:58
+msgid "Disable screen capture"
+msgstr "Desgaitu pantaila harrapatzea"
+
+#: install/policies/userInterface.php:65
+msgid ""
+"Disable screen capture. Disabling screen capture also prevents the content "
+"from being shown on display devices that do not have a secure video output."
+msgstr ""
+"Desgaitu pantaila harrapatzea. Pantaila-harrapaketa desgaitzen baduzu ere, "
+"bideoaren irteera segurua ez duten pantailako gailuetan erakutsiko."
+
+#: install/policies/userInterface.php:80
+msgid "Disable media sounds"
+msgstr "Desgaitu multimedia soinuak"
+
+#: install/policies/userInterface.php:87
+msgid "Disable all media sounds from device"
+msgstr "Desgaitu gailuko multimedia-soinu guztiak"
+
+#: install/policies/userInterface.php:98
+msgid "Disable ringer sounds"
+msgstr "Desgaitu keinu soinuak"
+
+#: install/policies/userInterface.php:105
+msgid "Disable all ringer sounds from device"
+msgstr "Desgaitu erlojuaren soinu guztiak gailutik"
+
+#: install/policies/userInterface.php:116
+msgid "Disable alarm sounds"
+msgstr "Alarma-soinuak desgaitu"
+
+#: install/policies/userInterface.php:123
+msgid "Disable alarm sounds from device"
+msgstr "Desgaitu alarmaren soinuak gailutik"
+
+#: install/policies/userInterface.php:134
+msgid "Disable notifications sounds"
+msgstr "Desgaitu jakinarazpenen soinuak"
+
+#: install/policies/userInterface.php:141
+msgid "Disable notifications sounds from device"
+msgstr "Desgaitu jakinarazpenen soinuak gailutik"
+
+#: install/policies/userInterface.php:152
+msgid "Disable accessibility sounds"
+msgstr "Desgaitu irisgarritasunaren soinuak"
+
+#: install/policies/userInterface.php:159
+msgid "Disable accessibility prompts sounds from device"
+msgstr "Desgaitu irisgarritasuna bultzaten duten soinuak gailutik"
+
+#: install/policies/userInterface.php:170
+msgid "Disable DTMF sounds"
+msgstr "Desgaitu DTMF soinuak"
+
+#: install/policies/userInterface.php:177
+msgid "Disable DTMF tones sounds from device"
+msgstr "Desgaitu DTMF tonuak soinuak gailutik"
+
+#: install/policies/userInterface.php:188
+msgid "Disable system sounds"
+msgstr "Desgaitu sistemaren soinuak"
+
+#: install/policies/userInterface.php:195
+msgid "Disable system sounds from device"
+msgstr "Desgaitu sistemaren soinuak gailutik"
+
+#: install/policies/userInterface.php:206
+msgid "Audio profile mode"
+msgstr "Audio profil modua"
+
+#: install/policies/userInterface.php:211
+msgid "Normal"
+msgstr "Normala"
+
+#: install/policies/userInterface.php:212
+msgid "Silent"
+msgstr "Izildu"
+
+#: install/policies/userInterface.php:213
+msgid "Vibrate"
+msgstr "Dardara"
+
+#: install/policies/userInterface.php:217
+msgid "Audio profile mode used for device"
+msgstr "Audio gailuetarako erabilitako profil modua"
+
+msgid "Is managed"
+msgstr "Kudeatzen da"
+
+msgid "copy to"
+msgstr "kopiatu"
+
+msgid "Remove when the policy is removed"
+msgstr "Kendu politika ezabatzen denean"
+
+msgid "file size"
+msgstr "fitxategiaren tamaina"
+
+msgid "Update the file"
+msgstr "Eguneratu fitxategia"
+
+msgid "Enrollment"
+msgstr "Matrikula"
+
+msgid "Enable explicit enrolment failures"
+msgstr "Gaitu esplorazio matrikulazio esplizituak"
+
+msgid "Disable token expiration on successful enrolment"
+msgstr "Desgaitu token iraungipena matrikula arrakastatsuan"
+
+msgid "Save initial inventory in file"
+msgstr "Gorde hasierako inbentarioa fitxategi batean"
+
+msgid "Configuration wizard"
+msgstr "Laguntzaiaren konfigurazioa"
+
+msgid "Enable configuration wizard"
+msgstr "Gaitu laguntzaiaren konfigurazioa"
+
+msgid ""
+"Warning: if the plugin is already configured, re-running the configuration "
+"wizard may break communication with already enrolled devices."
+msgstr ""
+"Abisua: plugina dagoeneko konfiguratuta badago, laguntzaiaren konfigurazioa "
+"berriro exekutatzen baduzu, matrikulatutako gailuekin komunikazioa hautsi "
+"egingo da."
+
+msgid "Revision information"
+msgstr "Berrikuspenaren informazioa"
+
+msgid ""
+"GLPI is not properly configured. Please check the general settings, the API "
+"settings and the notification settings."
+msgstr ""
+"GLPI ez dago behar bezala konfiguratuta. Egiaztatu ezarpen orokorrak, API "
+"ezarpenak eta jakinarazpen ezarpenak."
+
+msgid "Invite users to enroll one device."
+msgstr "Gonbidatu erabiltzaileei gailu bat matrikulatzeko."
+
+msgid ""
+"They will receive an message to their default email address containing a QR "
+"Code and instructions to enroll."
+msgstr ""
+"Mezu bat jasoko dute QR kodeakin eta erregistratzeko argibideakin helbide "
+"elektroniko lehenetsiaraino."
+
+msgid "Notification type"
+msgstr "Jakinarazpen mota"
+
+msgid "Lock"
+msgstr "Blokeatu"
+
+msgid "Wipe"
+msgstr "Garbitu"
+
+msgid "Unenroll"
+msgstr "Desinskribatu"
+
+msgid "Document types"
+msgstr "Dokumentu motak"
+
+msgid "Allow upload of APK and UPK files"
+msgstr "Baimendu APK eta UPK fitxategiak kargatzen"
+
+msgid "add document types"
+msgstr "gehitu dokumentu motak"
+
+msgid "Device type"
+msgstr "Gailu mota"
+
+msgid "Computer type for the devices"
+msgstr "Ordenagailu mota gailuetarako"
+
+msgid "Agent account type"
+msgstr "Eragilearen kontu mota"
+
+msgid "Account type for the devices"
+msgstr "Gailuen kontu mota"
+
+msgid "Invitation deeplink"
+msgstr "Gonbidapenaren sakonerroa"
+
+msgid "Invitation deeplink URL"
+msgstr "Gonbidapena sakonerroa URLa"
+
+msgid "Base URL of the deeplink micro service"
+msgstr "Sakonerroa mikro zerbitzuaren oinarrizko URLa"
+
+msgid "Restrictions"
+msgstr "Murrizketak"
+
+msgid "Default device limit per entity"
+msgstr "Entitate bakoitzeko gailuaren mugaren lehenetsia"
+
+msgid ""
+"No more devices than this quantity are allowed per entity by default (0 = no"
+" limitation)"
+msgstr ""
+"Kantitate hau baino gailu gehiago ez dira onartzen erakunde bakoitzeko (0 = "
+"mugarik gabe)"
+
+msgid "Wizard complete"
+msgstr "Laguntzailea osatu da"
+
+msgid "This wizard will no longer be accessible."
+msgstr "Laguntzaile hau ez da erabilgarri egongo."
+
+msgid "Requirements"
+msgstr "Baldintzak"
+
+msgid ""
+"To setup Flyve MDM please connect to your server with a command line "
+"interface. Some operations require a root access."
+msgstr ""
+"Flyve MDM konfiguratzeko, konektatu zerbitzariarekin komando lerroko "
+"interfazearekin. Zenbait operazioek root sarbidea behar dute."
+
+msgid "This wizard will guide you through the steps to setup Flyve MDM."
+msgstr ""
+"Laguntzailea honek Flyve MDM konfiguratzeko pausoen bidez gidatuko zaitu."
+
+msgid "Cron Job"
+msgstr "Cron Lana"
+
+msgid "Flyve MDM requires cron job to run automatic actions."
+msgstr ""
+"Flyve MDM-ek cronen lana eskatzen du ekintza automatikoak exekutatzeko."
+
+msgid ""
+"As root in a terminal, execute the following command. Adapt www-data to the "
+"user running your HTTP server."
+msgstr ""
+"Terminal batean erro gisa, exekutatu hurrengo komando hau. Adaptatu www-"
+"datuak zure HTTP zerbitzaria exekutatzen duen erabiltzailearentzat."
+
+msgid ""
+"Add, if missing, the following line. Adapt path to php CLI binary and path "
+"to GLPI:"
+msgstr ""
+"Gehitu, falta bada, hurrengo lerroa. CLI bidezko php bidea eta bidea GLPIra "
+"egokitzeko bidea egokitu:"
+
+msgid ""
+"Automatic actions registered in the scheduler of GLPI will run every minute."
+msgstr ""
+"GLPIko antolatzailean erregistratutako ekintza automatikoak minututan "
+"exekutatuko dira."
+
+msgid "Email notifications"
+msgstr "Postaren jakinarazpenak"
+
+msgid ""
+"Flyve MDM requires email notifications. The following link will open a new "
+"tab to the email notifications settings."
+msgstr ""
+"Flyve MDM-ek posta elektronikoaren jakinarazpenak eskatzen ditu. Hurrengo "
+"estekek fitxa berri bat irekiko du jakinarazpenen ezarpenetara."
+
+msgid ""
+"The queuednotification must have set Run mode to CLI. This action will be "
+"triggered by the cron job. The following link will open a new tab to the "
+"Automatic actions list"
+msgstr ""
+"Jakinarazpeneko zerrenda exekutatu moduan ezarri behar du CLIra. Ekintza "
+"honek cron lana abiaraziko du. Hurrengo estekak fitxa berri bat irekiko du "
+"Ekintza automatikoen zerrendara"
+
+msgid "Automatic actions"
+msgstr "Ekintza automatikoak"
+
+msgid ""
+"Ensure the cron job is properly configure by checking the log "
+"glpi/files/_log/cron.log. The entry should contain the word External"
+msgstr ""
+"Ziurtatu cron lana behar bezala konfiguratu log glpi/files/_log/cron.log "
+"egiaztapena. Sarrera kanpoko hitza eduki beharko luke"
+
+msgid "REST API"
+msgstr "REST API"
+
+msgid ""
+"Flyve MDM requires REST API enabled. The following link will open a new tab "
+"to the REST API settings."
+msgstr ""
+"Flyve MDM-ek REST APIa gaitu behar du. Esteka hau fitxa berri bat irekiko du"
+" REST API ezarpenetara."
+
+msgid "Make sure the following setting is populated:"
+msgstr "Ziurtatu hurrengo kokalekua populatu dela:"
+
+msgid "- URL of the API (example: https://example.com/glpi/apirest.php/)"
+msgstr "- APIaren URLa (adibidez: https://example.com/glpi/apirest.php/)"
+
+msgid "Make sure the following settings are enabled:"
+msgstr "Ziurtatu hurrengo ezarpenak gaituta dituzula:"
+
+msgid "- Rest API"
+msgstr "- Gainerako APIa"
+
+msgid "- Login with credentials"
+msgstr "- Sartu kredentzialekin"
+
+msgid "- Login with external token"
+msgstr "- Saioa hasteko kanpoko tokenarekin"
+
+msgid ""
+"- Add an API client leaving empty IPv4 address range, IPv6 address and "
+"application token."
+msgstr ""
+"- Gehitu API bezeroa IPv4 helbide-barruti hutsa, IPv6 helbidea eta "
+"aplikazioaren token hutsik uzten."
+
+msgid ""
+"If your GLPI server is inside a local network, you must allow external HTTP "
+"connections for getting devices responses. This configuration step depends "
+"on how is your network configured, but as a guide, it usually needs to allow"
+" HTTP connections through your firewall and forward them to your GLPI "
+"server."
+msgstr ""
+"Zure GLPI zerbitzaria sare lokal baten barruan badago, kanpoko HTTP "
+"konexioak baimendu behar dituzu gailuak erantzuteko. Konfigurazio-pauso hau "
+"nola konfiguratu den zure sarearen araberakoa da, baina gida gisa, "
+"suebakiaren bidez HTTP konexioak baimentzen ditu eta GLPI zerbitzarira "
+"birbidaltzeko."
+
+msgid "API"
+msgstr "API"
+
+msgid "General setup"
+msgstr "Konfigurazio orokorra"
+
+msgid ""
+"Flyve MDM needs to know the public URL of GLPI. The following link will open"
+" a new tab to the general setup."
+msgstr ""
+"Flyve MDM-ek GLPIren URL publikoa ezagutu behar du. Hurrengo estekak fitxa "
+"berri bat irekiko du konfigurazio orokorrarekin."
+
+msgid "Make sure the following settings is populated:"
+msgstr "Ziurtatu hurrengo ezarpenak populatu direla:"
+
+msgid "- URL of the application (example: https://example.com/glpi)"
+msgstr "- Aplikazioaren URLa (adibidez: https://example.com/glpi)"
+
+msgid "Document Types"
+msgstr "Dokumentu motak"
+
+msgid ""
+"You must add the APK and UPK document types in order to upload Android and "
+"Uhuru packages."
+msgstr ""
+"APK eta UPK dokumentu motak gehitu behar dituzu Android eta Uhuru paketeak "
+"kargatzeko."
+
+msgid ""
+"Just click in the following button and they will be automatically added"
+msgstr "Egin klik botoi honetan eta automatikoki gehituko dira"
+
+msgid "Server Configuration"
+msgstr "Zerbitzariaren konfigurazioa"
+
+msgid ""
+"Flyve MDM allows uploading files, Android and Uhuru Mobile packages. Ensure "
+"php.ini allows reasonable upload sizes."
+msgstr ""
+"Flyve MDM fitxategiak, Android eta Uhuru Mobile paketeak kargatzeko aukera "
+"ematen du. Ziurtatu php.ini-k kargatzeko tamainu egokiak eskaintzen dituela."
+
+msgid "For example:"
+msgstr "Adibidez:"
+
+msgid "Fusion Inventory Configuration"
+msgstr "Fusion inbentarioa konfigurazioa"
+
+msgid "For FusionInventory greater than 9.1 + 1.1:"
+msgstr "FusionInbentarioa baino handiagoa 9.1 + 1.1:"
+
+msgid ""
+"It is required to deactivate the following rules in the Equipment import and"
+" link rules menu: "
+msgstr ""
+"Arau hauek desgaitu behar dira Ekipamenduen inportazioan eta esteken arauen "
+"menuan:"
+
+msgid ""
+"The following link will open a new tab to the Rules > Equipment import and "
+"link rules section of FusionInventory "
+msgstr ""
+"Esteka hau fitxa berri bat irekiko du FusionInventory-ren Arauak> "
+"Ekipamenduen inportazioa eta esteken arauak atalean"
+
+msgid "Rules"
+msgstr "Arauak"
+
+msgid ""
+"Not disabling this rule will make FusionInventory reject inventories from "
+"devices."
+msgstr ""
+"Arau hau desgaitzea FusionInbentarioa arbasoen inbentarioak gailuetatik "
+"sortuko ditu."
+
+msgid "DBMS access for Mosquitto"
+msgstr "DBMS sarbidea Mosquittoentzat"
+
+msgid ""
+"Flyve MDM requires that Mosquitto has access to the database of GLPI, this "
+"is for the authentication process of its clients."
+msgstr ""
+"Flyve MDM-ek Mosquitto-k GLPIren datu-basean sartzeko eskatzen du, hau da, "
+"bezeroen autentifikazio prozesua."
+
+msgid ""
+"It is recommended to create a dedicated user for Mosquitto allowed to "
+"connect only from its specific IP."
+msgstr ""
+"Gomendagarria da Mosquitto-k bere erabiltzaileak bere IP zehatzetik soilik "
+"konektatzea baimendutako erabiltzaile bat sortzea."
+
+msgid ""
+"Run the following command on your MySQL host, adapt mqtt.server.ip and glpi-"
+"database-name"
+msgstr ""
+"Exekutatu hurrengo komandoa zure MySQL ostalarian, egokitu mqtt.server.ip "
+"eta glpi-database-name"
+
+msgid "This user should be able to only SELECT the following tables:"
+msgstr "Erabiltzaile honek taulak soilik hauta ditzakezu:"
+
+msgid ""
+"Run the following commands on your MySQL host, and adapt the name of the "
+"database and the mqtt.server.ip"
+msgstr ""
+"Exekutatu ondorengo komandoak zure MySQL ostalarian, eta datu-basearen izena"
+" eta mqtt.server.ip izena egokitu"
+
+msgid "Create the file"
+msgstr "Sortu fitxategia"
+
+msgid ""
+"Insert the following content, and adapt the bind address to the interface "
+"used by Mosquitto to connect to your DBMS."
+msgstr ""
+"Sartu ondorengo edukia eta lotu helbidea moldatu Mosquitto-k zure DBMS-ra "
+"konektatzeko."
+
+msgid ""
+"Restart your DBMS daemon and check it listens to the expected interface."
+msgstr ""
+"Berrabiarazi zure DBMS deabrua eta egiaztatu espero den interfazea entzuten."
+
+msgid ""
+"Check you can login to your DBMD from the host which will run Mosquitto."
+msgstr "Egiaztatu zure DBMD sarbidea Mosquitto exekutatuko duen ostaletik."
+
+msgid "The following command will ask for the password you choosed earlier"
+msgstr "Hurrengo komandoa lehenago aukeratutako pasahitza eskatuko dizu"
+
+msgid "Flyve MDM requires a Message queue server."
+msgstr "Flyve MDM-ek Mesu Zerrenda zerbitzaria eskatzen du."
+
+msgid "Prefer a dedicated server or VM for running Mosquitto."
+msgstr "Aukeratu zerbitzari dedikatu bat edo VMa Mosquitto exekutatzeko."
+
+msgid "You could also use another service as Firebase Cloud Messaging."
+msgstr ""
+"Firebase Cloud Messaging bezalako beste zerbitzu bat ere erabil dezakezu."
+
+msgid "The following steps will guide you to configure each queue service."
+msgstr ""
+"Hurrengo pausuak zuk gidatuko zaitu ilaran zerbitzu bakoitza konfiguratzeko."
+
+msgid "Mosquitto"
+msgstr "Mosquitto"
+
+msgid "Be sure that the service is enabled in the plugin settings."
+msgstr "Ziurtatu zerbitzua plugina ezarpenetan gaituta dagoela."
+
+msgid "As root in a terminal, execute the following command"
+msgstr "Terminal batean erro gisa, exekutatu komando hau"
+
+msgid "Create"
+msgstr "Sortu"
+
+msgid "Add the following content, adapting your DBMS credentials:"
+msgstr "Gehitu ondorengo edukia, zure DBMS kredentzialak egokituz:"
+
+msgid "Check Mosquitto is listening to port 1883 (insecure)."
+msgstr "Egiaztatu Mosquitto 1883 ataka entzuten ari dela (arriskutsua)."
+
+msgid "TLS Listener setup"
+msgstr "TLS entzuteko konfiguratzailea"
+
+msgid ""
+"TLS provides security to the communication, through authentication of server"
+" and client, besides data encryption."
+msgstr ""
+"TLS-k komunikazioaren segurtasuna ematen du, zerbitzariaren eta bezeroaren "
+"autentifikazioaren bidez, datuen enkriptatzeaz gain."
+
+msgid "Use TLS version 1.2, lower versions are no longer considered safe."
+msgstr "Erabili TLS 1.2 bertsioa, bertsio txikiagoak jada ez dira seguruak."
+
+msgid ""
+"Mosquitto does not support SSLv2 or SSLv3 (and they are no longer safe)."
+msgstr "Mosquitto-k ez du onartzen SSLv2 edo SSLv3 (eta ez dira seguruak)."
+
+msgid ""
+"- Copy in /etc/mosquitto/certs your certificate, your certificate authority "
+"chain and private key."
+msgstr ""
+"- Kopiatu /etc/mosquitto/certs zure ziurtagiria, zure ziurtagiri agintaritza"
+" katea eta giltza pribatua."
+
+msgid "- Secure your private key"
+msgstr "- Segurtatu zure giltza pribatua"
+
+msgid "- Refresh hash and symlinks to your certificates"
+msgstr "- Freskatu hash eta esteka sinbolikoak ziurtagirietara"
+
+msgid ""
+"Use a certificate signed by a certified authority or you may have trouble "
+"with the android devices, using them with custom certification authorities "
+"might not work (not tested)."
+msgstr ""
+"Ziurtagiri autoritate batek sinatutako ziurtagiri bat erabili edo Android "
+"gailuekin arazoak izan ditzakezu, ziurtagiri pertsonalizatuaren agintariek "
+"erabil ez dezaten (probatu gabe)."
+
+msgid "Append the following to /etc/mosquitto/conf.d/flyvemdm.conf."
+msgstr "Ondorengo erantsi /etc/mosquitto/conf.d/flyvemdm.conf."
+
+msgid "- Restart Mosquitto"
+msgstr "- Berrabiatu Mosquitto"
+
+msgid "- Test you can successfully connect to Mosquitto"
+msgstr "- Probatu ondo konektatu ahal izango duzula Mosquitto-ra"
+
+msgid ""
+"- Check the ports that Mosquitto listens. You should see only the port 8883."
+msgstr ""
+"- Ikusi Mosquitto-k entzuten dituen atakak. 8883 ataka bakarrik ikusi "
+"beharko zenuke."
+
+msgid "Mosquitto client for the backend"
+msgstr "Mosquitto bezeroa backend-a"
+
+msgid "Flyve MDM requires to connect to Mosquitto."
+msgstr "Flyve MDM-ek Mosquitto-ra konektatu behar du."
+
+msgid "For SYSV systems, link the init script in /etc/init.d/"
+msgstr "SYSV sistemetarako, sartu init gidoian /etc/init.d/."
+
+msgid "Check the user configured in the script and adapt it if needed."
+msgstr ""
+"Egiaztatu guidoiean konfiguratutako erabiltzailea eta, behar izanez gero, "
+"egokitu."
+
+msgid "Firebase Cloud Messaging"
+msgstr "Firebase Cloud Messaging"
+
+msgid "Add your server key provided on your project in Firebase."
+msgstr "Zure Firebase proiektuan emandako zerbitzariaren giltza gehitu."
+
+msgid "Back"
+msgstr "Atzera"
+
+msgid "Wizard page:"
+msgstr "Laguntzailea orria:"
+
+msgid "There is no task status yet"
+msgstr "Ez dago zereginik oraindik"
+
+msgid "Count"
+msgstr "Diruz"
+
+msgid "Alias"
+msgstr "Ezizen"
+
+msgid "Package name"
+msgstr "Paketearen izena"
+
+msgid "Update the package"
+msgstr "Eguneratu paketea"
+
+msgid "Actions"
+msgstr "Ekintzak"
+
+msgid "MQTT broker"
+msgstr "MQTT eragile"
+
+msgid "MQTT broker address for clients"
+msgstr "Bezeroentzako MQTT eragilearen helbidea"
+
+msgid ""
+"An IP address or a hostname used by the client devices to communicate with "
+"the broker"
+msgstr ""
+"IP agente edo bezeroaren gailuak erabiltzen duen ostalari-izena brokerarekin"
+" komunikatzeko"
+
+msgid "MQTT broker address for backend"
+msgstr "MQTT eragilearen helbidea backendentzat"
+
+msgid ""
+"An IP address or a hostname used by the backend to communicate with the "
+"broker"
+msgstr ""
+"IP helbidea edo ostalari-izen bat erabiltzen da, backend-eko eragilearekin "
+"komunikatzeko"
+
+msgid "MQTT broker port"
+msgstr "MQTT eragilearen ataka"
+
+msgid "A port number between 1025 and 65535, standard port is 1883"
+msgstr "1025 eta 65535 arteko portu-zenbakia, portu estandarra 1883koa da"
+
+msgid "MQTT broker port for TLS"
+msgstr "MQTT eragilearen portua TLSrako"
+
+msgid "A port number between 1025 and 65535, standard port is 8883"
+msgstr "1025 eta 65535 artean portu-zenbakia, portu estandarra 8883koa da"
+
+msgid "Use TLS for clients"
+msgstr "Erabili TLS bezeroentzat"
+
+msgid ""
+"Use TLS for MQTT communication between the broker and the client devices"
+msgstr "Erabili TLS eragilearen eta bezero gailuen artean MQTT komunikazioa"
+
+msgid "Use TLS for backend"
+msgstr "Erabili TLS backend-a"
+
+msgid "Use TLS for MQTT communication between the broker and the backend"
+msgstr "Erabili TLSa MQTT komunikazioaren eragile eta backend-a artean"
+
+msgid "CA certificate"
+msgstr "CA ziurtagiria"
+
+msgid "Cipher suite (TLS enabled)"
+msgstr "Cipher suite (TLS gaituta)"
+
+msgid "Mqtt broker cipher suite"
+msgstr "Mqtt eragile zifraketa suitea"
+
+msgid "test"
+msgstr "proba"
+
+msgid "Client certificate server (Broker MQTT with TLS enabled)"
+msgstr ""
+"Bezeroaren ziurtagiriaren zerbitzaria (MQTT bitartekaria TLS bidez gaituta "
+"dago)"
+
+msgid "Use client certificates"
+msgstr "Erabili bezeroaren ziurtagiriak"
+
+msgid "Ssl certificate server for MQTT clients"
+msgstr "Ssl ziurtagiri zerbitzaria MQTT bezeroentzat"
+
+msgid "https://cert.domain.com/path/to/service"
+msgstr "https://cert.domain.com/path/to/service"
+
+msgid "This feature is in experimental phase"
+msgstr "Ezaugarri hau fase esperimentalean dago"
+
+msgid "The server key token given on Firebase settings"
+msgstr "Firebase ezarpenetan emandako zerbitzariaren giltza tokenarekin"
+
+msgid "apply a policy"
+msgstr "politika bat aplikatu"
+
+msgid "Value"
+msgstr "Balio"
+
+msgid "Applied policies"
+msgstr "Aplikatutako politikak"
+
+msgid "Application date"
+msgstr "Aplikazioaren data"
+
+msgid "Last change date"
+msgstr "Azken aldaketa data"
+
+msgid "There is no agent yet"
+msgstr "Ez dago eragilerik oraindik"
+
+msgid "Topic"
+msgstr "Gai"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Message"
+msgstr "Mezua"
+
+msgid "Support name"
+msgstr "Laguntza izena"
+
+msgid "Support address"
+msgstr "Laguntza helbidea"
+
+msgid "Support phone"
+msgstr "Laguntza telefonoa"
+
+msgid "Support website"
+msgstr "Laguntza webgunea"
+
+msgid "Support email"
+msgstr "Laguntza posta"
+
+msgid "MDM Agent URL"
+msgstr "MDM Eragile URLa"
