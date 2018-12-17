@@ -73,6 +73,7 @@
 				<p>{{ __('- Login with credentials', 'flyvemdm') }}</p>
 				<p>{{ __('- Login with external token', 'flyvemdm') }}</p>
 				<p>{{ __('- Add an API client leaving empty IPv4 address range, IPv6 address and application token.', 'flyvemdm') }}</p>
+				<p>{{ __('If your GLPI server is inside a local network, you must allow external HTTP connections for getting devices responses. This configuration step depends on how is your network configured, but as a guide, it usually needs to allow HTTP connections through your firewall and forward them to your GLPI server.', 'flyvemdm') }}</p>
 				<p><a href="../../../front/config.form.php?forcetab=Config$8" target="_blank">{{ __('API', 'flyvemdm' )}}</a></p>
 			</td>
 		</tr>
@@ -179,14 +180,26 @@ bind-address = 0.0.0.0
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
+		{% endif %} {% if step == 108 %}
+			<tr>
+				<th colspan="3" class="">{{ __('Message queue', 'flyvemdm') }}</th>
+			</tr>
+			<tr class="tab_bg_1">
+				<td>
+					<p>{{ __('Flyve MDM requires a Message queue server.', 'flyvemdm') }}</p>
+					<p>{{ __('Prefer a dedicated server or VM for running Mosquitto.', 'flyvemdm') }}</p>
+					<p>{{ __('You could also use another service as Firebase Cloud Messaging.', 'flyvemdm') }}</p>
+					<p>{{ __('The following steps will guide you to configure each queue service.', 'flyvemdm') }}</p>
+				</td>
+			</tr>
 		{% endif %} {% if step == 109 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
 		<tr class="tab_bg_1">
 			<td>
-				<p>{{ __('Flyve MDM requires a Message queue server.', 'flyvemdm') }}</p>
-				<p>{{ __('Prefer a dedicated server or VM for running Mosquitto.', 'flyvemdm') }}</p>
+				<p>{{ __('Be sure that the service is enabled in the plugin settings.', 'flyvemdm') }}</p>
+				<p><a href="../../../plugins/flyvemdm/front/config.form.php?forcetab=PluginFlyvemdmConfig$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
 				<p>{{ __('As root in a terminal, execute the following command', 'flyvemdm') }}</p>
 				<p>apt-get install mosquitto mosquitto-auth-plugin</p>
 				<p>{{ __('Create', 'flyvemdm') }}&nbsp;/etc/mosquitto/conf.d/flyvemdm.conf
@@ -266,6 +279,17 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('systemctl enable flyvemdm.service', 'flyvemdm') }}</p>
 			</td>
 		</tr>
+		{% endif %} {% if step == 112 %}
+			<tr>
+				<th colspan="3" class="">{{ __('Firebase Cloud Messaging', 'flyvemdm') }}</th>
+			</tr>
+			<tr class="tab_bg_1">
+				<td>
+					<p>{{ __('Be sure that the service is enabled in the plugin settings.', 'flyvemdm') }}</p>
+					<p>{{ __('Add your server key provided on your project in Firebase. You can find it in Project settings > Cloud Messaging', 'flyvemdm') }}</p>
+					<p><a href="../../../plugins/flyvemdm/front/config.form.php?forcetab=PluginFlyvemdmConfig$3" target="_blank">{{ __('Message queue', 'flyvemdm' )}}</a></p>
+				</td>
+			</tr>
 		{% endif %}
 		<tr class="tab_bg_1">
 			<td class="center" colspan="2">
