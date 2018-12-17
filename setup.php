@@ -30,7 +30,7 @@
  */
 
 // Version of the plugin
-define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-rc.2');
+define('PLUGIN_FLYVEMDM_VERSION', '2.0.0-rc.3');
 // Schema version of this version
 define('PLUGIN_FLYVEMDM_SCHEMA_VERSION', '2.0');
 // is or is not an official release of the plugin
