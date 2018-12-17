@@ -234,20 +234,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
          if ($this->getIsRelease() === 'true') {
             throw new Exception('The Official release constant must be false');
          }
-
-         $rev = 'HEAD';
       } else {
-         // check a tag exists for the version
-         $tag = self::$tagPrefix . $version;
-         if (!$this->tagExists($tag)) {
-            throw new Exception("The tag $tag does not exists");
-         }
-
-         // check the current head matches the tag
-         if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
-            throw new Exception("HEAD is not pointing to the tag of the version to build");
-         }
-
          // check the release constant
          if ($this->getIsRelease() !== 'true') {
             throw new Exception('The Official release constant must be true');
@@ -258,8 +245,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
          if (!is_array($versionTag)) {
             throw new Exception("The version does not exists in the XML file");
          }
-
-         $rev = $tag;
       }
 
       // Update locales
@@ -267,7 +252,6 @@ class RoboFile extends Glpi\Tools\RoboFile {
       $pluginName = $this->getPluginName();
 
       if ($release == 'release') {
-
          // commit locales update
          $this->taskGitStack()
             ->stopOnFail()
@@ -296,6 +280,27 @@ class RoboFile extends Glpi\Tools\RoboFile {
             ->add('CHANGELOG.md')
             ->commit('docs(changelog): update changelog')
             ->run();
+      }
+
+      $rev = 'HEAD';
+      if ($release == 'release') {
+         // check a tag exists for the version
+         $tag = self::$tagPrefix . $version;
+         $this->taskGitStack()
+            ->stopOnFail()
+            ->tag($tag)
+            ->run();
+
+         if (!$this->tagExists($tag)) {
+            throw new Exception("The tag $tag does not exists");
+         }
+
+         // check the current head matches the tag
+         if (!$this->isTagMatchesCurrentCommit(self::$tagPrefix . $version)) {
+            throw new Exception("HEAD is not pointing to the tag of the version to build");
+         }
+
+         $rev = $tag;
       }
 
       // Build archive
@@ -378,6 +383,27 @@ class RoboFile extends Glpi\Tools\RoboFile {
       $command .= " --keyword=_n:1,2,4t --keyword=__s:1,2t --keyword=__:1,2t --keyword=_e:1,2t --keyword=_x:1c,2,3t --keyword=_ex:1c,2,3t";
       $command .= " --keyword=_sx:1c,2,3t --keyword=_nx:1c,2,3,5t";
       $this->_exec($command);
+      return $this;
+   }
+
+   /**
+    * Build MO files
+    */
+   public function localesMo() {
+      $localesPath = $this->getProjectPath() . '/locales';
+      if ($handle = opendir($localesPath)) {
+         while (($file = readdir($handle)) !== false) {
+            if ($file != "." && $file != "..") {
+               $poFile = "$localesPath/$file";
+               if (pathinfo($poFile, PATHINFO_EXTENSION) == 'po') {
+                  $moFile = str_replace('.po', '.mo', $poFile);
+                  $command = "msgfmt $poFile -o $moFile";
+                  $this->_exec($command);
+               }
+            }
+         }
+         closedir($handle);
+      }
       return $this;
    }
 
@@ -692,5 +718,9 @@ class RoboFile extends Glpi\Tools\RoboFile {
          return false;
       }
       return true;
+   }
+
+   protected function getProjectPath() {
+      return __DIR__;
    }
 }
