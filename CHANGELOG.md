@@ -1,3 +1,60 @@
+<a name="2.0.0-rc.3"></a>
+# [2.0.0-rc.3](https://github.com/flyve-mdm/flyve-mdm-glpi/compare/v2.0.0-rc.1...v2.0.0-rc.3) (2018-12-17)
+
+
+### Bug Fixes
+
+* **agent:** better display of online status in history ([3623120](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/3623120))
+* **agent:** save system permission bit ([afb4938](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/afb4938))
+* **agent:** sql error ([7692c46](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/7692c46)), closes [#710](https://github.com/flyve-mdm/flyve-mdm-glpi/issues/710)
+* **composer:** errors in composer ([89e125a](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/89e125a))
+* **deployapp:** disable mqtt notifications on not parsed apps ([4ebafa8](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/4ebafa8))
+* **install:** bad filename for upgrades ([0c0d26f](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/0c0d26f))
+* **install:** fix tables detection for isntall / upgrade branching ([81bf6a2](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/81bf6a2))
+* **install:** time limit when upgrading from glpi ([081a8cd](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/081a8cd))
+* **install:** upgrade does not finish ([fa2102d](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/fa2102d))
+* **install:** wrong filename for upgrade script ([870c8c0](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/870c8c0))
+* **invitation:** change QR image size to avoid auto resizing ([40e6032](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/40e6032))
+* **invitation:** change the workflow for invitation ([e7d1cf6](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/e7d1cf6))
+* **log:** datetime of log entries ([356da0b](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/356da0b))
+* **mqtlog:** compatibility with glpi 9.2 ([aeea7f0](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/aeea7f0))
+* **mqtthandler:** message format mismatch with mdm agent ([9b47fdc](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/9b47fdc))
+* **mqttlog:** logs may show the latest date but an old value for a topic ([ad9bdf8](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/ad9bdf8))
+* **notification:** quite problem in generated emails ([38ea64c](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/38ea64c))
+* **package:** update for transparent icon file ([0fd3ffd](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/0fd3ffd))
+* **package:** warnings when running manually parsePackage ([702adc6](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/702adc6))
+* **package:** wrong dl_filename when updating a package ([19a18e0](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/19a18e0))
+* **package:** wrong download filename ([012daa8](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/012daa8))
+* HTTP 500 error if vendor directory missing ([4ba0dfc](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/4ba0dfc))
+* restrict operator for boolean search options ([a184cc4](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/a184cc4))
+* **policies:** update system policies values ([15a9847](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/15a9847))
+* **policy:** bad user interface for app deployment ([14c333a](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/14c333a))
+* **policy:** dropdown shall not show empty categories ([c1a984c](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/c1a984c))
+* **profile:** add permission to read task statuses for agents ([57bb7c1](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/57bb7c1))
+* **robo:** fix archive build ([73700a5](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/73700a5))
+* **robo:** update for robo script ([69203ec](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/69203ec))
+
+
+### Features
+
+* **agent:** give a pasword to the agent user account ([d398594](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/d398594))
+* **agent:** notification token to enrollment ([6d516b4](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/6d516b4))
+* **agent:** revert give a pasword to the agent user account" ([22d26c7](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/22d26c7))
+* **agent:** show online status in form ([38f3840](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/38f3840))
+* **broker:** add generic broker bus, transporter and handler ([10143b5](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/10143b5))
+* **broker:** add mqtt broker messenger ([75bd56e](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/75bd56e))
+* **policy:** add (basic) periodic geolocation ([b6e591c](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/b6e591c))
+* **policy:** protect policies test with a policy ([f16ba3e](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/f16ba3e))
+* **policy:** remove protect policies test with a policy ([7e6c85d](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/7e6c85d))
+* **policy:** show policy restrictions for android ([bbb9e09](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/bbb9e09))
+* **test:** add login and logout method ([8fd7b0f](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/8fd7b0f))
+* **test:** add tests to taskstatus ([6c1ffcb](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/6c1ffcb))
+* add fcm broker configuration ([09d4cd4](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/09d4cd4))
+* compatibiliy with GLPI 9.4 ([2211039](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/2211039))
+* handle response from devices by HTTP ([f4577b9](https://github.com/flyve-mdm/flyve-mdm-glpi/commit/f4577b9))
+
+
+
 <a name="2.0.0-rc.1"></a>
 # [2.0.0-rc.1](https://github.com/flyve-mdm/flyve-mdm-glpi/compare/v1.1.0...v2.0.0-rc.1) (2018-07-19)
 
