@@ -21,55 +21,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
+ * @author    Domingo Oropeza <doropeza@teclib.com>
  * @copyright Copyright © 2018 Teclib
- * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Fcm;
+namespace tests\units\GlpiPlugin\Flyvemdm\Mqtt;
 
-use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access this file directly");
-}
+use Flyvemdm\Tests\CommonTestCase;
 
-final class FcmEnvelope implements BrokerEnvelopeItemInterface {
-
-   private $context;
+class MqttEnvelope extends CommonTestCase {
 
    /**
-    * FcmEnvelope constructor.
-    * @param array $context
+    * @tags testEnvelope
     */
-   public function __construct(array $context) {
-      if (!isset($context['scope']) || !is_array($context['scope'])) {
-         throw new \InvalidArgumentException(__('The scope argument is needed (push type and token)',
-            'flyvemdm'));
-      }
+   public function testEnvelope() {
+      // try the exception
+      $this->exception(function () {
+         $this->newTestedInstance([]);
+      })->hasMessage('A topic argument is needed');
 
-      foreach ($context['scope'] as $index => $device) {
-         if (!isset($device['type']) || !isset($device['token'])) {
-            throw new \InvalidArgumentException(__('The scope argument is needed (push type and token)',
-               'flyvemdm'));
-         }
-      }
+      $topic = 'lorem';
+      $qos = 2;
+      $retain = 1;
 
-      if (!isset($context['topic'])) {
-         throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
-      }
-      $context['topic'] = str_replace('/', '-', $context['topic']);
+      // Defaut values
+      $instance = $this->newTestedInstance(['topic' => $topic]);
+      $this->string($instance->getContext('topic'))->isEqualTo($topic);
+      $this->integer($instance->getContext('qos'))->isEqualTo(0);
+      $this->integer($instance->getContext('retain'))->isEqualTo(0);
 
-      $this->context = $context;
+      // set context values
+      $instance = $this->newTestedInstance(['topic' => $topic, 'qos' => $qos, 'retain' => $retain]);
+      $this->integer($instance->getContext('qos'))->isEqualTo($qos);
+      $this->integer($instance->getContext('retain'))->isEqualTo($retain);
    }
 
-   /**
-    * @param $name
-    * @return mixed
-    */
-   public function getContext($name) {
-      return $this->context[$name];
-   }
 }
