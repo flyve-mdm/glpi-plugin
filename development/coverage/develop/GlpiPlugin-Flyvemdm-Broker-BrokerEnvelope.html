@@ -26,7 +26,7 @@ layout: coverage
 <div class="container-fluid">
     <div class="col-lg-12">
             <div class="row">
-        <h1>PluginFlyvemdmPolicyCategory: lines coverage</h1>
+        <h1>GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope: lines coverage</h1>
 
         
 
@@ -35,9 +35,9 @@ layout: coverage
     <tr>
         
                     <td style="text-align: center; width: 100%">
-                <h1 class="text-danger">
-                    4%
-                                            <small>of 25</small>
+                <h1 class="text-success">
+                    100%
+                                            <small>of 14</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -57,24 +57,52 @@ layout: coverage
 
     <tbody>
             <tr>
-            <td><a href="#getTypeName">PluginFlyvemdmPolicyCategory::getTypeName()</a></td>
+            <td><a href="#__construct">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::__construct()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#wrap">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::wrap()</a></td>
                                         <td style="text-align: center">1</td>
                 <td style="text-align: center">    
     <span class="label label-success">100%</span>
 </td>
                                             </tr>
             <tr>
-            <td><a href="#getSearchOptionsNew">PluginFlyvemdmPolicyCategory::getSearchOptionsNew()</a></td>
-                                        <td style="text-align: center">1</td>
+            <td><a href="#with">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::with()</a></td>
+                                        <td style="text-align: center">3</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-success">100%</span>
 </td>
                                             </tr>
             <tr>
-            <td><a href="#rawSearchOptions">PluginFlyvemdmPolicyCategory::rawSearchOptions()</a></td>
-                                        <td style="text-align: center">23</td>
+            <td><a href="#withMessage">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::withMessage()</a></td>
+                                        <td style="text-align: center">3</td>
                 <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#get">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::get()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#all">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::all()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getMessage">GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope::getMessage()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
 </td>
                                             </tr>
         </tbody>
@@ -277,7 +305,7 @@ layout: coverage
                     <th id="L24" class="number ">24</th>
 
                     <td class="" >
-                        <pre> * @author    Thierry Bugier
+                        <pre> * @author    Domingo Oropeza &lt;doropeza@teclib.com&gt;
 </pre>
                     </td>
                 </tr>
@@ -293,7 +321,7 @@ layout: coverage
                     <th id="L26" class="number ">26</th>
 
                     <td class="" >
-                        <pre> * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+                        <pre> * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
 </pre>
                     </td>
                 </tr>
@@ -341,7 +369,7 @@ layout: coverage
                     <th id="L32" class="number ">32</th>
 
                     <td class="" >
-                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
+                        <pre>namespace GlpiPlugin\Flyvemdm\Broker;
 </pre>
                     </td>
                 </tr>
@@ -349,7 +377,7 @@ layout: coverage
                     <th id="L33" class="number ">33</th>
 
                     <td class="" >
-                        <pre>   die(&quot;Sorry. You can&#039;t access directly to this file&quot;);
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -357,7 +385,7 @@ layout: coverage
                     <th id="L34" class="number ">34</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
 </pre>
                     </td>
                 </tr>
@@ -373,7 +401,7 @@ layout: coverage
                     <th id="L36" class="number ">36</th>
 
                     <td class="" >
-                        <pre>/**
+                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
 </pre>
                     </td>
                 </tr>
@@ -381,7 +409,7 @@ layout: coverage
                     <th id="L37" class="number ">37</th>
 
                     <td class="" >
-                        <pre> * @since 0.1.0.33
+                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
 </pre>
                     </td>
                 </tr>
@@ -389,7 +417,7 @@ layout: coverage
                     <th id="L38" class="number ">38</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>}
 </pre>
                     </td>
                 </tr>
@@ -397,7 +425,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>class PluginFlyvemdmPolicyCategory extends CommonTreeDropdown {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -405,7 +433,7 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>final class BrokerEnvelope {
 </pre>
                     </td>
                 </tr>
@@ -413,7 +441,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>   // name of the right in DB
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -421,7 +449,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>   public static $rightname = &#039;flyvemdm:policycategory&#039;;
+                        <pre>   private $items = [];
 </pre>
                     </td>
                 </tr>
@@ -429,7 +457,7 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
-                        <pre>   public $can_be_translated = true;
+                        <pre>   private $message;
 </pre>
                     </td>
                 </tr>
@@ -453,7 +481,7 @@ layout: coverage
                     <th id="L46" class="number ">46</th>
 
                     <td class="" >
-                        <pre>    * Localized name of the type
+                        <pre>    * @param object $message
 </pre>
                     </td>
                 </tr>
@@ -461,7 +489,7 @@ layout: coverage
                     <th id="L47" class="number ">47</th>
 
                     <td class="" >
-                        <pre>    * @param integer $nb number of item in the type (default 0)
+                        <pre>    * @param BrokerEnvelopeItemInterface[] $items
 </pre>
                     </td>
                 </tr>
@@ -469,60 +497,58 @@ layout: coverage
                     <th id="L48" class="number ">48</th>
 
                     <td class="" >
-                        <pre>    * @return string
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L49" class="number ">49</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getTypeName">
-                    <th id="L50" class="number ">50</th>
+                            <tr class="line" id="__construct">
+                    <th id="L49" class="number ">49</th>
 
-                    <td class="" id="getTypeName">
-                        <pre>   static function getTypeName($nb = 0) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    <td class="" id="__construct">
+                        <pre>   public function __construct($message, array $items = []) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L50" class="number covered">50</th>
+
+                    <td class="covered" >
+                        <pre>      $this-&gt;message = $message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L51" class="number covered">51</th>
 
                     <td class="covered" >
-                        <pre>      return _n(&#039;Policy category&#039;, &#039;Policy categories&#039;, $nb, &#039;flyvemdm&#039;);</pre>
+                        <pre>      foreach ($items as $item) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L52" class="number unreach">52</th>
+                    <th id="L52" class="number covered">52</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="covered" >
+                        <pre>         $this-&gt;items[\get_class($item)] = $item;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L53" class="number ">53</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L54" class="number ">54</th>
+                    <th id="L54" class="number covered">54</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="covered" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L55" class="number ">55</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::getSearchOptionsNew()
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -530,7 +556,7 @@ layout: coverage
                     <th id="L56" class="number ">56</th>
 
                     <td class="" >
-                        <pre>    * @return array
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -538,55 +564,65 @@ layout: coverage
                     <th id="L57" class="number ">57</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>    * Wrap a message into an envelope if not already wrapped.
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getSearchOptionsNew">
+                            <tr class="line" id="">
                     <th id="L58" class="number ">58</th>
 
-                    <td class="" id="getSearchOptionsNew">
-                        <pre>   public function getSearchOptionsNew() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>    *
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L59" class="number uncovered">59</th>
+                    <th id="L59" class="number ">59</th>
 
-                    <td class="uncovered" >
-                        <pre>      return $this-&gt;rawSearchOptions();</pre>
+                    <td class="" >
+                        <pre>    * @param BrokerEnvelope|object $message
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L60" class="number unreach">60</th>
+                    <th id="L60" class="number ">60</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>    * @return object|BrokerEnvelope
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L61" class="number ">61</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="rawSearchOptions">
+                            <tr class="line" id="wrap">
                     <th id="L62" class="number ">62</th>
 
-                    <td class="" id="rawSearchOptions">
-                        <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="wrap">
+                        <pre>   public static function wrap($message) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L63" class="number uncovered">63</th>
+                    <th id="L63" class="number covered">63</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab = [];</pre>
+                    <td class="covered" >
+                        <pre>      return $message instanceof self ? $message : new self($message);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L64" class="number ">64</th>
+                    <th id="L64" class="number unreach">64</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L65" class="number ">65</th>
 
                     <td class="" >
                         <pre>
@@ -594,31 +630,26 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L65" class="number uncovered">65</th>
+                    <th id="L66" class="number ">66</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" >
+                        <pre>   /**
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L66" class="number uncovered">66</th>
+                    <th id="L67" class="number ">67</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L67" class="number uncovered">67</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039; =&gt; __(&#039;Policy category&#039;, &#039;flyvemdm&#039;),</pre>
+                    <td class="" >
+                        <pre>    * new Envelope instance with additional item
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L68" class="number ">68</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>    * @param BrokerEnvelopeItemInterface $item
 </pre>
                     </td>
                 </tr>
@@ -626,131 +657,130 @@ layout: coverage
                     <th id="L69" class="number ">69</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @return BrokerEnvelope
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L70" class="number uncovered">70</th>
+                    <th id="L70" class="number ">70</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="with">
+                    <th id="L71" class="number ">71</th>
+
+                    <td class="" id="with">
+                        <pre>   public function with(BrokerEnvelopeItemInterface $item) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L71" class="number uncovered">71</th>
+                    <th id="L72" class="number covered">72</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;1&#039;,</pre>
+                    <td class="covered" >
+                        <pre>      $cloned = clone $this;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L72" class="number uncovered">72</th>
+                    <th id="L73" class="number covered">73</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    <td class="covered" >
+                        <pre>      $cloned-&gt;items[\get_class($item)] = $item;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L73" class="number uncovered">73</th>
+                    <th id="L74" class="number covered">74</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;completename&#039;,</pre>
+                    <td class="covered" >
+                        <pre>      return $cloned;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L74" class="number uncovered">74</th>
+                    <th id="L75" class="number unreach">75</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;Name&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L75" class="number uncovered">75</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;itemlink&#039;,</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L76" class="number ">76</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
+                        <pre>
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="withMessage">
                     <th id="L77" class="number ">77</th>
 
-                    <td class="" >
-                        <pre>      ];
-</pre>
+                    <td class="" id="withMessage">
+                        <pre>   public function withMessage($message) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L78" class="number ">78</th>
+                    <th id="L78" class="number covered">78</th>
+
+                    <td class="covered" >
+                        <pre>      $cloned = clone $this;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L79" class="number covered">79</th>
+
+                    <td class="covered" >
+                        <pre>      $cloned-&gt;message = $message;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L80" class="number covered">80</th>
+
+                    <td class="covered" >
+                        <pre>      return $cloned;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L81" class="number unreach">81</th>
+
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L82" class="number ">82</th>
 
                     <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L79" class="number uncovered">79</th>
+                            <tr class="line" id="get">
+                    <th id="L83" class="number ">83</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" id="get">
+                        <pre>   public function get($itemFqcn) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L80" class="number uncovered">80</th>
+                    <th id="L84" class="number covered">84</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                    <td class="covered" >
+                        <pre>      return isset($this-&gt;items[$itemFqcn]) ? $this-&gt;items[$itemFqcn] : null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L81" class="number uncovered">81</th>
+                    <th id="L85" class="number unreach">85</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L82" class="number uncovered">82</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L83" class="number uncovered">83</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L84" class="number ">84</th>
-
-                    <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L85" class="number uncovered">85</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L86" class="number ">86</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -758,65 +788,68 @@ layout: coverage
                     <th id="L87" class="number ">87</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L88" class="number uncovered">88</th>
+                    <th id="L88" class="number ">88</th>
 
-                    <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                    <td class="" >
+                        <pre>    * @return BrokerEnvelopeItemInterface[] indexed by fqcn
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number uncovered">89</th>
+                    <th id="L89" class="number ">89</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="all">
+                    <th id="L90" class="number ">90</th>
+
+                    <td class="" id="all">
+                        <pre>   public function all() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L90" class="number uncovered">90</th>
+                    <th id="L91" class="number covered">91</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                    <td class="covered" >
+                        <pre>      return $this-&gt;items;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number uncovered">91</th>
+                    <th id="L92" class="number unreach">92</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;comment&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L92" class="number uncovered">92</th>
-
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039;          =&gt; __(&#039;comment&#039;),</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L93" class="number ">93</th>
 
                     <td class="" >
-                        <pre>         &#039;massiveaction&#039; =&gt; false,
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number uncovered">94</th>
+                    <th id="L94" class="number ">94</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;datatype&#039;      =&gt; &#039;text&#039;,</pre>
+                    <td class="" >
+                        <pre>   /**
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L95" class="number ">95</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>    * @return object The original message contained in the envelope
 </pre>
                     </td>
                 </tr>
@@ -824,30 +857,36 @@ layout: coverage
                     <th id="L96" class="number ">96</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L97" class="number uncovered">97</th>
+                            <tr class="line" id="getMessage">
+                    <th id="L97" class="number ">97</th>
 
-                    <td class="uncovered" >
-                        <pre>      return $tab;</pre>
+                    <td class="" id="getMessage">
+                        <pre>   public function getMessage() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number unreach">98</th>
+                    <th id="L98" class="number covered">98</th>
+
+                    <td class="covered" >
+                        <pre>      return $this-&gt;message;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L99" class="number unreach">99</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L99" class="number ">99</th>
+                    <th id="L100" class="number ">100</th>
 
                     <td class="" >
-                        <pre>}
-</pre>
+                        <pre>}</pre>
                     </td>
                 </tr>
                         </tbody>
