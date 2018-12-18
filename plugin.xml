@@ -2,7 +2,7 @@
    <name>Flyve MDM</name>
    <key>flyvemdm</key>
    <state>stable</state>
-   <logo>https://raw.githubusercontent.com/flyve-mdm/flyve-mdm-glpi/master/icon.png</logo>
+   <logo>https://raw.githubusercontent.com/flyve-mdm/glpi-plugin/master/images/icon.png</logo>
    <description>
       <short>
          <cs>Flyve MDM je nástroj pro správu mobilních zařízení.</cs>
