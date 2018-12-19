@@ -26,7 +26,7 @@ layout: coverage
 <div class="container-fluid">
     <div class="col-lg-12">
             <div class="row">
-        <h1>PluginFlyvemdmMqttuser: lines coverage</h1>
+        <h1>PluginFlyvemdmProfile: lines coverage</h1>
 
         
 
@@ -36,8 +36,8 @@ layout: coverage
         
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
-                    13%
-                                            <small>of 82</small>
+                    6%
+                                            <small>of 64</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -57,66 +57,52 @@ layout: coverage
 
     <tbody>
             <tr>
-            <td><a href="#prepareInputForAdd">PluginFlyvemdmMqttuser::prepareInputForAdd()</a></td>
-                                        <td style="text-align: center">5</td>
-                <td style="text-align: center">    
-    <span class="label label-success">80%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#prepareInputForUpdate">PluginFlyvemdmMqttuser::prepareInputForUpdate()</a></td>
-                                        <td style="text-align: center">5</td>
-                <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#post_addItem">PluginFlyvemdmMqttuser::post_addItem()</a></td>
-                                        <td style="text-align: center">14</td>
-                <td style="text-align: center">    
-    <span class="label label-danger">21%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#post_updateItem">PluginFlyvemdmMqttuser::post_updateItem()</a></td>
-                                        <td style="text-align: center">14</td>
-                <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#hashPassword">PluginFlyvemdmMqttuser::hashPassword()</a></td>
-                                        <td style="text-align: center">10</td>
-                <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#getRandomPassword">PluginFlyvemdmMqttuser::getRandomPassword()</a></td>
-                                        <td style="text-align: center">15</td>
-                <td style="text-align: center">    
-    <span class="label label-danger">0%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#post_purgeItem">PluginFlyvemdmMqttuser::post_purgeItem()</a></td>
-                                        <td style="text-align: center">4</td>
-                <td style="text-align: center">    
-    <span class="label label-success">100%</span>
-</td>
-                                            </tr>
-            <tr>
-            <td><a href="#getByUser">PluginFlyvemdmMqttuser::getByUser()</a></td>
+            <td><a href="#purgeProfiles">PluginFlyvemdmProfile::purgeProfiles()</a></td>
                                         <td style="text-align: center">3</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
                                             </tr>
             <tr>
-            <td><a href="#getACLs">PluginFlyvemdmMqttuser::getACLs()</a></td>
-                                        <td style="text-align: center">12</td>
+            <td><a href="#showForm">PluginFlyvemdmProfile::showForm()</a></td>
+                                        <td style="text-align: center">24</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTabNameForItem">PluginFlyvemdmProfile::getTabNameForItem()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForItem">PluginFlyvemdmProfile::displayTabContentForItem()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getGeneralRights">PluginFlyvemdmProfile::getGeneralRights()</a></td>
+                                        <td style="text-align: center">17</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getAssetsRights">PluginFlyvemdmProfile::getAssetsRights()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#changeProfile">PluginFlyvemdmProfile::changeProfile()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-success">80%</span>
 </td>
                                             </tr>
         </tbody>
@@ -439,7 +425,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>class PluginFlyvemdmMqttuser extends CommonDBTM {
+                        <pre>class PluginFlyvemdmProfile extends Profile {
 </pre>
                     </td>
                 </tr>
@@ -455,7 +441,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>   const RIGHT_FLYVEMDM_USE = 128;
 </pre>
                     </td>
                 </tr>
@@ -463,7 +449,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::prepareInputForAdd()
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -471,36 +457,39 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
+                        <pre>   /**
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L44" class="number ">44</th>
+
+                    <td class="" >
+                        <pre>    * @var string $rightname name of the right in DB
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L45" class="number ">45</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="prepareInputForAdd">
-                    <th id="L44" class="number ">44</th>
-
-                    <td class="" id="prepareInputForAdd">
-                        <pre>   public function prepareInputForAdd($input) {<span class="label label-success">80%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
                             <tr class="line" id="">
-                    <th id="L45" class="number covered">45</th>
+                    <th id="L46" class="number ">46</th>
 
-                    <td class="covered" >
-                        <pre>      if (isset($input[&#039;password&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L46" class="number uncovered">46</th>
-
-                    <td class="uncovered" >
-                        <pre>         $input[&#039;password&#039;] = $this-&gt;hashPassword($input[&#039;password&#039;]);</pre>
+                    <td class="" >
+                        <pre>   static $rightname = &#039;flyvemdm:flyvemdm&#039;;
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L47" class="number ">47</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -508,67 +497,67 @@ layout: coverage
                     <th id="L48" class="number ">48</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L49" class="number covered">49</th>
+                    <th id="L49" class="number ">49</th>
 
-                    <td class="covered" >
-                        <pre>      if (!isset($input[&#039;_reset_acl&#039;])) {</pre>
+                    <td class="" >
+                        <pre>    * Deletes the profiles related to the ones being purged
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L50" class="number covered">50</th>
+                    <th id="L50" class="number ">50</th>
 
-                    <td class="covered" >
-                        <pre>         $input[&#039;_reset_acl&#039;] = false;</pre>
+                    <td class="" >
+                        <pre>    * @param Profile $prof
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L51" class="number ">51</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="purgeProfiles">
                     <th id="L52" class="number ">52</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="" id="purgeProfiles">
+                        <pre>   public static function purgeProfiles(Profile $prof) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L53" class="number covered">53</th>
+                    <th id="L53" class="number uncovered">53</th>
 
-                    <td class="covered" >
-                        <pre>      return $input;</pre>
+                    <td class="uncovered" >
+                        <pre>      $plugprof = new self();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L54" class="number unreach">54</th>
+                    <th id="L54" class="number uncovered">54</th>
 
-                    <td class="unreach" >
+                    <td class="uncovered" >
+                        <pre>      $plugprof-&gt;deleteByCriteria([&#039;profiles_id&#039; =&gt; $prof-&gt;getField(&quot;id&quot;)]);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L55" class="number uncovered">55</th>
+
+                    <td class="uncovered" >
                         <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L55" class="number ">55</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L56" class="number ">56</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -576,7 +565,7 @@ layout: coverage
                     <th id="L57" class="number ">57</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::prepareInputForUpdate()
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -584,44 +573,44 @@ layout: coverage
                     <th id="L58" class="number ">58</th>
 
                     <td class="" >
+                        <pre>    * @see Profile::showForm()
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L59" class="number ">59</th>
+
+                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="prepareInputForUpdate">
-                    <th id="L59" class="number ">59</th>
+                            <tr class="line" id="showForm">
+                    <th id="L60" class="number ">60</th>
 
-                    <td class="" id="prepareInputForUpdate">
-                        <pre>   public function prepareInputForUpdate($input) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L60" class="number uncovered">60</th>
-
-                    <td class="uncovered" >
-                        <pre>      if (isset($input[&#039;password&#039;])) {</pre>
+                    <td class="" id="showForm">
+                        <pre>   public function showForm($ID, $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L61" class="number uncovered">61</th>
 
                     <td class="uncovered" >
-                        <pre>         $input[&#039;password&#039;] = $this-&gt;hashPassword($input[&#039;password&#039;]);</pre>
+                        <pre>      if (!Profile::canView()) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L62" class="number ">62</th>
+                    <th id="L62" class="number uncovered">62</th>
 
-                    <td class="" >
-                        <pre>      }
-</pre>
+                    <td class="uncovered" >
+                        <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L63" class="number ">63</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -629,18 +618,32 @@ layout: coverage
                     <th id="L64" class="number uncovered">64</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!isset($input[&#039;_reset_acl&#039;])) {</pre>
+                        <pre>      $canedit = Profile::canUpdate();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L65" class="number uncovered">65</th>
 
                     <td class="uncovered" >
-                        <pre>         $input[&#039;_reset_acl&#039;] = false;</pre>
+                        <pre>      $profile    = new Profile();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L66" class="number ">66</th>
+                    <th id="L66" class="number uncovered">66</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($ID) {</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L67" class="number uncovered">67</th>
+
+                    <td class="uncovered" >
+                        <pre>         $profile-&gt;getFromDB($ID);</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L68" class="number ">68</th>
 
                     <td class="" >
                         <pre>      }
@@ -648,40 +651,24 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L67" class="number ">67</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L68" class="number uncovered">68</th>
+                    <th id="L69" class="number uncovered">69</th>
 
                     <td class="uncovered" >
-                        <pre>      return $input;</pre>
+                        <pre>      if ($canedit) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L69" class="number unreach">69</th>
+                    <th id="L70" class="number uncovered">70</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L70" class="number ">70</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>         echo &quot;&lt;form action=&#039;&quot; . $profile-&gt;getFormURL() . &quot;&#039; method=&#039;post&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L71" class="number ">71</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -689,154 +676,153 @@ layout: coverage
                     <th id="L72" class="number ">72</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::post_addItem()
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L73" class="number ">73</th>
+                    <th id="L73" class="number uncovered">73</th>
 
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="post_addItem">
-                    <th id="L74" class="number ">74</th>
-
-                    <td class="" id="post_addItem">
-                        <pre>   public function post_addItem() {<span class="label label-danger">21%</span><div class="btn-group"></div></pre>
+                    <td class="uncovered" >
+                        <pre>      $rights = $this-&gt;getGeneralRights();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L75" class="number covered">75</th>
+                    <th id="L74" class="number uncovered">74</th>
 
-                    <td class="covered" >
-                        <pre>      if ($this-&gt;input[&#039;_reset_acl&#039;] === true) {</pre>
+                    <td class="uncovered" >
+                        <pre>      $profile-&gt;displayRightsChoiceMatrix($rights, [&#039;canedit&#039;       =&gt; $canedit,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L75" class="number uncovered">75</th>
+
+                    <td class="uncovered" >
+                        <pre>                                                    &#039;default_class&#039; =&gt; &#039;tab_bg_2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L76" class="number uncovered">76</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
+                        <pre>                                                    &#039;title&#039; =&gt; __(&#039;General&#039;)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L77" class="number uncovered">77</th>
+                    <th id="L77" class="number ">77</th>
 
-                    <td class="uncovered" >
-                        <pre>         $mqttAcl-&gt;removeAllForUser($this);</pre>
+                    <td class="" >
+                        <pre>      ]);
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L78" class="number ">78</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L79" class="number covered">79</th>
+                    <th id="L79" class="number uncovered">79</th>
 
-                    <td class="covered" >
-                        <pre>      if (!isset($this-&gt;input[&#039;_acl&#039;]) || !is_array($this-&gt;input[&#039;_acl&#039;])) {</pre>
+                    <td class="uncovered" >
+                        <pre>      $rights = $this-&gt;getAssetsRights();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L80" class="number covered">80</th>
+                    <th id="L80" class="number uncovered">80</th>
 
-                    <td class="covered" >
-                        <pre>         return;</pre>
+                    <td class="uncovered" >
+                        <pre>      $profile-&gt;displayRightsChoiceMatrix($rights, [&#039;canedit&#039;       =&gt; $canedit,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L81" class="number ">81</th>
+                    <th id="L81" class="number uncovered">81</th>
 
-                    <td class="" >
-                        <pre>      }
-</pre>
+                    <td class="uncovered" >
+                        <pre>                                                    &#039;default_class&#039; =&gt; &#039;tab_bg_2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L82" class="number uncovered">82</th>
 
                     <td class="uncovered" >
-                        <pre>      foreach ($this-&gt;input[&#039;_acl&#039;] as $acl) {</pre>
+                        <pre>                                                    &#039;title&#039; =&gt; __(&#039;Assets&#039;)</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L83" class="number uncovered">83</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!isset($acl[&#039;topic&#039;]) || !isset($acl[&#039;access_level&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L84" class="number uncovered">84</th>
-
-                    <td class="uncovered" >
-                        <pre>            continue;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L85" class="number ">85</th>
+                    <th id="L83" class="number ">83</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>       ]);
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L84" class="number ">84</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L85" class="number uncovered">85</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($canedit) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L86" class="number uncovered">86</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
+                        <pre>         echo &quot;&lt;div class=&#039;center&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L87" class="number uncovered">87</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl-&gt;add([</pre>
+                        <pre>         echo &quot;&lt;input type=&#039;hidden&#039; name=&#039;id&#039; value=&quot;.$ID.&quot;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L88" class="number uncovered">88</th>
 
                     <td class="uncovered" >
-                        <pre>            &#039;plugin_flyvemdm_mqttusers_id&#039; =&gt; $this-&gt;fields[&#039;id&#039;],</pre>
+                        <pre>         echo &quot;&lt;input type=&#039;submit&#039; name=&#039;update&#039; value=\&quot;&quot;._sx(&#039;button&#039;, &#039;Save&#039;).&quot;\&quot; class=&#039;submit&#039;&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L89" class="number uncovered">89</th>
 
                     <td class="uncovered" >
-                        <pre>            &#039;topic&#039;                        =&gt; $acl[&#039;topic&#039;],</pre>
+                        <pre>         echo &quot;&lt;/div&gt;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L90" class="number uncovered">90</th>
-
-                    <td class="uncovered" >
-                        <pre>            &#039;access_level&#039;                 =&gt; $acl[&#039;access_level&#039;],</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L91" class="number ">91</th>
-
-                    <td class="" >
-                        <pre>         ]);
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L92" class="number ">92</th>
+                    <th id="L90" class="number ">90</th>
 
                     <td class="" >
                         <pre>      }
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L91" class="number uncovered">91</th>
+
+                    <td class="uncovered" >
+                        <pre>      Html::closeForm();</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L92" class="number uncovered">92</th>
+
+                    <td class="uncovered" >
+                        <pre>      $this-&gt;showLegend();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -866,7 +852,7 @@ layout: coverage
                     <th id="L96" class="number ">96</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::post_updateItem()
+                        <pre>    * @see Profile::getTabNameForItem()
 </pre>
                     </td>
                 </tr>
@@ -878,36 +864,29 @@ layout: coverage
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="post_updateItem">
+                            <tr class="line" id="getTabNameForItem">
                     <th id="L98" class="number ">98</th>
 
-                    <td class="" id="post_updateItem">
-                        <pre>   public function post_updateItem($history = 1) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" id="getTabNameForItem">
+                        <pre>   public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L99" class="number uncovered">99</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($this-&gt;input[&#039;_reset_acl&#039;] === true) {</pre>
+                        <pre>      if ($item-&gt;getType() == Profile::class) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L100" class="number uncovered">100</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
+                        <pre>         return __(&#039;Flyve MDM&#039;, &#039;flyvemdm&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number uncovered">101</th>
-
-                    <td class="uncovered" >
-                        <pre>         $mqttAcl-&gt;removeAllForUser($this);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L102" class="number ">102</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>      }
@@ -915,96 +894,106 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number uncovered">103</th>
+                    <th id="L102" class="number uncovered">102</th>
 
                     <td class="uncovered" >
-                        <pre>      if (!isset($this-&gt;input[&#039;_acl&#039;]) || !is_array($this-&gt;input[&#039;_acl&#039;])) {</pre>
+                        <pre>      return &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number uncovered">104</th>
+                    <th id="L103" class="number unreach">103</th>
 
-                    <td class="uncovered" >
-                        <pre>         return;</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L104" class="number ">104</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L105" class="number ">105</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number uncovered">106</th>
-
-                    <td class="uncovered" >
-                        <pre>      foreach ($this-&gt;input[&#039;_acl&#039;] as $acl) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L107" class="number uncovered">107</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!isset($acl[&#039;topic&#039;]) || !isset($acl[&#039;access_level&#039;])) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L108" class="number uncovered">108</th>
-
-                    <td class="uncovered" >
-                        <pre>            continue;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L109" class="number ">109</th>
+                    <th id="L106" class="number ">106</th>
 
                     <td class="" >
-                        <pre>         }
+                        <pre>    * @see Profile::displayTabContentForItem
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L107" class="number ">107</th>
+
+                    <td class="" >
+                        <pre>    */
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="displayTabContentForItem">
+                    <th id="L108" class="number ">108</th>
+
+                    <td class="" id="displayTabContentForItem">
+                        <pre>   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L109" class="number uncovered">109</th>
+
+                    <td class="uncovered" >
+                        <pre>      if ($item-&gt;getType() == &#039;Profile&#039;) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L110" class="number uncovered">110</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
+                        <pre>         $profile = new self();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L111" class="number uncovered">111</th>
 
                     <td class="uncovered" >
-                        <pre>         $mqttAcl-&gt;add([</pre>
+                        <pre>         $profile-&gt;showForm($item-&gt;getField(&#039;id&#039;));</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L112" class="number uncovered">112</th>
+                    <th id="L112" class="number ">112</th>
 
-                    <td class="uncovered" >
-                        <pre>            &#039;plugin_flyvemdm_mqttusers_id&#039; =&gt; $this-&gt;fields[&#039;id&#039;],</pre>
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L113" class="number uncovered">113</th>
 
                     <td class="uncovered" >
-                        <pre>            &#039;topic&#039;                        =&gt; $acl[&#039;topic&#039;],</pre>
+                        <pre>      return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L114" class="number uncovered">114</th>
+                    <th id="L114" class="number unreach">114</th>
 
-                    <td class="uncovered" >
-                        <pre>            &#039;access_level&#039;                 =&gt; $acl[&#039;access_level&#039;],</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L115" class="number ">115</th>
 
                     <td class="" >
-                        <pre>         ]);
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -1012,22 +1001,23 @@ layout: coverage
                     <th id="L116" class="number ">116</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L117" class="number uncovered">117</th>
+                    <th id="L117" class="number ">117</th>
 
-                    <td class="uncovered" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>    * Get rights matrix for plugin
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L118" class="number ">118</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    * @return array:array:string rights matrix
 </pre>
                     </td>
                 </tr>
@@ -1035,126 +1025,124 @@ layout: coverage
                     <th id="L119" class="number ">119</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="getGeneralRights">
                     <th id="L120" class="number ">120</th>
 
-                    <td class="" >
-                        <pre>    * Hash a password
-</pre>
+                    <td class="" id="getGeneralRights">
+                        <pre>   public function getGeneralRights() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L121" class="number ">121</th>
 
                     <td class="" >
-                        <pre>    * @param string $clearPassword
+                        <pre>      $rights = [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L122" class="number ">122</th>
-
-                    <td class="" >
-                        <pre>    * @return string PBKDF2 hashed password
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L123" class="number ">123</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="hashPassword">
-                    <th id="L124" class="number ">124</th>
-
-                    <td class="" id="hashPassword">
-                        <pre>   protected function hashPassword($clearPassword) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L125" class="number ">125</th>
-
-                    <td class="" >
-                        <pre>      // These parameters may be added to the function as a future improvement
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L126" class="number uncovered">126</th>
+                    <th id="L122" class="number uncovered">122</th>
 
                     <td class="uncovered" >
-                        <pre>      $algorithm = &#039;sha256&#039;;</pre>
+                        <pre>         [&#039;itemtype&#039;  =&gt; PluginFlyvemdmProfile::class,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L127" class="number uncovered">127</th>
+                    <th id="L123" class="number uncovered">123</th>
 
                     <td class="uncovered" >
-                        <pre>      $saltSize = 12;</pre>
+                        <pre>            &#039;label&#039;       =&gt; parent::getTypeName(2),</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L124" class="number uncovered">124</th>
+
+                    <td class="uncovered" >
+                        <pre>            &#039;field&#039;       =&gt; self::$rightname,</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L125" class="number uncovered">125</th>
+
+                    <td class="uncovered" >
+                        <pre>            &#039;rights&#039;      =&gt; [self::RIGHT_FLYVEMDM_USE =&gt; __(&#039;Use Flyve MDM&#039;)]</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L126" class="number ">126</th>
+
+                    <td class="" >
+                        <pre>         ],
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L127" class="number ">127</th>
+
+                    <td class="" >
+                        <pre>         [&#039;itemtype&#039;  =&gt; PluginFlyvemdmEntityConfig::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L128" class="number uncovered">128</th>
 
                     <td class="uncovered" >
-                        <pre>      $keyLength = 24;</pre>
+                        <pre>            &#039;label&#039;  =&gt; PluginFlyvemdmEntityConfig::getTypeName(2),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L129" class="number uncovered">129</th>
 
                     <td class="uncovered" >
-                        <pre>      $salt = base64_encode(openssl_random_pseudo_bytes($saltSize));</pre>
+                        <pre>            &#039;field&#039;  =&gt; PluginFlyvemdmEntityConfig::$rightname,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L130" class="number uncovered">130</th>
+                    <th id="L130" class="number ">130</th>
 
-                    <td class="uncovered" >
-                        <pre>      $iterations = 901;</pre>
+                    <td class="" >
+                        <pre>            &#039;rights&#039; =&gt; [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L131" class="number uncovered">131</th>
 
                     <td class="uncovered" >
-                        <pre>      $rawOutput = true;</pre>
+                        <pre>                READ                                                             =&gt; __(&#039;Read&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L132" class="number ">132</th>
+                    <th id="L132" class="number uncovered">132</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_DEVICE_COUNT_LIMIT    =&gt; __(&#039;Write device limit&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L133" class="number uncovered">133</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($rawOutput) {</pre>
+                        <pre>                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_APP_DOWNLOAD_URL      =&gt; __(&#039;Set agent download URL&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L134" class="number uncovered">134</th>
 
                     <td class="uncovered" >
-                        <pre>         $keyLength *= 2;</pre>
+                        <pre>                PluginFlyvemdmEntityConfig::RIGHT_FLYVEMDM_INVITATION_TOKEN_LIFE =&gt; __(&#039;Set invitation tiken lifetime&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L135" class="number ">135</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>             ]
 </pre>
                     </td>
                 </tr>
@@ -1162,52 +1150,52 @@ layout: coverage
                     <th id="L136" class="number ">136</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         ],
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L137" class="number uncovered">137</th>
-
-                    <td class="uncovered" >
-                        <pre>      $hashed = hash_pbkdf2(&#039;sha256&#039;, $clearPassword, $salt, $iterations, $keyLength, $rawOutput);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L138" class="number ">138</th>
+                    <th id="L137" class="number ">137</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         [&#039;itemtype&#039;  =&gt; PluginFlyvemdmInvitationLog::class,
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L138" class="number uncovered">138</th>
+
+                    <td class="uncovered" >
+                        <pre>            &#039;label&#039;       =&gt; PluginFlyvemdmInvitationLog::getTypeName(2),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L139" class="number uncovered">139</th>
 
                     <td class="uncovered" >
-                        <pre>      return &#039;PBKDF2$&#039; . $algorithm . &#039;$&#039; . $iterations . &#039;$&#039; . $salt . &#039;$&#039; . base64_encode($hashed);</pre>
+                        <pre>            &#039;field&#039;       =&gt; PluginFlyvemdmInvitationLog::$rightname,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L140" class="number unreach">140</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L141" class="number ">141</th>
+                    <th id="L140" class="number ">140</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>            &#039;rights&#039;      =&gt; [
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L141" class="number uncovered">141</th>
+
+                    <td class="uncovered" >
+                        <pre>               READ                                                              =&gt; __(&#039;Read&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L142" class="number ">142</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>            ]
 </pre>
                     </td>
                 </tr>
@@ -1215,7 +1203,7 @@ layout: coverage
                     <th id="L143" class="number ">143</th>
 
                     <td class="" >
-                        <pre>    * Generate a random password havind a determined set pf chars
+                        <pre>         ],
 </pre>
                     </td>
                 </tr>
@@ -1223,7 +1211,7 @@ layout: coverage
                     <th id="L144" class="number ">144</th>
 
                     <td class="" >
-                        <pre>    * http://stackoverflow.com/a/31284266
+                        <pre>         [
 </pre>
                     </td>
                 </tr>
@@ -1231,73 +1219,65 @@ layout: coverage
                     <th id="L145" class="number ">145</th>
 
                     <td class="" >
-                        <pre>    * @param integer $length password length to generate
+                        <pre>            &#039;itemtype&#039; =&gt; PluginFlyvemdmMqttlog::class,
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L146" class="number ">146</th>
+                    <th id="L146" class="number uncovered">146</th>
 
-                    <td class="" >
-                        <pre>    * @param string $keyspace characters available to build the password
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;label&#039;    =&gt; PluginFlyvemdmMqttlog::getTypeName(2),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L147" class="number ">147</th>
+                    <th id="L147" class="number uncovered">147</th>
 
-                    <td class="" >
-                        <pre>    * @return string
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;field&#039;    =&gt; PluginFlyvemdmMqttlog::$rightname,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L148" class="number ">148</th>
 
                     <td class="" >
-                        <pre>    * @throws Exception
+                        <pre>            &#039;rights&#039;   =&gt; [
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L149" class="number ">149</th>
+                    <th id="L149" class="number uncovered">149</th>
 
-                    <td class="" >
-                        <pre>    */
-</pre>
+                    <td class="uncovered" >
+                        <pre>               READ =&gt; __(&#039;Read&#039;),</pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getRandomPassword">
+                            <tr class="line" id="">
                     <th id="L150" class="number ">150</th>
 
-                    <td class="" id="getRandomPassword">
-                        <pre>   public static function getRandomPassword($length = 0, $keyspace = &#039;&#039;) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>            ],
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L151" class="number uncovered">151</th>
+                    <th id="L151" class="number ">151</th>
 
-                    <td class="uncovered" >
-                        <pre>      if ($length == 0) {</pre>
+                    <td class="" >
+                        <pre>         ],
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L152" class="number uncovered">152</th>
+                    <th id="L152" class="number ">152</th>
 
-                    <td class="uncovered" >
-                        <pre>         $length = &#039;32&#039;;</pre>
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L153" class="number ">153</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L154" class="number ">154</th>
 
                     <td class="" >
                         <pre>
@@ -1305,31 +1285,40 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L155" class="number uncovered">155</th>
+                    <th id="L154" class="number uncovered">154</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($keyspace == &#039;&#039;) {</pre>
+                        <pre>      return $rights;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L156" class="number uncovered">156</th>
+                    <th id="L155" class="number unreach">155</th>
 
-                    <td class="uncovered" >
-                        <pre>         $keyspace = &#039;0123456789&#039;;</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L157" class="number uncovered">157</th>
+                    <th id="L156" class="number ">156</th>
 
-                    <td class="uncovered" >
-                        <pre>         $keyspace = $keyspace . &#039;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#039;;</pre>
+                    <td class="" >
+                        <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L157" class="number ">157</th>
+
+                    <td class="" >
+                        <pre>   /**
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L158" class="number ">158</th>
 
                     <td class="" >
-                        <pre>         //$keyspace = $keyspace . &#039;&amp;#{[|]}@^_*%&lt;&gt;.,;:!&#039;;
+                        <pre>    * Get rights matrix for plugin&#039;s assets
 </pre>
                     </td>
                 </tr>
@@ -1337,7 +1326,7 @@ layout: coverage
                     <th id="L159" class="number ">159</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>    * @return array:array:string rights matrix
 </pre>
                     </td>
                 </tr>
@@ -1345,43 +1334,45 @@ layout: coverage
                     <th id="L160" class="number ">160</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
-                    <th id="L161" class="number uncovered">161</th>
+                            <tr class="line" id="getAssetsRights">
+                    <th id="L161" class="number ">161</th>
 
-                    <td class="uncovered" >
-                        <pre>      $password = &#039;&#039;;</pre>
+                    <td class="" id="getAssetsRights">
+                        <pre>   public function getAssetsRights() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L162" class="number uncovered">162</th>
+                    <th id="L162" class="number ">162</th>
 
-                    <td class="uncovered" >
-                        <pre>      $max = mb_strlen($keyspace, &#039;8bit&#039;) - 1;</pre>
+                    <td class="" >
+                        <pre>      $itemtypes = [
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L163" class="number uncovered">163</th>
 
                     <td class="uncovered" >
-                        <pre>      if ($max &lt; 1) {</pre>
+                        <pre>         PluginFlyvemdmAgent::class,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L164" class="number uncovered">164</th>
+                    <th id="L164" class="number ">164</th>
 
-                    <td class="uncovered" >
-                        <pre>         throw new Exception(&#039;$keyspace must be at least two characters long&#039;);</pre>
+                    <td class="" >
+                        <pre>         PluginFlyvemdmInvitation::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L165" class="number ">165</th>
 
                     <td class="" >
-                        <pre>      }
+                        <pre>         PluginFlyvemdmFleet::class,
 </pre>
                     </td>
                 </tr>
@@ -1389,120 +1380,121 @@ layout: coverage
                     <th id="L166" class="number ">166</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>         PluginFlyvemdmPackage::class,
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L167" class="number uncovered">167</th>
+                    <th id="L167" class="number ">167</th>
 
-                    <td class="uncovered" >
-                        <pre>      $randomIntExists = function_exists(&#039;random_int&#039;);</pre>
+                    <td class="" >
+                        <pre>         PluginFlyvemdmFile::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L168" class="number uncovered">168</th>
+                    <th id="L168" class="number ">168</th>
 
-                    <td class="uncovered" >
-                        <pre>      for ($i = 0; $i &lt; $length; $i++) {</pre>
+                    <td class="" >
+                        <pre>         PluginFlyvemdmGeolocation::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L169" class="number ">169</th>
 
                     <td class="" >
-                        <pre>         // random_int needs PHP 7, not yet widely used
+                        <pre>         PluginFlyvemdmPolicy::class,
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L170" class="number uncovered">170</th>
+                    <th id="L170" class="number ">170</th>
 
-                    <td class="uncovered" >
-                        <pre>         if ($randomIntExists) {</pre>
+                    <td class="" >
+                        <pre>         PluginFlyvemdmPolicyCategory::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L171" class="number uncovered">171</th>
+                    <th id="L171" class="number ">171</th>
 
-                    <td class="uncovered" >
-                        <pre>            $password .= $keyspace[random_int(0, $max)];</pre>
+                    <td class="" >
+                        <pre>         PluginFlyvemdmTaskstatus::class,
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L172" class="number ">172</th>
 
                     <td class="" >
-                        <pre>         } else {
+                        <pre>         PluginFlyvemdmWellknownpath::class,
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L173" class="number uncovered">173</th>
+                    <th id="L173" class="number ">173</th>
 
-                    <td class="uncovered" >
-                        <pre>            $password .= $keyspace[mt_rand(0, $max)];</pre>
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L174" class="number ">174</th>
 
                     <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L175" class="number ">175</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L176" class="number ">176</th>
-
-                    <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L175" class="number uncovered">175</th>
+
+                    <td class="uncovered" >
+                        <pre>      $rights = [];</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L176" class="number uncovered">176</th>
+
+                    <td class="uncovered" >
+                        <pre>      foreach ($itemtypes as $itemtype) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L177" class="number uncovered">177</th>
 
                     <td class="uncovered" >
-                        <pre>      return $password;</pre>
+                        <pre>         $rights[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L178" class="number unreach">178</th>
+                    <th id="L178" class="number uncovered">178</th>
 
-                    <td class="unreach" >
-                        <pre>   }</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;itemtype&#039;  =&gt; $itemtype,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L179" class="number ">179</th>
+                    <th id="L179" class="number uncovered">179</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;label&#039;     =&gt; $itemtype::getTypeName(2),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L180" class="number ">180</th>
+                    <th id="L180" class="number uncovered">180</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="uncovered" >
+                        <pre>            &#039;field&#039;     =&gt; $itemtype::$rightname</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L181" class="number ">181</th>
 
                     <td class="" >
-                        <pre>    * @see CommonDBTM::post_purgeItem()
+                        <pre>         ];
 </pre>
                     </td>
                 </tr>
@@ -1510,215 +1502,109 @@ layout: coverage
                     <th id="L182" class="number ">182</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="post_purgeItem">
+                            <tr class="line" id="">
                     <th id="L183" class="number ">183</th>
 
-                    <td class="" id="post_purgeItem">
-                        <pre>   public function post_purgeItem() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L184" class="number covered">184</th>
+                    <th id="L184" class="number uncovered">184</th>
 
-                    <td class="covered" >
-                        <pre>      $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
+                    <td class="uncovered" >
+                        <pre>      return $rights;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L185" class="number covered">185</th>
+                    <th id="L185" class="number unreach">185</th>
 
-                    <td class="covered" >
-                        <pre>      $mqttAcl-&gt;deleteByCriteria([</pre>
+                    <td class="unreach" >
+                        <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L186" class="number covered">186</th>
+                    <th id="L186" class="number ">186</th>
 
-                    <td class="covered" >
-                        <pre>         &#039;plugin_flyvemdm_mqttusers_id&#039; =&gt; $this-&gt;getID(),</pre>
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L187" class="number ">187</th>
 
                     <td class="" >
-                        <pre>      ]);
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L188" class="number covered">188</th>
+                    <th id="L188" class="number ">188</th>
 
-                    <td class="covered" >
-                        <pre>   }</pre>
+                    <td class="" >
+                        <pre>    * Callback when a user logins or switch profile
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L189" class="number ">189</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="">
+                            <tr class="line" id="changeProfile">
                     <th id="L190" class="number ">190</th>
 
-                    <td class="" >
-                        <pre>   /**
-</pre>
+                    <td class="" id="changeProfile">
+                        <pre>   public static function changeProfile() {<span class="label label-success">80%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L191" class="number ">191</th>
+                    <th id="L191" class="number covered">191</th>
 
-                    <td class="" >
-                        <pre>    * Retrieve a mqtt user by name
-</pre>
+                    <td class="covered" >
+                        <pre>      $config = Config::getConfigurationValues(&#039;flyvemdm&#039;, [&#039;guest_profiles_id&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L192" class="number ">192</th>
+                    <th id="L192" class="number covered">192</th>
 
-                    <td class="" >
-                        <pre>    * @param string $user
-</pre>
+                    <td class="covered" >
+                        <pre>      if (isset($config[&#039;guest_profiles_id&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L193" class="number ">193</th>
+                    <th id="L193" class="number covered">193</th>
 
-                    <td class="" >
-                        <pre>    * @return bool
-</pre>
+                    <td class="covered" >
+                        <pre>         $_SESSION[&#039;plugin_flyvemdm_guest_profiles_id&#039;] = $config[&#039;guest_profiles_id&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L194" class="number ">194</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>      } else {
 </pre>
                     </td>
                 </tr>
-                            <tr class="line" id="getByUser">
-                    <th id="L195" class="number ">195</th>
-
-                    <td class="" id="getByUser">
-                        <pre>   public function getByUser($user) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
                             <tr class="line" id="">
-                    <th id="L196" class="number uncovered">196</th>
+                    <th id="L195" class="number uncovered">195</th>
 
                     <td class="uncovered" >
-                        <pre>      global $DB;</pre>
+                        <pre>         $_SESSION[&#039;plugin_flyvemdm_guest_profiles_id&#039;] = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L197" class="number ">197</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L198" class="number uncovered">198</th>
-
-                    <td class="uncovered" >
-                        <pre>      $user = $DB-&gt;escape($user);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L199" class="number uncovered">199</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $this-&gt;getFromDBByCrit([&#039;user&#039; =&gt; $user]);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L200" class="number unreach">200</th>
-
-                    <td class="unreach" >
-                        <pre>   }</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L201" class="number ">201</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L202" class="number ">202</th>
-
-                    <td class="" >
-                        <pre>   /**
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L203" class="number ">203</th>
-
-                    <td class="" >
-                        <pre>    * Returns an array of PluginFlyvemdmMqttACL for the user
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L204" class="number ">204</th>
-
-                    <td class="" >
-                        <pre>    *
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L205" class="number ">205</th>
-
-                    <td class="" >
-                        <pre>    * @return PluginFlyvemdmMqttacl[]
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L206" class="number ">206</th>
-
-                    <td class="" >
-                        <pre>    */
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="getACLs">
-                    <th id="L207" class="number ">207</th>
-
-                    <td class="" id="getACLs">
-                        <pre>   public function getACLs() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L208" class="number uncovered">208</th>
-
-                    <td class="uncovered" >
-                        <pre>      if ($this-&gt;isNewItem()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L209" class="number uncovered">209</th>
-
-                    <td class="uncovered" >
-                        <pre>         return [];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L210" class="number ">210</th>
+                    <th id="L196" class="number ">196</th>
 
                     <td class="" >
                         <pre>      }
@@ -1726,116 +1612,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L211" class="number ">211</th>
+                    <th id="L197" class="number covered">197</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L212" class="number uncovered">212</th>
-
-                    <td class="uncovered" >
-                        <pre>      $aclList = [];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L213" class="number uncovered">213</th>
-
-                    <td class="uncovered" >
-                        <pre>      $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L214" class="number uncovered">214</th>
-
-                    <td class="uncovered" >
-                        <pre>      $userId = $this-&gt;fields[&#039;id&#039;];</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L215" class="number uncovered">215</th>
-
-                    <td class="uncovered" >
-                        <pre>      $rows = $mqttAcl-&gt;find(&quot;`plugin_flyvemdm_mqttusers_id` = &#039;$userId&#039;&quot;);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L216" class="number uncovered">216</th>
-
-                    <td class="uncovered" >
-                        <pre>      foreach ($rows as $row) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L217" class="number uncovered">217</th>
-
-                    <td class="uncovered" >
-                        <pre>         $mqttAcl = new PluginFlyvemdmMqttacl();</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L218" class="number uncovered">218</th>
-
-                    <td class="uncovered" >
-                        <pre>         $mqttAcl-&gt;getFromDB($row[&#039;id&#039;]);</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L219" class="number uncovered">219</th>
-
-                    <td class="uncovered" >
-                        <pre>         if (!$mqttAcl-&gt;isNewItem()) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L220" class="number uncovered">220</th>
-
-                    <td class="uncovered" >
-                        <pre>            $aclList[] = $mqttAcl;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L221" class="number ">221</th>
-
-                    <td class="" >
-                        <pre>         }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L222" class="number ">222</th>
-
-                    <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L223" class="number ">223</th>
-
-                    <td class="" >
-                        <pre>
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L224" class="number uncovered">224</th>
-
-                    <td class="uncovered" >
-                        <pre>      return $aclList;</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L225" class="number unreach">225</th>
-
-                    <td class="unreach" >
+                    <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L226" class="number ">226</th>
+                    <th id="L198" class="number ">198</th>
 
                     <td class="" >
                         <pre>}
