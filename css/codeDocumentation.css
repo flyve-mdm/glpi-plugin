@@ -150,10 +150,11 @@ code a b {
 /* Right side */
 #right {
 	margin-left: 275px;
-	height: auto;
 	position: relative;
 	left: 0;
 	right: 0;
+	z-index: 1;
+	background-color: #ffffff;
 }
 
 #rightInner {
