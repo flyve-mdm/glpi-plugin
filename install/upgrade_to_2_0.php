@@ -23,7 +23,7 @@
  * ------------------------------------------------------------------------------
  * @author    the flyvemdm plugin team
  * @copyright Copyright © 2018 Teclib
- * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
