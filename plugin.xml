@@ -2,7 +2,7 @@
    <name>Flyve MDM</name>
    <key>flyvemdm</key>
    <state>stable</state>
-   <logo>https://raw.githubusercontent.com/flyve-mdm/flyve-mdm-glpi/master/icon.png</logo>
+   <logo>https://raw.githubusercontent.com/flyve-mdm/glpi-plugin/master/images/icon.png</logo>
    <description>
       <short>
          <cs>Flyve MDM je nástroj pro správu mobilních zařízení.</cs>
@@ -67,7 +67,7 @@ Fonctionnalités
 4. Configuration des appareils mobiles (mots de passe, connectivité, verrouillage)
 5. Géolocalisation des appareils mobiles
 6. Effacement d'urgence à distance des appareils mobiles
-         </fr>    
+         </fr>
       </long>
    </description>
    <homepage>https://github.com/flyve-mdm/glpi-plugin</homepage>
@@ -88,6 +88,14 @@ Fonctionnalités
       </version>
       <version>
          <num>2.0.0-rc.2</num>
+         <compatibility>9.2.1</compatibility>
+         <compatibility>9.2.2</compatibility>
+         <compatibility>9.2.3</compatibility>
+         <compatibility>9.2.4</compatibility>
+         <compatibility>9.3</compatibility>
+      </version>
+      <version>
+         <num>2.0.0-rc.3</num>
          <compatibility>9.2.1</compatibility>
          <compatibility>9.2.2</compatibility>
          <compatibility>9.2.3</compatibility>
