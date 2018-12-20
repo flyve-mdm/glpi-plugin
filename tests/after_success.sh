@@ -22,7 +22,7 @@ else
 fi
 
 # find if we are in a valid branch to build docs
-if echo "$TRAVIS_BRANCH" | grep -q -P '^(master|develop|support/|release/)'; then
+if echo "$TRAVIS_BRANCH" | grep -q -P '^(master|develop|support/)'; then
     GENERATE_DOCS=true
 else
     GENERATE_DOCS=false

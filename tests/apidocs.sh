@@ -7,7 +7,7 @@
 #
 
 # find if we are in a valid branch to build docs
-if echo "$TRAVIS_BRANCH" | grep -q -P '^(master|develop|support/|release/)'; then
+if echo "$TRAVIS_BRANCH" | grep -q -P '^(master|develop|support/)'; then
     GENERATE_DOCS=true
 else
     GENERATE_DOCS=false
@@ -35,6 +35,10 @@ if [ "$GENERATE_DOCS" = true ] && [ "$TRAVIS_PULL_REQUEST" = false ]; then
             --deprecated \
             --tree \
             -s inc -d development/code-documentation/"$TRAVIS_BRANCH"/
+
+        #add layouts and remove default
+        find development/code-documentation/"$TRAVIS_BRANCH"/ -type f -name "*.html" -exec sed -i "1s/^/---\\nlayout: codeDocumentation\\n---\\n/" "{}" \;
+        rm development/code-documentation/"$TRAVIS_BRANCH"/resources/style.css
 
         # commit_website_files
         echo "adding the code documentation report"
