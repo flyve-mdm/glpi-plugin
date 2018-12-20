@@ -70,9 +70,6 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
       return 'fa-gear';
    }
 
-   /**
-    * @see CommonGLPI::defineTabs()
-    */
    public function defineTabs($options = []) {
       $tab = [];
       $this->addDefaultFormTab($tab);

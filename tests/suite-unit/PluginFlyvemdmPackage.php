@@ -194,4 +194,15 @@ class PluginFlyvemdmPackage extends CommonTestCase {
          ->string[8]->isEqualTo('');
    }
 
+   public function testDefineTabs() {
+      $this->login('glpi', 'glpi');
+
+      $instance = $this->newTestedInstance();
+      $output = $instance->defineTabs();
+      $this->array($output)->isIdenticalTo([
+         'PluginFlyvemdmPackage$main' => 'Package',
+         'Notepad$1'                  => 'Notes',
+         'Log$1'                      => 'Historical',
+      ]);
+   }
 }

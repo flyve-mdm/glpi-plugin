@@ -70,6 +70,19 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       return 'fa-file';
    }
 
+    public function defineTabs($options = []) {
+      $tab = [];
+      $this->addDefaultFormTab($tab);
+      $plugin = new Plugin();
+      if ($plugin->isActivated('orion')) {
+         $this->addStandardTab(PluginOrionReport::class, $tab, $options);
+      }
+      $this->addStandardTab(Notepad::class, $tab, $options);
+      $this->addStandardTab(Log::class, $tab, $options);
+
+      return $tab;
+   }
+
    public function addNeededInfoToInput($input) {
       $input['entities_id'] = $_SESSION['glpiactive_entity'];
 
