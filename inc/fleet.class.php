@@ -28,7 +28,14 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Broker\BrokerBus;
+use GlpiPlugin\Flyvemdm\Broker\BrokerEnvelope;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
 use GlpiPlugin\Flyvemdm\Exception\TaskPublishPolicyPolicyNotFoundException;
+use GlpiPlugin\Flyvemdm\Fcm\FcmEnvelope;
+use GlpiPlugin\Flyvemdm\Fcm\FcmMiddleware;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware;
 
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
@@ -305,12 +312,23 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function post_addItem() {
       // Generate default policies for groups of policies
+      $message = null;
+      $brokerMessage = new BrokerMessage($message);
+      $envelopeConfig = [];
       $policy = new PluginFlyvemdmPolicy();
       foreach ($policy->find() as $row) {
          $policyName = $row['symbol'];
          $topic = $this->getTopic();
-         $this->notify("$topic/Policy/$policyName", null, 0, 1);
+         if ($topic !== null) {
+            $finalTopic = "$topic/Policy/$policyName";
+            $envelopeConfig[] = new MqttEnvelope([
+               'topic'  => $finalTopic,
+               'retain' => 1,
+            ]);
+         }
       }
+      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
+      $this->notify($envelope);
    }
 
    /**
@@ -494,16 +512,21 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
    }
 
    /**
-    *
     * @see PluginFlyvemdmNotifiableInterface::notify()
-    * @param string $topic
-    * @param string $mqttMessage
-    * @param integer $qos
-    * @param integer $retain
+    * @param BrokerEnvelope $envelope
     */
-   public function notify($topic, $mqttMessage, $qos = 0, $retain = 0) {
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
-      $mqttClient->publish($topic, $mqttMessage, $qos, $retain);
+   public function notify(BrokerEnvelope $envelope) {
+      $middlewareHandlers = [];
+      $config = Config::getConfigurationValues('flyvemdm', ['mqtt_enabled', 'fcm_enabled']);
+      if ($config['mqtt_enabled'] && null !== $envelope->get(MqttEnvelope::class)) {
+         $middlewareHandlers[] = new MqttMiddleware();
+      }
+      if ($config['fcm_enabled'] && null !== $envelope->get(FcmEnvelope::class)) {
+         $middlewareHandlers[] = new FcmMiddleware();
+      }
+
+      $broker = new BrokerBus($middlewareHandlers);
+      $broker->dispatch($envelope);
    }
 
    /**
@@ -563,5 +586,36 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
 
       return ($this->fields['is_default'] === '0');
+   }
+
+   /**
+    * Get the notification token for each device
+    * @return array
+    */
+   public function getPushNotificationInfo() {
+      global $DB;
+
+      // now the fleet is empty, delete MQTT topcis
+      $fleetFk = PluginFlyvemdmFleet::getForeignKeyField();
+      $agentTable = PluginFlyvemdmAgent::getTable();
+      $query = [
+         'SELECT' => ['notification_token', 'notification_type'],
+         'FROM'   => $agentTable,
+         'WHERE'  => [
+            $fleetFk => $this->getID(),
+            'NOT'    => [
+               'notification_type'  => 'mqtt',
+               'notification_token' => '',
+            ],
+         ],
+      ];
+      $devicesInfo = [];
+      foreach ($DB->request($query) as $row) {
+         $devicesInfo[] = [
+            'type'  => $row['notification_type'],
+            'token' => $row['notification_token'],
+         ];
+      }
+      return $devicesInfo;
    }
 }

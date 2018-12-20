@@ -28,6 +28,8 @@
  * ------------------------------------------------------------------------------
  */
 
+use GlpiPlugin\Flyvemdm\Mqtt\MqttConnection;
+
 if (!defined('GLPI_ROOT')) {
    die("Sorry. You can't access this file directly");
 }
@@ -238,7 +240,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
       ];
       $result = $DB->request($request);
       if (count($result) > 0) {
-         $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+         $mqttClient = MqttConnection::getInstance();
          foreach ($result as $data) {
             switch ($data['itemtype_applied']) {
                case PluginFlyvemdmFleet::class:
@@ -393,7 +395,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
       $DB->query($query);
 
       // change MQTT topics tree layout : remove leading slash
-      $mqttClient = PluginFlyvemdmMqttclient::getInstance();
+      $mqttClient = MqttConnection::getInstance();
       $request = [
          'FIELDS' => [
             'glpi_plugin_flyvemdm_agents' => ['entities_id'],
@@ -408,8 +410,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
          ],
          'WHERE'  => ['lock' => ['<>' => '0']]
       ];
-      $mqttMessage = ['lock' => 'now'];
-      $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+      $mqttMessage = json_encode(['lock' => 'now'], JSON_UNESCAPED_SLASHES);
       foreach ($DB->request($request) as $row) {
          $topic = implode('/', [
             $row['entities_id'],
@@ -424,8 +425,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
 
       // re-use previous request array
       $request['WHERE'] = ['wipe' => ['<>' => '0']];
-      $mqttMessage = ['wipe' => 'now'];
-      $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+      $mqttMessage = json_encode(['wipe' => 'now'], JSON_UNESCAPED_SLASHES);
       foreach ($DB->request($request) as $row) {
          $topic = implode('/', [
             $row['entities_id'],
@@ -440,8 +440,7 @@ class PluginFlyvemdmUpgradeTo2_0 {
 
       // re-use previous request array
       $request['WHERE'] = ['enroll_status' => ['=' => 'unenrolling']];
-      $mqttMessage = ['unenroll' => 'now'];
-      $mqttMessage = json_encode($mqttMessage, JSON_UNESCAPED_SLASHES);
+      $mqttMessage = json_encode(['unenroll' => 'now'], JSON_UNESCAPED_SLASHES);
       foreach ($DB->request($request) as $row) {
          $topic = implode('/', [
             $row['entities_id'],

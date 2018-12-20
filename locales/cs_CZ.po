@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -53,9 +53,9 @@ msgstr[1] "Agenti"
 msgstr[2] "Agentů"
 msgstr[3] "Agenti"
 
-#: inc/agent.class.php:183
+#: inc/agent.class.php:167
 msgid "Danger zone!"
-msgstr ""
+msgstr "Nebezpečná oblast!"
 
 #: inc/agent.class.php:201
 msgid "Flyve MDM Agent"
@@ -778,35 +778,39 @@ msgstr "Neplatná hodnota pro tuto zásadu"
 msgid "This is not a notifiable object"
 msgstr "Toto není oznamovatelný objekt"
 
-#: inc/task.class.php:194
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr "Toto není oznamovatelný objekt"
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr "Objekt upozorňovatelného se nedaří najít"
 
-#: inc/task.class.php:201
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr "Není možné uplatnit zásadu na nespravovanou flotilu"
 
-#: inc/task.class.php:208 inc/task.class.php:296
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr "Zásada je už uplatněna"
 
-#: inc/task.class.php:221 inc/task.class.php:303
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr "Požadavky této zásady nejsou splněny"
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:273
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr "Nedaří se nalézt cíl %1$s"
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:281
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr "Na toto %1$s se nedaří uplatnit zásadu"
 
-#: inc/task.class.php:310
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr "Nepodařilo se použít tuto zásadu"
 

@@ -6,7 +6,7 @@
 # Translators:
 # Alexander Salas Bastidas <alexander.salas@gmail.com>, 2018
 # Esteban Villegas Blanxart <evillegasblanxart@gmail.com>, 2018
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -467,7 +467,7 @@ msgstr "Fet"
 msgid "Pending"
 msgstr "Pendent"
 
-#: inc/graph.class.php:109 inc/graph.class.php:135
+#: inc/graph.class.php:109 inc/graph.class.php:137
 msgid "Devices per operating system version"
 msgstr "Dispositius per versió del sistema operatiu"
 

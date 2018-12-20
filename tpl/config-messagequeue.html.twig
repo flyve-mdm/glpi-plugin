@@ -4,6 +4,10 @@
          <th colspan="3" class="">{{ __('MQTT broker for Clients', 'flyvemdm') }}</th>
       </tr>
       <tr class="tab_bg_1">
+         <td>{{ __('Enabled') }}</td>
+         <td>{{ config.mqtt_enabled|raw }}</td>
+      </tr>
+      <tr class="tab_bg_1">
          <td>{{ __('MQTT broker address', 'flyvemdm') }}</td>
          <td><input type="text" name="mqtt_broker_address" value="{{ config.mqtt_broker_address }}"></td>
          <td>{{ __('An IP address or a hostname used by the client devices to communicate with the broker', 'flyvemdm') }}</td>
@@ -82,6 +86,19 @@
          <td>{{ __('Ssl certificate server for MQTT clients', 'flyvemdm') }}</td>
          <td><input type="text" name="ssl_cert_url" value="{{ config.ssl_cert_url }}"></td>
          <td>{{ __('https://cert.domain.com/path/to/service', 'flyvemdm') }}</td>
+      </tr>
+      <tr>
+         <th colspan="3" class="">{{ __('Firebase Cloud Messaging', 'flyvemdm') }}</th>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('Enabled') }}</td>
+         <td>{{ config.fcm_enabled|raw }}</td>
+         <td>{{ __('This feature is in experimental phase', 'flyvemdm') }}</td>
+      </tr>
+      <tr class="tab_bg_1">
+         <td>{{ __('API token') }}</td>
+         <td><input type="text" name="fcm_api_token" value="{{ config.fcm_api_token }}"></td>
+         <td>{{ __('The server key token given on Firebase settings', 'flyvemdm') }}</td>
       </tr>
       <tr class="tab_bg_1">
          <td class="center" colspan="2">

@@ -277,6 +277,20 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          'display'   => false,
       ]);
 
+      $fields['mqtt_enabled'] = Dropdown::showYesNo(
+         'mqtt_enabled',
+         $fields['mqtt_enabled'],
+         -1,
+         ['display' => false]
+      );
+
+      $fields['fcm_enabled'] = Dropdown::showYesNo(
+         'fcm_enabled',
+         $fields['fcm_enabled'],
+         -1,
+         ['display' => false]
+      );
+
       $data = [
          'config' => $fields
       ];

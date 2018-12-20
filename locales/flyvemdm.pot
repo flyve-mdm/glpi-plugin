@@ -463,6 +463,11 @@ msgstr ""
 msgid "Devices per operating system version"
 msgstr ""
 
+#: inc/graph.class.php:118
+msgid ""
+"No devices stats available, enrol or import your mobile computer assets first"
+msgstr ""
+
 #: inc/graph.class.php:111
 msgid ""
 "No devices stats available, enrol or import your mobile computer assets first"
@@ -609,7 +614,7 @@ msgstr ""
 msgid "Requires system permission"
 msgstr ""
 
-#: inc/policy.class.php:185
+#: inc/policy.class.php:184
 msgid "Android minimum version"
 msgstr ""
 
@@ -740,35 +745,39 @@ msgstr ""
 msgid "This is not a notifiable object"
 msgstr ""
 
-#: inc/task.class.php:194
+#: inc/task.class.php:184
+msgid "This is not a notifiable object"
+msgstr ""
+
+#: inc/task.class.php:190
 msgid "Cannot find the notifiable object"
 msgstr ""
 
-#: inc/task.class.php:201
+#: inc/task.class.php:197
 msgid "Cannot apply a policy on a not managed fleet"
 msgstr ""
 
-#: inc/task.class.php:208 inc/task.class.php:296
+#: inc/task.class.php:204 inc/task.class.php:292
 msgid "Policy already applied"
 msgstr ""
 
-#: inc/task.class.php:221 inc/task.class.php:303
+#: inc/task.class.php:217 inc/task.class.php:299
 msgid "The requirements for this policy are not met"
 msgstr ""
 
 #. TRANS: %1$s is the type of the item on which a policy is applied
-#: inc/task.class.php:273
+#: inc/task.class.php:269
 #, php-format
 msgid "Cannot find the target %1$s"
 msgstr ""
 
 #. TRANS: %1$s is the type of the item on which one attempds to apply a policy
-#: inc/task.class.php:281
+#: inc/task.class.php:277
 #, php-format
 msgid "Cannot apply a policy on this %1$s"
 msgstr ""
 
-#: inc/task.class.php:310
+#: inc/task.class.php:306
 msgid "Failed to apply the policy"
 msgstr ""
 
@@ -779,6 +788,22 @@ msgstr ""
 #: inc/task.class.php:349
 #, php-format
 msgid "%1$s not found"
+msgstr ""
+
+#: inc/task.class.php:530
+msgid "Policy ID"
+msgstr ""
+
+#: inc/task.class.php:557
+msgid "policy name"
+msgstr ""
+
+#: inc/task.class.php:566
+msgid "applied itemtype"
+msgstr ""
+
+#: inc/task.class.php:575
+msgid "applied ID"
 msgstr ""
 
 #: inc/task.class.php:566
