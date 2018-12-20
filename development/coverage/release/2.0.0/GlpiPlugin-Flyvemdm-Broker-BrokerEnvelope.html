@@ -305,7 +305,7 @@ layout: coverage
                     <th id="L24" class="number ">24</th>
 
                     <td class="" >
-                        <pre> * @author    Domingo Oropeza &lt;doropeza@teclib.com&gt;
+                        <pre> * @copyright Copyright © 2018 Teclib
 </pre>
                     </td>
                 </tr>
@@ -313,7 +313,7 @@ layout: coverage
                     <th id="L25" class="number ">25</th>
 
                     <td class="" >
-                        <pre> * @copyright Copyright © 2018 Teclib
+                        <pre> * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
 </pre>
                     </td>
                 </tr>
@@ -321,7 +321,7 @@ layout: coverage
                     <th id="L26" class="number ">26</th>
 
                     <td class="" >
-                        <pre> * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
 </pre>
                     </td>
                 </tr>
@@ -329,7 +329,7 @@ layout: coverage
                     <th id="L27" class="number ">27</th>
 
                     <td class="" >
-                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
+                        <pre> * @link      https://flyve-mdm.com/
 </pre>
                     </td>
                 </tr>
@@ -337,7 +337,7 @@ layout: coverage
                     <th id="L28" class="number ">28</th>
 
                     <td class="" >
-                        <pre> * @link      https://flyve-mdm.com/
+                        <pre> * ------------------------------------------------------------------------------
 </pre>
                     </td>
                 </tr>
@@ -345,7 +345,7 @@ layout: coverage
                     <th id="L29" class="number ">29</th>
 
                     <td class="" >
-                        <pre> * ------------------------------------------------------------------------------
+                        <pre> */
 </pre>
                     </td>
                 </tr>
@@ -353,7 +353,7 @@ layout: coverage
                     <th id="L30" class="number ">30</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -361,7 +361,7 @@ layout: coverage
                     <th id="L31" class="number ">31</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>namespace GlpiPlugin\Flyvemdm\Broker;
 </pre>
                     </td>
                 </tr>
@@ -369,7 +369,7 @@ layout: coverage
                     <th id="L32" class="number ">32</th>
 
                     <td class="" >
-                        <pre>namespace GlpiPlugin\Flyvemdm\Broker;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -377,7 +377,7 @@ layout: coverage
                     <th id="L33" class="number ">33</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
 </pre>
                     </td>
                 </tr>
@@ -385,7 +385,7 @@ layout: coverage
                     <th id="L34" class="number ">34</th>
 
                     <td class="" >
-                        <pre>use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -393,7 +393,7 @@ layout: coverage
                     <th id="L35" class="number ">35</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
 </pre>
                     </td>
                 </tr>
@@ -401,7 +401,7 @@ layout: coverage
                     <th id="L36" class="number ">36</th>
 
                     <td class="" >
-                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
+                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
 </pre>
                     </td>
                 </tr>
@@ -409,7 +409,7 @@ layout: coverage
                     <th id="L37" class="number ">37</th>
 
                     <td class="" >
-                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
+                        <pre>}
 </pre>
                     </td>
                 </tr>
@@ -417,7 +417,7 @@ layout: coverage
                     <th id="L38" class="number ">38</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -425,7 +425,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>final class BrokerEnvelope {
 </pre>
                     </td>
                 </tr>
@@ -433,7 +433,7 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>final class BrokerEnvelope {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -441,7 +441,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   private $items = [];
 </pre>
                     </td>
                 </tr>
@@ -449,7 +449,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>   private $items = [];
+                        <pre>   private $message;
 </pre>
                     </td>
                 </tr>
@@ -457,7 +457,7 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
-                        <pre>   private $message;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -465,7 +465,7 @@ layout: coverage
                     <th id="L44" class="number ">44</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -473,7 +473,7 @@ layout: coverage
                     <th id="L45" class="number ">45</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @param object $message
 </pre>
                     </td>
                 </tr>
@@ -481,7 +481,7 @@ layout: coverage
                     <th id="L46" class="number ">46</th>
 
                     <td class="" >
-                        <pre>    * @param object $message
+                        <pre>    * @param BrokerEnvelopeItemInterface[] $items
 </pre>
                     </td>
                 </tr>
@@ -489,48 +489,40 @@ layout: coverage
                     <th id="L47" class="number ">47</th>
 
                     <td class="" >
-                        <pre>    * @param BrokerEnvelopeItemInterface[] $items
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L48" class="number ">48</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="__construct">
-                    <th id="L49" class="number ">49</th>
+                    <th id="L48" class="number ">48</th>
 
                     <td class="" id="__construct">
                         <pre>   public function __construct($message, array $items = []) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L50" class="number covered">50</th>
+                    <th id="L49" class="number covered">49</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;message = $message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L51" class="number covered">51</th>
+                    <th id="L50" class="number covered">50</th>
 
                     <td class="covered" >
                         <pre>      foreach ($items as $item) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L52" class="number covered">52</th>
+                    <th id="L51" class="number covered">51</th>
 
                     <td class="covered" >
                         <pre>         $this-&gt;items[\get_class($item)] = $item;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L53" class="number ">53</th>
+                    <th id="L52" class="number ">52</th>
 
                     <td class="" >
                         <pre>      }
@@ -538,17 +530,25 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L54" class="number covered">54</th>
+                    <th id="L53" class="number covered">53</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L55" class="number ">55</th>
+                    <th id="L54" class="number ">54</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L55" class="number ">55</th>
+
+                    <td class="" >
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -556,7 +556,7 @@ layout: coverage
                     <th id="L56" class="number ">56</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Wrap a message into an envelope if not already wrapped.
 </pre>
                     </td>
                 </tr>
@@ -564,7 +564,7 @@ layout: coverage
                     <th id="L57" class="number ">57</th>
 
                     <td class="" >
-                        <pre>    * Wrap a message into an envelope if not already wrapped.
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -572,7 +572,7 @@ layout: coverage
                     <th id="L58" class="number ">58</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @param BrokerEnvelope|object $message
 </pre>
                     </td>
                 </tr>
@@ -580,7 +580,7 @@ layout: coverage
                     <th id="L59" class="number ">59</th>
 
                     <td class="" >
-                        <pre>    * @param BrokerEnvelope|object $message
+                        <pre>    * @return object|BrokerEnvelope
 </pre>
                     </td>
                 </tr>
@@ -588,44 +588,44 @@ layout: coverage
                     <th id="L60" class="number ">60</th>
 
                     <td class="" >
-                        <pre>    * @return object|BrokerEnvelope
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L61" class="number ">61</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="wrap">
-                    <th id="L62" class="number ">62</th>
+                    <th id="L61" class="number ">61</th>
 
                     <td class="" id="wrap">
                         <pre>   public static function wrap($message) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L63" class="number covered">63</th>
+                    <th id="L62" class="number covered">62</th>
 
                     <td class="covered" >
                         <pre>      return $message instanceof self ? $message : new self($message);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L64" class="number unreach">64</th>
+                    <th id="L63" class="number unreach">63</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L65" class="number ">65</th>
+                    <th id="L64" class="number ">64</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L65" class="number ">65</th>
+
+                    <td class="" >
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -633,7 +633,7 @@ layout: coverage
                     <th id="L66" class="number ">66</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * new Envelope instance with additional item
 </pre>
                     </td>
                 </tr>
@@ -641,7 +641,7 @@ layout: coverage
                     <th id="L67" class="number ">67</th>
 
                     <td class="" >
-                        <pre>    * new Envelope instance with additional item
+                        <pre>    * @param BrokerEnvelopeItemInterface $item
 </pre>
                     </td>
                 </tr>
@@ -649,7 +649,7 @@ layout: coverage
                     <th id="L68" class="number ">68</th>
 
                     <td class="" >
-                        <pre>    * @param BrokerEnvelopeItemInterface $item
+                        <pre>    * @return BrokerEnvelope
 </pre>
                     </td>
                 </tr>
@@ -657,55 +657,47 @@ layout: coverage
                     <th id="L69" class="number ">69</th>
 
                     <td class="" >
-                        <pre>    * @return BrokerEnvelope
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L70" class="number ">70</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="with">
-                    <th id="L71" class="number ">71</th>
+                    <th id="L70" class="number ">70</th>
 
                     <td class="" id="with">
                         <pre>   public function with(BrokerEnvelopeItemInterface $item) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L72" class="number covered">72</th>
+                    <th id="L71" class="number covered">71</th>
 
                     <td class="covered" >
                         <pre>      $cloned = clone $this;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L73" class="number covered">73</th>
+                    <th id="L72" class="number covered">72</th>
 
                     <td class="covered" >
                         <pre>      $cloned-&gt;items[\get_class($item)] = $item;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L74" class="number covered">74</th>
+                    <th id="L73" class="number covered">73</th>
 
                     <td class="covered" >
                         <pre>      return $cloned;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L75" class="number unreach">75</th>
+                    <th id="L74" class="number unreach">74</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L76" class="number ">76</th>
+                    <th id="L75" class="number ">75</th>
 
                     <td class="" >
                         <pre>
@@ -713,42 +705,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="withMessage">
-                    <th id="L77" class="number ">77</th>
+                    <th id="L76" class="number ">76</th>
 
                     <td class="" id="withMessage">
                         <pre>   public function withMessage($message) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L78" class="number covered">78</th>
+                    <th id="L77" class="number covered">77</th>
 
                     <td class="covered" >
                         <pre>      $cloned = clone $this;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L79" class="number covered">79</th>
+                    <th id="L78" class="number covered">78</th>
 
                     <td class="covered" >
                         <pre>      $cloned-&gt;message = $message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L80" class="number covered">80</th>
+                    <th id="L79" class="number covered">79</th>
 
                     <td class="covered" >
                         <pre>      return $cloned;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L81" class="number unreach">81</th>
+                    <th id="L80" class="number unreach">80</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L82" class="number ">82</th>
+                    <th id="L81" class="number ">81</th>
 
                     <td class="" >
                         <pre>
@@ -756,31 +748,39 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="get">
-                    <th id="L83" class="number ">83</th>
+                    <th id="L82" class="number ">82</th>
 
                     <td class="" id="get">
                         <pre>   public function get($itemFqcn) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L84" class="number covered">84</th>
+                    <th id="L83" class="number covered">83</th>
 
                     <td class="covered" >
                         <pre>      return isset($this-&gt;items[$itemFqcn]) ? $this-&gt;items[$itemFqcn] : null;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L85" class="number unreach">85</th>
+                    <th id="L84" class="number unreach">84</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L86" class="number ">86</th>
+                    <th id="L85" class="number ">85</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L86" class="number ">86</th>
+
+                    <td class="" >
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -788,7 +788,7 @@ layout: coverage
                     <th id="L87" class="number ">87</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @return BrokerEnvelopeItemInterface[] indexed by fqcn
 </pre>
                     </td>
                 </tr>
@@ -796,41 +796,33 @@ layout: coverage
                     <th id="L88" class="number ">88</th>
 
                     <td class="" >
-                        <pre>    * @return BrokerEnvelopeItemInterface[] indexed by fqcn
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L89" class="number ">89</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="all">
-                    <th id="L90" class="number ">90</th>
+                    <th id="L89" class="number ">89</th>
 
                     <td class="" id="all">
                         <pre>   public function all() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number covered">91</th>
+                    <th id="L90" class="number covered">90</th>
 
                     <td class="covered" >
                         <pre>      return $this-&gt;items;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L92" class="number unreach">92</th>
+                    <th id="L91" class="number unreach">91</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number ">93</th>
+                    <th id="L92" class="number ">92</th>
 
                     <td class="" >
                         <pre>
@@ -838,7 +830,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L93" class="number ">93</th>
 
                     <td class="" >
                         <pre>   /**
@@ -846,7 +838,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number ">95</th>
+                    <th id="L94" class="number ">94</th>
 
                     <td class="" >
                         <pre>    * @return object The original message contained in the envelope
@@ -854,7 +846,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
+                    <th id="L95" class="number ">95</th>
 
                     <td class="" >
                         <pre>    */
@@ -862,28 +854,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getMessage">
-                    <th id="L97" class="number ">97</th>
+                    <th id="L96" class="number ">96</th>
 
                     <td class="" id="getMessage">
                         <pre>   public function getMessage() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number covered">98</th>
+                    <th id="L97" class="number covered">97</th>
 
                     <td class="covered" >
                         <pre>      return $this-&gt;message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L99" class="number unreach">99</th>
+                    <th id="L98" class="number unreach">98</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number ">100</th>
+                    <th id="L99" class="number ">99</th>
 
                     <td class="" >
                         <pre>}</pre>

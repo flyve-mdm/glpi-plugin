@@ -284,7 +284,7 @@ layout: coverage
                     <th id="L24" class="number ">24</th>
 
                     <td class="" >
-                        <pre> * @author    Thierry Bugier
+                        <pre> * @copyright Copyright © 2018 Teclib
 </pre>
                     </td>
                 </tr>
@@ -292,7 +292,7 @@ layout: coverage
                     <th id="L25" class="number ">25</th>
 
                     <td class="" >
-                        <pre> * @copyright Copyright © 2018 Teclib
+                        <pre> * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
 </pre>
                     </td>
                 </tr>
@@ -300,7 +300,7 @@ layout: coverage
                     <th id="L26" class="number ">26</th>
 
                     <td class="" >
-                        <pre> * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
 </pre>
                     </td>
                 </tr>
@@ -308,7 +308,7 @@ layout: coverage
                     <th id="L27" class="number ">27</th>
 
                     <td class="" >
-                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
+                        <pre> * @link      https://flyve-mdm.com/
 </pre>
                     </td>
                 </tr>
@@ -316,7 +316,7 @@ layout: coverage
                     <th id="L28" class="number ">28</th>
 
                     <td class="" >
-                        <pre> * @link      https://flyve-mdm.com/
+                        <pre> * ------------------------------------------------------------------------------
 </pre>
                     </td>
                 </tr>
@@ -324,7 +324,7 @@ layout: coverage
                     <th id="L29" class="number ">29</th>
 
                     <td class="" >
-                        <pre> * ------------------------------------------------------------------------------
+                        <pre> */
 </pre>
                     </td>
                 </tr>
@@ -332,7 +332,7 @@ layout: coverage
                     <th id="L30" class="number ">30</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -340,7 +340,7 @@ layout: coverage
                     <th id="L31" class="number ">31</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
 </pre>
                     </td>
                 </tr>
@@ -348,7 +348,7 @@ layout: coverage
                     <th id="L32" class="number ">32</th>
 
                     <td class="" >
-                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
+                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
 </pre>
                     </td>
                 </tr>
@@ -356,7 +356,7 @@ layout: coverage
                     <th id="L33" class="number ">33</th>
 
                     <td class="" >
-                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
+                        <pre>}
 </pre>
                     </td>
                 </tr>
@@ -364,7 +364,7 @@ layout: coverage
                     <th id="L34" class="number ">34</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -372,7 +372,7 @@ layout: coverage
                     <th id="L35" class="number ">35</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>class PluginFlyvemdmInvitationlog extends CommonDBTM {
 </pre>
                     </td>
                 </tr>
@@ -380,7 +380,7 @@ layout: coverage
                     <th id="L36" class="number ">36</th>
 
                     <td class="" >
-                        <pre>class PluginFlyvemdmInvitationlog extends CommonDBTM {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -388,7 +388,7 @@ layout: coverage
                     <th id="L37" class="number ">37</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -396,7 +396,7 @@ layout: coverage
                     <th id="L38" class="number ">38</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @var string $rightname name of the right in DB
 </pre>
                     </td>
                 </tr>
@@ -404,7 +404,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>    * @var string $rightname name of the right in DB
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
@@ -412,7 +412,7 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>   public static $rightname = &#039;flyvemdm:invitationLog&#039;;
 </pre>
                     </td>
                 </tr>
@@ -420,7 +420,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>   public static $rightname = &#039;flyvemdm:invitationLog&#039;;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -428,7 +428,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -436,7 +436,7 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Localized name of the type
 </pre>
                     </td>
                 </tr>
@@ -444,7 +444,7 @@ layout: coverage
                     <th id="L44" class="number ">44</th>
 
                     <td class="" >
-                        <pre>    * Localized name of the type
+                        <pre>    * @param $nb  integer  number of item in the type (default 0)
 </pre>
                     </td>
                 </tr>
@@ -452,7 +452,7 @@ layout: coverage
                     <th id="L45" class="number ">45</th>
 
                     <td class="" >
-                        <pre>    * @param $nb  integer  number of item in the type (default 0)
+                        <pre>    * @return string
 </pre>
                     </td>
                 </tr>
@@ -460,44 +460,44 @@ layout: coverage
                     <th id="L46" class="number ">46</th>
 
                     <td class="" >
-                        <pre>    * @return string
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L47" class="number ">47</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="getTypeName">
-                    <th id="L48" class="number ">48</th>
+                    <th id="L47" class="number ">47</th>
 
                     <td class="" id="getTypeName">
                         <pre>   public static function getTypeName($nb = 0) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L49" class="number covered">49</th>
+                    <th id="L48" class="number covered">48</th>
 
                     <td class="covered" >
                         <pre>      return _n(&#039;Invitation log&#039;, &#039;Invitation logs&#039;, $nb, &quot;flyvemdm&quot;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L50" class="number unreach">50</th>
+                    <th id="L49" class="number unreach">49</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L51" class="number ">51</th>
+                    <th id="L50" class="number ">50</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L51" class="number ">51</th>
+
+                    <td class="" >
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -505,7 +505,7 @@ layout: coverage
                     <th id="L52" class="number ">52</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @since version 0.1.0
 </pre>
                     </td>
                 </tr>
@@ -513,7 +513,7 @@ layout: coverage
                     <th id="L53" class="number ">53</th>
 
                     <td class="" >
-                        <pre>    * @since version 0.1.0
+                        <pre>    * @see commonDBTM::getRights()
 </pre>
                     </td>
                 </tr>
@@ -521,34 +521,26 @@ layout: coverage
                     <th id="L54" class="number ">54</th>
 
                     <td class="" >
-                        <pre>    * @see commonDBTM::getRights()
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L55" class="number ">55</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="getRights">
-                    <th id="L56" class="number ">56</th>
+                    <th id="L55" class="number ">55</th>
 
                     <td class="" id="getRights">
                         <pre>   public function getRights($interface = &#039;central&#039;) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L57" class="number covered">57</th>
+                    <th id="L56" class="number covered">56</th>
 
                     <td class="covered" >
                         <pre>      $rights = parent::getRights();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L58" class="number ">58</th>
+                    <th id="L57" class="number ">57</th>
 
                     <td class="" >
                         <pre>
@@ -556,21 +548,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L59" class="number covered">59</th>
+                    <th id="L58" class="number covered">58</th>
 
                     <td class="covered" >
                         <pre>      return $rights;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L60" class="number unreach">60</th>
+                    <th id="L59" class="number unreach">59</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L61" class="number ">61</th>
+                    <th id="L60" class="number ">60</th>
 
                     <td class="" >
                         <pre>
@@ -578,7 +570,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L62" class="number ">62</th>
+                    <th id="L61" class="number ">61</th>
 
                     <td class="" >
                         <pre>   /**
@@ -586,7 +578,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L63" class="number ">63</th>
+                    <th id="L62" class="number ">62</th>
 
                     <td class="" >
                         <pre>    * @return array
@@ -594,7 +586,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L64" class="number ">64</th>
+                    <th id="L63" class="number ">63</th>
 
                     <td class="" >
                         <pre>    */
@@ -602,28 +594,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getSearchOptionsNew">
-                    <th id="L65" class="number ">65</th>
+                    <th id="L64" class="number ">64</th>
 
                     <td class="" id="getSearchOptionsNew">
                         <pre>   public function getSearchOptionsNew() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L66" class="number uncovered">66</th>
+                    <th id="L65" class="number uncovered">65</th>
 
                     <td class="uncovered" >
                         <pre>      return $this-&gt;rawSearchOptions();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L67" class="number unreach">67</th>
+                    <th id="L66" class="number unreach">66</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L68" class="number ">68</th>
+                    <th id="L67" class="number ">67</th>
 
                     <td class="" >
                         <pre>
@@ -631,101 +623,101 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="rawSearchOptions">
-                    <th id="L69" class="number ">69</th>
+                    <th id="L68" class="number ">68</th>
 
                     <td class="" id="rawSearchOptions">
                         <pre>   public function rawSearchOptions() {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L70" class="number uncovered">70</th>
+                    <th id="L69" class="number uncovered">69</th>
 
                     <td class="uncovered" >
                         <pre>      $tab = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L71" class="number ">71</th>
+                    <th id="L70" class="number ">70</th>
 
                     <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L71" class="number uncovered">71</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L72" class="number uncovered">72</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L73" class="number uncovered">73</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;   =&gt; &#039;common&#039;,</pre>
+                        <pre>         &#039;name&#039; =&gt; __s(&#039;Invitation log&#039;, &#039;flyvemdm&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L74" class="number uncovered">74</th>
+                    <th id="L74" class="number ">74</th>
 
-                    <td class="uncovered" >
-                        <pre>         &#039;name&#039; =&gt; __s(&#039;Invitation log&#039;, &#039;flyvemdm&#039;),</pre>
+                    <td class="" >
+                        <pre>      ];
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L75" class="number ">75</th>
 
                     <td class="" >
-                        <pre>      ];
+                        <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L76" class="number ">76</th>
+                    <th id="L76" class="number uncovered">76</th>
 
-                    <td class="" >
-                        <pre>
-</pre>
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L77" class="number uncovered">77</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L78" class="number uncovered">78</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;2&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L79" class="number uncovered">79</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L80" class="number uncovered">80</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L81" class="number uncovered">81</th>
-
-                    <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L82" class="number ">82</th>
+                    <th id="L81" class="number ">81</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -733,14 +725,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L83" class="number uncovered">83</th>
+                    <th id="L82" class="number uncovered">82</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;number&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L84" class="number ">84</th>
+                    <th id="L83" class="number ">83</th>
 
                     <td class="" >
                         <pre>      ];
@@ -748,50 +740,50 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L85" class="number ">85</th>
+                    <th id="L84" class="number ">84</th>
 
                     <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L85" class="number uncovered">85</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L86" class="number uncovered">86</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L87" class="number uncovered">87</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;3&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L88" class="number uncovered">88</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L89" class="number uncovered">89</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;date_creation&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L90" class="number uncovered">90</th>
-
-                    <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;date&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number ">91</th>
+                    <th id="L90" class="number ">90</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -799,14 +791,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L92" class="number uncovered">92</th>
+                    <th id="L91" class="number uncovered">91</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;datetime&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number ">93</th>
+                    <th id="L92" class="number ">92</th>
 
                     <td class="" >
                         <pre>      ];
@@ -814,50 +806,50 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L93" class="number ">93</th>
 
                     <td class="" >
                         <pre>
 </pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L94" class="number uncovered">94</th>
+
+                    <td class="uncovered" >
+                        <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L95" class="number uncovered">95</th>
 
                     <td class="uncovered" >
-                        <pre>      $tab[] = [</pre>
+                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L96" class="number uncovered">96</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;id&#039;            =&gt; &#039;4&#039;,</pre>
+                        <pre>         &#039;table&#039;         =&gt; PluginFlyvemdmInvitation::getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L97" class="number uncovered">97</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;table&#039;         =&gt; PluginFlyvemdmInvitation::getTable(),</pre>
+                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L98" class="number uncovered">98</th>
 
                     <td class="uncovered" >
-                        <pre>         &#039;field&#039;         =&gt; &#039;id&#039;,</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L99" class="number uncovered">99</th>
-
-                    <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;ID&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number ">100</th>
+                    <th id="L99" class="number ">99</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -865,14 +857,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number uncovered">101</th>
+                    <th id="L100" class="number uncovered">100</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;dropdown&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L102" class="number ">102</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>      ];
@@ -880,7 +872,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number ">103</th>
+                    <th id="L102" class="number ">102</th>
 
                     <td class="" >
                         <pre>
@@ -888,42 +880,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number uncovered">104</th>
+                    <th id="L103" class="number uncovered">103</th>
 
                     <td class="uncovered" >
                         <pre>      $tab[] = [</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L105" class="number uncovered">105</th>
+                    <th id="L104" class="number uncovered">104</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;id&#039;            =&gt; &#039;5&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number uncovered">106</th>
+                    <th id="L105" class="number uncovered">105</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;table&#039;         =&gt; $this-&gt;getTable(),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number uncovered">107</th>
+                    <th id="L106" class="number uncovered">106</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;field&#039;         =&gt; &#039;event&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L108" class="number uncovered">108</th>
+                    <th id="L107" class="number uncovered">107</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;name&#039;          =&gt; __(&#039;event&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L109" class="number ">109</th>
+                    <th id="L108" class="number ">108</th>
 
                     <td class="" >
                         <pre>         &#039;massiveaction&#039; =&gt; false,
@@ -931,14 +923,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L110" class="number uncovered">110</th>
+                    <th id="L109" class="number uncovered">109</th>
 
                     <td class="uncovered" >
                         <pre>         &#039;datatype&#039;      =&gt; &#039;string&#039;,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L111" class="number ">111</th>
+                    <th id="L110" class="number ">110</th>
 
                     <td class="" >
                         <pre>      ];
@@ -946,7 +938,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L112" class="number ">112</th>
+                    <th id="L111" class="number ">111</th>
 
                     <td class="" >
                         <pre>
@@ -954,21 +946,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L113" class="number uncovered">113</th>
+                    <th id="L112" class="number uncovered">112</th>
 
                     <td class="uncovered" >
                         <pre>      return $tab;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L114" class="number unreach">114</th>
+                    <th id="L113" class="number unreach">113</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L115" class="number ">115</th>
+                    <th id="L114" class="number ">114</th>
 
                     <td class="" >
                         <pre>}

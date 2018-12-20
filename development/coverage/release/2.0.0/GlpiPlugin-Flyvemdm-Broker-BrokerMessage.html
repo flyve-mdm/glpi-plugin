@@ -270,7 +270,7 @@ layout: coverage
                     <th id="L24" class="number ">24</th>
 
                     <td class="" >
-                        <pre> * @author    Domingo Oropeza &lt;doropeza@teclib.com&gt;
+                        <pre> * @copyright Copyright © 2018 Teclib
 </pre>
                     </td>
                 </tr>
@@ -278,7 +278,7 @@ layout: coverage
                     <th id="L25" class="number ">25</th>
 
                     <td class="" >
-                        <pre> * @copyright Copyright © 2018 Teclib
+                        <pre> * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
 </pre>
                     </td>
                 </tr>
@@ -286,7 +286,7 @@ layout: coverage
                     <th id="L26" class="number ">26</th>
 
                     <td class="" >
-                        <pre> * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
+                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
 </pre>
                     </td>
                 </tr>
@@ -294,7 +294,7 @@ layout: coverage
                     <th id="L27" class="number ">27</th>
 
                     <td class="" >
-                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
+                        <pre> * @link      https://flyve-mdm.com/
 </pre>
                     </td>
                 </tr>
@@ -302,7 +302,7 @@ layout: coverage
                     <th id="L28" class="number ">28</th>
 
                     <td class="" >
-                        <pre> * @link      https://flyve-mdm.com/
+                        <pre> * ------------------------------------------------------------------------------
 </pre>
                     </td>
                 </tr>
@@ -310,7 +310,7 @@ layout: coverage
                     <th id="L29" class="number ">29</th>
 
                     <td class="" >
-                        <pre> * ------------------------------------------------------------------------------
+                        <pre> */
 </pre>
                     </td>
                 </tr>
@@ -318,7 +318,7 @@ layout: coverage
                     <th id="L30" class="number ">30</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -326,7 +326,7 @@ layout: coverage
                     <th id="L31" class="number ">31</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>namespace GlpiPlugin\Flyvemdm\Broker;
 </pre>
                     </td>
                 </tr>
@@ -334,7 +334,7 @@ layout: coverage
                     <th id="L32" class="number ">32</th>
 
                     <td class="" >
-                        <pre>namespace GlpiPlugin\Flyvemdm\Broker;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -342,7 +342,7 @@ layout: coverage
                     <th id="L33" class="number ">33</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
 </pre>
                     </td>
                 </tr>
@@ -350,7 +350,7 @@ layout: coverage
                     <th id="L34" class="number ">34</th>
 
                     <td class="" >
-                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
+                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
 </pre>
                     </td>
                 </tr>
@@ -358,7 +358,7 @@ layout: coverage
                     <th id="L35" class="number ">35</th>
 
                     <td class="" >
-                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
+                        <pre>}
 </pre>
                     </td>
                 </tr>
@@ -366,7 +366,7 @@ layout: coverage
                     <th id="L36" class="number ">36</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -374,7 +374,7 @@ layout: coverage
                     <th id="L37" class="number ">37</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>class BrokerMessage {
 </pre>
                     </td>
                 </tr>
@@ -382,7 +382,7 @@ layout: coverage
                     <th id="L38" class="number ">38</th>
 
                     <td class="" >
-                        <pre>class BrokerMessage {
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -390,7 +390,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   private $message;
 </pre>
                     </td>
                 </tr>
@@ -398,41 +398,33 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>   private $message;
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L41" class="number ">41</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="__construct">
-                    <th id="L42" class="number ">42</th>
+                    <th id="L41" class="number ">41</th>
 
                     <td class="" id="__construct">
                         <pre>   public function __construct($message) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L43" class="number covered">43</th>
+                    <th id="L42" class="number covered">42</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;message = $message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L44" class="number covered">44</th>
+                    <th id="L43" class="number covered">43</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L45" class="number ">45</th>
+                    <th id="L44" class="number ">44</th>
 
                     <td class="" >
                         <pre>
@@ -440,28 +432,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getMessage">
-                    <th id="L46" class="number ">46</th>
+                    <th id="L45" class="number ">45</th>
 
                     <td class="" id="getMessage">
                         <pre>   public function getMessage() {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L47" class="number covered">47</th>
+                    <th id="L46" class="number covered">46</th>
 
                     <td class="covered" >
                         <pre>      return $this-&gt;message;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L48" class="number unreach">48</th>
+                    <th id="L47" class="number unreach">47</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L49" class="number ">49</th>
+                    <th id="L48" class="number ">48</th>
 
                     <td class="" >
                         <pre>}</pre>

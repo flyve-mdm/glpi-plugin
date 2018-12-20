@@ -277,7 +277,7 @@ layout: coverage
                     <th id="L24" class="number ">24</th>
 
                     <td class="" >
-                        <pre> * @author    Thierry Bugier
+                        <pre> * @copyright Copyright © 2018 Teclib
 </pre>
                     </td>
                 </tr>
@@ -285,7 +285,7 @@ layout: coverage
                     <th id="L25" class="number ">25</th>
 
                     <td class="" >
-                        <pre> * @copyright Copyright © 2018 Teclib
+                        <pre> * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
 </pre>
                     </td>
                 </tr>
@@ -293,7 +293,7 @@ layout: coverage
                     <th id="L26" class="number ">26</th>
 
                     <td class="" >
-                        <pre> * @license   AGPLv3+ http://www.gnu.org/licenses/agpl.txt
+                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
 </pre>
                     </td>
                 </tr>
@@ -301,7 +301,7 @@ layout: coverage
                     <th id="L27" class="number ">27</th>
 
                     <td class="" >
-                        <pre> * @link      https://github.com/flyve-mdm/glpi-plugin
+                        <pre> * @link      https://flyve-mdm.com/
 </pre>
                     </td>
                 </tr>
@@ -309,7 +309,7 @@ layout: coverage
                     <th id="L28" class="number ">28</th>
 
                     <td class="" >
-                        <pre> * @link      https://flyve-mdm.com/
+                        <pre> * ------------------------------------------------------------------------------
 </pre>
                     </td>
                 </tr>
@@ -317,7 +317,7 @@ layout: coverage
                     <th id="L29" class="number ">29</th>
 
                     <td class="" >
-                        <pre> * ------------------------------------------------------------------------------
+                        <pre> */
 </pre>
                     </td>
                 </tr>
@@ -325,7 +325,7 @@ layout: coverage
                     <th id="L30" class="number ">30</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -333,7 +333,7 @@ layout: coverage
                     <th id="L31" class="number ">31</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
 </pre>
                     </td>
                 </tr>
@@ -341,7 +341,7 @@ layout: coverage
                     <th id="L32" class="number ">32</th>
 
                     <td class="" >
-                        <pre>if (!defined(&#039;GLPI_ROOT&#039;)) {
+                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
 </pre>
                     </td>
                 </tr>
@@ -349,7 +349,7 @@ layout: coverage
                     <th id="L33" class="number ">33</th>
 
                     <td class="" >
-                        <pre>   die(&quot;Sorry. You can&#039;t access this file directly&quot;);
+                        <pre>}
 </pre>
                     </td>
                 </tr>
@@ -357,7 +357,7 @@ layout: coverage
                     <th id="L34" class="number ">34</th>
 
                     <td class="" >
-                        <pre>}
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -365,7 +365,7 @@ layout: coverage
                     <th id="L35" class="number ">35</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>/**
 </pre>
                     </td>
                 </tr>
@@ -373,7 +373,7 @@ layout: coverage
                     <th id="L36" class="number ">36</th>
 
                     <td class="" >
-                        <pre>/**
+                        <pre> * @since 0.1.0.33
 </pre>
                     </td>
                 </tr>
@@ -381,7 +381,7 @@ layout: coverage
                     <th id="L37" class="number ">37</th>
 
                     <td class="" >
-                        <pre> * @since 0.1.0.33
+                        <pre> */
 </pre>
                     </td>
                 </tr>
@@ -389,7 +389,7 @@ layout: coverage
                     <th id="L38" class="number ">38</th>
 
                     <td class="" >
-                        <pre> */
+                        <pre>class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
 </pre>
                     </td>
                 </tr>
@@ -397,7 +397,7 @@ layout: coverage
                     <th id="L39" class="number ">39</th>
 
                     <td class="" >
-                        <pre>class PluginFlyvemdmPolicyInteger extends PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
+                        <pre>{
 </pre>
                     </td>
                 </tr>
@@ -405,7 +405,7 @@ layout: coverage
                     <th id="L40" class="number ">40</th>
 
                     <td class="" >
-                        <pre>{
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -413,7 +413,7 @@ layout: coverage
                     <th id="L41" class="number ">41</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -421,7 +421,7 @@ layout: coverage
                     <th id="L42" class="number ">42</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @var integer|null $minValue Minimum value allowed for the policy
 </pre>
                     </td>
                 </tr>
@@ -429,7 +429,7 @@ layout: coverage
                     <th id="L43" class="number ">43</th>
 
                     <td class="" >
-                        <pre>    * @var integer|null $minValue Minimum value allowed for the policy
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
@@ -437,7 +437,7 @@ layout: coverage
                     <th id="L44" class="number ">44</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>   protected $minValue = null;
 </pre>
                     </td>
                 </tr>
@@ -445,7 +445,7 @@ layout: coverage
                     <th id="L45" class="number ">45</th>
 
                     <td class="" >
-                        <pre>   protected $minValue = null;
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -453,7 +453,7 @@ layout: coverage
                     <th id="L46" class="number ">46</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @var integer|null $minValue Maximum value allowed for the policy
 </pre>
                     </td>
                 </tr>
@@ -461,7 +461,7 @@ layout: coverage
                     <th id="L47" class="number ">47</th>
 
                     <td class="" >
-                        <pre>    * @var integer|null $minValue Maximum value allowed for the policy
+                        <pre>    */
 </pre>
                     </td>
                 </tr>
@@ -469,7 +469,7 @@ layout: coverage
                     <th id="L48" class="number ">48</th>
 
                     <td class="" >
-                        <pre>    */
+                        <pre>   protected $maxValue = null;
 </pre>
                     </td>
                 </tr>
@@ -477,7 +477,7 @@ layout: coverage
                     <th id="L49" class="number ">49</th>
 
                     <td class="" >
-                        <pre>   protected $maxValue = null;
+                        <pre>
 </pre>
                     </td>
                 </tr>
@@ -485,7 +485,7 @@ layout: coverage
                     <th id="L50" class="number ">50</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -493,7 +493,7 @@ layout: coverage
                     <th id="L51" class="number ">51</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * PluginFlyvemdmPolicyInteger constructor.
 </pre>
                     </td>
                 </tr>
@@ -501,7 +501,7 @@ layout: coverage
                     <th id="L52" class="number ">52</th>
 
                     <td class="" >
-                        <pre>    * PluginFlyvemdmPolicyInteger constructor.
+                        <pre>    * @param PluginFlyvemdmPolicy $policy
 </pre>
                     </td>
                 </tr>
@@ -509,34 +509,26 @@ layout: coverage
                     <th id="L53" class="number ">53</th>
 
                     <td class="" >
-                        <pre>    * @param PluginFlyvemdmPolicy $policy
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L54" class="number ">54</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="__construct">
-                    <th id="L55" class="number ">55</th>
+                    <th id="L54" class="number ">54</th>
 
                     <td class="" id="__construct">
                         <pre>   public function __construct(PluginFlyvemdmPolicy $policy) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L56" class="number covered">56</th>
+                    <th id="L55" class="number covered">55</th>
 
                     <td class="covered" >
                         <pre>      parent::__construct($policy);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L57" class="number ">57</th>
+                    <th id="L56" class="number ">56</th>
 
                     <td class="" >
                         <pre>      $defaultProperties = [
@@ -544,14 +536,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L58" class="number covered">58</th>
+                    <th id="L57" class="number covered">57</th>
 
                     <td class="covered" >
                         <pre>         &#039;min&#039; =&gt; null,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L59" class="number ">59</th>
+                    <th id="L58" class="number ">58</th>
 
                     <td class="" >
                         <pre>         &#039;max&#039; =&gt; null,
@@ -559,7 +551,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L60" class="number ">60</th>
+                    <th id="L59" class="number ">59</th>
 
                     <td class="" >
                         <pre>      ];
@@ -567,35 +559,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L61" class="number covered">61</th>
+                    <th id="L60" class="number covered">60</th>
 
                     <td class="covered" >
                         <pre>      $propertyCollection = $this-&gt;jsonDecodeProperties($policy-&gt;getField(&#039;type_data&#039;),</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L62" class="number covered">62</th>
+                    <th id="L61" class="number covered">61</th>
 
                     <td class="covered" >
                         <pre>         $defaultProperties);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L63" class="number covered">63</th>
+                    <th id="L62" class="number covered">62</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;minValue = $propertyCollection[&#039;min&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L64" class="number covered">64</th>
+                    <th id="L63" class="number covered">63</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;maxValue = $propertyCollection[&#039;max&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L65" class="number ">65</th>
+                    <th id="L64" class="number ">64</th>
 
                     <td class="" >
                         <pre>
@@ -603,38 +595,46 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L66" class="number covered">66</th>
+                    <th id="L65" class="number covered">65</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;symbol = $policy-&gt;getField(&#039;symbol&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L67" class="number covered">67</th>
+                    <th id="L66" class="number covered">66</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;unicityRequired = ($policy-&gt;getField(&#039;unicity&#039;) != &#039;0&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L68" class="number covered">68</th>
+                    <th id="L67" class="number covered">67</th>
 
                     <td class="covered" >
                         <pre>      $this-&gt;group = $policy-&gt;getField(&#039;group&#039;);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L69" class="number covered">69</th>
+                    <th id="L68" class="number covered">68</th>
 
                     <td class="covered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L70" class="number ">70</th>
+                    <th id="L69" class="number ">69</th>
 
                     <td class="" >
                         <pre>
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L70" class="number ">70</th>
+
+                    <td class="" >
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -642,7 +642,7 @@ layout: coverage
                     <th id="L71" class="number ">71</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * @param mixed $value
 </pre>
                     </td>
                 </tr>
@@ -650,7 +650,7 @@ layout: coverage
                     <th id="L72" class="number ">72</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $value
+                        <pre>    * @param mixed $itemtype
 </pre>
                     </td>
                 </tr>
@@ -658,7 +658,7 @@ layout: coverage
                     <th id="L73" class="number ">73</th>
 
                     <td class="" >
-                        <pre>    * @param mixed $itemtype
+                        <pre>    * @param integer $itemId
 </pre>
                     </td>
                 </tr>
@@ -666,7 +666,7 @@ layout: coverage
                     <th id="L74" class="number ">74</th>
 
                     <td class="" >
-                        <pre>    * @param integer $itemId
+                        <pre>    * @return bool
 </pre>
                     </td>
                 </tr>
@@ -674,101 +674,93 @@ layout: coverage
                     <th id="L75" class="number ">75</th>
 
                     <td class="" >
-                        <pre>    * @return bool
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L76" class="number ">76</th>
-
-                    <td class="" >
                         <pre>    */
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="integrityCheck">
-                    <th id="L77" class="number ">77</th>
+                    <th id="L76" class="number ">76</th>
 
                     <td class="" id="integrityCheck">
                         <pre>   public function integrityCheck($value, $itemtype, $itemId) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L78" class="number covered">78</th>
+                    <th id="L77" class="number covered">77</th>
 
                     <td class="covered" >
                         <pre>      if ($value === null || (!strval(intval($value)) == strval($value))) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L79" class="number covered">79</th>
+                    <th id="L78" class="number covered">78</th>
 
                     <td class="covered" >
                         <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L79" class="number ">79</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L80" class="number ">80</th>
 
                     <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L81" class="number ">81</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L82" class="number covered">82</th>
+                    <th id="L81" class="number covered">81</th>
 
                     <td class="covered" >
                         <pre>      if ($this-&gt;minValue !== null &amp;&amp; ($value &lt; $this-&gt;minValue)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L83" class="number covered">83</th>
+                    <th id="L82" class="number covered">82</th>
 
                     <td class="covered" >
                         <pre>         return false;</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L83" class="number ">83</th>
+
+                    <td class="" >
+                        <pre>      }
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L84" class="number ">84</th>
 
                     <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L85" class="number ">85</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L86" class="number covered">86</th>
+                    <th id="L85" class="number covered">85</th>
 
                     <td class="covered" >
                         <pre>      if ($this-&gt;maxValue !== null &amp;&amp; ($value &gt; $this-&gt;maxValue)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L87" class="number covered">87</th>
+                    <th id="L86" class="number covered">86</th>
 
                     <td class="covered" >
                         <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L88" class="number ">88</th>
+                    <th id="L87" class="number ">87</th>
 
                     <td class="" >
                         <pre>      }
@@ -776,14 +768,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L89" class="number covered">89</th>
+                    <th id="L88" class="number covered">88</th>
 
                     <td class="covered" >
                         <pre>      return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L90" class="number ">90</th>
+                    <th id="L89" class="number ">89</th>
 
                     <td class="" >
                         <pre>
@@ -791,14 +783,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L91" class="number unreach">91</th>
+                    <th id="L90" class="number unreach">90</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L92" class="number ">92</th>
+                    <th id="L91" class="number ">91</th>
 
                     <td class="" >
                         <pre>
@@ -806,7 +798,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L93" class="number ">93</th>
+                    <th id="L92" class="number ">92</th>
 
                     <td class="" >
                         <pre>   /**
@@ -814,7 +806,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L94" class="number ">94</th>
+                    <th id="L93" class="number ">93</th>
 
                     <td class="" >
                         <pre>    * @param mixed $value
@@ -822,7 +814,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L95" class="number ">95</th>
+                    <th id="L94" class="number ">94</th>
 
                     <td class="" >
                         <pre>    * @param mixed $itemtype
@@ -830,7 +822,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L96" class="number ">96</th>
+                    <th id="L95" class="number ">95</th>
 
                     <td class="" >
                         <pre>    * @param integer $itemId
@@ -838,7 +830,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L97" class="number ">97</th>
+                    <th id="L96" class="number ">96</th>
 
                     <td class="" >
                         <pre>    * @return array|bool
@@ -846,7 +838,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L98" class="number ">98</th>
+                    <th id="L97" class="number ">97</th>
 
                     <td class="" >
                         <pre>    */
@@ -854,28 +846,28 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="getBrokerMessage">
-                    <th id="L99" class="number ">99</th>
+                    <th id="L98" class="number ">98</th>
 
                     <td class="" id="getBrokerMessage">
                         <pre>   public function getBrokerMessage($value, $itemtype, $itemId) {<span class="label label-success">100%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L100" class="number covered">100</th>
+                    <th id="L99" class="number covered">99</th>
 
                     <td class="covered" >
                         <pre>      if (!$this-&gt;integrityCheck($value, $itemtype, $itemId)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L101" class="number covered">101</th>
+                    <th id="L100" class="number covered">100</th>
 
                     <td class="covered" >
                         <pre>         return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L102" class="number ">102</th>
+                    <th id="L101" class="number ">101</th>
 
                     <td class="" >
                         <pre>      }
@@ -883,7 +875,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L103" class="number ">103</th>
+                    <th id="L102" class="number ">102</th>
 
                     <td class="" >
                         <pre>      $array = [
@@ -891,14 +883,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L104" class="number covered">104</th>
+                    <th id="L103" class="number covered">103</th>
 
                     <td class="covered" >
                         <pre>         $this-&gt;symbol =&gt; $value,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L105" class="number ">105</th>
+                    <th id="L104" class="number ">104</th>
 
                     <td class="" >
                         <pre>      ];
@@ -906,21 +898,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L106" class="number covered">106</th>
+                    <th id="L105" class="number covered">105</th>
 
                     <td class="covered" >
                         <pre>      return $array;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L107" class="number unreach">107</th>
+                    <th id="L106" class="number unreach">106</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L108" class="number ">108</th>
+                    <th id="L107" class="number ">107</th>
 
                     <td class="" >
                         <pre>}
