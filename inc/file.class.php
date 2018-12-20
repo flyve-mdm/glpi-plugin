@@ -70,7 +70,7 @@ class PluginFlyvemdmFile extends PluginFlyvemdmDeployable {
       return 'fa-file';
    }
 
-    public function defineTabs($options = []) {
+   public function defineTabs($options = []) {
       $tab = [];
       $this->addDefaultFormTab($tab);
       $plugin = new Plugin();
