@@ -9,9 +9,18 @@
 </tr>
 {% else %}
 <tr>
-  <td>
-  {{ __('There is nothing to change in an invitation. You may only need to re-send it.') }}
-  </td>
+   <td>
+      {{ __('Expiration date', 'flyvemdm') }}{{ withTemplate }}
+   </td>
+   <td>
+      {{ invitation.expiration_date|raw }}
+   </td>
+   <td>
+      {{ __('status', 'flyvemdm') }}{{ withTemplate }}
+   </td>
+   <td>
+      {{ invitation.status }}
+   </td>
 </tr>
 <tr>
   <td>
