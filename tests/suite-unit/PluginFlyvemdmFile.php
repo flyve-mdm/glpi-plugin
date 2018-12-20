@@ -261,4 +261,16 @@ class PluginFlyvemdmFile extends CommonTestCase {
          $this->object($file)->isInstanceOf('PluginFlyvemdmFile');
       }
    }
+
+   public function testDefineTabs() {
+      $this->login('glpi', 'glpi');
+
+      $instance = $this->newTestedInstance();
+      $output = $instance->defineTabs();
+      $this->array($output)->isIdenticalTo([
+         'PluginFlyvemdmFile$main' => 'File',
+         'Notepad$1'               => 'Notes',
+         'Log$1'                   => 'Historical',
+      ]);
+   }
 }
