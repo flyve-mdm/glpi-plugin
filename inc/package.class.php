@@ -53,6 +53,11 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
    protected $usenotepadRights = true;
 
    /**
+    * @var bool $dohistory maintain history
+    */
+   public $dohistory = true;
+
+   /**
     * Localized name of the type
     * @param integer $nb number of item in the type (default 0)
     * @return string
