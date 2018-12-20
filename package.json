@@ -6,11 +6,11 @@
         "test": "tests"
     },
     "scripts": {
-        "release": "standard-version --sign --message 'chore(release): bump to %s and new changelog'"
+        "release": "standard-version --sign --message 'refactor(release): bump to %s and new changelog'"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/flyve-mdm/flyve-mdm-glpi.git"
+        "url": "git+https://github.com/flyve-mdm/glpi-plugin.git"
     },
     "keywords": [
         "glpi",
@@ -20,9 +20,9 @@
     "author": "Thierry Bugier <tbugier@teclib.com> (https://flyve-mdm.com/)",
     "license": "AGPL-3.0-or-later",
     "bugs": {
-        "url": "https://github.com/flyve-mdm/flyve-mdm-glpi/issues"
+        "url": "https://github.com/flyve-mdm/glpi-plugin/issues"
     },
-    "homepage": "https://github.com/flyve-mdm/flyve-mdm-glpi#readme",
+    "homepage": "https://github.com/flyve-mdm/glpi-plugin#readme",
     "devDependencies": {
         "conventional-changelog-cli": "^2.0.0",
         "standard-version": "^4.4.0"

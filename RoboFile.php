@@ -283,7 +283,7 @@ class RoboFile extends Glpi\Tools\RoboFile {
       if ($release == 'release') {
          // check a tag exists for the version
          $tag = self::$tagPrefix . $version;
-         $this->taskGitStack()
+         $res = $this->taskGitStack()
             ->stopOnFail()
             ->tag($tag)
             ->run();
@@ -431,7 +431,8 @@ class RoboFile extends Glpi\Tools\RoboFile {
     */
    protected function getAllTags() {
       $prefix = self::$tagPrefix;
-      exec("git tag --list '$prefix*' --sort=-refname", $output, $retCode);
+      $command = 'git tag --list "' . $prefix . '*" --sort=-refname';
+      exec($command, $output, $retCode);
       if ($retCode != '0') {
          // An error occured
          throw new Exception("Unable to get tags from the repository");
@@ -696,7 +697,8 @@ class RoboFile extends Glpi\Tools\RoboFile {
    /**
     */
    protected function updateChangelog() {
-      exec("node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s", $output, $retCode);
+      exec($this->getProjectPath() . "/node_modules/.bin/conventional-changelog -p angular -i CHANGELOG.md -s",
+         $output, $retCode);
       if ($retCode > 0) {
          throw new Exception("Failed to update the changelog");
       }
