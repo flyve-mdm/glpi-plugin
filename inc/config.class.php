@@ -201,6 +201,8 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             ]);
          }
       }
+
+      Session::addMessageAfterRedirect(__('Upload of APK and UPK file types is now allowed.', 'flyvemdm'));
    }
 
    /**
