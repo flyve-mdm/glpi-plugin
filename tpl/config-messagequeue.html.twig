@@ -51,14 +51,14 @@
          <td>{{ __('Cipher suite (TLS enabled)', 'flyvemdm') }}</td>
          <td><input type="text" name="mqtt_broker_tls_ciphers"
             value="{{ config.mqtt_broker_tls_ciphers }}"></td>
-         <td>{{ __('Mqtt broker cipher suite', 'flyvemdm') }}</td>
+         <td>{{ __('MQTT broker cipher suite', 'flyvemdm') }}</td>
       </tr>
-      <tr class="">
-         <td>test</td>
+      {# <tr class="">
+         <td>Test</td>
          <td><input type="button" id="pluginFlyvemdm-mqtt-test"
-            name="mqtt-test" value="{{ __('test', 'flyvemdm') }}" class="submit"><span
+            name="mqtt-test" value="{{ __('Test connection', 'flyvemdm') }}" class="submit"><span
             id="pluginFlyvemdm-test-feedback"></span></td>
-      </tr>
+      </tr> #}
       <tr>
          <th colspan="3" class="">{{ __('Client certificate server (Broker MQTT with TLS enabled)', 'flyvemdm') }}</th>
       </tr>
@@ -68,7 +68,7 @@
          <td></td>
       </tr>
       <tr class="tab_bg_1">
-         <td>{{ __('Ssl certificate server for MQTT clients', 'flyvemdm') }}</td>
+         <td>{{ __('SSL certificate server for MQTT clients', 'flyvemdm') }}</td>
          <td><input type="text" name="ssl_cert_url" value="{{ config.ssl_cert_url }}"></td>
          <td>{{ __('https://cert.domain.com/path/to/service', 'flyvemdm') }}</td>
       </tr>
