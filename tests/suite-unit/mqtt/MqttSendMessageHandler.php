@@ -21,55 +21,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with Flyve MDM Plugin for GLPI. If not, see http://www.gnu.org/licenses/.
  * ------------------------------------------------------------------------------
+ * @author    Domingo Oropeza <doropeza@teclib.com>
  * @copyright Copyright © 2018 Teclib
- * @license   https://www.gnu.org/licenses/agpl.txt AGPLv3+
+ * @license   http://www.gnu.org/licenses/agpl.txt AGPLv3+
  * @link      https://github.com/flyve-mdm/glpi-plugin
  * @link      https://flyve-mdm.com/
  * ------------------------------------------------------------------------------
  */
 
-namespace GlpiPlugin\Flyvemdm\Fcm;
+namespace tests\units\GlpiPlugin\Flyvemdm\Mqtt;
 
-use GlpiPlugin\Flyvemdm\Interfaces\BrokerEnvelopeItemInterface;
 
-if (!defined('GLPI_ROOT')) {
-   die("Sorry. You can't access this file directly");
-}
+use Flyvemdm\Tests\CommonTestCase;
+use GlpiPlugin\Flyvemdm\Broker\BrokerMessage;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttEnvelope;
+use GlpiPlugin\Flyvemdm\Mqtt\MqttSendMessageHandler as SendMessageHandler;
 
-final class FcmEnvelope implements BrokerEnvelopeItemInterface {
-
-   private $context;
+class MqttSendMessageHandler extends CommonTestCase {
 
    /**
-    * FcmEnvelope constructor.
-    * @param array $context
+    * @tags testSendMessageHandler
     */
-   public function __construct(array $context) {
-      if (!isset($context['scope']) || !is_array($context['scope'])) {
-         throw new \InvalidArgumentException(__('The scope argument is needed (push type and token)',
-            'flyvemdm'));
-      }
-
-      foreach ($context['scope'] as $index => $device) {
-         if (!isset($device['type']) || !isset($device['token'])) {
-            throw new \InvalidArgumentException(__('The scope argument is needed (push type and token)',
-               'flyvemdm'));
-         }
-      }
-
-      if (!isset($context['topic'])) {
-         throw new \InvalidArgumentException(__('A topic argument is needed', 'flyvemdm'));
-      }
-      $context['topic'] = str_replace('/', '-', $context['topic']);
-
-      $this->context = $context;
+   public function testSendMessageHandler() {
+      $topic = 'lorem';
+      $message = 'Hello world';
+      $envelope = new MqttEnvelope(['topic' => $topic]);
+      $brokerMessage = new BrokerMessage($message);
+      $mockedConnection = $this->newMockInstance('\GlpiPlugin\Flyvemdm\Mqtt\MqttConnection');
+      $mockedConnection->getMockController()->publish = function () {};
+      $instance = new SendMessageHandler($mockedConnection, $envelope);
+      $this->object($instance)->isCallable();
+      $instance($brokerMessage);
+      $this->mock($mockedConnection)->call('publish')
+         ->withIdenticalArguments($topic, $message, 0, 0)->once();
    }
 
-   /**
-    * @param $name
-    * @return mixed
-    */
-   public function getContext($name) {
-      return $this->context[$name];
-   }
 }
