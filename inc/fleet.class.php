@@ -225,7 +225,7 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $deleteSuccess = $task->deleteByCriteria([
          'AND' => [
-            'itemtype_applied'  => $itemtype,
+            'itemtype_applied' => $itemtype,
             'items_id_applied' => $fleetId,
          ]
       ], true);
