@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Interface GlpiPlugin\Flyvemdm\Interfaces\BrokerMiddlewareInterface</title>
+
+	<link rel="stylesheet" href="resources/style.css?c2f33731c1948fbed7c333554678bfa68d4817da">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li class="active">
+					<a href="namespace-GlpiPlugin.html">
+						GlpiPlugin<span></span>
+					</a>
+
+						<ul>
+				<li class="active">
+					<a href="namespace-GlpiPlugin.Flyvemdm.html">
+						Flyvemdm<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-GlpiPlugin.Flyvemdm.Broker.html">
+						Broker					</a>
+
+						</li>
+				<li>
+					<a href="namespace-GlpiPlugin.Flyvemdm.Exception.html">
+						Exception					</a>
+
+						</li>
+				<li>
+					<a href="namespace-GlpiPlugin.Flyvemdm.Fcm.html">
+						Fcm					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-GlpiPlugin.Flyvemdm.Interfaces.html">
+						Interfaces					</a>
+
+						</li>
+				<li>
+					<a href="namespace-GlpiPlugin.Flyvemdm.Mqtt.html">
+						Mqtt					</a>
+
+						</li>
+							</ul></li></ul></li>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerEnvelopeAwareInterface.html">BrokerEnvelopeAwareInterface</a></li>
+				<li><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerEnvelopeItemInterface.html">BrokerEnvelopeItemInterface</a></li>
+				<li class="active"><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerMiddlewareInterface.html">BrokerMiddlewareInterface</a></li>
+				<li><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerReceiverInterface.html">BrokerReceiverInterface</a></li>
+				<li><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerSenderInterface.html">BrokerSenderInterface</a></li>
+				<li><a href="class-GlpiPlugin.Flyvemdm.Interfaces.BrokerTransportInterface.html">BrokerTransportInterface</a></li>
+			</ul>
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-GlpiPlugin.Flyvemdm.Interfaces.html" title="Summary of GlpiPlugin\Flyvemdm\Interfaces"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+				<li>
+					<a href="annotation-group-deprecated.html" title="List of elements with deprecated annotation">
+						<span>Deprecated</span>
+					</a>
+				</li>
+				<li>
+					<a href="annotation-group-todo.html" title="List of elements with todo annotation">
+						<span>Todo</span>
+					</a>
+				</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Interface BrokerMiddlewareInterface</h1>
+
+
+
+
+
+
+
+	<div>
+		<h4>Direct known implementers</h4>
+			<a href="class-GlpiPlugin.Flyvemdm.Fcm.FcmMiddleware.html">GlpiPlugin\Flyvemdm\Fcm\FcmMiddleware</a>, 
+			<a href="class-GlpiPlugin.Flyvemdm.Mqtt.MqttMiddleware.html">GlpiPlugin\Flyvemdm\Mqtt\MqttMiddleware</a>
+	</div>
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-GlpiPlugin.html">GlpiPlugin</a>\<a href="namespace-GlpiPlugin.Flyvemdm.html">Flyvemdm</a>\<a href="namespace-GlpiPlugin.Flyvemdm.Interfaces.html">Interfaces</a><br>
+		
+
+			<b>Located at</b> <a href="source-class-GlpiPlugin.Flyvemdm.Interfaces.BrokerMiddlewareInterface.html#37-45" title="Go to source code">interfaces/brokermiddlewareinterface.class.php</a>
+		<br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="handle" id="_handle">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_handle">#</a>
+		<code><a href="source-class-GlpiPlugin.Flyvemdm.Interfaces.BrokerMiddlewareInterface.html#39-44" title="Go to source code">handle</a>( <span>object <var>$message</var></span>, <span>callable <var>$next</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$message</var></dt>
+					<dd></dd>
+					<dt><var>$next</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					mixed
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
