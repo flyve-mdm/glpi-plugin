@@ -344,12 +344,17 @@ class PluginFlyvemdmTask extends CommonDBRelation {
       }
       $notifiableType = $this->fields['itemtype_applied'];
       $this->notifiable = new $notifiableType();
-      if (!$this->notifiable->getFromDB($this->fields['items_id_applied'])) {
-         Session::addMessageAfterRedirect(sprintf(__('%1$s not found', 'flyvemdm'), $this->notifiable->getTypeName()), false, ERROR);
-         return false;
+      if ($this->notifiable->getFromDB($this->fields['items_id_applied'])) {
+         return $this->policy->pre_unapply(
+            $this->fields['value'],
+            $this->fields['itemtype'],
+            $this->fields['items_id'],
+            $this->notifiable
+         );
       }
-      return $this->policy->pre_unapply($this->fields['value'], $this->fields['itemtype'],
-         $this->fields['items_id'], $this->notifiable);
+
+      Session::addMessageAfterRedirect(sprintf(__('%1$s not found', 'flyvemdm'), $this->notifiable->getTypeName()), false, ERROR);
+      return true;
    }
 
    /**
