@@ -57,7 +57,8 @@ class MqttTransport implements BrokerTransportInterface {
     * @return void
     */
    public function receive(callable $handler) {
-      (isset($this->receiver) ? $this->receiver : $this->getReceiver())->receive($handler);
+      $receiver = (isset($this->receiver) ? $this->receiver : $this->getReceiver());
+      $receiver->receive($handler);
    }
 
    /**
@@ -65,7 +66,8 @@ class MqttTransport implements BrokerTransportInterface {
     * @return void
     */
    public function stop() {
-      (isset($this->receiver) ? $this->receiver : $this->getReceiver())->stop();
+      $receiver = (isset($this->receiver) ? $this->receiver : $this->getReceiver());
+      $receiver->stop();
    }
 
    /**
@@ -74,7 +76,8 @@ class MqttTransport implements BrokerTransportInterface {
     * @param BrokerEnvelope $envelope
     */
    public function send(BrokerEnvelope $envelope) {
-      (isset($this->sender) ? $this->sender : $this->getSender())->send($envelope);
+      $receiver = (isset($this->receiver) ? $this->receiver : $this->getReceiver());
+      $receiver->send($envelope);
    }
 
    private function getReceiver() {
