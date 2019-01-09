@@ -219,3 +219,19 @@ function plugin_flyvemdm_hook_pre_invitation_purge(CommonDBTM $item) {
 
    return $success;
 }
+
+/**
+ * Hook handler for profile purge
+ *
+ * @param ComonDBTM $item
+ * @return void
+ */
+function plugin_flyvemdm_hook_pre_profile_purge(CommonDBTM $item) {
+   if ($item instanceof Profile) {
+      $config = Config::getConfigurationValues('flyvemdm', ['agent_profiles_id', 'guest_profiles_id']);
+      if (in_array($item->getID(), $config)) {
+         Session::addMessageAfterRedirect(__('This profile is needed by Flyve MDM.', 'flyvemdm'), false, ERROR);
+         $item->input = false;
+      }
+   }
+}
