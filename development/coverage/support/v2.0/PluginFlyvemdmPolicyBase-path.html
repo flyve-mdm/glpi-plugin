@@ -1,0 +1,760 @@
+---
+layout: coverage
+---
+<html>
+
+<head>
+    <script src="assets/d3.js" charset="utf-8"></script>
+    <script src="assets/dagre-d3.js"></script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/jquery.tablesorter.js"></script>
+    <script src="assets/report.js"></script>
+
+    <link rel="stylesheet" href="assets/font-awesome.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="assets/logo.png" alt="atoum"/> Code coverage report</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="col-lg-12">
+            <div class="row">
+        <h1>PluginFlyvemdmPolicyBase: paths coverage</h1>
+
+        
+
+
+<table class="table table-bordered">
+    <tr>
+        
+                    <td style="text-align: center; width: 100%">
+                <h1 class="text-success">
+                    94%
+                                            <small>of 88</small>
+                                    </h1>
+                <strong>Lines</strong>
+            </td>
+        
+        
+            </tr>
+</table>
+
+<table class="table table-bordered table-striped table-hover sort">
+    <thead>
+    <tr>
+        <th>Method <i class="fa"></i></th>
+                            <th style="text-align: center">Lines <i class="fa"></i></th>
+            <th style="text-align: center">Line % <i class="fa"></i></th>
+                            </tr>
+    </thead>
+
+    <tbody>
+            <tr>
+            <td><a href="#getEnumBaseTaskStatus">PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getEnumSpecificStatus">PluginFlyvemdmPolicyBase::getEnumSpecificStatus()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#__construct">PluginFlyvemdmPolicyBase::__construct()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#jsonDecodeProperties">PluginFlyvemdmPolicyBase::jsonDecodeProperties()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#canApply">PluginFlyvemdmPolicyBase::canApply()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#unicityCheck">PluginFlyvemdmPolicyBase::unicityCheck()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-success">88%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#conflictCheck">PluginFlyvemdmPolicyBase::conflictCheck()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#integrityCheck">PluginFlyvemdmPolicyBase::integrityCheck()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#translateData">PluginFlyvemdmPolicyBase::translateData()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getGroup">PluginFlyvemdmPolicyBase::getGroup()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#pre_apply">PluginFlyvemdmPolicyBase::pre_apply()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#pre_unapply">PluginFlyvemdmPolicyBase::pre_unapply()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_unapply">PluginFlyvemdmPolicyBase::post_unapply()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showValueInput">PluginFlyvemdmPolicyBase::showValueInput()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showValue">PluginFlyvemdmPolicyBase::showValue()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#preprocessFormData">PluginFlyvemdmPolicyBase::preprocessFormData()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#filterStatus">PluginFlyvemdmPolicyBase::filterStatus()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getPolicyData">PluginFlyvemdmPolicyBase::getPolicyData()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#formGenerator">PluginFlyvemdmPolicyBase::formGenerator()</a></td>
+                                        <td style="text-align: center">22</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getAndroidCompatibilityMessage">PluginFlyvemdmPolicyBase::getAndroidCompatibilityMessage()</a></td>
+                                        <td style="text-align: center">19</td>
+                <td style="text-align: center">    
+    <span class="label label-success">84%</span>
+</td>
+                                            </tr>
+        </tbody>
+</table>
+
+                    <div class="panel panel-default" id="getEnumBaseTaskStatus">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::getEnumBaseTaskStatus()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#getEnumBaseTaskStatus" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'getEnumBaseTaskStatus');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getEnumSpecificStatus">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::getEnumSpecificStatus()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#getEnumSpecificStatus" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'getEnumSpecificStatus');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="__construct">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::__construct()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#__construct" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', '__construct');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="jsonDecodeProperties">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::jsonDecodeProperties()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#jsonDecodeProperties" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'jsonDecodeProperties');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="canApply">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::canApply()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#canApply" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'canApply');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="unicityCheck">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::unicityCheck()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#unicityCheck" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'unicityCheck');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="conflictCheck">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::conflictCheck()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#conflictCheck" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'conflictCheck');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="integrityCheck">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::integrityCheck()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#integrityCheck" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'integrityCheck');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="translateData">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::translateData()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#translateData" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'translateData');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getGroup">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::getGroup()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#getGroup" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'getGroup');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="pre_apply">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::pre_apply()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#pre_apply" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'pre_apply');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="pre_unapply">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::pre_unapply()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#pre_unapply" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'pre_unapply');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_unapply">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::post_unapply()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#post_unapply" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'post_unapply');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showValueInput">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::showValueInput()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#showValueInput" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'showValueInput');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showValue">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::showValue()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#showValue" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'showValue');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="preprocessFormData">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::preprocessFormData()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#preprocessFormData" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'preprocessFormData');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="filterStatus">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::filterStatus()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#filterStatus" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'filterStatus');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getPolicyData">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::getPolicyData()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#getPolicyData" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'getPolicyData');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="formGenerator">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::formGenerator()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#formGenerator" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'formGenerator');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getAndroidCompatibilityMessage">
+                <div class="panel-heading">
+                    PluginFlyvemdmPolicyBase::getAndroidCompatibilityMessage()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmPolicyBase.html#getAndroidCompatibilityMessage" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmPolicyBase', 'getAndroidCompatibilityMessage');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+            </div>
+    </div>
+
+    <footer class="row">
+        <div class="col-lg-12">
+            <small class="pull-right">Powered by <a href="http://atoum.org"><img src="assets/logo.png" alt="atoum"/></a></small>
+        </div>
+    </footer>
+</div>
+
+<script>
+    $(function() {
+        $('table.sort').tablesorter();
+    })
+</script>
+
+</body>
+
+</html>
