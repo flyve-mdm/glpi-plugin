@@ -1,0 +1,2426 @@
+---
+layout: coverage
+---
+<html>
+
+<head>
+    <script src="assets/d3.js" charset="utf-8"></script>
+    <script src="assets/dagre-d3.js"></script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/jquery.tablesorter.js"></script>
+    <script src="assets/report.js"></script>
+
+    <link rel="stylesheet" href="assets/font-awesome.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="assets/logo.png" alt="atoum"/> Code coverage report</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="col-lg-12">
+            <div class="row">
+        <h1>PluginFlyvemdmAgent: paths coverage</h1>
+
+        
+
+
+<table class="table table-bordered">
+    <tr>
+        
+                    <td style="text-align: center; width: 100%">
+                <h1 class="text-warning">
+                    50%
+                                            <small>of 1129</small>
+                                    </h1>
+                <strong>Lines</strong>
+            </td>
+        
+        
+            </tr>
+</table>
+
+<table class="table table-bordered table-striped table-hover sort">
+    <thead>
+    <tr>
+        <th>Method <i class="fa"></i></th>
+                            <th style="text-align: center">Lines <i class="fa"></i></th>
+            <th style="text-align: center">Line % <i class="fa"></i></th>
+                            </tr>
+    </thead>
+
+    <tbody>
+            <tr>
+            <td><a href="#getMinVersioForType">PluginFlyvemdmAgent::getMinVersioForType()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">50%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getEnumMdmType">PluginFlyvemdmAgent::getEnumMdmType()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTypeName">PluginFlyvemdmAgent::getTypeName()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getMenuPicture">PluginFlyvemdmAgent::getMenuPicture()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getRights">PluginFlyvemdmAgent::getRights()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#defineTabs">PluginFlyvemdmAgent::defineTabs()</a></td>
+                                        <td style="text-align: center">12</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">67%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTabNameForItem">PluginFlyvemdmAgent::getTabNameForItem()</a></td>
+                                        <td style="text-align: center">17</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">12%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForItem">PluginFlyvemdmAgent::displayTabContentForItem()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showForm">PluginFlyvemdmAgent::showForm()</a></td>
+                                        <td style="text-align: center">33</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showDangerZone">PluginFlyvemdmAgent::showDangerZone()</a></td>
+                                        <td style="text-align: center">26</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#showForFleet">PluginFlyvemdmAgent::showForFleet()</a></td>
+                                        <td style="text-align: center">22</td>
+                <td style="text-align: center">    
+    <span class="label label-success">95%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#displayTabContentForComputer">PluginFlyvemdmAgent::displayTabContentForComputer()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#canViewItem">PluginFlyvemdmAgent::canViewItem()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">56%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#canUpdateItem">PluginFlyvemdmAgent::canUpdateItem()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#canDeleteItem">PluginFlyvemdmAgent::canDeleteItem()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendWipeQuery">PluginFlyvemdmAgent::sendWipeQuery()</a></td>
+                                        <td style="text-align: center">15</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendLockQuery">PluginFlyvemdmAgent::sendLockQuery()</a></td>
+                                        <td style="text-align: center">15</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendUnlockQuery">PluginFlyvemdmAgent::sendUnlockQuery()</a></td>
+                                        <td style="text-align: center">15</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendUnenrollQuery">PluginFlyvemdmAgent::sendUnenrollQuery()</a></td>
+                                        <td style="text-align: center">15</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForAdd">PluginFlyvemdmAgent::prepareInputForAdd()</a></td>
+                                        <td style="text-align: center">18</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">56%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#prepareInputForUpdate">PluginFlyvemdmAgent::prepareInputForUpdate()</a></td>
+                                        <td style="text-align: center">49</td>
+                <td style="text-align: center">    
+    <span class="label label-success">73%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_addItem">PluginFlyvemdmAgent::post_addItem()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_getFromDB">PluginFlyvemdmAgent::post_getFromDB()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#pre_deleteItem">PluginFlyvemdmAgent::pre_deleteItem()</a></td>
+                                        <td style="text-align: center">43</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_updateItem">PluginFlyvemdmAgent::post_updateItem()</a></td>
+                                        <td style="text-align: center">19</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#createTaskStatuses">PluginFlyvemdmAgent::createTaskStatuses()</a></td>
+                                        <td style="text-align: center">11</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#cancelTaskStatuses">PluginFlyvemdmAgent::cancelTaskStatuses()</a></td>
+                                        <td style="text-align: center">15</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_restoreItem">PluginFlyvemdmAgent::post_restoreItem()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#post_purgeItem">PluginFlyvemdmAgent::post_purgeItem()</a></td>
+                                        <td style="text-align: center">2</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getSearchOptionsNew">PluginFlyvemdmAgent::getSearchOptionsNew()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#rawSearchOptions">PluginFlyvemdmAgent::rawSearchOptions()</a></td>
+                                        <td style="text-align: center">91</td>
+                <td style="text-align: center">    
+    <span class="label label-success">99%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#addDefaultJoin">PluginFlyvemdmAgent::addDefaultJoin()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#addDefaultWhere">PluginFlyvemdmAgent::addDefaultWhere()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-success">71%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getSubscribedTopic">PluginFlyvemdmAgent::getSubscribedTopic()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-success">83%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#updateSubscription">PluginFlyvemdmAgent::updateSubscription()</a></td>
+                                        <td style="text-align: center">14</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#pushFleetPolicies">PluginFlyvemdmAgent::pushFleetPolicies()</a></td>
+                                        <td style="text-align: center">27</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTopic">PluginFlyvemdmAgent::getTopic()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getByTopic">PluginFlyvemdmAgent::getByTopic()</a></td>
+                                        <td style="text-align: center">21</td>
+                <td style="text-align: center">    
+    <span class="label label-success">76%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#unsubscribe">PluginFlyvemdmAgent::unsubscribe()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#checkChallengeCombinations">PluginFlyvemdmAgent::checkChallengeCombinations()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#enrollByInvitationToken">PluginFlyvemdmAgent::enrollByInvitationToken()</a></td>
+                                        <td style="text-align: center">199</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">59%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#cleanupSubtopics">PluginFlyvemdmAgent::cleanupSubtopics()</a></td>
+                                        <td style="text-align: center">13</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getTopicsToCleanup">PluginFlyvemdmAgent::getTopicsToCleanup()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendGeolocationQuery">PluginFlyvemdmAgent::sendGeolocationQuery()</a></td>
+                                        <td style="text-align: center">30</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendInventoryQuery">PluginFlyvemdmAgent::sendInventoryQuery()</a></td>
+                                        <td style="text-align: center">29</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#sendPingQuery">PluginFlyvemdmAgent::sendPingQuery()</a></td>
+                                        <td style="text-align: center">23</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#signCertificate">PluginFlyvemdmAgent::signCertificate()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getAgents">PluginFlyvemdmAgent::getAgents()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getPackages">PluginFlyvemdmAgent::getPackages()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">33%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getFiles">PluginFlyvemdmAgent::getFiles()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">33%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getFleet">PluginFlyvemdmAgent::getFleet()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-success">78%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getOwner">PluginFlyvemdmAgent::getOwner()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-success">71%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#chooseEnrollMethod">PluginFlyvemdmAgent::chooseEnrollMethod()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-warning">50%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#setupMqttAccess">PluginFlyvemdmAgent::setupMqttAccess()</a></td>
+                                        <td style="text-align: center">50</td>
+                <td style="text-align: center">    
+    <span class="label label-success">92%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#filterMessages">PluginFlyvemdmAgent::filterMessages()</a></td>
+                                        <td style="text-align: center">5</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#logInvitationEvent">PluginFlyvemdmAgent::logInvitationEvent()</a></td>
+                                        <td style="text-align: center">7</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#changeMqttAcl">PluginFlyvemdmAgent::changeMqttAcl()</a></td>
+                                        <td style="text-align: center">27</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getComputer">PluginFlyvemdmAgent::getComputer()</a></td>
+                                        <td style="text-align: center">6</td>
+                <td style="text-align: center">    
+    <span class="label label-success">83%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#notify">PluginFlyvemdmAgent::notify()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-success">89%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#hook_entity_purge">PluginFlyvemdmAgent::hook_entity_purge()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#hook_computer_purge">PluginFlyvemdmAgent::hook_computer_purge()</a></td>
+                                        <td style="text-align: center">3</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#refreshPersistedNotifications">PluginFlyvemdmAgent::refreshPersistedNotifications()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">22%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#isNotifiable">PluginFlyvemdmAgent::isNotifiable()</a></td>
+                                        <td style="text-align: center">1</td>
+                <td style="text-align: center">    
+    <span class="label label-success">100%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getSpecificValueToDisplay">PluginFlyvemdmAgent::getSpecificValueToDisplay()</a></td>
+                                        <td style="text-align: center">18</td>
+                <td style="text-align: center">    
+    <span class="label label-success">83%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getSpecificValueToSelect">PluginFlyvemdmAgent::getSpecificValueToSelect()</a></td>
+                                        <td style="text-align: center">9</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#updateLastContact">PluginFlyvemdmAgent::updateLastContact()</a></td>
+                                        <td style="text-align: center">8</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">25%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#updateInventory">PluginFlyvemdmAgent::updateInventory()</a></td>
+                                        <td style="text-align: center">10</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">20%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#checkNotificationForEnrollment">PluginFlyvemdmAgent::checkNotificationForEnrollment()</a></td>
+                                        <td style="text-align: center">20</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">20%</span>
+</td>
+                                            </tr>
+            <tr>
+            <td><a href="#getPushNotificationInfo">PluginFlyvemdmAgent::getPushNotificationInfo()</a></td>
+                                        <td style="text-align: center">4</td>
+                <td style="text-align: center">    
+    <span class="label label-danger">0%</span>
+</td>
+                                            </tr>
+        </tbody>
+</table>
+
+                    <div class="panel panel-default" id="getMinVersioForType">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getMinVersioForType()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getMinVersioForType" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getMinVersioForType');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getEnumMdmType">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getEnumMdmType()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getEnumMdmType" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getEnumMdmType');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getTypeName">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getTypeName()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getTypeName" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getTypeName');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getMenuPicture">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getMenuPicture()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getMenuPicture" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getMenuPicture');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getRights">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getRights()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getRights" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getRights');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="defineTabs">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::defineTabs()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#defineTabs" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'defineTabs');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getTabNameForItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getTabNameForItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getTabNameForItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getTabNameForItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="displayTabContentForItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::displayTabContentForItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#displayTabContentForItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'displayTabContentForItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showForm">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::showForm()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#showForm" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'showForm');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showDangerZone">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::showDangerZone()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#showDangerZone" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'showDangerZone');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="showForFleet">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::showForFleet()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#showForFleet" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'showForFleet');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="displayTabContentForComputer">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::displayTabContentForComputer()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#displayTabContentForComputer" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'displayTabContentForComputer');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="canViewItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::canViewItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#canViewItem" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'canViewItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="canUpdateItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::canUpdateItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#canUpdateItem" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'canUpdateItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="canDeleteItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::canDeleteItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#canDeleteItem" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'canDeleteItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendWipeQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendWipeQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendWipeQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendWipeQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendLockQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendLockQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendLockQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendLockQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendUnlockQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendUnlockQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendUnlockQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendUnlockQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendUnenrollQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendUnenrollQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendUnenrollQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendUnenrollQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="prepareInputForAdd">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::prepareInputForAdd()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#prepareInputForAdd" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'prepareInputForAdd');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="prepareInputForUpdate">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::prepareInputForUpdate()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#prepareInputForUpdate" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'prepareInputForUpdate');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_addItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::post_addItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#post_addItem" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'post_addItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_getFromDB">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::post_getFromDB()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#post_getFromDB" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'post_getFromDB');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="pre_deleteItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::pre_deleteItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#pre_deleteItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'pre_deleteItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_updateItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::post_updateItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#post_updateItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'post_updateItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="createTaskStatuses">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::createTaskStatuses()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#createTaskStatuses" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'createTaskStatuses');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="cancelTaskStatuses">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::cancelTaskStatuses()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#cancelTaskStatuses" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'cancelTaskStatuses');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_restoreItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::post_restoreItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#post_restoreItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'post_restoreItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="post_purgeItem">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::post_purgeItem()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#post_purgeItem" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'post_purgeItem');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getSearchOptionsNew">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getSearchOptionsNew()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getSearchOptionsNew" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getSearchOptionsNew');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="rawSearchOptions">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::rawSearchOptions()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#rawSearchOptions" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'rawSearchOptions');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="addDefaultJoin">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::addDefaultJoin()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#addDefaultJoin" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'addDefaultJoin');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="addDefaultWhere">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::addDefaultWhere()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#addDefaultWhere" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'addDefaultWhere');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getSubscribedTopic">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getSubscribedTopic()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getSubscribedTopic" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getSubscribedTopic');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="updateSubscription">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::updateSubscription()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#updateSubscription" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'updateSubscription');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="pushFleetPolicies">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::pushFleetPolicies()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#pushFleetPolicies" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'pushFleetPolicies');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getTopic">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getTopic()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getTopic" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getTopic');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getByTopic">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getByTopic()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getByTopic" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getByTopic');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="unsubscribe">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::unsubscribe()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#unsubscribe" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'unsubscribe');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="checkChallengeCombinations">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::checkChallengeCombinations()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#checkChallengeCombinations" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'checkChallengeCombinations');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="enrollByInvitationToken">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::enrollByInvitationToken()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#enrollByInvitationToken" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'enrollByInvitationToken');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="cleanupSubtopics">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::cleanupSubtopics()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#cleanupSubtopics" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'cleanupSubtopics');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getTopicsToCleanup">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getTopicsToCleanup()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getTopicsToCleanup" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getTopicsToCleanup');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendGeolocationQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendGeolocationQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendGeolocationQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendGeolocationQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendInventoryQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendInventoryQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendInventoryQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendInventoryQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="sendPingQuery">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::sendPingQuery()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#sendPingQuery" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'sendPingQuery');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="signCertificate">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::signCertificate()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#signCertificate" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'signCertificate');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getAgents">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getAgents()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getAgents" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getAgents');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getPackages">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getPackages()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getPackages" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getPackages');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getFiles">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getFiles()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getFiles" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getFiles');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getFleet">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getFleet()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getFleet" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getFleet');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getOwner">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getOwner()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getOwner" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getOwner');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="chooseEnrollMethod">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::chooseEnrollMethod()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#chooseEnrollMethod" class="btn btn-sm btn-warning" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'chooseEnrollMethod');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="setupMqttAccess">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::setupMqttAccess()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#setupMqttAccess" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'setupMqttAccess');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="filterMessages">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::filterMessages()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#filterMessages" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'filterMessages');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="logInvitationEvent">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::logInvitationEvent()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#logInvitationEvent" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'logInvitationEvent');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="changeMqttAcl">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::changeMqttAcl()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#changeMqttAcl" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'changeMqttAcl');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getComputer">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getComputer()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getComputer" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getComputer');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="notify">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::notify()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#notify" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'notify');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="hook_entity_purge">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::hook_entity_purge()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#hook_entity_purge" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'hook_entity_purge');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="hook_computer_purge">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::hook_computer_purge()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#hook_computer_purge" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'hook_computer_purge');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="refreshPersistedNotifications">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::refreshPersistedNotifications()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#refreshPersistedNotifications" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'refreshPersistedNotifications');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="isNotifiable">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::isNotifiable()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#isNotifiable" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'isNotifiable');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getSpecificValueToDisplay">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getSpecificValueToDisplay()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getSpecificValueToDisplay" class="btn btn-sm btn-success" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getSpecificValueToDisplay');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getSpecificValueToSelect">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getSpecificValueToSelect()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getSpecificValueToSelect" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getSpecificValueToSelect');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="updateLastContact">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::updateLastContact()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#updateLastContact" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'updateLastContact');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="updateInventory">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::updateInventory()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#updateInventory" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'updateInventory');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="checkNotificationForEnrollment">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::checkNotificationForEnrollment()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#checkNotificationForEnrollment" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'checkNotificationForEnrollment');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+                    <div class="panel panel-default" id="getPushNotificationInfo">
+                <div class="panel-heading">
+                    PluginFlyvemdmAgent::getPushNotificationInfo()
+                        
+    <span class="label label-default">N/A</span>
+
+                        <div class="btn-group">
+                                <a href="./PluginFlyvemdmAgent.html#getPushNotificationInfo" class="btn btn-sm btn-danger" title="Show lines coverage"><i class="fa fa-align-justify"></i></a>
+        
+        
+            </div>
+
+                </div>
+                <div class="panel-body">
+                    <div class="graph"><svg></svg></div>
+                </div>
+            </div>
+
+            <script>
+                var g = graph('PluginFlyvemdmAgent', 'getPushNotificationInfo');
+
+                
+                g.roundNodes();
+
+                
+                g.render();
+            </script>
+            </div>
+    </div>
+
+    <footer class="row">
+        <div class="col-lg-12">
+            <small class="pull-right">Powered by <a href="http://atoum.org"><img src="assets/logo.png" alt="atoum"/></a></small>
+        </div>
+    </footer>
+</div>
+
+<script>
+    $(function() {
+        $('table.sort').tablesorter();
+    })
+</script>
+
+</body>
+
+</html>
