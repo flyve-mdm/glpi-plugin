@@ -37,7 +37,7 @@ layout: coverage
                     <td style="text-align: center; width: 100%">
                 <h1 class="text-danger">
                     0%
-                                            <small>of 1574</small>
+                                            <small>of 1573</small>
                                     </h1>
                 <strong>Lines</strong>
             </td>
@@ -359,7 +359,7 @@ layout: coverage
                                             </tr>
             <tr>
             <td><a href="#displayRightsChoiceMatrix">Profile::displayRightsChoiceMatrix()</a></td>
-                                        <td style="text-align: center">64</td>
+                                        <td style="text-align: center">63</td>
                 <td style="text-align: center">    
     <span class="label label-danger">0%</span>
 </td>
@@ -22439,32 +22439,25 @@ layout: coverage
                     <th id="L2954" class="number uncovered">2954</th>
 
                     <td class="uncovered" >
-                        <pre>         if (($a[0] &lt; 1024)</pre>
+                        <pre>         if (($a[0] &lt; 1024) || ($b[0] &lt; 1024)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L2955" class="number uncovered">2955</th>
 
                     <td class="uncovered" >
-                        <pre>             || ($b[0] &lt; 1024)) {</pre>
+                        <pre>            if ($a[0] &gt; $b[0]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
                     <th id="L2956" class="number uncovered">2956</th>
 
                     <td class="uncovered" >
-                        <pre>            if ($a[0] &gt; $b[0]) {</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L2957" class="number uncovered">2957</th>
-
-                    <td class="uncovered" >
                         <pre>               return true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2958" class="number ">2958</th>
+                    <th id="L2957" class="number ">2957</th>
 
                     <td class="" >
                         <pre>            }
@@ -22472,21 +22465,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2959" class="number uncovered">2959</th>
+                    <th id="L2958" class="number uncovered">2958</th>
 
                     <td class="uncovered" >
                         <pre>            if ($a[0] &lt; $b[0]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2960" class="number uncovered">2960</th>
+                    <th id="L2959" class="number uncovered">2959</th>
 
                     <td class="uncovered" >
                         <pre>               return false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2961" class="number ">2961</th>
+                    <th id="L2960" class="number ">2960</th>
 
                     <td class="" >
                         <pre>            }
@@ -22494,14 +22487,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2962" class="number uncovered">2962</th>
+                    <th id="L2961" class="number uncovered">2961</th>
 
                     <td class="uncovered" >
                         <pre>            return ($a[1] &gt; $b[1]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2963" class="number ">2963</th>
+                    <th id="L2962" class="number ">2962</th>
 
                     <td class="" >
                         <pre>            // For extra right sort by type
@@ -22509,7 +22502,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2964" class="number ">2964</th>
+                    <th id="L2963" class="number ">2963</th>
 
                     <td class="" >
                         <pre>         }
@@ -22517,21 +22510,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2965" class="number uncovered">2965</th>
+                    <th id="L2964" class="number uncovered">2964</th>
 
                     <td class="uncovered" >
                         <pre>         return ($a[1] &gt; $b[1]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2966" class="number uncovered">2966</th>
+                    <th id="L2965" class="number uncovered">2965</th>
 
                     <td class="uncovered" >
                         <pre>      });</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2967" class="number ">2967</th>
+                    <th id="L2966" class="number ">2966</th>
 
                     <td class="" >
                         <pre>
@@ -22539,35 +22532,35 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2968" class="number uncovered">2968</th>
+                    <th id="L2967" class="number uncovered">2967</th>
 
                     <td class="uncovered" >
                         <pre>      return Html::showCheckboxMatrix($columns, $rows,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2969" class="number uncovered">2969</th>
+                    <th id="L2968" class="number uncovered">2968</th>
 
                     <td class="uncovered" >
                         <pre>                                      [&#039;title&#039;                =&gt; $param[&#039;title&#039;],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2970" class="number uncovered">2970</th>
+                    <th id="L2969" class="number uncovered">2969</th>
 
                     <td class="uncovered" >
                         <pre>                                            &#039;row_check_all&#039;        =&gt; count($columns) &gt; 1,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2971" class="number uncovered">2971</th>
+                    <th id="L2970" class="number uncovered">2970</th>
 
                     <td class="uncovered" >
                         <pre>                                            &#039;col_check_all&#039;        =&gt; count($rows) &gt; 1,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2972" class="number ">2972</th>
+                    <th id="L2971" class="number ">2971</th>
 
                     <td class="" >
                         <pre>                                            &#039;rotate_column_titles&#039; =&gt; false]);
@@ -22575,10 +22568,18 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2973" class="number unreach">2973</th>
+                    <th id="L2972" class="number unreach">2972</th>
 
                     <td class="unreach" >
                         <pre>   }</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L2973" class="number ">2973</th>
+
+                    <td class="" >
+                        <pre>
+</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
@@ -22593,7 +22594,7 @@ layout: coverage
                     <th id="L2975" class="number ">2975</th>
 
                     <td class="" >
-                        <pre>
+                        <pre>   /**
 </pre>
                     </td>
                 </tr>
@@ -22601,7 +22602,7 @@ layout: coverage
                     <th id="L2976" class="number ">2976</th>
 
                     <td class="" >
-                        <pre>   /**
+                        <pre>    * Get right linear right choice.
 </pre>
                     </td>
                 </tr>
@@ -22609,7 +22610,7 @@ layout: coverage
                     <th id="L2977" class="number ">2977</th>
 
                     <td class="" >
-                        <pre>    * Get right linear right choice.
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -22617,7 +22618,7 @@ layout: coverage
                     <th id="L2978" class="number ">2978</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @since 0.85
 </pre>
                     </td>
                 </tr>
@@ -22625,7 +22626,7 @@ layout: coverage
                     <th id="L2979" class="number ">2979</th>
 
                     <td class="" >
-                        <pre>    * @since 0.85
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -22633,7 +22634,7 @@ layout: coverage
                     <th id="L2980" class="number ">2980</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @param $elements  array   all pair identifier =&gt; label
 </pre>
                     </td>
                 </tr>
@@ -22641,7 +22642,7 @@ layout: coverage
                     <th id="L2981" class="number ">2981</th>
 
                     <td class="" >
-                        <pre>    * @param $elements  array   all pair identifier =&gt; label
+                        <pre>    * @param $options   array   possible:
 </pre>
                     </td>
                 </tr>
@@ -22649,7 +22650,7 @@ layout: coverage
                     <th id="L2982" class="number ">2982</th>
 
                     <td class="" >
-                        <pre>    * @param $options   array   possible:
+                        <pre>    *             &#039;canedit&#039;
 </pre>
                     </td>
                 </tr>
@@ -22657,7 +22658,7 @@ layout: coverage
                     <th id="L2983" class="number ">2983</th>
 
                     <td class="" >
-                        <pre>    *             &#039;canedit&#039;
+                        <pre>    *             &#039;field&#039;         name of the HTML field
 </pre>
                     </td>
                 </tr>
@@ -22665,7 +22666,7 @@ layout: coverage
                     <th id="L2984" class="number ">2984</th>
 
                     <td class="" >
-                        <pre>    *             &#039;field&#039;         name of the HTML field
+                        <pre>    *             &#039;value&#039;         the value inside the database
 </pre>
                     </td>
                 </tr>
@@ -22673,7 +22674,7 @@ layout: coverage
                     <th id="L2985" class="number ">2985</th>
 
                     <td class="" >
-                        <pre>    *             &#039;value&#039;         the value inside the database
+                        <pre>    *             &#039;max_per_line&#039;  maximum number of elements per line
 </pre>
                     </td>
                 </tr>
@@ -22681,7 +22682,7 @@ layout: coverage
                     <th id="L2986" class="number ">2986</th>
 
                     <td class="" >
-                        <pre>    *             &#039;max_per_line&#039;  maximum number of elements per line
+                        <pre>    *             &#039;check_all&#039;     add a checkbox to check or uncheck every checkbox
 </pre>
                     </td>
                 </tr>
@@ -22689,7 +22690,7 @@ layout: coverage
                     <th id="L2987" class="number ">2987</th>
 
                     <td class="" >
-                        <pre>    *             &#039;check_all&#039;     add a checkbox to check or uncheck every checkbox
+                        <pre>    *             &#039;rand&#039;          random value used to generate the ids
 </pre>
                     </td>
                 </tr>
@@ -22697,7 +22698,7 @@ layout: coverage
                     <th id="L2988" class="number ">2988</th>
 
                     <td class="" >
-                        <pre>    *             &#039;rand&#039;          random value used to generate the ids
+                        <pre>    *             &#039;zero_on_empty&#039; do we send 0 when checkbox is not checked ?
 </pre>
                     </td>
                 </tr>
@@ -22705,7 +22706,7 @@ layout: coverage
                     <th id="L2989" class="number ">2989</th>
 
                     <td class="" >
-                        <pre>    *             &#039;zero_on_empty&#039; do we send 0 when checkbox is not checked ?
+                        <pre>    *             &#039;display&#039;
 </pre>
                     </td>
                 </tr>
@@ -22713,7 +22714,7 @@ layout: coverage
                     <th id="L2990" class="number ">2990</th>
 
                     <td class="" >
-                        <pre>    *             &#039;display&#039;
+                        <pre>    *             &#039;check_method&#039;  method used to check the right
 </pre>
                     </td>
                 </tr>
@@ -22721,7 +22722,7 @@ layout: coverage
                     <th id="L2991" class="number ">2991</th>
 
                     <td class="" >
-                        <pre>    *             &#039;check_method&#039;  method used to check the right
+                        <pre>    *
 </pre>
                     </td>
                 </tr>
@@ -22729,7 +22730,7 @@ layout: coverage
                     <th id="L2992" class="number ">2992</th>
 
                     <td class="" >
-                        <pre>    *
+                        <pre>    * @return content if !display
 </pre>
                     </td>
                 </tr>
@@ -22737,27 +22738,19 @@ layout: coverage
                     <th id="L2993" class="number ">2993</th>
 
                     <td class="" >
-                        <pre>    * @return content if !display
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L2994" class="number ">2994</th>
-
-                    <td class="" >
                         <pre>   **/
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="getLinearRightChoice">
-                    <th id="L2995" class="number ">2995</th>
+                    <th id="L2994" class="number ">2994</th>
 
                     <td class="" id="getLinearRightChoice">
                         <pre>   static function getLinearRightChoice(array $elements, array $options = []) {<span class="label label-danger">0%</span><div class="btn-group"></div></pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2996" class="number ">2996</th>
+                    <th id="L2995" class="number ">2995</th>
 
                     <td class="" >
                         <pre>
@@ -22765,91 +22758,91 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2997" class="number uncovered">2997</th>
+                    <th id="L2996" class="number uncovered">2996</th>
 
                     <td class="uncovered" >
                         <pre>      $param                  = [];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2998" class="number uncovered">2998</th>
+                    <th id="L2997" class="number uncovered">2997</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;canedit&#039;]       = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L2999" class="number uncovered">2999</th>
+                    <th id="L2998" class="number uncovered">2998</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;field&#039;]         = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3000" class="number uncovered">3000</th>
+                    <th id="L2999" class="number uncovered">2999</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;value&#039;]         = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3001" class="number uncovered">3001</th>
+                    <th id="L3000" class="number uncovered">3000</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;max_per_line&#039;]  = 10;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3002" class="number uncovered">3002</th>
+                    <th id="L3001" class="number uncovered">3001</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;check_all&#039;]     = false;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3003" class="number uncovered">3003</th>
+                    <th id="L3002" class="number uncovered">3002</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;rand&#039;]          = mt_rand();</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3004" class="number uncovered">3004</th>
+                    <th id="L3003" class="number uncovered">3003</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;zero_on_empty&#039;] = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3005" class="number uncovered">3005</th>
+                    <th id="L3004" class="number uncovered">3004</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;display&#039;]       = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3006" class="number uncovered">3006</th>
+                    <th id="L3005" class="number uncovered">3005</th>
 
                     <td class="uncovered" >
                         <pre>      $param[&#039;check_method&#039;]  = function ($element, $field) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3007" class="number uncovered">3007</th>
+                    <th id="L3006" class="number uncovered">3006</th>
 
                     <td class="uncovered" >
                         <pre>         return (($field &amp; $element) == $element);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3008" class="number unreach">3008</th>
+                    <th id="L3007" class="number unreach">3007</th>
 
                     <td class="unreach" >
                         <pre>      };</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3009" class="number ">3009</th>
+                    <th id="L3008" class="number ">3008</th>
 
                     <td class="" >
                         <pre>
@@ -22857,31 +22850,39 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3010" class="number uncovered">3010</th>
+                    <th id="L3009" class="number uncovered">3009</th>
 
                     <td class="uncovered" >
                         <pre>      if (is_array($options) &amp;&amp; count($options)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3011" class="number uncovered">3011</th>
+                    <th id="L3010" class="number uncovered">3010</th>
 
                     <td class="uncovered" >
                         <pre>         foreach ($options as $key =&gt; $val) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3012" class="number uncovered">3012</th>
+                    <th id="L3011" class="number uncovered">3011</th>
 
                     <td class="uncovered" >
                         <pre>            $param[$key] = $val;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3013" class="number ">3013</th>
+                    <th id="L3012" class="number ">3012</th>
 
                     <td class="" >
                         <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L3013" class="number ">3013</th>
+
+                    <td class="" >
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -22889,34 +22890,26 @@ layout: coverage
                     <th id="L3014" class="number ">3014</th>
 
                     <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L3015" class="number ">3015</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3016" class="number uncovered">3016</th>
+                    <th id="L3015" class="number uncovered">3015</th>
 
                     <td class="uncovered" >
                         <pre>      if (empty($param[&#039;field&#039;])) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3017" class="number uncovered">3017</th>
+                    <th id="L3016" class="number uncovered">3016</th>
 
                     <td class="uncovered" >
                         <pre>         return;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3018" class="number ">3018</th>
+                    <th id="L3017" class="number ">3017</th>
 
                     <td class="" >
                         <pre>      }
@@ -22924,7 +22917,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3019" class="number ">3019</th>
+                    <th id="L3018" class="number ">3018</th>
 
                     <td class="" >
                         <pre>
@@ -22932,49 +22925,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3020" class="number uncovered">3020</th>
+                    <th id="L3019" class="number uncovered">3019</th>
 
                     <td class="uncovered" >
                         <pre>      $nb_cbs      = count($elements);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3021" class="number uncovered">3021</th>
+                    <th id="L3020" class="number uncovered">3020</th>
 
                     <td class="uncovered" >
                         <pre>      $cb_options  = [&#039;readonly&#039; =&gt; !$param[&#039;canedit&#039;]];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3022" class="number uncovered">3022</th>
+                    <th id="L3021" class="number uncovered">3021</th>
 
                     <td class="uncovered" >
                         <pre>      if ($param[&#039;check_all&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3023" class="number uncovered">3023</th>
+                    <th id="L3022" class="number uncovered">3022</th>
 
                     <td class="uncovered" >
                         <pre>         $nb_cbs ++;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3024" class="number uncovered">3024</th>
+                    <th id="L3023" class="number uncovered">3023</th>
 
                     <td class="uncovered" >
                         <pre>         $massive_tag                = &#039;checkall_&#039;.$param[&#039;field&#039;].&#039;_&#039;.$param[&#039;rand&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3025" class="number uncovered">3025</th>
+                    <th id="L3024" class="number uncovered">3024</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options[&#039;massive_tags&#039;] = $massive_tag;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3026" class="number ">3026</th>
+                    <th id="L3025" class="number ">3025</th>
 
                     <td class="" >
                         <pre>      }
@@ -22982,7 +22975,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3027" class="number ">3027</th>
+                    <th id="L3026" class="number ">3026</th>
 
                     <td class="" >
                         <pre>
@@ -22990,21 +22983,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3028" class="number uncovered">3028</th>
+                    <th id="L3027" class="number uncovered">3027</th>
 
                     <td class="uncovered" >
                         <pre>      $nb_lines         = ceil($nb_cbs / $param[&#039;max_per_line&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3029" class="number uncovered">3029</th>
+                    <th id="L3028" class="number uncovered">3028</th>
 
                     <td class="uncovered" >
                         <pre>      $nb_item_per_line = ceil($nb_cbs / $nb_lines);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3030" class="number ">3030</th>
+                    <th id="L3029" class="number ">3029</th>
 
                     <td class="" >
                         <pre>
@@ -23012,14 +23005,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3031" class="number uncovered">3031</th>
+                    <th id="L3030" class="number uncovered">3030</th>
 
                     <td class="uncovered" >
                         <pre>      $out              = &#039;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3032" class="number ">3032</th>
+                    <th id="L3031" class="number ">3031</th>
 
                     <td class="" >
                         <pre>
@@ -23027,49 +23020,49 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3033" class="number uncovered">3033</th>
+                    <th id="L3032" class="number uncovered">3032</th>
 
                     <td class="uncovered" >
                         <pre>      $count            = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3034" class="number uncovered">3034</th>
+                    <th id="L3033" class="number uncovered">3033</th>
 
                     <td class="uncovered" >
                         <pre>      $nb_checked       = 0;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3035" class="number uncovered">3035</th>
+                    <th id="L3034" class="number uncovered">3034</th>
 
                     <td class="uncovered" >
                         <pre>      foreach ($elements as $element =&gt; $label) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3036" class="number uncovered">3036</th>
+                    <th id="L3035" class="number uncovered">3035</th>
 
                     <td class="uncovered" >
                         <pre>         if ($count != 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3037" class="number uncovered">3037</th>
+                    <th id="L3036" class="number uncovered">3036</th>
 
                     <td class="uncovered" >
                         <pre>            if (($count % $nb_item_per_line) == 0) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3038" class="number uncovered">3038</th>
+                    <th id="L3037" class="number uncovered">3037</th>
 
                     <td class="uncovered" >
                         <pre>               $out .= &quot;&lt;br&gt;\n&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3039" class="number ">3039</th>
+                    <th id="L3038" class="number ">3038</th>
 
                     <td class="" >
                         <pre>            } else {
@@ -23077,14 +23070,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3040" class="number uncovered">3040</th>
+                    <th id="L3039" class="number uncovered">3039</th>
 
                     <td class="uncovered" >
                         <pre>               $out .= &quot;&amp;nbsp;-\n\t\t&amp;nbsp;&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3041" class="number ">3041</th>
+                    <th id="L3040" class="number ">3040</th>
 
                     <td class="" >
                         <pre>            }
@@ -23092,7 +23085,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3042" class="number ">3042</th>
+                    <th id="L3041" class="number ">3041</th>
 
                     <td class="" >
                         <pre>         } else {
@@ -23100,14 +23093,14 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3043" class="number uncovered">3043</th>
+                    <th id="L3042" class="number uncovered">3042</th>
 
                     <td class="uncovered" >
                         <pre>            $out .= &quot;\n\t\t&quot;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3044" class="number ">3044</th>
+                    <th id="L3043" class="number ">3043</th>
 
                     <td class="" >
                         <pre>         }
@@ -23115,42 +23108,42 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3045" class="number uncovered">3045</th>
+                    <th id="L3044" class="number uncovered">3044</th>
 
                     <td class="uncovered" >
                         <pre>         $out                        .= $label.&#039;&amp;nbsp;&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3046" class="number uncovered">3046</th>
+                    <th id="L3045" class="number uncovered">3045</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options[&#039;name&#039;]          = $param[&#039;field&#039;].&#039;[&#039;.$element.&#039;]&#039;;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3047" class="number uncovered">3047</th>
+                    <th id="L3046" class="number uncovered">3046</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options[&#039;id&#039;]            = Html::cleanId(&#039;checkbox_linear_&#039;.$cb_options[&#039;name&#039;].</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3048" class="number uncovered">3048</th>
+                    <th id="L3047" class="number uncovered">3047</th>
 
                     <td class="uncovered" >
                         <pre>                                                      &#039;_&#039;.$param[&#039;rand&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3049" class="number uncovered">3049</th>
+                    <th id="L3048" class="number uncovered">3048</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options[&#039;zero_on_empty&#039;] = $param[&#039;zero_on_empty&#039;];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3050" class="number ">3050</th>
+                    <th id="L3049" class="number ">3049</th>
 
                     <td class="" >
                         <pre>
@@ -23158,21 +23151,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3051" class="number uncovered">3051</th>
+                    <th id="L3050" class="number uncovered">3050</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options[&#039;checked&#039;]       = $param[&#039;check_method&#039;]($element,</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3052" class="number uncovered">3052</th>
+                    <th id="L3051" class="number uncovered">3051</th>
 
                     <td class="uncovered" >
                         <pre>                                                               $param[&#039;value&#039;]);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3053" class="number ">3053</th>
+                    <th id="L3052" class="number ">3052</th>
 
                     <td class="" >
                         <pre>
@@ -23180,38 +23173,46 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3054" class="number uncovered">3054</th>
+                    <th id="L3053" class="number uncovered">3053</th>
 
                     <td class="uncovered" >
                         <pre>         $out                        .= Html::getCheckbox($cb_options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3055" class="number uncovered">3055</th>
+                    <th id="L3054" class="number uncovered">3054</th>
 
                     <td class="uncovered" >
                         <pre>         $count ++;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3056" class="number uncovered">3056</th>
+                    <th id="L3055" class="number uncovered">3055</th>
 
                     <td class="uncovered" >
                         <pre>         if ($cb_options[&#039;checked&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3057" class="number uncovered">3057</th>
+                    <th id="L3056" class="number uncovered">3056</th>
 
                     <td class="uncovered" >
                         <pre>            $nb_checked ++;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3058" class="number ">3058</th>
+                    <th id="L3057" class="number ">3057</th>
 
                     <td class="" >
                         <pre>         }
+</pre>
+                    </td>
+                </tr>
+                            <tr class="line" id="">
+                    <th id="L3058" class="number ">3058</th>
+
+                    <td class="" >
+                        <pre>      }
 </pre>
                     </td>
                 </tr>
@@ -23219,55 +23220,47 @@ layout: coverage
                     <th id="L3059" class="number ">3059</th>
 
                     <td class="" >
-                        <pre>      }
-</pre>
-                    </td>
-                </tr>
-                            <tr class="line" id="">
-                    <th id="L3060" class="number ">3060</th>
-
-                    <td class="" >
                         <pre>
 </pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3061" class="number uncovered">3061</th>
+                    <th id="L3060" class="number uncovered">3060</th>
 
                     <td class="uncovered" >
                         <pre>      if ($param[&#039;check_all&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3062" class="number uncovered">3062</th>
+                    <th id="L3061" class="number uncovered">3061</th>
 
                     <td class="uncovered" >
                         <pre>         $cb_options = [&#039;criterion&#039; =&gt; [&#039;tag_for_massive&#039; =&gt; $massive_tag],</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3063" class="number uncovered">3063</th>
+                    <th id="L3062" class="number uncovered">3062</th>
 
                     <td class="uncovered" >
                         <pre>                             &#039;id&#039;        =&gt; Html::cleanId(&#039;checkbox_linear_&#039;.$param[&#039;rand&#039;])];</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3064" class="number uncovered">3064</th>
+                    <th id="L3063" class="number uncovered">3063</th>
 
                     <td class="uncovered" >
                         <pre>         if ($nb_checked &gt; (count($elements) / 2)) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3065" class="number uncovered">3065</th>
+                    <th id="L3064" class="number uncovered">3064</th>
 
                     <td class="uncovered" >
                         <pre>            $cb_options[&#039;checked&#039;] = true;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3066" class="number ">3066</th>
+                    <th id="L3065" class="number ">3065</th>
 
                     <td class="" >
                         <pre>         }
@@ -23275,21 +23268,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3067" class="number uncovered">3067</th>
+                    <th id="L3066" class="number uncovered">3066</th>
 
                     <td class="uncovered" >
                         <pre>         $out .= &quot;&amp;nbsp;-&amp;nbsp;&lt;i&gt;&lt;b&gt;&quot;.__(&#039;Select/unselect all&#039;).&quot;&lt;/b&gt;&lt;/i&gt;&amp;nbsp;&quot;.</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3068" class="number uncovered">3068</th>
+                    <th id="L3067" class="number uncovered">3067</th>
 
                     <td class="uncovered" >
                         <pre>                  Html::getCheckbox($cb_options);</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3069" class="number ">3069</th>
+                    <th id="L3068" class="number ">3068</th>
 
                     <td class="" >
                         <pre>      }
@@ -23297,7 +23290,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3070" class="number ">3070</th>
+                    <th id="L3069" class="number ">3069</th>
 
                     <td class="" >
                         <pre>
@@ -23305,21 +23298,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3071" class="number uncovered">3071</th>
+                    <th id="L3070" class="number uncovered">3070</th>
 
                     <td class="uncovered" >
                         <pre>      if (!$param[&#039;display&#039;]) {</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3072" class="number uncovered">3072</th>
+                    <th id="L3071" class="number uncovered">3071</th>
 
                     <td class="uncovered" >
                         <pre>         return $out;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3073" class="number ">3073</th>
+                    <th id="L3072" class="number ">3072</th>
 
                     <td class="" >
                         <pre>      }
@@ -23327,7 +23320,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3074" class="number ">3074</th>
+                    <th id="L3073" class="number ">3073</th>
 
                     <td class="" >
                         <pre>
@@ -23335,21 +23328,21 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3075" class="number uncovered">3075</th>
+                    <th id="L3074" class="number uncovered">3074</th>
 
                     <td class="uncovered" >
                         <pre>      echo $out;</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3076" class="number uncovered">3076</th>
+                    <th id="L3075" class="number uncovered">3075</th>
 
                     <td class="uncovered" >
                         <pre>   }</pre>
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3077" class="number ">3077</th>
+                    <th id="L3076" class="number ">3076</th>
 
                     <td class="" >
                         <pre>
@@ -23357,7 +23350,7 @@ layout: coverage
                     </td>
                 </tr>
                             <tr class="line" id="">
-                    <th id="L3078" class="number ">3078</th>
+                    <th id="L3077" class="number ">3077</th>
 
                     <td class="" >
                         <pre>}
