@@ -150,6 +150,17 @@ if (!$DB->tableExists("glpi_configs")) {
 
 $plugin = new Plugin();
 
+// Check plugin's requirements
+try {
+   if (!$plugin->checkVersions('flyvemdm')) {
+      echo PHP_EOL;
+      exit(1);
+   }
+} catch (LogicException $e) {
+   echo $e->getMessage();
+   exit(2);
+}
+
 // Install the plugin
 $plugin->getFromDBbyDir("flyvemdm");
 print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
