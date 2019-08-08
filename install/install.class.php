@@ -49,6 +49,22 @@ class PluginFlyvemdmInstall {
    protected $migration;
 
    /**
+    * array of upgrade steps key => value
+    * key   is the version to upgrade from
+    * value is the version to upgrade to
+    *
+    * Exemple: an entry '2.0' => '2.1' tells that versions 2.0
+    * are upgradable to 2.1
+    *
+    * @var array
+    */
+   private $upgradeSteps = [
+      '0.0' => '2.0',
+      // '2.0' => '2.1',
+      // '2.1 => '3.0',
+   ];
+
+   /**
     * Autoloader for installation
     * @param string $classname
     * @return bool
@@ -473,30 +489,26 @@ Regards,
     *
     * @param string version to upgrade from
     */
-   public function upgrade(Migration $migration) {
+   public function upgrade(Migration $migration, $forceUpgrade = false) {
       spl_autoload_register([__CLASS__, 'autoload']);
 
       $this->migration = $migration;
-      $fromSchemaVersion = $this->getSchemaVersion();
+      if ($forceUpgrade) {
+         // Might return false
+         $fromSchemaVersion = array_search(PLUGIN_FLYVEMDM_SCHEMA_VERSION, $this->upgradeSteps);
+      } else {
+         $fromSchemaVersion = $this->getSchemaVersion();
+      }
 
       // Prevent problem of execution time
       ini_set("max_execution_time", "0");
       ini_set("memory_limit", "-1");
 
-      switch ($fromSchemaVersion) {
-         case '0.0':
-            // Upgrade to 2.0
-            $this->upgradeOneStep('2.0');
-
-         case '2.0':
-            // Example : upgrade to version 2.1
-            // $this->upgradeOneStep('2.1');
-
-         case '3.0':
-            // Example : upgrade to version 3.0
-            // $this->upgradeOneStep('3.0');
-
+      while ($fromSchemaVersion && isset($this->upgradeSteps[$fromSchemaVersion])) {
+         $this->upgradeOneStep($this->upgradeSteps[$fromSchemaVersion]);
+         $fromSchemaVersion = $this->upgradeSteps[$fromSchemaVersion];
       }
+
       if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
          $this->upgradeOneStep('develop');
       }

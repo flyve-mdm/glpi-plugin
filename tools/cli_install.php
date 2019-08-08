@@ -38,7 +38,7 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS] [--force-install | --force-upgrade]
 
 Options:
    --as-user USER                               Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
@@ -51,6 +51,8 @@ Options:
    --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-port MQTTPORT                         Sets the Listen Port for Mosquitto MQTTPORT
    --mqtt-port-tls MQTTPORTTLS                  Sets the Listen Port TLS for Mosquitto MQTTPORTTLS
+   --force-install                              Force a fresh install
+   --force-upgrade                              Force upgrade from the latest previous version
 
 DOC;
 
@@ -72,6 +74,16 @@ if (isset($args['--tests']) && $args['--tests'] !== false) {
 ini_set("session.use_cookies", "0");
 
 include (__DIR__ . "/../../../inc/includes.php");
+
+$DB = new DB();
+if (!$DB->connected) {
+   die("No DB connection\n");
+}
+
+if (!$DB->tableExists("glpi_configs")) {
+   echo "GLPI not installed\n";
+   exit(1);
+}
 
 if (isset($args['--enable-api']) && $args['--enable-api'] !== false) {
    $config = [
@@ -124,11 +136,6 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL | E_STRICT);
 //set_error_handler('userErrorHandlerDebug');
 
-$DB = new DB();
-if (!$DB->connected) {
-   die("No DB connection\n");
-}
-
 $user = new User();
 if (!$user->getFromDBbyName($asUser)) {
    die("User $asUser not found in DB\n");
@@ -142,11 +149,6 @@ $apiUserToken = $args['--api-user-token'];
 $dev = $args['--dev'];
 
 /*---------------------------------------------------------------------*/
-
-if (!$DB->tableExists("glpi_configs")) {
-   echo "GLPI not installed\n";
-   exit(1);
-}
 
 $plugin = new Plugin();
 
