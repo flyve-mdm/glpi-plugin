@@ -51,6 +51,8 @@ Options:
    --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-port MQTTPORT                         Sets the Listen Port for Mosquitto MQTTPORT
    --mqtt-port-tls MQTTPORTTLS                  Sets the Listen Port TLS for Mosquitto MQTTPORTTLS
+   --force-upgrade                              Force upgrade from the current version to itself (to resume failed upgrades)
+   --force-install                              Ignore previous instalation and install from scratch
 
 DOC;
 
@@ -153,6 +155,12 @@ $plugin = new Plugin();
 // Install the plugin
 $plugin->getFromDBbyDir("flyvemdm");
 print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
+if ($args['--force-install']) {
+   $_SESSION['plugin_flyvemdm']['cli'] = 'force-install';
+}
+if ($args['--force-upgrade']) {
+   $_SESSION['plugin_flyvemdm']['cli'] = 'force-upgrade';
+}
 ob_start(function($in) { return ''; });
 $plugin->install($plugin->fields['id']);
 ob_end_clean();

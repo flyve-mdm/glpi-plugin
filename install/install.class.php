@@ -48,6 +48,30 @@ class PluginFlyvemdmInstall {
 
    protected $migration;
 
+      /**
+    * array of upgrade steps key => value
+    * key   is the version to upgrade from
+    * value is the version to upgrade to
+    *
+    * Exemple: an entry '2.0' => '2.1' tells that versions 2.0
+    * are upgradable to 2.1
+    *
+    * When possible avoid schema upgrade between bugfix releases. The schema
+    * version contains major.minor numbers only. If an upgrade of the schema
+    * occurs between bugfix releases, then the upgrade will start from the
+    * major.minor.0 version up to the end of the the versions list.
+    * Exemple: if previous version is 2.6.1 and current code is 2.6.3 then
+    * the upgrade will start from 2.6.0 to 2.6.3 and replay schema changes
+    * between 2.6.0 and 2.6.1. This means that upgrade must be _repeatable_.
+    *
+    * @var array
+    */
+    private $upgradeSteps = [
+      '0.0'    => '2.0',
+      //'2.0'    => '2.1',
+      //'2.1'    => '3.0',
+   ];
+
    /**
     * Autoloader for installation
     * @param string $classname
@@ -71,8 +95,6 @@ class PluginFlyvemdmInstall {
     *
     */
    public function install(Migration $migration) {
-      global $DB;
-
       $this->migration = $migration;
       spl_autoload_register([__CLASS__, 'autoload']);
 
@@ -477,26 +499,22 @@ Regards,
       spl_autoload_register([__CLASS__, 'autoload']);
 
       $this->migration = $migration;
-      $fromSchemaVersion = $this->getSchemaVersion();
+      if (isset($_SESSION['plugin_flyvemdm']['cli']) && $_SESSION['plugin_flyvemdm']['cli'] == 'force-upgrade') {
+         // Might return false
+         $fromSchemaVersion = array_search(PLUGIN_FLYVEMDM_SCHEMA_VERSION, $this->upgradeSteps);
+      } else {
+         $fromSchemaVersion = $this->getSchemaVersion();
+      }
 
       // Prevent problem of execution time
       ini_set("max_execution_time", "0");
       ini_set("memory_limit", "-1");
 
-      switch ($fromSchemaVersion) {
-         case '0.0':
-            // Upgrade to 2.0
-            $this->upgradeOneStep('2.0');
-
-         case '2.0':
-            // Example : upgrade to version 2.1
-            // $this->upgradeOneStep('2.1');
-
-         case '3.0':
-            // Example : upgrade to version 3.0
-            // $this->upgradeOneStep('3.0');
-
+      while ($fromSchemaVersion && isset($this->upgradeSteps[$fromSchemaVersion])) {
+         $this->upgradeOneStep($this->upgradeSteps[$fromSchemaVersion]);
+         $fromSchemaVersion = $this->upgradeSteps[$fromSchemaVersion];
       }
+
       if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
          $this->upgradeOneStep('develop');
       }
