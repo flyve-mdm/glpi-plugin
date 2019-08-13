@@ -120,10 +120,25 @@ class PluginFlyvemdmPolicyDeployapplication extends PluginFlyvemdmPolicyBase imp
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
             AND `plugin_flyvemdm_policies_id` = '" . $this->policyData->getID() . "'
-            AND `items_id` = '$itemId'", '', '1');
+            AND `items_id` = '$itemId'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+            'plugin_flyvemdm_policies_id' => $this->policyData->getID(),
+            'items_id' => $itemId,
+         ];
+      }
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = '';
+      } else {
+         $order = [];
+      }
+      $rows = $task->find($condition, $order, '1');
       if (count($rows) > 0) {
          return false;
       }

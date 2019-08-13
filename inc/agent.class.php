@@ -336,7 +336,12 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agent = new PluginFlyvemdmAgent();
       $items_id = $item->getField('id');
       $itemFk = $item::getForeignKeyField();
-      $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$itemFk` = '$items_id' " . $dbUtils->getEntitiesRestrictRequest();
+      } else {
+         $condition = [$itemFk => $items_id]
+         + $dbUtils->getEntitiesRestrictCriteria();
+      }
       $rows = $agent->find($condition);
       $number = count($rows);
 
@@ -684,7 +689,21 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       // Find other computers belong to the user in the current entity
       // TODO : maybe use getEntityRestrict for multientity support
-      $rows = $computer->find("`entities_id`='$entityId' AND `users_id`='$ownerUserId' AND `id` <> '$computerId'", '', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`entities_id`='$entityId' AND `users_id`='$ownerUserId' AND `id` <> '$computerId'";
+      } else {
+         $condition = [
+            'entities_id' => $entityId,
+            'users_id' => $ownerUserId,
+            'id' => ['!=' => $computerId],
+         ];
+      }
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = '';
+      } else {
+         $order = [];
+      }
+      $rows = $computer->find($condition, $order, '1');
       if (count($rows) == 0) {
          // Remove guest habilitation for the entity
          $profile_User = new Profile_User();
@@ -785,7 +804,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$notifiableType' AND `items_id_applied` = '$notifiableId'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+         ];
+      }
+      $rows = $task->find($condition);
       foreach ($rows as $row) {
          $taskStatus = new PluginFlyvemdmTaskstatus();
          $taskStatus->add([
@@ -1103,7 +1130,15 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = PluginFlyvemdmFleet::getType();
 
       $task = new PluginFlyvemdmTask();
-      $appliedPolicies = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $itemtype,
+            'items_id_applied' => $fleetId,
+         ];
+      }
+      $appliedPolicies = $task->find($condition);
       foreach ($appliedPolicies as $taskId => $appliedPolicy) {
          $policyId = $appliedPolicy[PluginFlyvemdmPolicy::getForeignKeyField()];
          $envelopeConfig = [];
@@ -1697,7 +1732,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
 
       $computerId = $this->fields['computers_id'];
       $geolocation = new PluginFlyvemdmGeolocation();
-      $lastPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`computers_id`='$computerId'";
+         $order = '`date` DESC, `id` DESC';
+      } else {
+         $condition = [
+            'computers_id' => $computerId,
+         ];
+         $order = [
+            'date DESC',
+            'id DESC',
+         ];
+      }
+      $lastPositionRows = $geolocation->find($condition, $order, '1');
       $lastPosition = array_pop($lastPositionRows);
 
       $message = json_encode(['query' => 'Geolocate'], JSON_UNESCAPED_SLASHES);
@@ -1722,7 +1769,19 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
-         $updatedPositionRows = $geolocation->find("`computers_id`='$computerId'", '`date` DESC, `id` DESC', '1');
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`computers_id`='$computerId'";
+            $order = '`date` DESC, `id` DESC';
+         } else {
+            $condition = [
+               'computers_id' => $computerId,
+            ];
+            $order = [
+               'date DESC',
+               'id DESC',
+            ];
+         }
+         $updatedPositionRows = $geolocation->find($condition, $order, '1');
          $updatedPosition = array_pop($updatedPositionRows);
          if ($lastPosition === null && $updatedPosition !== null
             || $lastPosition !== null && $lastPosition['id'] != $updatedPosition['id']) {
@@ -1763,14 +1822,32 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       $computerFk = Computer::getForeignKeyField();
       $computerId = $this->fields[$computerFk];
       $inventory = new PluginFusioninventoryInventoryComputerComputer();
-      $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$computerFk`='$computerId'";
+         $order = '';
+      } else {
+         $condition = [
+            $computerFk => $computerId,
+         ];
+         $order = [];
+      }
+      $inventoryRows = $inventory->find($condition, $order, '1');
       $lastInventory = array_pop($inventoryRows);
 
       $loopCount = 50;
       while ($loopCount > 0) {
          usleep(200000); // 200 milliseconds
          $loopCount--;
-         $inventoryRows = $inventory->find("`$computerFk` = '$computerId'", '', '1');
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`$computerFk`='$computerId'";
+            $order = '';
+         } else {
+            $condition = [
+               $computerFk => $computerId,
+            ];
+            $order = [];
+         }
+         $inventoryRows = $inventory->find($condition, $order, '1');
          $updatedInventory = array_pop($inventoryRows);
          if ($lastInventory === null && $updatedInventory !== null
             || $lastInventory !== null && $lastInventory != $updatedInventory) {

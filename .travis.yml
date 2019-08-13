@@ -138,7 +138,8 @@ script:
   - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_empty_2.0.0-rc.1.sql
   - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_config_2.0.0-rc.1.sql
   - # upgrade test
-  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME -e "select * from glpi_plugins WHERE directory='flyvemdm'"
+  - echo status of plugins
+  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME -e "select * from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
   - php tools/cli_install.php --tests
 
   - # install GLPI with a fresh install of the plugin

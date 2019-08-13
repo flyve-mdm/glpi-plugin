@@ -104,6 +104,13 @@ class Entity extends CommonTestCase {
       $this->boolean($file->getFromDB($file->getID()))->isFalse();
 
       $entityConfig = new \PluginFlyvemdmEntityConfig();
-      $this->integer(count($entityConfig->find("`entities_id` = '$entityId'")))->isEqualTo(0);
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`entities_id` = '$entityId'";
+      } else {
+         $condition = [
+            'entities_id' => $entityId,
+         ];
+      }
+      $this->integer(count($entityConfig->find($condition)))->isEqualTo(0);
    }
 }

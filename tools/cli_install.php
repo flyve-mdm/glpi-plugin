@@ -94,10 +94,6 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    $CFG_GLPI = $config + $CFG_GLPI;
 }
 
-if (!plugin_flyvemdm_check_prerequisites()) {
-   exit(1);
-}
-
 // Setup plugin configuration
 $pluginConfig = [];
 if (isset($args['--mqtt-address']) && $args['--mqtt-address'] !== false) {
@@ -153,7 +149,11 @@ if (!$DB->tableExists("glpi_configs")) {
 $plugin = new Plugin();
 
 // Install the plugin
-$plugin->getFromDBbyDir("flyvemdm");
+$plugin->checkStates(true);
+if (!$plugin->getFromDBbyDir("flyvemdm")) {
+   print("Failed : GLPI does not find the plugin" . PHP_EOL);
+   exit(1);
+}
 print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
 if ($args['--force-install']) {
    $_SESSION['plugin_flyvemdm']['cli'] = 'force-install';

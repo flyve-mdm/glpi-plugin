@@ -670,7 +670,15 @@ class PluginFlyvemdmTask extends CommonDBRelation {
 
       // Get applied policies
       $task = new PluginFlyvemdmTask();
-      $appliedPolicies = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$itemId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$itemId'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $itemtype,
+            'items_id_applied' => $itemId,
+         ];
+      }
+      $appliedPolicies = $task->find($condition);
 
       // add needed data for display
       $factory = new PluginFlyvemdmPolicyFactory();

@@ -156,7 +156,18 @@ abstract class PluginFlyvemdmPolicyBase implements PluginFlyvemdmPolicyInterface
       $notifiableType      = $notifiable->getType();
       $notifiableId        = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $relationCollection  = $task->find("`itemtype_applied` = '$notifiableType' AND `items_id_applied`='$notifiableId' AND `plugin_flyvemdm_policies_id`='$policyId'", '', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$notifiableType' AND `items_id_applied`='$notifiableId' AND `plugin_flyvemdm_policies_id`='$policyId'";
+         $order = '';
+      } else {
+         $condition = [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+            'plugin_flyvemdm_policies_id' => $policyId,
+         ];
+         $order = [];
+      }
+      $relationCollection  = $task->find($condition, $order, '1');
       return (count($relationCollection) === 0);
    }
 

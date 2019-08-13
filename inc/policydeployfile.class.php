@@ -97,7 +97,7 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
 
       // Check base path against well known paths
       $wellKnownPath = new PluginFlyvemdmWellknownpath();
-      $rows = $wellKnownPath->find('1');
+      $rows = $wellKnownPath->find();
       $basePathIsValid = false;
       foreach ($rows as $row) {
          if (strpos($value['destination'], $row['name']) === 0) {
@@ -165,9 +165,18 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
-            AND `itemtype` = '$itemtype'");
+            AND `itemtype` = '$itemtype'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+            'itemtype' => $itemtype,
+         ];
+      }
+      $rows = $task->find($condition);
       foreach ($rows as $row) {
          $decodedValue = json_decode($row['value'], true);
          if ($decodedValue['destination'] == $value['destination'] && $itemId == $row['items_id']) {
@@ -195,9 +204,18 @@ class PluginFlyvemdmPolicyDeployfile extends PluginFlyvemdmPolicyBase implements
          $notifiableType = $notifiable->getType();
          $notifiableId = $notifiable->getID();
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`itemtype_applied` = '$notifiableType'
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`itemtype_applied` = '$notifiableType'
                AND `items_id_applied` = '$notifiableId'
-               AND `plugin_flyvemdm_policies_id` = '$policyId'");
+               AND `plugin_flyvemdm_policies_id` = '$policyId'";
+         } else {
+            $condition = [
+               'itemtype_applied' => $notifiableType,
+               'items_id_applied' => $notifiableId,
+               'plugin_flyvemdm_policies_id' => $policyId,
+            ];
+         }
+         $rows = $task->find($condition);
          foreach ($rows as $row) {
             if ($row['value'] == $value['destination']) {
                Session::addMessageAfterRedirect(__('A removal policy is applied for this file destination. Please, remove it first.', 'flyvemdm'), false, ERROR);

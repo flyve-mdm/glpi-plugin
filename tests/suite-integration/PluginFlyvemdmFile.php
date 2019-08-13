@@ -71,13 +71,29 @@ class PluginFlyvemdmFile extends CommonTestCase {
       $removePolicyData = $this->getFileRemovalPolicy();
       $policyId = $removePolicyData->getID();
       $filePath = $fileDestination . $file->getField('name');
-      $rows = $task->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$filePath'";
+      } else {
+         $condition = [
+            'plugin_flyvemdm_policies_id' => $policyId,
+            'value' => $filePath,
+         ];
+      }
+      $rows = $task->find($condition);
       $this->integer(count($rows))->isEqualTo(1);
 
       // Test the applied policies are removed
       $itemtype = $file->getType();
       $itemId = $file->getID();
-      $rows = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype`='$itemtype' AND `items_id`='$itemId'";
+      } else {
+         $condition = [
+            'itemtype' => $itemtype,
+            'items_id' => $itemId,
+         ];
+      }
+      $rows = $task->find($condition);
       $this->integer(count($rows))->isEqualTo(0);
 
       // Test add policy fails when a removal policy exists

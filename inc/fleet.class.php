@@ -210,7 +210,15 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $itemtype = $this->getType();
       $fleetId = $this->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $itemtype,
+            'items_id_applied' => $fleetId,
+         ];
+      }
+      $rows = $task->find($condition);
 
       // Disable replacement of a task by an other for app or file deployment
       // TODO : needs a better implementation relying on instances of PolicyInterface
@@ -401,7 +409,14 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $agents = [];
       $agent = new PluginFlyvemdmAgent();
       $id = $this->getID();
-      $rows = $agent->find("`plugin_flyvemdm_fleets_id`='$id'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`plugin_flyvemdm_fleets_id`='$id'";
+      } else {
+         $condition = [
+            'plugin_flyvemdm_fleets_id' => $id,
+         ];
+      }
+      $rows = $agent->find($condition);
 
       foreach ($rows as $row) {
          $agent = new PluginFlyvemdmAgent();
@@ -434,7 +449,16 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $fleetId = $this->getID();
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId' AND `itemtype`='" . PluginFlyvemdmPackage::class . "'");
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`itemtype_applied` = '$itemtype' AND `items_id_applied` = '$fleetId' AND `itemtype`='" . PluginFlyvemdmPackage::class . "'";
+         } else {
+            $condition = [
+               'itemtype_applied' => $itemtype,
+               'items_id_applied' => $fleetId,
+               'itemtype' => PluginFlyvemdmPackage::class,
+            ];
+         }
+         $rows = $task->find($condition);
          foreach ($rows as $row) {
             $package = new PluginFlyvemdmPackage();
             $package->getFromDB($row['plugin_flyvemdm_packages_id']);
@@ -455,7 +479,16 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
       $fleetId = $this->getID();
       if ($fleetId > 0) {
          $task = new PluginFlyvemdmTask();
-         $rows = $task->find("`itemtype_applied` = '$itemtype' AND `items_id_applied`='$fleetId' AND `itemtype`='" . PluginFlyvemdmFile::class . "'");
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`itemtype_applied` = '$itemtype' AND `items_id_applied`='$fleetId' AND `itemtype`='" . PluginFlyvemdmFile::class . "'";
+         } else {
+            $condition = [
+               'itemtype_applied' => $itemtype,
+               'items_id_applied' => $fleetId,
+               'itemtype' => PluginFlyvemdmFile::class,
+            ];
+         }
+         $rows = $task->find($condition);
          foreach ($rows as $row) {
             $file = new PluginFlyvemdmPackage();
             $file->getFromDB($row['plugin_flyvemdm_packages_id']);
@@ -476,7 +509,17 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
          $entityId = $_SESSION['glpiactive_entity'];
       }
 
-      $rows = $this->find("`is_default`='1' AND `entities_id`='$entityId'", "`id` ASC");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`is_default`='1' AND `entities_id`='$entityId'";
+         $order = "`id` ASC";
+      } else {
+         $condition = [
+            'is_default' => '1',
+            'entities_id' => $entityId,
+         ];
+         $order = ['id ASC'];
+      }
+      $rows = $this->find($condition, $order);
       if (count($rows) < 1) {
          return $this->add([
             'is_default'  => '1',

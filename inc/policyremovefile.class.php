@@ -79,9 +79,25 @@ class PluginFlyvemdmPolicyRemovefile extends PluginFlyvemdmPolicyBase implements
       $notifiableType = $notifiable->getType();
       $notifiableId = $notifiable->getID();
       $task = new PluginFlyvemdmTask();
-      $rows = $task->find("`itemtype_applied` = '$notifiableType'
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype_applied` = '$notifiableType'
             AND `items_id_applied` = '$notifiableId'
-            AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'", "", "1");
+            AND `itemtype` = '' AND `items_id` = '0' AND `value` = '$value'";
+      } else {
+         $condition = [
+            'itemtype_applied' => $notifiableType,
+            'items_id_applied' => $notifiableId,
+            'itemtype' => '',
+            'items_id' => '0',
+            'value' => $value,
+         ];
+      }
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = '';
+      } else {
+         $order = [];
+      }
+      $rows = $task->find($condition, $order, "1");
       return (count($rows) == 0);
    }
 
