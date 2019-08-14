@@ -49,8 +49,8 @@ class Config extends CommonTestCase {
 
          case 'testUpgradePlugin':
             $this->olddb = new \DB();
-            $this->string(getenv('OLDDBNAME'));
-            $this->olddb->dbdefault = getenv('OLDDBNAME');
+            $this->string(getenv('OLD_DB_NAME'));
+            $this->olddb->dbdefault = getenv('OLD_DB_NAME');
             $this->olddb->connect();
             $this->boolean($this->olddb->connected)->isTrue();
             break;

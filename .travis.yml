@@ -14,14 +14,16 @@ env:
     - CS=7.2
     - APIDOCS_PHP=7.1
     - DB_HOST=127.0.0.1
-    - DBUSER=root
-    - DBNAME=glpitest
-    - OLDDBNAME=glpiupgradetest
+    - MYSQL_ROOT_USER=root
+    - DB_USER=glpi
+    - DB_PASSWD=glpi
+    - DB_NAME=glpitest
+    - OLD_DB_NAME=glpiupgradetest
+    - PLUGINNAME=flyvemdm
+    - PATCH_ARGS="-p1 -N --batch"
     - AFTER_SUCCESS_BRANCH=9.3/bugfixes
     - secure: Y9sG3lZ3Fn3t5BXvcMJQxWsdSUVQgF4M08E6oouYrRc95HEj3ZwZOqp6Df58u8CQFA0EKJyvCBLn8UicvHGMKAD0RwGLBdSP4Ji9gJRZkyMZi79awSshdva/c8dqVQrRd4asuTNQfcagVJpNDnY8sYusw504JUilK3vFVp+39nNZUkcvT69NGVIlXzgHTYinBkVuqDhf5eVtcLcaESLEshrg+5ZERdm+0KifdJVREzhicJxofnmTl/wBsIP7XiQqspljf2/SxLqreGmWXYXUfqIwIOVtsd9fkZChQCz8USC7P427tH6styRDYuMCtvA9b/T/XacSdKFbuDezff3NbIM3b5BebDyCrOK5MGSOdRUY5RuyZN4R5LjePUE++9QNCUPeDSkfb23v0VfuqXIRAxfdtik517GzFy6O7/e6FU1msVZlGQED7Uek9nqnupj+0lIq+99Jcm1UCNJu1NTL2Tv80XXqySaxyE4Sedq/FiYAsy1bo2cg2367I2b4FhFXaJCKkFHcdjHXAeurkRy/brSPhBNoOO5/GA3RepUErgly4P8TLZqHNZv8rgMUoQ88sdwDyXG7dY4UwWiTlCkxMBTqBqJanlTMA9zn2bYyMDioTGnA7+VYAA8cddjFOMVrmmuFJ+YV2x1+5B5qd+Wt8RPwcPQDyqaiN5amb1HGeMA=
   matrix:
-    - GLPI_BRANCH=9.3/bugfixes FI_BRANCH=glpi9.3
-    - GLPI_BRANCH=9.4.0 FI_BRANCH=glpi9.4+1.1
     - GLPI_BRANCH=9.4/bugfixes FI_BRANCH=glpi9.4+1.1
     - GLPI_BRANCH=9.5/bugfixes FI_BRANCH=glpi9.5
     - GLPI_BRANCH=master FI_BRANCH=master
@@ -34,57 +36,16 @@ php:
   - nightly
 
 matrix:
+  exclude:
+    - GLPI_BRANCH=9.5/bugfixes
+      php: 5.6
+    - master
+      php: 5.6    
   allow_failures:
     - php: nightly
     - env: GLPI_BRANCH=master FI_BRANCH=master
-
+  
 before_install:
-  - #
-  - # setup Mosquitto
-  - # mosquitto is an old  version, need to trick to get activity log in a file
-  - # with recent version, set log_dest and log_type in mosquitto.conf
-  - #
-
-  - # listen only on 127.0.0.1
-  - sudo sed -i "s/#bind_address.*/bind_address 127.0.0.1/g" /etc/mosquitto/mosquitto.conf
-  - # enable logging
-  - sudo sed -i "s@log_dest.*@log_dest stderr@g" /etc/mosquitto/mosquitto.conf
-  - sudo sh -c 'echo log_type error >> /etc/mosquitto/mosquitto.conf'
-  - sudo sh -c 'echo log_type warning >> /etc/mosquitto/mosquitto.conf'
-  - sudo sh -c 'echo log_type notice >> /etc/mosquitto/mosquitto.conf'
-  - sudo sh -c 'echo log_type information >> /etc/mosquitto/mosquitto.conf'
-  - sudo sh -c 'echo log_type debug >> /etc/mosquitto/mosquitto.conf'
-  - sudo service mosquitto stop
-  - sudo sh -c 'mosquitto -c /etc/mosquitto/mosquitto.conf 2>/tmp/mosquitto.log &'
-
-  - # old versions are not stryct mode compliant
-  - # sudo touch /etc/mysql/conf.d/disable_strict_mode.cnf
-  - # echo "Creating file..."
-  - # echo "Adding config..."
-  - # sudo echo "[mysqld]\nsql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\n" > /etc/mysql/conf.d/disable_strict_mode.cnf
-  - # echo "Restarting MySql..."
-  - # sudo service mysql restart
-  - # echo "Done"
-  - # echo "Check"  
-  - # export PASSWORDARG=""
-  - # if [ "$DBPASSWD" != "" ]; then export PASSWORDARG="-p$DBPASSWD"; fi
-  - # mysql -u $DBUSER $PASSWORDARG -e "SELECT @@sql_mode"
-
-before_script:
-  - # defined in travis.yml
-  - # DBNAME      : database name for tests
-  - # OLDDBNAME   : database name for upgrade test of the plugin
-  - # GLPI_SOURCE : URL to GLPI GIT repository
-  - # GLPI_BRANCH : branch of GLPI to test with the project
-  - # FI_SOURCE   : URL to Fusion Inventory GIT repository
-  - # FI_BRANCH   : branch of Fusion Inventory to test with the project
-  - 
-  - # defined by Travis CI
-  - # TRAVIS_REPO_SLUG : see Travis CI: https://docs.travis-ci.com/user/environment-variables
-  - 
-  - # defined in travis settings / environment variables
-  - # GH_OAUTH
-
   - |
    if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
       mkdir ~/.composer -p
@@ -92,76 +53,33 @@ before_script:
       composer config -g github-oauth.github.com $GH_TOKEN
    fi
 
-  - # setup GLPI and its plugins
-  - mysql -h $DB_HOST -u $DBUSER -e 'create database $DBNAME;'
-  - mysql -h $DB_HOST -u $DBUSER -e 'create database $OLDDBNAME;'
-  - git clone --depth=35 $GLPI_SOURCE -b $GLPI_BRANCH ../glpi && cd ../glpi
-  - composer install --no-dev --no-interaction
-  - mkdir -p tests/files/_cache
-  - mkdir plugins/fusioninventory && git clone --depth=35 $FI_SOURCE -b $FI_BRANCH plugins/fusioninventory
-  - IFS=/ read -a repo <<< $TRAVIS_REPO_SLUG
-  - mv ../${repo[1]} plugins/flyvemdm
+  - # set -x
+  - . ./tests/script-functions.sh
+  - . ./tests/script-specific-functions.sh
+  - init_databases
+  - install_glpi && install_plugin
 
-  - # patch settings
-  - PATCH_ARGS="-p1 -N --batch"
-
-  - # patch Fusion Inventory when needed
-  - cd plugins/fusioninventory
-  - if [[ $FI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/fi-raise-max-version.patch; fi
-  - if [[ $FI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/compat-glpi-9-3-2.diff; fi
-  - # if [[ $FI_BRANCH == "glpi9.3" ]] ; then patch $PATCH_ARGS < ../flyvemdm/tests/patches/fusioninventory/compat-glpi-9-3-2.diff; fi
-  - cd ../..
-
-  - # patch GLPI when needed
-
-  - # prepare plugin to test
-  - cd plugins/flyvemdm
-  - if [[ $GLPI_BRANCH == "master" ]] ; then patch $PATCH_ARGS < tests/patches/allow-test-on-master-branch.patch; fi
-  - composer install --no-interaction
 
 script:
   - COVERAGE="-ncc"
   - if [ "${TRAVIS_PHP_VERSION:0:3}" = "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then COVERAGE="--nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI CommonDBConnexity CommonDBRelation"; fi
 
   - # install GLPI with an old schema of the plugin and upgrade it
-  - export PASSWORDARG=""
-  - if [ "$DBPASSWD" != "" ]; then export PASSWORDARG="-p$DBPASSWD"; fi
-  - if [ -e ../../scripts/cliinstall.php ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--pass=$DBPASSWD"; fi
-  - if [ -e ../../bin/console ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--db-password=$DBPASSWD"; fi
-  - echo Installing GLPI on database $OLDDBNAME
-  - export GLPI_CONFIG_DIR="tests/config-$OLDDBNAME"
-  - mkdir -p ../../$GLPI_CONFIG_DIR
-  - rm ../../tests/files/_cache/cache_db/* ../../tests/files/_cache_/cache_trans/* ../../tests/files/_cache/*.json || true
-  - rm ../../tests/config_db.php || true
-  - if [ -e ../../tools/cliinstall.php ] ; then php  ./tests/install_glpi.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$OLDDBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../$GLPI_CONFIG_DIR --no-interaction --no-plugins --force; fi
-  - php ./tests/install_fusioninventory.php --as-user glpi
-  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_empty_2.0.0-rc.1.sql
-  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_config_2.0.0-rc.1.sql
+  - export GLPI_CONFIG_DIR="tests/config-$OLD_DB_NAME"
+  - init_glpi $OLD_DB_NAME $DB_USER $DB_PASSWD && init_plugin
   - # upgrade test
   - echo status of plugins
-  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME -e "select name,directory,version,status from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
-  - php tools/cli_install.php --tests
+  - mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWD $OLD_DB_NAME -e "select name,directory,version,state from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
+  - plugin_test_upgrade
 
   - # install GLPI with a fresh install of the plugin
-  - if [ -e ../../scripts/cliinstall.php ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--pass=$DBPASSWD"; fi
-  - if [ -e ../../bin/console ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--db-password=$DBPASSWD"; fi
-  - echo Installing GLPI on database $DBNAME
-  - export GLPI_CONFIG_DIR="tests/config-$DBNAME"
-  - mkdir -p ../../$GLPI_CONFIG_DIR
-  - rm ../../tests/files/_cache/cache_db/* ../../tests/files/_cache_/cache_trans/* ../../tests/files/_cache/*.json || true
-  - rm ../../tests/config_db.php || true
-  - if [ -e ../../tools/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$DBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../$GLPI_CONFIG_DIR --no-interaction --no-plugins --force; fi
-  - php ./tests/install_fusioninventory.php --as-user glpi
+  - export GLPI_CONFIG_DIR="tests/config-$DB_NAME"
+  - init_glpi $DB_NAME $DB_USER $DB_PASSWD && init_plugin
   - # fresh install test
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 $COVERAGE
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit $COVERAGE
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall -ncc
-  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/ RoboFile.php; fi
+  - plugin_test_install
+  - plugin_test
+  - plugin_test_uninstall
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then plugin_test_cs; fi
 
 after_success:
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/parallel-lint --exclude vendor .; fi
