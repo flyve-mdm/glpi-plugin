@@ -38,14 +38,14 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests CONFIG_DIR ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
 
 Options:
    --as-user USER                               Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
    --api-user-token                             APITOKEN    APITOKEN
    --enable-api                                 Enable GLPI's API
    --enable-email                               Enable GLPI's email notification
-   --tests                                      Use GLPI test database
+   --tests CONFIG_DIR                           Use GLPI test database
    --dev                                        Change the Agent download URL for the Beta testing url
    --mqtt-address MQTTADDRESS                   Sets the address for Mosquitto MQTTADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
@@ -66,8 +66,9 @@ if (!is_null($args['--as-user'])) {
 if (isset($args['--tests']) && $args['--tests'] !== false) {
    // Use test GLPi's database
    // Requires use of cliinstall of GLPI with --tests argument
+   $glpiConfigDir = $args['--tests'];
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
+   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/$glpiConfigDir");
 }
 
 // disable session cookie for CLI mode

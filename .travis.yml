@@ -129,29 +129,33 @@ script:
   - if [ -e ../../scripts/cliinstall.php ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--pass=$DBPASSWD"; fi
   - if [ -e ../../bin/console ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--db-password=$DBPASSWD"; fi
   - echo Installing GLPI on database $OLDDBNAME
+  - export GLPI_CONFIG_DIR="tests/config-$OLDDBNAME"
+  - mkdir -p ../../$GLPI_CONFIG_DIR
   - rm ../../tests/files/_cache/cache_db/* ../../tests/files/_cache_/cache_trans/* ../../tests/files/_cache/*.json || true
   - rm ../../tests/config_db.php || true
-  - if [ -e ../../tools/cliinstall.php ] ; then php  ../../tools/cliinstall.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ../../scripts/cliinstall.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$OLDDBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../tests --no-interaction --no-plugins --force; fi
-  - php ../fusioninventory/scripts/cli_install.php --tests --as-user glpi
+  - if [ -e ../../tools/cliinstall.php ] ; then php  ./tests/install_glpi.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
+  - if [ -e ../../scripts/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$OLDDBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
+  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$OLDDBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../$GLPI_CONFIG_DIR --no-interaction --no-plugins --force; fi
+  - php ./tests/install_fusioninventory.php --as-user glpi
   - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_empty_2.0.0-rc.1.sql
   - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME < tests/plugin_flyvemdm_config_2.0.0-rc.1.sql
   - # upgrade test
   - echo status of plugins
-  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME -e "select * from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
+  - mysql -h $DB_HOST -u $DBUSER $PASSWORDARG $OLDDBNAME -e "select name,directory,version,status from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
   - php tools/cli_install.php --tests
 
   - # install GLPI with a fresh install of the plugin
   - if [ -e ../../scripts/cliinstall.php ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--pass=$DBPASSWD"; fi
   - if [ -e ../../bin/console ] && [ "$DBPASSWD" != "" ]; then DBPASSWDARG="--db-password=$DBPASSWD"; fi
   - echo Installing GLPI on database $DBNAME
+  - export GLPI_CONFIG_DIR="tests/config-$DBNAME"
+  - mkdir -p ../../$GLPI_CONFIG_DIR
   - rm ../../tests/files/_cache/cache_db/* ../../tests/files/_cache_/cache_trans/* ../../tests/files/_cache/*.json || true
   - rm ../../tests/config_db.php || true
-  - if [ -e ../../tools/cliinstall.php ] ; then php ../../tools/cliinstall.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ../../scripts/cliinstall.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
-  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$DBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../tests --no-interaction --no-plugins --force; fi
-  - php ../fusioninventory/scripts/cli_install.php --tests --as-user glpi
+  - if [ -e ../../tools/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
+  - if [ -e ../../scripts/cliinstall.php ] ; then php ./tests/install_glpi.php --host $DB_HOST --db=$DBNAME --user=$DBUSER $DBPASSWDARG --tests ; fi
+  - if [ -e ../../bin/console ]; then php ../../bin/console glpi:database:install --db-host=$DB_HOST --db-name=$DBNAME --db-user=$DBUSER $DBPASSWDARG --config-dir=../../$GLPI_CONFIG_DIR --no-interaction --no-plugins --force; fi
+  - php ./tests/install_fusioninventory.php --as-user glpi
   - # fresh install test
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
   - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 $COVERAGE
@@ -160,6 +164,7 @@ script:
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/ RoboFile.php; fi
 
 after_success:
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/parallel-lint --exclude vendor .; fi
   # let's update the documentation and locales
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then tests/after_success.sh; fi
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$APIDOCS_PHP" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then tests/apidocs.sh; fi

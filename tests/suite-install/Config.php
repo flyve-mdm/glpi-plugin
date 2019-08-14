@@ -171,36 +171,16 @@ class Config extends CommonTestCase {
 
       $pluginName = TEST_PLUGIN_NAME;
 
-      $fresh_tables = [];
-      if (method_exists($DB, 'listTables')) {
-         // For GLPI >= 9.3
-         $result = $DB->listTables("glpi_plugin_${pluginName}_%");
-         while ($fresh_table = $result->next()) {
-            $fresh_tables[] = $fresh_table;
-         }
-      } else {
-         // For GLPI < 9.3
-         $result = $DB->list_tables("glpi_plugin_${pluginName}_%");
-         while ($row = $DB->fetch_row($result)) {
-            $fresh_tables[] = ['TABLE_NAME' => $row[0]];
-         }
-      }
-      // to be restored instead if the above if() {} else {} when dropping GLPI 9.2.x
-      // $DB->listTables("glpi_plugin_${pluginName}_%");
-      // while ($fresh_table = $result->next()) {
-      while ($fresh_table = array_pop($fresh_tables)) {
+      $result = $DB->listTables("glpi_plugin_${pluginName}_%");
+      while ($fresh_table = $result->next()) {
          $table = $fresh_table['TABLE_NAME'];
          $this->boolean($this->olddb->tableExists($table, false))->isTrue("Table $table does not exists from migration!");
 
-         // To be replaced by call to dbmysql::getTableSchema
-         // when GLPI 9.2.x support drops
-         $create = $this->getTableSchema($DB, $table);
+         $create = $DB->getTableSchema($DB, $table);
          $fresh = $create['schema'];
          $fresh_idx = $create['index'];
 
-         // To be replaced by call to dbmysql::getTableSchema
-         // when GLPI 9.2.x support drops
-         $update = $this->getTableSchema($this->olddb, $table);
+         $update = $DB->getTableSchema($this->olddb, $table);
          $updated = $update['schema'];
          $updated_idx = $update['index'];
 
@@ -261,95 +241,5 @@ class Config extends CommonTestCase {
          'name'     => 'Computer import (by name)',
       ]))->isTrue();
       $this->boolean($rule->update(['id' => $rule->getID(), 'is_active' => 0]))->isTrue();
-   }
-
-   /**
-    * Get table schema (copied from GLPI 9.3)
-    *
-    * @param \DBmysql $db
-    * @param string $table Table name,
-    * @param string|null $structure Raw table structure
-    *
-    * @return array
-    */
-   private function getTableSchema($db, $table, $structure = null) {
-      if ($structure === null) {
-         $structure = $db->query("SHOW CREATE TABLE `$table`")->fetch_row();
-         $structure = $structure[1];
-      }
-
-      //get table index
-      $index = preg_grep(
-         "/^\s\s+?KEY/",
-         array_map(
-            function($idx) { return rtrim($idx, ','); },
-            explode("\n", $structure)
-         )
-      );
-      //get table schema, without index, without AUTO_INCREMENT
-      $structure = preg_replace(
-         [
-            "/\s\s+KEY .*/",
-            "/AUTO_INCREMENT=\d+ /"
-         ],
-         "",
-         $structure
-      );
-      $structure = preg_replace('/,(\s)?$/m', '', $structure);
-      $structure = preg_replace('/ COMMENT \'(.+)\'/', '', $structure);
-
-      $structure = str_replace(
-         [
-            " COLLATE utf8_unicode_ci",
-            " CHARACTER SET utf8",
-            ', ',
-         ], [
-            '',
-            '',
-            ',',
-         ],
-         trim($structure)
-      );
-
-      //do not check engine nor collation
-      $structure = preg_replace(
-         '/\) ENGINE.*$/',
-         '',
-         $structure
-      );
-
-      //Mariadb 10.2 will return current_timestamp()
-      //while older retuns CURRENT_TIMESTAMP...
-      $structure = preg_replace(
-         '/ CURRENT_TIMESTAMP\(\)/i',
-         ' CURRENT_TIMESTAMP',
-         $structure
-      );
-
-      //Mariadb 10.2 allow default values on longblob, text and longtext
-      preg_match_all(
-         '/^.+ (longblob|text|longtext) .+$/m',
-         $structure,
-         $defaults
-      );
-      if (count($defaults[0])) {
-         foreach ($defaults[0] as $line) {
-               $structure = str_replace(
-                  $line,
-                  str_replace(' DEFAULT NULL', '', $line),
-                  $structure
-               );
-         }
-      }
-
-      $structure = preg_replace("/(DEFAULT) ([-|+]?\d+)(\.\d+)?/", "$1 '$2$3'", $structure);
-      //$structure = preg_replace("/(DEFAULT) (')?([-|+]?\d+)(\.\d+)(')?/", "$1 '$3'", $structure);
-      $structure = preg_replace('/(BIGINT)\(\d+\)/i', '$1', $structure);
-      $structure = preg_replace('/(TINYINT) /i', '$1(4) ', $structure);
-
-      return [
-         'schema' => strtolower($structure),
-         'index'  => $index
-      ];
    }
 }

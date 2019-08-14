@@ -1,4 +1,4 @@
-set sql_mode='IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+set sql_mode='IGNORE_SPACE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 
 -- Export de la structure de table glpi-flyvemdm. glpi_plugin_flyvemdm_agents
 DROP TABLE IF EXISTS `glpi_plugin_flyvemdm_agents`;
