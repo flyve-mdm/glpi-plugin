@@ -24,7 +24,7 @@
         "ext-openssl": "*",
         "ext-sockets": "*",
         "sskaje/mqtt": "dev-master",
-        "tufanbarisyildirim/php-apk-parser": "dev-master",
+        "tufanbarisyildirim/php-apk-parser": "^2.0",
         "docopt/docopt": "^1.0",
         "twig/twig": "^1.0",
         "sly/notification-pusher": "^2.3"
@@ -36,7 +36,8 @@
         "glpi-project/tools": "^0.1.2",
         "atoum/stubs": "^2.5",
         "atoum/reports-extension": "^3.0",
-        "pear/archive_tar": "^1.4"
+        "pear/archive_tar": "^1.4",
+        "jakub-onderka/php-parallel-lint": "^1.0"
     },
     "repositories": [
         {
