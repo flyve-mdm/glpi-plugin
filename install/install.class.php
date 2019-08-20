@@ -48,6 +48,30 @@ class PluginFlyvemdmInstall {
 
    protected $migration;
 
+      /**
+    * array of upgrade steps key => value
+    * key   is the version to upgrade from
+    * value is the version to upgrade to
+    *
+    * Exemple: an entry '2.0' => '2.1' tells that versions 2.0
+    * are upgradable to 2.1
+    *
+    * When possible avoid schema upgrade between bugfix releases. The schema
+    * version contains major.minor numbers only. If an upgrade of the schema
+    * occurs between bugfix releases, then the upgrade will start from the
+    * major.minor.0 version up to the end of the the versions list.
+    * Exemple: if previous version is 2.6.1 and current code is 2.6.3 then
+    * the upgrade will start from 2.6.0 to 2.6.3 and replay schema changes
+    * between 2.6.0 and 2.6.1. This means that upgrade must be _repeatable_.
+    *
+    * @var array
+    */
+   private $upgradeSteps = [
+      '0.0'    => '2.0',
+      //'2.0'    => '2.1',
+      //'2.1'    => '3.0',
+   ];
+
    /**
     * Autoloader for installation
     * @param string $classname
@@ -71,8 +95,6 @@ class PluginFlyvemdmInstall {
     *
     */
    public function install(Migration $migration) {
-      global $DB;
-
       $this->migration = $migration;
       spl_autoload_register([__CLASS__, 'autoload']);
 
@@ -112,7 +134,14 @@ class PluginFlyvemdmInstall {
 
       $comment = $DB->escape($comment);
       $profile = new Profile();
-      $profiles = $profile->find("`comment`='$comment'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`comment`='$comment'";
+      } else {
+         $condition = [
+            'comment' => $comment,
+         ];
+      }
+      $profiles = $profile->find($condition);
       $row = array_shift($profiles);
       if ($row === null) {
          $profile->fields["name"] = $DB->escape(__($name, "flyvemdm"));
@@ -313,7 +342,14 @@ class PluginFlyvemdmInstall {
          $policyData['plugin_flyvemdm_policycategories_id'] = $categoryId;
 
          $symbol = $policyData['symbol'];
-         $rows = $policy->find("`symbol`='$symbol'");
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`symbol`='$symbol'";
+         } else {
+            $condition = [
+               'symbol' => $symbol,
+            ];
+         }
+         $rows = $policy->find($condition);
          $policyData['type_data'] = json_encode($policyData['type_data'],
             JSON_UNESCAPED_SLASHES
          );
@@ -422,7 +458,15 @@ Regards,
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
-         if (count($template->find("`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'")) < 1) {
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'";
+         } else {
+            $condition = [
+               'itemtype' => $itemtype,
+               'name' => $data['name'],
+            ];
+         }
+         if (count($template->find($condition)) < 1) {
             // Add template
             $templateId = $template->add([
                'name'     => addcslashes($data['name'], "'\""),
@@ -477,26 +521,22 @@ Regards,
       spl_autoload_register([__CLASS__, 'autoload']);
 
       $this->migration = $migration;
-      $fromSchemaVersion = $this->getSchemaVersion();
+      if (isset($_SESSION['plugin_flyvemdm']['cli']) && $_SESSION['plugin_flyvemdm']['cli'] == 'force-upgrade') {
+         // Might return false
+         $fromSchemaVersion = array_search(PLUGIN_FLYVEMDM_SCHEMA_VERSION, $this->upgradeSteps);
+      } else {
+         $fromSchemaVersion = $this->getSchemaVersion();
+      }
 
       // Prevent problem of execution time
       ini_set("max_execution_time", "0");
       ini_set("memory_limit", "-1");
 
-      switch ($fromSchemaVersion) {
-         case '0.0':
-            // Upgrade to 2.0
-            $this->upgradeOneStep('2.0');
-
-         case '2.0':
-            // Example : upgrade to version 2.1
-            // $this->upgradeOneStep('2.1');
-
-         case '3.0':
-            // Example : upgrade to version 3.0
-            // $this->upgradeOneStep('3.0');
-
+      while ($fromSchemaVersion && isset($this->upgradeSteps[$fromSchemaVersion])) {
+         $this->upgradeOneStep($this->upgradeSteps[$fromSchemaVersion]);
+         $fromSchemaVersion = $this->upgradeSteps[$fromSchemaVersion];
       }
+
       if (!PLUGIN_FLYVEMDM_IS_OFFICIAL_RELEASE) {
          $this->upgradeOneStep('develop');
       }
@@ -798,7 +838,15 @@ Regards,
          // Delete notifications
          $notification = new Notification();
          $notification_notificationTemplate = new Notification_NotificationTemplate();
-         $rows = $notification->find("`itemtype` = '$itemtype' AND `event` = '$event'");
+         if (version_compare(GLPI_VERSION, '9.4') < 0) {
+            $condition = "`itemtype` = '$itemtype' AND `event` = '$event'";
+         } else {
+            $condition = [
+               'itemtype' => $itemtype,
+               'event' => $event,
+            ];
+         }
+         $rows = $notification->find($condition);
          foreach ($rows as $row) {
             $notification_notificationTemplate->deleteByCriteria(['notifications_id' => $row['id']]);
             $notification->delete($row);
@@ -904,7 +952,15 @@ Regards,
       $displayPreference = new DisplayPreference();
       $itemtype = PluginFlyvemdmFile::class;
       $rank = 1;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '1' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '1' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '1',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -914,7 +970,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '4',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -926,7 +990,15 @@ Regards,
 
       $itemtype = PluginFlyvemdmInvitation::class;
       $rank = 1;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '3',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -937,6 +1009,15 @@ Regards,
       }
       $rank++;
       $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '4',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -946,7 +1027,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '5',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -958,7 +1047,15 @@ Regards,
 
       $itemtype = PluginFlyvemdmPackage::class;
       $rank = 1;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '3',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -968,7 +1065,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '4' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '4',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -978,7 +1083,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '5' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '5',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -990,7 +1103,15 @@ Regards,
 
       $itemtype = PluginFlyvemdmAgent::class;
       $rank = 1;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '11' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '11' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '11',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -1000,7 +1121,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '12' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '12' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '12',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,
@@ -1010,7 +1139,15 @@ Regards,
          ]);
       }
       $rank++;
-      $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $criteria = "`itemtype` = '$itemtype' AND `num` = '3' AND `users_id` = '0'";
+      } else {
+         $criteria = [
+            'itemtype' => $itemtype,
+            'num' => '3',
+            'users_id' => '0',
+         ];
+      }
       if (count($displayPreference->find($criteria)) == 0) {
          $displayPreference->add([
             'itemtype'                 => $itemtype,

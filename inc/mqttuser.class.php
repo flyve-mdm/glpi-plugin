@@ -211,7 +211,12 @@ class PluginFlyvemdmMqttuser extends CommonDBTM {
       $aclList = [];
       $mqttAcl = new PluginFlyvemdmMqttacl();
       $userId = $this->fields['id'];
-      $rows = $mqttAcl->find("`plugin_flyvemdm_mqttusers_id` = '$userId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`plugin_flyvemdm_mqttusers_id` = '$userId'";
+      } else {
+         $condition = ['plugin_flyvemdm_mqttusers_id' => $userId];
+      }
+      $rows = $mqttAcl->find($condition);
       foreach ($rows as $row) {
          $mqttAcl = new PluginFlyvemdmMqttacl();
          $mqttAcl->getFromDB($row['id']);

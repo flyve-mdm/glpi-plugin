@@ -295,7 +295,14 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       // Test there is no new entry in the invitation log
       $invitationLog = new \PluginFlyvemdmInvitationlog();
       $fk = \PluginFlyvemdmInvitation::getForeignKeyField();
-      $rows = $invitationLog->find("`$fk` = '$inviationId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$fk` = '$inviationId'";
+      } else {
+         $condition = [
+            $fk => $inviationId,
+         ];
+      }
+      $rows = $invitationLog->find($condition);
       $this->integer(count($rows))->isEqualTo(0);
 
       // Test the agent has been enrolled

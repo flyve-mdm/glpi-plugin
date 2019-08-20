@@ -721,8 +721,20 @@ class CommonTestCase extends GlpiCommonTestCase {
       $topic,
       $mqttMessage
    ) {
-      $logQuery = "itemtype='" . $item::getType() . "' AND `items_id`='" . $item->getID() . "' AND `topic`='" . $topic . "'";
-      $rows = $log->find($logQuery, '`id` DESC', 1);
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $logQuery = "itemtype='" . $item::getType() . "' AND `items_id`='" . $item->getID() . "' AND `topic`='" . $topic . "'";
+         $order = '`id` DESC';
+      } else {
+         $logQuery = [
+            'itemtype' => $item::getType(),
+            'items_id' => $item->getID(),
+            'topic' => $topic
+         ];
+         $order = [
+            'id DESC'
+         ];
+      }
+      $rows = $log->find($logQuery, $order, 1);
       $this->array($rows)->sizeOf($rows)->isGreaterThanOrEqualTo(1);
       foreach ($rows as $row) {
          // check the message

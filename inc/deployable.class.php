@@ -135,7 +135,15 @@ abstract class PluginFlyvemdmDeployable extends CommonDBTM {
    protected function deployNotification(PluginFlyvemdmTask $task) {
       $itemtype = $this->getType();
       $itemId = $this->getID();
-      $tasks = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype`='$itemtype' AND `items_id`='$itemId'";
+      } else {
+         $condition = [
+            'itemtype' => $itemtype,
+            'items_id' => $itemId,
+         ];
+      }
+      $tasks = $task->find($condition);
       foreach ($tasks as $taskId => $taskRow) {
          $notifiableType = $taskRow['itemtype_applied'];
          $notifiable = new $notifiableType();

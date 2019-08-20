@@ -38,19 +38,21 @@ $doc = <<<DOC
 cli_install.php
 
 Usage:
-   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
+   cli_install.php [--as-user USER] [--api-user-token APITOKEN] [--enable-api ] [--enable-email ] [ --tests CONFIG_DIR ] [--dev] [--mqtt-address MQTTADDRESS] [--mqtt-internal-address MQTTINTERNALADDRESS] [--mqtt-port MQTTPORT] [--mqtt-port-tls MQTTPORTTLS]
 
 Options:
    --as-user USER                               Do install/upgrade as specified USER. If not provided, 'glpi' user will be used
    --api-user-token                             APITOKEN    APITOKEN
    --enable-api                                 Enable GLPI's API
    --enable-email                               Enable GLPI's email notification
-   --tests                                      Use GLPI test database
+   --tests CONFIG_DIR                           Use GLPI test database
    --dev                                        Change the Agent download URL for the Beta testing url
    --mqtt-address MQTTADDRESS                   Sets the address for Mosquitto MQTTADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-internal-address MQTTINTERNALADDRESS  Sets the Internal address for Mosquitto MQTTINTERNALADDRESS. This parameter can be [ IP Address/Hostname ]
    --mqtt-port MQTTPORT                         Sets the Listen Port for Mosquitto MQTTPORT
    --mqtt-port-tls MQTTPORTTLS                  Sets the Listen Port TLS for Mosquitto MQTTPORTTLS
+   --force-upgrade                              Force upgrade from the current version to itself (to resume failed upgrades)
+   --force-install                              Ignore previous instalation and install from scratch
 
 DOC;
 
@@ -64,8 +66,9 @@ if (!is_null($args['--as-user'])) {
 if (isset($args['--tests']) && $args['--tests'] !== false) {
    // Use test GLPi's database
    // Requires use of cliinstall of GLPI with --tests argument
+   $glpiConfigDir = $args['--tests'];
    define('GLPI_ROOT', dirname(dirname(dirname(__DIR__))));
-   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/tests");
+   define("GLPI_CONFIG_DIR", GLPI_ROOT . "/$glpiConfigDir");
 }
 
 // disable session cookie for CLI mode
@@ -90,10 +93,6 @@ if (isset($args['--enable-email']) && $args['--enable-email'] !== false) {
    ];
    Config::setConfigurationValues('core', $config);
    $CFG_GLPI = $config + $CFG_GLPI;
-}
-
-if (!plugin_flyvemdm_check_prerequisites()) {
-   exit(1);
 }
 
 // Setup plugin configuration
@@ -151,8 +150,18 @@ if (!$DB->tableExists("glpi_configs")) {
 $plugin = new Plugin();
 
 // Install the plugin
-$plugin->getFromDBbyDir("flyvemdm");
+$plugin->checkStates(true);
+if (!$plugin->getFromDBbyDir("flyvemdm")) {
+   print("Failed : GLPI does not find the plugin" . PHP_EOL);
+   exit(1);
+}
 print("Installing Plugin Id: " . $plugin->fields['id'] . " version " . $plugin->fields['version'] . "\n");
+if ($args['--force-install']) {
+   $_SESSION['plugin_flyvemdm']['cli'] = 'force-install';
+}
+if ($args['--force-upgrade']) {
+   $_SESSION['plugin_flyvemdm']['cli'] = 'force-upgrade';
+}
 ob_start(function($in) { return ''; });
 $plugin->install($plugin->fields['id']);
 ob_end_clean();

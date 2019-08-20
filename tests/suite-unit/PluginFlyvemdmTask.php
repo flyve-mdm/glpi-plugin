@@ -170,7 +170,12 @@ class PluginFlyvemdmTask extends CommonTestCase {
       ]);
 
       $existingPolicyId = $existingPolicy->getID();
-      $nonExistingPolicyId = \PluginFlyvemdmCommon::getMax($existingPolicy, '', 'id') + 1;
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = '';
+      } else {
+         $order = [];
+      }      
+      $nonExistingPolicyId = \PluginFlyvemdmCommon::getMax($existingPolicy, $order, 'id') + 1;
       $nonExistingFleetId = $fleet->getID() + 1;
 
       $computer = new \Computer();

@@ -1,6 +1,11 @@
+# dist: trusty
+
 language: php
 
 sudo: required
+
+services:
+  - mysql
 
 env:
   global:
@@ -8,14 +13,17 @@ env:
     - FI_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi"
     - CS=7.2
     - APIDOCS_PHP=7.1
-    - DBNAME=glpitest
-    - OLDDBNAME=glpiupgradetest
+    - DB_HOST=127.0.0.1
+    - MYSQL_ROOT_USER=root
+    - DB_USER=glpi
+    - DB_PASSWD=glpi
+    - DB_NAME=glpitest
+    - OLD_DB_NAME=glpiupgradetest
+    - PLUGINNAME=flyvemdm
+    - PATCH_ARGS="-p1 -N --batch"
     - AFTER_SUCCESS_BRANCH=9.3/bugfixes
     - secure: Y9sG3lZ3Fn3t5BXvcMJQxWsdSUVQgF4M08E6oouYrRc95HEj3ZwZOqp6Df58u8CQFA0EKJyvCBLn8UicvHGMKAD0RwGLBdSP4Ji9gJRZkyMZi79awSshdva/c8dqVQrRd4asuTNQfcagVJpNDnY8sYusw504JUilK3vFVp+39nNZUkcvT69NGVIlXzgHTYinBkVuqDhf5eVtcLcaESLEshrg+5ZERdm+0KifdJVREzhicJxofnmTl/wBsIP7XiQqspljf2/SxLqreGmWXYXUfqIwIOVtsd9fkZChQCz8USC7P427tH6styRDYuMCtvA9b/T/XacSdKFbuDezff3NbIM3b5BebDyCrOK5MGSOdRUY5RuyZN4R5LjePUE++9QNCUPeDSkfb23v0VfuqXIRAxfdtik517GzFy6O7/e6FU1msVZlGQED7Uek9nqnupj+0lIq+99Jcm1UCNJu1NTL2Tv80XXqySaxyE4Sedq/FiYAsy1bo2cg2367I2b4FhFXaJCKkFHcdjHXAeurkRy/brSPhBNoOO5/GA3RepUErgly4P8TLZqHNZv8rgMUoQ88sdwDyXG7dY4UwWiTlCkxMBTqBqJanlTMA9zn2bYyMDioTGnA7+VYAA8cddjFOMVrmmuFJ+YV2x1+5B5qd+Wt8RPwcPQDyqaiN5amb1HGeMA=
   matrix:
-    - GLPI_BRANCH=9.3.0 FI_BRANCH=glpi9.3+1.1
-    - GLPI_BRANCH=9.3/bugfixes FI_BRANCH=glpi9.3
-    - GLPI_BRANCH=9.4.0 FI_BRANCH=glpi9.4+1.1
     - GLPI_BRANCH=9.4/bugfixes FI_BRANCH=glpi9.4+1.1
     - GLPI_BRANCH=9.5/bugfixes FI_BRANCH=glpi9.5
     - GLPI_BRANCH=master FI_BRANCH=master
@@ -25,37 +33,57 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - 7.3
   - nightly
 
 matrix:
+  exclude:
+    - GLPI_BRANCH=9.5/bugfixes
+      php: 5.6
+    - master
+      php: 5.6    
   allow_failures:
     - php: nightly
     - env: GLPI_BRANCH=master FI_BRANCH=master
-
+  
 before_install:
-  - "./tests/before_install.sh"
+  - |
+   if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
+      mkdir ~/.composer -p
+      touch ~/.composer/composer.json
+      composer config -g github-oauth.github.com $GH_TOKEN
+   fi
 
-before_script:
-  - "./tests/before_script.sh"
+  - # set -x
+  - . ./tests/script-functions.sh
+  - . ./tests/script-specific-functions.sh
+  - init_databases
+  - install_glpi && install_plugin
+
+
 script:
-  - if [ "${TRAVIS_PHP_VERSION:0:3}" = "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then COVERAGE="--nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI CommonDBConnexity CommonDBRelation"; else COVERAGE="-ncc"; fi
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ../../scripts/cliinstall.php --db=$OLDDBNAME --user=root --tests ; fi
-  - if [ -e ../../tools/cliinstall.php ] ; then php  ../../tools/cliinstall.php --db=$OLDDBNAME --user=root --tests ; fi
-  - php ../fusioninventory/scripts/cli_install.php --tests --as-user glpi
-  - mysql -u root $OLDDBNAME < tests/plugin_flyvemdm_empty_2.0.0-rc.1.sql
-  - mysql -u root $OLDDBNAME < tests/plugin_flyvemdm_config_2.0.0-rc.1.sql
-  - php tools/cli_install.php --tests
-  - rm ../../tests/config_db.php
-  - if [ -e ../../scripts/cliinstall.php ] ; then php ../../scripts/cliinstall.php --db=$DBNAME --user=root --tests ; fi
-  - if [ -e ../../tools/cliinstall.php ] ; then php ../../tools/cliinstall.php --db=$DBNAME --user=root --tests ; fi
-  - php ../fusioninventory/scripts/cli_install.php --tests --as-user glpi
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-install -ncc
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-integration -mcn 1 $COVERAGE
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-unit $COVERAGE
-  - vendor/bin/atoum -ft -bf tests/bootstrap.php -d tests/suite-uninstall -ncc
-  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/phpcs -p --standard=vendor/glpi-project/coding-standard/GlpiStandard/ *.php install/ inc/ front/ ajax/ tests/ RoboFile.php; fi
+  - COVERAGE="-ncc"
+  - if [ "${TRAVIS_PHP_VERSION:0:3}" = "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then COVERAGE="--nccfc CommonTreeDropdown CommonDropdown CommonDBTM CommonGLPI CommonDBConnexity CommonDBRelation"; fi
+
+  - # install GLPI with an old schema of the plugin and upgrade it
+  - export GLPI_CONFIG_DIR="tests/config-$OLD_DB_NAME"
+  - init_glpi $OLD_DB_NAME $DB_USER $DB_PASSWD && init_plugin
+  - # upgrade test
+  - echo status of plugins
+  - mysql -h$DB_HOST -u$DB_USER -p$DB_PASSWD $OLD_DB_NAME -e "select name,directory,version,state from glpi_plugins WHERE directory IN ('flyvemdm', 'fusioninventory')"
+  - plugin_test_upgrade
+
+  - # install GLPI with a fresh install of the plugin
+  - export GLPI_CONFIG_DIR="tests/config-$DB_NAME"
+  - init_glpi $DB_NAME $DB_USER $DB_PASSWD && init_plugin
+  - # fresh install test
+  - plugin_test_install
+  - plugin_test
+  - plugin_test_uninstall
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then plugin_test_cs; fi
 
 after_success:
+  - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then vendor/bin/parallel-lint --exclude vendor .; fi
   # let's update the documentation and locales
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$CS" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then tests/after_success.sh; fi
   - if [ ${TRAVIS_PHP_VERSION:0:3} == "$APIDOCS_PHP" ] && [ "$GLPI_BRANCH" = "$AFTER_SUCCESS_BRANCH" ]; then tests/apidocs.sh; fi
@@ -73,3 +101,4 @@ addons:
     packages:
       - mosquitto
       - mosquitto-clients
+

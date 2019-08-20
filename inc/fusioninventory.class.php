@@ -116,7 +116,16 @@ class PluginFlyvemdmFusionInventory {
       ]);
 
       $ruleId = $row[$ruleFk];
-      $rows = $ruleCriteria->find("`$ruleFk` = '$ruleId' AND `criteria` = 'tag' AND `condition` = '0'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$ruleFk` = '$ruleId' AND `criteria` = 'tag' AND `condition` = '0'";
+      } else {
+         $condition = [
+            $ruleFk => $ruleId,
+            'criteria' => 'tag',
+            'condition' => '0',
+         ];
+      }
+      $rows = $ruleCriteria->find($condition);
       if (count($rows) === 0) {
          $rule = new PluginFusioninventoryInventoryRuleEntity();
          $rule->update([

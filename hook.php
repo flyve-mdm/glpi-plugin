@@ -37,7 +37,9 @@ function plugin_flyvemdm_install() {
    require_once(PLUGIN_FLYVEMDM_ROOT . "/install/install.class.php");
    spl_autoload_register([PluginFlyvemdmInstall::class, 'autoload']);
    $install = new PluginFlyvemdmInstall();
-   if (!$install->isPluginInstalled()) {
+   if (!$install->isPluginInstalled()
+      || isset($_SESSION['plugin_flyvemdm']['cli'])
+      && $_SESSION['plugin_flyvemdm']['cli'] == 'force-install') {
       return $install->install($migration);
    }
    return $install->upgrade($migration);

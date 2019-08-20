@@ -310,7 +310,14 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       $computerId = $item->getField('computers_id');
 
       $geolocation = new PluginFlyvemdmGeolocation();
-      if ($rows = $geolocation->find('computers_id = ' . $computerId, 'date ASC')) {
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = 'computers_id = ' . $computerId;
+      } else {
+         $condition = [
+            'computers_id' => $computerId,
+         ];
+      }
+      if ($rows = $geolocation->find($condition)) {
          $beginDate = date('Y-m-d H:i:s', strtotime(reset($rows)['date']));
          if (count($rows) > 1) {
             $endDate = date('Y-m-d H:i:s', strtotime(end($rows)['date']));

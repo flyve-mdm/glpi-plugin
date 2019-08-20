@@ -69,7 +69,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
       list($task, $taskId, $taskStatus, $taskFk) = $this->checkNotifiableMqttMessage($notifiableItem);
 
       // Check task statuses are deleted
-      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId'";
+      } else {
+         $condition = [
+            $taskFk => $taskId,
+         ];
+      }
+      $rows = $taskStatus->find($condition);
       $this->integer(count($rows))->isEqualTo(0);
 
       // Test task status is created when an agent joins a fleet having policies
@@ -104,7 +111,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check a task status is created for the agent
       $taskStatus2 = new \PluginFlyvemdmTaskstatus();
       $taskFk = $task::getForeignKeyField();
-      $rows = $taskStatus2->find("`$taskFk` = '$taskId2'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId2'";
+      } else {
+         $condition = [
+            $taskFk => $taskId2,
+         ];
+      }
+      $rows = $taskStatus2->find($condition);
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('pending');
@@ -137,14 +151,28 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check a task status is created for the agent
       $taskStatus3 = new \PluginFlyvemdmTaskstatus();
       $taskFk = $task::getForeignKeyField();
-      $rows = $taskStatus3->find("`$taskFk` = '$taskId3'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId3'";
+      } else {
+         $condition = [
+            $taskFk => $taskId3,
+         ];
+      }
+      $rows = $taskStatus3->find($condition);
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('pending');
       }
 
       // Check the old task status is canceled
-      $rows = $taskStatus->find("`$taskFk` = '$taskId2'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId2'";
+      } else {
+         $condition = [
+            $taskFk => $taskId2,
+         ];
+      }
+      $rows = $taskStatus->find($condition);
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('canceled');
@@ -164,7 +192,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
       list($task, $taskId, $taskStatus, $taskFk) = $this->checkNotifiableMqttMessage($notifiableItem);
 
       // Check task statuses are deleted
-      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId'";
+      } else {
+         $condition = [
+            $taskFk => $taskId,
+         ];
+      }
+      $rows = $taskStatus->find($condition);
       $this->array($rows)->size->isEqualTo(0);
    }
 
@@ -190,7 +225,14 @@ class PluginFlyvemdmTask extends CommonTestCase {
       // Check a task status is created for the agent
       $taskStatus = new \PluginFlyvemdmTaskstatus();
       $taskFk = $task::getForeignKeyField();
-      $rows = $taskStatus->find("`$taskFk` = '$taskId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`$taskFk` = '$taskId'";
+      } else {
+         $condition = [
+            $taskFk => $taskId,
+         ];
+      }
+      $rows = $taskStatus->find($condition);
       $this->integer(count($rows))->isEqualTo(1);
       foreach ($rows as $row) {
          $this->string($row['status'])->isEqualTo('pending');
@@ -222,12 +264,21 @@ class PluginFlyvemdmTask extends CommonTestCase {
       $task->delete(['id' => $taskId], 1);
 
       // Check a mqtt message is sent to remove the applied policy from MQTT
-      $rows = $log->find("`id` > '$mqttLogId' AND `topic` = '$expectedTopic'", '`id` DESC', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`id` > '$mqttLogId' AND `topic` = '$expectedTopic' AND `message`=''";
+         $order = '`id` DESC';
+      } else {
+         $condition = [
+            'id' => ['>', $mqttLogId],
+            'topic' => $expectedTopic,
+            'message' => '',
+         ];
+         $order = [
+            'id DESC',
+         ];
+      }
+      $rows = $log->find($condition, $order, '1');
       $this->array($rows)->size->isEqualTo(1);
-      $row = array_pop($rows);
-
-      // Check the message
-      $this->string($row['message'])->isEqualTo('');
 
       return [
          $task,

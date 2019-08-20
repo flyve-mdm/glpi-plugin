@@ -96,9 +96,20 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
     */
    public function testSaveIngoingMqttMessage() {
       $instance = $this->createInstance();
-      $instance->saveIngoingMqttMessage('exec/topic/command/ingoing', 'Incoming message');
-      $this->array($instance->find("`direction`='I' AND `items_id`='0' AND `topic`='ingoing'"))
-         ->size->isGreaterThanOrEqualTo(1);
+      $message = $this->getUniqueString();
+      $instance->saveIngoingMqttMessage('exec/topic/command/ingoing', $message);
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`direction`='I' AND `items_id`='0' AND `topic`='ingoing' AND `message`='$message'";
+      } else {
+         $condition = [
+            'direction' => 'I',
+            'items_id' => '0',
+            'topic' =>'ingoing',
+            'message' => $message,
+         ];
+      }
+      $this->array($instance->find($condition))
+         ->size->isEqualTo(1);
    }
 
    /**
@@ -106,9 +117,20 @@ class PluginFlyvemdmMqttlog extends CommonTestCase {
     */
    public function testSaveOutgoingMqttMessage() {
       $instance = $this->createInstance();
-      $instance->saveOutgoingMqttMessage('exec/topic/command/outgoing', 'Outgoing message');
-      $this->array($instance->find("`direction`='O' AND `items_id`='0' AND `topic`='outgoing'"))
-         ->size->isGreaterThanOrEqualTo(1);
+      $message = $this->getUniqueString();
+      $instance->saveOutgoingMqttMessage('exec/topic/command/outgoing', $message);
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`direction`='O' AND `items_id`='0' AND `topic`='outgoing' AND `message`='$message'";
+      } else {
+         $condition = [
+            'direction' => 'O',
+            'items_id' => '0',
+            'topic' =>'outgoing',
+            'message' => $message,
+         ];
+      }
+      $this->array($instance->find($condition))
+         ->size->isEqualTo(1);
    }
 
    /**

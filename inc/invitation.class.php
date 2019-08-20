@@ -268,7 +268,19 @@ class PluginFlyvemdmInvitation extends CommonDBTM {
    public static function hook_pre_document_purge(CommonDBTM $item) {
       $invitation = new self();
       $documentId = $item->getID();
-      $rows = $invitation->find("`documents_id`='$documentId'", '', '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`documents_id`='$documentId'";
+      } else {
+         $condition = [
+            'documents_id' => $documentId,
+         ];
+      }
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = '';
+      } else {
+         $order = [];
+      }
+      $rows = $invitation->find($condition, $order, '1');
       if (count($rows) > 0) {
          Session::addMessageAfterRedirect(__('Cannot delete the document. Delete the attached invitation first',
             'flyvemdm'));

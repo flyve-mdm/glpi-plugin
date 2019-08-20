@@ -137,7 +137,12 @@ class PluginFlyvemdmCommon
     * @return NULL|string
     */
    public static function getMax(CommonDBTM $item, $condition, $fieldName) {
-      $rows = $item->find($condition, "`$fieldName` DESC", '1');
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $order = "`$fieldName` DESC";
+      } else {
+         $order = ["$fieldName DESC"];
+      }
+      $rows = $item->find($condition, $order, '1');
       $line = array_pop($rows);
       if ($line === null) {
          return null;

@@ -74,12 +74,28 @@ class PluginFlyvemdmPackage extends CommonTestCase {
       // Check the policy is removed
       $itemtype = $package->getType();
       $itemId = $policyDataDeploy->getID();
-      $rows = $task->find("`itemtype`='$itemtype' AND `items_id`='$itemId'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`itemtype`='$itemtype' AND `items_id`='$itemId'";
+      } else {
+         $condition = [
+            'itemtype' => $itemtype,
+            'items_id' => $itemId,
+         ];
+      }
+      $rows = $task->find($condition);
       $this->integer(count($rows))->isEqualTo(0);
 
       // Check a removal policy is added
       $policyId = $policyDataRemove->getID();
-      $rows = $task->find("`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$packageName'");
+      if (version_compare(GLPI_VERSION, '9.4') < 0) {
+         $condition = "`plugin_flyvemdm_policies_id`='$policyId' AND `value`='$packageName'";
+      } else {
+         $condition = [
+            'plugin_flyvemdm_policies_id' => $policyId,
+            'value' => $packageName,
+         ];
+      }
+      $rows = $task->find($condition);
       $this->integer(count($rows))->isGreaterThanOrEqualTo(1);
 
       // Check adding a deploy policy conflicts with removal one
