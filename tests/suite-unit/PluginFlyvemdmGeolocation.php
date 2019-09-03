@@ -99,4 +99,39 @@ class PluginFlyvemdmGeolocation extends CommonTestCase {
          $this->variable($result)->isEqualTo($expected['result']);
       }
    }
+
+   /**
+    * Test geolocate data
+    */
+   public function testGeolocationDateTime() {
+
+      $instance = $this->newMockInstance(\PluginFlyvemdmGeolocation::class);
+
+      //Data come from agent (and therefore the user)
+      $config = \Config::getConfigurationValues('flyvemdm', ['agent_profiles_id']);
+      $_SESSION['glpiactiveprofile']['id'] = $config['agent_profiles_id'];
+      $_SESSION['glpiactive_entity'] = '1';
+
+      //computer is assign to user with ID 8
+      //and FlyveMDM check current user and users_id from computer
+      $_SESSION["glpiID"] = 8;
+
+      $input = [
+         "latitude" => '49.1620987', //Caen
+         "longitude" => '-0.3457779',
+         "_datetime" => '1571118073', //2019-10-15 05:41:13 UTC
+         "_agents_id" => '1',
+         "computers_id" => '1',
+      ];
+
+      //add geolocate data to DB
+      $geolocate_id = $instance->add($input);
+      $this->integer((int)$geolocate_id)->isGreaterThan(0);
+
+      //reload object from DB
+      $instance->getFromDB($geolocate_id);
+      $this->string((string)$instance->fields['date'])->isEqualTo('2019-10-15 05:41:13');
+      $this->string((string)$instance->fields['longitude'])->isEqualTo('-0.3457779');
+      $this->string((string)$instance->fields['latitude'])->isEqualTo('49.1620987');
+   }
 }

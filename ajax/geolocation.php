@@ -65,10 +65,15 @@ $rows = $geolocation->find($condition, '`date`', $limit);
 
 $markers = [];
 foreach ($rows as $row) {
-   $markers[] = [
-         'date'      => $row['date'],
-         'latitude'  => $row['latitude'],
-         'longitude'  => $row['longitude'],
-   ];
+
+      //switch UTC timaazone (saved in DB) to user timezone for display
+      $date = new DateTime($row['date'],new DateTimeZone('UTC'));
+      $date->setTimezone(new DateTimeZone(PluginFlyvemdmCommon::guessTimezone()));
+
+      $markers[] = [
+            'date'      => $date->format("Y-m-d H:i:s"),
+            'latitude'  => $row['latitude'],
+            'longitude'  => $row['longitude'],
+      ];
 }
 echo json_encode($markers);

@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `glpi_plugin_flyvemdm_geolocations` (
   `computers_id` int(11) NOT NULL DEFAULT '0',
   `latitude` varchar(255) NOT NULL DEFAULT '',
   `longitude` varchar(255) NOT NULL DEFAULT '',
-  `date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `computers_id` (`computers_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
