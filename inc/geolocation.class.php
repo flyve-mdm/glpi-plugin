@@ -206,11 +206,9 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
       $dateGeolocation = false;
       $valuesChecked = false;
       if (isset($input['_datetime'])) {
-         // The datetime sent by the device is expected to be on UTC timezone
+         // The timestamp sent by the device is expected to be on UTC timezone
          $dateGeolocation = \DateTime::createFromFormat('U', $input['_datetime'],
             new \DateTimeZone("UTC"));
-         // Shift the datetime to the timezone of the server
-         $dateGeolocation->setTimezone(new \DateTimeZone(date_default_timezone_get()));
       }
       if (isset($input['latitude']) && isset($input['longitude'])) {
          if ($dateGeolocation !== false) {
@@ -318,9 +316,14 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          ];
       }
       if ($rows = $geolocation->find($condition)) {
-         $beginDate = date('Y-m-d H:i:s', strtotime(reset($rows)['date']));
+         //is UTC timezone from DB
+         //twig shift timezone from server configuration
+         $tz = new DateTimeZone('UTC');
+         $first = reset($rows);
+         $beginDate = new DateTime($first['date'], $tz);
          if (count($rows) > 1) {
-            $endDate = date('Y-m-d H:i:s', strtotime(end($rows)['date']));
+            $last = end($rows);
+            $endDate = new DateTime($last['date'], $tz);
          }
       }
 
@@ -332,6 +335,7 @@ class PluginFlyvemdmGeolocation extends CommonDBTM {
          'endDate'    => $endDate,
          'randBegin'  => $randBegin,
          'randEnd'    => $randEnd,
+         'timezone'   => PluginFlyvemdmCommon::guessTimezone(),
       ];
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('computer_geolocation.html.twig', $data);

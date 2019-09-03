@@ -246,4 +246,148 @@ class PluginFlyvemdmCommon
       }
       return Session::getLoginUserID() == $item->getField(User::getForeignKeyField());
    }
+
+   public static function convertTableColumnToTimestamp($tablename, Migration $migration){
+      global $DB;
+
+      $migration->displayWarning("DATETIME fields must be converted to TIMESTAMP for timezones to work for table ".$tablename." database ".$DB->dbdefault);
+
+      $tbl_iterator = $DB->request([
+         'SELECT'       => ['information_schema.columns.table_name as TABLE_NAME'],
+         'FROM'         => 'information_schema.columns',
+         'INNER JOIN'   => [
+            'information_schema.tables' => [
+               'ON' => [
+                  'information_schema.tables.table_name',
+                  'information_schema.columns.table_name', [
+                     'AND' => ['information_schema.tables.table_type' => 'BASE TABLE']
+                  ]
+               ]
+            ]
+         ],
+         'WHERE'       => [
+            'information_schema.columns.table_schema' => $DB->dbdefault,
+            'information_schema.columns.data_type'    => 'datetime',
+            'information_schema.columns.table_name'   => $tablename
+         ],
+         'ORDER'       => [
+            'information_schema.columns.table_name'
+         ]
+      ]);
+
+      $migration->displayWarning(sprintf( __('Found %s table(s) requiring migration.'),
+            $tbl_iterator->count()
+         ));
+
+      if ($tbl_iterator->count() === 0) {
+         $migration->displayWarning(__('No migration needed.'));
+         return; // Success
+      }
+
+      while ($table = $tbl_iterator->next()) {
+         $tablealter = ''; // init by default
+
+         // get accurate info from information_schema to perform correct alter
+         $col_iterator = $DB->request([
+            'SELECT' => [
+               'table_name AS TABLE_NAME',
+               'column_name AS COLUMN_NAME',
+               'column_default AS COLUMN_DEFAULT',
+               'column_comment AS COLUMN_COMMENT',
+               'is_nullable AS IS_NULLABLE',
+            ],
+            'FROM'   => 'information_schema.columns',
+            'WHERE'  => [
+               'table_schema' => $DB->dbdefault,
+               'table_name'   => $table['TABLE_NAME'],
+               'data_type'    => 'datetime'
+            ]
+         ]);
+
+         while ($column = $col_iterator->next()) {
+            $nullable = false;
+            $default = null;
+            //check if nullable
+            if ('YES' === $column['IS_NULLABLE']) {
+               $nullable = true;
+            }
+
+            //guess default value
+            if (is_null($column['COLUMN_DEFAULT']) && !$nullable) { // no default
+               $default = null;
+            } else if ((is_null($column['COLUMN_DEFAULT']) || strtoupper($column['COLUMN_DEFAULT']) == 'NULL') && $nullable) {
+               $default = "NULL";
+            } else if (!is_null($column['COLUMN_DEFAULT']) && strtoupper($column['COLUMN_DEFAULT']) != 'NULL') {
+               if ($column['COLUMN_DEFAULT'] < '1970-01-01 00:00:01') {
+                  // Prevent default value to be out of range (lower to min possible value)
+                  $defaultDate = new \DateTime('1970-01-01 00:00:01', new \DateTimeZone('UTC'));
+                  $defaultDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+                  $default = $defaultDate->format("Y-m-d H:i:s");
+               } else if ($column['COLUMN_DEFAULT'] > '2038-01-19 03:14:07') {
+                  // Prevent default value to be out of range (greater to max possible value)
+                  $defaultDate = new \DateTime('2038-01-19 03:14:07', new \DateTimeZone('UTC'));
+                  $defaultDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+                  $default = $defaultDate->format("Y-m-d H:i:s");
+               } else {
+                  $default = $column['COLUMN_DEFAULT'];
+               }
+            }
+
+            //build alter
+            $tablealter .= "\n\t MODIFY COLUMN ".$DB->quoteName($column['COLUMN_NAME'])." TIMESTAMP";
+            if ($nullable) {
+               $tablealter .= " NULL";
+            } else {
+               $tablealter .= " NOT NULL";
+            }
+            if ($default !== null) {
+               if ($default !== 'NULL') {
+                  $default = "'" . $DB->escape($default) . "'";
+               }
+               $tablealter .= " DEFAULT $default";
+            }
+            if ($column['COLUMN_COMMENT'] != '') {
+               $tablealter .= " COMMENT '".$DB->escape($column['COLUMN_COMMENT'])."'";
+            }
+            $tablealter .= ",";
+         }
+         $tablealter =  rtrim($tablealter, ",");
+
+         // apply alter to table
+         $query = "ALTER TABLE " . $DB->quoteName($table['TABLE_NAME']) . " " . $tablealter.";\n";
+
+         $migration->displayWarning(sprintf(__('Running %s'), $query));
+
+         $result = $DB->query($query);
+         if (false === $result) {
+            $message = sprintf(
+               __('Update of `%s` failed with message "(%s) %s".'),
+               $table['TABLE_NAME'],
+               $DB->errno(),
+               $DB->error()
+            );
+            $migration->displayWarning($message);
+         }
+      }
+   }
+
+   /**
+    * Determines the timezone to use
+    * @return String timezone
+    */
+   public static function guessTimezone() {
+      global $DB;
+      //At the first connection if the user has defined a timezone in these preferences
+      //GLPI set it in the $_SESSION
+      if (isset($_SESSION['glpi_tz'])) {
+         $zone = $_SESSION['glpi_tz'];
+      } else {
+         //If not set in $_SESSION try to load timezone from GLPI gerneral config
+         $conf_tz = Config::getConfigurationValues('core', ['timezone']);
+         //If empty load default timezone from PHP
+         $zone = !empty($conf_tz['timezone']) ? $conf_tz['timezone'] : date_default_timezone_get();
+      }
+
+      return $zone;
+   }
 }
