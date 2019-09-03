@@ -2,9 +2,9 @@
    <div id="plugin_flyvemdm_geolocationList">
       {% if beginDate is not empty and endDate is not empty %}
          <div><label for="fromDateRange">From date:</label> <span id="fromDateRange"></span>
-         <input type="hidden" id="showdate{{ randBegin }}" value="{{ beginDate|raw }}"/></div>
+         <input type="hidden" id="showdate{{ randBegin }}" value="{{ beginDate|date('Y-m-d H:i:s',timezone)}}"/></div>
          <div><label for="toDateRange">To date:</label> <span id="toDateRange"></span>
-         <input type="hidden" id="showdate{{ randEnd }}" value="{{ endDate|raw }}"/></div>
+         <input type="hidden" id="showdate{{ randEnd }}" value="{{ endDate|date('Y-m-d H:i:s',timezone)}}"/></div>
          <div id="slider-range"></div>
       {% endif %}
    </div>
@@ -68,8 +68,8 @@
 
       function initSlider(){
           var sliderRange = $("#slider-range");
-          var minDate = new Date('{{ beginDate }}').getTime() / 1000;
-          var maxDate = new Date('{{ endDate }}').getTime() / 1000;
+          var minDate = new Date("{{ beginDate|date('Y-m-d H:i:s',timezone) }}").getTime() / 1000;
+          var maxDate = new Date("{{ endDate|date('Y-m-d H:i:s',timezone) }}").getTime() / 1000;
           sliderRange.slider({
               range: true,
               min: minDate,
