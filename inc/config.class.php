@@ -56,14 +56,14 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    const WIZARD_WELCOME_END = 1;
 
    // first and last steps of requirement pages of wizard
-   const WIZARD_REQUIREMENT_BEGIN = 100;
-   const WIZARD_REQUIREMENT_END = 107;
+   const WIZARD_REQUIREMENT_BEGIN = 2;
+   const WIZARD_REQUIREMENT_END = 9;
 
    // first and last steps of the MQTT pages of wizard
-   const WIZARD_MQTT_BEGIN = 108;
-   const WIZARD_MQTT_END = 111;
+   const WIZARD_MQTT_BEGIN = 10;
+   const WIZARD_MQTT_END = 13;
 
-   const WIZARD_FINISH = -1;
+   const WIZARD_FINISH = 14;
    static $config = [];
 
    /**
@@ -364,6 +364,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
          $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
       }
+
       echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
 
       $texts = [];
@@ -377,6 +378,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
             'texts'  => $texts,
             'update' => $_SESSION['plugin_flyvemdm_wizard_step'] === static::WIZARD_FINISH ? __('Finish', 'flyvemdm') : __('Next', 'flyvemdm'),
             'step' => $_SESSION['plugin_flyvemdm_wizard_step'],
+            'total_step' => static::WIZARD_MQTT_END + 1,
          ];
       $twig = plugin_flyvemdm_getTemplateEngine();
       echo $twig->render('config-wizard.html.twig', $data);
@@ -421,12 +423,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
 
       if (isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
-         $input = static::processStep($input);
-         if (count($input) > 0 && $input !== false) {
-            static::forwardStep($input);
-         } else {
-            $input = [];
-         }
+         //disable wizard if needed
+         static::processStep($input);
+         // calculate next step
+         static::forwardStep($input);
       }
 
       unset($input['_CACertificateFile']);
@@ -437,16 +437,14 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    /**
     * Does an action for the step saved in session, and defines the next step to run
-    * @param array $input the data send in the submitted step
-    * @return array modified input
+    * @return void
     */
-   protected static function processStep($input) {
+   protected static function processStep() {
       switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
          case static::WIZARD_FINISH:
             Config::setConfigurationValues('flyvemdm', ['show_wizard' => '0']);
             break;
       }
-      return $input;
    }
 
    /**

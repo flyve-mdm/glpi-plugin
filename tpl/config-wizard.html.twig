@@ -1,6 +1,6 @@
 <table class="tab_cadre_fixe" cellpadding="5">
 	<tbody>
-		{% if step == -1 %}
+		{% if step == 14 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Installation wizard',
 				'flyvemdm') }}</th>
@@ -29,7 +29,7 @@
 				<p>{{ __('This wizard will guide you through the steps to setup Flyve MDM.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 100 %}
+		{% endif %} {% if step == 2 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Cron job', 'flyvemdm') }}</th>
 		</tr>
@@ -43,7 +43,7 @@
 				<p>{{ __('Automatic actions registered in the scheduler of GLPI will run every minute.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 101 %}
+		{% endif %} {% if step == 3 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Email notifications', 'flyvemdm') }}</th>
 		</tr>
@@ -59,7 +59,7 @@
 </textarea></p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 102 %}
+		{% endif %} {% if step == 4 %}
 		<tr>
 			<th colspan="3" class="">{{ __('REST API', 'flyvemdm') }}</th>
 		</tr>
@@ -76,7 +76,7 @@
 				<p><a href="../../../front/config.form.php?forcetab=Config$8" target="_blank">{{ __('API', 'flyvemdm' )}}</a></p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 103 %}
+		{% endif %} {% if step == 5 %}
 		<tr>
 			<th colspan="3" class="">{{ __('General setup', 'flyvemdm') }}</th>
 		</tr>
@@ -88,7 +88,7 @@
 				<p><a href="../../../front/config.form.php?forcetab=Config$1" target="_blank">{{ __('General setup', 'flyvemdm' )}}</a></p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 104 %}
+		{% endif %} {% if step == 6 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Document types', 'flyvemdm') }}</th>
 		</tr>
@@ -99,7 +99,7 @@
 			    <input type="submit" class="submit" name="addDocTypes" value="{{ __('Add document types', 'flyvemdm') }}">
 			</td>
 		</tr>
-		{% endif %} {% if step == 105 %}
+		{% endif %} {% if step == 7 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Server configuration', 'flyvemdm') }}</th>
 		</tr>
@@ -123,7 +123,7 @@ upload_max_filesize = 8M
 </textarea></p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 106 %}
+		{% endif %} {% if step == 8 %}
 		<tr>
 			<th colspan="3" class="">{{ __('FusionInventory configuration', 'flyvemdm') }}</th>
 		</tr>
@@ -139,7 +139,7 @@ upload_max_filesize = 8M
 				<p>{{ __('Not disabling this rule will make FusionInventory reject inventories from devices.', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 107 %}
+		{% endif %} {% if step == 9 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Flyve MDM Deeplink Microservice', 'flyvemdm') }}</th>
 		</tr>
@@ -151,7 +151,7 @@ upload_max_filesize = 8M
 				<p>{{ __(' Then update the URL in the General Configuration tab', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 108 %}
+		{% endif %} {% if step == 10 %}
 		<tr>
 			<th colspan="3" class="">{{ __('DBMS access for Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -179,7 +179,7 @@ bind-address = 0.0.0.0
 				<p>mysql -h mysql.host.ip -u mosquitto -p -e "select * from \`glpi-database-name\`.\`glpi_plugin_flyvemdm_mqttusers\`;"</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 109 %}
+		{% endif %} {% if step == 11 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto', 'flyvemdm') }}</th>
 		</tr>
@@ -206,7 +206,7 @@ auth_opt_cacheseconds 300</textarea></p>
 			<p>{{ __('Check Mosquitto is listening to port 1883 (insecure).', 'flyvemdm') }}</p>
 			</td>
 		</tr>
-		{% endif %} {% if step == 110 %}
+		{% endif %} {% if step == 12 %}
 		<tr>
 			<th colspan="3" class="">{{ __('TLS Listener setup', 'flyvemdm') }}</th>
 		</tr>
@@ -245,7 +245,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<p>{{ __('This will launch openssl as a client using the TLS protocol and leave the terminal in a state similar to telnet') }}</p>
 				<p>{{ __('Many debug information is displayed during TLS negociation, useful to diagnose TLS problems') }}</p>			</td>
 		</tr>
-		{% endif %} {% if step == 111 %}
+		{% endif %} {% if step == 13 %}
 		<tr>
 			<th colspan="3" class="">{{ __('Mosquitto client for the backend', 'flyvemdm') }}</th>
 		</tr>
@@ -272,7 +272,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 				<input type="hidden" name="id" value="1" class="submit">
 				<input type="hidden" name="config_context" value="flyvemdm">
 				<input type="hidden" name="config_class" value="PluginFlyvemdmConfig">
-				{% if step > 1 or step == -1 %}
+				{% if step > 1 or step == 14 %}
 				<input type="submit" name="back" value="{{ __('Back', 'flyvemdm') }}" class="submit">
 				&nbsp;&nbsp;
 				{% endif %}
@@ -281,7 +281,7 @@ ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES2
 		</tr>
 		<tr class="tab_bg_1">
 			<td class="right" colspan="2">
-			{{ __('Wizard page:','flyvemdm') }}&nbsp;{{ step }}
+			{{ __('Wizard page:','flyvemdm') }}&nbsp;{{ step }} / {{total_step}}
 			</td>
 		</tr>
 	</tbody>
