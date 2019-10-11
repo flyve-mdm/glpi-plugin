@@ -389,6 +389,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       if (!isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
          $_SESSION['plugin_flyvemdm_wizard_step'] = static::WIZARD_WELCOME_BEGIN;
       }
+
       echo '<form name="form" id="pluginFlyvemdm-config" method="post" action="' . Toolbox::getItemTypeFormURL(__CLASS__) . '">';
 
       $texts = [];
@@ -446,12 +447,10 @@ class PluginFlyvemdmConfig extends CommonDBTM {
       }
 
       if (isset($_SESSION['plugin_flyvemdm_wizard_step'])) {
-         $input = static::processStep($input);
-         if (count($input) > 0 && $input !== false) {
-            static::forwardStep($input);
-         } else {
-            $input = [];
-         }
+         //disable wizard if needed
+         static::processStep();
+         // calculate next step
+         static::forwardStep();
       }
 
       unset($input['_CACertificateFile']);
@@ -462,23 +461,21 @@ class PluginFlyvemdmConfig extends CommonDBTM {
 
    /**
     * Does an action for the step saved in session, and defines the next step to run
-    * @param array $input the data send in the submitted step
-    * @return array modified input
+    * @return void
     */
-   protected static function processStep($input) {
+   protected static function processStep() {
       switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
          case static::WIZARD_FINISH:
             Config::setConfigurationValues('flyvemdm', ['show_wizard' => '0']);
             break;
       }
-      return $input;
    }
 
    /**
     * Goes one step forward in the wizard
     * @param array $input the data send in the submitted step
     */
-   protected static function forwardStep($input) {
+   protected static function forwardStep() {
       // Choose next step depending on current step and form data
       switch ($_SESSION['plugin_flyvemdm_wizard_step']) {
          case static::WIZARD_WELCOME_END:
