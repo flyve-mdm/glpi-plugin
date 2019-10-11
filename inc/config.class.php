@@ -115,6 +115,31 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    }
 
    /**
+    * Returns the picture file for the menu
+    * @return string the menu picture
+    */
+   public static function getMenuPicture($context = "") {
+      switch ($context) {
+         case 'general':
+            return 'fa-cogs';
+            break;
+
+         case 'message':
+            return 'fa-comments';
+            break;
+
+         case 'debug':
+            return 'fa-bug';
+            break;
+
+          default:
+            return '';
+            break;
+      }
+
+   }
+
+   /**
     * Define tabs available for this itemtype
     * @return array
     */
