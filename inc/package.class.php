@@ -66,7 +66,7 @@ class PluginFlyvemdmPackage extends PluginFlyvemdmDeployable {
     * @return string the menu picture
     */
    public static function getMenuPicture() {
-      return 'fa-gear';
+      return 'fa-box-open';
    }
 
    public function defineTabs($options = []) {
