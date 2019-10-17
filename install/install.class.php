@@ -459,7 +459,7 @@ Regards,
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
          if (version_compare(GLPI_VERSION, '9.4') < 0) {
-            $condition = "`itemtype`='$itemtype' AND `name`='" . $data['name'] . "'";
+            $condition = "`itemtype`='$itemtype' AND `name`='" . Toolbox::addslashes_deep($data['name']) . "'";
          } else {
             $condition = [
                'itemtype' => $itemtype,
