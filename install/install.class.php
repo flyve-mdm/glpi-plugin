@@ -463,7 +463,7 @@ Regards,
          } else {
             $condition = [
                'itemtype' => $itemtype,
-               'name' => $data['name'],
+               'name' => Toolbox::addslashes_deep($data['name']),
             ];
          }
          if (count($template->find($condition)) < 1) {
@@ -797,6 +797,7 @@ Regards,
       $policies = [];
       foreach (glob(__DIR__ . '/policies/*.php') as $filename) {
          $newPolicies = include $filename;
+         $newPolicies = Toolbox::addslashes_deep($newPolicies);
          $policies = array_merge($policies, $newPolicies);
       }
 
@@ -817,7 +818,7 @@ Regards,
 
       foreach ($this->getNotificationTargetInvitationEvents() as $event => $data) {
          $itemtype = $data['itemtype'];
-         $name = $data['name'];
+         $name = Toolbox::addslashes_deep($data['name']);
          //TODO : implement cleanup
          // Delete translations
          $query = "DELETE FROM `$tableTranslations`
