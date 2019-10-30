@@ -53,7 +53,7 @@ class MqttSendMessageHandler {
       $retain = ($option = $mqttEnvelope->getContext('retain')) ? $option : 0;
       $topic = $mqttEnvelope->getContext('topic');
       $bodyMessage = $message->getMessage();
-      if (null === $bodyMessage && strpos($topic, "defaultStreamType") === false) {
+      if (null === $bodyMessage) {
          $chunks = explode('/', $topic);
          switch ($chunks[3]) {
             case 'Policy':
