@@ -1229,27 +1229,6 @@ class PluginFlyvemdmAgent extends CommonDBTM implements PluginFlyvemdmNotifiable
       }
    }
 
-   /**
-    * unsubscribe from a fleet
-    */
-   public function unsubscribe() {
-      $this->update([
-            'id' => $this->getID(),
-            'plugin_flyvemdm_fleets_id' => null
-      ]);
-      $message = json_encode([], JSON_UNESCAPED_SLASHES);
-      $brokerMessage = new BrokerMessage($message);
-      $envelopeConfig = [];
-      $topic = $this->getTopic();
-      if ($topic !== null) {
-         $finalTopic = $topic . "/Subscription";
-         $envelopeConfig[] = new MqttEnvelope([
-            'topic' => $finalTopic,
-         ]);
-      }
-      $envelope = new BrokerEnvelope($brokerMessage, $envelopeConfig);
-      $this->notify($envelope);
-   }
 
    /**
     * Checks if the data provided for enrollment satisfy our requirements
