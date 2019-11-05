@@ -372,23 +372,6 @@ class PluginFlyvemdmFleet extends CommonDBTM implements PluginFlyvemdmNotifiable
     */
    public function cleanDBonPurge() {
       global $DB;
-
-      // Unsuscribe all agents from the fleet
-      $fleetId = $this->getID();
-      $query = [
-         'SELECT' => 'id',
-         'FROM'   => PluginFlyvemdmAgent::getTable(),
-         'WHERE'  => [
-            'plugin_flyvemdm_fleets_id' => $fleetId,
-         ],
-      ];
-      foreach ($DB->request($query) as $row) {
-         $agent = new PluginFlyvemdmAgent();
-         if ($agent->getFromDB($row['id'])) {
-            $agent->unsubscribe();
-         }
-      }
-
       // Force deletion regardless a file or application removal policy should take place
       $taskTable = PluginFlyvemdmTask::getTable();
       $itemtype = $this->getType();
