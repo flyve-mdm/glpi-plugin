@@ -562,6 +562,10 @@ Regards,
             'schema_version' => PLUGIN_FLYVEMDM_SCHEMA_VERSION,
          ]
       );
+
+      //add extensions for smartphone app (apk / upk) if needed
+      $pluginConfig = new PluginFlyvemdmConfig();
+      $pluginConfig->addDocumentTypes();
    }
 
    /**

@@ -45,6 +45,9 @@ class PluginFlyvemdmUpgradeTo2_1 {
       $table = 'glpi_plugin_flyvemdm_geolocations';
       PluginFlyvemdmCommon::convertTableColumnToTimestamp($table, $migration);
 
+      //add extensions for smartphone app (apk / upk) if needed
+      $pluginConfig = new PluginFlyvemdmConfig();
+      $pluginConfig->addDocumentTypes();
 
    }
 

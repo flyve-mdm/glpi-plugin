@@ -210,7 +210,7 @@ class PluginFlyvemdmConfig extends CommonDBTM {
    /**
     * adds document types needed by the plugin in GLPI configuration
     */
-   public function addDocumentTypes() {
+    public function addDocumentTypes($fromConfig = false) {
       $extensions = [
             'apk'    => 'Android application package',
             'upk'    => 'Uhuru application package'
@@ -227,7 +227,31 @@ class PluginFlyvemdmConfig extends CommonDBTM {
          }
       }
 
-      Session::addMessageAfterRedirect(__('Upload of APK and UPK file types is now allowed.', 'flyvemdm'));
+      if($fromConfig){
+         Session::addMessageAfterRedirect(__('Upload of APK and UPK file types is now allowed.', 'flyvemdm'));
+      }
+
+   }
+
+
+   /**
+    * check if document types exist
+    */
+    static function checkDocumentTypes() {
+      $extensions = [
+            'apk'    => 'Android application package',
+            'upk'    => 'Uhuru application package'
+      ];
+
+      $is_present = true;
+      foreach ($extensions as $extension => $name) {
+         $documentType = new DocumentType();
+         if (!$documentType->getFromDBByCrit(['ext' => $extension])) {
+            $is_present = false;
+         }
+      }
+
+      return $is_present;
    }
 
    /**
@@ -256,6 +280,8 @@ class PluginFlyvemdmConfig extends CommonDBTM {
                                                             'name'   => 'agentusercategories_id',
                                                             'value'  => $fields['agentusercategories_id'],
                                                            ]);
+
+      $fields['document_type_present'] = self::checkDocumentTypes();
       $data = [
          'config' => $fields
       ];

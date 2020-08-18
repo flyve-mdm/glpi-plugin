@@ -169,6 +169,19 @@ class Config extends CommonTestCase {
       $filestats = stat("./save.sql");
       $length = $filestats[7];
       $this->integer($length)->isGreaterThan(0);
+
+      // Test document types exists
+      $extensions = [
+         'apk'    => 'Android application package',
+         'upk'    => 'Uhuru application package'
+      ];
+
+      foreach ($extensions as $extension => $name) {
+         $documentType = new \DocumentType();
+         $doc_id = $documentType->getFromDBByCrit(['ext' => $extension]);
+         $this->integer($doc_id)->isGreaterThan(0);
+         $this->string($documentType->getField('name'))->isEqualTo($name);
+      }
    }
 
    /**
