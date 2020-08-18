@@ -5,7 +5,13 @@
       </tr>
       <tr class="tab_bg_1">
          <td>{{ __('Allow upload of APK and UPK files', 'flyvemdm') }}</td>
-         <td><input type="submit" class="submit" name="addDocTypes" value="{{ __('Add document types', 'flyvemdm') }}"></td>
+         <td>
+         {% if config.document_type_present == 1 %}
+            <div class="green">{{ __('APK and UPK files allowed', 'flyvemdm') }}</div>
+         {% else %}
+            <input type="submit" class="submit" name="addDocTypes" value="{{ __('Add document types', 'flyvemdm') }}">
+         {% endif %}
+         </td>
          <td></td>
       </tr>
       <tr>

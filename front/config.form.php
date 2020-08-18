@@ -43,7 +43,7 @@ if (isset($_POST['update']) || isset($_POST['back'])) {
    $config->update($_POST);
    Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class));
 } else if (isset($_POST['addDocTypes'])) {
-   $pluginConfig->addDocumentTypes();
+   $pluginConfig->addDocumentTypes(true);
    Html::redirect(Toolbox::getItemTypeFormURL(PluginFlyvemdmConfig::class));
 } else {
    // Header
