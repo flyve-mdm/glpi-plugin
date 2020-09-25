@@ -139,6 +139,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
 
       $menu = [];
       $menu['title'] = self::getMenuName();
+      $menu['icon'] = self::getIcon();
       $menu['page']  = "$front_flyvemdm/menu.php";
 
       $itemtypes = [
@@ -159,5 +160,9 @@ class PluginFlyvemdmMenu extends CommonGLPI {
          }
       }
       return $menu;
+   }
+
+   static function getIcon() {
+      return "fas fa-mobile-alt";
    }
 }
