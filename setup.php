@@ -39,7 +39,11 @@ define('PLUGIN_FLYVEMDM_GLPI_MIN_VERSION', '9.3');
 // Maximum GLPI version, exclusive
 define('PLUGIN_FLYVEMDM_GLPI_MAX_VERSION', '9.4');
 
-define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/'.Plugin::getWebDir("flyvemdm", false));
+if (method_exists(Plugin::class, 'getWebDir')) {
+   define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/'.Plugin::getWebDir("flyvemdm", false));
+} else {
+   define('PLUGIN_FLYVEMDM_ROOT', GLPI_ROOT . '/plugins/flyvemdm');
+}
 
 define('PLUGIN_FLYVEMDM_AGENT_DOWNLOAD_URL', 'https://play.google.com/store/apps/details?id=org.flyve.mdm.agent');
 
