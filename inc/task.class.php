@@ -669,7 +669,7 @@ class PluginFlyvemdmTask extends CommonDBRelation {
             'toupdate'            => [
                'value_fieldname'    => 'value',
                'to_update'          => 'plugin_flyvemdm_policy_value',
-               'url'                => $CFG_GLPI['root_doc'] . "/plugins/flyvemdm/ajax/policyValue.php",
+               'url'                => $CFG_GLPI['root_doc'] . "/".Plugin::getWebDir("flyvemdm", false)."/ajax/policyValue.php",
             ],
          ]);
       }

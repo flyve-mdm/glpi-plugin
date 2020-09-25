@@ -135,7 +135,7 @@ class PluginFlyvemdmMenu extends CommonGLPI {
     * @return array the menu content
     */
    public static function getMenuContent() {
-      $front_flyvemdm = "/plugins/flyvemdm/front";
+      $front_flyvemdm = "/".Plugin::getWebDir("flyvemdm", false)."/front";
 
       $menu = [];
       $menu['title'] = self::getMenuName();

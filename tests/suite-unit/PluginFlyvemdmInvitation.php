@@ -198,7 +198,7 @@ class PluginFlyvemdmInvitation extends CommonTestCase {
       $instance->showForm(0);
       $result = ob_get_contents();
       ob_end_clean();
-      $formAction = preg_quote("/plugins/flyvemdm/front/invitation.form.php", '/');
+      $formAction = preg_quote("/".Plugin::getWebDir("flyvemdm", false)."/front/invitation.form.php", '/');
       $this->string($result)
          ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id' value='0'")

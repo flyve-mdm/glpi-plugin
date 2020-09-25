@@ -153,7 +153,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $instance->showForm($agent->getID());
       $result = ob_get_contents();
       ob_end_clean();
-      $formAction = preg_quote("/plugins/flyvemdm/front/agent.form.php", '/');
+      $formAction = preg_quote("/".Plugin::getWebDir("flyvemdm", false)."/front/agent.form.php", '/');
       $this->string($result)
          ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id' value='0'")
@@ -174,7 +174,7 @@ class PluginFlyvemdmAgent extends CommonTestCase {
       $instance->showDangerZone($agent);
       $result = ob_get_contents();
       ob_end_clean();
-      $formAction = preg_quote("/plugins/flyvemdm/front/agent.form.php", '/');
+      $formAction = preg_quote("/".Plugin::getWebDir("flyvemdm", false)."/front/agent.form.php", '/');
       $this->string($result)
          ->matches("#method='post' action='.+?" . $formAction . "'#")
          ->contains("input type='hidden' name='entities_id'")
