@@ -179,7 +179,7 @@ class Config extends CommonTestCase {
       foreach ($extensions as $extension => $name) {
          $documentType = new \DocumentType();
          $doc_id = $documentType->getFromDBByCrit(['ext' => $extension]);
-         $this->integer($doc_id)->isGreaterThan(0);
+         $this->boolean($doc_id)->isTrue();
          $this->string($documentType->getField('name'))->isEqualTo($name);
       }
    }
