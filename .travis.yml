@@ -1,8 +1,8 @@
 # dist: trusty
 
 language: php
-
-sudo: required
+os : linux
+dist: xenial
 
 services:
   - mysql
@@ -11,7 +11,7 @@ env:
   global:
     - GLPI_SOURCE="https://github.com/glpi-project/glpi"
     - FI_SOURCE="https://github.com/fusioninventory/fusioninventory-for-glpi"
-    - CS=7.2
+    - CS=7.4
     - APIDOCS_PHP=7.1
     - DB_HOST=127.0.0.1
     - MYSQL_ROOT_USER=root
@@ -21,11 +21,11 @@ env:
     - OLD_DB_NAME=glpiupgradetest
     - PLUGINNAME=flyvemdm
     - PATCH_ARGS="-p1 -N --batch"
-    - AFTER_SUCCESS_BRANCH=9.3/bugfixes
+    - AFTER_SUCCESS_BRANCH=9.5/bugfixes
     - secure: Y9sG3lZ3Fn3t5BXvcMJQxWsdSUVQgF4M08E6oouYrRc95HEj3ZwZOqp6Df58u8CQFA0EKJyvCBLn8UicvHGMKAD0RwGLBdSP4Ji9gJRZkyMZi79awSshdva/c8dqVQrRd4asuTNQfcagVJpNDnY8sYusw504JUilK3vFVp+39nNZUkcvT69NGVIlXzgHTYinBkVuqDhf5eVtcLcaESLEshrg+5ZERdm+0KifdJVREzhicJxofnmTl/wBsIP7XiQqspljf2/SxLqreGmWXYXUfqIwIOVtsd9fkZChQCz8USC7P427tH6styRDYuMCtvA9b/T/XacSdKFbuDezff3NbIM3b5BebDyCrOK5MGSOdRUY5RuyZN4R5LjePUE++9QNCUPeDSkfb23v0VfuqXIRAxfdtik517GzFy6O7/e6FU1msVZlGQED7Uek9nqnupj+0lIq+99Jcm1UCNJu1NTL2Tv80XXqySaxyE4Sedq/FiYAsy1bo2cg2367I2b4FhFXaJCKkFHcdjHXAeurkRy/brSPhBNoOO5/GA3RepUErgly4P8TLZqHNZv8rgMUoQ88sdwDyXG7dY4UwWiTlCkxMBTqBqJanlTMA9zn2bYyMDioTGnA7+VYAA8cddjFOMVrmmuFJ+YV2x1+5B5qd+Wt8RPwcPQDyqaiN5amb1HGeMA=
   matrix:
     - GLPI_BRANCH=9.4/bugfixes FI_BRANCH=glpi9.4+1.1
-    - GLPI_BRANCH=9.5/bugfixes FI_BRANCH=glpi9.5
+    - GLPI_BRANCH=9.5/bugfixes FI_BRANCH=glpi9.5+1.0
     - GLPI_BRANCH=master FI_BRANCH=master
 
 php:
@@ -34,18 +34,23 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
   - nightly
+
 
 matrix:
   exclude:
-    - GLPI_BRANCH=9.5/bugfixes
-      php: 5.6
-    - master
-      php: 5.6    
+    - php: 5.6
+      env: GLPI_BRANCH=9.5/bugfixes
+    - php: 7.0
+      env: GLPI_BRANCH=9.5/bugfixes
+    - php: 7.1
+      env: GLPI_BRANCH=9.5/bugfixes
   allow_failures:
     - php: nightly
-    - env: GLPI_BRANCH=master FI_BRANCH=master
-  
+#    - env: GLPI_BRANCH=9.5/bugfixes
+#    - env: GLPI_BRANCH=master
+
 before_install:
   - |
    if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
