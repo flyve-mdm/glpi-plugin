@@ -31,6 +31,7 @@
 namespace tests\units;
 
 use Flyvemdm\Tests\CommonTestCase;
+use ToolboxTest;
 
 class PluginFlyvemdmTask extends CommonTestCase {
 

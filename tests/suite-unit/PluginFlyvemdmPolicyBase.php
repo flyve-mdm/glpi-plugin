@@ -248,7 +248,7 @@ class PluginFlyvemdmPolicyBase extends CommonTestCase {
          'itemtype_applied' => 'fleet',
          'items_id_applied' => $fleetId,
       ]);
-      $formAction = preg_quote("/plugins/flyvemdm/front/task.form.php", '/');
+      $formAction = preg_quote("/".Plugin::getWebDir("flyvemdm", false)."/front/task.form.php", '/');
       $this->string($html)
          ->matches('#action=".+?' . $formAction . '"#')
          ->contains('input name="value" value="0"')
