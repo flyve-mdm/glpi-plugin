@@ -241,4 +241,158 @@ class PluginFlyvemdmGraph extends CommonDBTM
          }
       }
    }
+
+   public function showAgentOnlineStats() {
+      global $DB;
+
+      $domain = $range = $serie = [];
+      $FlyvemdmAgent = PluginFlyvemdmAgent::getTable();
+      $logTable = Log::getTable();
+      $query = "SELECT l.`new_value` AS online_date, f.`name` AS agent_name, f.`id` AS agent_id 
+        FROM " . $logTable . " AS l 
+        INNER JOIN " . $FlyvemdmAgent . " AS f ON l.`items_id` = f.`id`
+        WHERE l.`itemtype`='PluginFlyvemdmAgent' AND l.`id_search_option`='8' 
+        ORDER BY agent_id ASC, online_date ASC";
+      $request = [
+         'FIELDS' => [$logTable => ['new_value'], $FlyvemdmAgent => ['id', 'name']],
+         'FROM' => $logTable,
+         'INNER JOIN' => [
+            $FlyvemdmAgent => [
+               'FKEY' => [
+                  $FlyvemdmAgent => 'id',
+                  $logTable      => 'items_id',
+               ],
+            ],
+         ],
+         'WHERE' => ['itemtype' => 'PluginFlyvemdmAgent', 'id_search_option' => 8],
+         'ORDER' => ['id ASC', 'new_value ASC'],
+      ];
+      $currentId = $currentDate = null;
+      foreach ($DB->request($request) as $data) {
+         list($date, $time) = explode(' ', $data['new_value']);
+         //$domain[] = $date;
+         //$serie[] = strtotime($time);
+         if ($currentId != $data['id']) {
+            $currentId = $data['id'];
+            $range[$currentId]['name'] = $data['name'] . ' (ID:' . $currentId . ')';
+            $range[$currentId]['data'] = [];
+         }
+         $jsTime = strtotime($data['new_value']) * 1000;
+         $range[$currentId]['data'][] = "{x:$jsTime, y:$jsTime}";
+      }
+      //$domain = array_unique($domain);
+
+      $out = $this->displayLineGraph(
+         __('Online Agents', 'flyvemdm'),
+         $domain,
+         $range,
+         [
+            'width' => '100%',
+         ],
+         false
+      );
+
+      echo $out;
+      echo '<script type="text/javascript" src="/lib/jqueryplugins/fullcalendar/lib/moment.min.js"></script>'; //TODO: fix this bad call
+   }
+
+   /**
+    * Display stacked bar graph
+    *
+    * @param string   $title  Graph title
+    * @param string[] $labels Labels to display
+    * @param array    $series Series data. An array of the form:
+    *                 [
+    *                    ['name' => 'a name', 'data' => []],
+    *                    ['name' => 'another name', 'data' => []]
+    *                 ]
+    * @param string[] $options  array of options
+    * @param boolean  $display  Whether to display directly; defauts to true
+    *
+    * @return void
+    */
+   public function displayLineGraph($title, $labels, $series, $options = null, $display = true) {
+      $param = [
+         'width' => 900,
+         'height' => 400,
+         'tooltip' => true,
+         'legend' => true,
+         'animate' => false,
+      ];
+
+      if (is_array($options) && count($options)) {
+         foreach ($options as $key => $val) {
+            $param[$key] = $val;
+         }
+      }
+
+      $first = true;
+      $serieString = '';
+      foreach ($series as $serie) {
+         if ($first === true) {
+            $first = false;
+         } else {
+            $serieString .= ",\n";
+         }
+         if (isset($serie['name'])) {
+            $serieString .= "{name: '{$serie['name']}', data: [" . implode(', ',
+                  $serie['data']) . "]}";
+         } else {
+            $serieString .= "[" . implode(', ', $serie['data']) . "]";
+         }
+      }
+
+      $this->checkEmptyLabels($labels);
+      $jsData = "{
+         /*labels: ['" . implode('\', \'', Toolbox::addslashes_deep($labels)) . "'],*/
+         series: [" . $serieString . "]
+      }";
+
+      $jsOptions = "{
+         width: '{$param['width']}',
+         height: '{$param['height']}',
+         showLine: false,
+         fullWidth: true,
+         axisX: {
+          labelInterpolationFnc: function(value, index) {
+            return moment(value).format('L');
+          }
+        },
+        axisY: {
+          type: Chartist.FixedScaleAxis,
+          labelInterpolationFnc: function(value, index) {
+            return moment(value).format('LT');
+          }
+        }
+      ";
+      if ($param['legend'] === true || $param['tooltip'] === true) {
+         $jsOptions .= ", plugins: [";
+         if ($param['legend'] === true) {
+            $jsOptions .= "Chartist.plugins.legend()";
+         }
+         if ($param['tooltip'] === true) {
+            $jsOptions .= ($param['legend'] === true ? ',' : '') . "Chartist.plugins.tooltip()";
+         }
+         $jsOptions .= "]";
+      }
+      $jsOptions .= "}";
+
+      $slug = str_replace('-', '_', Toolbox::slugify($title));
+      $out = "<h2 class='center'>$title</h2>";
+      $out .= "<div id='$slug' class='chart'></div>";
+      $out .= "<script type='text/javascript'>
+                  $(function() {
+                     var chart_$slug = new Chartist.Line('#$slug', " . $jsData . ", " . $jsOptions . ");";
+
+      if ($param['animate'] === true) {
+         $out .= "";
+      }
+      $out .= "});</script>";
+
+      if ($display) {
+         echo $out;
+         return;
+      }
+      return $out;
+   }
 }

@@ -32,5 +32,11 @@
       });
    </script>
    <div id="plugin_flyvemdm_graph_devicesPerOSVersion"></div>
+   <script type="text/javascript">
+       $(function() {
+           $('#plugin_flyvemdm_graph_agentOnlineStats').load('../ajax/getGraph.php', {'graph': 'agentOnlineStats'})
+       });
+   </script>
+   <div id="plugin_flyvemdm_graph_agentOnlineStats"></div>
 </div>
 {% endif %}

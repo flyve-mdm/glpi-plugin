@@ -49,4 +49,7 @@ switch ($_REQUEST['graph']) {
    case 'devicesPerOSVersion':
       echo $graph->showDevicesPerOSVersion();
       break;
+   case 'agentOnlineStats':
+      echo $graph->showAgentOnlineStats();
+      break;
 }
