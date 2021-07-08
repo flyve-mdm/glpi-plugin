@@ -705,6 +705,8 @@ class CommonTestCase extends GlpiCommonTestCase {
          'Policy/disableStreamSystem',
          'Policy/defaultStreamType',
          'Policy/periodicGeolocation',
+         'Policy/setSimCardPin',
+         'Policy/setSimCardPin2',
       ];
    }
 
